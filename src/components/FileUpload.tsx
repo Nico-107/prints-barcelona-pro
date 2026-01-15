@@ -2,11 +2,12 @@ import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, FileBox, X, MessageCircle, Send, CheckCircle } from "lucide-react";
+import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
-const WHATSAPP_NUMBER = "34600000000"; // Placeholder - user should replace
-const WHATSAPP_MESSAGE = encodeURIComponent("Hola, no tengo archivo 3D pero me gustaría obtener ayuda con mi diseño");
+const WHATSAPP_URL = "https://wa.me/34672051147";
+const WHATSAPP_MESSAGE = encodeURIComponent("Hi, I'd like to request a 3D printing service and send a file.");
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -14,6 +15,7 @@ const FileUpload = () => {
   const [message, setMessage] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -57,7 +59,7 @@ const FileUpload = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!file || !email) {
@@ -69,16 +71,65 @@ const FileUpload = () => {
       return;
     }
 
-    // Simulate form submission
-    setIsSubmitted(true);
-    toast({
-      title: "¡Solicitud enviada!",
-      description: "Te contactaremos pronto con el presupuesto",
-    });
+    setIsLoading(true);
+
+    try {
+      // Generate unique file path
+      const timestamp = Date.now();
+      const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const filePath = `${timestamp}-${sanitizedFileName}`;
+
+      // Upload file to storage
+      const { error: uploadError } = await supabase.storage
+        .from('print-requests')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error("Upload error:", uploadError);
+        throw new Error("Error al subir el archivo");
+      }
+
+      // Call edge function to send email
+      const { error: functionError } = await supabase.functions.invoke('send-print-request', {
+        body: {
+          fileName: file.name,
+          filePath: filePath,
+          userEmail: email,
+          message: message || undefined,
+        },
+      });
+
+      if (functionError) {
+        console.error("Function error:", functionError);
+        throw new Error("Error al enviar la notificación");
+      }
+
+      setIsSubmitted(true);
+      toast({
+        title: "¡Solicitud enviada!",
+        description: "Te contactaremos pronto con el presupuesto",
+      });
+    } catch (error: any) {
+      console.error("Submit error:", error);
+      toast({
+        title: "Error al enviar",
+        description: error.message || "Hubo un problema al procesar tu solicitud. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`, "_blank");
+    window.open(`${WHATSAPP_URL}?text=${WHATSAPP_MESSAGE}`, "_blank");
+  };
+
+  const resetForm = () => {
+    setIsSubmitted(false);
+    setFile(null);
+    setEmail("");
+    setMessage("");
   };
 
   if (isSubmitted) {
@@ -95,7 +146,7 @@ const FileUpload = () => {
             <p className="text-muted-foreground mb-8">
               Hemos recibido tu solicitud. Revisaremos el diseño y te contactaremos pronto con el presupuesto.
             </p>
-            <Button onClick={() => setIsSubmitted(false)} variant="outline">
+            <Button onClick={resetForm} variant="outline">
               Enviar otro archivo
             </Button>
           </div>
@@ -144,6 +195,7 @@ const FileUpload = () => {
                     type="button"
                     onClick={() => setFile(null)}
                     className="ml-2 p-1 rounded-full hover:bg-destructive/10 transition-colors"
+                    disabled={isLoading}
                   >
                     <X className="w-5 h-5 text-destructive" />
                   </button>
@@ -167,6 +219,7 @@ const FileUpload = () => {
                 onChange={handleFileChange}
                 accept=".stl,.obj,.3mf,.step,.stp,.iges,.igs"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                disabled={isLoading}
               />
             </div>
 
@@ -182,6 +235,7 @@ const FileUpload = () => {
                 placeholder="tu@email.com"
                 required
                 className="h-12"
+                disabled={isLoading}
               />
             </div>
 
@@ -195,12 +249,22 @@ const FileUpload = () => {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Detalles sobre el material, color, cantidad..."
                 rows={3}
+                disabled={isLoading}
               />
             </div>
 
-            <Button type="submit" size="lg" className="w-full mb-4">
-              <Send className="w-4 h-4" />
-              Enviar solicitud
+            <Button type="submit" size="lg" className="w-full mb-4" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Enviar solicitud
+                </>
+              )}
             </Button>
 
             {/* WhatsApp alternative */}
@@ -221,6 +285,7 @@ const FileUpload = () => {
               size="lg"
               className="w-full mt-4"
               onClick={handleWhatsApp}
+              disabled={isLoading}
             >
               <MessageCircle className="w-4 h-4" />
               Escríbenos por WhatsApp

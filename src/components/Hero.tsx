@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Upload, Printer } from "lucide-react";
 
-const WHATSAPP_NUMBER = "34600000000"; // Placeholder - user should replace
-const WHATSAPP_MESSAGE = encodeURIComponent("Hola, me gustaría información sobre impresión 3D");
+const WHATSAPP_URL = "https://wa.me/34672051147";
+const WHATSAPP_MESSAGE = encodeURIComponent("Hi, I'd like to request a 3D printing service and send a file.");
 
 const Hero = () => {
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`, "_blank");
+    window.open(`${WHATSAPP_URL}?text=${WHATSAPP_MESSAGE}`, "_blank");
   };
 
   const handleScrollToUpload = () => {
