@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
-import Gallery from "@/components/Gallery";
 import Reviews from "@/components/Reviews";
 import ExpressPrinting from "@/components/ExpressPrinting";
 import WhyChooseUs from "@/components/WhyChooseUs";
@@ -17,7 +16,6 @@ const Index = () => {
       <main className="pt-16">
         <Hero />
         <HowItWorks />
-        <Gallery />
         <WhyChooseUs />
         <ExpressPrinting />
         <Reviews />
