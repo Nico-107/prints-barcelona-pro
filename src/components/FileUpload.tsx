@@ -2,7 +2,8 @@ import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -13,6 +14,7 @@ const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isUrgent, setIsUrgent] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,6 +98,7 @@ const FileUpload = () => {
           filePath: filePath,
           userEmail: email,
           message: message || undefined,
+          isUrgent: isUrgent,
         },
       });
 
@@ -130,6 +133,7 @@ const FileUpload = () => {
     setFile(null);
     setEmail("");
     setMessage("");
+    setIsUrgent(false);
   };
 
   if (isSubmitted) {
@@ -240,7 +244,7 @@ const FileUpload = () => {
             </div>
 
             {/* Message textarea */}
-            <div className="mb-6">
+            <div className="mb-4">
               <label className="block text-sm font-medium text-foreground mb-2">
                 Mensaje (opcional)
               </label>
@@ -251,6 +255,31 @@ const FileUpload = () => {
                 rows={3}
                 disabled={isLoading}
               />
+            </div>
+
+            {/* Urgent order checkbox */}
+            <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  id="urgent"
+                  checked={isUrgent}
+                  onCheckedChange={(checked) => setIsUrgent(checked === true)}
+                  disabled={isLoading}
+                  className="mt-0.5"
+                />
+                <div className="flex-1">
+                  <label
+                    htmlFor="urgent"
+                    className="flex items-center gap-2 text-sm font-medium text-foreground cursor-pointer"
+                  >
+                    <Zap className="w-4 h-4 text-primary" />
+                    Necesito mi pieza con urgencia (48h)
+                  </label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Entrega prioritaria con un pequeño suplemento. Misma calidad garantizada.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <Button type="submit" size="lg" className="w-full mb-4" disabled={isLoading}>

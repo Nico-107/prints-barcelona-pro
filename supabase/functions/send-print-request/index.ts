@@ -15,6 +15,7 @@ interface PrintRequestPayload {
   filePath: string;
   userEmail: string;
   message?: string;
+  isUrgent?: boolean;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -24,7 +25,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { fileName, filePath, userEmail, message }: PrintRequestPayload = await req.json();
+    const { fileName, filePath, userEmail, message, isUrgent }: PrintRequestPayload = await req.json();
 
     // Create Supabase client with service role for signed URL generation
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -53,10 +54,21 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Print3D BCN <onboarding@resend.dev>",
         to: [ADMIN_EMAIL],
-        subject: `Nueva solicitud de impresión 3D - ${fileName}`,
+        subject: `${isUrgent ? "🚨 URGENTE - " : ""}Nueva solicitud de impresión 3D - ${fileName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1 style="color: #0f172a;">Nueva solicitud de impresión 3D</h1>
+            
+            ${isUrgent ? `
+            <div style="background-color: #fef2f2; border: 2px solid #ef4444; padding: 16px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="color: #dc2626; margin: 0; display: flex; align-items: center; gap: 8px;">
+                ⚡ PEDIDO URGENTE - 48 HORAS
+              </h2>
+              <p style="color: #991b1b; margin: 8px 0 0 0;">
+                El cliente ha solicitado entrega prioritaria con suplemento express.
+              </p>
+            </div>
+            ` : ""}
             
             <div style="background-color: #f1f5f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h2 style="color: #334155; margin-top: 0;">Detalles del cliente</h2>
