@@ -1,4 +1,4 @@
-import { Leaf, Shield, Zap, Gem } from "lucide-react";
+import { Leaf, Shield, Zap } from "lucide-react";
 
 const materials = [
   {
@@ -18,12 +18,6 @@ const materials = [
     name: "ABS / ASA",
     description: "Técnico y resistente",
     details: "Para piezas que soportan calor, esfuerzos mecánicos o exposición exterior.",
-  },
-  {
-    icon: Gem,
-    name: "Resina",
-    description: "Máximo detalle",
-    details: "Acabado superficial excelente para miniaturas, joyería y piezas de alta precisión.",
   },
 ];
 
