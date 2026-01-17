@@ -4,22 +4,22 @@ const steps = [
   {
     icon: Upload,
     title: "Sube tu archivo",
-    description: "Envíanos tu archivo 3D (STL, OBJ, etc.) o contáctanos por WhatsApp si necesitas ayuda.",
+    description: "Envíanos tu archivo 3D (STL, OBJ, 3MF...) o escríbenos por WhatsApp si tienes dudas.",
   },
   {
     icon: MessageSquare,
-    title: "Revisamos tu diseño",
-    description: "Analizamos el archivo, confirmamos viabilidad y te enviamos presupuesto con tiempo de entrega.",
+    title: "Presupuesto en <1h",
+    description: "Revisamos tu diseño manualmente y te enviamos el precio final. Sin sorpresas.",
   },
   {
     icon: Printer,
     title: "Imprimimos tu pieza",
-    description: "Producimos tu pieza con materiales de alta calidad y atención al detalle.",
+    description: "Producción local con materiales de calidad y atención al detalle.",
   },
   {
     icon: MapPin,
     title: "Recogida en Barcelona",
-    description: "Coordina una cita para recoger tu pieza en Barcelona. ¡Así de fácil!",
+    description: "Coordina una cita para recoger tu pieza. Rápido y sin complicaciones.",
   },
 ];
 
@@ -32,7 +32,7 @@ const HowItWorks = () => {
             ¿Cómo funciona?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Un proceso simple y transparente para hacer realidad tus ideas
+            Sube tu archivo → Recibe presupuesto en menos de 1 hora → Recoge tu pieza
           </p>
         </div>
 
