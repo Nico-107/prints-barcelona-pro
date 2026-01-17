@@ -164,10 +164,13 @@ const FileUpload = () => {
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Sube tu archivo 3D
+            Solicitar presupuesto
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Envíanos tu diseño y te contactaremos con el presupuesto
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-3">
+            Sube tu archivo 3D y recibe el precio final en menos de 1 hora
+          </p>
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+            Sin precios automáticos. Revisamos cada proyecto manualmente.
           </p>
         </div>
 
@@ -282,7 +285,7 @@ const FileUpload = () => {
               </div>
             </div>
 
-            <Button type="submit" size="lg" className="w-full mb-4" disabled={isLoading}>
+            <Button type="submit" size="lg" className="w-full mb-2" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -291,10 +294,14 @@ const FileUpload = () => {
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  Enviar solicitud
+                  Solicitar presupuesto
                 </>
               )}
             </Button>
+            
+            <p className="text-xs text-center text-muted-foreground mb-4">
+              Presupuesto rápido, sin compromiso
+            </p>
 
             {/* WhatsApp alternative */}
             <div className="relative">
@@ -303,7 +310,7 @@ const FileUpload = () => {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground">
-                  ¿No tienes archivo?
+                  ¿Dudas o sin archivo?
                 </span>
               </div>
             </div>
@@ -317,8 +324,12 @@ const FileUpload = () => {
               disabled={isLoading}
             >
               <MessageCircle className="w-4 h-4" />
-              Escríbenos por WhatsApp
+              Consúltanos por WhatsApp
             </Button>
+            
+            <p className="text-xs text-center text-muted-foreground mt-3">
+              ¿No sabes si tu pieza es imprimible? Pregúntanos sin compromiso
+            </p>
           </form>
         </div>
       </div>

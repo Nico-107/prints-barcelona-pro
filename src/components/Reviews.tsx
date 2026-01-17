@@ -76,7 +76,7 @@ const Reviews = () => {
             Reseñas de clientes
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            La opinión de quienes ya han confiado en nosotros
+            Clientes reales, proyectos reales impresos en Barcelona
           </p>
         </div>
 
@@ -108,7 +108,7 @@ const Reviews = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-8">
-          Reseñas verificadas de clientes reales
+          Clientes satisfechos en Barcelona y alrededores · Reseñas verificadas
         </p>
       </div>
     </section>
