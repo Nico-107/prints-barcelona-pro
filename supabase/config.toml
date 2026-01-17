@@ -1,1 +1,7 @@
 project_id = "ssdbkzswqpbgpeirackr"
+
+[functions.send-print-request]
+verify_jwt = false
+
+[functions.send-review]
+verify_jwt = false
