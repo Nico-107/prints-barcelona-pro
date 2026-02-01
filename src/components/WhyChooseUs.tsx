@@ -34,10 +34,10 @@ const WhyChooseUs = () => {
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            ¿Por qué elegirnos?
+            ¿Por qué elegir Reality 3D BCN?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Lo que nos diferencia de otros servicios de impresión 3D en Barcelona
+            Lo que nos diferencia como servicio de impresión 3D profesional en Barcelona
           </p>
         </div>
 

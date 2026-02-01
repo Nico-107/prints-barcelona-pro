@@ -29,10 +29,10 @@ const HowItWorks = () => {
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            ¿Cómo funciona?
+            ¿Cómo funciona Reality 3D BCN?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Sube tu archivo → Recibe presupuesto en menos de 1 hora → Recoge tu pieza
+            Nuestro servicio de impresión 3D en Barcelona es simple: sube tu archivo, recibe presupuesto en menos de 1 hora y recoge tu pieza
           </p>
         </div>
 
