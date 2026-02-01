@@ -1,7 +1,7 @@
 import { MessageCircle, Printer } from "lucide-react";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
-const WHATSAPP_MESSAGE = encodeURIComponent("Hi, I'd like to request a 3D printing service and send a file.");
+const WHATSAPP_MESSAGE = encodeURIComponent("Hola, me gustaría solicitar un servicio de impresión 3D con Reality 3D BCN.");
 
 const Footer = () => {
   const handleWhatsApp = () => {

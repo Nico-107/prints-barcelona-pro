@@ -42,7 +42,7 @@ const WhatCanWePrint = () => {
             ¿Qué podemos imprimir?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Desde prototipos hasta piezas finales, imprimimos todo tipo de proyectos
+            En Reality 3D BCN imprimimos todo tipo de proyectos: desde prototipos hasta piezas finales
           </p>
         </div>
 
@@ -68,7 +68,7 @@ const WhatCanWePrint = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-10">
-          ¿No estás seguro si tu pieza es imprimible? <span className="text-primary font-medium">Consúltanos sin compromiso</span>
+          ¿No estás seguro si tu pieza es imprimible? <span className="text-primary font-medium">Consúltanos sin compromiso</span> — Reality 3D BCN te asesora
         </p>
       </div>
     </section>

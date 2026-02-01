@@ -30,7 +30,7 @@ const Materials = () => {
             Materiales y acabados
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Elegimos el material adecuado según el uso de tu pieza
+            En Reality 3D BCN elegimos el material adecuado según el uso de tu pieza
           </p>
         </div>
 
@@ -61,7 +61,7 @@ const Materials = () => {
             <p className="text-muted-foreground">
               <span className="font-medium text-foreground">¿No sabes qué material elegir?</span>
               <br />
-              Te asesoramos según el uso que le darás a tu pieza. Sin compromiso.
+              El equipo de Reality 3D BCN te asesora según el uso que le darás a tu pieza. Sin compromiso.
             </p>
           </div>
         </div>

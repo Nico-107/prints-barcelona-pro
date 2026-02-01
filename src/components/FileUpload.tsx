@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
-const WHATSAPP_MESSAGE = encodeURIComponent("Hi, I'd like to request a 3D printing service and send a file.");
+const WHATSAPP_MESSAGE = encodeURIComponent("Hola, me gustaría solicitar un servicio de impresión 3D con Reality 3D BCN.");
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -148,7 +148,7 @@ const FileUpload = () => {
               ¡Archivo recibido!
             </h2>
             <p className="text-muted-foreground mb-8">
-              Hemos recibido tu solicitud. Revisaremos el diseño y te contactaremos pronto con el presupuesto.
+              Hemos recibido tu solicitud. El equipo de Reality 3D BCN revisará el diseño y te contactará pronto con el presupuesto.
             </p>
             <Button onClick={resetForm} variant="outline">
               Enviar otro archivo

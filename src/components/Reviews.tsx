@@ -176,10 +176,10 @@ const Reviews = () => {
         {/* Summary Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Reseñas de clientes
+            Reseñas de clientes de Reality 3D BCN
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-            Opiniones reales de clientes con los que hemos trabajado
+            Opiniones reales de clientes con los que hemos trabajado en Barcelona
           </p>
           
           {/* Rating Summary */}
@@ -236,7 +236,7 @@ const Reviews = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-8">
-          Clientes satisfechos en Barcelona y alrededores · Todas las reseñas provienen de proyectos completados
+          Clientes satisfechos con el servicio de impresión 3D de Reality 3D BCN en Barcelona y alrededores
         </p>
 
         {/* Leave a Review Section */}
@@ -244,10 +244,10 @@ const Reviews = () => {
           <div className="bg-card rounded-2xl p-8 border border-border/50 card-shadow">
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-foreground mb-2">
-                ¿Has trabajado con nosotros?
+                ¿Has trabajado con Reality 3D BCN?
               </h3>
               <p className="text-muted-foreground">
-                Déjanos tu opinión y ayuda a otros clientes a conocernos
+                Déjanos tu opinión y ayuda a otros clientes a conocer nuestro servicio de impresión 3D en Barcelona
               </p>
             </div>
 

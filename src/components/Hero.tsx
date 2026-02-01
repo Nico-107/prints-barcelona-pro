@@ -28,16 +28,20 @@ const Hero = () => {
 
       <div className="container relative z-10 px-4">
         <div className="max-w-3xl mx-auto text-center">
+          <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 animate-fade-in font-medium">
+            Reality 3D BCN
+          </p>
+          
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight">
-            Impresión 3D a medida en Barcelona
+            Impresión 3D profesional en Barcelona
           </h1>
           
           <p className="text-lg md:text-xl text-primary-foreground/90 mb-4 animate-fade-in-delay max-w-2xl mx-auto">
             Sube tu archivo y recibe presupuesto en menos de 1 hora
           </p>
           
-          <p className="text-base text-primary-foreground/70 mb-10 animate-fade-in-delay max-w-xl mx-auto">
-            Producción local · Contacto directo · Sin precios automáticos
+          <p className="text-base text-primary-foreground/60 mb-10 animate-fade-in-delay max-w-xl mx-auto">
+            Servicio de impresión 3D a medida · Producción local · Contacto directo
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
