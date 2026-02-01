@@ -15,9 +15,9 @@ const Header = () => {
       <div className="container px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 text-foreground">
-            <Printer className="w-6 h-6 text-primary" />
-            <span className="font-bold text-lg">Print3D BCN</span>
+          <a href="/" className="flex items-center gap-2.5 text-foreground">
+            <Printer className="w-5 h-5 text-foreground" />
+            <span className="font-semibold tracking-tight">Reality 3D BCN</span>
           </a>
 
           {/* Desktop nav */}

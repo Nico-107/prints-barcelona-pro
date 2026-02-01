@@ -14,14 +14,14 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Logo & tagline */}
           <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-              <Printer className="w-6 h-6" />
-              <span className="font-bold text-lg">Print3D BCN</span>
+            <div className="flex items-center justify-center md:justify-start gap-2.5 mb-2">
+              <Printer className="w-5 h-5" />
+              <span className="font-semibold tracking-tight">Reality 3D BCN</span>
             </div>
-            <p className="text-background/70 text-sm">
+            <p className="text-background/60 text-sm">
               Servicio de impresión 3D en Barcelona
             </p>
-            <p className="text-background/50 text-xs mt-1">
+            <p className="text-background/40 text-xs mt-1">
               Pedidos online · Recogida con cita previa
             </p>
           </div>
@@ -37,8 +37,8 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-background/10 mt-8 pt-8 text-center">
-          <p className="text-background/50 text-sm">
-            © {new Date().getFullYear()} Print3D BCN. Todos los derechos reservados.
+          <p className="text-background/40 text-sm">
+            © {new Date().getFullYear()} Reality 3D BCN. Todos los derechos reservados.
           </p>
         </div>
       </div>
