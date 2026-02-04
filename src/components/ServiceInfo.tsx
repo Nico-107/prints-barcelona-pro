@@ -1,25 +1,25 @@
-import { MapPin, Clock, Laptop, ShieldCheck } from "lucide-react";
+import { MapPin, Clock, Laptop, ShieldCheck, Truck } from "lucide-react";
 
 const features = [
   {
     icon: Laptop,
     title: "Pedidos 100% online",
-    description: "Todo el proceso se gestiona de forma digital. Sin desplazamientos innecesarios.",
+    description: "Gestión digital completa. Sube tu archivo y recibe presupuesto.",
   },
   {
     icon: MapPin,
-    title: "Producción local",
-    description: "Fabricamos en Barcelona. Apoyamos la producción local y reducimos tiempos de entrega.",
+    title: "Producción en Barcelona",
+    description: "Fabricación local con tiempos de entrega reducidos.",
   },
   {
     icon: Clock,
-    title: "Recogida con cita",
-    description: "Coordina día y hora para recoger tu pedido. Flexibilidad total para ti.",
+    title: "Recogida con cita previa",
+    description: "Coordina día y hora para recoger tu pedido en Barcelona.",
   },
   {
-    icon: ShieldCheck,
-    title: "Calidad garantizada",
-    description: "Utilizamos materiales premium y revisamos cada pieza antes de la entrega.",
+    icon: Truck,
+    title: "Envíos a toda España",
+    description: "Entrega a domicilio en cualquier punto de la península.",
   },
 ];
 
@@ -31,25 +31,32 @@ const ServiceInfo = () => {
           {/* Left content */}
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Impresión 3D profesional{" "}
-              <span className="text-gradient">bajo pedido</span>
+              Servicio de impresión 3D{" "}
+              <span className="text-gradient">en Barcelona</span>
             </h2>
             
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Somos un servicio de impresión 3D en Barcelona especializado en piezas personalizadas. 
-              No tenemos tienda física: trabajamos exclusivamente bajo pedido para ofrecerte 
-              la mejor atención y los mejores precios.
+              Reality 3D Barcelona es un servicio profesional de impresión 3D bajo pedido. 
+              Producción local en Barcelona con envíos a toda España.
             </p>
+
+            <div className="bg-secondary/50 rounded-2xl p-6 border border-border/50 mb-4">
+              <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-primary" />
+                Recogida local en Barcelona
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                Coordina una cita para recoger tu pedido. Sin colas ni esperas.
+              </p>
+            </div>
 
             <div className="bg-secondary/50 rounded-2xl p-6 border border-border/50">
               <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-primary" />
-                Recogida en Barcelona
+                <Truck className="w-5 h-5 text-primary" />
+                Envíos a toda España
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Una vez tu pieza esté lista, coordinaremos una cita para que puedas 
-                recogerla en Barcelona. Sin colas, sin esperas. Confirmamos disponibilidad 
-                por WhatsApp y quedamos cuando mejor te venga.
+                Enviamos a cualquier punto de la península con seguimiento incluido.
               </p>
             </div>
           </div>

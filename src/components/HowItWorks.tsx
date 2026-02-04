@@ -1,25 +1,25 @@
-import { Upload, MessageSquare, Printer, MapPin } from "lucide-react";
+import { Upload, MessageSquare, Printer, Package } from "lucide-react";
 
 const steps = [
   {
     icon: Upload,
     title: "Sube tu archivo",
-    description: "Envíanos tu archivo 3D (STL, OBJ, 3MF...) o escríbenos por WhatsApp si tienes dudas.",
+    description: "Envíanos tu archivo 3D (STL, OBJ, 3MF) o consúltanos por WhatsApp.",
   },
   {
     icon: MessageSquare,
     title: "Presupuesto en <1h",
-    description: "Revisamos tu diseño manualmente y te enviamos el precio final. Sin sorpresas.",
+    description: "Revisamos tu diseño y te enviamos precio final. Sin sorpresas.",
   },
   {
     icon: Printer,
-    title: "Imprimimos tu pieza",
-    description: "Producción local con materiales de calidad y atención al detalle.",
+    title: "Producción local",
+    description: "Imprimimos tu pieza en Barcelona con materiales de calidad.",
   },
   {
-    icon: MapPin,
-    title: "Recogida en Barcelona",
-    description: "Coordina una cita para recoger tu pieza. Rápido y sin complicaciones.",
+    icon: Package,
+    title: "Recogida o envío",
+    description: "Recoge en Barcelona o recibe tu pedido en cualquier punto de España.",
   },
 ];
 
@@ -29,10 +29,10 @@ const HowItWorks = () => {
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            ¿Cómo funciona Reality 3D BCN?
+            Cómo funciona
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Nuestro servicio de impresión 3D en Barcelona es simple: sube tu archivo, recibe presupuesto en menos de 1 hora y recoge tu pieza
+            Sube tu archivo, recibe presupuesto en menos de 1 hora y recoge o recibe tu pieza
           </p>
         </div>
 

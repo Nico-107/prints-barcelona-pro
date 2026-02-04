@@ -1,23 +1,29 @@
-import { Leaf, Shield, Zap } from "lucide-react";
+import { Leaf, Shield, Zap, Cog } from "lucide-react";
 
 const materials = [
   {
     icon: Leaf,
     name: "PLA",
-    description: "Rápido y económico",
-    details: "Ideal para prototipos, maquetas y piezas decorativas. Acabado limpio y buena definición.",
+    description: "Económico y versátil",
+    details: "Ideal para prototipos, maquetas y piezas decorativas con buen acabado.",
   },
   {
     icon: Shield,
     name: "PETG",
-    description: "Resistente y flexible",
-    details: "Perfecto para piezas funcionales que requieren durabilidad y resistencia a impactos.",
+    description: "Resistente y durable",
+    details: "Para piezas funcionales que requieren flexibilidad y resistencia a impactos.",
   },
   {
     icon: Zap,
     name: "ABS / ASA",
-    description: "Técnico y resistente",
-    details: "Para piezas que soportan calor, esfuerzos mecánicos o exposición exterior.",
+    description: "Técnico y térmico",
+    details: "Soporta calor, esfuerzos mecánicos y exposición a exteriores.",
+  },
+  {
+    icon: Cog,
+    name: "Nylon / PA-CF",
+    description: "Industrial y mecánico",
+    details: "Máxima resistencia para piezas técnicas de alto rendimiento.",
   },
 ];
 
@@ -27,10 +33,10 @@ const Materials = () => {
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Materiales y acabados
+            Materiales FDM disponibles
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            En Reality 3D BCN elegimos el material adecuado según el uso de tu pieza
+            Seleccionamos el material óptimo según la aplicación de tu pieza
           </p>
         </div>
 
@@ -61,7 +67,7 @@ const Materials = () => {
             <p className="text-muted-foreground">
               <span className="font-medium text-foreground">¿No sabes qué material elegir?</span>
               <br />
-              El equipo de Reality 3D BCN te asesora según el uso que le darás a tu pieza. Sin compromiso.
+              Te asesoramos según el uso de tu pieza. Consulta sin compromiso.
             </p>
           </div>
         </div>
