@@ -8,6 +8,7 @@ import ExpressPrinting from "@/components/ExpressPrinting";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import FileUpload from "@/components/FileUpload";
 import ServiceInfo from "@/components/ServiceInfo";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
@@ -25,6 +26,7 @@ const Index = () => {
         <Reviews />
         <FileUpload />
         <ServiceInfo />
+        <FAQ />
       </main>
       <Footer />
       <WhatsAppFloat />
