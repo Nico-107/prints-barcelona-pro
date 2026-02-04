@@ -29,11 +29,11 @@ const Hero = () => {
       <div className="container relative z-10 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 animate-fade-in font-medium">
-            Reality 3D BCN
+            Reality 3D Barcelona
           </p>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight">
-            Impresión 3D profesional en Barcelona
+            Servicio de impresión 3D en Barcelona
           </h1>
           
           <p className="text-lg md:text-xl text-primary-foreground/90 mb-4 animate-fade-in-delay max-w-2xl mx-auto">
@@ -41,7 +41,7 @@ const Hero = () => {
           </p>
           
           <p className="text-base text-primary-foreground/60 mb-10 animate-fade-in-delay max-w-xl mx-auto">
-            Servicio de impresión 3D a medida · Producción local · Contacto directo
+            Impresión 3D profesional · Producción local en Barcelona · Envíos a toda España
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
@@ -69,15 +69,15 @@ const Hero = () => {
           <div className="mt-16 flex flex-wrap justify-center gap-8 text-primary-foreground/60 text-sm animate-fade-in-delay-2">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>Presupuesto en &lt;1h</span>
+              <span>Presupuesto en menos de 1h</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>Precio final, sin sorpresas</span>
+              <span>Precio final sin sorpresas</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>Recogida en Barcelona</span>
+              <span>Envíos a toda España</span>
             </div>
           </div>
         </div>

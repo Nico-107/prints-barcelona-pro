@@ -13,11 +13,10 @@ const ExpressPrinting = () => {
               
               <div className="flex-1">
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-                  Impresión express: 24–48 horas
+                  Impresión express: entrega en 24–48h
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  ¿Proyecto urgente o de última hora? Ofrecemos impresión prioritaria 
-                  con entrega en 24–48 horas, manteniendo la misma calidad. 
+                  ¿Proyecto urgente? Impresión prioritaria con la misma calidad. 
                   Sujeto a complejidad y disponibilidad.
                 </p>
 
