@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Star, Quote, BadgeCheck, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,6 +100,15 @@ const Reviews = () => {
     reviewText: "",
     orderReference: "",
   });
+   // Honeypot field - hidden from users, bots will fill it
+   const [honeypot, setHoneypot] = useState("");
+   // Track when form was first interacted with
+   const formStartTimeRef = useRef<number>(Date.now());
+
+   // Reset form start time when component mounts
+   useEffect(() => {
+     formStartTimeRef.current = Date.now();
+   }, []);
 
   // Calculate stats dynamically
   const totalReviews = reviews.length;
@@ -129,6 +138,9 @@ const Reviews = () => {
           rating: formData.rating,
           reviewText: formData.reviewText.trim(),
           orderReference: formData.orderReference.trim(),
+           // Anti-bot fields
+           website: honeypot,
+           formStartTime: formStartTimeRef.current,
         },
       });
 
@@ -146,6 +158,8 @@ const Reviews = () => {
         reviewText: "",
         orderReference: "",
       });
+       setHoneypot("");
+       formStartTimeRef.current = Date.now();
     } catch (error) {
       console.error("Error submitting review:", error);
       toast({
@@ -307,6 +321,20 @@ const Reviews = () => {
                   maxLength={200}
                 />
               </div>
+
+                {/* Honeypot field - hidden from real users */}
+                <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+                  <label htmlFor="review-website">Website</label>
+                  <input
+                    type="text"
+                    id="review-website"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
               <Button
                 type="submit"
