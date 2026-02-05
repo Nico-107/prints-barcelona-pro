@@ -1,38 +1,41 @@
 import { Upload, MessageSquare, Printer, Package } from "lucide-react";
-
-const steps = [
-  {
-    icon: Upload,
-    title: "Sube tu archivo",
-    description: "Envíanos tu archivo 3D (STL, OBJ, 3MF) o consúltanos por WhatsApp.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Presupuesto en <1h",
-    description: "Revisamos tu diseño y te enviamos precio final. Sin sorpresas.",
-  },
-  {
-    icon: Printer,
-    title: "Producción local",
-    description: "Imprimimos tu pieza en Barcelona con materiales de calidad.",
-  },
-  {
-    icon: Package,
-    title: "Recogida o envío",
-    description: "Recoge en Barcelona o recibe tu pedido en cualquier punto de España.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HowItWorks = () => {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      icon: Upload,
+      title: t("how.step1.title"),
+      description: t("how.step1.desc"),
+    },
+    {
+      icon: MessageSquare,
+      title: t("how.step2.title"),
+      description: t("how.step2.desc"),
+    },
+    {
+      icon: Printer,
+      title: t("how.step3.title"),
+      description: t("how.step3.desc"),
+    },
+    {
+      icon: Package,
+      title: t("how.step4.title"),
+      description: t("how.step4.desc"),
+    },
+  ];
+
   return (
     <section id="como-funciona" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Cómo funciona
+            {t("how.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Sube tu archivo, recibe presupuesto en menos de 1 hora y recoge o recibe tu pieza
+            {t("how.subtitle")}
           </p>
         </div>
 

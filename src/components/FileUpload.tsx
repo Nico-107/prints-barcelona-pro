@@ -6,11 +6,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
-const WHATSAPP_MESSAGE = encodeURIComponent("Hola, me gustaría solicitar un servicio de impresión 3D con Reality 3D BCN.");
 
 const FileUpload = () => {
+  const { t, language } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -18,16 +19,19 @@ const FileUpload = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-   // Honeypot field - hidden from users, bots will fill it
-   const [honeypot, setHoneypot] = useState("");
-   // Track when form was first interacted with
-   const formStartTimeRef = useRef<number>(Date.now());
+  const [honeypot, setHoneypot] = useState("");
+  const formStartTimeRef = useRef<number>(Date.now());
   const { toast } = useToast();
 
-   // Reset form start time when component mounts or form resets
-   useEffect(() => {
-     formStartTimeRef.current = Date.now();
-   }, [isSubmitted]);
+  const whatsappMessage = encodeURIComponent(
+    language === "en"
+      ? "Hello, I would like to request a 3D printing service with Reality 3D BCN."
+      : "Hola, me gustaría solicitar un servicio de impresión 3D con Reality 3D BCN."
+  );
+
+  useEffect(() => {
+    formStartTimeRef.current = Date.now();
+  }, [isSubmitted]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -56,8 +60,8 @@ const FileUpload = () => {
       setFile(selectedFile);
     } else {
       toast({
-        title: "Formato no válido",
-        description: "Por favor, sube un archivo 3D válido (STL, OBJ, 3MF, STEP)",
+        title: language === "en" ? "Invalid format" : "Formato no válido",
+        description: language === "en" ? "Please upload a valid 3D file (STL, OBJ, 3MF, STEP)" : "Por favor, sube un archivo 3D válido (STL, OBJ, 3MF, STEP)",
         variant: "destructive",
       });
     }
@@ -75,8 +79,8 @@ const FileUpload = () => {
     
     if (!file || !email) {
       toast({
-        title: "Campos requeridos",
-        description: "Por favor, sube un archivo y añade tu email",
+        title: t("upload.error.fields"),
+        description: t("upload.error.fieldsDesc"),
         variant: "destructive",
       });
       return;
@@ -85,12 +89,10 @@ const FileUpload = () => {
     setIsLoading(true);
 
     try {
-      // Generate unique file path
       const timestamp = Date.now();
       const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
       const filePath = `${timestamp}-${sanitizedFileName}`;
 
-      // Upload file to storage
       const { error: uploadError } = await supabase.storage
         .from('print-requests')
         .upload(filePath, file);
@@ -100,7 +102,6 @@ const FileUpload = () => {
         throw new Error("Error al subir el archivo");
       }
 
-      // Call edge function to send email
       const { error: functionError } = await supabase.functions.invoke('send-print-request', {
         body: {
           fileName: file.name,
@@ -108,9 +109,8 @@ const FileUpload = () => {
           userEmail: email,
           message: message || undefined,
           isUrgent: isUrgent,
-           // Anti-bot fields
-           website: honeypot,
-           formStartTime: formStartTimeRef.current,
+          website: honeypot,
+          formStartTime: formStartTimeRef.current,
         },
       });
 
@@ -121,14 +121,14 @@ const FileUpload = () => {
 
       setIsSubmitted(true);
       toast({
-        title: "¡Solicitud enviada!",
-        description: "Te contactaremos pronto con el presupuesto",
+        title: t("upload.success.title"),
+        description: t("upload.success.desc"),
       });
     } catch (error: any) {
       console.error("Submit error:", error);
       toast({
-        title: "Error al enviar",
-        description: error.message || "Hubo un problema al procesar tu solicitud. Inténtalo de nuevo.",
+        title: t("upload.error.title"),
+        description: t("upload.error.desc"),
         variant: "destructive",
       });
     } finally {
@@ -137,7 +137,7 @@ const FileUpload = () => {
   };
 
   const handleWhatsApp = () => {
-    window.open(`${WHATSAPP_URL}?text=${WHATSAPP_MESSAGE}`, "_blank");
+    window.open(`${WHATSAPP_URL}?text=${whatsappMessage}`, "_blank");
   };
 
   const resetForm = () => {
@@ -146,8 +146,8 @@ const FileUpload = () => {
     setEmail("");
     setMessage("");
     setIsUrgent(false);
-     setHoneypot("");
-     formStartTimeRef.current = Date.now();
+    setHoneypot("");
+    formStartTimeRef.current = Date.now();
   };
 
   if (isSubmitted) {
@@ -159,13 +159,15 @@ const FileUpload = () => {
               <CheckCircle className="w-10 h-10 text-whatsapp" />
             </div>
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              ¡Archivo recibido!
+              {language === "en" ? "File received!" : "¡Archivo recibido!"}
             </h2>
             <p className="text-muted-foreground mb-8">
-              Hemos recibido tu solicitud. El equipo de Reality 3D BCN revisará el diseño y te contactará pronto con el presupuesto.
+              {language === "en" 
+                ? "We have received your request. The Reality 3D BCN team will review the design and contact you soon with the quote."
+                : "Hemos recibido tu solicitud. El equipo de Reality 3D BCN revisará el diseño y te contactará pronto con el presupuesto."}
             </p>
             <Button onClick={resetForm} variant="outline">
-              Enviar otro archivo
+              {language === "en" ? "Send another file" : "Enviar otro archivo"}
             </Button>
           </div>
         </div>
@@ -178,13 +180,17 @@ const FileUpload = () => {
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Solicitar presupuesto
+            {t("upload.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-3">
-            Sube tu archivo 3D y recibe el precio final en menos de 1 hora
+            {language === "en" 
+              ? "Upload your 3D file and receive the final price in less than 1 hour"
+              : "Sube tu archivo 3D y recibe el precio final en menos de 1 hora"}
           </p>
           <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-            Sin precios automáticos. Revisamos cada proyecto manualmente.
+            {language === "en"
+              ? "No automatic prices. We review each project manually."
+              : "Sin precios automáticos. Revisamos cada proyecto manualmente."}
           </p>
         </div>
 
@@ -225,13 +231,13 @@ const FileUpload = () => {
                 <>
                   <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                   <p className="font-medium text-foreground mb-1">
-                    Arrastra tu archivo aquí
+                    {language === "en" ? "Drag your file here" : "Arrastra tu archivo aquí"}
                   </p>
                   <p className="text-sm text-muted-foreground mb-4">
-                    o haz clic para seleccionar
+                    {language === "en" ? "or click to select" : "o haz clic para seleccionar"}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Formatos: STL, OBJ, 3MF, STEP
+                    {language === "en" ? "Formats: STL, OBJ, 3MF, STEP" : "Formatos: STL, OBJ, 3MF, STEP"}
                   </p>
                 </>
               )}
@@ -247,13 +253,13 @@ const FileUpload = () => {
             {/* Email input */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-foreground mb-2">
-                Tu email *
+                {language === "en" ? "Your email *" : "Tu email *"}
               </label>
               <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="tu@email.com"
+                placeholder={t("upload.emailPlaceholder")}
                 required
                 className="h-12"
                 disabled={isLoading}
@@ -263,31 +269,31 @@ const FileUpload = () => {
             {/* Message textarea */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-foreground mb-2">
-                Mensaje (opcional)
+                {language === "en" ? "Message (optional)" : "Mensaje (opcional)"}
               </label>
               <Textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Detalles sobre el material, color, cantidad..."
+                placeholder={language === "en" ? "Details about material, color, quantity..." : "Detalles sobre el material, color, cantidad..."}
                 rows={3}
                 disabled={isLoading}
-                 maxLength={2000}
+                maxLength={2000}
               />
             </div>
 
-             {/* Honeypot field - hidden from real users */}
-             <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
-               <label htmlFor="website">Website</label>
-               <input
-                 type="text"
-                 id="website"
-                 name="website"
-                 value={honeypot}
-                 onChange={(e) => setHoneypot(e.target.value)}
-                 tabIndex={-1}
-                 autoComplete="off"
-               />
-             </div>
+            {/* Honeypot field */}
+            <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
 
             {/* Urgent order checkbox */}
             <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
@@ -305,10 +311,12 @@ const FileUpload = () => {
                     className="flex items-center gap-2 text-sm font-medium text-foreground cursor-pointer"
                   >
                     <Zap className="w-4 h-4 text-primary" />
-                    Necesito mi pieza con urgencia (48h)
+                    {language === "en" ? "I need my part urgently (48h)" : "Necesito mi pieza con urgencia (48h)"}
                   </label>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Entrega prioritaria con un pequeño suplemento. Misma calidad garantizada.
+                    {language === "en" 
+                      ? "Priority delivery with a small supplement. Same quality guaranteed."
+                      : "Entrega prioritaria con un pequeño suplemento. Misma calidad garantizada."}
                   </p>
                 </div>
               </div>
@@ -318,18 +326,18 @@ const FileUpload = () => {
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Enviando...
+                  {t("upload.submitting")}
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  Solicitar presupuesto
+                  {t("upload.submit")}
                 </>
               )}
             </Button>
             
             <p className="text-xs text-center text-muted-foreground mb-4">
-              Presupuesto rápido, sin compromiso
+              {language === "en" ? "Quick quote, no commitment" : "Presupuesto rápido, sin compromiso"}
             </p>
 
             {/* WhatsApp alternative */}
@@ -339,7 +347,7 @@ const FileUpload = () => {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground">
-                  ¿Dudas o sin archivo?
+                  {language === "en" ? "Questions or no file?" : "¿Dudas o sin archivo?"}
                 </span>
               </div>
             </div>
@@ -353,11 +361,13 @@ const FileUpload = () => {
               disabled={isLoading}
             >
               <MessageCircle className="w-4 h-4" />
-              Consúltanos por WhatsApp
+              {language === "en" ? "Contact us on WhatsApp" : "Consúltanos por WhatsApp"}
             </Button>
             
             <p className="text-xs text-center text-muted-foreground mt-3">
-              ¿No sabes si tu pieza es imprimible? Pregúntanos sin compromiso
+              {language === "en" 
+                ? "Not sure if your part is printable? Ask us without commitment"
+                : "¿No sabes si tu pieza es imprimible? Pregúntanos sin compromiso"}
             </p>
           </form>
         </div>

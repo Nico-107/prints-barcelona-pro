@@ -1,12 +1,20 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Upload, Printer } from "lucide-react";
+import { MessageCircle, Upload } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
-const WHATSAPP_MESSAGE = encodeURIComponent("Hola, me gustaría solicitar un servicio de impresión 3D con Reality 3D BCN.");
 
 const Hero = () => {
+  const { t, language } = useLanguage();
+  
+  const whatsappMessage = encodeURIComponent(
+    language === "en" 
+      ? "Hello, I would like to request a 3D printing service with Reality 3D BCN."
+      : "Hola, me gustaría solicitar un servicio de impresión 3D con Reality 3D BCN."
+  );
+
   const handleWhatsApp = () => {
-    window.open(`${WHATSAPP_URL}?text=${WHATSAPP_MESSAGE}`, "_blank");
+    window.open(`${WHATSAPP_URL}?text=${whatsappMessage}`, "_blank");
   };
 
   const handleScrollToUpload = () => {
@@ -33,15 +41,19 @@ const Hero = () => {
           </p>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight">
-            Servicio de impresión 3D en Barcelona
+            {language === "en" ? "3D Printing Service in Barcelona" : "Servicio de impresión 3D en Barcelona"}
           </h1>
           
           <p className="text-lg md:text-xl text-primary-foreground/90 mb-4 animate-fade-in-delay max-w-2xl mx-auto">
-            Sube tu archivo y recibe presupuesto en menos de 1 hora
+            {language === "en" 
+              ? "Upload your file and get a quote in less than 1 hour"
+              : "Sube tu archivo y recibe presupuesto en menos de 1 hora"}
           </p>
           
           <p className="text-base text-primary-foreground/60 mb-10 animate-fade-in-delay max-w-xl mx-auto">
-            Impresión 3D profesional · Producción local en Barcelona · Envíos a toda España
+            {language === "en"
+              ? "Professional 3D printing · Local production in Barcelona · Shipping throughout Spain"
+              : "Impresión 3D profesional · Producción local en Barcelona · Envíos a toda España"}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
@@ -52,7 +64,7 @@ const Hero = () => {
               className="group"
             >
               <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-              Contactar por WhatsApp
+              {t("hero.cta.whatsapp")}
             </Button>
             
             <Button 
@@ -61,7 +73,7 @@ const Hero = () => {
               onClick={handleScrollToUpload}
             >
               <Upload className="w-5 h-5" />
-              Solicitar presupuesto
+              {t("hero.cta.quote")}
             </Button>
           </div>
 
@@ -69,15 +81,15 @@ const Hero = () => {
           <div className="mt-16 flex flex-wrap justify-center gap-8 text-primary-foreground/60 text-sm animate-fade-in-delay-2">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>Presupuesto en menos de 1h</span>
+              <span>{language === "en" ? "Quote in less than 1h" : "Presupuesto en menos de 1h"}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>Precio final sin sorpresas</span>
+              <span>{language === "en" ? "Final price, no surprises" : "Precio final sin sorpresas"}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>Envíos a toda España</span>
+              <span>{language === "en" ? "Shipping throughout Spain" : "Envíos a toda España"}</span>
             </div>
           </div>
         </div>
