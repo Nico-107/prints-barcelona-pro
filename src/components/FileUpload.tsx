@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,7 +18,16 @@ const FileUpload = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+   // Honeypot field - hidden from users, bots will fill it
+   const [honeypot, setHoneypot] = useState("");
+   // Track when form was first interacted with
+   const formStartTimeRef = useRef<number>(Date.now());
   const { toast } = useToast();
+
+   // Reset form start time when component mounts or form resets
+   useEffect(() => {
+     formStartTimeRef.current = Date.now();
+   }, [isSubmitted]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -99,6 +108,9 @@ const FileUpload = () => {
           userEmail: email,
           message: message || undefined,
           isUrgent: isUrgent,
+           // Anti-bot fields
+           website: honeypot,
+           formStartTime: formStartTimeRef.current,
         },
       });
 
@@ -134,6 +146,8 @@ const FileUpload = () => {
     setEmail("");
     setMessage("");
     setIsUrgent(false);
+     setHoneypot("");
+     formStartTimeRef.current = Date.now();
   };
 
   if (isSubmitted) {
@@ -257,8 +271,23 @@ const FileUpload = () => {
                 placeholder="Detalles sobre el material, color, cantidad..."
                 rows={3}
                 disabled={isLoading}
+                 maxLength={2000}
               />
             </div>
+
+             {/* Honeypot field - hidden from real users */}
+             <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
+               <label htmlFor="website">Website</label>
+               <input
+                 type="text"
+                 id="website"
+                 name="website"
+                 value={honeypot}
+                 onChange={(e) => setHoneypot(e.target.value)}
+                 tabIndex={-1}
+                 autoComplete="off"
+               />
+             </div>
 
             {/* Urgent order checkbox */}
             <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">

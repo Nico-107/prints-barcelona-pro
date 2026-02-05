@@ -16,6 +16,32 @@ interface PrintRequestPayload {
   userEmail: string;
   message?: string;
   isUrgent?: boolean;
+   // Honeypot field - should always be empty
+   website?: string;
+   // Timestamp for timing-based bot detection
+   formStartTime?: number;
+}
+
+// Simple in-memory rate limiting (resets on function cold start)
+const requestCounts = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 5;
+
+function isRateLimited(clientIP: string): boolean {
+   const now = Date.now();
+   const record = requestCounts.get(clientIP);
+   
+   if (!record || now > record.resetTime) {
+     requestCounts.set(clientIP, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+     return false;
+   }
+   
+   if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+     return true;
+   }
+   
+   record.count++;
+   return false;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -25,7 +51,109 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { fileName, filePath, userEmail, message, isUrgent }: PrintRequestPayload = await req.json();
+     // Get client IP for rate limiting
+     const clientIP = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+                      req.headers.get("cf-connecting-ip") || 
+                      "unknown";
+ 
+     // Check rate limit
+     if (isRateLimited(clientIP)) {
+       console.warn(`Rate limit exceeded for IP: ${clientIP}`);
+       return new Response(
+         JSON.stringify({ error: "Too many requests. Please try again later." }),
+         {
+           status: 429,
+           headers: { "Content-Type": "application/json", ...corsHeaders },
+         }
+       );
+     }
+ 
+     const payload: PrintRequestPayload = await req.json();
+     const { fileName, filePath, userEmail, message, isUrgent, website, formStartTime } = payload;
+ 
+     // Honeypot check - if website field is filled, it's likely a bot
+     if (website && website.trim() !== "") {
+       console.warn(`Honeypot triggered by IP: ${clientIP}`);
+       // Return success to not tip off the bot, but don't process
+       return new Response(JSON.stringify({ success: true }), {
+         status: 200,
+         headers: { "Content-Type": "application/json", ...corsHeaders },
+       });
+     }
+ 
+     // Timing check - if form was submitted too quickly (< 3 seconds), likely a bot
+     if (formStartTime) {
+       const submissionTime = Date.now() - formStartTime;
+       if (submissionTime < 3000) {
+         console.warn(`Form submitted too quickly (${submissionTime}ms) by IP: ${clientIP}`);
+         return new Response(JSON.stringify({ success: true }), {
+           status: 200,
+           headers: { "Content-Type": "application/json", ...corsHeaders },
+         });
+       }
+     }
+ 
+     // Validate required fields
+     if (!fileName || typeof fileName !== "string" || fileName.trim().length === 0) {
+       return new Response(
+         JSON.stringify({ error: "Invalid file name" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     if (!filePath || typeof filePath !== "string" || filePath.trim().length === 0) {
+       return new Response(
+         JSON.stringify({ error: "Invalid file path" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     if (!userEmail || typeof userEmail !== "string") {
+       return new Response(
+         JSON.stringify({ error: "Invalid email" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     // Validate email format
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     if (!emailRegex.test(userEmail.trim())) {
+       return new Response(
+         JSON.stringify({ error: "Invalid email format" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     // Validate field lengths
+     if (fileName.length > 500) {
+       return new Response(
+         JSON.stringify({ error: "File name too long" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     if (message && message.length > 2000) {
+       return new Response(
+         JSON.stringify({ error: "Message too long" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     // Sanitize inputs for HTML email
+     const sanitize = (str: string): string => {
+       return str
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+     };
+ 
+     const safeFileName = sanitize(fileName.trim());
+     const safeUserEmail = sanitize(userEmail.trim());
+     const safeMessage = message ? sanitize(message.trim()) : "";
+ 
+     console.log(`Processing print request from ${safeUserEmail} (IP: ${clientIP})`);
 
     // Create Supabase client with service role for signed URL generation
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
@@ -35,7 +163,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Generate a signed URL valid for 7 days
     const { data: signedUrlData, error: signedUrlError } = await supabase.storage
       .from("print-requests")
-      .createSignedUrl(filePath, 60 * 60 * 24 * 7); // 7 days
+       .createSignedUrl(filePath.trim(), 60 * 60 * 24 * 7); // 7 days
 
     if (signedUrlError) {
       console.error("Error generating signed URL:", signedUrlError);
@@ -54,7 +182,7 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Print3D BCN <onboarding@resend.dev>",
         to: [ADMIN_EMAIL],
-        subject: `${isUrgent ? "🚨 URGENTE - " : ""}Nueva solicitud de impresión 3D - ${fileName}`,
+         subject: `${isUrgent ? "🚨 URGENTE - " : ""}Nueva solicitud de impresión 3D - ${safeFileName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1 style="color: #0f172a;">Nueva solicitud de impresión 3D</h1>
@@ -72,13 +200,13 @@ const handler = async (req: Request): Promise<Response> => {
             
             <div style="background-color: #f1f5f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h2 style="color: #334155; margin-top: 0;">Detalles del cliente</h2>
-              <p><strong>Email del cliente:</strong> ${userEmail}</p>
-              ${message ? `<p><strong>Mensaje:</strong> ${message}</p>` : ""}
+               <p><strong>Email del cliente:</strong> ${safeUserEmail}</p>
+               ${safeMessage ? `<p><strong>Mensaje:</strong> ${safeMessage}</p>` : ""}
             </div>
 
             <div style="background-color: #ecfdf5; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h2 style="color: #065f46; margin-top: 0;">Archivo 3D</h2>
-              <p><strong>Nombre del archivo:</strong> ${fileName}</p>
+               <p><strong>Nombre del archivo:</strong> ${safeFileName}</p>
               <p>
                 <a href="${downloadUrl}" style="display: inline-block; background-color: #0284c7; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin-top: 10px;">
                   Descargar archivo
@@ -116,7 +244,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-print-request function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+       JSON.stringify({ error: "An error occurred processing your request" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
