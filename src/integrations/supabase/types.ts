@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      reviews: {
+        Row: {
+          approval_token: string
+          created_at: string
+          email: string
+          id: string
+          name: string
+          order_reference: string | null
+          published_at: string | null
+          rating: number
+          review_text: string
+          status: string
+        }
+        Insert: {
+          approval_token?: string
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          order_reference?: string | null
+          published_at?: string | null
+          rating: number
+          review_text: string
+          status?: string
+        }
+        Update: {
+          approval_token?: string
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          order_reference?: string | null
+          published_at?: string | null
+          rating?: number
+          review_text?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

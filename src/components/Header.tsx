@@ -1,9 +1,12 @@
 import { Printer, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -21,41 +24,45 @@ const Header = () => {
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             <button
               onClick={() => scrollToSection("como-funciona")}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Cómo funciona
+              {t("nav.howItWorks")}
             </button>
             <button
               onClick={() => scrollToSection("servicio")}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Servicio
+              {t("nav.service")}
             </button>
             <button
               onClick={() => scrollToSection("upload")}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Subir archivo
+              {t("nav.uploadFile")}
             </button>
+            <LanguageSelector />
             <Button 
               size="sm"
               onClick={() => scrollToSection("upload")}
             >
-              Solicitar presupuesto
+              {t("nav.requestQuote")}
             </Button>
           </nav>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile: Language selector + menu button */}
+          <div className="md:hidden flex items-center gap-3">
+            <LanguageSelector />
+            <button
+              className="p-2 text-foreground"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile nav */}
@@ -66,25 +73,25 @@ const Header = () => {
                 onClick={() => scrollToSection("como-funciona")}
                 className="text-left py-2 text-foreground font-medium"
               >
-                Cómo funciona
+                {t("nav.howItWorks")}
               </button>
               <button
                 onClick={() => scrollToSection("servicio")}
                 className="text-left py-2 text-foreground font-medium"
               >
-                Servicio
+                {t("nav.service")}
               </button>
               <button
                 onClick={() => scrollToSection("upload")}
                 className="text-left py-2 text-foreground font-medium"
               >
-                Subir archivo
+                {t("nav.uploadFile")}
               </button>
               <Button 
                 className="mt-2 w-full"
                 onClick={() => scrollToSection("upload")}
               >
-                Solicitar presupuesto
+                {t("nav.requestQuote")}
               </Button>
             </div>
           </nav>
