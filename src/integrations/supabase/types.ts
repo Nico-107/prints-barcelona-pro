@@ -55,7 +55,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      reviews_public: {
+        Row: {
+          id: string | null
+          name: string | null
+          published_at: string | null
+          rating: number | null
+          review_text: string | null
+          status: string | null
+        }
+        Insert: {
+          id?: string | null
+          name?: string | null
+          published_at?: string | null
+          rating?: number | null
+          review_text?: string | null
+          status?: string | null
+        }
+        Update: {
+          id?: string | null
+          name?: string | null
+          published_at?: string | null
+          rating?: number | null
+          review_text?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
