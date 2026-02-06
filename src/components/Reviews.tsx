@@ -54,13 +54,13 @@ const Reviews = () => {
   const [honeypot, setHoneypot] = useState("");
   const formStartTimeRef = useRef<number>(Date.now());
 
-  // Fetch published reviews from database
+  // Fetch published reviews from secure view (excludes email for privacy)
   useEffect(() => {
     const fetchReviews = async () => {
+      // Use reviews_public view which excludes sensitive email data
       const { data, error } = await supabase
-        .from("reviews")
+        .from("reviews_public")
         .select("id, name, review_text, rating, published_at")
-        .eq("status", "published")
         .order("published_at", { ascending: false });
 
       if (!error && data) {
