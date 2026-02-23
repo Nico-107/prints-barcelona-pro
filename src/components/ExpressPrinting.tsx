@@ -1,6 +1,9 @@
 import { Zap, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExpressPrinting = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="express" className="py-16 md:py-20 bg-primary/5">
       <div className="container px-4">
@@ -13,31 +16,30 @@ const ExpressPrinting = () => {
               
               <div className="flex-1">
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-                  Impresión express: entrega en 24–48h
+                  {t("express.title")}
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  ¿Proyecto urgente? Impresión prioritaria con la misma calidad. 
-                  Sujeto a complejidad y disponibilidad.
+                  {t("express.desc")}
                 </p>
 
                 <div className="flex flex-wrap gap-4 mb-4">
                   <div className="flex items-center gap-2 text-sm text-foreground">
                     <Clock className="w-4 h-4 text-primary" />
-                    <span>Entrega en 24–48h</span>
+                    <span>{t("express.time")}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-foreground">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>Misma calidad garantizada</span>
+                    <span>{t("express.quality")}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-foreground">
                     <Zap className="w-4 h-4 text-primary" />
-                    <span>Pequeño suplemento</span>
+                    <span>{t("express.fee")}</span>
                   </div>
                 </div>
                 
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" />
-                  Indica "urgente" al solicitar presupuesto para priorizar tu pedido
+                  {t("express.note")}
                 </p>
               </div>
             </div>

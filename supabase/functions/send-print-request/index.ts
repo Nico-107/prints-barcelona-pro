@@ -180,7 +180,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Print3D BCN <onboarding@resend.dev>",
+        from: "Dimension3D <onboarding@resend.dev>",
         to: [ADMIN_EMAIL],
          subject: `${isUrgent ? "🚨 URGENTE - " : ""}Nueva solicitud de impresión 3D - ${safeFileName}`,
         html: `
@@ -218,7 +218,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
 
             <p style="color: #6b7280; font-size: 14px;">
-              Este email fue enviado automáticamente desde Print3D BCN.
+              Este email fue enviado automáticamente desde Dimension3D.
             </p>
           </div>
         `,

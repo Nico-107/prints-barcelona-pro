@@ -1,48 +1,27 @@
 import { Wrench, Cog, Box, Cpu, Sparkles, Puzzle } from "lucide-react";
-
-const printables = [
-  {
-    icon: Wrench,
-    title: "Prototipos funcionales",
-    description: "Valida tus diseños antes de la producción final",
-  },
-  {
-    icon: Cog,
-    title: "Piezas de repuesto",
-    description: "Repuestos exactos para electrodomésticos, máquinas o vehículos",
-  },
-  {
-    icon: Box,
-    title: "Soportes y adaptadores",
-    description: "Brackets, montajes y soluciones a medida",
-  },
-  {
-    icon: Cpu,
-    title: "Piezas técnicas",
-    description: "Componentes para RC, drones, automoción y mecánica",
-  },
-  {
-    icon: Puzzle,
-    title: "Proyectos personalizados",
-    description: "Piezas únicas para hobby, decoración o uso personal",
-  },
-  {
-    icon: Sparkles,
-    title: "Diseños originales",
-    description: "Si lo puedes imaginar, lo podemos imprimir",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WhatCanWePrint = () => {
+  const { t } = useLanguage();
+
+  const printables = [
+    { icon: Wrench, titleKey: "services.proto.title", descKey: "services.proto.desc" },
+    { icon: Cog, titleKey: "services.parts.title", descKey: "services.parts.desc" },
+    { icon: Box, titleKey: "services.brackets.title", descKey: "services.brackets.desc" },
+    { icon: Cpu, titleKey: "services.technical.title", descKey: "services.technical.desc" },
+    { icon: Puzzle, titleKey: "services.custom.title", descKey: "services.custom.desc" },
+    { icon: Sparkles, titleKey: "services.original.title", descKey: "services.original.desc" },
+  ];
+
   return (
-    <section id="que-imprimimos" className="py-20 md:py-28 bg-background">
+    <section id="servicios" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Qué podemos imprimir
+            {t("services.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Desde prototipos funcionales hasta piezas finales de uso diario
+            {t("services.subtitle")}
           </p>
         </div>
 
@@ -56,19 +35,15 @@ const WhatCanWePrint = () => {
                 <item.icon className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold text-foreground mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {item.description}
-                </p>
+                <h3 className="font-semibold text-foreground mb-1">{t(item.titleKey)}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(item.descKey)}</p>
               </div>
             </div>
           ))}
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-10">
-          ¿No estás seguro si tu pieza es imprimible? <span className="text-primary font-medium">Consúltanos sin compromiso</span>
+          {t("services.cta")}
         </p>
       </div>
     </section>
