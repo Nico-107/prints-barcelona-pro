@@ -148,7 +148,7 @@ function generateHtmlResponse(title: string, message: string, success: boolean):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} - Reality 3D BCN</title>
+  <title>${title} - Dimension3D</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -204,7 +204,7 @@ function generateHtmlResponse(title: string, message: string, success: boolean):
     <div class="icon">${icon}</div>
     <h1>${title}</h1>
     <p>${message}</p>
-    <div class="logo">Reality 3D BCN</div>
+    <div class="logo">Dimension3D</div>
   </div>
 </body>
 </html>

@@ -11,24 +11,24 @@ const FAQ = () => {
 
   const faqs = language === "en" ? [
     {
-      question: "What files do you accept for 3D printing?",
-      answer: "We accept STL, OBJ, 3MF and STEP files. If you have another format or questions about your design, contact us on WhatsApp.",
+      question: "What file formats do you accept?",
+      answer: "We accept STL, OBJ, 3MF, and STEP files. If you have a different format or need help with your design, contact us on WhatsApp.",
     },
     {
       question: "How long does printing take?",
-      answer: "Time depends on the size and complexity of the part. Usually 2-5 business days. Express service available in 24-48h.",
+      answer: "Turnaround depends on the size and complexity of your part. Standard orders take 2–5 business days. Express service (24–48h) is also available.",
     },
     {
-      question: "Do you print single parts or also batches?",
-      answer: "We print both single parts and small to medium batches. Contact us for larger volumes.",
+      question: "Can you print single parts and small batches?",
+      answer: "Absolutely. We handle everything from one-off prototypes to small and medium production runs. Get in touch for larger volumes.",
     },
     {
       question: "Do you ship outside Barcelona?",
-      answer: "Yes, we ship to all mainland Spain with tracking included. We also offer local pickup in Barcelona by appointment.",
+      answer: "Yes, we ship to all of mainland Spain with tracking included. Local pickup in Barcelona is also available by appointment.",
     },
     {
       question: "What is the precision of FDM printing?",
-      answer: "Typical precision is ±0.2mm. For parts requiring greater accuracy, we adjust parameters according to project needs.",
+      answer: "Typical precision is ±0.2 mm. For parts that require tighter tolerances, we adjust parameters to match your project's needs.",
     },
   ] : [
     {
@@ -81,9 +81,7 @@ const FAQ = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-10">
-          {language === "en" 
-            ? <>Have another question? <span className="text-primary font-medium">Message us on WhatsApp</span> and we'll respond in minutes</>
-            : <>¿Tienes otra pregunta? <span className="text-primary font-medium">Escríbenos por WhatsApp</span> y te respondemos en minutos</>}
+          {t("faq.moreQuestion")} <span className="text-primary font-medium">{t("faq.moreAnswer")}</span> {t("faq.moreEnd")}
         </p>
       </div>
     </section>

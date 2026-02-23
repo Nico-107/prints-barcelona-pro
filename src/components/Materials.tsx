@@ -1,42 +1,25 @@
 import { Leaf, Shield, Zap, Cog } from "lucide-react";
-
-const materials = [
-  {
-    icon: Leaf,
-    name: "PLA",
-    description: "Económico y versátil",
-    details: "Ideal para prototipos, maquetas y piezas decorativas con buen acabado.",
-  },
-  {
-    icon: Shield,
-    name: "PETG",
-    description: "Resistente y durable",
-    details: "Para piezas funcionales que requieren flexibilidad y resistencia a impactos.",
-  },
-  {
-    icon: Zap,
-    name: "ABS / ASA",
-    description: "Técnico y térmico",
-    details: "Soporta calor, esfuerzos mecánicos y exposición a exteriores.",
-  },
-  {
-    icon: Cog,
-    name: "Nylon / PA-CF",
-    description: "Industrial y mecánico",
-    details: "Máxima resistencia para piezas técnicas de alto rendimiento.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Materials = () => {
+  const { t } = useLanguage();
+
+  const materials = [
+    { icon: Leaf, name: "PLA", descKey: "materials.pla.desc", detailKey: "materials.pla.detail" },
+    { icon: Shield, name: "PETG", descKey: "materials.petg.desc", detailKey: "materials.petg.detail" },
+    { icon: Zap, name: "ABS / ASA", descKey: "materials.abs.desc", detailKey: "materials.abs.detail" },
+    { icon: Cog, name: "Nylon / PA-CF", descKey: "materials.nylon.desc", detailKey: "materials.nylon.detail" },
+  ];
+
   return (
     <section id="materiales" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Materiales FDM disponibles
+            {t("materials.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Seleccionamos el material óptimo según la aplicación de tu pieza
+            {t("materials.subtitle")}
           </p>
         </div>
 
@@ -49,15 +32,9 @@ const Materials = () => {
               <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <material.icon className="w-7 h-7 text-primary" />
               </div>
-              <h3 className="text-lg font-bold text-foreground mb-1">
-                {material.name}
-              </h3>
-              <p className="text-sm font-medium text-primary mb-3">
-                {material.description}
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {material.details}
-              </p>
+              <h3 className="text-lg font-bold text-foreground mb-1">{material.name}</h3>
+              <p className="text-sm font-medium text-primary mb-3">{t(material.descKey)}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{t(material.detailKey)}</p>
             </div>
           ))}
         </div>
@@ -65,9 +42,9 @@ const Materials = () => {
         <div className="mt-12 max-w-2xl mx-auto">
           <div className="bg-card rounded-xl p-6 border border-border/50 text-center">
             <p className="text-muted-foreground">
-              <span className="font-medium text-foreground">¿No sabes qué material elegir?</span>
+              <span className="font-medium text-foreground">{t("materials.help")}</span>
               <br />
-              Te asesoramos según el uso de tu pieza. Consulta sin compromiso.
+              {t("materials.helpDesc")}
             </p>
           </div>
         </div>
