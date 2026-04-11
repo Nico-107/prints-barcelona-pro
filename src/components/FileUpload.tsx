@@ -3,16 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2, Zap } from "lucide-react";
+import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2, Zap, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
+const MAX_FILES = 10;
 
 const FileUpload = () => {
   const { t } = useLanguage();
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isUrgent, setIsUrgent] = useState(false);
@@ -23,51 +24,71 @@ const FileUpload = () => {
   const formStartTimeRef = useRef<number>(Date.now());
   const { toast } = useToast();
 
-  useEffect(() => {
-    formStartTimeRef.current = Date.now();
-  }, [isSubmitted]);
+  useEffect(() => { formStartTimeRef.current = Date.now(); }, [isSubmitted]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragging(true); }, []);
   const handleDragLeave = useCallback((e: React.DragEvent) => { e.preventDefault(); setIsDragging(false); }, []);
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile) validateAndSetFile(droppedFile);
-  }, []);
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    addFiles(droppedFiles);
+  }, [files]);
 
-  const validateAndSetFile = (selectedFile: File) => {
-    const validExtensions = ['.stl', '.obj', '.3mf', '.step', '.stp', '.iges', '.igs'];
-    const fileExtension = selectedFile.name.toLowerCase().substring(selectedFile.name.lastIndexOf('.'));
-    if (validExtensions.includes(fileExtension) || selectedFile.name.toLowerCase().includes('.')) {
-      setFile(selectedFile);
-    } else {
+  const validExtensions = ['.stl', '.obj', '.3mf', '.step', '.stp', '.iges', '.igs'];
+
+  const addFiles = (newFiles: File[]) => {
+    const validFiles = newFiles.filter(f => {
+      const ext = f.name.toLowerCase().substring(f.name.lastIndexOf('.'));
+      return validExtensions.includes(ext);
+    });
+    if (validFiles.length < newFiles.length) {
       toast({ title: t("upload.error.format"), description: t("upload.error.formatDesc"), variant: "destructive" });
     }
+    const combined = [...files, ...validFiles].slice(0, MAX_FILES);
+    setFiles(combined);
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(files.filter((_, i) => i !== index));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) validateAndSetFile(selectedFile);
+    const selected = e.target.files ? Array.from(e.target.files) : [];
+    if (selected.length > 0) addFiles(selected);
+    e.target.value = "";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || !email) {
+    if (files.length === 0 || !email) {
       toast({ title: t("upload.error.fields"), description: t("upload.error.fieldsDesc"), variant: "destructive" });
       return;
     }
     setIsLoading(true);
     try {
       const timestamp = Date.now();
-      const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-      const filePath = `${timestamp}-${sanitizedFileName}`;
+      const uploadedPaths: string[] = [];
 
-      const { error: uploadError } = await supabase.storage.from('print-requests').upload(filePath, file);
-      if (uploadError) throw new Error("Upload error");
+      for (const file of files) {
+        const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const filePath = `${timestamp}-${sanitizedFileName}`;
+        const { error: uploadError } = await supabase.storage.from('print-requests').upload(filePath, file);
+        if (uploadError) throw new Error("Upload error");
+        uploadedPaths.push(filePath);
+      }
 
       const { error: functionError } = await supabase.functions.invoke('send-print-request', {
-        body: { fileName: file.name, filePath, userEmail: email, message: message || undefined, isUrgent, website: honeypot, formStartTime: formStartTimeRef.current },
+        body: {
+          fileName: files.map(f => f.name).join(', '),
+          filePath: uploadedPaths[0],
+          userEmail: email,
+          message: message || undefined,
+          isUrgent,
+          website: honeypot,
+          formStartTime: formStartTimeRef.current,
+          additionalFiles: uploadedPaths.slice(1),
+        },
       });
       if (functionError) throw new Error("Function error");
 
@@ -86,7 +107,7 @@ const FileUpload = () => {
   };
 
   const resetForm = () => {
-    setIsSubmitted(false); setFile(null); setEmail(""); setMessage(""); setIsUrgent(false); setHoneypot(""); formStartTimeRef.current = Date.now();
+    setIsSubmitted(false); setFiles([]); setEmail(""); setMessage(""); setIsUrgent(false); setHoneypot(""); formStartTimeRef.current = Date.now();
   };
 
   if (isSubmitted) {
@@ -117,34 +138,50 @@ const FileUpload = () => {
 
         <div className="max-w-xl mx-auto">
           <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-6 md:p-8 card-shadow border border-border/50">
+            {/* Drop zone */}
             <div
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 mb-6 ${
-                isDragging ? "border-primary bg-primary/5" : file ? "border-accent bg-accent/5" : "border-border hover:border-primary/50"
+              className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 mb-4 ${
+                isDragging ? "border-accent bg-accent/5" : files.length > 0 ? "border-accent/50 bg-accent/5" : "border-border hover:border-accent/50"
               }`}
             >
-              {file ? (
-                <div className="flex items-center justify-center gap-3">
-                  <FileBox className="w-8 h-8 text-accent" />
-                  <div className="text-left">
-                    <p className="font-medium text-foreground">{file.name}</p>
-                    <p className="text-sm text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                  </div>
-                  <button type="button" onClick={() => setFile(null)} className="ml-2 p-1 rounded-full hover:bg-destructive/10 transition-colors" disabled={isLoading}>
-                    <X className="w-5 h-5 text-destructive" />
-                  </button>
-                </div>
-              ) : (
+              {files.length === 0 ? (
                 <>
                   <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                   <p className="font-medium text-foreground mb-1">{t("upload.dropTitle")}</p>
                   <p className="text-sm text-muted-foreground mb-4">{t("upload.dropSubtitle")}</p>
                   <p className="text-xs text-muted-foreground">{t("upload.dropFormats")}</p>
                 </>
+              ) : (
+                <div className="space-y-2">
+                  {files.map((file, index) => (
+                    <div key={index} className="flex items-center gap-3 bg-secondary/50 rounded-lg px-3 py-2">
+                      <FileBox className="w-5 h-5 text-accent flex-shrink-0" />
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="font-medium text-foreground text-sm truncate">{file.name}</p>
+                        <p className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      </div>
+                      <button type="button" onClick={() => removeFile(index)} className="p-1 rounded-full hover:bg-destructive/10 transition-colors" disabled={isLoading}>
+                        <X className="w-4 h-4 text-destructive" />
+                      </button>
+                    </div>
+                  ))}
+                  {files.length < MAX_FILES && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {files.length} / {MAX_FILES} {t("upload.filesCount")}
+                    </p>
+                  )}
+                </div>
               )}
-              <input type="file" onChange={handleFileChange} accept=".stl,.obj,.3mf,.step,.stp,.iges,.igs" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" disabled={isLoading} />
+              <input type="file" onChange={handleFileChange} accept=".stl,.obj,.3mf,.step,.stp,.iges,.igs" multiple className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" disabled={isLoading} />
+            </div>
+
+            {/* No file message */}
+            <div className="flex items-center gap-2 mb-6 p-3 rounded-lg bg-accent/5 border border-accent/20">
+              <Info className="w-4 h-4 text-accent flex-shrink-0" />
+              <p className="text-xs text-muted-foreground">{t("upload.noFile")}</p>
             </div>
 
             <div className="mb-4">
@@ -162,12 +199,12 @@ const FileUpload = () => {
               <input type="text" id="website" name="website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" />
             </div>
 
-            <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+            <div className="mb-6 p-4 rounded-xl bg-accent/5 border border-accent/20">
               <div className="flex items-start gap-3">
                 <Checkbox id="urgent" checked={isUrgent} onCheckedChange={(checked) => setIsUrgent(checked === true)} disabled={isLoading} className="mt-0.5" />
                 <div className="flex-1">
                   <label htmlFor="urgent" className="flex items-center gap-2 text-sm font-medium text-foreground cursor-pointer">
-                    <Zap className="w-4 h-4 text-primary" />
+                    <Zap className="w-4 h-4 text-accent" />
                     {t("upload.urgentLabel")}
                   </label>
                   <p className="text-xs text-muted-foreground mt-1">{t("upload.urgentDesc")}</p>
@@ -175,11 +212,11 @@ const FileUpload = () => {
               </div>
             </div>
 
-            <Button type="submit" size="lg" className="w-full mb-2" disabled={isLoading}>
+            <Button type="submit" variant="accent" size="lg" className="w-full mb-3" disabled={isLoading}>
               {isLoading ? (<><Loader2 className="w-4 h-4 animate-spin" />{t("upload.submitting")}</>) : (<><Send className="w-4 h-4" />{t("upload.submit")}</>)}
             </Button>
-            
-            <p className="text-xs text-center text-muted-foreground mb-4">{t("upload.quickQuote")}</p>
+
+            <p className="text-xs text-center text-muted-foreground mb-5">{t("upload.quickQuote")}</p>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
@@ -192,7 +229,7 @@ const FileUpload = () => {
               <MessageCircle className="w-4 h-4" />
               {t("upload.whatsappBtn")}
             </Button>
-            
+
             <p className="text-xs text-center text-muted-foreground mt-3">{t("upload.whatsappHint")}</p>
           </form>
         </div>

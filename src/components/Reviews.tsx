@@ -8,7 +8,6 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Static reviews (legacy - always shown)
 const staticReviews = [
   { name: "Alex A.", text: "Gran calidad de impresión. Todo exactamente como lo pedí. Persona seria y de confianza. 100% recomendable.", rating: 5 },
   { name: "Anastasia A.", text: "La base para las figuras de Stranger Things es espectacular. Muy contenta con la compra. Excelente producto.", rating: 5 },
@@ -36,7 +35,7 @@ interface DBReview {
   published_at: string;
 }
 
-const INITIAL_VISIBLE_COUNT = 4;
+const INITIAL_VISIBLE_COUNT = 6;
 
 const Reviews = () => {
   const { t } = useLanguage();
@@ -44,54 +43,28 @@ const Reviews = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [dbReviews, setDbReviews] = useState<DBReview[]>([]);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    rating: 5,
-    reviewText: "",
-    orderReference: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", rating: 5, reviewText: "", orderReference: "" });
   const [honeypot, setHoneypot] = useState("");
   const formStartTimeRef = useRef<number>(Date.now());
 
-  // Fetch published reviews from secure view (excludes email for privacy)
   useEffect(() => {
     const fetchReviews = async () => {
-      // Use reviews_public view which excludes sensitive email data
       const { data, error } = await supabase
         .from("reviews_public")
         .select("id, name, review_text, rating, published_at")
         .order("published_at", { ascending: false });
-
-      if (!error && data) {
-        setDbReviews(data);
-      }
+      if (!error && data) setDbReviews(data);
     };
-
     fetchReviews();
-
-    // Subscribe to realtime updates
     const channel = supabase
       .channel("reviews-changes")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "reviews" },
-        () => {
-          fetchReviews();
-        }
-      )
+      .on("postgres_changes", { event: "*", schema: "public", table: "reviews" }, () => fetchReviews())
       .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
-  useEffect(() => {
-    formStartTimeRef.current = Date.now();
-  }, []);
+  useEffect(() => { formStartTimeRef.current = Date.now(); }, []);
 
-  // Combine DB reviews with static reviews
   const allReviews = [
     ...dbReviews.map((r) => ({ name: r.name, text: r.review_text, rating: r.rating, fromDb: true })),
     ...staticReviews.map((r) => ({ ...r, fromDb: false })),
@@ -103,60 +76,43 @@ const Reviews = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!formData.name.trim() || !formData.email.trim() || !formData.reviewText.trim()) {
-      toast({
-        title: t("reviews.form.required"),
-        description: t("reviews.form.requiredDesc"),
-        variant: "destructive",
-      });
+      toast({ title: t("reviews.form.required"), description: t("reviews.form.requiredDesc"), variant: "destructive" });
       return;
     }
-
     setIsSubmitting(true);
-
     try {
       const { error } = await supabase.functions.invoke("send-review", {
-        body: {
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          rating: formData.rating,
-          reviewText: formData.reviewText.trim(),
-          orderReference: formData.orderReference.trim(),
-          website: honeypot,
-          formStartTime: formStartTimeRef.current,
-        },
+        body: { name: formData.name.trim(), email: formData.email.trim(), rating: formData.rating, reviewText: formData.reviewText.trim(), orderReference: formData.orderReference.trim(), website: honeypot, formStartTime: formStartTimeRef.current },
       });
-
       if (error) throw error;
-
-      toast({
-        title: t("reviews.form.success"),
-        description: t("reviews.form.successDesc"),
-      });
-
+      toast({ title: t("reviews.form.success"), description: t("reviews.form.successDesc") });
       setFormData({ name: "", email: "", rating: 5, reviewText: "", orderReference: "" });
       setHoneypot("");
       formStartTimeRef.current = Date.now();
     } catch (error) {
       console.error("Error submitting review:", error);
-      toast({
-        title: t("reviews.form.error"),
-        description: t("reviews.form.errorDesc"),
-        variant: "destructive",
-      });
+      toast({ title: t("reviews.form.error"), description: t("reviews.form.errorDesc"), variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const StarRating = ({ rating, onSelect, interactive = false }: { rating: number; onSelect?: (r: number) => void; interactive?: boolean }) => (
+  const GoldStars = ({ rating, size = "w-4 h-4" }: { rating: number; size?: string }) => (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star key={star} className={`${size} ${star <= rating ? "fill-gold text-gold" : "text-muted-foreground/30"}`} />
+      ))}
+    </div>
+  );
+
+  const InteractiveStars = ({ rating, onSelect }: { rating: number; onSelect: (r: number) => void }) => (
     <div className="flex gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          className={`w-5 h-5 ${star <= rating ? "fill-primary text-primary" : "text-muted-foreground/30"} ${interactive ? "cursor-pointer hover:scale-110 transition-transform" : ""}`}
-          onClick={() => interactive && onSelect?.(star)}
+          className={`w-6 h-6 cursor-pointer hover:scale-110 transition-transform ${star <= rating ? "fill-gold text-gold" : "text-muted-foreground/30"}`}
+          onClick={() => onSelect(star)}
         />
       ))}
     </div>
@@ -165,181 +121,84 @@ const Reviews = () => {
   return (
     <section id="resenas" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
-        {/* Summary Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {t("reviews.title")}
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-            {t("reviews.subtitle")}
-          </p>
-
-          {/* Rating Summary */}
-          <div className="inline-flex items-center gap-3 bg-card border border-border/50 rounded-full px-6 py-3">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-primary text-primary" />
-              ))}
-            </div>
-            <span className="text-foreground font-semibold">{averageRating} / 5</span>
-            <span className="text-muted-foreground">
-              {t("reviews.based")} {totalReviews} {t("reviews.verified")}
-            </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("reviews.title")}</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">{t("reviews.subtitle")}</p>
+          <div className="inline-flex items-center gap-3 bg-card border border-border/50 rounded-full px-6 py-3 card-shadow">
+            <GoldStars rating={5} size="w-5 h-5" />
+            <span className="text-foreground font-bold text-lg">{averageRating}</span>
+            <span className="text-muted-foreground">/ 5 · {totalReviews} {t("reviews.verified")}</span>
           </div>
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
           {visibleReviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-card rounded-xl p-5 card-shadow border border-border/50 hover:border-primary/30 transition-colors duration-300"
-            >
+            <div key={index} className="bg-card rounded-xl p-5 card-shadow border border-border/50 hover:border-accent/20 transition-colors duration-300">
               <div className="flex items-center justify-between mb-3">
-                <Quote className="w-6 h-6 text-primary/30" />
-                <div className="flex items-center gap-1 text-xs text-primary">
-                  <BadgeCheck className="w-4 h-4" />
+                <Quote className="w-5 h-5 text-accent/30" />
+                <div className="flex items-center gap-1 text-xs text-accent">
+                  <BadgeCheck className="w-3.5 h-3.5" />
                   <span>{t("reviews.verifiedBadge")}</span>
                 </div>
               </div>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                "{review.text}"
-              </p>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{review.text}"</p>
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-foreground text-sm">{review.name}</span>
-                <div className="flex gap-0.5">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-primary text-primary" />
-                  ))}
-                </div>
+                <GoldStars rating={review.rating} size="w-3.5 h-3.5" />
               </div>
             </div>
           ))}
         </div>
 
-        {/* Show More/Less Button */}
         {allReviews.length > INITIAL_VISIBLE_COUNT && (
           <div className="text-center mt-8">
-            <Button
-              variant="outline"
-              onClick={() => setShowAll(!showAll)}
-              className="gap-2"
-            >
-              {showAll ? (
-                <>
-                  <ChevronUp className="w-4 h-4" />
-                  {t("reviews.showLess")}
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="w-4 h-4" />
-                  {t("reviews.showMore")} ({allReviews.length - INITIAL_VISIBLE_COUNT})
-                </>
-              )}
+            <Button variant="outline" onClick={() => setShowAll(!showAll)} className="gap-2">
+              {showAll ? (<><ChevronUp className="w-4 h-4" />{t("reviews.showLess")}</>) : (<><ChevronDown className="w-4 h-4" />{t("reviews.showMore")} ({allReviews.length - INITIAL_VISIBLE_COUNT})</>)}
             </Button>
           </div>
         )}
 
-        <p className="text-center text-sm text-muted-foreground mt-8">
-          {t("reviews.footer")}
-        </p>
+        <p className="text-center text-sm text-muted-foreground mt-8">{t("reviews.footer")}</p>
 
-        {/* Leave a Review Section */}
+        {/* Leave a Review */}
         <div className="mt-20 max-w-2xl mx-auto">
           <div className="bg-card rounded-2xl p-8 border border-border/50 card-shadow">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-foreground mb-2">
-                {t("reviews.form.title")}
-              </h3>
+              <h3 className="text-2xl font-bold text-foreground mb-2">{t("reviews.form.title")}</h3>
               <p className="text-muted-foreground">{t("reviews.form.subtitle")}</p>
             </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="review-name">{t("reviews.form.name")}</Label>
-                  <Input
-                    id="review-name"
-                    placeholder={t("reviews.form.namePlaceholder")}
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    maxLength={100}
-                  />
+                  <Input id="review-name" placeholder={t("reviews.form.namePlaceholder")} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} maxLength={100} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="review-email">{t("reviews.form.email")}</Label>
-                  <Input
-                    id="review-email"
-                    type="email"
-                    placeholder={t("reviews.form.emailPlaceholder")}
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    maxLength={255}
-                  />
+                  <Input id="review-email" type="email" placeholder={t("reviews.form.emailPlaceholder")} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} maxLength={255} />
                 </div>
               </div>
-
               <div className="space-y-2">
                 <Label>{t("reviews.form.rating")}</Label>
-                <StarRating
-                  rating={formData.rating}
-                  onSelect={(r) => setFormData({ ...formData, rating: r })}
-                  interactive
-                />
+                <InteractiveStars rating={formData.rating} onSelect={(r) => setFormData({ ...formData, rating: r })} />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="review-text">{t("reviews.form.review")}</Label>
-                <Textarea
-                  id="review-text"
-                  placeholder={t("reviews.form.reviewPlaceholder")}
-                  rows={4}
-                  value={formData.reviewText}
-                  onChange={(e) => setFormData({ ...formData, reviewText: e.target.value })}
-                  maxLength={1000}
-                />
+                <Textarea id="review-text" placeholder={t("reviews.form.reviewPlaceholder")} rows={4} value={formData.reviewText} onChange={(e) => setFormData({ ...formData, reviewText: e.target.value })} maxLength={1000} />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="order-reference">{t("reviews.form.orderRef")}</Label>
-                <Input
-                  id="order-reference"
-                  placeholder={t("reviews.form.orderRefPlaceholder")}
-                  value={formData.orderReference}
-                  onChange={(e) => setFormData({ ...formData, orderReference: e.target.value })}
-                  maxLength={200}
-                />
+                <Input id="order-reference" placeholder={t("reviews.form.orderRefPlaceholder")} value={formData.orderReference} onChange={(e) => setFormData({ ...formData, orderReference: e.target.value })} maxLength={200} />
               </div>
-
-              {/* Honeypot field */}
               <div className="absolute -left-[9999px] opacity-0 h-0 overflow-hidden" aria-hidden="true">
                 <label htmlFor="review-website">Website</label>
-                <input
-                  type="text"
-                  id="review-website"
-                  name="website"
-                  value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
+                <input type="text" id="review-website" name="website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" />
               </div>
-
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  t("reviews.form.submitting")
-                ) : (
-                  <>
-                    <Send className="w-4 h-4 mr-2" />
-                    {t("reviews.form.submit")}
-                  </>
-                )}
+              <Button type="submit" variant="accent" className="w-full" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? t("reviews.form.submitting") : (<><Send className="w-4 h-4 mr-2" />{t("reviews.form.submit")}</>)}
               </Button>
             </form>
-
-            <p className="text-xs text-muted-foreground text-center mt-6">
-              {t("reviews.form.disclaimer")}
-            </p>
+            <p className="text-xs text-muted-foreground text-center mt-6">{t("reviews.form.disclaimer")}</p>
           </div>
         </div>
       </div>

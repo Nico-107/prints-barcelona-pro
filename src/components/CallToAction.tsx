@@ -26,11 +26,11 @@ const CallToAction = () => {
             {t("cta.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero-outline" size="xl" onClick={handleScrollToUpload}>
+            <Button variant="accent" size="xl" onClick={handleScrollToUpload} className="shadow-lg">
               <Upload className="w-5 h-5" />
               {t("cta.upload")}
             </Button>
-            <Button variant="whatsapp" size="xl" onClick={handleWhatsApp} className="group">
+            <Button variant="hero-outline" size="xl" onClick={handleWhatsApp} className="group">
               <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
               {t("cta.contact")}
             </Button>
