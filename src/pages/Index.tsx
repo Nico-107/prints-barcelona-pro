@@ -7,6 +7,8 @@ import FileUpload from "@/components/FileUpload";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ExpressPrinting from "@/components/ExpressPrinting";
 import Reviews from "@/components/Reviews";
+import Projects from "@/components/Projects";
+import PricingInfo from "@/components/PricingInfo";
 import ServiceInfo from "@/components/ServiceInfo";
 import FAQ from "@/components/FAQ";
 import CallToAction from "@/components/CallToAction";
@@ -22,7 +24,9 @@ const Index = () => {
         <HowItWorks />
         <WhatCanWePrint />
         <Materials />
+        <Projects />
         <FileUpload />
+        <PricingInfo />
         <WhyChooseUs />
         <ExpressPrinting />
         <Reviews />

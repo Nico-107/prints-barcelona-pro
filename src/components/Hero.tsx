@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Upload } from "lucide-react";
+import { MessageCircle, Upload, MapPin, Clock, UserCheck } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
@@ -15,6 +15,12 @@ const Hero = () => {
     document.getElementById("upload")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const trustItems = [
+    { icon: MapPin, text: t("hero.trust.location") },
+    { icon: Clock, text: t("hero.trust.turnaround") },
+    { icon: UserCheck, text: t("hero.trust.expert") },
+  ];
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden hero-gradient">
       <div className="absolute inset-0 opacity-[0.03]">
@@ -23,57 +29,62 @@ const Hero = () => {
         }} />
       </div>
 
-      <div className="absolute top-20 left-10 w-32 h-32 bg-primary-foreground/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-32 right-20 w-48 h-48 bg-primary-foreground/5 rounded-full blur-3xl" />
+      <div className="absolute top-20 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-32 right-20 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
 
       <div className="container relative z-10 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 animate-fade-in font-medium">
             Dimension3D Barcelona
           </p>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight">
             {t("hero.title")}
           </h1>
-          
+
           <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 animate-fade-in-delay max-w-2xl mx-auto">
             {t("hero.subtitle")}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
-            <Button 
-              variant="whatsapp" 
-              size="xl" 
+            <Button
+              variant="accent"
+              size="xl"
+              onClick={handleScrollToUpload}
+              className="shadow-lg"
+            >
+              <Upload className="w-5 h-5" />
+              {t("hero.cta.upload")}
+            </Button>
+
+            <Button
+              variant="hero-outline"
+              size="xl"
               onClick={handleWhatsApp}
               className="group"
             >
               <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
               {t("hero.cta.whatsapp")}
             </Button>
-            
-            <Button 
-              variant="hero-outline" 
-              size="xl"
-              onClick={handleScrollToUpload}
-            >
-              <Upload className="w-5 h-5" />
-              {t("hero.cta.quote")}
-            </Button>
           </div>
 
-          <div className="mt-16 flex flex-wrap justify-center gap-8 text-primary-foreground/60 text-sm animate-fade-in-delay-2">
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>{t("footer.response.time")}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>{t("how.step2.desc").split('.')[1]?.trim() || t("how.step2.desc")}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-primary-foreground/50 rounded-full" />
-              <span>{t("service.feat.shipping")}</span>
-            </div>
+          {/* Trust indicators */}
+          <div className="mt-12 flex flex-wrap justify-center gap-6 text-primary-foreground/70 text-sm animate-fade-in-delay-2">
+            {trustItems.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <item.icon className="w-4 h-4 text-accent" />
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Highlighted review quotes */}
+          <div className="mt-10 flex flex-col md:flex-row gap-4 justify-center animate-fade-in-delay-2">
+            {[t("hero.quote1"), t("hero.quote2"), t("hero.quote3")].map((quote, i) => (
+              <div key={i} className="bg-primary-foreground/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-primary-foreground/10">
+                <p className="text-primary-foreground/80 text-xs italic">{quote}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
