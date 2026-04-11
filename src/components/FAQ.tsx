@@ -81,7 +81,7 @@ const FAQ = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-10">
-          {t("faq.moreQuestion")} <span className="text-primary font-medium">{t("faq.moreAnswer")}</span> {t("faq.moreEnd")}
+          {t("faq.moreQuestion")} <span className="text-accent font-medium">{t("faq.moreAnswer")}</span> {t("faq.moreEnd")}
         </p>
       </div>
     </section>
