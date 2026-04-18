@@ -12,6 +12,7 @@ import PricingInfo from "@/components/PricingInfo";
 import ServiceInfo from "@/components/ServiceInfo";
 import FAQ from "@/components/FAQ";
 import CallToAction from "@/components/CallToAction";
+import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
@@ -33,6 +34,7 @@ const Index = () => {
         <ServiceInfo />
         <FAQ />
         <CallToAction />
+        <LocationMap />
       </main>
       <Footer />
       <WhatsAppFloat />
