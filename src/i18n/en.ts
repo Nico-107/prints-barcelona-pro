@@ -154,8 +154,22 @@ export const enTranslations: Record<string, string> = {
   "reviews.form.disclaimer": "All reviews are manually verified before publishing to ensure they come from real customers.",
 
   // Projects
-  "projects.title": "Recent Projects",
-  "projects.subtitle": "A selection of work we've completed for our customers",
+  "projects.title": "See Real Customer Projects",
+  "projects.subtitle": "View real examples of recent 3D prints we've made for our customers.",
+  "projects.viewBtn": "View Projects",
+  "projects.modal.title": "Recent Projects",
+  "projects.modal.subtitle": "A selection of real prints made for our customers",
+
+  // Location
+  "location.title": "Local 3D Printing in Barcelona",
+  "location.subtitle": "Visit us, schedule a pickup, or get in touch for fast local service.",
+  "location.feat.based": "Based in Barcelona",
+  "location.feat.pickup": "Pickup available by appointment",
+  "location.feat.fast": "Fast local turnaround",
+  "location.feat.trusted": "Trusted local service",
+  "location.addressLabel": "Address",
+  "location.viewMaps": "View on Google Maps",
+  "location.directions": "Get Directions",
 
   // Pricing
   "pricing.line": "Projects typically start from €10. Final price depends on size, material, and complexity.",
@@ -181,6 +195,8 @@ export const enTranslations: Record<string, string> = {
   // FAQ
   "faq.title": "Frequently Asked Questions",
   "faq.subtitle": "Answers to the most common questions about our 3D printing service",
+  "faq.shortText": "Quick answers about pricing, materials, turnaround time, shipping, and custom work.",
+  "faq.viewBtn": "View FAQs",
   "faq.moreQuestion": "Have another question?",
   "faq.moreAnswer": "Message us on WhatsApp",
   "faq.moreEnd": "and we'll respond in minutes",

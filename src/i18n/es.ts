@@ -154,8 +154,22 @@ export const esTranslations: Record<string, string> = {
   "reviews.form.disclaimer": "Todas las reseñas son verificadas manualmente antes de publicarse para garantizar que provienen de clientes reales.",
 
   // Projects
-  "projects.title": "Proyectos recientes",
-  "projects.subtitle": "Algunos de los trabajos que hemos realizado para nuestros clientes",
+  "projects.title": "Mira proyectos reales de clientes",
+  "projects.subtitle": "Ve ejemplos reales de impresiones 3D recientes que hemos hecho para nuestros clientes.",
+  "projects.viewBtn": "Ver proyectos",
+  "projects.modal.title": "Proyectos recientes",
+  "projects.modal.subtitle": "Una selección de impresiones reales hechas para nuestros clientes",
+
+  // Location
+  "location.title": "Impresión 3D local en Barcelona",
+  "location.subtitle": "Visítanos, coordina una recogida o contáctanos para un servicio local rápido.",
+  "location.feat.based": "Ubicados en Barcelona",
+  "location.feat.pickup": "Recogida disponible con cita previa",
+  "location.feat.fast": "Entrega local rápida",
+  "location.feat.trusted": "Servicio local de confianza",
+  "location.addressLabel": "Dirección",
+  "location.viewMaps": "Ver en Google Maps",
+  "location.directions": "Cómo llegar",
 
   // Pricing
   "pricing.line": "Los proyectos empiezan desde 10 €. El precio final depende del tamaño, material y complejidad.",
@@ -181,6 +195,8 @@ export const esTranslations: Record<string, string> = {
   // FAQ
   "faq.title": "Preguntas frecuentes",
   "faq.subtitle": "Resolvemos las dudas más comunes sobre nuestro servicio de impresión 3D",
+  "faq.shortText": "Respuestas rápidas sobre precios, materiales, tiempos de entrega, envíos y trabajos a medida.",
+  "faq.viewBtn": "Ver preguntas",
   "faq.moreQuestion": "¿Tienes otra pregunta?",
   "faq.moreAnswer": "Escríbenos por WhatsApp",
   "faq.moreEnd": "y te respondemos en minutos",

@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { HelpCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const FAQ = () => {
   const { t, language } = useLanguage();
+  const [open, setOpen] = useState(false);
 
   const faqs = language === "en" ? [
     {
@@ -56,34 +61,49 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
-        <div className="text-center mb-12">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 text-accent mb-5">
+            <HelpCircle className="w-7 h-7" />
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t("faq.title")}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t("faq.subtitle")}
+          <p className="text-lg text-muted-foreground mb-8">
+            {t("faq.shortText")}
+          </p>
+          <Button variant="accent" size="lg" onClick={() => setOpen(true)} className="gap-2">
+            <HelpCircle className="w-4 h-4" />
+            {t("faq.viewBtn")}
+          </Button>
+
+          <p className="text-sm text-muted-foreground mt-8">
+            {t("faq.moreQuestion")} <span className="text-accent font-medium">{t("faq.moreAnswer")}</span> {t("faq.moreEnd")}
           </p>
         </div>
-
-        <div className="max-w-2xl mx-auto">
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-border/50">
-                <AccordionTrigger className="text-left text-foreground hover:text-primary hover:no-underline py-4">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-4">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-
-        <p className="text-center text-sm text-muted-foreground mt-10">
-          {t("faq.moreQuestion")} <span className="text-accent font-medium">{t("faq.moreAnswer")}</span> {t("faq.moreEnd")}
-        </p>
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-2xl w-[95vw] max-h-[90vh] overflow-y-auto p-0 gap-0 rounded-2xl">
+          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border/50 px-6 py-4">
+            <DialogTitle className="text-xl font-bold text-foreground">{t("faq.title")}</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground mt-0.5">{t("faq.subtitle")}</DialogDescription>
+          </div>
+          <div className="p-6">
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`} className="border-border/50">
+                  <AccordionTrigger className="text-left text-foreground hover:text-accent hover:no-underline py-4 font-medium">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-4 leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
