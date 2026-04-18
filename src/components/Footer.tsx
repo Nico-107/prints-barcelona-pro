@@ -16,23 +16,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-foreground text-background">
-      {/* Google Maps */}
-      <div className="w-full h-64 md:h-80">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95889.75885045736!2d2.0693762!3d41.3873974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0fb3d4f47660a!2sBarcelona%2C%20Spain!5e0!3m2!1sen!2ses!4v1700000000000!5m2!1sen!2ses"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen={false}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Dimension3D Barcelona location"
-          className="grayscale"
-        />
-      </div>
-
       <div className="container px-4 py-12">
-        <p className="text-center text-background/60 text-sm mb-10">{t("footer.mapText")}</p>
 
         <div className="grid md:grid-cols-4 gap-8 mb-10 pb-10 border-b border-background/10">
           <div className="text-center md:text-left">
