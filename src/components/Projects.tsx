@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { Images, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Project {
@@ -21,42 +25,62 @@ const projects: Project[] = [
 
 const Projects = () => {
   const { t, language } = useLanguage();
+  const [open, setOpen] = useState(false);
 
   return (
     <section id="proyectos" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
-        <div className="text-center mb-14">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 text-accent mb-5">
+            <Images className="w-7 h-7" />
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t("projects.title")}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground mb-8">
             {t("projects.subtitle")}
           </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group relative rounded-xl overflow-hidden bg-card border border-border/50 card-shadow hover:card-shadow-hover transition-all duration-300"
-            >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={language === "es" ? project.labelEs : project.labelEn}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                <p className="text-primary-foreground text-xs font-medium leading-snug">
-                  {language === "es" ? project.labelEs : project.labelEn}
-                </p>
-              </div>
-            </div>
-          ))}
+          <Button variant="accent" size="lg" onClick={() => setOpen(true)} className="gap-2">
+            <Images className="w-4 h-4" />
+            {t("projects.viewBtn")}
+          </Button>
         </div>
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-5xl w-[95vw] max-h-[90vh] overflow-y-auto p-0 gap-0 rounded-2xl">
+          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border/50 px-6 py-4 flex items-center justify-between">
+            <div>
+              <DialogTitle className="text-xl font-bold text-foreground">{t("projects.modal.title")}</DialogTitle>
+              <DialogDescription className="text-sm text-muted-foreground mt-0.5">{t("projects.modal.subtitle")}</DialogDescription>
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {projects.map((project, index) => (
+                <div
+                  key={index}
+                  className="group relative rounded-xl overflow-hidden bg-card border border-border/50 card-shadow hover:card-shadow-hover transition-all duration-300"
+                >
+                  <div className="aspect-square overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={language === "es" ? project.labelEs : project.labelEn}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                    <p className="text-primary-foreground text-xs font-medium leading-snug">
+                      {language === "es" ? project.labelEs : project.labelEn}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
