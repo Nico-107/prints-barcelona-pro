@@ -1,5 +1,6 @@
-import { Printer, Menu, X, Star } from "lucide-react";
+import { Printer, Menu, X, Star, PackageSearch } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -52,6 +53,12 @@ const Header = () => {
             </div>
 
             <LanguageSelector />
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/track" className="gap-1.5">
+                <PackageSearch className="w-4 h-4" />
+                {t("nav.trackOrder")}
+              </Link>
+            </Button>
             <Button variant="accent" size="sm" onClick={() => scrollToSection("upload")}>
               {t("nav.requestQuote")}
             </Button>
@@ -85,7 +92,12 @@ const Header = () => {
                 </div>
                 <span className="text-muted-foreground text-sm font-medium">{t("nav.headerRating")}</span>
               </div>
-              <Button variant="accent" className="mt-2 w-full" onClick={() => scrollToSection("upload")}>
+              <Button asChild variant="outline" className="mt-2 w-full">
+                <Link to="/track" onClick={() => setIsMenuOpen(false)}>
+                  <PackageSearch className="w-4 h-4" /> {t("nav.trackOrder")}
+                </Link>
+              </Button>
+              <Button variant="accent" className="w-full" onClick={() => scrollToSection("upload")}>
                 {t("nav.requestQuote")}
               </Button>
             </div>
