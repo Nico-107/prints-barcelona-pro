@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      orders: {
+        Row: {
+          created_at: string
+          customer_phone: string
+          eta: string | null
+          fulfillment: string
+          id: string
+          notes: string
+          order_number: number
+          phone_last3: string | null
+          photos: string[]
+          product_title: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_phone: string
+          eta?: string | null
+          fulfillment?: string
+          id?: string
+          notes?: string
+          order_number?: number
+          phone_last3?: string | null
+          photos?: string[]
+          product_title?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_phone?: string
+          eta?: string | null
+          fulfillment?: string
+          id?: string
+          notes?: string
+          order_number?: number
+          phone_last3?: string | null
+          photos?: string[]
+          product_title?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           approval_token: string
