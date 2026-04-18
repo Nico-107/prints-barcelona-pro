@@ -11,16 +11,16 @@ interface Project {
 }
 
 const projects: Project[] = [
-  { image: "/projects/stranger-things-lit.jpg", labelEs: "Diorama Stranger Things – PLA multicolor", labelEn: "Stranger Things Diorama – Multi-color PLA" },
-  { image: "/projects/lion-king-scene.jpg", labelEs: "Figuras Rey León – PLA pintado", labelEn: "Lion King Figures – Painted PLA" },
+  { image: "/projects/big-ben-tower.jpg", labelEs: "Torre Big Ben – PLA gris detallado", labelEn: "Big Ben Tower – Detailed Gray PLA" },
+  { image: "/projects/eiffel-tower.jpg", labelEs: "Torre Eiffel – PLA gris arquitectónico", labelEn: "Eiffel Tower – Architectural Gray PLA" },
+  { image: "/projects/green-chameleon.jpg", labelEs: "Camaleón articulado – PLA verde", labelEn: "Articulated Chameleon – Green PLA" },
+  { image: "/projects/halloween-set.jpg", labelEs: "Set Halloween – PLA multicolor", labelEn: "Halloween Set – Multi-color PLA" },
+  { image: "/projects/ferrari-key-holder.jpg", labelEs: "Portallaves Ferrari F40 – PLA rojo", labelEn: "Ferrari F40 Key Holder – Red PLA" },
+  { image: "/projects/purple-figures.jpg", labelEs: "Figuras detalladas – PLA púrpura", labelEn: "Detailed Figures – Purple PLA" },
+  { image: "/projects/croc-skull.jpg", labelEs: "Cráneo de cocodrilo – PLA hueso", labelEn: "Crocodile Skull – Bone PLA" },
+  { image: "/projects/black-intake.jpg", labelEs: "Conducto de admisión – PETG negro", labelEn: "Intake Duct – Black PETG" },
+  { image: "/projects/purple-detail.jpg", labelEs: "Pieza detallada – PLA púrpura", labelEn: "Detailed Piece – Purple PLA" },
   { image: "/projects/intake-manifold.jpg", labelEs: "Colector de admisión – PETG negro", labelEn: "Intake Manifold – Black PETG" },
-  { image: "/projects/blue-molds.jpg", labelEs: "Moldes esféricos – PLA azul", labelEn: "Spherical Molds – Blue PLA" },
-  { image: "/projects/red-adapter.jpg", labelEs: "Adaptador a medida – PLA rojo", labelEn: "Custom Adapter – Red PLA" },
-  { image: "/projects/cookie-cutters.jpg", labelEs: "Cortadores de galletas – PLA gris", labelEn: "Cookie Cutters – Gray PLA" },
-  { image: "/projects/curved-parts.jpg", labelEs: "Piezas curvadas – PLA amarillo/azul", labelEn: "Curved Parts – Yellow/Blue PLA" },
-  { image: "/projects/custom-brackets.jpg", labelEs: "Soportes curvos – PLA amarillo", labelEn: "Curved Brackets – Yellow PLA" },
-  { image: "/projects/lion-king-figures.jpg", labelEs: "Escena Rey León – PLA multicolor", labelEn: "Lion King Scene – Multi-color PLA" },
-  { image: "/projects/stranger-things-diorama.jpg", labelEs: "Base Stranger Things – PLA multicolor", labelEn: "Stranger Things Base – Multi-color PLA" },
 ];
 
 const Projects = () => {

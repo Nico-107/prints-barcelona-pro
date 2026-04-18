@@ -2,7 +2,7 @@ import { MapPin, Calendar, Zap, ShieldCheck, ExternalLink, Navigation } from "lu
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const ADDRESS = "Rambla del Raval 53, Barcelona";
+const ADDRESS = "Rambla de Brasil 53, Barcelona";
 const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
 const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADDRESS)}`;
 const EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`;
