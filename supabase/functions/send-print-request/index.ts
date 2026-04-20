@@ -226,15 +226,25 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     if (!emailResponse.ok) {
-      const errorData = await emailResponse.json();
-      console.error("Resend API error:", errorData);
-      throw new Error("Failed to send email");
+      const errorText = await emailResponse.text();
+      console.error("Resend API error:", emailResponse.status, errorText);
+      return new Response(
+        JSON.stringify({
+          error: "EMAIL_SEND_FAILED",
+          details: errorText,
+          status: emailResponse.status,
+        }),
+        {
+          status: 502,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
     }
 
     const emailData = await emailResponse.json();
     console.log("Email sent successfully:", emailData);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
@@ -242,9 +252,9 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    console.error("Error in send-print-request function:", error);
+    console.error("Error in send-print-request function:", error?.message, error?.stack);
     return new Response(
-       JSON.stringify({ error: "An error occurred processing your request" }),
+       JSON.stringify({ error: "INTERNAL_ERROR", message: error?.message ?? "unknown" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
