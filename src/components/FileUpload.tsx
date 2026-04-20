@@ -74,11 +74,14 @@ const FileUpload = () => {
         const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
         const filePath = `${timestamp}-${sanitizedFileName}`;
         const { error: uploadError } = await supabase.storage.from('print-requests').upload(filePath, file);
-        if (uploadError) throw new Error("Upload error");
+        if (uploadError) {
+          console.error("Storage upload error:", uploadError);
+          throw new Error(`Upload failed: ${uploadError.message}`);
+        }
         uploadedPaths.push(filePath);
       }
 
-      const { error: functionError } = await supabase.functions.invoke('send-print-request', {
+      const { data: fnData, error: functionError } = await supabase.functions.invoke('send-print-request', {
         body: {
           fileName: files.map(f => f.name).join(', '),
           filePath: uploadedPaths[0],
@@ -90,13 +93,24 @@ const FileUpload = () => {
           additionalFiles: uploadedPaths.slice(1),
         },
       });
-      if (functionError) throw new Error("Function error");
+      if (functionError) {
+        console.error("Function invoke error:", functionError, "data:", fnData);
+        throw new Error(functionError.message || "Function error");
+      }
+      if (fnData?.error) {
+        console.error("Function returned error payload:", fnData);
+        throw new Error(fnData.error);
+      }
 
       setIsSubmitted(true);
       toast({ title: t("upload.success.title"), description: t("upload.success.desc") });
     } catch (error: any) {
       console.error("Submit error:", error);
-      toast({ title: t("upload.error.title"), description: t("upload.error.desc"), variant: "destructive" });
+      toast({
+        title: t("upload.error.title"),
+        description: error?.message ? `${t("upload.error.desc")} (${error.message})` : t("upload.error.desc"),
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
