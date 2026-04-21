@@ -32,9 +32,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { ORDER_STATUSES, type OrderStatus } from "@/lib/orderStatus";
-
-const ADMIN_PASSWORD = "011107";
-const SESSION_KEY = "d3d_admin_ok";
+import type { Session } from "@supabase/supabase-js";
 
 interface Order {
   id: string;
@@ -61,8 +59,12 @@ const emptyDraft = {
 };
 
 const AdminOrders = () => {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === "1");
-  const [pw, setPw] = useState("");
+  const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authBusy, setAuthBusy] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -71,9 +73,40 @@ const AdminOrders = () => {
   const [open, setOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
 
+  // Auth state listener
   useEffect(() => {
-    if (authed) loadOrders();
-  }, [authed]);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
+      setSession(s);
+      if (s?.user) {
+        // defer role check to avoid deadlocks
+        setTimeout(() => checkRole(s.user.id), 0);
+      } else {
+        setIsAdmin(false);
+        setAuthChecked(true);
+      }
+    });
+    supabase.auth.getSession().then(({ data: { session: s } }) => {
+      setSession(s);
+      if (s?.user) checkRole(s.user.id);
+      else setAuthChecked(true);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkRole = async (userId: string) => {
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .maybeSingle();
+    setIsAdmin(!!data);
+    setAuthChecked(true);
+  };
+
+  useEffect(() => {
+    if (isAdmin) loadOrders();
+  }, [isAdmin]);
 
   const loadOrders = async () => {
     setLoading(true);
@@ -89,20 +122,20 @@ const AdminOrders = () => {
     setOrders((data || []) as Order[]);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pw === ADMIN_PASSWORD) {
-      sessionStorage.setItem(SESSION_KEY, "1");
-      setAuthed(true);
-    } else {
-      toast({ title: "Incorrect password", variant: "destructive" });
-      setPw("");
+    setAuthBusy(true);
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    setAuthBusy(false);
+    if (error) {
+      toast({ title: "Login failed", description: error.message, variant: "destructive" });
+      setPassword("");
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    setAuthed(false);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsAdmin(false);
   };
 
   const openNew = () => {
@@ -195,7 +228,24 @@ const AdminOrders = () => {
     );
   });
 
-  if (!authed) {
+  // Logged-in but not an admin
+  if (authChecked && session && !isAdmin) {
+    return (
+      <div className="min-h-screen bg-secondary/30 flex items-center justify-center px-4">
+        <Card className="p-8 w-full max-w-sm shadow-xl text-center space-y-4">
+          <Lock className="w-8 h-8 mx-auto text-muted-foreground" />
+          <h1 className="text-xl font-bold">Not authorized</h1>
+          <p className="text-sm text-muted-foreground">
+            Your account does not have admin access.
+          </p>
+          <Button onClick={handleLogout} variant="outline" className="w-full">Sign out</Button>
+          <Link to="/" className="block text-sm text-muted-foreground hover:text-foreground">← Back to site</Link>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!session) {
     return (
       <div className="min-h-screen bg-secondary/30 flex items-center justify-center px-4">
         <Card className="p-8 w-full max-w-sm shadow-xl">
@@ -204,25 +254,43 @@ const AdminOrders = () => {
               <Lock className="w-6 h-6 text-foreground" />
             </div>
             <h1 className="text-xl font-bold">Admin Access</h1>
-            <p className="text-sm text-muted-foreground mt-1">Enter password to continue</p>
+            <p className="text-sm text-muted-foreground mt-1">Sign in with your admin account</p>
           </div>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-3">
+            <Input
+              type="email"
+              placeholder="admin@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              required
+              className="h-11"
+            />
             <Input
               type="password"
-              placeholder="••••••"
-              value={pw}
-              onChange={(e) => setPw(e.target.value)}
-              autoFocus
-              className="h-11 text-center tracking-widest text-lg"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+              className="h-11"
             />
-            <Button type="submit" className="w-full" size="lg">
-              Login
+            <Button type="submit" className="w-full" size="lg" disabled={authBusy}>
+              {authBusy ? "Signing in..." : "Sign in"}
             </Button>
             <Link to="/" className="block text-center text-sm text-muted-foreground hover:text-foreground">
               ← Back to site
             </Link>
           </form>
         </Card>
+      </div>
+    );
+  }
+
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-secondary/30 flex items-center justify-center px-4">
+        <p className="text-muted-foreground">Loading...</p>
       </div>
     );
   }

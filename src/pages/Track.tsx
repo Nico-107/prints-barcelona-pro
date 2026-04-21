@@ -27,18 +27,17 @@ const Track = () => {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("order_number", num)
-      .eq("phone_last3", digits)
-      .maybeSingle();
+    const { data, error } = await supabase.rpc("get_order_tracking", {
+      _order_number: num,
+      _phone_last3: digits,
+    });
     setLoading(false);
-    if (error || !data) {
+    const row = Array.isArray(data) ? data[0] : data;
+    if (error || !row) {
       toast({ title: t("track.error.title"), description: t("track.error.notFound"), variant: "destructive" });
       return;
     }
-    setOrder(data);
+    setOrder(row);
   };
 
   return (
