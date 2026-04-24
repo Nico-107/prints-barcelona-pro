@@ -62,7 +62,7 @@ const AdminOrders = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("011107miko@gmail.com");
   const [password, setPassword] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
