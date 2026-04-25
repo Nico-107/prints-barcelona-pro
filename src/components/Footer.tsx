@@ -57,6 +57,24 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* SEO links: Services / Materials / Specialties */}
+        <div className="grid md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-background/10">
+          {SERVICES_MENU.map((group) => (
+            <div key={group.labelEn}>
+              <p className="font-medium text-sm mb-3">{isEs ? group.labelEs : group.labelEn}</p>
+              <ul className="flex flex-col gap-1.5">
+                {group.items.map((item) => (
+                  <li key={item.slugEn}>
+                    <Link to={isEs ? item.slugEs : item.slugEn} className="text-background/70 text-sm hover:text-background transition-colors">
+                      {isEs ? item.labelEs : item.labelEn}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2.5 mb-2">
