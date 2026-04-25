@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Track from "./pages/Track";
 import AdminOrders from "./pages/AdminOrders";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/LandingPage";
+import { ALL_PAGES } from "@/seo/registry";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +24,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/track" element={<Track />} />
             <Route path="/admin-orders" element={<AdminOrders />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            {ALL_PAGES.map((p) => (
+              <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
+            ))}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
