@@ -1,10 +1,13 @@
 import { MessageCircle, Printer, MapPin, Clock, Truck } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SERVICES_MENU } from "@/seo/registry";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isEs = language === "es";
 
   const handleWhatsApp = () => {
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
@@ -52,6 +55,24 @@ const Footer = () => {
               <button onClick={() => scrollToSection("proyectos")} className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.projects")}</button>
             </div>
           </div>
+        </div>
+
+        {/* SEO links: Services / Materials / Specialties */}
+        <div className="grid md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-background/10">
+          {SERVICES_MENU.map((group) => (
+            <div key={group.labelEn}>
+              <p className="font-medium text-sm mb-3">{isEs ? group.labelEs : group.labelEn}</p>
+              <ul className="flex flex-col gap-1.5">
+                {group.items.map((item) => (
+                  <li key={item.slugEn}>
+                    <Link to={isEs ? item.slugEs : item.slugEn} className="text-background/70 text-sm hover:text-background transition-colors">
+                      {isEs ? item.labelEs : item.labelEn}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
