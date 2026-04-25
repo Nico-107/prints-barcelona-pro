@@ -6,7 +6,8 @@ import { SERVICES_MENU } from "@/seo/registry";
 const WHATSAPP_URL = "https://wa.me/34672051147";
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isEs = language === "es";
 
   const handleWhatsApp = () => {
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
