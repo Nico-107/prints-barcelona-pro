@@ -1,5 +1,7 @@
 import { MessageCircle, Printer, MapPin, Clock, Truck } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SERVICES_MENU } from "@/seo/registry";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
 
