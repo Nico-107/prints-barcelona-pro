@@ -1,7 +1,21 @@
 // Centralized SEO landing page content (EN + ES) for Dimension3D Barcelona
 // Shared LandingPage template renders one entry per route.
 
-export type Lang = "en" | "es";
+export type Lang = "en" | "es" | "ca";
+
+// Stable topic key shared by EN/ES/CA versions of the same page.
+// Used to resolve hreflang alternates and equivalent-page language switching.
+export type LandingTopic =
+  | "service-3d-printing"
+  | "custom-parts"
+  | "prototypes"
+  | "urgent"
+  | "pricing"
+  | "replacement-parts"
+  | "pla"
+  | "petg"
+  | "tpu"
+  | "miniatures";
 
 export interface LandingFAQ {
   q: string;
@@ -15,7 +29,8 @@ export interface LandingSection {
 
 export interface LandingContent {
   slug: string;            // "/3d-printing-barcelona"
-  altSlug: string;         // counterpart in the other language
+  altSlug: string;         // legacy single-counterpart slug (kept for back-compat)
+  topic: LandingTopic;     // shared key across EN/ES/CA versions
   lang: Lang;
   category: "service" | "material" | "use-case";
   metaTitle: string;
@@ -59,6 +74,7 @@ const pick = (...names: string[]) =>
 export const PAGES_EN: LandingContent[] = [
   {
     slug: "/3d-printing-barcelona",
+    topic: "service-3d-printing",
     altSlug: "/impresion-3d-barcelona",
     lang: "en",
     category: "service",
@@ -101,6 +117,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/custom-parts-barcelona",
+    topic: "custom-parts",
     altSlug: "/piezas-personalizadas-3d-barcelona",
     lang: "en",
     category: "use-case",
@@ -143,6 +160,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/prototype-printing-barcelona",
+    topic: "prototypes",
     altSlug: "/prototipos-3d-barcelona",
     lang: "en",
     category: "use-case",
@@ -185,6 +203,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/urgent-3d-printing-barcelona",
+    topic: "urgent",
     altSlug: "/impresion-3d-urgente-barcelona",
     lang: "en",
     category: "service",
@@ -227,6 +246,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/3d-printing-price-barcelona",
+    topic: "pricing",
     altSlug: "/precio-impresion-3d-barcelona",
     lang: "en",
     category: "service",
@@ -269,6 +289,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/replacement-parts-barcelona",
+    topic: "replacement-parts",
     altSlug: "/recambios-impresion-3d-barcelona",
     lang: "en",
     category: "use-case",
@@ -311,6 +332,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/pla-printing-barcelona",
+    topic: "pla",
     altSlug: "/impresion-pla-barcelona",
     lang: "en",
     category: "material",
@@ -353,6 +375,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/petg-printing-barcelona",
+    topic: "petg",
     altSlug: "/impresion-petg-barcelona",
     lang: "en",
     category: "material",
@@ -395,6 +418,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/tpu-printing-barcelona",
+    topic: "tpu",
     altSlug: "/impresion-tpu-barcelona",
     lang: "en",
     category: "material",
@@ -437,6 +461,7 @@ export const PAGES_EN: LandingContent[] = [
   },
   {
     slug: "/miniatures-barcelona",
+    topic: "miniatures",
     altSlug: "/miniaturas-3d-barcelona",
     lang: "en",
     category: "use-case",

@@ -12,12 +12,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU } from "@/seo/registry";
+import { SERVICES_MENU, slugForLang } from "@/seo/registry";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   const isEs = language === "es";
+  const isCa = language === "ca";
+  const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
+    isCa ? g.labelCa : isEs ? g.labelEs : g.labelEn;
+  const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
+    isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
+  const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -54,7 +60,7 @@ const Header = () => {
             {/* Services dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none">
-                {isEs ? "Servicios" : "Services"}
+                {servicesLabel}
                 <ChevronDown className="w-3.5 h-3.5" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64 bg-background z-50">
@@ -62,12 +68,12 @@ const Header = () => {
                   <div key={group.labelEn}>
                     {gi > 0 && <DropdownMenuSeparator />}
                     <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
-                      {isEs ? group.labelEs : group.labelEn}
+                      {groupLabel(group)}
                     </DropdownMenuLabel>
                     {group.items.map((item) => (
                       <DropdownMenuItem key={item.slugEn} asChild>
-                        <Link to={isEs ? item.slugEs : item.slugEn} className="cursor-pointer">
-                          {isEs ? item.labelEs : item.labelEn}
+                        <Link to={slugForLang(item, language)} className="cursor-pointer">
+                          {itemLabel(item)}
                         </Link>
                       </DropdownMenuItem>
                     ))}
@@ -121,16 +127,16 @@ const Header = () => {
               {SERVICES_MENU.map((group) => (
                 <div key={group.labelEn} className="pt-2">
                   <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
-                    {isEs ? group.labelEs : group.labelEn}
+                    {groupLabel(group)}
                   </p>
                   {group.items.map((item) => (
                     <Link
                       key={item.slugEn}
-                      to={isEs ? item.slugEs : item.slugEn}
+                      to={slugForLang(item, language)}
                       onClick={() => setIsMenuOpen(false)}
                       className="block py-1.5 text-sm text-foreground"
                     >
-                      {isEs ? item.labelEs : item.labelEn}
+                      {itemLabel(item)}
                     </Link>
                   ))}
                 </div>
