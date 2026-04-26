@@ -1,7 +1,21 @@
 // Centralized SEO landing page content (EN + ES) for Dimension3D Barcelona
 // Shared LandingPage template renders one entry per route.
 
-export type Lang = "en" | "es";
+export type Lang = "en" | "es" | "ca";
+
+// Stable topic key shared by EN/ES/CA versions of the same page.
+// Used to resolve hreflang alternates and equivalent-page language switching.
+export type LandingTopic =
+  | "service-3d-printing"
+  | "custom-parts"
+  | "prototypes"
+  | "urgent"
+  | "pricing"
+  | "replacement-parts"
+  | "pla"
+  | "petg"
+  | "tpu"
+  | "miniatures";
 
 export interface LandingFAQ {
   q: string;
@@ -15,7 +29,8 @@ export interface LandingSection {
 
 export interface LandingContent {
   slug: string;            // "/3d-printing-barcelona"
-  altSlug: string;         // counterpart in the other language
+  altSlug: string;         // legacy single-counterpart slug (kept for back-compat)
+  topic: LandingTopic;     // shared key across EN/ES/CA versions
   lang: Lang;
   category: "service" | "material" | "use-case";
   metaTitle: string;
