@@ -8,7 +8,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Reviews from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { PAGES_BY_SLUG, SITE_URL } from "@/seo/registry";
+import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
@@ -34,9 +34,10 @@ const LandingPage = ({ page: pageProp }: Props) => {
   }
 
   const isEs = page.lang === "es";
-  const t = (en: string, es: string) => (isEs ? es : en);
+  const isCa = page.lang === "ca";
+  const t = (en: string, es: string) => (isCa ? es : isEs ? es : en);
   const url = `${SITE_URL}${page.slug}`;
-  const altUrl = `${SITE_URL}${page.altSlug}`;
+  const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
 
   const trustBadges = [
     { icon: MapPin, label: t("Barcelona Based", "Local en Barcelona") },
