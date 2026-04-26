@@ -61,12 +61,12 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-background/10">
           {SERVICES_MENU.map((group) => (
             <div key={group.labelEn}>
-              <p className="font-medium text-sm mb-3">{isEs ? group.labelEs : group.labelEn}</p>
+              <p className="font-medium text-sm mb-3">{groupLabel(group)}</p>
               <ul className="flex flex-col gap-1.5">
                 {group.items.map((item) => (
                   <li key={item.slugEn}>
-                    <Link to={isEs ? item.slugEs : item.slugEn} className="text-background/70 text-sm hover:text-background transition-colors">
-                      {isEs ? item.labelEs : item.labelEn}
+                    <Link to={slugForLang(item, language)} className="text-background/70 text-sm hover:text-background transition-colors">
+                      {itemLabel(item)}
                     </Link>
                   </li>
                 ))}
