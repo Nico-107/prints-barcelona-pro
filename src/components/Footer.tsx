@@ -1,13 +1,18 @@
 import { MessageCircle, Printer, MapPin, Clock, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU } from "@/seo/registry";
+import { SERVICES_MENU, slugForLang } from "@/seo/registry";
 
 const WHATSAPP_URL = "https://wa.me/34672051147";
 
 const Footer = () => {
   const { t, language } = useLanguage();
   const isEs = language === "es";
+  const isCa = language === "ca";
+  const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
+    isCa ? g.labelCa : isEs ? g.labelEs : g.labelEn;
+  const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
+    isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
 
   const handleWhatsApp = () => {
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
