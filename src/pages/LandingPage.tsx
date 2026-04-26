@@ -86,14 +86,15 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <title>{page.metaTitle}</title>
         <meta name="description" content={page.metaDescription} />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang={isEs ? "en" : "es"} href={altUrl} />
-        <link rel="alternate" hrefLang={page.lang} href={url} />
-        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${page.lang === "en" ? page.slug : page.altSlug}`} />
+        {topicSlugs.en && <link rel="alternate" hrefLang="en" href={`${SITE_URL}${topicSlugs.en}`} />}
+        {topicSlugs.es && <link rel="alternate" hrefLang="es" href={`${SITE_URL}${topicSlugs.es}`} />}
+        {topicSlugs.ca && <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${topicSlugs.ca}`} />}
+        {topicSlugs.en && <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${topicSlugs.en}`} />}
         <meta property="og:title" content={page.metaTitle} />
         <meta property="og:description" content={page.metaDescription} />
         <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
-        <meta property="og:locale" content={isEs ? "es_ES" : "en_US"} />
+        <meta property="og:locale" content={isCa ? "ca_ES" : isEs ? "es_ES" : "en_US"} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
