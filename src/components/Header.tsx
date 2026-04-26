@@ -12,12 +12,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU } from "@/seo/registry";
+import { SERVICES_MENU, slugForLang } from "@/seo/registry";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   const isEs = language === "es";
+  const isCa = language === "ca";
+  const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
+    isCa ? g.labelCa : isEs ? g.labelEs : g.labelEn;
+  const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
+    isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
+  const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
