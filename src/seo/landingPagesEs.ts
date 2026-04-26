@@ -5,6 +5,7 @@ const pick = (...names: string[]) => names.map((n) => `/projects/${n}`);
 export const PAGES_ES: LandingContent[] = [
   {
     slug: "/impresion-3d-barcelona",
+    topic: "service-3d-printing",
     altSlug: "/3d-printing-barcelona",
     lang: "es",
     category: "service",
@@ -47,6 +48,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/piezas-personalizadas-3d-barcelona",
+    topic: "custom-parts",
     altSlug: "/custom-parts-barcelona",
     lang: "es",
     category: "use-case",
@@ -89,6 +91,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/prototipos-3d-barcelona",
+    topic: "prototypes",
     altSlug: "/prototype-printing-barcelona",
     lang: "es",
     category: "use-case",
@@ -131,6 +134,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/impresion-3d-urgente-barcelona",
+    topic: "urgent",
     altSlug: "/urgent-3d-printing-barcelona",
     lang: "es",
     category: "service",
@@ -173,6 +177,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/precio-impresion-3d-barcelona",
+    topic: "pricing",
     altSlug: "/3d-printing-price-barcelona",
     lang: "es",
     category: "service",
@@ -215,6 +220,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/recambios-impresion-3d-barcelona",
+    topic: "replacement-parts",
     altSlug: "/replacement-parts-barcelona",
     lang: "es",
     category: "use-case",
@@ -257,6 +263,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/impresion-pla-barcelona",
+    topic: "pla",
     altSlug: "/pla-printing-barcelona",
     lang: "es",
     category: "material",
@@ -299,6 +306,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/impresion-petg-barcelona",
+    topic: "petg",
     altSlug: "/petg-printing-barcelona",
     lang: "es",
     category: "material",
@@ -341,6 +349,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/impresion-tpu-barcelona",
+    topic: "tpu",
     altSlug: "/tpu-printing-barcelona",
     lang: "es",
     category: "material",
@@ -383,6 +392,7 @@ export const PAGES_ES: LandingContent[] = [
   },
   {
     slug: "/miniaturas-3d-barcelona",
+    topic: "miniatures",
     altSlug: "/miniatures-barcelona",
     lang: "es",
     category: "use-case",
