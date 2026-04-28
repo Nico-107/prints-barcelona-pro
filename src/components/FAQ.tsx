@@ -35,6 +35,27 @@ const FAQ = () => {
       question: "What is the precision of FDM printing?",
       answer: "Typical precision is ±0.2 mm. For parts that require tighter tolerances, we adjust parameters to match your project's needs.",
     },
+  ] : language === "ca" ? [
+    {
+      question: "Quins arxius accepteu per a impressió 3D?",
+      answer: "Acceptem arxius STL, OBJ, 3MF i STEP. Si tens un altre format o dubtes sobre el teu disseny, consulta'ns per WhatsApp.",
+    },
+    {
+      question: "Quant triga la impressió?",
+      answer: "El temps depèn de la mida i complexitat de la peça. Normalment entre 2 i 5 dies laborables. Disposem de servei express en 24-48h.",
+    },
+    {
+      question: "Imprimiu peces úniques o també sèries?",
+      answer: "Imprimim tant peces úniques com sèries petites i mitjanes. Consulta'ns per a volums més grans.",
+    },
+    {
+      question: "Feu enviaments fora de Barcelona?",
+      answer: "Sí, enviem a tota Espanya peninsular amb seguiment inclòs. També oferim recollida local a Barcelona amb cita prèvia.",
+    },
+    {
+      question: "Quina precisió té la impressió FDM?",
+      answer: "La precisió típica és de ±0,2 mm. Per a peces que requereixin més exactitud, ajustem els paràmetres segons les necessitats del projecte.",
+    },
   ] : [
     {
       question: "¿Qué archivos aceptáis para impresión 3D?",
