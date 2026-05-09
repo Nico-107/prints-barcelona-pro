@@ -1,4 +1,4 @@
-import { Printer, Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
+import { Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
