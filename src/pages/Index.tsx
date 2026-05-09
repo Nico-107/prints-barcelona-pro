@@ -18,7 +18,7 @@ import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
-const SITE_URL = "https://prints-barcelona-pro.lovable.app";
+const SITE_URL = "https://www.dimension3dprints.com";
 
 const HOME_META: Record<string, { title: string; description: string; locale: string }> = {
   es: {
