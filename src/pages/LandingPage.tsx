@@ -62,10 +62,15 @@ const LandingPage = ({ page: pageProp }: Props) => {
     url
   };
 
+  // Always emit the English FAQPage schema (look up the EN equivalent of this
+  // topic) to avoid duplicate/multi-language FAQPage entries in GSC.
+  const enSlug = topicSlugs.en;
+  const enPage = enSlug ? PAGES_BY_SLUG[enSlug] : undefined;
+  const faqsForSchema = enPage?.faqs ?? page.faqs;
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: page.faqs.map((f) => ({
+    mainEntity: faqsForSchema.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a }
