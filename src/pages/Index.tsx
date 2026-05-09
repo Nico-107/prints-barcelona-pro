@@ -68,7 +68,9 @@ const HOME_FAQS: Record<string, { q: string; a: string }[]> = {
 const Index = () => {
   const { language } = useLanguage();
   const meta = HOME_META[language] ?? HOME_META.es;
-  const faqs = HOME_FAQS[language] ?? HOME_FAQS.es;
+  // Always emit a single English FAQPage schema to avoid duplicate/multi-language
+  // FAQPage entries being reported in Google Search Console.
+  const faqs = HOME_FAQS.en;
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
