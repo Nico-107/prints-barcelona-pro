@@ -41,17 +41,16 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2.5 text-foreground">
-            <Printer className="w-5 h-5 text-accent" />
-            <span className="font-semibold tracking-tight">Dimension3D</span>
+          <Link to="/" className="flex items-center gap-2.5 text-foreground" aria-label="Dimension3D">
+            <img src="/logo.png" alt="Dimension3D" className="h-8 w-auto" />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-5">
+          <nav className="hidden lg:flex items-center gap-4">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
               >
                 {item.label}
               </button>
