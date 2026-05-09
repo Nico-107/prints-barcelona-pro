@@ -265,5 +265,5 @@ export const esTranslations: Record<string, string> = {
 
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",
-  "whatsapp.message": "Hola, me gustaría solicitar un servicio de impresión 3D con Dimension3D.",
+  "whatsapp.message": "Hola, me gustaría solicitar un presupuesto para impresión 3D",
 };
