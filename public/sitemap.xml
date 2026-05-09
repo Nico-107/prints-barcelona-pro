@@ -1,283 +1,309 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- HOMEPAGE -->
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>1.0</priority>
   </url>
+
+  <!-- TRACK PAGE -->
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/track</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/track</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.5</priority>
   </url>
+
+  <!-- IMPRESION 3D BARCELONA -->
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/3d-printing-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/3d-printing-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/3d-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/impresion-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/impresion-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/3d-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/impressio-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/ca/impressio-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/3d-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
+  </url>
+
+  <!-- PIEZAS PERSONALIZADAS -->
+  <url>
+    <loc>https://www.dimension3dprints.com/custom-parts-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/peces-personalitzades-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/custom-parts-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/custom-parts-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/piezas-personalizadas-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/peces-personalitzades-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/custom-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/peces-personalitzades-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/piezas-personalizadas-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/ca/peces-personalitzades-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/custom-parts-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/piezas-personalizadas-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/peces-personalitzades-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/custom-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/peces-personalitzades-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
+  </url>
+
+  <!-- PROTOTIPOS -->
+  <url>
+    <loc>https://www.dimension3dprints.com/prototype-printing-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/prototips-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/peces-personalitzades-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/prototipos-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/custom-parts-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/piezas-personalizadas-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/peces-personalitzades-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/custom-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/prototips-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/ca/prototips-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/prototipos-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/prototips-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/prototips-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
+  </url>
+
+  <!-- IMPRESION URGENTE -->
+  <url>
+    <loc>https://www.dimension3dprints.com/urgent-3d-printing-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-urgente-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-3d-urgent-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/prototipos-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/impresion-3d-urgente-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/prototipos-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/prototips-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-urgente-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-3d-urgent-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/prototips-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/ca/impressio-3d-urgent-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/prototipos-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/prototips-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/prototype-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-urgente-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-3d-urgent-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
+  </url>
+
+  <!-- PRECIO -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-price-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/precio-impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/preu-impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/precio-impresion-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-3d-urgente-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-3d-urgent-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/precio-impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/preu-impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/impresion-3d-urgente-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/ca/preu-impressio-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-3d-urgente-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-3d-urgent-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/precio-impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/preu-impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
+  </url>
+
+  <!-- RECAMBIOS -->
+  <url>
+    <loc>https://www.dimension3dprints.com/replacement-parts-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/recambios-impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/recanvis-impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/impressio-3d-urgent-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/recambios-impresion-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-3d-urgente-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-3d-urgent-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/urgent-3d-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/recambios-impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/recanvis-impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
+    <loc>https://www.dimension3dprints.com/ca/recanvis-impressio-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/precio-impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/preu-impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/recambios-impresion-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/recanvis-impressio-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
+  </url>
+
+  <!-- PLA -->
+  <url>
+    <loc>https://www.dimension3dprints.com/pla-printing-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-pla-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-pla-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/precio-impresion-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/precio-impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/preu-impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona"/>
+    <loc>https://www.dimension3dprints.com/impresion-pla-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-pla-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-pla-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/preu-impressio-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/precio-impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/preu-impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/3d-printing-price-barcelona"/>
+    <loc>https://www.dimension3dprints.com/ca/impressio-pla-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-pla-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-pla-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
+  </url>
+
+  <!-- PETG -->
+  <url>
+    <loc>https://www.dimension3dprints.com/petg-printing-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-petg-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-petg-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/recambios-impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/recanvis-impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona"/>
+    <loc>https://www.dimension3dprints.com/impresion-petg-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-petg-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-petg-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/recambios-impresion-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/recambios-impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/recanvis-impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona"/>
+    <loc>https://www.dimension3dprints.com/ca/impressio-petg-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-petg-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-petg-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
+  </url>
+
+  <!-- TPU -->
+  <url>
+    <loc>https://www.dimension3dprints.com/tpu-printing-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-tpu-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-tpu-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/recanvis-impressio-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/recambios-impresion-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/recanvis-impressio-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/replacement-parts-barcelona"/>
+    <loc>https://www.dimension3dprints.com/impresion-tpu-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-tpu-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-tpu-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/pla-printing-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/pla-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-pla-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-pla-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/pla-printing-barcelona"/>
+    <loc>https://www.dimension3dprints.com/ca/impressio-tpu-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-tpu-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/impressio-tpu-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
+  </url>
+
+  <!-- MINIATURAS -->
+  <url>
+    <loc>https://www.dimension3dprints.com/miniatures-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/miniaturas-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/miniatures-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/impresion-pla-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/pla-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-pla-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-pla-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/pla-printing-barcelona"/>
+    <loc>https://www.dimension3dprints.com/miniaturas-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/miniaturas-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/miniatures-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
   </url>
   <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/impressio-pla-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/pla-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-pla-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-pla-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/pla-printing-barcelona"/>
+    <loc>https://www.dimension3dprints.com/ca/miniatures-3d-barcelona</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/miniaturas-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/miniatures-3d-barcelona"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
   </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/petg-printing-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/petg-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-petg-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-petg-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/petg-printing-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/impresion-petg-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/petg-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-petg-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-petg-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/petg-printing-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/impressio-petg-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/petg-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-petg-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-petg-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/petg-printing-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-tpu-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-tpu-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/impresion-tpu-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-tpu-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-tpu-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/impressio-tpu-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/impresion-tpu-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/impressio-tpu-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/tpu-printing-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/miniatures-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/miniatures-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/miniaturas-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/miniatures-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/miniatures-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/miniaturas-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/miniatures-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/miniaturas-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/miniatures-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/miniatures-barcelona"/>
-  </url>
-  <url>
-    <loc>https://prints-barcelona-pro.lovable.app/ca/miniatures-3d-barcelona</loc>
-    <lastmod>2026-04-26</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://prints-barcelona-pro.lovable.app/miniatures-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://prints-barcelona-pro.lovable.app/miniaturas-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://prints-barcelona-pro.lovable.app/ca/miniatures-3d-barcelona"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://prints-barcelona-pro.lovable.app/miniatures-barcelona"/>
-  </url>
+
 </urlset>
