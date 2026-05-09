@@ -1,4 +1,4 @@
-import { Printer, Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
+import { Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -41,17 +41,16 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2.5 text-foreground">
-            <Printer className="w-5 h-5 text-accent" />
-            <span className="font-semibold tracking-tight">Dimension3D</span>
+          <Link to="/" className="flex items-center gap-2.5 text-foreground" aria-label="Dimension3D">
+            <img src="/logo.png" alt="Dimension3D" className="h-8 w-auto" />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-5">
+          <nav className="hidden lg:flex items-center gap-4">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
               >
                 {item.label}
               </button>
@@ -59,7 +58,7 @@ const Header = () => {
 
             {/* Services dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none">
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
                 {servicesLabel}
                 <ChevronDown className="w-3.5 h-3.5" />
               </DropdownMenuTrigger>
@@ -82,23 +81,23 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className="flex items-center gap-1.5 text-sm">
+            <div className="hidden xl:flex items-center gap-1.5 text-sm">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
                 ))}
               </div>
-              <span className="text-muted-foreground font-medium">{t("nav.headerRating")}</span>
+              <span className="text-muted-foreground font-medium whitespace-nowrap">{t("nav.headerRating")}</span>
             </div>
 
             <LanguageSelector />
             <Button asChild variant="ghost" size="sm">
-              <Link to="/track" className="gap-1.5">
+              <Link to="/track" className="gap-1.5 whitespace-nowrap">
                 <PackageSearch className="w-4 h-4" />
                 {t("nav.trackOrder")}
               </Link>
             </Button>
-            <Button variant="accent" size="sm" onClick={() => scrollToSection("upload")}>
+            <Button variant="accent" size="sm" onClick={() => scrollToSection("upload")} className="whitespace-nowrap">
               {t("nav.requestQuote")}
             </Button>
           </nav>

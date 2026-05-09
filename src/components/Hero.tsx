@@ -8,11 +8,16 @@ const Hero = () => {
   const { t } = useLanguage();
 
   const handleWhatsApp = () => {
-    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
+    const msg = "Hola, me gustaría solicitar un presupuesto para impresión 3D";
+    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message") || msg)}`, "_blank");
   };
 
   const handleScrollToUpload = () => {
-    document.getElementById("upload")?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("upload");
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
   };
 
   const trustItems = [
