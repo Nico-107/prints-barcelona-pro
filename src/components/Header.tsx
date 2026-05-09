@@ -81,23 +81,23 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className="flex items-center gap-1.5 text-sm">
+            <div className="hidden xl:flex items-center gap-1.5 text-sm">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
                 ))}
               </div>
-              <span className="text-muted-foreground font-medium">{t("nav.headerRating")}</span>
+              <span className="text-muted-foreground font-medium whitespace-nowrap">{t("nav.headerRating")}</span>
             </div>
 
             <LanguageSelector />
             <Button asChild variant="ghost" size="sm">
-              <Link to="/track" className="gap-1.5">
+              <Link to="/track" className="gap-1.5 whitespace-nowrap">
                 <PackageSearch className="w-4 h-4" />
                 {t("nav.trackOrder")}
               </Link>
             </Button>
-            <Button variant="accent" size="sm" onClick={() => scrollToSection("upload")}>
+            <Button variant="accent" size="sm" onClick={() => scrollToSection("upload")} className="whitespace-nowrap">
               {t("nav.requestQuote")}
             </Button>
           </nav>
