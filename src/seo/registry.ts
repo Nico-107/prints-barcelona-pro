@@ -21,7 +21,7 @@ export const SLUGS_BY_TOPIC: Record<LandingTopic, TopicSlugMap> = ALL_PAGES.redu
   {} as Record<LandingTopic, TopicSlugMap>
 );
 
-export const SITE_URL = "https://prints-barcelona-pro.lovable.app";
+export const SITE_URL = "https://www.dimension3dprints.com";
 
 // Grouped menu — items have all 3 language slugs. The Header picks the right
 // one based on the active language.
