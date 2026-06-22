@@ -2,8 +2,9 @@ import { MessageCircle, Printer, MapPin, Clock, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, slugForLang } from "@/seo/registry";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
-const WHATSAPP_URL = "https://wa.me/34672051147";
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const Footer = () => {
   const { t, language } = useLanguage();
@@ -84,7 +85,7 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2.5 mb-2">
               <Printer className="w-5 h-5 text-accent" />
-              <span className="font-semibold tracking-tight">Dimension3D Barcelona</span>
+              <span className="font-semibold tracking-tight">Dimension3D {ACTIVE_CITY.cityName}</span>
             </div>
             <p className="text-background/60 text-sm">{t("footer.tagline")}</p>
             <p className="text-background/40 text-xs mt-1">{t("footer.taglineSub")}</p>
@@ -101,7 +102,7 @@ const Footer = () => {
 
         <div className="border-t border-background/10 mt-8 pt-8 text-center">
           <p className="text-background/40 text-sm">
-            © {new Date().getFullYear()} Dimension3D Barcelona. {t("footer.copyright")}
+            © {new Date().getFullYear()} Dimension3D {ACTIVE_CITY.cityName}. {t("footer.copyright")}
           </p>
         </div>
       </div>

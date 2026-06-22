@@ -7,8 +7,9 @@ import { Upload, FileBox, X, MessageCircle, Send, CheckCircle, Loader2, Zap, Inf
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
-const WHATSAPP_URL = "https://wa.me/34672051147";
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_FILES = 10;
 
 const FileUpload = () => {

@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Upload, MapPin, Clock, UserCheck } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { ACTIVE_CITY, whatsappUrl, countryFlag } from "@/config/cities";
 
-const WHATSAPP_URL = "https://wa.me/34672051147";
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -21,7 +22,12 @@ const Hero = () => {
   };
 
   const trustItems = [
-    { icon: MapPin, text: t("hero.trust.location") },
+    {
+      icon: MapPin,
+      text: t("hero.trust.location")
+        .replace("{city}", ACTIVE_CITY.cityName)
+        .replace("{flag}", countryFlag(ACTIVE_CITY.countryCode)),
+    },
     { icon: Clock, text: t("hero.trust.turnaround") },
     { icon: UserCheck, text: t("hero.trust.expert") },
   ];
@@ -40,7 +46,7 @@ const Hero = () => {
       <div className="container relative z-10 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 animate-fade-in font-medium">
-            Dimension3D Barcelona
+            Dimension3D {ACTIVE_CITY.cityName}
           </p>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight">

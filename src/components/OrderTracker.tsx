@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Clock, MapPin, MessageCircle, Package, Truck } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { STATUS_INDEX, TIMELINE_STEPS, type OrderStatus } from "@/lib/orderStatus";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
 interface Order {
   order_number: number;
@@ -14,7 +15,7 @@ interface Order {
   photos: string[];
 }
 
-const WHATSAPP = "https://wa.me/34672051147";
+const WHATSAPP = whatsappUrl(ACTIVE_CITY);
 
 const OrderTracker = ({ order }: { order: Order }) => {
   const { t, language } = useLanguage();
@@ -106,12 +107,13 @@ const OrderTracker = ({ order }: { order: Order }) => {
             {t("track.fulfillment")}
           </div>
           <p className="font-semibold text-lg">
-            {t(order.fulfillment === "shipping" ? "track.fulfillment.shipping" : "track.fulfillment.pickup")}
+            {t(order.fulfillment === "shipping" ? "track.fulfillment.shipping" : "track.fulfillment.pickup")
+              .replace("{city}", ACTIVE_CITY.cityName)}
           </p>
           {order.fulfillment === "pickup" && (
             <p className="text-sm text-muted-foreground mt-2 flex items-start gap-1.5">
               <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-              Rambla de Brasil 53, Barcelona
+              {ACTIVE_CITY.streetAddress}, {ACTIVE_CITY.cityName}
             </p>
           )}
         </Card>

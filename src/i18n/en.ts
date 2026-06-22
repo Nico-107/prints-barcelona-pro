@@ -29,7 +29,7 @@ export const enTranslations: Record<string, string> = {
   "track.eta": "Estimated completion",
   "track.eta.none": "We will confirm soon",
   "track.fulfillment": "Fulfillment",
-  "track.fulfillment.pickup": "Pickup in Barcelona",
+  "track.fulfillment.pickup": "Pickup in {city}",
   "track.fulfillment.shipping": "Shipping",
   "track.notes": "Latest update",
   "track.photos": "Progress photos",
@@ -53,7 +53,7 @@ export const enTranslations: Record<string, string> = {
   "hero.subtitle": "Custom parts, prototypes, and fast turnaround. Get your quote in under 1 hour.",
   "hero.cta.upload": "Upload Your File",
   "hero.cta.whatsapp": "Contact on WhatsApp",
-  "hero.trust.location": "Based in Barcelona 🇪🇸",
+  "hero.trust.location": "Based in {city} {flag}",
   "hero.trust.turnaround": "Fast 24–48h turnaround",
   "hero.trust.expert": "Manually reviewed by a real expert",
 

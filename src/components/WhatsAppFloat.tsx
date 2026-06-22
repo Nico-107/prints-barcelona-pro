@@ -1,7 +1,8 @@
 import { MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
-const WHATSAPP_URL = "https://wa.me/34672051147";
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const WhatsAppFloat = () => {
   const { t } = useLanguage();

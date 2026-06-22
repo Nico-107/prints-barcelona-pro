@@ -29,7 +29,7 @@ export const esTranslations: Record<string, string> = {
   "track.eta": "Finalización estimada",
   "track.eta.none": "Lo confirmaremos pronto",
   "track.fulfillment": "Entrega",
-  "track.fulfillment.pickup": "Recogida en Barcelona",
+  "track.fulfillment.pickup": "Recogida en {city}",
   "track.fulfillment.shipping": "Envío",
   "track.notes": "Última actualización",
   "track.photos": "Fotos de progreso",
@@ -53,7 +53,7 @@ export const esTranslations: Record<string, string> = {
   "hero.subtitle": "Piezas a medida, prototipos y entrega rápida. Recibe tu presupuesto en menos de 1 hora.",
   "hero.cta.upload": "Sube tu archivo",
   "hero.cta.whatsapp": "Contactar por WhatsApp",
-  "hero.trust.location": "Barcelona 🇪🇸",
+  "hero.trust.location": "{city} {flag}",
   "hero.trust.turnaround": "Entrega en 24–48h",
   "hero.trust.expert": "Revisado por un experto real",
 
