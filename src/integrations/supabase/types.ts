@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      maker_applications: {
+        Row: {
+          city: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          printers: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          printers: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          printers?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string
