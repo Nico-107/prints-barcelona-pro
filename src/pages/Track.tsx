@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { ArrowLeft, Package, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import OrderTracker from "@/components/OrderTracker";
+
+const SITE_URL = "https://www.dimension3dprints.com";
 
 const Track = () => {
   const { t } = useLanguage();
@@ -42,6 +45,15 @@ const Track = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
+      <Helmet>
+        <title>Track Your Order | Dimension3D Barcelona</title>
+        <meta name="description" content="Check the live status of your 3D printing order from Dimension3D Barcelona. Enter your order number and phone digits to see updates." />
+        <link rel="canonical" href={`${SITE_URL}/track`} />
+        <meta property="og:title" content="Track Your Order | Dimension3D Barcelona" />
+        <meta property="og:description" content="Check the live status of your 3D printing order from Dimension3D Barcelona." />
+        <meta property="og:url" content={`${SITE_URL}/track`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <header className="border-b border-border/50 bg-background/80 backdrop-blur-md">
         <div className="container px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
