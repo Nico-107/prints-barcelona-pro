@@ -64,6 +64,10 @@ export default {
           fg: "hsl(var(--section-dark-fg))",
           muted: "hsl(var(--section-dark-muted))",
         },
+        cta: {
+          DEFAULT: "hsl(var(--cta))",
+          foreground: "hsl(var(--cta-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

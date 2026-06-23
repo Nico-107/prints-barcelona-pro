@@ -52,7 +52,9 @@ export const enTranslations: Record<string, string> = {
   "hero.title": "High-Quality 3D Printing in Barcelona",
   "hero.subtitle": "Custom parts, prototypes, and fast turnaround. Get your quote in under 1 hour.",
   "hero.cta.upload": "Upload Your File",
+  "hero.cta.getQuote": "Get a Free Quote",
   "hero.cta.whatsapp": "Contact on WhatsApp",
+  "hero.speedPromise": "Free quote · in under 1 hour · reviewed by a real person",
   "hero.trust.location": "Based in {city} {flag}",
   "hero.trust.turnaround": "Fast 24–48h turnaround",
   "hero.trust.expert": "Manually reviewed by a real expert",
@@ -244,6 +246,7 @@ export const enTranslations: Record<string, string> = {
   "cta.title": "Ready to bring your idea to life?",
   "cta.subtitle": "Upload your 3D file or contact us directly. Free quote within 1 hour, no commitment.",
   "cta.upload": "Upload Your File",
+  "cta.getQuote": "Get a Free Quote",
   "cta.contact": "Contact via WhatsApp",
 
   // Footer

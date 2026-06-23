@@ -127,7 +127,7 @@ const FileUpload = () => {
 
   if (isSubmitted) {
     return (
-      <section id="upload" className="py-20 md:py-28 bg-secondary/30">
+      <section id="quote" className="py-20 md:py-28 bg-secondary/30">
         <div className="container px-4">
           <div className="max-w-xl mx-auto text-center">
             <div className="w-20 h-20 rounded-full bg-whatsapp/20 flex items-center justify-center mx-auto mb-6">
@@ -143,7 +143,7 @@ const FileUpload = () => {
   }
 
   return (
-    <section id="upload" className="py-20 md:py-28 bg-secondary/30">
+    <section id="quote" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("upload.title")}</h2>

@@ -52,7 +52,9 @@ export const caTranslations: Record<string, string> = {
   "hero.title": "Impressió 3D d'alta qualitat a Barcelona",
   "hero.subtitle": "Peces a mida, prototips i lliurament ràpid. Rep el teu pressupost en menys d'1 hora.",
   "hero.cta.upload": "Puja el teu arxiu",
+  "hero.cta.getQuote": "Demana pressupost gratuït",
   "hero.cta.whatsapp": "Contacta per WhatsApp",
+  "hero.speedPromise": "Pressupost gratuït · en menys d'1 hora · revisat per una persona real",
   "hero.trust.location": "{city} {flag}",
   "hero.trust.turnaround": "Lliurament en 24–48h",
   "hero.trust.expert": "Revisat per un expert real",
@@ -244,6 +246,7 @@ export const caTranslations: Record<string, string> = {
   "cta.title": "A punt per donar forma a la teva idea?",
   "cta.subtitle": "Puja l'arxiu 3D o contacta'ns directament. Pressupost sense compromís en menys d'1 hora.",
   "cta.upload": "Pujar arxiu",
+  "cta.getQuote": "Demana pressupost gratuït",
   "cta.contact": "Contactar per WhatsApp",
 
   // Footer

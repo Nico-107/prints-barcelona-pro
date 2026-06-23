@@ -51,6 +51,10 @@
     --section-dark-fg: 220 10% 92%;
     --section-dark-muted: 220 10% 60%;
 
+    /* CTA accent — warm amber, distinct from link-blue */
+    --cta: 38 96% 52%;
+    --cta-foreground: 220 25% 10%;
+
     --sidebar-background: 220 10% 97%;
     --sidebar-foreground: 220 25% 10%;
     --sidebar-primary: 220 15% 15%;

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Upload, MessageCircle } from "lucide-react";
+
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
@@ -9,7 +10,7 @@ const CallToAction = () => {
   const { t } = useLanguage();
 
   const handleScrollToUpload = () => {
-    document.getElementById("upload")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleWhatsApp = () => {
@@ -27,9 +28,9 @@ const CallToAction = () => {
             {t("cta.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="accent" size="xl" onClick={handleScrollToUpload} className="shadow-lg">
+            <Button variant="cta" size="xl" onClick={handleScrollToUpload} className="shadow-lg">
               <Upload className="w-5 h-5" />
-              {t("cta.upload")}
+              {t("cta.getQuote")}
             </Button>
             <Button variant="hero-outline" size="xl" onClick={handleWhatsApp} className="group">
               <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />

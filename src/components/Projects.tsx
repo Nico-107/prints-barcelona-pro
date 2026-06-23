@@ -28,7 +28,7 @@ const Projects = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="proyectos" className="py-20 md:py-28 bg-background">
+    <section id="proyectos" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 text-accent mb-5">

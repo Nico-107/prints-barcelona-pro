@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Upload, MapPin, Clock, UserCheck } from "lucide-react";
+import { MessageCircle, Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl, countryFlag } from "@/config/cities";
 
@@ -14,7 +14,7 @@ const Hero = () => {
   };
 
   const handleScrollToUpload = () => {
-    const el = document.getElementById("upload");
+    const el = document.getElementById("quote");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
@@ -53,19 +53,26 @@ const Hero = () => {
             {t("hero.title")}
           </h1>
 
-          <p className="text-lg md:text-xl text-primary-foreground/90 mb-10 animate-fade-in-delay max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-primary-foreground/90 mb-6 animate-fade-in-delay max-w-2xl mx-auto">
             {t("hero.subtitle")}
           </p>
 
+          <div className="flex justify-center mb-8 animate-fade-in-delay">
+            <div className="inline-flex items-center gap-2 bg-cta/10 border border-cta/30 text-cta rounded-full px-5 py-2 text-sm font-semibold">
+              <Zap className="w-4 h-4 flex-shrink-0" />
+              {t("hero.speedPromise")}
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
             <Button
-              variant="accent"
+              variant="cta"
               size="xl"
               onClick={handleScrollToUpload}
               className="shadow-lg"
             >
               <Upload className="w-5 h-5" />
-              {t("hero.cta.upload")}
+              {t("hero.cta.getQuote")}
             </Button>
 
             <Button

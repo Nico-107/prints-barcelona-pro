@@ -134,16 +134,16 @@ const Index = () => {
         <HowItWorks />
         <WhatCanWePrint />
         <Materials />
-        <Projects />
-        <FileUpload />
-        <PricingInfo />
         <WhyChooseUs />
-        <ExpressPrinting />
+        <Projects />
         <Reviews />
+        <PricingInfo />
         <ServiceInfo />
+        <ExpressPrinting />
+        <FileUpload />
         <FAQ />
-        <CallToAction />
         <LocationMap />
+        <CallToAction />
       </main>
       <Footer />
       <WhatsAppFloat />
