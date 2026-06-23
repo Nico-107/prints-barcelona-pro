@@ -119,12 +119,12 @@ const Reviews = () => {
   );
 
   return (
-    <section id="resenas" className="py-20 md:py-28 bg-background">
+    <section id="resenas" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("reviews.title")}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">{t("reviews.subtitle")}</p>
-          <div className="inline-flex items-center gap-3 bg-card border border-border/50 rounded-full px-6 py-3 card-shadow">
+          <div className="inline-flex items-center gap-3 bg-card border border-border rounded-full px-6 py-3 card-shadow">
             <GoldStars rating={5} size="w-5 h-5" />
             <span className="text-foreground font-bold text-lg">{averageRating}</span>
             <span className="text-muted-foreground">/ 5 · {totalReviews} {t("reviews.verified")}</span>
@@ -133,7 +133,7 @@ const Reviews = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
           {visibleReviews.map((review, index) => (
-            <div key={index} className="bg-card rounded-xl p-5 card-shadow border border-border/50 hover:border-accent/20 transition-colors duration-300">
+            <div key={index} className="bg-card rounded-xl p-5 card-shadow border border-border hover:border-accent/20 transition-colors duration-300">
               <div className="flex items-center justify-between mb-3">
                 <Quote className="w-5 h-5 text-accent/30" />
                 <div className="flex items-center gap-1 text-xs text-accent">
@@ -162,7 +162,7 @@ const Reviews = () => {
 
         {/* Leave a Review */}
         <div className="mt-20 max-w-2xl mx-auto">
-          <div className="bg-card rounded-2xl p-8 border border-border/50 card-shadow">
+          <div className="bg-card rounded-2xl p-8 border border-border card-shadow">
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-foreground mb-2">{t("reviews.form.title")}</h3>
               <p className="text-muted-foreground">{t("reviews.form.subtitle")}</p>

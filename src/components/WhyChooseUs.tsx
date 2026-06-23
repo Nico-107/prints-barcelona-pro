@@ -12,7 +12,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section id="por-que-elegirnos" className="py-20 md:py-28 bg-secondary/30">
+    <section id="por-que-elegirnos" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -27,7 +27,7 @@ const WhyChooseUs = () => {
           {reasons.map((reason, index) => (
             <div
               key={index}
-              className="bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover border border-border/50 hover:border-accent/30 transition-all duration-300"
+              className="bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover border border-border hover:border-accent/30 transition-all duration-300"
             >
               <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
                 <reason.icon className="w-6 h-6 text-accent" />

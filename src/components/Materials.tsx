@@ -21,7 +21,7 @@ const Materials = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
           {materials.map((material, index) => (
-            <div key={index} className="bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover border border-border/50 hover:border-accent/20 transition-all duration-300 text-center">
+            <div key={index} className="bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover border border-border hover:border-accent/20 transition-all duration-300 text-center">
               <div className={`w-14 h-14 rounded-xl ${material.color} flex items-center justify-center mx-auto mb-4`}>
                 <material.icon className="w-7 h-7" />
               </div>
@@ -33,7 +33,7 @@ const Materials = () => {
         </div>
 
         <div className="mt-10 max-w-2xl mx-auto">
-          <div className="bg-card rounded-xl p-6 border border-border/50 text-center card-shadow">
+          <div className="bg-card rounded-xl p-6 border border-border text-center card-shadow">
             <p className="text-muted-foreground">
               <span className="font-medium text-foreground">{t("materials.help")}</span>
               <br />

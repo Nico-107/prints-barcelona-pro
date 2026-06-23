@@ -28,7 +28,7 @@ const Projects = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="proyectos" className="py-20 md:py-28 bg-secondary/30">
+    <section id="proyectos" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 text-accent mb-5">
@@ -60,7 +60,7 @@ const Projects = () => {
               {projects.map((project, index) => (
                 <div
                   key={index}
-                  className="group relative rounded-xl overflow-hidden bg-card border border-border/50 card-shadow hover:card-shadow-hover transition-all duration-300"
+                  className="group relative rounded-xl overflow-hidden bg-card border border-border card-shadow hover:card-shadow-hover transition-all duration-300"
                 >
                   <div className="aspect-square overflow-hidden">
                     <img

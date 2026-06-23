@@ -48,7 +48,7 @@ const HowItWorks = () => {
                 {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-12 left-1/2 w-full h-px bg-border" />
                 )}
-                <div className="relative bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover transition-all duration-300 border border-border/50">
+                <div className="relative bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover transition-all duration-300 border border-border">
                   <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold flex items-center justify-center shadow-md">
                     {index + 1}
                   </div>

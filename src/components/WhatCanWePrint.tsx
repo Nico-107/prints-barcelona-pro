@@ -14,13 +14,13 @@ const WhatCanWePrint = () => {
   ];
 
   return (
-    <section id="servicios" className="py-20 md:py-28 bg-background">
-      <div className="container px-4">
+    <section id="servicios" className="py-20 md:py-28 bg-section-dark section-dark-texture">
+      <div className="container relative z-10 px-4">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-section-dark-fg mb-4">
             {t("services.title")}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-section-dark-muted max-w-2xl mx-auto">
             {t("services.subtitle")}
           </p>
         </div>
@@ -29,19 +29,19 @@ const WhatCanWePrint = () => {
           {printables.map((item, index) => (
             <div
               key={index}
-              className="bg-card rounded-xl p-6 border border-border/50 hover:border-accent/30 transition-all duration-300 card-shadow hover:card-shadow-hover"
+              className="bg-section-dark-surface rounded-xl p-6 border border-section-dark-border hover:border-accent/50 transition-all duration-300 hover:card-shadow-hover"
             >
-              <div className="w-11 h-11 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+              <div className="w-11 h-11 rounded-lg bg-accent/15 flex items-center justify-center mb-4">
                 <item.icon className="w-5 h-5 text-accent" />
               </div>
-              <h3 className="font-semibold text-foreground mb-1.5">{t(item.titleKey)}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-3">{t(item.descKey)}</p>
+              <h3 className="font-semibold text-section-dark-fg mb-1.5">{t(item.titleKey)}</h3>
+              <p className="text-sm text-section-dark-muted leading-relaxed mb-3">{t(item.descKey)}</p>
               <p className="text-xs text-accent font-medium">{t(item.targetKey)}</p>
             </div>
           ))}
         </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-10">
+        <p className="text-center text-sm text-section-dark-muted mt-10">
           {t("services.cta")}
         </p>
       </div>

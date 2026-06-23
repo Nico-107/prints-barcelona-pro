@@ -19,7 +19,7 @@ const LocationMap = () => {
   ];
 
   return (
-    <section id="ubicacion" className="py-20 md:py-28 bg-secondary/30">
+    <section id="ubicacion" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -32,7 +32,7 @@ const LocationMap = () => {
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-stretch">
           {/* Left: info */}
-          <div className="bg-card rounded-2xl p-7 md:p-8 border border-border/50 card-shadow flex flex-col">
+          <div className="bg-card rounded-2xl p-7 md:p-8 border border-border card-shadow flex flex-col">
             <div className="space-y-4 mb-6">
               {features.map(({ icon: Icon, key }) => (
                 <div key={key} className="flex items-start gap-3">
@@ -65,7 +65,7 @@ const LocationMap = () => {
           </div>
 
           {/* Right: map */}
-          <div className="rounded-2xl overflow-hidden border border-border/50 card-shadow min-h-[360px]">
+          <div className="rounded-2xl overflow-hidden border border-border card-shadow min-h-[360px]">
             <iframe
               src={EMBED_URL}
               width="100%"

@@ -57,6 +57,13 @@ export default {
         gold: {
           DEFAULT: "hsl(var(--gold))",
         },
+        "section-dark": {
+          DEFAULT: "hsl(var(--section-dark))",
+          surface: "hsl(var(--section-dark-surface))",
+          border: "hsl(var(--section-dark-border))",
+          fg: "hsl(var(--section-dark-fg))",
+          muted: "hsl(var(--section-dark-muted))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

@@ -152,7 +152,7 @@ const FileUpload = () => {
         </div>
 
         <div className="max-w-xl mx-auto">
-          <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-6 md:p-8 card-shadow border border-border/50">
+          <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-6 md:p-8 card-shadow border border-border">
             {/* Drop zone */}
             <div
               onDragOver={handleDragOver}
