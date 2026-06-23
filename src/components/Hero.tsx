@@ -76,7 +76,7 @@ const Hero = () => {
             </Button>
 
             <Button
-              variant="hero-outline"
+              variant="whatsapp-outline"
               size="xl"
               onClick={handleWhatsApp}
               className="group"

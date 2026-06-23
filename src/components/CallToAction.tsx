@@ -32,7 +32,7 @@ const CallToAction = () => {
               <Upload className="w-5 h-5" />
               {t("cta.getQuote")}
             </Button>
-            <Button variant="hero-outline" size="xl" onClick={handleWhatsApp} className="group">
+            <Button variant="whatsapp-outline" size="xl" onClick={handleWhatsApp} className="group">
               <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
               {t("cta.contact")}
             </Button>

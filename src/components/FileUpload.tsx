@@ -194,9 +194,9 @@ const FileUpload = () => {
             </div>
 
             {/* No file message */}
-            <div className="flex items-center gap-2 mb-6 p-3 rounded-lg bg-accent/5 border border-accent/20">
+            <div className="flex items-center gap-3 mb-6 p-4 rounded-lg bg-accent/10 border border-accent/30">
               <Info className="w-4 h-4 text-accent flex-shrink-0" />
-              <p className="text-xs text-muted-foreground">{t("upload.noFile")}</p>
+              <p className="text-sm font-medium text-foreground">{t("upload.noFile")}</p>
             </div>
 
             <div className="mb-4">
@@ -227,7 +227,7 @@ const FileUpload = () => {
               </div>
             </div>
 
-            <Button type="submit" variant="accent" size="lg" className="w-full mb-3" disabled={isLoading}>
+            <Button type="submit" variant="cta" size="lg" className="w-full mb-3" disabled={isLoading}>
               {isLoading ? (<><Loader2 className="w-4 h-4 animate-spin" />{t("upload.submitting")}</>) : (<><Send className="w-4 h-4" />{t("upload.submit")}</>)}
             </Button>
 
@@ -240,7 +240,7 @@ const FileUpload = () => {
               </div>
             </div>
 
-            <Button type="button" variant="outline" size="lg" className="w-full mt-4" onClick={handleWhatsApp} disabled={isLoading}>
+            <Button type="button" variant="whatsapp-outline" size="lg" className="w-full mt-4" onClick={handleWhatsApp} disabled={isLoading}>
               <MessageCircle className="w-4 h-4" />
               {t("upload.whatsappBtn")}
             </Button>
