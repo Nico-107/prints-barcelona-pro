@@ -18,6 +18,7 @@ import CallToAction from "@/components/CallToAction";
 import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -128,6 +129,7 @@ const Index = () => {
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
+      <LaunchOfferBanner />
       <Header />
       <main className="pt-16">
         <Hero />

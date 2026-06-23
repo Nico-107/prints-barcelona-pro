@@ -12,6 +12,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import Index from "./pages/Index";
 import Track from "./pages/Track";
 import LandingPage from "./pages/LandingPage";
+import Makers from "./pages/Makers";
 import NotFound from "./pages/NotFound";
 import { ALL_PAGES } from "@/seo/registry";
 
@@ -32,6 +33,7 @@ export function render(url: string): { html: string; helmetContext: FilledContex
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/track" element={<Track />} />
+                <Route path="/makers" element={<Makers />} />
                 {ALL_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
                 ))}
