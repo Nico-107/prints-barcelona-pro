@@ -10,6 +10,8 @@ import Index from "./pages/Index";
 import Track from "./pages/Track";
 import AdminOrders from "./pages/AdminOrders";
 import AdminMakers from "./pages/AdminMakers";
+import Privacy from "./pages/Privacy";
+import CookieConsentBanner from "./components/CookieConsentBanner";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import Makers from "./pages/Makers";
@@ -33,10 +35,12 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
+          <CookieConsentBanner />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/track" element={<Track />} />
             <Route path="/makers" element={<Makers />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/admin-orders" element={<AdminOrders />} />
             <Route path="/admin-makers" element={<AdminMakers />} />
             {ALL_PAGES.map((p) => (

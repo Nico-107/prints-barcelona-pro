@@ -320,4 +320,29 @@ export const enTranslations: Record<string, string> = {
   "makers.form.error.desc": "Could not send the application. Please try again.",
   "makers.form.required.title": "Required fields",
   "makers.form.required.desc": "Please fill in all required fields.",
+
+  // Cookie consent banner
+  "cookie.banner.message": "We use anonymous web analytics to improve the site. If you accept, we enable a persistent identifier for richer analytics.",
+  "cookie.banner.privacy": "Privacy policy",
+  "cookie.banner.reject": "Reject",
+  "cookie.banner.accept": "Accept",
+
+  // Privacy page
+  "privacy.meta.title": "Privacy Policy | Dimension3D",
+  "privacy.meta.description": "How Dimension3D collects anonymous analytics data and uses cookies.",
+  "privacy.back": "← Back to home",
+  "privacy.title": "Privacy policy",
+  "privacy.updated": "Updated: June 2025",
+  "privacy.intro": "At Dimension3D we respect your privacy. This page explains what data we collect, why, and how we use cookies.",
+  "privacy.analytics.title": "Web analytics",
+  "privacy.analytics.body": "We use PostHog to understand how the site is used (page views, traffic sources, bounce rate). By default we collect only anonymous session data: no cookies, no persistent identifiers. If you accept cookies, we enable an identifier stored in your browser to better understand behaviour across visits.",
+  "privacy.cookies.title": "Cookies",
+  "privacy.cookies.body": "Without your consent we store no analytics cookies. If you accept, PostHog stores an identifier in localStorage and a first-party cookie. You can withdraw consent at any time using the button below.",
+  "privacy.contact.title": "Contact",
+  "privacy.contact.body": "For any privacy questions, contact us via WhatsApp or email.",
+  "privacy.consent.current": "Your current preference",
+  "privacy.consent.accepted": "You have accepted analytics cookies.",
+  "privacy.consent.rejected": "You have rejected analytics cookies (anonymous analytics still active).",
+  "privacy.consent.none": "You have not made a choice yet.",
+  "privacy.consent.change": "Change preference",
 };

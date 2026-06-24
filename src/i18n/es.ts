@@ -320,4 +320,29 @@ export const esTranslations: Record<string, string> = {
   "makers.form.error.desc": "No se pudo enviar la solicitud. Por favor, inténtalo de nuevo.",
   "makers.form.required.title": "Campos requeridos",
   "makers.form.required.desc": "Por favor, completa todos los campos obligatorios.",
+
+  // Cookie consent banner
+  "cookie.banner.message": "Usamos análisis web anónimos para mejorar el sitio. Si aceptas, habilitamos un identificador persistente para un análisis más detallado.",
+  "cookie.banner.privacy": "Política de privacidad",
+  "cookie.banner.reject": "Rechazar",
+  "cookie.banner.accept": "Aceptar",
+
+  // Privacy page
+  "privacy.meta.title": "Política de Privacidad | Dimension3D",
+  "privacy.meta.description": "Cómo Dimension3D recopila y usa datos analíticos anónimos y qué cookies utiliza.",
+  "privacy.back": "← Volver al inicio",
+  "privacy.title": "Política de privacidad",
+  "privacy.updated": "Actualizado: junio 2025",
+  "privacy.intro": "En Dimension3D respetamos tu privacidad. Esta página explica qué datos recopilamos, por qué y cómo usamos las cookies.",
+  "privacy.analytics.title": "Analítica web",
+  "privacy.analytics.body": "Usamos PostHog para entender cómo se usa el sitio (páginas vistas, fuente de tráfico, tasa de rebote). Por defecto recogemos únicamente datos anónimos de sesión: no hay cookies, no hay identificadores persistentes. Si aceptas las cookies, habilitamos un identificador que se guarda en tu navegador para entender mejor el comportamiento entre visitas.",
+  "privacy.cookies.title": "Cookies",
+  "privacy.cookies.body": "Sin tu consentimiento, no guardamos ninguna cookie analítica. Si aceptas, PostHog almacena un identificador en localStorage y en una cookie de primera parte. Puedes retirar tu consentimiento en cualquier momento usando el botón de abajo.",
+  "privacy.contact.title": "Contacto",
+  "privacy.contact.body": "Para cualquier consulta sobre privacidad escríbenos por WhatsApp o al email de contacto.",
+  "privacy.consent.current": "Tu preferencia actual",
+  "privacy.consent.accepted": "Has aceptado las cookies analíticas.",
+  "privacy.consent.rejected": "Has rechazado las cookies analíticas (análisis anónimo activo).",
+  "privacy.consent.none": "Aún no has tomado una decisión.",
+  "privacy.consent.change": "Cambiar preferencia",
 };

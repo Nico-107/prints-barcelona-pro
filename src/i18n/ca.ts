@@ -320,4 +320,29 @@ export const caTranslations: Record<string, string> = {
   "makers.form.error.desc": "No s'ha pogut enviar la sol·licitud. Si us plau, torna-ho a provar.",
   "makers.form.required.title": "Camps obligatoris",
   "makers.form.required.desc": "Si us plau, omple tots els camps obligatoris.",
+
+  // Cookie consent banner
+  "cookie.banner.message": "Fem servir analítica web anònima per millorar el lloc. Si acceptes, activem un identificador persistent per a una analítica més detallada.",
+  "cookie.banner.privacy": "Política de privacitat",
+  "cookie.banner.reject": "Rebutjar",
+  "cookie.banner.accept": "Acceptar",
+
+  // Privacy page
+  "privacy.meta.title": "Política de Privacitat | Dimension3D",
+  "privacy.meta.description": "Com Dimension3D recopila dades analítiques anònimes i utilitza galetes.",
+  "privacy.back": "← Torna a l'inici",
+  "privacy.title": "Política de privacitat",
+  "privacy.updated": "Actualitzat: juny 2025",
+  "privacy.intro": "A Dimension3D respectem la teva privacitat. Aquesta pàgina explica quines dades recopilem, per què i com fem servir les galetes.",
+  "privacy.analytics.title": "Analítica web",
+  "privacy.analytics.body": "Fem servir PostHog per entendre com s'utilitza el lloc (pàgines vistes, fonts de trànsit, taxa de rebot). Per defecte només recopilem dades de sessió anònimes: sense galetes ni identificadors persistents. Si acceptes les galetes, activem un identificador emmagatzemat al teu navegador per entendre millor el comportament entre visites.",
+  "privacy.cookies.title": "Galetes",
+  "privacy.cookies.body": "Sense el teu consentiment no emmagatzemem cap galeta analítica. Si acceptes, PostHog desa un identificador a localStorage i en una galeta de primera part. Pots retirar el teu consentiment en qualsevol moment amb el botó de baix.",
+  "privacy.contact.title": "Contacte",
+  "privacy.contact.body": "Per a qualsevol consulta de privacitat, contacta'ns per WhatsApp o per correu electrònic.",
+  "privacy.consent.current": "La teva preferència actual",
+  "privacy.consent.accepted": "Has acceptat les galetes analítiques.",
+  "privacy.consent.rejected": "Has rebutjat les galetes analítiques (analítica anònima activa).",
+  "privacy.consent.none": "Encara no has pres cap decisió.",
+  "privacy.consent.change": "Canviar preferència",
 };

@@ -18,7 +18,7 @@ const { render, ALL_PAGES } = await import(
 // by the city-html-tokens Vite plugin).
 const template = readFileSync(resolve(root, "dist/index.html"), "utf-8");
 
-const routes = ["/", "/track", "/makers", ...ALL_PAGES.map((p) => p.slug)];
+const routes = ["/", "/track", "/makers", "/privacy", ...ALL_PAGES.map((p) => p.slug)];
 
 let ok = 0;
 let fail = 0;

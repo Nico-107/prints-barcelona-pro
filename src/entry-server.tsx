@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import Track from "./pages/Track";
 import LandingPage from "./pages/LandingPage";
 import Makers from "./pages/Makers";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import { ALL_PAGES } from "@/seo/registry";
 import type { Language } from "@/contexts/LanguageContext";
@@ -42,6 +43,7 @@ export function render(url: string): { html: string; helmetContext: FilledContex
                 <Route path="/" element={<Index />} />
                 <Route path="/track" element={<Track />} />
                 <Route path="/makers" element={<Makers />} />
+                <Route path="/privacy" element={<Privacy />} />
                 {ALL_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
                 ))}
