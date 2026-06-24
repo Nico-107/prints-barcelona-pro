@@ -82,6 +82,16 @@ export const SERVICES_MENU: MenuGroup[] = [
     ],
   },
   {
+    labelEn: "For Business",
+    labelEs: "Para Empresas",
+    labelCa: "Per a Empreses",
+    items: [
+      item("business", "3D Printing for Business", "Impresión 3D para Empresas", "Impressió 3D per a Empreses"),
+      item("rapid-prototyping", "Rapid Prototyping", "Prototipado Rápido", "Prototipatge Ràpid"),
+      item("functional-parts", "Functional Parts", "Piezas Funcionales", "Peces Funcionals"),
+    ],
+  },
+  {
     labelEn: "Specialties",
     labelEs: "Especialidades",
     labelCa: "Especialitats",

@@ -9,9 +9,9 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Servicio de Impresión 3D en Barcelona | Dimension3D",
-    metaDescription: "Servicio profesional de impresión 3D en Barcelona. Piezas a medida, prototipos, recambios y regalos personalizados. Presupuesto en menos de 1 hora.",
-    h1: "Servicio de Impresión 3D en Barcelona",
+    metaTitle: "Impresión 3D en Barcelona — Presupuesto en 1h, Entrega 24–48h | Dimension3D",
+    metaDescription: "Servicio profesional de impresión 3D en Barcelona. Envía tu archivo STL/STEP — presupuesto en menos de 1 hora, entrega en 24–48h. Piezas funcionales, prototipos y piezas a medida. Recogida local o envío a España.",
+    h1: "Impresión 3D en Barcelona — Presupuesto en 1h, Entrega Rápida",
     intro: "Dimension3D es un estudio de impresión 3D ubicado en Barcelona que ayuda a particulares, makers, ingenieros y pequeñas empresas a fabricar piezas físicas de forma rápida, limpia y a un precio justo. Desde un solo recambio hasta una pequeña tirada de prototipos funcionales, gestionamos todo el proceso de forma local en la ciudad.",
     sections: [
       {
@@ -52,9 +52,9 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/custom-parts-barcelona",
     lang: "es",
     category: "use-case",
-    metaTitle: "Piezas Personalizadas 3D en Barcelona | Dimension3D",
-    metaDescription: "Piezas 3D a medida en Barcelona: recambios, soportes, clips de coche y piezas únicas. Envía una foto y recibe presupuesto en menos de 1 hora.",
-    h1: "Piezas Personalizadas 3D en Barcelona",
+    metaTitle: "Piezas 3D a Medida Barcelona — STL/STEP o Foto, Presupuesto en 1h | Dimension3D",
+    metaDescription: "Piezas 3D a medida en Barcelona desde tu STL, STEP o foto. Recambios funcionales, soportes, clips de coche y prototipos. Presupuesto profesional en menos de 1 hora. Sin pedido mínimo.",
+    h1: "Piezas 3D a Medida en Barcelona — De Archivo a Pieza en 24–48h",
     intro: "¿Necesitas una pieza que no encuentras en ninguna tienda? Eso es justamente lo que hacemos. Dimension3D fabrica piezas 3D personalizadas en Barcelona para hogares, talleres, conductores y makers — desde un solo clip roto hasta pequeñas tiradas de soportes a medida.",
     sections: [
       {
@@ -181,8 +181,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-price-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Precio Impresión 3D Barcelona | Presupuestos Claros",
-    metaDescription: "¿Cuánto cuesta imprimir en 3D en Barcelona? Precios transparentes por tamaño, material y cantidad. Piezas pequeñas desde 10€. Presupuesto gratis en 1 hora.",
+    metaTitle: "Precio Impresión 3D Barcelona — Desde 10€, Presupuesto Gratis en 1h | Dimension3D",
+    metaDescription: "¿Cuánto cuesta la impresión 3D en Barcelona? Piezas pequeñas desde 10€. Precios transparentes por tamaño, material y cantidad. Presupuesto gratis en menos de 1 hora, sin compromiso.",
     h1: "Precio de Impresión 3D en Barcelona",
     intro: "Una de las primeras preguntas de cualquier cliente es: ¿cuánto va a costar mi impresión 3D? En esta página explicamos exactamente qué determina el precio de una impresión 3D en Barcelona, con ejemplos realistas, para que puedas planificar tu proyecto sin sorpresas.",
     sections: [
@@ -224,8 +224,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/replacement-parts-barcelona",
     lang: "es",
     category: "use-case",
-    metaTitle: "Recambios Impresos en 3D en Barcelona | Reparaciones",
-    metaDescription: "Recambios impresos en 3D en Barcelona para electrodomésticos, muebles, antigüedades y reparaciones del hogar. Alternativa sostenible a tirar y comprar nuevo.",
+    metaTitle: "Recambios 3D Barcelona — Clips Rotos, Electrodomésticos y Piezas Descatalogadas | Dimension3D",
+    metaDescription: "Recambios impresos en 3D en Barcelona para electrodomésticos, muebles y vehículos. Clips rotos, mandos, soportes y piezas descatalogadas. De foto a pieza en 24–48h. Desde 10€.",
     h1: "Recambios Impresos en 3D en Barcelona",
     intro: "Tirar un electrodoméstico que funciona perfectamente por culpa de un trozo minúsculo de plástico roto no tiene sentido — ni a nivel ambiental ni económico. Dimension3D fabrica recambios impresos en 3D en Barcelona para electrodomésticos, mobiliario, objetos antiguos y cualquier producto cuyo recambio original ya no esté disponible.",
     sections: [
@@ -267,8 +267,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/pla-printing-barcelona",
     lang: "es",
     category: "material",
-    metaTitle: "Impresión 3D en PLA en Barcelona | Material Ecológico",
-    metaDescription: "Impresión 3D en PLA en Barcelona. Material ecológico ideal para prototipos, decoración, regalos y figuras. Amplia gama de colores. Presupuesto en 1 hora.",
+    metaTitle: "Impresión PLA Barcelona — Prototipos, Regalos y Decoración | Dimension3D",
+    metaDescription: "Impresión 3D en PLA en Barcelona — precisa, económica y ecológica. Prototipos, decoraciones, regalos personalizados y figuras. Amplia gama de colores. Presupuesto gratis en menos de 1 hora.",
     h1: "Impresión 3D en PLA en Barcelona",
     intro: "El PLA es el material de impresión 3D más popular del mundo por buenos motivos — es ecológico, fácil de imprimir con gran precisión y está disponible en una enorme gama de colores. Dimension3D ofrece impresión profesional en PLA en Barcelona para todo tipo de proyectos, desde piezas decorativas hasta prototipos iniciales.",
     sections: [
@@ -310,8 +310,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/petg-printing-barcelona",
     lang: "es",
     category: "material",
-    metaTitle: "Impresión 3D en PETG en Barcelona | Piezas Resistentes",
-    metaDescription: "Impresión 3D en PETG en Barcelona. Más resistente que el PLA, soporta agua y exterior, ideal para piezas funcionales. Presupuesto gratis en 1 hora.",
+    metaTitle: "Impresión PETG Barcelona — Piezas Funcionales y Exteriores | Dimension3D",
+    metaDescription: "Impresión 3D en PETG en Barcelona. Más resistente que el PLA, soporta agua y UV. Envía tu STL/STEP — presupuesto en 1h. Ideal para piezas funcionales, mecánicas y de exterior.",
     h1: "Impresión 3D en PETG en Barcelona",
     intro: "Cuando una pieza necesita ser más dura que el PLA, sobrevivir al exterior o estar en contacto con agua, el PETG suele ser la respuesta. Dimension3D ofrece impresión profesional en PETG en Barcelona para aplicaciones funcionales, mecánicas y de exterior.",
     sections: [
@@ -353,8 +353,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/tpu-printing-barcelona",
     lang: "es",
     category: "material",
-    metaTitle: "Impresión 3D en TPU Flexible en Barcelona | Tipo Goma",
-    metaDescription: "Impresión 3D flexible en TPU en Barcelona. Piezas tipo goma para soportes de móvil, juntas, mangos y wearables. Piezas flexibles a medida en 24–72h.",
+    metaTitle: "Impresión TPU Flexible Barcelona — Juntas, Mangos y Piezas de Goma | Dimension3D",
+    metaDescription: "Impresión 3D flexible en TPU en Barcelona. Piezas tipo goma para soportes de móvil, juntas, mangos y wearables. Envía STL/STEP — piezas flexibles a medida en 24–72h.",
     h1: "Impresión 3D Flexible en TPU en Barcelona",
     intro: "El TPU es el material que hace flexible la impresión 3D. Si una pieza necesita doblarse, agarrar, amortiguar o sellar, este es el que usamos. Dimension3D fabrica impresiones 3D a medida en TPU en Barcelona para todo, desde soportes de móvil hasta juntas industriales.",
     sections: [
@@ -432,5 +432,140 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
     ],
     schemaServiceName: "Miniaturas 3D Barcelona"
+  },
+
+  // ----- NUEVA: EMPRESAS -----
+  {
+    slug: "/impresion-3d-empresas-barcelona",
+    topic: "business",
+    altSlug: "/3d-printing-for-business-barcelona",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "Impresión 3D para Empresas en Barcelona — Piezas Técnicas y Tiradas Cortas | Dimension3D",
+    metaDescription: "Impresión 3D profesional para empresas e ingenieros en Barcelona. Envía tu archivo STL/STEP — presupuesto en 1 hora. Piezas funcionales y técnicas, utillaje, tiradas cortas. NDA disponible.",
+    h1: "Impresión 3D para Empresas en Barcelona",
+    intro: "Dimension3D trabaja con equipos de ingeniería, departamentos de I+D, talleres y pequeños fabricantes en Barcelona que necesitan piezas 3D funcionales sin los tiempos y la burocracia de un proveedor industrial. Envía tu archivo — STL, STEP o IGES — y recibe presupuesto profesional en menos de una hora. Sin cuenta, sin concurso, sin volumen mínimo.",
+    sections: [
+      {
+        heading: "Qué producimos para clientes empresa",
+        body: "Nuestros clientes empresa nos usan para una amplia gama de aplicaciones técnicas e industriales:\n\n• Utillaje, jigs, fixtures y herramientas de fin de brazo para líneas de producción.\n• Prototipos funcionales para validación y presentaciones a clientes.\n• Carcasas y cajas para electrónica y PCBs.\n• Piezas de repuesto y componentes de desgaste para maquinaria.\n• Tiradas cortas de producción de 5 a 200 piezas idénticas.\n• Soportes de montaje, guías de cable y hardware para rack.\n\nTrabajamos en PETG, ABS/ASA, Nylon y Nylon-CF para aplicaciones estructurales, y en PLA o PETG para piezas funcionales de baja carga. Si tu aplicación requiere un material o tolerancia específicos, dínoslo desde el principio."
+      },
+      {
+        heading: "STL, STEP e IGES aceptados — presupuesto profesional en 1 hora",
+        body: "Envíanos tu archivo por el formulario de subida o directamente por WhatsApp. Trabajamos con todos los formatos CAD estándar: STL, STEP, IGES, OBJ y 3MF. Si usas SolidWorks, Fusion 360, Onshape, CATIA o FreeCAD, exporta en cualquiera de esos formatos.\n\nRevisamos cada archivo manualmente antes de presupuestar — comprobando espesor de pared, necesidad de soportes, orientación y adecuación del material — para que el presupuesto refleje el coste real y el plazo real, no una estimación automática. Recibirás un precio detallado en menos de 60 minutos en horario laboral."
+      },
+      {
+        heading: "Tiradas cortas y pedidos repetidos",
+        body: "Una vez que la pieza está validada, podemos gestionar pedidos repetidos sin volver a presupuestar desde cero. Conservamos el archivo laminado y los parámetros de impresión. Para cantidades de 5–200 piezas, el coste unitario baja con el volumen — pide precio por tramos al solicitar presupuesto.\n\nTambién podemos entregar en tu taller u oficina de Barcelona por mensajería, o enviar a cualquier dirección de la España peninsular con seguimiento."
+      },
+      {
+        heading: "Confidencialidad y NDA",
+        body: "Firmamos NDA para cualquier proyecto que lo requiera. La confidencialidad es práctica habitual para nosotros — nunca compartimos archivos, diseños ni detalles de proyectos de clientes. Si tu departamento de I+D o equipo de ingeniería necesita discreción, lo gestionamos como punto de partida, no como excepción."
+      }
+    ],
+    faqs: [
+      { q: "¿Firmáis NDA para proyectos de empresa?", a: "Sí. Firmamos NDA para cualquier cliente que lo solicite. Nunca compartimos archivos ni detalles de proyectos de clientes." },
+      { q: "¿Qué formatos de archivo aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones nativas de SolidWorks, Fusion 360, Onshape y la mayoría de herramientas funcionan directamente." },
+      { q: "¿Podéis suministrar 50 o 100 piezas idénticas?", a: "Sí. Realizamos tiradas cortas de producción de 5 a 200 unidades. El precio unitario baja con la cantidad — pide presupuesto por tramos." },
+      { q: "¿Qué tolerancias podéis mantener?", a: "La precisión FDM típica es ±0,2 mm. Para características de tolerancia más ajustada ajustamos parámetros y podemos post-procesar superficies críticas. Indícanos el requisito desde el principio." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" },
+      { label: "Prototipado Rápido", slug: "/prototipado-rapido-barcelona" },
+      { label: "Piezas Funcionales", slug: "/piezas-funcionales-barcelona" },
+      { label: "Impresión Urgente", slug: "/impresion-3d-urgente-barcelona" }
+    ],
+    schemaServiceName: "Impresión 3D para Empresas Barcelona"
+  },
+
+  // ----- NUEVA: PROTOTIPADO RÁPIDO -----
+  {
+    slug: "/prototipado-rapido-barcelona",
+    topic: "rapid-prototyping",
+    altSlug: "/rapid-prototyping-barcelona",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "Prototipado Rápido Barcelona — Ciclo 24–72h, STL/STEP Aceptado | Dimension3D",
+    metaDescription: "Prototipado rápido en Barcelona para ingenieros y startups. Envía tu archivo STL o STEP — prototipo funcional en 24–72 horas. Itera rápido. PETG, Nylon, ABS. NDA disponible.",
+    h1: "Prototipado Rápido en Barcelona — Entrega en 24–72h",
+    intro: "La iteración rápida es la base del desarrollo de hardware. Dimension3D ofrece prototipado rápido en Barcelona con un plazo típico de 24–72 horas desde archivo hasta pieza en mano — para que tu próxima revisión de diseño llegue antes de que la competencia termine su primera solicitud de presupuesto.",
+    sections: [
+      {
+        heading: "24–72h de STL o STEP a pieza funcional",
+        body: "En cuanto termina tu revisión CAD, envíala. Aceptamos STL, STEP e IGES de cualquier herramienta de modelado — SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD, CATIA. Sin conversión, sin reformateo.\n\nRevisamos cada archivo manualmente antes de confirmar el plazo. Si la geometría tiene un problema de soportes o un espesor de pared que afectará a la función, lo señalamos en el presupuesto en lugar de imprimir una pieza defectuosa y hacerte esperar otras 48 horas."
+      },
+      {
+        heading: "Material adaptado a la fase de iteración",
+        body: "Seleccionamos el material de impresión según lo que el prototipo tiene que demostrar, no lo que es más barato:\n\n• PLA — verificaciones de forma y ajuste, modelos de concepto en fase temprana.\n• PETG — carga moderada y exposición exterior, primera validación funcional.\n• ABS/ASA — piezas resistentes al calor, prototipos para automoción y carcasas.\n• Nylon / Nylon-CF — piezas mecánicas de alta carga, más cercanas a las propiedades del plástico inyectado.\n• TPU — cubiertas flexibles, juntas, estanqueidades.\n\nElegir el material equivocado desperdicia un ciclo de iteración completo. En el presupuesto te recomendamos el correcto."
+      },
+      {
+        heading: "Iteraciones sin fricción",
+        body: "Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Sin suscripción, sin pedido mínimo por iteración y sin burocracia — subes, revisamos, presupuestamos, apruebas, imprimimos. Para clientes que iteran con frecuencia conservamos tu proyecto en archivo y podemos recibir revisiones por WhatsApp directamente."
+      },
+      {
+        heading: "Del prototipo a la tirada corta de producción",
+        body: "Una vez que el diseño está cerrado, podemos pasar sin fisuras a tiradas cortas de producción (5–200 unidades) sin cambiar de proveedor ni renegociar condiciones. Conservamos los parámetros de impresión validados y podemos programar una tirada con poco margen de preaviso."
+      }
+    ],
+    faqs: [
+      { q: "¿Cuánto tarda una iteración de prototipado?", a: "Normalmente entre 24 y 72 horas desde el envío del archivo hasta la pieza en mano, según tamaño, material y cola actual." },
+      { q: "¿Qué formatos CAD aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones de SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD y la mayoría de herramientas funcionan sin conversión." },
+      { q: "¿Detectáis problemas de diseño antes de imprimir?", a: "Sí. Revisamos cada archivo manualmente y señalamos problemas de espesor de pared, soportes o material antes de imprimir." },
+      { q: "¿Podéis hacer una tirada pequeña de producción tras el prototipo?", a: "Sí. Pasamos del prototipo a la tirada corta (5–200 unidades) sin cambiar de proveedor ni re-establecer condiciones." }
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
+    related: [
+      { label: "Impresión 3D para Empresas", slug: "/impresion-3d-empresas-barcelona" },
+      { label: "Piezas Funcionales", slug: "/piezas-funcionales-barcelona" },
+      { label: "Impresión 3D Urgente", slug: "/impresion-3d-urgente-barcelona" },
+      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+    ],
+    schemaServiceName: "Prototipado Rápido Barcelona"
+  },
+
+  // ----- NUEVA: PIEZAS FUNCIONALES -----
+  {
+    slug: "/piezas-funcionales-barcelona",
+    topic: "functional-parts",
+    altSlug: "/functional-parts-barcelona",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "Piezas Funcionales 3D Barcelona — PETG, Nylon, ABS Bajo Demanda | Dimension3D",
+    metaDescription: "Piezas funcionales 3D en Barcelona en PETG, ABS, Nylon y TPU. Componentes estructurales, utillaje, piezas de uso final. Envía tu STL/STEP — presupuesto en 1 hora.",
+    h1: "Piezas Funcionales 3D en Barcelona — Bajo Demanda",
+    intro: "No toda impresión 3D es decorativa. Dimension3D está especializado en piezas funcionales impresas en 3D en Barcelona — componentes que cargan, flexionan, sellan, montan, protegen o sustituyen algo en el mundo real. Seleccionamos el material, el espesor de pared y el relleno correctos para lo que la pieza tiene que hacer.",
+    sections: [
+      {
+        heading: "Qué hace realmente funcional una pieza",
+        body: "Una pieza funcional tiene que sobrevivir a su entorno y cumplir su cometido sin fallar. Eso significa:\n\n• Elegir el polímero adecuado — PETG para piezas funcionales generales y de exterior, ABS/ASA para resistencia al calor y productos químicos, Nylon para cargas mecánicas altas, Nylon-CF para máxima rigidez, TPU para aplicaciones flexibles o de estanqueidad.\n• Configurar la densidad de relleno correcta — 20–40% para cargas moderadas, 60–80% para piezas estructurales, 100% macizo para contactos portantes.\n• Orientar la pieza en la dirección de carga dominante — la adherencia entre capas es siempre el eje débil en FDM.\n\nTomamos las tres decisiones por ti en la fase de presupuesto. Si una geometría no va a sobrevivir a la aplicación en FDM, te lo decimos antes de imprimirla."
+      },
+      {
+        heading: "Categorías habituales de piezas funcionales",
+        body: "Trabajos típicos de impresión funcional en Barcelona:\n\n• Jigs, fixtures y guías para líneas de producción.\n• Carcasas y cajas para electrónica, sensores y PCBs.\n• Piezas de repuesto y reparación para electrodomésticos, vehículos y equipos.\n• Soportes de montaje, guías de cable y hardware para rack.\n• Utillaje a medida y pinzas de fin de brazo.\n• Soportes estructurales para muebles, estanterías y estructuras de exterior.\n• Prototipos funcionales para validación mecánica.\n\nSi una pieza tiene un trabajo real que hacer, la tratamos como tal."
+      },
+      {
+        heading: "Guía de materiales para impresión funcional",
+        body: "Selección de materiales para piezas funcionales:\n\n• PETG — el más versátil para piezas funcionales, de exterior y en contacto con agua. Fácil de imprimir, resistente, resistente a UV y humedad.\n• ABS/ASA — para piezas que se calientan (automoción, electrodomésticos cerca de fuentes de calor) o que afrontan UV exterior a largo plazo.\n• Nylon PA12 — alta resistencia a la tracción, baja fricción, bueno para engranajes, casquillos y piezas de alto desgaste.\n• Nylon-CF — la opción FDM más rígida, se acerca al aluminio en rigidez por peso para soportes estructurales.\n• TPU 95A — para piezas flexibles: juntas, mangos, topes, estanqueidades.\n\nEn el presupuesto te recomendamos el material adecuado para tu aplicación."
+      },
+      {
+        heading: "De una pieza a una tirada corta",
+        body: "Sin pedido mínimo. Imprimimos piezas funcionales individuales con la misma facilidad que un lote de 50. Para pedidos repetidos, conservamos el archivo y los parámetros para que los reencargos se gestionen en minutos. Para cantidades de 5–200, pide precio por tramos — el coste unitario baja con el volumen."
+      }
+    ],
+    faqs: [
+      { q: "¿Qué material es mejor para piezas funcionales con carga?", a: "Nylon PA12 o Nylon-CF para máxima resistencia mecánica. PETG para cargas moderadas con exposición exterior o al agua. En el presupuesto especificamos el correcto." },
+      { q: "¿Cuánto resiste una pieza en PETG comparada con plástico inyectado?", a: "Una pieza PETG bien impresa al 60%+ de relleno es a menudo comparable al PP o ABS inyectado para cargas estructurales moderadas, aunque anisótropa — más resistente en el plano de impresión que entre capas." },
+      { q: "¿Podéis imprimir piezas funcionales con tolerancias ajustadas?", a: "La FDM típica mantiene ±0,2 mm. Para superficies de acoplamiento críticas ajustamos parámetros y podemos post-mecanizar si se requieren tolerancias más ajustadas." },
+      { q: "¿Revisáis los archivos antes de imprimir?", a: "Sí. Revisamos cada archivo manualmente. Si hay un problema — paredes finas, orientación inadecuada para la dirección de carga, soporte insuficiente — lo señalamos antes de imprimir." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "Impresión 3D para Empresas", slug: "/impresion-3d-empresas-barcelona" },
+      { label: "Prototipado Rápido", slug: "/prototipado-rapido-barcelona" },
+      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
+      { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" }
+    ],
+    schemaServiceName: "Piezas Funcionales 3D Barcelona"
   }
 ];

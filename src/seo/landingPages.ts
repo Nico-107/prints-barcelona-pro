@@ -15,7 +15,10 @@ export type LandingTopic =
   | "pla"
   | "petg"
   | "tpu"
-  | "miniatures";
+  | "miniatures"
+  | "business"
+  | "rapid-prototyping"
+  | "functional-parts";
 
 export interface LandingFAQ {
   q: string;
@@ -78,9 +81,9 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/impresion-3d-barcelona",
     lang: "en",
     category: "service",
-    metaTitle: "3D Printing Service in Barcelona | Dimension3D",
-    metaDescription: "Professional 3D printing service in Barcelona. Custom prints, prototypes, repairs and gifts. Quote in under 1 hour. Local pickup or shipping across Spain.",
-    h1: "3D Printing Service in Barcelona",
+    metaTitle: "3D Printing in Barcelona — Quote in 1h, Delivery 24–48h | Dimension3D",
+    metaDescription: "Professional 3D printing in Barcelona. Send your STL/STEP file — quote in under 1 hour, delivery in 24–48h. Functional parts, prototypes and custom prints. Local pickup or Spain-wide shipping.",
+    h1: "3D Printing in Barcelona — Fast Quote, Professional Results",
     intro: "Dimension3D is a Barcelona-based 3D printing studio helping individuals, makers, engineers and small businesses bring physical parts to life — fast, clean and at a fair price. From a single replacement clip to a small batch of functional prototypes, we handle the full process locally in the city.",
     sections: [
       {
@@ -121,9 +124,9 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/piezas-personalizadas-3d-barcelona",
     lang: "en",
     category: "use-case",
-    metaTitle: "Custom 3D Printed Parts in Barcelona | Dimension3D",
-    metaDescription: "Custom 3D printed parts in Barcelona: replacement clips, brackets, appliance fixes, automotive parts and one-off pieces. Send a photo, get a quote in under 1 hour.",
-    h1: "Custom 3D Printed Parts in Barcelona",
+    metaTitle: "Custom 3D Printed Parts Barcelona — STL/STEP or Photo, Quote in 1h | Dimension3D",
+    metaDescription: "Custom 3D printed parts in Barcelona from your STL, STEP or photo. Functional replacements, brackets, automotive clips and prototypes. Professional quote in under 1 hour. No minimum order.",
+    h1: "Custom 3D Printed Parts in Barcelona — From File to Part in 24–48h",
     intro: "Need a part that doesn't exist on any shelf? That's exactly what we do. Dimension3D produces custom 3D printed parts in Barcelona for households, workshops, drivers and makers — from a single broken clip to small batches of bespoke brackets.",
     sections: [
       {
@@ -250,8 +253,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/precio-impresion-3d-barcelona",
     lang: "en",
     category: "service",
-    metaTitle: "3D Printing Prices in Barcelona | Transparent Quotes",
-    metaDescription: "How much does 3D printing cost in Barcelona? Transparent pricing by size, material and quantity. Small parts from 10€. Free quote in under 1 hour.",
+    metaTitle: "3D Printing Prices Barcelona — From 10€, Free Quote in 1h | Dimension3D",
+    metaDescription: "How much does 3D printing cost in Barcelona? Small parts from 10€. Transparent pricing by size, material and quantity. Free quote in under 1 hour, no commitment.",
     h1: "3D Printing Prices in Barcelona",
     intro: "One of the first questions every customer asks is: how much will my 3D print cost? On this page we explain exactly what drives the price of a 3D print in Barcelona, with realistic examples, so you can plan your project with no surprises.",
     sections: [
@@ -293,8 +296,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/recambios-impresion-3d-barcelona",
     lang: "en",
     category: "use-case",
-    metaTitle: "3D Printed Replacement Parts in Barcelona | Repairs",
-    metaDescription: "3D printed replacement parts in Barcelona for appliances, furniture, vintage items and household repairs. Sustainable alternative to throwing things away.",
+    metaTitle: "3D Printed Replacement Parts Barcelona — Broken Clips & Appliance Parts Fixed | Dimension3D",
+    metaDescription: "3D printed replacement parts in Barcelona for appliances, furniture and vehicles. Broken clips, knobs, brackets and discontinued parts. Photo to part in 24–48h. From 10€.",
     h1: "3D Printed Replacement Parts in Barcelona",
     intro: "Throwing away a perfectly working appliance because of a tiny broken plastic part doesn't make sense — environmentally or financially. Dimension3D produces 3D printed replacement parts in Barcelona for appliances, furniture, vintage items and any object where the original part is no longer available.",
     sections: [
@@ -336,8 +339,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/impresion-pla-barcelona",
     lang: "en",
     category: "material",
-    metaTitle: "PLA 3D Printing in Barcelona | Eco Material Service",
-    metaDescription: "PLA 3D printing in Barcelona. Eco-friendly material ideal for prototypes, decoration, gifts and everyday prints. Wide colour range. Quote in under 1 hour.",
+    metaTitle: "PLA 3D Printing Barcelona — Prototypes, Gifts & Decorations | Dimension3D",
+    metaDescription: "PLA 3D printing in Barcelona — accurate, affordable and eco-friendly. Prototypes, decorative pieces, personalised gifts and figures. Wide colour range. Free quote in under 1 hour.",
     h1: "PLA 3D Printing in Barcelona",
     intro: "PLA is the most popular 3D printing material in the world for good reason — it's eco-friendly, easy to print with high accuracy, and available in a huge range of colours. Dimension3D offers professional PLA 3D printing in Barcelona for everything from decorative pieces to early prototypes.",
     sections: [
@@ -379,8 +382,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/impresion-petg-barcelona",
     lang: "en",
     category: "material",
-    metaTitle: "PETG 3D Printing in Barcelona | Strong Outdoor Parts",
-    metaDescription: "PETG 3D printing in Barcelona. Stronger than PLA, water and UV resistant, perfect for functional and outdoor parts. Free quote in under 1 hour.",
+    metaTitle: "PETG 3D Printing Barcelona — Functional & Outdoor Parts | Dimension3D",
+    metaDescription: "PETG 3D printing in Barcelona. Stronger than PLA, water and UV resistant. Send your STL/STEP — quote in 1h. Ideal for functional, mechanical and outdoor parts.",
     h1: "PETG 3D Printing in Barcelona",
     intro: "When a part needs to be tougher than PLA, survive outdoors or come into contact with water, PETG is usually the right answer. Dimension3D offers professional PETG 3D printing in Barcelona for functional, mechanical and outdoor applications.",
     sections: [
@@ -422,8 +425,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/impresion-tpu-barcelona",
     lang: "en",
     category: "material",
-    metaTitle: "TPU Flexible 3D Printing in Barcelona | Rubber-Like",
-    metaDescription: "TPU flexible 3D printing in Barcelona. Rubber-like prints for phone mounts, seals, grips and wearables. Custom flexible parts in 24–72h.",
+    metaTitle: "TPU Flexible 3D Printing Barcelona — Seals, Grips & Custom Rubber Parts | Dimension3D",
+    metaDescription: "TPU flexible 3D printing in Barcelona. Rubber-like parts for phone mounts, seals, grips and wearables. Send STL/STEP — custom flexible parts in 24–72h.",
     h1: "TPU Flexible 3D Printing in Barcelona",
     intro: "TPU is the material that makes 3D printing flexible. If a part needs to bend, grip, cushion or seal, this is what we use. Dimension3D produces custom TPU 3D prints in Barcelona for everything from phone mounts to industrial seals.",
     sections: [
@@ -501,5 +504,140 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Pricing", slug: "/3d-printing-price-barcelona" }
     ],
     schemaServiceName: "3D Printed Miniatures Barcelona"
+  },
+
+  // ----- NEW: BUSINESS -----
+  {
+    slug: "/3d-printing-for-business-barcelona",
+    topic: "business",
+    altSlug: "/impresion-3d-empresas-barcelona",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "3D Printing for Business in Barcelona — Technical Parts & Short Runs | Dimension3D",
+    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. Send your STL/STEP file — quote in 1 hour. Functional and technical parts, jigs, fixtures, short production runs. NDA available.",
+    h1: "3D Printing for Business in Barcelona",
+    intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. No account, no tender, no minimum volume.",
+    sections: [
+      {
+        heading: "What we produce for business customers",
+        body: "Our business customers use us for a wide range of industrial and technical applications:\n\n• Jigs, fixtures and end-of-arm tooling for production lines.\n• Functional prototypes for validation and client presentations.\n• Enclosures and housings for electronics and PCBs.\n• Replacement machine parts and wear components.\n• Short-run production of 5 to 200 identical parts.\n• Custom mounting brackets, cable management and rack hardware.\n\nWe work in PETG, ABS/ASA, Nylon and Nylon-CF for structural applications, and in PLA or PETG for low-stress functional parts. If your application calls for a specific material or tolerance, tell us upfront and we'll advise on feasibility."
+      },
+      {
+        heading: "STL, STEP and IGES accepted — professional quote in 1 hour",
+        body: "Send your file via the upload form or directly to our WhatsApp. We work with all standard CAD exports: STL, STEP, IGES, OBJ and 3MF. If you're using SolidWorks, Fusion 360, Onshape, CATIA or FreeCAD, export in any of those formats.\n\nWe review every file manually before quoting — checking wall thickness, support requirements, orientation and material suitability — so your quote reflects the real cost and the real timeline, not an automated estimate. You receive a clear line-item price within 60 minutes during business hours."
+      },
+      {
+        heading: "Short production runs and repeat orders",
+        body: "Once a part is validated, we can run repeat orders without re-quoting from scratch. We keep the sliced file and print parameters on record. For quantities of 5–200 parts, per-unit cost drops as volume grows — ask for a tiered price when you request the quote.\n\nWe can also deliver to your workshop or office in Barcelona by courier, or ship to any address in mainland Spain with tracking."
+      },
+      {
+        heading: "Confidentiality and NDAs",
+        body: "We sign NDAs for any project that requires it. Confidentiality is standard practice for us — we never share client files, designs or project details. If your R&D department or engineering team needs discretion, we handle that as a baseline, not as a special request."
+      }
+    ],
+    faqs: [
+      { q: "Do you sign NDAs for business projects?", a: "Yes. NDA signing is standard for any client who requests it. We never share client files or project details." },
+      { q: "What file formats do you accept?", a: "STL, STEP, IGES, OBJ and 3MF. Native CAD exports from SolidWorks, Fusion 360, Onshape and most other tools work fine." },
+      { q: "Can you supply 50 or 100 identical parts?", a: "Yes. We run short production batches from 5 to 200 units. Per-unit price drops with quantity — ask for a tiered quote." },
+      { q: "What tolerances can you hold?", a: "Typical FDM accuracy is ±0.2 mm. For tighter-tolerance features we adjust parameters and can post-process critical surfaces. Tell us the requirement upfront." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "Prototype Printing", slug: "/prototype-printing-barcelona" },
+      { label: "Rapid Prototyping", slug: "/rapid-prototyping-barcelona" },
+      { label: "Functional Parts", slug: "/functional-parts-barcelona" },
+      { label: "Urgent 3D Printing", slug: "/urgent-3d-printing-barcelona" }
+    ],
+    schemaServiceName: "3D Printing for Business Barcelona"
+  },
+
+  // ----- NEW: RAPID PROTOTYPING -----
+  {
+    slug: "/rapid-prototyping-barcelona",
+    topic: "rapid-prototyping",
+    altSlug: "/prototipado-rapido-barcelona",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "Rapid Prototyping Barcelona — 24–72h Cycle, STL/STEP Accepted | Dimension3D",
+    metaDescription: "Rapid prototyping in Barcelona for engineers and startups. Send your STL or STEP file — functional prototype in 24–72 hours. Iterate fast. PETG, Nylon, ABS. NDA available.",
+    h1: "Rapid Prototyping in Barcelona — 24–72h Iteration",
+    intro: "Fast iteration is the backbone of hardware development. Dimension3D delivers rapid prototyping in Barcelona with a typical turnaround of 24–72 hours from file to part — so your next design revision is in your hands before the competition has finished their first quote request.",
+    sections: [
+      {
+        heading: "24–72h from STL or STEP to functional part",
+        body: "The moment your CAD revision is done, send it. We accept STL, STEP and IGES from any modelling tool — SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD, CATIA. No conversion, no reformatting.\n\nWe manually review every file before confirming the timeline. If a geometry has a support problem or wall-thickness issue that will affect function, we flag it in the quote instead of printing a bad part and making you wait another 48 hours to find out."
+      },
+      {
+        heading: "Material matched to the iteration stage",
+        body: "We select the print material based on what the prototype has to prove, not on what's cheapest:\n\n• PLA — form-fit checks, early-stage concept models.\n• PETG — moderate stress and outdoor exposure, first functional validation.\n• ABS/ASA — heat-resistant parts, automotive and enclosure prototypes.\n• Nylon / Nylon-CF — high-load mechanical parts, closer to injection-moulded properties.\n• TPU — flexible covers, gaskets, seals.\n\nChoosing the wrong material wastes an entire iteration cycle. We'll recommend the right one in the quote."
+      },
+      {
+        heading: "Iterations without friction",
+        body: "Each revised file goes through the same same-day review and 24–72h production cycle. There's no subscription, no minimum order per iteration, and no administrative back-and-forth — you upload, we review, we quote, you approve, we print. For clients who iterate frequently, we keep your project on file and can accept revision uploads via WhatsApp directly."
+      },
+      {
+        heading: "From prototype to small production run",
+        body: "Once your design is locked, we can transition seamlessly into short-run production (5–200 units) without changing supplier or renegotiating terms. We keep the validated print parameters and can schedule a batch run at short notice."
+      }
+    ],
+    faqs: [
+      { q: "How fast is one prototyping iteration?", a: "Typically 24–72 hours from file submission to part in hand, depending on size, material and current queue." },
+      { q: "Which CAD formats do you accept?", a: "STL, STEP, IGES, OBJ and 3MF. Exports from SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD and most other tools work without conversion." },
+      { q: "Do you flag design problems before printing?", a: "Yes. We review every file manually and flag wall-thickness issues, support problems or material mismatches in the quote before we start printing." },
+      { q: "Can you run a small production batch after the prototype?", a: "Yes. We transition from prototype to short-run production (5–200 units) without changing supplier or re-establishing terms." }
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
+    related: [
+      { label: "3D Printing for Business", slug: "/3d-printing-for-business-barcelona" },
+      { label: "Functional Parts", slug: "/functional-parts-barcelona" },
+      { label: "Urgent 3D Printing", slug: "/urgent-3d-printing-barcelona" },
+      { label: "Pricing", slug: "/3d-printing-price-barcelona" }
+    ],
+    schemaServiceName: "Rapid Prototyping Barcelona"
+  },
+
+  // ----- NEW: FUNCTIONAL PARTS -----
+  {
+    slug: "/functional-parts-barcelona",
+    topic: "functional-parts",
+    altSlug: "/piezas-funcionales-barcelona",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "Functional 3D Printed Parts Barcelona — PETG, Nylon, ABS On Demand | Dimension3D",
+    metaDescription: "Functional 3D printed parts in Barcelona from PETG, ABS, Nylon and TPU. Structural components, jigs, fixtures and end-use parts. Send your STL/STEP — quote in 1 hour.",
+    h1: "Functional 3D Printed Parts in Barcelona — On Demand",
+    intro: "Not every 3D print is decorative. Dimension3D specialises in functional 3D printed parts in Barcelona — components that load, flex, seal, mount, protect or replace something in the real world. We select the right material, wall thickness and infill for what the part actually has to do.",
+    sections: [
+      {
+        heading: "What makes a part truly functional",
+        body: "A functional part has to survive its environment and perform its job without failing. That means:\n\n• Choosing the right polymer — PETG for general functional and outdoor parts, ABS/ASA for heat and chemical resistance, Nylon for high mechanical loads, Nylon-CF for maximum stiffness, TPU for flexible or sealing applications.\n• Setting the right infill density — 20–40% for moderate loads, 60–80% for structural parts, 100% solid for load-bearing contacts.\n• Orienting the part for the dominant load direction — layer adhesion is always the weak axis in FDM.\n\nWe make all three decisions for you in the quoting stage. If a geometry won't survive the application in FDM, we'll say so before printing it."
+      },
+      {
+        heading: "Common functional part categories",
+        body: "Typical functional printing jobs in Barcelona:\n\n• Machine jigs, fixtures and guides for production lines.\n• Enclosures and housings for electronics, sensors and PCBs.\n• Replacement and repair parts for appliances, vehicles and equipment.\n• Mounting brackets, cable guides and rack hardware.\n• Custom tooling and end-of-arm grippers.\n• Structural brackets for furniture, shelving and outdoor structures.\n• Functional prototypes for mechanical validation.\n\nIf a part has a real job to do, we treat it like one."
+      },
+      {
+        heading: "Material guide for functional printing",
+        body: "Material selection for functional parts:\n\n• PETG — best all-around for functional, outdoor and water-contact parts. Easy to print, tough, UV and humidity resistant.\n• ABS/ASA — for parts that get hot (automotive, appliances near heat sources) or face UV outdoors long-term.\n• Nylon PA12 — high tensile strength, low friction, good for gears, bushings and high-wear parts.\n• Nylon-CF — stiffest FDM option, approaches aluminium in rigidity-to-weight for structural brackets.\n• TPU 95A — for flexible parts: seals, grips, bumpers, gaskets.\n\nWe'll recommend the right material for your application in the quote."
+      },
+      {
+        heading: "From one part to a short run",
+        body: "There is no minimum order. We print single functional parts as readily as a batch of 50. For repeat orders, we keep the file and parameters on record so reorders take minutes to set up. For quantities of 5–200, ask for a tiered price — per-unit cost drops as volume grows."
+      }
+    ],
+    faqs: [
+      { q: "Which material is best for load-bearing functional parts?", a: "Nylon PA12 or Nylon-CF for maximum mechanical strength. PETG for moderate loads with outdoor or water exposure. We'll specify the right one in the quote." },
+      { q: "How strong is a PETG print compared to injection-moulded plastic?", a: "A well-printed PETG part at 60%+ infill is often comparable to injection-moulded PP or ABS for moderate structural loads, though anisotropic — stronger along the print plane than across layers." },
+      { q: "Can you print functional parts with tight tolerances?", a: "Typical FDM holds ±0.2 mm. For critical mating surfaces we adjust parameters and can post-machine or post-process if tighter tolerances are required — discuss this in the quote." },
+      { q: "Do you review files for structural suitability before printing?", a: "Yes. Every file is reviewed manually. If a geometry has an issue — thin walls, bad orientation for load direction, inadequate support — we flag it before printing." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "3D Printing for Business", slug: "/3d-printing-for-business-barcelona" },
+      { label: "Rapid Prototyping", slug: "/rapid-prototyping-barcelona" },
+      { label: "PETG Printing", slug: "/petg-printing-barcelona" },
+      { label: "Replacement Parts", slug: "/replacement-parts-barcelona" }
+    ],
+    schemaServiceName: "Functional 3D Printed Parts Barcelona"
   }
 ];
