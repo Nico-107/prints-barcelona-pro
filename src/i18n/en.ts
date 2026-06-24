@@ -327,6 +327,12 @@ export const enTranslations: Record<string, string> = {
   "cookie.banner.reject": "Reject",
   "cookie.banner.accept": "Accept",
 
+  // B2B homepage banner
+  "b2bhome.badge": "For Business",
+  "b2bhome.title": "Are you a company or engineer?",
+  "b2bhome.subtitle": "Volume runs, ongoing supply and priority turnaround — we work directly with engineering teams and workshops in Barcelona.",
+  "b2bhome.cta": "Explore business services",
+
   // Privacy page
   "privacy.meta.title": "Privacy Policy | Dimension3D",
   "privacy.meta.description": "How Dimension3D collects anonymous analytics data and uses cookies.",

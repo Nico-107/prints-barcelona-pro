@@ -1,4 +1,4 @@
-import { Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
+import { Menu, X, Star, PackageSearch, ChevronDown, Building2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU, slugForLang } from "@/seo/registry";
+import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +24,8 @@ const Header = () => {
   const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
   const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
+  const forBusinessLabel = isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
+  const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -80,6 +82,13 @@ const Header = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <Button asChild variant="outline" size="sm" className="gap-1.5 border-accent/40 text-accent hover:bg-accent/5 whitespace-nowrap">
+              <Link to={businessSlug}>
+                <Building2 className="w-4 h-4" />
+                {forBusinessLabel}
+              </Link>
+            </Button>
 
             <div className="hidden xl:flex items-center gap-1.5 text-sm">
               <div className="flex gap-0.5">
@@ -141,7 +150,13 @@ const Header = () => {
                 </div>
               ))}
 
-              <Button asChild variant="outline" className="mt-3 w-full">
+              <Button asChild variant="outline" className="mt-3 w-full gap-1.5 border-accent/40 text-accent hover:bg-accent/5">
+                <Link to={businessSlug} onClick={() => setIsMenuOpen(false)}>
+                  <Building2 className="w-4 h-4" />
+                  {forBusinessLabel}
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
                 <Link to="/track" onClick={() => setIsMenuOpen(false)}>
                   <PackageSearch className="w-4 h-4" /> {t("nav.trackOrder")}
                 </Link>

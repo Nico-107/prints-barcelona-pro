@@ -12,10 +12,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import Index from "./pages/Index";
 import Track from "./pages/Track";
 import LandingPage from "./pages/LandingPage";
+import B2BPage from "./pages/B2BPage";
 import Makers from "./pages/Makers";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
-import { ALL_PAGES } from "@/seo/registry";
+import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import type { Language } from "@/contexts/LanguageContext";
 
 export { ALL_PAGES };
@@ -44,6 +45,9 @@ export function render(url: string): { html: string; helmetContext: FilledContex
                 <Route path="/track" element={<Track />} />
                 <Route path="/makers" element={<Makers />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
+                <Route path="/impresion-3d-empresas-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/impresion-3d-empresas-barcelona"]} />} />
+                <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
                 {ALL_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
                 ))}

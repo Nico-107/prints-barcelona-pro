@@ -321,6 +321,12 @@ export const esTranslations: Record<string, string> = {
   "makers.form.required.title": "Campos requeridos",
   "makers.form.required.desc": "Por favor, completa todos los campos obligatorios.",
 
+  // B2B homepage banner
+  "b2bhome.badge": "Para Empresas",
+  "b2bhome.title": "¿Eres empresa o ingeniero?",
+  "b2bhome.subtitle": "Tiradas en volumen, suministro continuo y entrega prioritaria — trabajamos directamente con equipos de ingeniería y talleres en Barcelona.",
+  "b2bhome.cta": "Conoce los servicios para empresas",
+
   // Cookie consent banner
   "cookie.banner.message": "Usamos análisis web anónimos para mejorar el sitio. Si aceptas, habilitamos un identificador persistente para un análisis más detallado.",
   "cookie.banner.privacy": "Política de privacidad",

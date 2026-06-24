@@ -321,6 +321,12 @@ export const caTranslations: Record<string, string> = {
   "makers.form.required.title": "Camps obligatoris",
   "makers.form.required.desc": "Si us plau, omple tots els camps obligatoris.",
 
+  // B2B homepage banner
+  "b2bhome.badge": "Per a Empreses",
+  "b2bhome.title": "Ets empresa o enginyer?",
+  "b2bhome.subtitle": "Tirades en volum, subministrament continu i lliurament prioritari — treballem directament amb equips d'enginyeria i tallers a Barcelona.",
+  "b2bhome.cta": "Descobreix els serveis per a empreses",
+
   // Cookie consent banner
   "cookie.banner.message": "Fem servir analítica web anònima per millorar el lloc. Si acceptes, activem un identificador persistent per a una analítica més detallada.",
   "cookie.banner.privacy": "Política de privacitat",
