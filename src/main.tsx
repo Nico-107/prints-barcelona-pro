@@ -5,8 +5,8 @@ import { registerPostHog } from "./lib/analytics";
 import App from "./App.tsx";
 import "./index.css";
 
-const phKey = import.meta.env.VITE_POSTHOG_KEY as string | undefined;
-const phHost = import.meta.env.VITE_POSTHOG_HOST as string | undefined;
+const phKey = (import.meta.env.VITE_POSTHOG_KEY as string | undefined)?.trim();
+const phHost = (import.meta.env.VITE_POSTHOG_HOST as string | undefined)?.trim();
 if (phKey && phHost) {
   posthog.init(phKey, {
     api_host: phHost,
@@ -15,6 +15,8 @@ if (phKey && phHost) {
     persistence: "localStorage+cookie",
   });
   registerPostHog(posthog);
+} else if (import.meta.env.DEV) {
+  console.warn("[analytics] VITE_POSTHOG_KEY or VITE_POSTHOG_HOST not set — PostHog disabled");
 }
 
 const rootEl = document.getElementById("root")!;

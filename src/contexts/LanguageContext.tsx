@@ -19,24 +19,40 @@ const translations: Record<Language, Record<string, string>> = {
   ca: caTranslations,
 };
 
-export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+// Derive language from a URL path alone — deterministic, no browser APIs needed.
+// Must stay in sync with the SSR detect function in entry-server.tsx.
+function pathLanguage(path: string): Language {
+  if (path.startsWith("/ca/") || path === "/ca") return "ca";
+  return "es";
+}
+
+export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?: Language }> = ({
+  children,
+  defaultLanguage,
+}) => {
+  // Initial language is determined solely from the URL so that the client's
+  // first render matches the prerendered HTML exactly.
+  // • On the server: window is undefined, so we use defaultLanguage passed by
+  //   the SSR render function (which already ran pathLanguage on the route URL).
+  // • On the client: we read window.location.pathname — same logic, same result.
   const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      // 1. URL prefix wins (so /ca/... loads in Catalan even on first visit)
-      const path = window.location.pathname;
-      if (path.startsWith("/ca/") || path === "/ca") return "ca";
-
-      // 2. Stored preference
-      const stored = localStorage.getItem("preferred-language");
-      if (stored === "es" || stored === "en" || stored === "ca") return stored;
-
-      // 3. Browser language
-      const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith("ca")) return "ca";
-      if (browserLang.startsWith("en")) return "en";
-    }
-    return "es";
+    if (typeof window !== "undefined") return pathLanguage(window.location.pathname);
+    return defaultLanguage ?? "es";
   });
+
+  // After hydration completes, apply the user's stored preference or browser
+  // language. Runs client-only (useEffect never runs during SSR), so it cannot
+  // cause a hydration mismatch — it simply triggers a post-hydration re-render.
+  useEffect(() => {
+    const stored = localStorage.getItem("preferred-language");
+    if (stored === "es" || stored === "en" || stored === "ca") {
+      setLanguageState(stored as Language);
+      return;
+    }
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith("ca")) setLanguageState("ca");
+    else if (browserLang.startsWith("en")) setLanguageState("en");
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("preferred-language", language);

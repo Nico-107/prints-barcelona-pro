@@ -15,17 +15,25 @@ import LandingPage from "./pages/LandingPage";
 import Makers from "./pages/Makers";
 import NotFound from "./pages/NotFound";
 import { ALL_PAGES } from "@/seo/registry";
+import type { Language } from "@/contexts/LanguageContext";
 
 export { ALL_PAGES };
+
+// Mirror of pathLanguage() in LanguageContext.tsx — must stay in sync.
+function urlLanguage(path: string): Language {
+  if (path.startsWith("/ca/") || path === "/ca") return "ca";
+  return "es";
+}
 
 export function render(url: string): { html: string; helmetContext: FilledContext } {
   const helmetContext = {} as FilledContext;
   const queryClient = new QueryClient();
+  const defaultLanguage = urlLanguage(url);
 
   const html = renderToString(
     <HelmetProvider context={helmetContext}>
       <QueryClientProvider client={queryClient}>
-        <LanguageProvider>
+        <LanguageProvider defaultLanguage={defaultLanguage}>
           <TooltipProvider>
             <Toaster />
             <Sonner />
