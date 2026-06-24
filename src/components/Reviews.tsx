@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { capture } from "@/lib/analytics";
 
 const staticReviews = [
   { name: "Alex A.", text: "Gran calidad de impresión. Todo exactamente como lo pedí. Persona seria y de confianza. 100% recomendable.", rating: 5 },
@@ -86,6 +87,10 @@ const Reviews = () => {
         body: { name: formData.name.trim(), email: formData.email.trim(), rating: formData.rating, reviewText: formData.reviewText.trim(), orderReference: formData.orderReference.trim(), website: honeypot, formStartTime: formStartTimeRef.current },
       });
       if (error) throw error;
+      capture('review submitted', {
+        rating: formData.rating,
+        has_order_reference: !!formData.orderReference.trim(),
+      });
       toast({ title: t("reviews.form.success"), description: t("reviews.form.successDesc") });
       setFormData({ name: "", email: "", rating: 5, reviewText: "", orderReference: "" });
       setHoneypot("");

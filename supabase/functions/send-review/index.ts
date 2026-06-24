@@ -5,6 +5,17 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "011107miko@gmail.com";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
+const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
+
+function captureEvent(event: string, properties?: Record<string, unknown>): void {
+  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  fetch(`${POSTHOG_HOST}/capture/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ api_key: POSTHOG_KEY, event, distinct_id: "server", properties: properties ?? {} }),
+  }).catch(() => {});
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -166,6 +177,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Review saved to database with ID:", newReview.id);
+    captureEvent("review received", { rating, has_order_reference: !!orderReference?.trim() });
 
     // Sanitize inputs for HTML email
     const safeName = sanitizeHtml(name.trim());

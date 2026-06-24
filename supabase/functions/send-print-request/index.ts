@@ -3,6 +3,17 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "011107miko@gmail.com";
+const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
+const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
+
+function captureEvent(event: string, distinctId: string, properties?: Record<string, unknown>): void {
+  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  fetch(`${POSTHOG_HOST}/capture/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ api_key: POSTHOG_KEY, event, distinct_id: distinctId, properties: properties ?? {} }),
+  }).catch(() => {});
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -243,6 +254,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailData = await emailResponse.json();
     console.log("Email sent successfully:", emailData);
+
+    captureEvent("print request processed", "server", { is_urgent: isUrgent });
 
     return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       status: 200,

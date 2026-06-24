@@ -1,6 +1,18 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
+const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
+const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
+
+function captureEvent(event: string, properties?: Record<string, unknown>): void {
+  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  fetch(`${POSTHOG_HOST}/capture/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ api_key: POSTHOG_KEY, event, distinct_id: "server", properties: properties ?? {} }),
+  }).catch(() => {});
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -111,6 +123,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const actionText = newStatus === "published" ? "aprobada" : "rechazada";
     console.log(`Review ${review.id} has been ${actionText}`);
+    captureEvent(newStatus === "published" ? "review approved" : "review rejected", { review_id: review.id });
 
     return new Response(
       generateHtmlResponse(

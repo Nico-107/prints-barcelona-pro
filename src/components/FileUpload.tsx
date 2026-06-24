@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_FILES = 10;
@@ -104,6 +105,11 @@ const FileUpload = () => {
       }
 
       setIsSubmitted(true);
+      capture('print request submitted', {
+        file_count: files.length,
+        is_urgent: isUrgent,
+        has_message: !!message,
+      });
       toast({ title: t("upload.success.title"), description: t("upload.success.desc") });
     } catch (error: any) {
       console.error("Submit error:", error);
@@ -118,6 +124,7 @@ const FileUpload = () => {
   };
 
   const handleWhatsApp = () => {
+    capture('print request whatsapp clicked', { source: 'upload_form' });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

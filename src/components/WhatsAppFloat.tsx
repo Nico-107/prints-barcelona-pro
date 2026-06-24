@@ -1,6 +1,7 @@
 import { MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -8,6 +9,7 @@ const WhatsAppFloat = () => {
   const { t } = useLanguage();
 
   const handleClick = () => {
+    capture('whatsapp contact clicked', { source: 'float_button' });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

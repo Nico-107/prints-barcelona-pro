@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -78,6 +79,7 @@ const Makers = () => {
       });
       if (error) throw error;
       setIsSubmitted(true);
+      capture('maker application submitted', { has_phone: !!phone, has_message: !!message });
       toast({ title: t("makers.form.success.title"), description: t("makers.form.success.desc") });
     } catch (error: any) {
       console.error("Maker application error:", error);
