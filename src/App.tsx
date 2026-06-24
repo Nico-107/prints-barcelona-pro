@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { capture } from "@/lib/analytics";
 import Index from "./pages/Index";
 import Track from "./pages/Track";
 import AdminOrders from "./pages/AdminOrders";
@@ -11,6 +13,14 @@ import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import Makers from "./pages/Makers";
 import { ALL_PAGES } from "@/seo/registry";
+
+function PostHogPageView() {
+  const location = useLocation();
+  useEffect(() => {
+    capture("$pageview");
+  }, [location.pathname, location.search]);
+  return null;
+}
 
 const queryClient = new QueryClient();
 
@@ -21,6 +31,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <PostHogPageView />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/track" element={<Track />} />

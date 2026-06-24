@@ -1,7 +1,21 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
+import posthog from "posthog-js";
+import { registerPostHog } from "./lib/analytics";
 import App from "./App.tsx";
 import "./index.css";
+
+const phKey = import.meta.env.VITE_POSTHOG_KEY as string | undefined;
+const phHost = import.meta.env.VITE_POSTHOG_HOST as string | undefined;
+if (phKey && phHost) {
+  posthog.init(phKey, {
+    api_host: phHost,
+    capture_pageview: false,
+    capture_pageleave: true,
+    persistence: "localStorage+cookie",
+  });
+  registerPostHog(posthog);
+}
 
 const rootEl = document.getElementById("root")!;
 const app = (
