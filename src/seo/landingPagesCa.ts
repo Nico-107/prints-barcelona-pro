@@ -35,7 +35,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "En quant de temps puc tenir una impressió 3D a Barcelona?", a: "El termini estàndard és de 2–5 dies laborables. Tenim servei Express en 24–48 hores i fins i tot lliuraments el mateix dia segons la cua i la mida de la peça." },
       { q: "Necessito un arxiu 3D per fer una comanda?", a: "No. Si només tens una foto, un esbós o la peça trencada original, t'ajudem a arribar a un arxiu imprimible. També oferim disseny a mida sota pressupost." },
       { q: "Puc recollir la comanda a Barcelona?", a: "Sí, oferim recollida local a Barcelona amb cita prèvia. També enviem a tota l'Espanya peninsular amb seguiment." },
-      { q: "Quant costa una impressió 3D?", a: "La majoria de peces petites comencen des de 10€. El preu final depèn de la mida, el material, el temps d'impressió i la quantitat. Sempre reps un pressupost transparent abans de pagar res." }
+      { q: "Quant costa una impressió 3D?", a: "La majoria de peces petites comencen des de 10€. El preu final depèn de la mida, el material, el temps d'impressió i la quantitat. Sempre reps un pressupost transparent abans de pagar res." },
+      { q: "Oferiu impressió en resina o només FDM?", a: "Treballem amb tecnologia FDM, que cobreix la gran majoria d'aplicacions pràctiques — peces funcionals, prototips, regals i recanvis. Si un projecte requereix realment el nivell de detall de la resina, t'ho diem per endavant." },
+      { q: "Quina és la mida màxima que podeu imprimir en una peça?", a: "El nostre volum d'impressió és d'aproximadament 250×250×300 mm. Els objectes més grans es poden imprimir per parts i acoblar neta, amb unions planificades per minimitzar la seva visibilitat." }
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
     related: [
@@ -78,7 +80,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Podeu copiar una peça trencada a partir d'una foto?", a: "En molts casos sí — sobretot peces simètriques o amb geometria senzilla. Envia una foto clara amb regle o moneda com a referència i t'ho confirmem de seguida." },
       { q: "Quin material recomaneu per a peces a mida?", a: "PLA per a peces decoratives o sense esforç, PETG per a exteriors o càrrega moderada, ABS/ASA per a resistència a la calor i TPU per a peces flexibles com mànecs o juntes." },
       { q: "Hi ha comanda mínima?", a: "No. Imprimim peces úniques constantment, i només pagues pel que demanes." },
-      { q: "Quina precisió tenen les peces a mida?", a: "La precisió típica en FDM és d'uns ±0,2 mm. Per a toleràncies més ajustades afinem paràmetres i postprocessem les superfícies crítiques." }
+      { q: "Quina precisió tenen les peces a mida?", a: "La precisió típica en FDM és d'uns ±0,2 mm. Per a toleràncies més ajustades afinem paràmetres i postprocessem les superfícies crítiques." },
+      { q: "Podeu recrear una peça només a partir de mesures, sense l'original?", a: "Sí. Si pots aportar mesures detallades, fotos des de diversos angles o un croquis tècnic, podem modelar i imprimir la peça. Per a geometries complexes, una breu consulta ajuda a aclarir els requisits d'ajust." },
+      { q: "Què passa si la peça impresa no encaixa al primer intent?", a: "La FDM manté una precisió típica de ±0,2 mm. Si un primer intent és lleugerament fora per a un ajust de tolerància ajustada, apliquem una petita correcció dimensional (normalment 0,1–0,2 mm) i reimprimim a cost reduït." }
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "curved-parts.jpg"),
     related: [
@@ -121,7 +125,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Quins formats d'arxiu 3D accepteu?", a: "STL, OBJ, 3MF i STEP. També podem treballar amb exportacions natives del teu CAD — pregunta'ns." },
       { q: "Signeu NDA per a prototips confidencials?", a: "Sí. Signem NDA habitualment amb startups de hardware i departaments d'R+D." },
       { q: "Feu petites tirades de producció després del prototip?", a: "Sí, produïm tirades de 5–200 unitats un cop validat el disseny." },
-      { q: "Quant es triga en una iteració?", a: "La majoria d'iteracions de prototip estan llestes en 24–72 hores segons mida i material." }
+      { q: "Quant es triga en una iteració?", a: "La majoria d'iteracions de prototip estan llestes en 24–72 hores segons mida i material." },
+      { q: "És millor la FDM que la resina per al meu prototip?", a: "Per a prototips funcionals que cal manipular, provar o sotmetre a esforç, la FDM sol ser millor — produeix peces més resistents en una gamma de materials més àmplia. La resina té major detall superficial però és més fràgil. T'assessorem segons el que el teu prototip ha de demostrar." },
+      { q: "Què passa si trobeu un problema al meu arxiu durant la revisió?", a: "Ho indiquem al pressupost abans de començar — problemes de gruix de paret, voladissos sense suport, orientació que afectaria la resistència. Tu decideixes si revisar l'arxiu o continuar amb les nostres recomanacions." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
@@ -164,7 +170,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Realment puc tenir una impressió 3D el mateix dia a Barcelona?", a: "De vegades — depèn de la mida, el material i la cua actual. Envia'ns un WhatsApp amb la peça i la data límit i et responem honestament en minuts." },
       { q: "Quant costa extra el servei urgent?", a: "Els encàrrecs Express tenen un recàrrec de prioritat que depèn de la mida i el termini. Sempre veus el preu total abans d'aprovar la comanda." },
       { q: "Quina és la manera més ràpida d'enviar el meu arxiu?", a: "WhatsApp al +34 672 051 147. Adjunta el STL/STEP/foto i indica el termini." },
-      { q: "Les impressions urgents poden tenir bona qualitat?", a: "Sí. No sacrifiquem adherència entre capes, precisió dimensional ni acabat per la velocitat — només donem prioritat al teu encàrrec." }
+      { q: "Les impressions urgents poden tenir bona qualitat?", a: "Sí. No sacrifiquem adherència entre capes, precisió dimensional ni acabat per la velocitat — només donem prioritat al teu encàrrec." },
+      { q: "Treballeu els caps de setmana per a emergències reals?", a: "Contacta'ns per WhatsApp — per a emergències reals de vegades podem acomodar producció en cap de setmana. No és un servei garantit, però sempre val la pena preguntar si la teva situació és crítica." },
+      { q: "Quin és el termini mínim absolut possible?", a: "Per a peces petites i simples en PLA o PETG, hem tingut comandes llestes per a recollida local en tan sols 3–6 hores des de l'aprovació de l'arxiu. Les peces més grans o complexes sempre necessiten més temps." }
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "halloween-set.jpg", "stranger-things-lit.jpg", "lion-king-figures.jpg", "intake-manifold.jpg", "custom-brackets.jpg"),
     related: [
@@ -207,7 +215,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Quina és la impressió 3D més barata?", a: "Peces petites i simples en PLA des d'uns 10€. Materials més resistents o mides majors costen més." },
       { q: "Cobreu pel pressupost?", a: "No. Els pressupostos són sempre gratis i només pagues si confirmes la comanda." },
       { q: "Per què la mateixa peça costa més en PETG o Nylon?", a: "Aquests filaments són més cars i imprimeixen més lentament amb paràmetres més exigents, però duren molt més en aplicacions amb esforç o exteriors." },
-      { q: "Les quantitats grans surten més barates per peça?", a: "Sí. Indica'ns la quantitat i t'enviem un preu escalat." }
+      { q: "Les quantitats grans surten més barates per peça?", a: "Sí. Indica'ns la quantitat i t'enviem un preu escalat." },
+      { q: "El preu pressupostat és fix un cop l'aprovo?", a: "Sí. Un cop aproves un pressupost, el preu queda bloquejat. Els pressupostos són vàlids per 30 dies des de l'emissió — si els costos de materials canvien significativament després d'aquest període, pot ser que calgui revisar-lo." },
+      { q: "Puc obtenir una estimació aproximada sense enviar un arxiu?", a: "Sí — descriu la mida de la peça, el material i la quantitat i et donarem un rang orientatiu realista. Per a un pressupost exacte i vinculant, necessitem un arxiu o una foto clara amb dimensions." }
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
@@ -250,7 +260,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Podeu substituir qualsevol peça de plàstic?", a: "La majoria de peces de plàstic simples sí. Clips molt fins i elàstics o peces per a molta calor poden requerir un material específic — t'avisem si no és viable." },
       { q: "Quant dura un recanvi imprès?", a: "Quan es fa amb el material adequat (PETG, ABS o Nylon en peces amb esforç), solen durar més que el plàstic injectat original." },
       { q: "Reparar és més barat que comprar nou?", a: "Gairebé sempre. Una peça impresa costa normalment 10–60€ enfront de centenars per un electrodomèstic nou." },
-      { q: "Imprimiu peces per a equips antics?", a: "Sí. Càmeres, ràdios, joguines i electrodomèstics antics són alguns dels nostres encàrrecs preferits perquè ja no existeixen recanvis originals." }
+      { q: "Imprimiu peces per a equips antics?", a: "Sí. Càmeres, ràdios, joguines i electrodomèstics antics són alguns dels nostres encàrrecs preferits perquè ja no existeixen recanvis originals." },
+      { q: "Quina informació ajuda a obtenir el resultat més precís al primer intent?", a: "Una foto clara de la peça trencada al costat d'un regle o moneda, una foto mostrant on es munta a l'aparell, i la marca i model del dispositiu. Com més context, millor l'ajust al primer intent." },
+      { q: "Podeu fer recanvis en metall?", a: "No — treballem exclusivament amb filaments polimèrics (PLA, PETG, ABS/ASA, Nylon, TPU). Per a peces metàl·liques necessitaries un servei de mecanitzat CNC o fosa. Els nostres recanvis polimèrics sovint superen la durabilitat dels originals en aplicacions de baixa temperatura." }
     ],
     galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg"),
     related: [
@@ -293,7 +305,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "És el PLA prou fort per a peces funcionals?", a: "Per a esforços baixos o moderats, sí. Per a peces amb càrrega o altes temperatures recomanem PETG, ABS/ASA o Nylon." },
       { q: "És realment biodegradable el PLA?", a: "Sí, en condicions de compostatge industrial. En un calaix normal dura anys." },
       { q: "Podeu imprimir PLA en qualsevol color?", a: "Tenim un ampli assortiment. Per a colors especials, digues-nos la referència i busquem la coincidència més propera." },
-      { q: "Quina és la mida màxima en PLA?", a: "El volum màxim típic és d'uns 250×250×300 mm en una peça. Objectes més grans s'imprimeixen en parts i s'acoblen." }
+      { q: "Quina és la mida màxima en PLA?", a: "El volum màxim típic és d'uns 250×250×300 mm en una peça. Objectes més grans s'imprimeixen en parts i s'acoblen." },
+      { q: "Es pot llimar, imprimar i pintar el PLA?", a: "Sí. El PLA es llima fàcilment amb paper de vidre estàndard, accepta bé l'imprimació acrílica i es pot pintar amb aerosol o pintura acrílica. És el material ideal per a figures i peces decoratives que pensis acabar o personalitzar." },
+      { q: "És el PLA segur per al contacte amb aliments?", a: "El PLA estàndard no està certificat per a contacte alimentari — la superfície porosa de la FDM pot albergar bacteris fins i tot després del rentat. No el recomanem per a tasses, plats o coberts. Per a aplicacions de contacte alimentari, consulta'ns sobre materials certificats." }
     ],
     galleryImages: pick("eiffel-tower.jpg", "big-ben-tower.jpg", "green-chameleon.jpg", "purple-figures.jpg", "halloween-set.jpg", "ferrari-key-holder.jpg"),
     related: [
@@ -336,7 +350,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "En què es diferencia el PETG del PLA?", a: "El PETG és més dur, més flexible a l'impacte, més resistent a la calor i suporta l'exterior. El PLA és més fàcil d'imprimir, capta més detall i és més barat." },
       { q: "Aguanta el PETG els estius de Barcelona a l'exterior?", a: "Sí. El PETG resisteix bé UV i humitat. Per a aplicacions de molta calor podem suggerir ABS/ASA." },
       { q: "És el PETG apte per a aliments?", a: "El PETG estàndard no està certificat per a contacte alimentari. Existeix PETG certificat food-safe i el podem aconseguir per a projectes específics." },
-      { q: "És el PETG més car que el PLA?", a: "Una mica. El material costa una mica més i imprimeix més lentament, així que el preu per peça és típicament un 15–30% més alt que en PLA." }
+      { q: "És el PETG més car que el PLA?", a: "Una mica. El material costa una mica més i imprimeix més lentament, així que el preu per peça és típicament un 15–30% més alt que en PLA." },
+      { q: "A quina temperatura comença a deformar-se el PETG?", a: "El PETG comença a reblanir-se al voltant dels 70–80°C. Per a peces prop de fonts de calor constants — motors, rentaplats, prop de forns — recomanem ABS/ASA, que aguanta fins a 90–100°C." },
+      { q: "Quant més resistent és el PETG que el PLA per a peces funcionals?", a: "El PETG ofereix típicament un 20–30% més de resistència a l'impacte que el PLA i una adherència entre capes significativament millor. A la pràctica, les peces flexen sota càrrega en lloc de trencar-se neta — cosa que importa en l'ús mecànic real." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
     related: [
@@ -379,7 +395,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Com de flexible és el vostre TPU?", a: "El TPU 95A estàndard es comporta com una goma dura — es doblega i estira però no és tovota. Podem ajustar la sensació canviant gruix de paret i farciment." },
       { q: "Puc imprimir una funda de mòbil a mida en TPU?", a: "Sí, sempre que tinguis o puguis aportar un model 3D de la forma del teu mòbil. També adaptem models existents." },
       { q: "És el TPU bo per a peces d'exterior?", a: "Sí — resisteix bé UV i humitat i manté la flexibilitat en un rang ampli de temperatura." },
-      { q: "Per què és el TPU més car que el PLA?", a: "Imprimeix molt més lentament i requereix afinar paràmetres. La diferència sol ser un 30–50% més per peça." }
+      { q: "Per què és el TPU més car que el PLA?", a: "Imprimeix molt més lentament i requereix afinar paràmetres. La diferència sol ser un 30–50% més per peça." },
+      { q: "Quina duresa Shore té el vostre filament TPU estàndard?", a: "Treballem principalment amb duresa Shore 95A, que es nota com una goma dura — doblegable i estirable però amb estabilitat estructural sota càrrega. Es poden aconseguir variants més toves (al voltant de 85A) per a aplicacions que necessiten més flexibilitat." },
+      { q: "Com de fines poden ser les parets en una impressió flexible de TPU?", a: "Per a impressions flexibles fiables recomanem un gruix mínim de paret de 1,5–3,0 mm segons la flexibilitat desitjada. Les parets molt fines queden massa inestables dimensionalment; les molt gruixudes perden la flexió desitjada." }
     ],
     galleryImages: pick("curved-parts.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
     related: [
@@ -422,7 +440,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Realment pot el FDM imprimir miniatures detallades?", a: "Sí, amb l'orientació correcta i alçades de capa fines. Per a detall extrem (ulls, parts molt fines) et diem honestament els límits del FDM abans de pressupostar." },
       { q: "Quines escales imprimiu?", a: "Les escales més comunes de tabletop (28mm, 32mm, 54mm) i escales més grans per a exhibició. Envia el teu arxiu o indica l'escala i ho confirmem." },
       { q: "Lliureu miniatures imprimades o pintades?", a: "Per defecte lliurem impressions netes llestes per pintar. Si vols miniatures pintades, demana'ns pressupost separat per la pintura." },
-      { q: "Podeu dissenyar una miniatura a partir d'una foto?", a: "Sí, pressupostem el disseny 3D a mida des de fotos o referències i després imprimim el resultat." }
+      { q: "Podeu dissenyar una miniatura a partir d'una foto?", a: "Sí, pressupostem el disseny 3D a mida des de fotos o referències i després imprimim el resultat." },
+      { q: "Quina alçada de capa feu servir per a miniatures d'alt detall?", a: "Per a miniatures d'exhibició fem servir típicament 0,10–0,12 mm d'alçada de capa, que capta detall superficial fi mantenint temps d'impressió pràctics. Per a figures molt petites o detall extrem podem arribar a 0,08 mm." },
+      { q: "Es veuran les marques de suport a la miniatura acabada?", a: "Orientem les peces acuradament per col·locar els punts de contacte del suport en zones no visibles — parts inferiors, superfícies posteriors, bases. Algunes marques són inherents a la FDM; establim expectatives realistes per model abans que aproveu la impressió." }
     ],
     galleryImages: pick("purple-figures.jpg", "lion-king-figures.jpg", "lion-king-scene.jpg", "stranger-things-diorama.jpg", "stranger-things-lit.jpg", "halloween-set.jpg"),
     related: [
@@ -467,7 +487,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Signeu NDA per a projectes d'empresa?", a: "Sí. Signem NDA per a qualsevol client que ho sol·liciti. Mai compartim arxius ni detalls de projectes de clients." },
       { q: "Quins formats d'arxiu accepteu?", a: "STL, STEP, IGES, OBJ i 3MF. Exportacions natives de SolidWorks, Fusion 360, Onshape i la majoria d'eines funcionen directament." },
       { q: "Podeu subministrar 50 o 100 peces idèntiques?", a: "Sí. Fem tirades curtes de producció de 5 a 200 unitats. El preu unitari baixa amb la quantitat — demana pressupost per trams." },
-      { q: "Quines toleràncies podeu mantenir?", a: "La precisió FDM típica és ±0,2 mm. Per a característiques de tolerància més ajustada ajustem paràmetres i podem post-processar superfícies crítiques. Indica'ns el requisit des del principi." }
+      { q: "Quines toleràncies podeu mantenir?", a: "La precisió FDM típica és ±0,2 mm. Per a característiques de tolerància més ajustada ajustem paràmetres i podem post-processar superfícies crítiques. Indica'ns el requisit des del principi." },
+      { q: "Emeteu factures completes amb IVA per a comandes d'empresa?", a: "Sí. Emetem factures completes amb IVA per a tots els clients empresa. Facilita'ns el nom de la teva empresa i el CIF/NIF en fer la comanda." },
+      { q: "Quin és el termini típic per a una tirada de 50–100 peces?", a: "Per a la majoria de peces de mida estàndard, entre 5 i 10 dies laborables segons la mida i el material. Per a necessitats urgents de tirada, contacta'ns per parlar de planificació prioritària — et direm amb honestedat què és assolible." }
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
     related: [
@@ -512,7 +534,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Quant tarda una iteració de prototipatge?", a: "Normalment entre 24 i 72 hores des de l'enviament de l'arxiu fins a la peça en mà, segons mida, material i cua actual." },
       { q: "Quins formats CAD accepteu?", a: "STL, STEP, IGES, OBJ i 3MF. Exportacions de SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD i la majoria d'eines funcionen sense conversió." },
       { q: "Detecteu problemes de disseny abans d'imprimir?", a: "Sí. Revisem cada arxiu manualment i assenyalem problemes de gruix de paret, suports o material abans d'imprimir." },
-      { q: "Podeu fer una tirada petita de producció després del prototip?", a: "Sí. Passem del prototip a la tirada curta (5–200 unitats) sense canviar de proveïdor ni re-establir condicions." }
+      { q: "Podeu fer una tirada petita de producció després del prototip?", a: "Sí. Passem del prototip a la tirada curta (5–200 unitats) sense canviar de proveïdor ni re-establir condicions." },
+      { q: "En què es diferencia això del vostre servei estàndard de prototips?", a: "El prototipatge ràpid està configurat específicament per a cicles d'iteració múltiple ràpids. Guardem el teu projecte entre iteracions, acceptem arxius de revisió directament per WhatsApp i prioritzem el termini de 24–72h sense tornar a pressupostar des de zero cada vegada." },
+      { q: "Puc fer diverses revisions de disseny en la mateixa setmana?", a: "Sí — és tot el punt. Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Els iteradors freqüents comparteixen arxius directament per WhatsApp i els lliurem sense demora administrativa." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
@@ -557,7 +581,9 @@ export const PAGES_CA: LandingContent[] = [
       { q: "Quin material és millor per a peces funcionals amb càrrega?", a: "Nylon PA12 o Nylon-CF per a màxima resistència mecànica. PETG per a càrregues moderades amb exposició exterior o a l'aigua. Al pressupost especifiquem el correcte." },
       { q: "Quant resisteix una peça en PETG comparada amb plàstic injectat?", a: "Una peça PETG ben impresa al 60%+ de farciment és sovint comparable al PP o ABS injectat per a càrregues estructurals moderades, però anisòtropa — més resistent en el pla d'impressió que entre capes." },
       { q: "Podeu imprimir peces funcionals amb toleràncies ajustades?", a: "La FDM típica manté ±0,2 mm. Per a superfícies d'acoblament crítiques ajustem paràmetres i podem post-mecanitzar si calen toleràncies més ajustades." },
-      { q: "Reviseu els arxius abans d'imprimir?", a: "Sí. Revisem cada arxiu manualment. Si hi ha un problema — parets fines, orientació inadequada per a la direcció de càrrega, suport insuficient — ho assenyalem abans d'imprimir." }
+      { q: "Reviseu els arxius abans d'imprimir?", a: "Sí. Revisem cada arxiu manualment. Si hi ha un problema — parets fines, orientació inadequada per a la direcció de càrrega, suport insuficient — ho assenyalem abans d'imprimir." },
+      { q: "Quina densitat de farciment feu servir per a peces estructurals amb càrrega?", a: "Per a càrregues estructurals moderades fem servir 40–60% de farciment. Per a alta càrrega o superfícies de contacte portant fem servir 80–100% sòlid. Especifiquem el farciment a cada pressupost perquè sàpigues exactament el que reps." },
+      { q: "Quin postprocessat està disponible per a peces funcionals?", a: "Inserts roscats de calor (M3, M4, M5) per a connexions amb cargol, suavitzat per vapor d'acetona en ABS per a millor segell superficial, i roscat manual o llimar lleugerament superfícies d'acoblament crítiques. Sol·licita qualsevol postprocessat en enviar el pressupost." }
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [

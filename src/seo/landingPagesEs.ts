@@ -35,7 +35,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿En cuánto tiempo puedo tener una impresión 3D en Barcelona?", a: "El plazo estándar es de 2–5 días laborables. Tenemos servicio Express en 24–48 horas e incluso entregas el mismo día según la cola y el tamaño de la pieza." },
       { q: "¿Necesito un archivo 3D para hacer un pedido?", a: "No. Si solo tienes una foto, un boceto o la pieza rota original, te ayudamos a llegar a un archivo imprimible. También ofrecemos diseño a medida bajo presupuesto." },
       { q: "¿Puedo recoger mi pedido en Barcelona?", a: "Sí, ofrecemos recogida local en Barcelona con cita previa. También enviamos a toda la España peninsular con seguimiento." },
-      { q: "¿Cuánto cuesta una impresión 3D?", a: "La mayoría de piezas pequeñas empiezan desde 10€. El precio final depende del tamaño, el material, el tiempo de impresión y la cantidad. Siempre recibes un presupuesto transparente antes de pagar nada." }
+      { q: "¿Cuánto cuesta una impresión 3D?", a: "La mayoría de piezas pequeñas empiezan desde 10€. El precio final depende del tamaño, el material, el tiempo de impresión y la cantidad. Siempre recibes un presupuesto transparente antes de pagar nada." },
+      { q: "¿Ofrecéis impresión en resina o solo FDM?", a: "Trabajamos con tecnología FDM, que cubre la gran mayoría de aplicaciones prácticas — piezas funcionales, prototipos, regalos y recambios. Si un proyecto requiere realmente el nivel de detalle de la resina, te lo decimos de antemano." },
+      { q: "¿Cuál es el tamaño máximo que podéis imprimir en una pieza?", a: "Nuestro volumen de impresión es de aproximadamente 250×250×300 mm. Los objetos más grandes se pueden imprimir por partes y ensamblar limpiamente, con uniones planificadas para minimizar su visibilidad." }
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
     related: [
@@ -78,7 +80,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Podéis copiar una pieza rota a partir de una foto?", a: "En muchos casos sí — sobre todo piezas simétricas o con geometría sencilla. Envía una foto clara con regla o moneda como referencia y te lo confirmamos enseguida." },
       { q: "¿Qué material recomendáis para piezas a medida?", a: "PLA para piezas decorativas o sin esfuerzo, PETG para exteriores o carga moderada, ABS/ASA para resistencia al calor y TPU para piezas flexibles como mangos o juntas." },
       { q: "¿Hay pedido mínimo?", a: "No. Imprimimos piezas únicas constantemente, y solo pagas por lo que pides." },
-      { q: "¿Qué precisión tienen las piezas a medida?", a: "La precisión típica en FDM es de unos ±0,2 mm. Para tolerancias más ajustadas afinamos parámetros y postprocesamos las superficies críticas." }
+      { q: "¿Qué precisión tienen las piezas a medida?", a: "La precisión típica en FDM es de unos ±0,2 mm. Para tolerancias más ajustadas afinamos parámetros y postprocesamos las superficies críticas." },
+      { q: "¿Podéis recrear una pieza solo a partir de medidas, sin el original?", a: "Sí. Si puedes aportar medidas detalladas, fotos desde varios ángulos o un croquis técnico, podemos modelar e imprimir la pieza. Para geometrías complejas, una breve consulta ayuda a aclarar los requisitos de ajuste." },
+      { q: "¿Qué pasa si la pieza impresa no encaja a la primera?", a: "La FDM mantiene una precisión típica de ±0,2 mm. Si un primer intento está ligeramente fuera para un ajuste de tolerancia ajustada, aplicamos una pequeña corrección dimensional (normalmente 0,1–0,2 mm) y reimprimimos a coste reducido." }
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "curved-parts.jpg"),
     related: [
@@ -121,7 +125,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Qué formatos de archivo 3D aceptáis?", a: "STL, OBJ, 3MF y STEP. También podemos trabajar con exportaciones nativas de tu CAD — pregúntanos." },
       { q: "¿Firmáis NDA para prototipos confidenciales?", a: "Sí. Firmamos NDA habitualmente con startups de hardware y departamentos de I+D." },
       { q: "¿Hacéis pequeñas tiradas de producción tras el prototipo?", a: "Sí, producimos tiradas de 5–200 unidades una vez validado el diseño." },
-      { q: "¿Cuánto se tarda en una iteración?", a: "La mayoría de iteraciones de prototipo están listas en 24–72 horas según tamaño y material." }
+      { q: "¿Cuánto se tarda en una iteración?", a: "La mayoría de iteraciones de prototipo están listas en 24–72 horas según tamaño y material." },
+      { q: "¿Es mejor la FDM que la resina para mi prototipo?", a: "Para prototipos funcionales que hay que manipular, probar o someter a esfuerzo, la FDM suele ser mejor — produce piezas más resistentes en una gama de materiales más amplia. La resina tiene mayor detalle superficial pero es más frágil. Te asesoramos según lo que el prototipo tiene que demostrar." },
+      { q: "¿Qué pasa si detectáis un problema en mi archivo durante la revisión?", a: "Lo indicamos en el presupuesto antes de empezar — problemas de espesor de pared, voladizos sin soporte, orientación que afectaría a la resistencia. Tú decides si revisar el archivo o continuar con nuestras recomendaciones." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
@@ -164,7 +170,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Realmente puedo tener una impresión 3D el mismo día en Barcelona?", a: "A veces — depende del tamaño, el material y la cola actual. Mándanos un WhatsApp con la pieza y la fecha límite y te respondemos honestamente en minutos." },
       { q: "¿Cuánto cuesta extra el servicio urgente?", a: "Los encargos Express tienen un recargo de prioridad que depende del tamaño y el plazo. Siempre ves el precio total antes de aprobar el pedido." },
       { q: "¿Cuál es la forma más rápida de enviar mi archivo?", a: "WhatsApp al +34 672 051 147. Adjunta el STL/STEP/foto e indica el plazo." },
-      { q: "¿Las impresiones urgentes pueden tener buena calidad?", a: "Sí. No sacrificamos adherencia entre capas, precisión dimensional ni acabado por la velocidad — solo damos prioridad a tu encargo." }
+      { q: "¿Las impresiones urgentes pueden tener buena calidad?", a: "Sí. No sacrificamos adherencia entre capas, precisión dimensional ni acabado por la velocidad — solo damos prioridad a tu encargo." },
+      { q: "¿Trabajáis los fines de semana para emergencias reales?", a: "Contáctanos por WhatsApp — para emergencias reales a veces podemos acomodar producción en fin de semana. No es un servicio garantizado, pero siempre vale la pena preguntar si tu situación es crítica." },
+      { q: "¿Cuál es el plazo mínimo absoluto posible?", a: "Para piezas pequeñas y simples en PLA o PETG, hemos tenido pedidos listos para recogida local en tan solo 3–6 horas desde la aprobación del archivo. Las piezas más grandes o complejas siempre necesitan más tiempo." }
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "halloween-set.jpg", "stranger-things-lit.jpg", "lion-king-figures.jpg", "intake-manifold.jpg", "custom-brackets.jpg"),
     related: [
@@ -207,7 +215,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Cuál es la impresión 3D más barata?", a: "Piezas pequeñas y simples en PLA desde unos 10€. Materiales más resistentes o tamaños mayores cuestan más." },
       { q: "¿Cobráis por el presupuesto?", a: "No. Los presupuestos son siempre gratis y solo pagas si confirmas el pedido." },
       { q: "¿Por qué la misma pieza cuesta más en PETG o Nylon?", a: "Esos filamentos son más caros e imprimen más despacio con parámetros más exigentes, pero duran mucho más en aplicaciones con esfuerzo o exteriores." },
-      { q: "¿Las cantidades grandes salen más baratas por pieza?", a: "Sí. Indícanos la cantidad y te enviamos un precio escalado." }
+      { q: "¿Las cantidades grandes salen más baratas por pieza?", a: "Sí. Indícanos la cantidad y te enviamos un precio escalado." },
+      { q: "¿El precio presupuestado es fijo una vez que lo apruebo?", a: "Sí. Una vez que apruebas un presupuesto, el precio queda bloqueado. Los presupuestos son válidos por 30 días desde su emisión — si los costes de materiales cambian significativamente después de ese periodo, puede que necesitemos revisarlo." },
+      { q: "¿Puedo obtener una estimación aproximada sin enviar un archivo?", a: "Sí — describe el tamaño de la pieza, el material y la cantidad y te daremos un rango orientativo realista. Para un presupuesto exacto y vinculante, necesitamos un archivo o una foto clara con dimensiones." }
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
@@ -250,7 +260,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Podéis sustituir cualquier pieza de plástico?", a: "La mayoría de piezas de plástico simples sí. Clips muy finos y elásticos o piezas para mucho calor pueden requerir un material específico — te avisamos si no es viable." },
       { q: "¿Cuánto dura un recambio impreso?", a: "Cuando se hace en el material adecuado (PETG, ABS o Nylon en piezas con esfuerzo), suelen durar más que el plástico inyectado original." },
       { q: "¿Reparar es más barato que comprar nuevo?", a: "Casi siempre. Una pieza impresa cuesta normalmente 10–60€ frente a cientos por un electrodoméstico nuevo." },
-      { q: "¿Imprimís piezas para equipos antiguos?", a: "Sí. Cámaras, radios, juguetes y electrodomésticos antiguos son algunos de nuestros encargos favoritos porque ya no existen recambios originales." }
+      { q: "¿Imprimís piezas para equipos antiguos?", a: "Sí. Cámaras, radios, juguetes y electrodomésticos antiguos son algunos de nuestros encargos favoritos porque ya no existen recambios originales." },
+      { q: "¿Qué información ayuda a conseguir el resultado más preciso a la primera?", a: "Una foto clara de la pieza rota junto a una regla o moneda, una foto mostrando dónde se monta en el aparato, y la marca y modelo del dispositivo. Cuanto más contexto, mejor el ajuste en el primer intento." },
+      { q: "¿Podéis hacer recambios en metal?", a: "No — trabajamos exclusivamente con filamentos poliméricos (PLA, PETG, ABS/ASA, Nylon, TPU). Para piezas metálicas necesitarías un servicio de mecanizado CNC o fundición. Nuestros recambios poliméricos frecuentemente superan la durabilidad de los originales en aplicaciones de baja temperatura." }
     ],
     galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg"),
     related: [
@@ -293,7 +305,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Es el PLA suficientemente fuerte para piezas funcionales?", a: "Para esfuerzos bajos o moderados, sí. Para piezas con carga o altas temperaturas recomendamos PETG, ABS/ASA o Nylon." },
       { q: "¿Es realmente biodegradable el PLA?", a: "Sí, en condiciones de compostaje industrial. En un cajón normal dura años." },
       { q: "¿Podéis imprimir PLA en cualquier color?", a: "Tenemos un amplio surtido. Para colores especiales, dinos la referencia y buscamos la coincidencia más cercana." },
-      { q: "¿Cuál es el tamaño máximo en PLA?", a: "El volumen máximo típico es de unos 250×250×300 mm en una pieza. Objetos mayores se imprimen en partes y se ensamblan." }
+      { q: "¿Cuál es el tamaño máximo en PLA?", a: "El volumen máximo típico es de unos 250×250×300 mm en una pieza. Objetos mayores se imprimen en partes y se ensamblan." },
+      { q: "¿Se puede lijar, imprimar y pintar el PLA?", a: "Sí. El PLA se lija fácilmente con lija estándar, acepta bien la imprimación acrílica y se puede pintar con aerosol o pintura acrílica. Es el material ideal para figuras y piezas decorativas que pienses acabar o personalizar." },
+      { q: "¿Es el PLA seguro para el contacto con alimentos?", a: "El PLA estándar no está certificado para contacto alimentario — la superficie porosa de la FDM puede albergar bacterias incluso tras el lavado. No lo recomendamos para tazas, platos o cubiertos. Para aplicaciones de contacto alimentario, consúltanos sobre materiales certificados." }
     ],
     galleryImages: pick("eiffel-tower.jpg", "big-ben-tower.jpg", "green-chameleon.jpg", "purple-figures.jpg", "halloween-set.jpg", "ferrari-key-holder.jpg"),
     related: [
@@ -336,7 +350,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿En qué se diferencia el PETG del PLA?", a: "El PETG es más duro, más flexible al impacto, más resistente al calor y soporta el exterior. El PLA es más fácil de imprimir, capta más detalle y es más barato." },
       { q: "¿Aguanta el PETG los veranos de Barcelona en exterior?", a: "Sí. El PETG resiste bien UV y humedad. Para aplicaciones de mucho calor podemos sugerir ABS/ASA." },
       { q: "¿Es el PETG apto para alimentos?", a: "El PETG estándar no está certificado para contacto alimentario. Existe PETG certificado food-safe y podemos conseguirlo para proyectos específicos." },
-      { q: "¿Es el PETG más caro que el PLA?", a: "Algo. El material cuesta un poco más e imprime más lento, así que el precio por pieza es típicamente un 15–30% mayor que en PLA." }
+      { q: "¿Es el PETG más caro que el PLA?", a: "Algo. El material cuesta un poco más e imprime más lento, así que el precio por pieza es típicamente un 15–30% mayor que en PLA." },
+      { q: "¿A qué temperatura empieza a deformarse el PETG?", a: "El PETG empieza a reblandecerse alrededor de los 70–80°C. Para piezas cerca de fuentes de calor constantes — motores, lavavajillas, cerca de hornos — recomendamos ABS/ASA, que aguanta hasta 90–100°C." },
+      { q: "¿Cuánto más resistente es el PETG que el PLA para piezas funcionales?", a: "El PETG ofrece típicamente un 20–30% más de resistencia al impacto que el PLA y una adherencia entre capas significativamente mejor. En la práctica, las piezas flexan bajo carga en lugar de romperse limpiamente — lo que importa en el uso mecánico real." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
     related: [
@@ -379,7 +395,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Cómo de flexible es vuestro TPU?", a: "El TPU 95A estándar se comporta como una goma dura — se dobla y estira pero no es blandurri. Podemos ajustar la sensación cambiando espesor de pared y relleno." },
       { q: "¿Puedo imprimir una funda de móvil a medida en TPU?", a: "Sí, siempre que tengas o puedas aportar un modelo 3D de la forma de tu móvil. También adaptamos modelos existentes." },
       { q: "¿Es el TPU bueno para piezas de exterior?", a: "Sí — resiste bien UV y humedad y mantiene su flexibilidad en un rango amplio de temperatura." },
-      { q: "¿Por qué es el TPU más caro que el PLA?", a: "Imprime mucho más lento y requiere afinar parámetros. La diferencia suele ser un 30–50% más por pieza." }
+      { q: "¿Por qué es el TPU más caro que el PLA?", a: "Imprime mucho más lento y requiere afinar parámetros. La diferencia suele ser un 30–50% más por pieza." },
+      { q: "¿Qué dureza Shore tiene vuestro filamento TPU estándar?", a: "Trabajamos principalmente con dureza Shore 95A, que se nota como una goma dura — doblegable y estirable pero con estabilidad estructural bajo carga. Se pueden conseguir variantes más blandas (alrededor de 85A) para aplicaciones que necesitan más flexibilidad." },
+      { q: "¿Cómo de finas pueden ser las paredes en una impresión flexible de TPU?", a: "Para impresiones flexibles fiables recomendamos un espesor mínimo de pared de 1,5–3,0 mm según la flexibilidad deseada. Las paredes muy finas quedan demasiado inestables dimensionalmente; las muy gruesas pierden la flexión deseada." }
     ],
     galleryImages: pick("curved-parts.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
     related: [
@@ -422,7 +440,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Realmente puede el FDM imprimir miniaturas detalladas?", a: "Sí, con la orientación correcta y alturas de capa finas. Para detalle extremo (ojos, partes muy finas) te decimos honestamente los límites del FDM antes de presupuestar." },
       { q: "¿Qué escalas imprimís?", a: "Las escalas más comunes de tabletop (28mm, 32mm, 54mm) y escalas más grandes para exhibición. Envía tu archivo o indica la escala y lo confirmamos." },
       { q: "¿Entregáis miniaturas imprimadas o pintadas?", a: "Por defecto entregamos impresiones limpias listas para pintar. Si quieres miniaturas pintadas, pídenos presupuesto separado para la pintura." },
-      { q: "¿Podéis diseñar una miniatura a partir de una foto?", a: "Sí, presupuestamos el diseño 3D a medida desde fotos o referencias y luego imprimimos el resultado." }
+      { q: "¿Podéis diseñar una miniatura a partir de una foto?", a: "Sí, presupuestamos el diseño 3D a medida desde fotos o referencias y luego imprimimos el resultado." },
+      { q: "¿Qué altura de capa usáis para miniaturas de alto detalle?", a: "Para miniaturas de exhibición usamos típicamente 0,10–0,12 mm de altura de capa, que capta detalle superficial fino manteniendo tiempos de impresión prácticos. Para figuras muy pequeñas o detalle extremo podemos llegar a 0,08 mm." },
+      { q: "¿Se verán las marcas de soporte en la miniatura terminada?", a: "Orientamos las piezas cuidadosamente para colocar los puntos de contacto del soporte en zonas no visibles — partes inferiores, superficies traseras, bases. Algunas marcas son inherentes al FDM; establecemos expectativas realistas por modelo antes de que apruebes la impresión." }
     ],
     galleryImages: pick("purple-figures.jpg", "lion-king-figures.jpg", "lion-king-scene.jpg", "stranger-things-diorama.jpg", "stranger-things-lit.jpg", "halloween-set.jpg"),
     related: [
@@ -467,7 +487,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Firmáis NDA para proyectos de empresa?", a: "Sí. Firmamos NDA para cualquier cliente que lo solicite. Nunca compartimos archivos ni detalles de proyectos de clientes." },
       { q: "¿Qué formatos de archivo aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones nativas de SolidWorks, Fusion 360, Onshape y la mayoría de herramientas funcionan directamente." },
       { q: "¿Podéis suministrar 50 o 100 piezas idénticas?", a: "Sí. Realizamos tiradas cortas de producción de 5 a 200 unidades. El precio unitario baja con la cantidad — pide presupuesto por tramos." },
-      { q: "¿Qué tolerancias podéis mantener?", a: "La precisión FDM típica es ±0,2 mm. Para características de tolerancia más ajustada ajustamos parámetros y podemos post-procesar superficies críticas. Indícanos el requisito desde el principio." }
+      { q: "¿Qué tolerancias podéis mantener?", a: "La precisión FDM típica es ±0,2 mm. Para características de tolerancia más ajustada ajustamos parámetros y podemos post-procesar superficies críticas. Indícanos el requisito desde el principio." },
+      { q: "¿Emitís facturas completas con IVA para pedidos de empresa?", a: "Sí. Emitimos facturas completas con IVA para todos los clientes empresa. Facilítanos el nombre de tu empresa y el CIF/NIF al hacer el pedido." },
+      { q: "¿Cuál es el plazo típico para una tirada de 50–100 piezas?", a: "Para la mayoría de piezas de tamaño estándar, entre 5 y 10 días laborables según el tamaño y el material. Para necesidades urgentes de tirada, contáctanos para hablar de planificación prioritaria — te diremos con honestidad qué es alcanzable." }
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
     related: [
@@ -512,7 +534,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Cuánto tarda una iteración de prototipado?", a: "Normalmente entre 24 y 72 horas desde el envío del archivo hasta la pieza en mano, según tamaño, material y cola actual." },
       { q: "¿Qué formatos CAD aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones de SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD y la mayoría de herramientas funcionan sin conversión." },
       { q: "¿Detectáis problemas de diseño antes de imprimir?", a: "Sí. Revisamos cada archivo manualmente y señalamos problemas de espesor de pared, soportes o material antes de imprimir." },
-      { q: "¿Podéis hacer una tirada pequeña de producción tras el prototipo?", a: "Sí. Pasamos del prototipo a la tirada corta (5–200 unidades) sin cambiar de proveedor ni re-establecer condiciones." }
+      { q: "¿Podéis hacer una tirada pequeña de producción tras el prototipo?", a: "Sí. Pasamos del prototipo a la tirada corta (5–200 unidades) sin cambiar de proveedor ni re-establecer condiciones." },
+      { q: "¿En qué se diferencia esto de vuestro servicio estándar de prototipos?", a: "El prototipado rápido está configurado específicamente para ciclos de iteración múltiple rápidos. Guardamos tu proyecto entre iteraciones, aceptamos archivos de revisión directamente por WhatsApp y priorizamos el plazo de 24–72h sin volver a presupuestar desde cero cada vez." },
+      { q: "¿Puedo hacer varias revisiones de diseño en la misma semana?", a: "Sí — ese es todo el punto. Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Los iteradores frecuentes comparten archivos directamente por WhatsApp y los entregamos sin demora administrativa." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
@@ -557,7 +581,9 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Qué material es mejor para piezas funcionales con carga?", a: "Nylon PA12 o Nylon-CF para máxima resistencia mecánica. PETG para cargas moderadas con exposición exterior o al agua. En el presupuesto especificamos el correcto." },
       { q: "¿Cuánto resiste una pieza en PETG comparada con plástico inyectado?", a: "Una pieza PETG bien impresa al 60%+ de relleno es a menudo comparable al PP o ABS inyectado para cargas estructurales moderadas, aunque anisótropa — más resistente en el plano de impresión que entre capas." },
       { q: "¿Podéis imprimir piezas funcionales con tolerancias ajustadas?", a: "La FDM típica mantiene ±0,2 mm. Para superficies de acoplamiento críticas ajustamos parámetros y podemos post-mecanizar si se requieren tolerancias más ajustadas." },
-      { q: "¿Revisáis los archivos antes de imprimir?", a: "Sí. Revisamos cada archivo manualmente. Si hay un problema — paredes finas, orientación inadecuada para la dirección de carga, soporte insuficiente — lo señalamos antes de imprimir." }
+      { q: "¿Revisáis los archivos antes de imprimir?", a: "Sí. Revisamos cada archivo manualmente. Si hay un problema — paredes finas, orientación inadecuada para la dirección de carga, soporte insuficiente — lo señalamos antes de imprimir." },
+      { q: "¿Qué densidad de relleno usáis para piezas estructurales con carga?", a: "Para cargas estructurales moderadas usamos 40–60% de relleno. Para alta carga o superficies de contacto portante usamos 80–100% sólido. Especificamos el relleno en cada presupuesto para que sepas exactamente lo que recibes." },
+      { q: "¿Qué postprocesado está disponible para piezas funcionales?", a: "Insertos roscados de calor (M3, M4, M5) para conexiones con tornillo, suavizado por vapor de acetona en ABS para mejor sellado superficial, y roscado manual o lijado ligero de superficies de acoplamiento críticas. Solicita cualquier postprocesado al enviar el presupuesto." }
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [

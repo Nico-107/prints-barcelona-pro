@@ -107,7 +107,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "How fast can I get a 3D print in Barcelona?", a: "Standard turnaround is 2–5 business days. Express service is 24–48 hours, and same-day is sometimes possible depending on the queue and part size." },
       { q: "Do I need a 3D file to order?", a: "No. If you only have a photo, a sketch or the broken original part, we can help you get to a printable file. We also offer custom design quotes." },
       { q: "Can I pick up my order in Barcelona?", a: "Yes. Local pickup in Barcelona is available by appointment. We also ship to all of mainland Spain with tracking." },
-      { q: "What does a 3D print cost?", a: "Most small parts start around 10€. Final price depends on size, material, print time and quantity. You always get a transparent quote before paying anything." }
+      { q: "What does a 3D print cost?", a: "Most small parts start around 10€. Final price depends on size, material, print time and quantity. You always get a transparent quote before paying anything." },
+      { q: "Do you offer resin printing or FDM only?", a: "We work with FDM technology, which covers the vast majority of practical applications — functional parts, prototypes, gifts and replacements. If a project genuinely requires resin-level surface detail, we'll tell you upfront." },
+      { q: "What is the maximum size you can print in one piece?", a: "Our print volume is approximately 250×250×300 mm. Objects larger than that can be printed in sections and cleanly assembled, with joints planned to minimise visibility." }
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
     related: [
@@ -150,7 +152,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Can you copy a broken part from a photo?", a: "In most cases yes — especially symmetric or simple geometric parts. Send a clear photo with a ruler or coin for scale and we'll let you know quickly." },
       { q: "What materials do you recommend for custom parts?", a: "PLA for decorative or low-stress parts, PETG for outdoor or moderately stressed parts, ABS/ASA for heat-resistant parts, and TPU for flexible parts like grips or seals." },
       { q: "Is there a minimum order?", a: "No. We print single pieces all the time, and you only pay for what you order." },
-      { q: "How accurate are custom parts?", a: "Typical FDM precision is around ±0.2 mm. For tighter tolerances we adjust print parameters and can post-process critical surfaces." }
+      { q: "How accurate are custom parts?", a: "Typical FDM precision is around ±0.2 mm. For tighter tolerances we adjust print parameters and can post-process critical surfaces." },
+      { q: "Can you recreate a part purely from measurements, without the original?", a: "Yes. If you can provide detailed measurements, photos from multiple angles, or a technical sketch, we can model and print the part. For complex geometries a short consultation helps clarify fit requirements." },
+      { q: "What happens if the printed part doesn't fit on the first attempt?", a: "FDM holds ±0.2 mm typical precision. If a first print is slightly off for a tight-tolerance fit, we apply a small dimensional adjustment (usually 0.1–0.2 mm) and reprint at a reduced cost." }
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "curved-parts.jpg"),
     related: [
@@ -193,7 +197,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Which 3D file formats do you accept?", a: "STL, OBJ, 3MF and STEP. We can also work from native CAD exports — just ask." },
       { q: "Do you sign NDAs for confidential prototypes?", a: "Yes. We regularly sign NDAs for hardware startups and R&D departments." },
       { q: "Can you do small production runs after the prototype?", a: "Yes. We routinely produce 5–200 unit batches once a design is validated." },
-      { q: "How fast is one iteration?", a: "Most prototype iterations are ready within 24–72 hours depending on size and material." }
+      { q: "How fast is one iteration?", a: "Most prototype iterations are ready within 24–72 hours depending on size and material." },
+      { q: "Is FDM better than resin for my prototype?", a: "For functional prototypes that need to be handled, tested or stressed, FDM is usually better — it produces stronger, tougher parts across a wider material range. Resin has higher surface detail but is more brittle. We'll advise based on what your prototype needs to prove." },
+      { q: "What happens if you find a problem in my file during review?", a: "We flag it in the quote before starting — wall-thickness issues, unsupported overhangs, orientation problems that would affect strength. You decide whether to revise the file or proceed as-is with our recommendations." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
@@ -236,7 +242,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Can I really get a 3D print the same day in Barcelona?", a: "Sometimes — it depends on the size, the material and the current queue. WhatsApp us with the part and the deadline and we'll answer honestly within minutes." },
       { q: "How much extra does urgent printing cost?", a: "Express jobs carry a priority surcharge that depends on the size and timeline. You always see the full price before approving the order." },
       { q: "What's the fastest way to send my file?", a: "WhatsApp at +34 672 051 147. Attach your STL/STEP/photo and tell us the deadline." },
-      { q: "Can urgent prints still be high quality?", a: "Yes. We don't sacrifice layer adhesion, dimensional accuracy or finish for speed — we just give your job priority." }
+      { q: "Can urgent prints still be high quality?", a: "Yes. We don't sacrifice layer adhesion, dimensional accuracy or finish for speed — we just give your job priority." },
+      { q: "Do you work weekends for genuine emergencies?", a: "Contact us via WhatsApp — for real emergencies we sometimes accommodate weekend production. It's not a guaranteed service, but always worth asking if your situation is critical." },
+      { q: "What's the absolute minimum lead time possible?", a: "For small, simple parts in PLA or PETG, we've had orders ready for local pickup in as little as 3–6 hours from file approval. Larger or more complex parts always need more time." }
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "halloween-set.jpg", "stranger-things-lit.jpg", "lion-king-figures.jpg", "intake-manifold.jpg", "custom-brackets.jpg"),
     related: [
@@ -279,7 +287,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "What's the cheapest 3D print you do?", a: "Small simple parts in PLA start around 10€. Bigger or stronger materials cost more." },
       { q: "Do you charge for the quote?", a: "No. Quotes are always free and you only pay if you confirm the order." },
       { q: "Why does the same part cost more in PETG or Nylon?", a: "Those filaments are more expensive and print slower with tighter parameters, but they last longer in stressed or outdoor applications." },
-      { q: "Do bigger orders get cheaper per piece?", a: "Yes. Tell us the quantity and we'll send you a tiered price." }
+      { q: "Do bigger orders get cheaper per piece?", a: "Yes. Tell us the quantity and we'll send you a tiered price." },
+      { q: "Is the quoted price fixed once I approve?", a: "Yes. Once you approve a quote the price is locked. Quotes are valid for 30 days from issue — if material costs change significantly after that period, we may need to revise." },
+      { q: "Can I get a rough estimate without sending a file?", a: "Yes — describe the part size, material and quantity and we'll give you a realistic ballpark range. For an accurate binding quote, a file or clear photo with dimensions is needed." }
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
@@ -322,7 +332,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Can you replace any plastic part?", a: "Most simple plastic parts yes. Very thin elastic clips or parts made for high heat may need a specific material — we'll tell you upfront if it's not feasible." },
       { q: "How long does a printed replacement last?", a: "When made in the right material (PETG, ABS or Nylon for stressed parts), printed replacements often outlast the original injection-moulded plastic." },
       { q: "Is repair cheaper than buying a new appliance?", a: "Almost always. A printed part typically costs 10–60€ versus hundreds for a new appliance." },
-      { q: "Can you print parts for vintage equipment?", a: "Yes. Vintage cameras, radios, toys and appliances are some of our favourite jobs because the original spare parts don't exist anymore." }
+      { q: "Can you print parts for vintage equipment?", a: "Yes. Vintage cameras, radios, toys and appliances are some of our favourite jobs because the original spare parts don't exist anymore." },
+      { q: "What information gives the most accurate first-print result?", a: "A clear photo of the broken part next to a ruler or coin, a photo showing where it mounts on the device, and the brand and model name. The more context, the better the first-try fit." },
+      { q: "Can you make replacement parts in metal?", a: "No — we work exclusively with polymer filaments (PLA, PETG, ABS/ASA, Nylon, TPU). For metal parts you would need a CNC machining or casting service. Our polymer replacements often outlast originals in low-heat applications." }
     ],
     galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg"),
     related: [
@@ -365,7 +377,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Is PLA strong enough for functional parts?", a: "For low to moderate stress, yes. For load-bearing or high-temperature parts we recommend PETG, ABS/ASA or Nylon." },
       { q: "Is PLA really biodegradable?", a: "Yes, in industrial composting conditions. In a regular drawer it lasts for years." },
       { q: "Can you print PLA in any colour?", a: "We stock a wide standard range. For special colours, tell us the reference and we'll source the closest match." },
-      { q: "What's the maximum size you can print in PLA?", a: "Typical maximum print volume is around 250×250×300 mm in one piece. Bigger objects can be printed in sections and assembled." }
+      { q: "What's the maximum size you can print in PLA?", a: "Typical maximum print volume is around 250×250×300 mm in one piece. Bigger objects can be printed in sections and assembled." },
+      { q: "Can PLA prints be sanded, primed and painted?", a: "Yes. PLA sands easily with standard sandpaper, takes acrylic primer well, and can be painted with aerosol or brush-on acrylic paints. It's the ideal material for figures and decorative pieces you plan to finish." },
+      { q: "Is PLA safe for food contact?", a: "Standard PLA is not certified for food contact — the porous FDM surface can harbour bacteria even after washing. We don't recommend it for cups, plates or cutlery. For food-contact applications, ask us about certified food-safe materials." }
     ],
     galleryImages: pick("eiffel-tower.jpg", "big-ben-tower.jpg", "green-chameleon.jpg", "purple-figures.jpg", "halloween-set.jpg", "ferrari-key-holder.jpg"),
     related: [
@@ -408,7 +422,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "How is PETG different from PLA?", a: "PETG is tougher, more flexible under impact, more heat-resistant and survives outdoors. PLA is easier to print, captures finer detail and is cheaper." },
       { q: "Can PETG handle being outside in Barcelona summers?", a: "Yes. PETG resists UV and humidity well. For very high heat applications we may suggest ABS/ASA instead." },
       { q: "Is PETG food-safe?", a: "Standard PETG filament is not certified for food contact. Certified food-safe PETG exists and we can source it for specific projects." },
-      { q: "Is PETG more expensive than PLA?", a: "Slightly. The material costs a bit more and prints slower, so the per-part price is typically 15–30% higher than PLA." }
+      { q: "Is PETG more expensive than PLA?", a: "Slightly. The material costs a bit more and prints slower, so the per-part price is typically 15–30% higher than PLA." },
+      { q: "At what temperature does PETG start to deform?", a: "PETG begins to soften around 70–80°C. For parts near consistent heat sources — engines, dishwashers, near ovens — we recommend ABS/ASA instead, which handles up to 90–100°C." },
+      { q: "How much stronger is PETG compared to PLA for functional parts?", a: "PETG typically offers around 20–30% higher impact resistance than PLA and significantly better layer adhesion. In practice, parts flex under load instead of snapping clean — which matters in real-world mechanical use." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
     related: [
@@ -451,7 +467,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "How flexible is your TPU?", a: "Standard TPU 95A behaves like a hard rubber — bendable and stretchable but not floppy. We can adjust the perceived softness by changing wall thickness and infill." },
       { q: "Can I print a custom phone case in TPU?", a: "Yes, as long as you have or can supply a 3D model of your phone shape. We can also adapt existing models." },
       { q: "Is TPU good for outdoor parts?", a: "Yes — it resists UV and humidity well and stays flexible across a wide temperature range." },
-      { q: "Why is TPU more expensive than PLA?", a: "It prints much slower and requires careful tuning. The cost difference is normally 30–50% per part." }
+      { q: "Why is TPU more expensive than PLA?", a: "It prints much slower and requires careful tuning. The cost difference is normally 30–50% per part." },
+      { q: "What Shore hardness is your standard TPU filament?", a: "We work primarily with TPU 95A Shore hardness, which feels like a firm rubber — bendable and stretchable but with structural stability under load. Softer variants (around 85A) can be sourced for applications that need more compliance." },
+      { q: "How thin can walls be in a flexible TPU print?", a: "For reliable flexible prints we recommend a minimum wall thickness of 1.5–3.0 mm depending on the desired flexibility. Very thin walls become too floppy to control dimensionally; very thick walls lose the desired flex." }
     ],
     galleryImages: pick("curved-parts.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
     related: [
@@ -494,7 +512,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Can FDM really print detailed miniatures?", a: "Yes, with careful orientation and fine layer heights. For extreme detail (eyes, very thin features), we'll be honest about FDM's limits before quoting." },
       { q: "What scales do you print?", a: "Most common tabletop scales (28mm, 32mm, 54mm) plus larger display scales. Send your file or specify a scale and we'll confirm." },
       { q: "Do you supply primed or painted miniatures?", a: "By default we deliver clean, paint-ready prints. For painted miniatures, ask and we'll quote the painting work separately." },
-      { q: "Can you design a miniature from a photo?", a: "We can quote custom 3D design from photos or references, then print the result." }
+      { q: "Can you design a miniature from a photo?", a: "We can quote custom 3D design from photos or references, then print the result." },
+      { q: "What layer height do you use for high-detail miniatures?", a: "For display miniatures we typically use 0.10–0.12 mm layer height, which captures fine surface detail while keeping print times practical. For very small figures or extreme detail we can go to 0.08 mm." },
+      { q: "Will support marks be visible on the finished miniature?", a: "We orient parts carefully to place support contact points on non-visible areas — undersides, back surfaces, bases. Some marks are inherent to FDM; we'll set realistic expectations per model before you approve the print." }
     ],
     galleryImages: pick("purple-figures.jpg", "lion-king-figures.jpg", "lion-king-scene.jpg", "stranger-things-diorama.jpg", "stranger-things-lit.jpg", "halloween-set.jpg"),
     related: [
@@ -539,7 +559,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Do you sign NDAs for business projects?", a: "Yes. NDA signing is standard for any client who requests it. We never share client files or project details." },
       { q: "What file formats do you accept?", a: "STL, STEP, IGES, OBJ and 3MF. Native CAD exports from SolidWorks, Fusion 360, Onshape and most other tools work fine." },
       { q: "Can you supply 50 or 100 identical parts?", a: "Yes. We run short production batches from 5 to 200 units. Per-unit price drops with quantity — ask for a tiered quote." },
-      { q: "What tolerances can you hold?", a: "Typical FDM accuracy is ±0.2 mm. For tighter-tolerance features we adjust parameters and can post-process critical surfaces. Tell us the requirement upfront." }
+      { q: "What tolerances can you hold?", a: "Typical FDM accuracy is ±0.2 mm. For tighter-tolerance features we adjust parameters and can post-process critical surfaces. Tell us the requirement upfront." },
+      { q: "Do you issue full VAT invoices for business orders?", a: "Yes. We issue complete VAT invoices for all business customers. Provide your company name and CIF/VAT number when placing the order." },
+      { q: "What is the typical lead time for a batch of 50–100 parts?", a: "For most standard-sized parts, 5–10 business days depending on part size and material. For urgent batch requirements, contact us to discuss priority scheduling — we'll be honest about what's achievable." }
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
     related: [
@@ -584,7 +606,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "How fast is one prototyping iteration?", a: "Typically 24–72 hours from file submission to part in hand, depending on size, material and current queue." },
       { q: "Which CAD formats do you accept?", a: "STL, STEP, IGES, OBJ and 3MF. Exports from SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD and most other tools work without conversion." },
       { q: "Do you flag design problems before printing?", a: "Yes. We review every file manually and flag wall-thickness issues, support problems or material mismatches in the quote before we start printing." },
-      { q: "Can you run a small production batch after the prototype?", a: "Yes. We transition from prototype to short-run production (5–200 units) without changing supplier or re-establishing terms." }
+      { q: "Can you run a small production batch after the prototype?", a: "Yes. We transition from prototype to short-run production (5–200 units) without changing supplier or re-establishing terms." },
+      { q: "What distinguishes this from your standard prototype printing service?", a: "Rapid prototyping is specifically set up for fast multi-iteration cycles. We keep your project on file between iterations, accept revision uploads directly via WhatsApp, and prioritise turnaround within the 24–72h window without re-quoting from scratch each time." },
+      { q: "Can I run multiple design revisions in the same week?", a: "Yes — that's the whole point. Each revised file goes through the same same-day review and 24–72h production cycle. Frequent iterators share files directly via WhatsApp and we turn them around without administrative delay." }
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
@@ -629,7 +653,9 @@ export const PAGES_EN: LandingContent[] = [
       { q: "Which material is best for load-bearing functional parts?", a: "Nylon PA12 or Nylon-CF for maximum mechanical strength. PETG for moderate loads with outdoor or water exposure. We'll specify the right one in the quote." },
       { q: "How strong is a PETG print compared to injection-moulded plastic?", a: "A well-printed PETG part at 60%+ infill is often comparable to injection-moulded PP or ABS for moderate structural loads, though anisotropic — stronger along the print plane than across layers." },
       { q: "Can you print functional parts with tight tolerances?", a: "Typical FDM holds ±0.2 mm. For critical mating surfaces we adjust parameters and can post-machine or post-process if tighter tolerances are required — discuss this in the quote." },
-      { q: "Do you review files for structural suitability before printing?", a: "Yes. Every file is reviewed manually. If a geometry has an issue — thin walls, bad orientation for load direction, inadequate support — we flag it before printing." }
+      { q: "Do you review files for structural suitability before printing?", a: "Yes. Every file is reviewed manually. If a geometry has an issue — thin walls, bad orientation for load direction, inadequate support — we flag it before printing." },
+      { q: "What infill density do you use for load-bearing structural parts?", a: "For moderate structural loads we use 40–60% infill. For high-load or load-bearing contact surfaces we use 80–100% solid infill. We specify the infill setting in every quote so you know exactly what you're getting." },
+      { q: "What post-processing is available for functional parts?", a: "Heat-set threaded inserts (M3, M4, M5) for bolt connections, ABS acetone vapour smoothing for improved surface seal, and manual tapping or light sanding of critical mating surfaces. Request any post-processing when you submit the quote." }
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
