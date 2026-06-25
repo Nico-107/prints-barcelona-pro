@@ -57,6 +57,7 @@ const Footer = () => {
               <Link to="/" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.home")}</Link>
               <Link to={businessSlug} className="text-background/70 text-sm hover:text-background transition-colors">{forBusinessLabel}</Link>
               <Link to="/makers" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.becomeMaker")}</Link>
+              <Link to="/maker-guide" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.makerGuide")}</Link>
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
             </div>

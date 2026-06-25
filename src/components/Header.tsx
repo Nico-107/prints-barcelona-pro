@@ -35,9 +35,6 @@ const Header = () => {
 
   const navItems = [
     { label: t("nav.howItWorks"), id: "como-funciona" },
-    { label: t("nav.materials"), id: "materiales" },
-    { label: t("nav.projects"), id: "proyectos" },
-    { label: t("nav.reviews"), id: "resenas" },
   ];
 
   return (
@@ -48,7 +45,7 @@ const Header = () => {
             <img src="/logo.png" alt="Dimension3D" className="h-8 w-auto" />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-4">
+          <nav className="hidden lg:flex items-center gap-5">
             {navItems.map((item) => (
               <button
                 key={item.id}

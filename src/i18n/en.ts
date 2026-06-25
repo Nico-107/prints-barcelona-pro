@@ -268,6 +268,7 @@ export const enTranslations: Record<string, string> = {
   "footer.mapText": "Based in Barcelona – local pickup available",
   "footer.nav.home": "Home",
   "footer.nav.privacy": "Privacy Policy",
+  "footer.nav.makerGuide": "Maker Guide",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",

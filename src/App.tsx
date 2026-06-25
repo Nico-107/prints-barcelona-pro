@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import B2BPage from "./pages/B2BPage";
 import Makers from "./pages/Makers";
+import MakerGuide from "./pages/MakerGuide";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 
 function PostHogPageView() {
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/track" element={<Track />} />
             <Route path="/makers" element={<Makers />} />
+            <Route path="/maker-guide" element={<MakerGuide />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/admin-orders" element={<AdminOrders />} />
             <Route path="/admin-makers" element={<AdminMakers />} />

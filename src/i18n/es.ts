@@ -268,6 +268,7 @@ export const esTranslations: Record<string, string> = {
   "footer.mapText": "Ubicados en Barcelona – recogida local disponible",
   "footer.nav.home": "Inicio",
   "footer.nav.privacy": "Política de privacidad",
+  "footer.nav.makerGuide": "Guía del Maker",
 
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",

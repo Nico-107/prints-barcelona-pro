@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -457,13 +458,13 @@ const Makers = () => {
                     </span>
                   ))}
                 </div>
-                <a
-                  href="#maker-walkthrough"
+                <Link
+                  to="/maker-guide"
                   className="inline-flex items-center gap-1.5 text-sm text-primary-foreground/55 hover:text-primary-foreground/80 transition-colors"
                 >
                   <HelpCircle className="w-4 h-4" />
                   {c.walkthroughHelpLabel}
-                </a>
+                </Link>
               </div>
 
               {/* Right: Europe SVG map (desktop only, decorative) */}
