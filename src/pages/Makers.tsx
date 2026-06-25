@@ -461,7 +461,7 @@ const Makers = () => {
                     aspectRatio: "800/660",
                     WebkitMaskImage: "radial-gradient(ellipse 85% 80% at 50% 52%, black 50%, transparent 100%)",
                     maskImage: "radial-gradient(ellipse 85% 80% at 50% 52%, black 50%, transparent 100%)",
-                    opacity: 0.55,
+                    opacity: 0.68,
                   }}
                 >
                   <EuropeMapSVG variant="dark" />
