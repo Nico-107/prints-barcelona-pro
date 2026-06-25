@@ -22,6 +22,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
+import { EuropeMapSVG } from "@/components/EuropeMapSVG";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -29,7 +30,7 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 interface Offer { title: string; body: string; }
 interface Step { label: string; note: string; }
 interface Comparison { alone: string; withUs: string; }
-interface CityEntry { name: string; live: boolean; x: number; y: number; labelSide: "above" | "below" | "left" | "right"; }
+interface CityEntry { name: string; live: boolean; }
 interface FAQ { q: string; a: string; }
 
 interface MakersCopy {
@@ -50,29 +51,12 @@ interface MakersCopy {
 
 const OFFER_ICONS = [Users, Shield, Gift, DollarSign, BookOpen, Globe];
 
-// City positions calibrated to europe-dots.png (360×360 px, equirectangular ~lon -10→44°E, lat 35→58°N)
-// Formula (verified pixel-exact): x% = 26.5 + lon×1.726,  y% = 200.9 − lat×3.22
-const CITY_COORDS: Omit<CityEntry, "name">[] = [
-  { live: true,  x: 30, y: 68, labelSide: "right"  }, // Barcelona  2.17°E 41.4°N
-  { live: false, x: 20, y: 71, labelSide: "left"   }, // Madrid    -3.70°E 40.4°N
-  { live: false, x: 26, y: 74, labelSide: "below"  }, // Valencia  -0.38°E 39.5°N
-  { live: false, x: 11, y: 76, labelSide: "right"  }, // Lisbon    -9.14°E 38.7°N
-  { live: false, x: 31, y: 44, labelSide: "left"   }, // Paris      2.35°E 48.9°N
-  { live: false, x: 35, y: 32, labelSide: "left"   }, // Amsterdam  4.90°E 52.4°N
-  { live: false, x: 50, y: 32, labelSide: "right"  }, // Berlin    13.41°E 52.5°N
-  { live: false, x: 47, y: 46, labelSide: "right"  }, // Munich    11.58°E 48.1°N
-  { live: false, x: 42, y: 55, labelSide: "left"   }, // Milan      9.19°E 45.5°N
-];
-
-const LABEL_CLS: Record<"above" | "below" | "left" | "right", string> = {
-  above: "bottom-full mb-1 left-1/2 -translate-x-1/2",
-  below: "top-full mt-1 left-1/2 -translate-x-1/2",
-  left:  "right-full mr-2 top-1/2 -translate-y-1/2 text-right",
-  right: "left-full ml-2 top-1/2 -translate-y-1/2",
-};
+// Live status for each city — index order must match buildCities() call order:
+// Barcelona, Madrid, Valencia, Lisbon, Paris, Amsterdam, Berlin, Munich, Milan
+const CITY_LIVE = [true, false, false, false, false, false, false, false, false];
 
 function buildCities(names: string[]): CityEntry[] {
-  return names.map((name, i) => ({ name, ...CITY_COORDS[i] }));
+  return names.map((name, i) => ({ name, live: CITY_LIVE[i] ?? false }));
 }
 
 const COPY: Record<string, MakersCopy> = {
@@ -469,54 +453,18 @@ const Makers = () => {
                 </div>
               </div>
 
-              {/* Right: Europe map image (desktop only) */}
+              {/* Right: Europe SVG map (desktop only, decorative) */}
               <div className="hidden lg:flex items-center justify-center">
-                <div className="relative w-full max-w-md" style={{ aspectRatio: "1" }}>
-                  {/* Map image — inverted + brightened for light dots on dark hero */}
-                  <img
-                    src="/europe-dots.png"
-                    alt=""
-                    aria-hidden="true"
-                    draggable={false}
-                    className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-                    style={{ filter: "invert(1) brightness(1.8)", opacity: 0.35 }}
-                  />
-                  {/* Connection lines Barcelona → other cities */}
-                  <svg viewBox="0 0 100 100" preserveAspectRatio="none"
-                    className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true">
-                    {c.cities.filter(city => !city.live).map(city => (
-                      <line key={city.name}
-                        x1={30} y1={68} x2={city.x} y2={city.y}
-                        stroke="white" strokeOpacity="0.15" strokeWidth="0.5" strokeDasharray="1.5 2.5" />
-                    ))}
-                  </svg>
-                  {/* "MAKER NETWORK" label */}
-                  <div className="absolute top-3 left-0 right-0 text-center pointer-events-none">
-                    <span className="text-[10px] text-white/30 font-medium tracking-widest uppercase">Maker Network</span>
-                  </div>
-                  {/* City markers */}
-                  {c.cities.map((city) => (
-                    <div
-                      key={city.name}
-                      className="absolute"
-                      style={{ left: `${city.x}%`, top: `${city.y}%`, transform: "translate(-50%,-50%)" }}
-                      aria-hidden="true"
-                    >
-                      {city.live ? (
-                        <span className="relative flex items-center justify-center w-5 h-5">
-                          <span className="absolute w-9 h-9 rounded-full bg-accent/25 animate-ping" />
-                          <span className="relative w-5 h-5 rounded-full bg-accent shadow-lg ring-2 ring-white/40" />
-                        </span>
-                      ) : (
-                        <span className="w-3 h-3 rounded-full bg-white/55 border border-white/25 shadow block" />
-                      )}
-                      <span className={`absolute whitespace-nowrap text-[10px] font-medium pointer-events-none leading-none ${
-                        city.live ? "text-accent" : "text-white/45"
-                      } ${LABEL_CLS[city.labelSide]}`}>
-                        {city.name}
-                      </span>
-                    </div>
-                  ))}
+                <div
+                  className="relative w-full max-w-xl"
+                  style={{
+                    aspectRatio: "800/660",
+                    WebkitMaskImage: "radial-gradient(ellipse 85% 80% at 50% 52%, black 50%, transparent 100%)",
+                    maskImage: "radial-gradient(ellipse 85% 80% at 50% 52%, black 50%, transparent 100%)",
+                    opacity: 0.55,
+                  }}
+                >
+                  <EuropeMapSVG variant="dark" />
                 </div>
               </div>
             </div>
@@ -656,44 +604,15 @@ const Makers = () => {
               </span>
             </div>
 
-            {/* Desktop: geographic map with europe-dots.png image */}
+            {/* Desktop: interactive SVG map with mathematically-correct city positions */}
             <div
-              className="hidden md:block relative w-full max-w-lg mx-auto select-none rounded-xl overflow-hidden border border-border/50"
-              style={{ aspectRatio: "1" }}
+              className="hidden md:block w-full max-w-2xl mx-auto select-none"
+              style={{ aspectRatio: "800/660" }}
             >
-              <img
-                src="/europe-dots.png"
-                alt=""
-                aria-hidden="true"
-                draggable={false}
-                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-                style={{ opacity: 0.55 }}
+              <EuropeMapSVG
+                variant="light"
+                onCityClick={(idx) => handleCitySelect(c.cities[idx].name)}
               />
-              {/* City markers — % positions calibrated to europe-dots.png pixel coordinates */}
-              {c.cities.map((city) => (
-                <button
-                  key={city.name}
-                  className="absolute group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full z-10"
-                  style={{ left: `${city.x}%`, top: `${city.y}%`, transform: "translate(-50%,-50%)" }}
-                  onClick={() => handleCitySelect(city.name)}
-                  title={city.name}
-                  aria-label={`${city.name} — ${city.live ? c.cityLive : c.cityExpanding}. Click to apply from this city.`}
-                >
-                  {city.live ? (
-                    <span className="relative flex items-center justify-center w-6 h-6">
-                      <span className="absolute w-10 h-10 rounded-full bg-whatsapp/25 animate-ping" />
-                      <span className="relative w-6 h-6 rounded-full bg-whatsapp shadow-lg shadow-whatsapp/40 ring-2 ring-white" />
-                    </span>
-                  ) : (
-                    <span className="w-4 h-4 rounded-full bg-accent border-2 border-white shadow block group-hover:scale-125 transition-all duration-200" />
-                  )}
-                  <span className={`absolute whitespace-nowrap text-xs font-semibold pointer-events-none drop-shadow-sm ${
-                    city.live ? "text-whatsapp" : "text-foreground/75 group-hover:text-foreground"
-                  } ${LABEL_CLS[city.labelSide]}`}>
-                    {city.name}
-                  </span>
-                </button>
-              ))}
             </div>
 
             {/* Mobile: pill grid */}
