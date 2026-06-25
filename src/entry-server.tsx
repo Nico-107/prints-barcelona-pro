@@ -1,7 +1,6 @@
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "react-helmet-async";
-import type { FilledContext } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -21,14 +20,25 @@ import type { Language } from "@/contexts/LanguageContext";
 
 export { ALL_PAGES };
 
+type HelmetServerContext = {
+  helmet?: {
+    title?: { toString: () => string };
+    priority?: { toString: () => string };
+    meta?: { toString: () => string };
+    link?: { toString: () => string };
+    script?: { toString: () => string };
+    htmlAttributes?: { toString: () => string };
+  };
+};
+
 // Mirror of pathLanguage() in LanguageContext.tsx — must stay in sync.
 function urlLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
   return "es";
 }
 
-export function render(url: string): { html: string; helmetContext: FilledContext } {
-  const helmetContext = {} as FilledContext;
+export function render(url: string): { html: string; helmetContext: HelmetServerContext } {
+  const helmetContext: HelmetServerContext = {};
   const queryClient = new QueryClient();
   const defaultLanguage = urlLanguage(url);
 
