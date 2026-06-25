@@ -9,6 +9,15 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
+const envText = readFileSync(resolve(root, ".env"), "utf-8");
+for (const line of envText.split(/\r?\n/)) {
+  const match = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)?\s*$/);
+  if (!match) continue;
+  const [, key, rawValue = ""] = match;
+  if (process.env[key] !== undefined) continue;
+  process.env[key] = rawValue.trim().replace(/^['"]|['"]$/g, "");
+}
+
 // Load the SSR bundle produced by `vite build --ssr`.
 const { render, ALL_PAGES } = await import(
   resolve(root, "dist-ssr/entry-server.js")
