@@ -29,7 +29,7 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 interface Offer { title: string; body: string; }
 interface Step { label: string; note: string; }
 interface Comparison { alone: string; withUs: string; }
-interface CityEntry { name: string; live: boolean; x: number; y: number; }
+interface CityEntry { name: string; live: boolean; x: number; y: number; labelSide: "above" | "below" | "left" | "right"; }
 interface FAQ { q: string; a: string; }
 
 interface MakersCopy {
@@ -50,20 +50,26 @@ interface MakersCopy {
 
 const OFFER_ICONS = [Users, Shield, Gift, DollarSign, BookOpen, Globe];
 
-// City map coordinates — lon/lat → x%/y% within container
-// x = (lon + 10) / 28 * 100, y = (58 - lat) / 22 * 100
-// Range: lon -10°→18°, lat 58°→36°
+// City positions calibrated to europe-dots.png (360×360 px, equirectangular ~lon -10→44°E, lat 35→58°N)
+// Formula (verified pixel-exact): x% = 26.5 + lon×1.726,  y% = 200.9 − lat×3.22
 const CITY_COORDS: Omit<CityEntry, "name">[] = [
-  { live: true,  x: 44, y: 75 }, // Barcelona  lon=2.2  lat=41.4
-  { live: false, x: 23, y: 80 }, // Madrid     lon=-3.7 lat=40.4
-  { live: false, x: 34, y: 84 }, // Valencia   lon=-0.4 lat=39.5
-  { live: false, x:  4, y: 88 }, // Lisbon     lon=-9.0 lat=38.7
-  { live: false, x: 44, y: 41 }, // Paris      lon=2.3  lat=48.9
-  { live: false, x: 53, y: 26 }, // Amsterdam  lon=4.9  lat=52.4
-  { live: false, x: 84, y: 25 }, // Berlin     lon=13.4 lat=52.5
-  { live: false, x: 77, y: 45 }, // Munich     lon=11.6 lat=48.1
-  { live: false, x: 69, y: 57 }, // Milan      lon=9.2  lat=45.5
+  { live: true,  x: 30, y: 68, labelSide: "right"  }, // Barcelona  2.17°E 41.4°N
+  { live: false, x: 20, y: 71, labelSide: "left"   }, // Madrid    -3.70°E 40.4°N
+  { live: false, x: 26, y: 74, labelSide: "below"  }, // Valencia  -0.38°E 39.5°N
+  { live: false, x: 11, y: 76, labelSide: "right"  }, // Lisbon    -9.14°E 38.7°N
+  { live: false, x: 31, y: 44, labelSide: "left"   }, // Paris      2.35°E 48.9°N
+  { live: false, x: 35, y: 32, labelSide: "left"   }, // Amsterdam  4.90°E 52.4°N
+  { live: false, x: 50, y: 32, labelSide: "right"  }, // Berlin    13.41°E 52.5°N
+  { live: false, x: 47, y: 46, labelSide: "right"  }, // Munich    11.58°E 48.1°N
+  { live: false, x: 42, y: 55, labelSide: "left"   }, // Milan      9.19°E 45.5°N
 ];
+
+const LABEL_CLS: Record<"above" | "below" | "left" | "right", string> = {
+  above: "bottom-full mb-1 left-1/2 -translate-x-1/2",
+  below: "top-full mt-1 left-1/2 -translate-x-1/2",
+  left:  "right-full mr-2 top-1/2 -translate-y-1/2 text-right",
+  right: "left-full ml-2 top-1/2 -translate-y-1/2",
+};
 
 function buildCities(names: string[]): CityEntry[] {
   return names.map((name, i) => ({ name, ...CITY_COORDS[i] }));
@@ -463,79 +469,55 @@ const Makers = () => {
                 </div>
               </div>
 
-              {/* Right: dot-matrix Europe map (desktop only) */}
+              {/* Right: Europe map image (desktop only) */}
               <div className="hidden lg:flex items-center justify-center">
-                <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" fill="none"
-                  xmlns="http://www.w3.org/2000/svg" className="w-full max-w-md" aria-hidden="true">
-                  <defs>
-                    {/* Subtle background texture */}
-                    <pattern id="hero-bg-dots" x="0" y="0" width="2.8" height="2.8" patternUnits="userSpaceOnUse">
-                      <circle cx="1.4" cy="1.4" r="0.09" fill="white" fillOpacity="0.12" />
-                    </pattern>
-                    {/* Map dots: ~1:1 display → circles look correct at r=0.7, spacing 3×3 */}
-                    <pattern id="hero-map-dots" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse">
-                      <circle cx="1.5" cy="1.5" r="0.7" fill="white" fillOpacity="0.38" />
-                    </pattern>
-                  </defs>
-                  <rect width="100" height="100" fill="url(#hero-bg-dots)" />
-
-                  {/* Dot-matrix Europe — pattern fill clips dots to polygon interior */}
-                  {/* Main continent: Iberia → France → Benelux → Germany → Eastern → Italy → Mediterranean */}
-                  <path fill="url(#hero-map-dots)" d="M2.5,68.2 L22.1,66.1 L28.6,66.7 L30.5,65.9 L31.7,53.9 L23.7,46.6 L19.7,44.6 L28.6,43.4 L29.9,38.0 L36.1,38.7 L42.3,32.0 L44.2,31.6 L46.1,30.8 L48.5,29.8 L50.4,27.3 L52.7,22.9 L61.4,21.1 L67.5,19.3 L72.3,15.9 L79.1,17.7 L84.3,15.0 L87.7,20.8 L87.7,25.2 L84.9,31.6 L89.3,36.4 L93.5,44.5 L84.9,56.1 L79.8,57.1 L83.9,65.4 L86.5,70.6 L95.9,76.8 L99.8,79.1 L91.6,90.5 L89.3,84.7 L86.7,78.0 L78.2,72.3 L72.9,65.9 L67.6,61.8 L61.8,65.0 L54.6,66.8 L47.5,71.8 L43.6,75.5 L34.3,84.1 L27.3,96.4 L16.3,99.0 L11.1,94.1 L3.6,95.5 L3.2,88.6 L4.6,77.3 Z" />
-                  {/* Great Britain */}
-                  <path fill="url(#hero-map-dots)" d="M15.3,36.0 L23.2,34.6 L35.2,32.6 L40.5,31.2 L39.2,27.9 L40.3,23.0 L37.5,21.0 L35.4,20.2 L36.1,17.6 L30.6,13.6 L28.6,10.1 L24.3,9.1 L25.1,7.0 L28.2,3.9 L20.6,2.3 L16.1,4.5 L13.5,5.8 L15.0,12.3 L17.6,14.3 L25.0,16.8 L24.8,19.0 L20.2,22.0 L18.0,28.7 L24.5,29.3 L23.3,30.9 Z" />
-                  {/* Ireland */}
-                  <path fill="url(#hero-map-dots)" d="M14.1,25.8 L5.3,27.7 L0.6,29.8 L3.3,21.5 L6.5,15.2 L9.3,11.9 L14.3,15.5 L13.4,21.2 Z" />
-                  {/* Denmark / Jutland */}
-                  <path fill="url(#hero-map-dots)" d="M64.7,14.0 L62.5,6.8 L73.6,1.3 L73.4,2.5 L72.2,8.4 L69.6,11.4 L69.4,14.5 Z" />
-
-                  {/* Connection lines from Barcelona to each city */}
-                  {([ [43.5,75.5,22.5,79.1],[43.5,75.5,34.4,84.2],[43.5,75.5,3.2,87.6],
-                       [43.5,75.5,44.1,41.5],[43.5,75.5,53.2,25.6],[43.5,75.5,83.6,24.9],
-                       [43.5,75.5,76.4,45.0],[43.5,75.5,68.9,57.0] ] as number[][]).map(([x1,y1,x2,y2],i) => (
-                    <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-                      stroke="white" strokeOpacity="0.22" strokeWidth="0.35" strokeDasharray="2 3" />
+                <div className="relative w-full max-w-md" style={{ aspectRatio: "1" }}>
+                  {/* Map image — inverted + brightened for light dots on dark hero */}
+                  <img
+                    src="/europe-dots.png"
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+                    style={{ filter: "invert(1) brightness(1.8)", opacity: 0.35 }}
+                  />
+                  {/* Connection lines Barcelona → other cities */}
+                  <svg viewBox="0 0 100 100" preserveAspectRatio="none"
+                    className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true">
+                    {c.cities.filter(city => !city.live).map(city => (
+                      <line key={city.name}
+                        x1={30} y1={68} x2={city.x} y2={city.y}
+                        stroke="white" strokeOpacity="0.15" strokeWidth="0.5" strokeDasharray="1.5 2.5" />
+                    ))}
+                  </svg>
+                  {/* "MAKER NETWORK" label */}
+                  <div className="absolute top-3 left-0 right-0 text-center pointer-events-none">
+                    <span className="text-[10px] text-white/30 font-medium tracking-widest uppercase">Maker Network</span>
+                  </div>
+                  {/* City markers */}
+                  {c.cities.map((city) => (
+                    <div
+                      key={city.name}
+                      className="absolute"
+                      style={{ left: `${city.x}%`, top: `${city.y}%`, transform: "translate(-50%,-50%)" }}
+                      aria-hidden="true"
+                    >
+                      {city.live ? (
+                        <span className="relative flex items-center justify-center w-5 h-5">
+                          <span className="absolute w-9 h-9 rounded-full bg-accent/25 animate-ping" />
+                          <span className="relative w-5 h-5 rounded-full bg-accent shadow-lg ring-2 ring-white/40" />
+                        </span>
+                      ) : (
+                        <span className="w-3 h-3 rounded-full bg-white/55 border border-white/25 shadow block" />
+                      )}
+                      <span className={`absolute whitespace-nowrap text-[10px] font-medium pointer-events-none leading-none ${
+                        city.live ? "text-accent" : "text-white/45"
+                      } ${LABEL_CLS[city.labelSide]}`}>
+                        {city.name}
+                      </span>
+                    </div>
                   ))}
-
-                  {/* Secondary city dots */}
-                  {[
-                    { cx:22.5, cy:79.1, label:"Madrid"    },
-                    { cx:34.4, cy:84.2, label:"Valencia"  },
-                    { cx:3.2,  cy:87.6, label:"Lisbon"    },
-                    { cx:44.1, cy:41.5, label:"Paris"     },
-                    { cx:53.2, cy:25.6, label:"Amsterdam" },
-                    { cx:83.6, cy:24.9, label:"Berlin"    },
-                    { cx:76.4, cy:45.0, label:"Munich"    },
-                    { cx:68.9, cy:57.0, label:"Milan"     },
-                  ].map((city) => (
-                    <g key={city.label}>
-                      <circle cx={city.cx} cy={city.cy} r="3.5" fill="white" fillOpacity="0.08" />
-                      <circle cx={city.cx} cy={city.cy} r="1.8" fill="white" fillOpacity="0.25" />
-                      <circle cx={city.cx} cy={city.cy} r="0.9" fill="white" fillOpacity="0.85" />
-                      <text x={city.cx} y={city.cy + 4.5} textAnchor="middle"
-                        fill="white" fillOpacity="0.55" fontSize="3" fontFamily="system-ui,sans-serif">
-                        {city.label}
-                      </text>
-                    </g>
-                  ))}
-
-                  {/* Barcelona hub */}
-                  <circle cx="43.5" cy="75.5" r="8"   fill="#f59e0b" fillOpacity="0.12" />
-                  <circle cx="43.5" cy="75.5" r="5"   fill="#f59e0b" fillOpacity="0.25" />
-                  <circle cx="43.5" cy="75.5" r="2.5" fill="#f59e0b" />
-                  <text x="43.5" y="87" textAnchor="middle"
-                    fill="#f59e0b" fontSize="3.5" fontWeight="600" fontFamily="system-ui,sans-serif">
-                    Barcelona
-                  </text>
-                  <text x="43.5" y="91.5" textAnchor="middle"
-                    fill="white" fillOpacity="0.45" fontSize="2.5" fontFamily="system-ui,sans-serif" letterSpacing="0.5">
-                    ● LIVE NOW
-                  </text>
-                  <text x="50" y="8" textAnchor="middle"
-                    fill="white" fillOpacity="0.3" fontSize="3" fontFamily="system-ui,sans-serif" letterSpacing="1.5">
-                    MAKER NETWORK
-                  </text>
-                </svg>
+                </div>
               </div>
             </div>
           </div>
@@ -674,68 +656,44 @@ const Makers = () => {
               </span>
             </div>
 
-            {/* Desktop: geographic map */}
+            {/* Desktop: geographic map with europe-dots.png image */}
             <div
-              className="hidden md:block relative w-full max-w-3xl mx-auto select-none rounded-xl overflow-hidden border border-border/50"
-              style={{ height: "380px" }}
+              className="hidden md:block relative w-full max-w-lg mx-auto select-none rounded-xl overflow-hidden border border-border/50"
+              style={{ aspectRatio: "1" }}
             >
-              {/* Dot-matrix Europe SVG — preserveAspectRatio="none" fills container exactly
-                   so SVG 0-100 coords align with CSS % positions on city buttons.
-                   Ellipse rx/ry pre-compensates for the ~2:1 container stretch so dots
-                   appear as circles on screen: rx=0.55→4.2px, ry=1.05→4.0px at 768×380 */}
-              <svg
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-                className="absolute inset-0 w-full h-full"
+              <img
+                src="/europe-dots.png"
+                alt=""
                 aria-hidden="true"
-              >
-                <defs>
-                  {/* Pattern tile 2.5×5.0: gives 19.2px×19.0px even dot spacing on screen */}
-                  <pattern id="map-dots" x="0" y="0" width="2.5" height="5.0" patternUnits="userSpaceOnUse">
-                    <ellipse cx="1.25" cy="2.5" rx="0.55" ry="1.05" fill="#64748b" />
-                  </pattern>
-                </defs>
-                {/* Ocean background */}
-                <rect width="100" height="100" fill="#eef2f7" />
-                {/* Dot-matrix landmasses — pattern fill clips dots to polygon interior */}
-                {/* Main continent */}
-                <path fill="url(#map-dots)" d="M2.5,68.2 L22.1,66.1 L28.6,66.7 L30.5,65.9 L31.7,53.9 L23.7,46.6 L19.7,44.6 L28.6,43.4 L29.9,38.0 L36.1,38.7 L42.3,32.0 L44.2,31.6 L46.1,30.8 L48.5,29.8 L50.4,27.3 L52.7,22.9 L61.4,21.1 L67.5,19.3 L72.3,15.9 L79.1,17.7 L84.3,15.0 L87.7,20.8 L87.7,25.2 L84.9,31.6 L89.3,36.4 L93.5,44.5 L84.9,56.1 L79.8,57.1 L83.9,65.4 L86.5,70.6 L95.9,76.8 L99.8,79.1 L91.6,90.5 L89.3,84.7 L86.7,78.0 L78.2,72.3 L72.9,65.9 L67.6,61.8 L61.8,65.0 L54.6,66.8 L47.5,71.8 L43.6,75.5 L34.3,84.1 L27.3,96.4 L16.3,99.0 L11.1,94.1 L3.6,95.5 L3.2,88.6 L4.6,77.3 Z" />
-                {/* Great Britain */}
-                <path fill="url(#map-dots)" d="M15.3,36.0 L23.2,34.6 L35.2,32.6 L40.5,31.2 L39.2,27.9 L40.3,23.0 L37.5,21.0 L35.4,20.2 L36.1,17.6 L30.6,13.6 L28.6,10.1 L24.3,9.1 L25.1,7.0 L28.2,3.9 L20.6,2.3 L16.1,4.5 L13.5,5.8 L15.0,12.3 L17.6,14.3 L25.0,16.8 L24.8,19.0 L20.2,22.0 L18.0,28.7 L24.5,29.3 L23.3,30.9 Z" />
-                {/* Ireland */}
-                <path fill="url(#map-dots)" d="M14.1,25.8 L5.3,27.7 L0.6,29.8 L3.3,21.5 L6.5,15.2 L9.3,11.9 L14.3,15.5 L13.4,21.2 Z" />
-                {/* Denmark / Jutland */}
-                <path fill="url(#map-dots)" d="M64.7,14.0 L62.5,6.8 L73.6,1.3 L73.4,2.5 L72.2,8.4 L69.6,11.4 L69.4,14.5 Z" />
-              </svg>
-
-              {/* City markers — absolute % positions match SVG 0-100 coordinate space */}
-              {c.cities.map((city) => {
-                const labelAbove = city.y > 70;
-                return (
-                  <button
-                    key={city.name}
-                    className="absolute group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full z-10"
-                    style={{ left: `${city.x}%`, top: `${city.y}%`, transform: "translate(-50%,-50%)" }}
-                    onClick={() => handleCitySelect(city.name)}
-                    title={city.name}
-                    aria-label={`${city.name} — ${city.live ? c.cityLive : c.cityExpanding}. Click to apply from this city.`}
-                  >
-                    {city.live ? (
-                      <span className="relative flex items-center justify-center w-6 h-6">
-                        <span className="absolute w-10 h-10 rounded-full bg-whatsapp/25 animate-ping" />
-                        <span className="relative w-6 h-6 rounded-full bg-whatsapp shadow-lg shadow-whatsapp/40 ring-2 ring-white" />
-                      </span>
-                    ) : (
-                      <span className="w-4 h-4 rounded-full bg-accent border-2 border-white shadow block group-hover:scale-125 transition-all duration-200" />
-                    )}
-                    <span className={`absolute whitespace-nowrap text-xs font-semibold pointer-events-none drop-shadow-sm ${
-                      city.live ? "text-whatsapp" : "text-foreground/75 group-hover:text-foreground"
-                    } ${labelAbove ? "bottom-full mb-2 left-1/2 -translate-x-1/2" : "top-full mt-2 left-1/2 -translate-x-1/2"}`}>
-                      {city.name}
+                draggable={false}
+                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+                style={{ opacity: 0.55 }}
+              />
+              {/* City markers — % positions calibrated to europe-dots.png pixel coordinates */}
+              {c.cities.map((city) => (
+                <button
+                  key={city.name}
+                  className="absolute group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full z-10"
+                  style={{ left: `${city.x}%`, top: `${city.y}%`, transform: "translate(-50%,-50%)" }}
+                  onClick={() => handleCitySelect(city.name)}
+                  title={city.name}
+                  aria-label={`${city.name} — ${city.live ? c.cityLive : c.cityExpanding}. Click to apply from this city.`}
+                >
+                  {city.live ? (
+                    <span className="relative flex items-center justify-center w-6 h-6">
+                      <span className="absolute w-10 h-10 rounded-full bg-whatsapp/25 animate-ping" />
+                      <span className="relative w-6 h-6 rounded-full bg-whatsapp shadow-lg shadow-whatsapp/40 ring-2 ring-white" />
                     </span>
-                  </button>
-                );
-              })}
+                  ) : (
+                    <span className="w-4 h-4 rounded-full bg-accent border-2 border-white shadow block group-hover:scale-125 transition-all duration-200" />
+                  )}
+                  <span className={`absolute whitespace-nowrap text-xs font-semibold pointer-events-none drop-shadow-sm ${
+                    city.live ? "text-whatsapp" : "text-foreground/75 group-hover:text-foreground"
+                  } ${LABEL_CLS[city.labelSide]}`}>
+                    {city.name}
+                  </span>
+                </button>
+              ))}
             </div>
 
             {/* Mobile: pill grid */}
