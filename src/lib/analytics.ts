@@ -2,7 +2,7 @@
 // Null during SSR/prerender; all calls are safe no-ops.
 type PHInstance = {
   capture: (event: string, props?: Record<string, unknown>) => void;
-  set_config: (config: { persistence: string }) => void;
+  set_config: (config: { persistence: 'localStorage+cookie' }) => void;
 }
 let ph: PHInstance | null = null
 
