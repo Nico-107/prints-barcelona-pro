@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -15,12 +15,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-secondary hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        whatsapp: "bg-whatsapp text-primary-foreground hover:bg-whatsapp-hover shadow-sm",
-        "whatsapp-outline": "border border-whatsapp text-whatsapp bg-transparent hover:bg-whatsapp/10",
+        whatsapp: "bg-whatsapp text-primary-foreground hover:bg-whatsapp-hover hover:-translate-y-0.5 hover:shadow-md shadow-sm",
+        "whatsapp-outline": "border border-whatsapp text-whatsapp bg-transparent hover:bg-whatsapp/10 hover:-translate-y-0.5",
         hero: "bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-sm",
         "hero-outline": "border border-primary-foreground/30 text-primary-foreground bg-transparent hover:bg-primary-foreground/10 hover:border-primary-foreground/50",
         accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-sm font-semibold",
-        cta: "bg-cta text-cta-foreground hover:bg-cta/90 shadow-sm font-semibold",
+        cta: "bg-cta text-cta-foreground hover:bg-cta/90 hover:-translate-y-0.5 hover:shadow-md shadow-sm font-semibold",
       },
       size: {
         default: "h-10 px-5 py-2 rounded-lg",

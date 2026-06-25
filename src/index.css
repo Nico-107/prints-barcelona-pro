@@ -148,6 +148,21 @@
 }
 
 @layer utilities {
+  /* ── Scroll-reveal (JS-only progressive enhancement) ──────────────
+     These classes are NEVER in prerendered HTML — added by useReveal()
+     in useEffect after hydration, so there is zero hydration mismatch. */
+  .sr-hidden {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: none !important;
+  }
+  .sr-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
   }

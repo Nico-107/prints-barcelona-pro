@@ -1,8 +1,10 @@
 import { Leaf, Shield, Zap, Cog } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useReveal } from "@/hooks/useReveal";
 
 const Materials = () => {
   const { t } = useLanguage();
+  const sectionRef = useReveal<HTMLElement>();
 
   const materials = [
     { icon: Leaf, name: "PLA", descKey: "materials.pla.desc", detailKey: "materials.pla.detail", color: "bg-green-500/10 text-green-600" },
@@ -12,7 +14,7 @@ const Materials = () => {
   ];
 
   return (
-    <section id="materiales" className="py-20 md:py-28 bg-secondary/30">
+    <section ref={sectionRef} id="materiales" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("materials.title")}</h2>
@@ -21,7 +23,7 @@ const Materials = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
           {materials.map((material, index) => (
-            <div key={index} className="bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover border border-border hover:border-accent/20 transition-all duration-300 text-center">
+            <div key={index} className="bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300 text-center">
               <div className={`w-14 h-14 rounded-xl ${material.color} flex items-center justify-center mx-auto mb-4`}>
                 <material.icon className="w-7 h-7" />
               </div>

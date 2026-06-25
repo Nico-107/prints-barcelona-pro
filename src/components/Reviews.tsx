@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 import { Star, Quote, BadgeCheck, Send, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,6 +42,7 @@ const INITIAL_VISIBLE_COUNT = 6;
 const Reviews = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const sectionRef = useReveal<HTMLElement>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [dbReviews, setDbReviews] = useState<DBReview[]>([]);
@@ -124,7 +126,7 @@ const Reviews = () => {
   );
 
   return (
-    <section id="resenas" className="py-20 md:py-28 bg-background">
+    <section ref={sectionRef} id="resenas" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("reviews.title")}</h2>
@@ -138,7 +140,7 @@ const Reviews = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
           {visibleReviews.map((review, index) => (
-            <div key={index} className="bg-card rounded-xl p-5 card-shadow border border-border hover:border-accent/20 transition-colors duration-300">
+            <div key={index} className="bg-card rounded-xl p-5 card-shadow hover:card-shadow-hover border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300">
               <div className="flex items-center justify-between mb-3">
                 <Quote className="w-5 h-5 text-accent/30" />
                 <div className="flex items-center gap-1 text-xs text-accent">

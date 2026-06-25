@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Images, X } from "lucide-react";
+import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -26,9 +27,10 @@ const projects: Project[] = [
 const Projects = () => {
   const { t, language } = useLanguage();
   const [open, setOpen] = useState(false);
+  const sectionRef = useReveal<HTMLElement>();
 
   return (
-    <section id="proyectos" className="py-20 md:py-28 bg-secondary/30">
+    <section ref={sectionRef} id="proyectos" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 text-accent mb-5">

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Upload, MessageSquare, Printer, Package } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useReveal } from "@/hooks/useReveal";
 
 const HowItWorks = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [clicks, setClicks] = useState(0);
+  const sectionRef = useReveal<HTMLElement>();
 
   const steps = [
     { icon: Upload, titleKey: "how.step1.title", descKey: "how.step1.desc" },
@@ -25,7 +27,7 @@ const HowItWorks = () => {
   };
 
   return (
-    <section id="como-funciona" className="py-20 md:py-28 bg-background">
+    <section ref={sectionRef} id="como-funciona" className="py-20 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -48,7 +50,7 @@ const HowItWorks = () => {
                 {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-12 left-1/2 w-full h-px bg-border" />
                 )}
-                <div className="relative bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover transition-all duration-300 border border-border">
+                <div className="relative bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover hover:-translate-y-1 transition-all duration-300 border border-border">
                   <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold flex items-center justify-center shadow-md">
                     {index + 1}
                   </div>
