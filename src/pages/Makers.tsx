@@ -361,6 +361,16 @@ const Makers = () => {
         message: message || null,
       });
       if (error) throw error;
+
+      // Fire-and-forget email notification — errors are swallowed and never block the user
+      supabase.functions.invoke("send-maker-application", {
+        body: {
+          name, email, phone: phone || null, city, printers,
+          message: message || null, website: honeypot,
+          formStartTime: formStartTimeRef.current,
+        },
+      }).catch((err) => console.error("Maker email notification failed:", err));
+
       setIsSubmitted(true);
       capture("maker application submitted", { has_phone: !!phone, has_message: !!message });
       toast({ title: t("makers.form.success.title"), description: t("makers.form.success.desc") });
