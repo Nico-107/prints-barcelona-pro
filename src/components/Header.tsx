@@ -1,4 +1,4 @@
-import { Menu, X, Star, PackageSearch, ChevronDown, Building2 } from "lucide-react";
+import { Menu, X, Star, PackageSearch, ChevronDown, Building2, Cpu } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ const Header = () => {
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
   const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
   const forBusinessLabel = isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
+  const makersLabel = isCa ? "Per a Makers" : isEs ? "Para Makers" : "Become a Maker";
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
   const scrollToSection = (id: string) => {
@@ -82,6 +83,14 @@ const Header = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <Link
+              to="/makers"
+              className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              <Cpu className="w-3.5 h-3.5" />
+              {makersLabel}
+            </Link>
 
             <Button asChild variant="outline" size="sm" className="gap-1.5 border-accent/40 text-accent hover:bg-accent/5 whitespace-nowrap">
               <Link to={businessSlug}>
@@ -150,7 +159,13 @@ const Header = () => {
                 </div>
               ))}
 
-              <Button asChild variant="outline" className="mt-3 w-full gap-1.5 border-accent/40 text-accent hover:bg-accent/5">
+              <Button asChild variant="outline" className="mt-3 w-full gap-1.5">
+                <Link to="/makers" onClick={() => setIsMenuOpen(false)}>
+                  <Cpu className="w-4 h-4" />
+                  {makersLabel}
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full gap-1.5 border-accent/40 text-accent hover:bg-accent/5">
                 <Link to={businessSlug} onClick={() => setIsMenuOpen(false)}>
                   <Building2 className="w-4 h-4" />
                   {forBusinessLabel}

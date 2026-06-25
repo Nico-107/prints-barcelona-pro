@@ -1,7 +1,7 @@
 import { MessageCircle, Printer, MapPin, Clock, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU, slugForLang } from "@/seo/registry";
+import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -15,12 +15,11 @@ const Footer = () => {
   const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
 
+  const forBusinessLabel = isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
+  const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
+
   const handleWhatsApp = () => {
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
-  };
-
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -55,10 +54,11 @@ const Footer = () => {
           <div className="text-center md:text-right">
             <span className="font-medium text-sm block mb-3">{t("footer.quickLinks")}</span>
             <div className="flex flex-col gap-1.5">
-              <button onClick={() => scrollToSection("como-funciona")} className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.howItWorks")}</button>
-              <button onClick={() => scrollToSection("servicios")} className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.services")}</button>
-              <button onClick={() => scrollToSection("materiales")} className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.materials")}</button>
-              <button onClick={() => scrollToSection("proyectos")} className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.projects")}</button>
+              <Link to="/" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.home")}</Link>
+              <Link to={businessSlug} className="text-background/70 text-sm hover:text-background transition-colors">{forBusinessLabel}</Link>
+              <Link to="/makers" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.becomeMaker")}</Link>
+              <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
+              <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
             </div>
           </div>
         </div>

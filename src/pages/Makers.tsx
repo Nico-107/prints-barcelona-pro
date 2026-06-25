@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import {
   CheckCircle, Loader2, Send, MessageCircle, ArrowRight,
-  Users, Shield, Gift, DollarSign, BookOpen, Globe, CheckCircle2, X as XIcon,
+  Users, Shield, Gift, DollarSign, BookOpen, Globe, CheckCircle2, X as XIcon, HelpCircle,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,7 +28,7 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 interface Offer { title: string; body: string; }
-interface Step { label: string; note: string; }
+interface Step { label: string; note: string; callout?: string; }
 interface Comparison { alone: string; withUs: string; }
 interface CityEntry { name: string; live: boolean; }
 interface FAQ { q: string; a: string; }
@@ -38,7 +38,7 @@ interface MakersCopy {
   eyebrow: string; titleLine1: string; titleLine2: string; subtitle: string;
   ctaJoin: string; ctaWhatsApp: string; trust: string[];
   offerHeading: string; offerSubheading: string; offers: Offer[];
-  howHeading: string; howSubheading: string; steps: Step[]; stepHighlight: string;
+  howHeading: string; howSubheading: string; walkthroughHelpLabel: string; steps: Step[]; stepHighlight: string;
   whyHeading: string; whySubheading: string; alone: string; withUs: string; comparisons: Comparison[];
   citiesHeading: string; citiesSubheading: string; cityLive: string; cityExpanding: string;
   cities: CityEntry[];
@@ -80,14 +80,16 @@ const COPY: Record<string, MakersCopy> = {
       { title: "Tools & know-how to grow", body: "We show you how to list on Wallapop (Spain), Leboncoin (France), Kleinanzeigen (Germany) — pricing, file prep, quality tips." },
       { title: "A storefront you couldn't build alone", body: "A professional presence with real reviews, SEO rankings, and customer trust — built for you from day one." },
     ],
-    howHeading: "How it works",
-    howSubheading: "Five steps. You just handle step three.",
+    howHeading: "How it works for makers",
+    howSubheading: "Six steps — you only handle three of them.",
+    walkthroughHelpLabel: "How does it actually work?",
     steps: [
-      { label: "A customer finds Dimension3D", note: "Via Google, Instagram, or word of mouth — we handle all customer acquisition." },
-      { label: "We send the job to you", note: "Print-ready file, material spec, expected quality, and deadline — everything you need to start." },
-      { label: "You confirm and print", note: "Accept or decline any job, any time. No mandatory commitment, no minimum volume." },
-      { label: "The customer pays you directly", note: "You set your price. You receive payment. Dimension3D takes zero cut — not a penny." },
-      { label: "You keep it all", note: "Minus one small flat monthly fee. That's our entire business model with you." },
+      { label: "You apply to join", note: "Tell us about your printer and setup. We review your profile and confirm you within 24 hours." },
+      { label: "A customer order arrives", note: "We receive a print request, match it to your location and printer, and send you the details via WhatsApp — file, material, quality, deadline." },
+      { label: "You accept or decline", note: "Every job is optional. No minimum volume, no mandatory commitments. Choose what fits your schedule." },
+      { label: "You print and hand it over", note: "Ship it or arrange local pickup — however you and the customer agree. We stay out of the logistics." },
+      { label: "The customer pays you directly", note: "You quote the job. You set the price. Payment goes straight to you — Dimension3D takes zero cut.", callout: "Zero commission — ever" },
+      { label: "We charge one flat monthly fee", note: "From just €2/month after your free first month. That's our entire business model. Simple and transparent." },
     ],
     stepHighlight: "You get paid directly — we take zero commission",
     whyHeading: "Why us — not just Wallapop on your own?",
@@ -151,14 +153,16 @@ const COPY: Record<string, MakersCopy> = {
       { title: "Herramientas y conocimiento para crecer", body: "Te enseñamos a publicar en Wallapop (España), Leboncoin (Francia), Kleinanzeigen (Alemania) — precios, preparación de archivos, calidad." },
       { title: "Un escaparate que no podrías construir solo", body: "Presencia profesional con reseñas reales, posicionamiento SEO y confianza del cliente — lista desde el primer día." },
     ],
-    howHeading: "Cómo funciona",
-    howSubheading: "Cinco pasos. Tú solo te encargas del tercero.",
+    howHeading: "Cómo funciona para los makers",
+    howSubheading: "Seis pasos — tú solo te encargas de tres.",
+    walkthroughHelpLabel: "¿Cómo funciona exactamente?",
     steps: [
-      { label: "Un cliente encuentra Dimension3D", note: "A través de Google, Instagram o boca a boca — nosotros gestionamos toda la captación." },
-      { label: "Te enviamos el encargo", note: "Archivo listo, especificación de material, calidad esperada y plazo — todo lo que necesitas para empezar." },
-      { label: "Confirmas e imprimes", note: "Acepta o rechaza cualquier encargo, en cualquier momento. Sin compromiso obligatorio, sin mínimo de volumen." },
-      { label: "El cliente te paga directamente a ti", note: "Tú fijas el precio y recibes el pago. Dimension3D no se lleva ningún porcentaje — ni un céntimo." },
-      { label: "Te lo quedas todo", note: "Menos una pequeña tarifa mensual fija. Eso es todo nuestro modelo contigo." },
+      { label: "Solicitas unirte", note: "Cuéntanos sobre tu impresora y configuración. Revisamos tu perfil y te confirmamos en 24 horas." },
+      { label: "Llega un encargo de cliente", note: "Recibimos una solicitud de impresión, la asignamos a tu ciudad e impresora, y te enviamos los detalles por WhatsApp — archivo, material, calidad y plazo." },
+      { label: "Aceptas o rechazas", note: "Cada encargo es opcional. Sin volumen mínimo, sin compromisos obligatorios. Elige lo que se adapta a tu agenda." },
+      { label: "Imprimes y lo entregas", note: "Lo envías o quedas para entregarlo en mano — como acordéis tú y el cliente. Nosotros no intervenimos en la logística." },
+      { label: "El cliente te paga directamente a ti", note: "Tú presupuestas el encargo, fijas el precio y el pago va directo a ti — Dimension3D no se queda ningún porcentaje.", callout: "Sin comisión, nunca" },
+      { label: "Nosotros cobramos una tarifa mensual fija", note: "Desde solo €2/mes después del primer mes gratuito. Ese es todo nuestro modelo contigo. Simple y transparente." },
     ],
     stepHighlight: "El cliente te paga directamente — nosotros no cobramos comisión",
     whyHeading: "¿Por qué nosotros y no solo Wallapop?",
@@ -222,14 +226,16 @@ const COPY: Record<string, MakersCopy> = {
       { title: "Eines i coneixement per créixer", body: "T'ensenyem a publicar a Wallapop (Espanya), Leboncoin (França), Kleinanzeigen (Alemanya) — preus, preparació d'arxius, qualitat." },
       { title: "Un aparador que no podries construir sol", body: "Presència professional amb ressenyes reals, posicionament SEO i confiança del client — llesta des del primer dia." },
     ],
-    howHeading: "Com funciona",
-    howSubheading: "Cinc passos. Tu només t'encarregues del tercer.",
+    howHeading: "Com funciona per als makers",
+    howSubheading: "Sis passos — tu només t'encarregues de tres.",
+    walkthroughHelpLabel: "Com funciona exactament?",
     steps: [
-      { label: "Un client troba Dimension3D", note: "A través de Google, Instagram o boca-orella — nosaltres gestionem tota la captació." },
-      { label: "T'enviem l'encàrrec", note: "Arxiu llest, especificació de material, qualitat esperada i termini — tot el que necessites per començar." },
-      { label: "Confirmes i imprimeixes", note: "Accepta o rebutja qualsevol encàrrec, en qualsevol moment. Sense compromís obligatori, sense mínim de volum." },
-      { label: "El client et paga directament a tu", note: "Tu fixes el preu i reps el pagament. Dimension3D no s'emporta cap percentatge — ni un cèntim." },
-      { label: "Te'l quedes tot", note: "Menys una petita tarifa mensual fixa. Aquest és tot el nostre model amb tu." },
+      { label: "Sol·licites unir-te", note: "Explica'ns la teva impressora i configuració. Revisem el teu perfil i et confirmem en 24 hores." },
+      { label: "Arriba una comanda de client", note: "Rebem una sol·licitud d'impressió, l'assignem a la teva ciutat i impressora, i t'enviem els detalls per WhatsApp — arxiu, material, qualitat i termini." },
+      { label: "Acceptes o rebutges", note: "Cada encàrrec és opcional. Sense volum mínim, sense compromisos obligatoris. Tria el que s'adapta a la teva agenda." },
+      { label: "Imprimeixes i ho lliures", note: "Ho envies o quedem per lliurar-ho en mà — com acordeu tu i el client. Nosaltres no intervenim en la logística." },
+      { label: "El client et paga directament a tu", note: "Tu pressupostes l'encàrrec, fixes el preu i el pagament va directament a tu — Dimension3D no s'emporta cap percentatge.", callout: "Sense comissió, mai" },
+      { label: "Nosaltres cobrem una tarifa mensual fixa", note: "Des de només €2/mes després del primer mes gratuït. Aquest és tot el nostre model amb tu. Simple i transparent." },
     ],
     stepHighlight: "El client et paga directament — nosaltres no cobrem comissió",
     whyHeading: "Per què nosaltres i no només Wallapop?",
@@ -443,7 +449,7 @@ const Makers = () => {
                     {c.ctaWhatsApp}
                   </Button>
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 mb-6">
                   {c.trust.map((label) => (
                     <span key={label} className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5 text-sm text-primary-foreground/80">
                       <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
@@ -451,6 +457,13 @@ const Makers = () => {
                     </span>
                   ))}
                 </div>
+                <a
+                  href="#maker-walkthrough"
+                  className="inline-flex items-center gap-1.5 text-sm text-primary-foreground/55 hover:text-primary-foreground/80 transition-colors"
+                >
+                  <HelpCircle className="w-4 h-4" />
+                  {c.walkthroughHelpLabel}
+                </a>
               </div>
 
               {/* Right: Europe SVG map (desktop only, decorative) */}
@@ -502,7 +515,7 @@ const Makers = () => {
         </section>
 
         {/* ── 3. HOW IT WORKS ──────────────────────────────────────── */}
-        <section className="py-20 md:py-28 bg-secondary/30">
+        <section id="maker-walkthrough" className="py-20 md:py-28 bg-secondary/30">
           <div className="container px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">{c.howHeading}</h2>
@@ -511,20 +524,26 @@ const Makers = () => {
             <div className="max-w-2xl mx-auto space-y-4">
               {c.steps.map((step, i) => (
                 <div key={i} className={`flex items-start gap-5 rounded-2xl p-6 border transition-all ${
-                  i === 3
+                  i === 4
                     ? "border-accent/50 bg-accent/5 shadow-md"
                     : "border-border bg-card"
                 }`}>
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-base font-bold ${
-                    i === 3 ? "bg-accent text-white" : "bg-muted text-muted-foreground"
+                    i === 4 ? "bg-accent text-white" : "bg-muted text-muted-foreground"
                   }`}>
                     {i + 1}
                   </div>
-                  <div>
-                    <h3 className={`font-semibold mb-1 ${i === 3 ? "text-accent" : "text-foreground"}`}>
+                  <div className="flex-1">
+                    <h3 className={`font-semibold mb-1 ${i === 4 ? "text-accent" : "text-foreground"}`}>
                       {step.label}
                     </h3>
                     <p className="text-sm text-muted-foreground">{step.note}</p>
+                    {step.callout && (
+                      <span className="inline-flex items-center gap-1.5 mt-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-3 py-1 text-xs font-semibold">
+                        <CheckCircle2 className="w-3 h-3" />
+                        {step.callout}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}

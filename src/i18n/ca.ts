@@ -1,6 +1,7 @@
 export const caTranslations: Record<string, string> = {
   // Header
   "nav.howItWorks": "Com funciona",
+  "nav.becomeMaker": "Per a Makers",
   "nav.services": "Serveis",
   "nav.materials": "Materials",
   "nav.projects": "Projectes",
@@ -265,6 +266,8 @@ export const caTranslations: Record<string, string> = {
   "footer.copyright": "Servei d'impressió 3D a Barcelona, Espanya.",
   "footer.quickLinks": "Enllaços ràpids",
   "footer.mapText": "Ubicats a Barcelona – recollida local disponible",
+  "footer.nav.home": "Inici",
+  "footer.nav.privacy": "Política de privacitat",
 
   // WhatsApp
   "whatsapp.tooltip": "Parlem?",

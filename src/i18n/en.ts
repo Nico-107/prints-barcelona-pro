@@ -1,6 +1,7 @@
 export const enTranslations: Record<string, string> = {
   // Header
   "nav.howItWorks": "How It Works",
+  "nav.becomeMaker": "Become a Maker",
   "nav.services": "Services",
   "nav.materials": "Materials",
   "nav.projects": "Projects",
@@ -265,6 +266,8 @@ export const enTranslations: Record<string, string> = {
   "footer.copyright": "3D printing service in Barcelona, Spain.",
   "footer.quickLinks": "Quick Links",
   "footer.mapText": "Based in Barcelona – local pickup available",
+  "footer.nav.home": "Home",
+  "footer.nav.privacy": "Privacy Policy",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
