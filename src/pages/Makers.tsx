@@ -453,57 +453,67 @@ const Makers = () => {
                 </div>
               </div>
 
-              {/* Right: network SVG (desktop only) */}
+              {/* Right: geographic Europe map (desktop only) */}
               <div className="hidden lg:flex items-center justify-center">
-                <svg viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  className="w-full max-w-md" aria-hidden="true">
+                <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" className="w-full max-w-md" aria-hidden="true">
                   <defs>
-                    <pattern id="mkr-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-                      <circle cx="14" cy="14" r="0.9" fill="white" fillOpacity="0.18" />
+                    <pattern id="mkr-dots" x="0" y="0" width="2.8" height="2.8" patternUnits="userSpaceOnUse">
+                      <circle cx="1.4" cy="1.4" r="0.09" fill="white" fillOpacity="0.18" />
                     </pattern>
                   </defs>
-                  <rect width="400" height="320" fill="url(#mkr-dots)" />
-                  {/* Lines from Barcelona (200,175) to cities */}
-                  {([[200,175,80,225],[200,175,160,70],[200,175,305,65],[200,175,115,120],[200,175,305,185],[200,175,50,195]] as number[][]).map(([x1,y1,x2,y2],i) => (
+                  <rect width="100" height="100" fill="url(#mkr-dots)" />
+
+                  {/* Europe landmass silhouette */}
+                  <path
+                    d="M2.5,68.2 L22.1,66.1 L28.6,66.7 L30.5,65.9 L31.7,53.9 L23.7,46.6 L19.7,44.6 L28.6,43.4 L29.9,38.0 L36.1,38.7 L42.3,32.0 L44.2,31.6 L46.1,30.8 L48.5,29.8 L50.4,27.3 L52.7,22.9 L61.4,21.1 L67.5,19.3 L72.3,15.9 L79.1,17.7 L84.3,15.0 L87.7,20.8 L87.7,25.2 L84.9,31.6 L89.3,36.4 L93.5,44.5 L84.9,56.1 L79.8,57.1 L83.9,65.4 L86.5,70.6 L95.9,76.8 L99.8,79.1 L91.6,90.5 L89.3,84.7 L86.7,78.0 L78.2,72.3 L72.9,65.9 L67.6,61.8 L61.8,65.0 L54.6,66.8 L47.5,71.8 L43.6,75.5 L34.3,84.1 L27.3,96.4 L16.3,99.0 L11.1,94.1 L3.6,95.5 L3.2,88.6 L4.6,77.3 Z"
+                    fill="white" fillOpacity="0.07" stroke="white" strokeOpacity="0.22" strokeWidth="0.4"
+                  />
+
+                  {/* Connection lines from Barcelona to each city */}
+                  {([ [43.5,75.5,22.5,79.1],[43.5,75.5,34.4,84.2],[43.5,75.5,3.2,87.6],
+                       [43.5,75.5,44.1,41.5],[43.5,75.5,53.2,25.6],[43.5,75.5,83.6,24.9],
+                       [43.5,75.5,76.4,45.0],[43.5,75.5,68.9,57.0] ] as number[][]).map(([x1,y1,x2,y2],i) => (
                     <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-                      stroke="white" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="5 5" />
+                      stroke="white" strokeOpacity="0.18" strokeWidth="0.35" strokeDasharray="2 3" />
                   ))}
-                  {/* Cross-links */}
-                  <line x1="160" y1="70" x2="305" y2="65" stroke="white" strokeOpacity="0.07" strokeWidth="1" strokeDasharray="4 7" />
-                  <line x1="115" y1="120" x2="160" y2="70" stroke="white" strokeOpacity="0.07" strokeWidth="1" strokeDasharray="4 7" />
-                  {/* Secondary cities */}
+
+                  {/* Secondary city dots */}
                   {[
-                    { cx:80,  cy:225, label:"Madrid"    },
-                    { cx:160, cy:70,  label:"Paris"     },
-                    { cx:305, cy:65,  label:"Berlin"    },
-                    { cx:115, cy:120, label:"Amsterdam" },
-                    { cx:305, cy:185, label:"Milan"     },
-                    { cx:50,  cy:195, label:"Lisbon"    },
+                    { cx:22.5, cy:79.1, label:"Madrid"    },
+                    { cx:34.4, cy:84.2, label:"Valencia"  },
+                    { cx:3.2,  cy:87.6, label:"Lisbon"    },
+                    { cx:44.1, cy:41.5, label:"Paris"     },
+                    { cx:53.2, cy:25.6, label:"Amsterdam" },
+                    { cx:83.6, cy:24.9, label:"Berlin"    },
+                    { cx:76.4, cy:45.0, label:"Munich"    },
+                    { cx:68.9, cy:57.0, label:"Milan"     },
                   ].map((city) => (
                     <g key={city.label}>
-                      <circle cx={city.cx} cy={city.cy} r="11" fill="white" fillOpacity="0.05" />
-                      <circle cx={city.cx} cy={city.cy} r="6"  fill="white" fillOpacity="0.18" />
-                      <circle cx={city.cx} cy={city.cy} r="3"  fill="white" fillOpacity="0.7" />
-                      <text x={city.cx} y={city.cy+20} textAnchor="middle"
-                        fill="white" fillOpacity="0.5" fontSize="10" fontFamily="system-ui,sans-serif">
+                      <circle cx={city.cx} cy={city.cy} r="3"   fill="white" fillOpacity="0.05" />
+                      <circle cx={city.cx} cy={city.cy} r="1.6" fill="white" fillOpacity="0.2" />
+                      <circle cx={city.cx} cy={city.cy} r="0.8" fill="white" fillOpacity="0.75" />
+                      <text x={city.cx} y={city.cy + 4.5} textAnchor="middle"
+                        fill="white" fillOpacity="0.5" fontSize="3" fontFamily="system-ui,sans-serif">
                         {city.label}
                       </text>
                     </g>
                   ))}
+
                   {/* Barcelona hub */}
-                  <circle cx="200" cy="175" r="30" fill="#f59e0b" fillOpacity="0.1" />
-                  <circle cx="200" cy="175" r="19" fill="#f59e0b" fillOpacity="0.22" />
-                  <circle cx="200" cy="175" r="10" fill="#f59e0b" />
-                  <text x="200" y="212" textAnchor="middle"
-                    fill="#f59e0b" fontSize="12" fontWeight="600" fontFamily="system-ui,sans-serif">
+                  <circle cx="43.5" cy="75.5" r="8"   fill="#f59e0b" fillOpacity="0.1" />
+                  <circle cx="43.5" cy="75.5" r="5"   fill="#f59e0b" fillOpacity="0.22" />
+                  <circle cx="43.5" cy="75.5" r="2.5" fill="#f59e0b" />
+                  <text x="43.5" y="87" textAnchor="middle"
+                    fill="#f59e0b" fontSize="3.5" fontWeight="600" fontFamily="system-ui,sans-serif">
                     Barcelona
                   </text>
-                  <text x="200" y="225" textAnchor="middle"
-                    fill="white" fillOpacity="0.45" fontSize="9" fontFamily="system-ui,sans-serif" letterSpacing="1">
+                  <text x="43.5" y="91.5" textAnchor="middle"
+                    fill="white" fillOpacity="0.45" fontSize="2.5" fontFamily="system-ui,sans-serif" letterSpacing="0.5">
                     ● LIVE NOW
                   </text>
-                  <text x="200" y="30" textAnchor="middle"
-                    fill="white" fillOpacity="0.3" fontSize="10" fontFamily="system-ui,sans-serif" letterSpacing="3">
+                  <text x="50" y="8" textAnchor="middle"
+                    fill="white" fillOpacity="0.3" fontSize="3" fontFamily="system-ui,sans-serif" letterSpacing="1.5">
                     MAKER NETWORK
                   </text>
                 </svg>
@@ -626,48 +636,53 @@ const Makers = () => {
         </section>
 
         {/* ── 5. CITIES MAP ────────────────────────────────────────── */}
-        <section className="section-dark-texture py-20 md:py-28">
-          <div className="container relative z-10 px-4">
+        <section className="py-20 md:py-28 bg-secondary/30">
+          <div className="container px-4">
             <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-section-dark-fg mb-3">{c.citiesHeading}</h2>
-              <p className="text-section-dark-fg/65 max-w-xl mx-auto">{c.citiesSubheading}</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">{c.citiesHeading}</h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">{c.citiesSubheading}</p>
             </div>
 
             {/* Legend */}
             <div className="flex items-center justify-center gap-6 mb-8 text-sm">
-              <span className="flex items-center gap-2 text-whatsapp font-medium">
+              <span className="flex items-center gap-2 text-whatsapp font-semibold">
                 <span className="w-3 h-3 rounded-full bg-whatsapp inline-block" />
                 {c.cityLive}
               </span>
-              <span className="flex items-center gap-2 text-accent/80">
-                <span className="w-3 h-3 rounded-full bg-accent/60 inline-block" />
+              <span className="flex items-center gap-2 text-accent font-medium">
+                <span className="w-3 h-3 rounded-full bg-accent/70 inline-block" />
                 {c.cityExpanding}
               </span>
             </div>
 
-            {/* Desktop: positioned map */}
+            {/* Desktop: geographic map */}
             <div
-              className="hidden md:block relative w-full max-w-3xl mx-auto select-none"
+              className="hidden md:block relative w-full max-w-3xl mx-auto select-none rounded-xl overflow-hidden border border-border/50"
               style={{ height: "380px" }}
             >
-              {/* Dot grid */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px)",
-                  backgroundSize: "28px 28px",
-                }}
-              />
-              {/* Subtle continent silhouette via gradient blobs */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl opacity-15"
-                style={{ background: "radial-gradient(ellipse 60% 80% at 35% 65%, rgba(99,102,241,0.3) 0%, transparent 70%)" }} />
+              {/* Real Europe SVG silhouette — same projection as city % positions */}
+              <svg
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                className="absolute inset-0 w-full h-full"
+                aria-hidden="true"
+              >
+                {/* Ocean background */}
+                <rect width="100" height="100" fill="#f1f5f9" />
+                {/* Europe landmass */}
+                <path
+                  d="M2.5,68.2 L22.1,66.1 L28.6,66.7 L30.5,65.9 L31.7,53.9 L23.7,46.6 L19.7,44.6 L28.6,43.4 L29.9,38.0 L36.1,38.7 L42.3,32.0 L44.2,31.6 L46.1,30.8 L48.5,29.8 L50.4,27.3 L52.7,22.9 L61.4,21.1 L67.5,19.3 L72.3,15.9 L79.1,17.7 L84.3,15.0 L87.7,20.8 L87.7,25.2 L84.9,31.6 L89.3,36.4 L93.5,44.5 L84.9,56.1 L79.8,57.1 L83.9,65.4 L86.5,70.6 L95.9,76.8 L99.8,79.1 L91.6,90.5 L89.3,84.7 L86.7,78.0 L78.2,72.3 L72.9,65.9 L67.6,61.8 L61.8,65.0 L54.6,66.8 L47.5,71.8 L43.6,75.5 L34.3,84.1 L27.3,96.4 L16.3,99.0 L11.1,94.1 L3.6,95.5 L3.2,88.6 L4.6,77.3 Z"
+                  fill="#dde3ec" stroke="#94a3b8" strokeWidth="0.5"
+                />
+              </svg>
 
+              {/* City markers — absolute % positions match SVG 0-100 coordinate space */}
               {c.cities.map((city) => {
                 const labelAbove = city.y > 70;
                 return (
                   <button
                     key={city.name}
-                    className="absolute group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+                    className="absolute group focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full z-10"
                     style={{ left: `${city.x}%`, top: `${city.y}%`, transform: "translate(-50%,-50%)" }}
                     onClick={() => handleCitySelect(city.name)}
                     title={city.name}
@@ -676,13 +691,13 @@ const Makers = () => {
                     {city.live ? (
                       <span className="relative flex items-center justify-center w-6 h-6">
                         <span className="absolute w-10 h-10 rounded-full bg-whatsapp/25 animate-ping" />
-                        <span className="relative w-6 h-6 rounded-full bg-whatsapp shadow-lg shadow-whatsapp/40 ring-2 ring-whatsapp/40" />
+                        <span className="relative w-6 h-6 rounded-full bg-whatsapp shadow-lg shadow-whatsapp/40 ring-2 ring-white" />
                       </span>
                     ) : (
-                      <span className="w-4 h-4 rounded-full bg-accent/60 border border-accent/50 block group-hover:bg-accent group-hover:scale-125 transition-all duration-200" />
+                      <span className="w-4 h-4 rounded-full bg-accent border-2 border-white shadow block group-hover:scale-125 transition-all duration-200" />
                     )}
-                    <span className={`absolute whitespace-nowrap text-xs font-medium pointer-events-none ${
-                      city.live ? "text-whatsapp font-semibold" : "text-section-dark-fg/65 group-hover:text-section-dark-fg"
+                    <span className={`absolute whitespace-nowrap text-xs font-semibold pointer-events-none drop-shadow-sm ${
+                      city.live ? "text-whatsapp" : "text-foreground/75 group-hover:text-foreground"
                     } ${labelAbove ? "bottom-full mb-2 left-1/2 -translate-x-1/2" : "top-full mt-2 left-1/2 -translate-x-1/2"}`}>
                       {city.name}
                     </span>
@@ -700,7 +715,7 @@ const Makers = () => {
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-all active:scale-95 ${
                     city.live
                       ? "bg-whatsapp/15 border-whatsapp/40 text-whatsapp"
-                      : "bg-accent/10 border-accent/25 text-accent/80 hover:bg-accent/20"
+                      : "bg-accent/10 border-accent/25 text-accent hover:bg-accent/20"
                   }`}
                 >
                   {city.live && <span className="w-2 h-2 rounded-full bg-whatsapp animate-pulse" />}
@@ -709,7 +724,7 @@ const Makers = () => {
               ))}
             </div>
 
-            <p className="text-center text-xs text-section-dark-fg/45 mt-10">
+            <p className="text-center text-xs text-muted-foreground mt-8">
               {language === "ca"
                 ? "Fes clic en una ciutat per sol·licitar-hi i pre-emplenar el formulari."
                 : language === "es"
