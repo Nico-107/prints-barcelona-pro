@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
 import Index from "./pages/Index";
 import Track from "./pages/Track";
+import Admin from "./pages/Admin";
 import AdminOrders from "./pages/AdminOrders";
 import AdminMakers from "./pages/AdminMakers";
 import Privacy from "./pages/Privacy";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/makers" element={<Makers />} />
             <Route path="/maker-guide" element={<MakerGuide />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/admin-orders" element={<AdminOrders />} />
             <Route path="/admin-makers" element={<AdminMakers />} />
             <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
