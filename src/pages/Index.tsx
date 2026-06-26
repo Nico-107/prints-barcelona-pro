@@ -136,6 +136,7 @@ const Index = () => {
       <main className="pt-16">
         <Hero />
         <HowItWorks />
+        <StlEstimator />
         <WhatCanWePrint />
         <Materials />
         <WhyChooseUs />
@@ -145,7 +146,6 @@ const Index = () => {
         <PricingInfo />
         <ServiceInfo />
         <ExpressPrinting />
-        <StlEstimator />
         <FileUpload />
         <FAQ />
         <LocationMap />
