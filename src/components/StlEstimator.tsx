@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_BYTES = 50 * 1024 * 1024; // 50 MB
@@ -174,13 +175,48 @@ export function StlEstimator({ adminMode = false }: Props) {
       const buf = await f.arrayBuffer();
       const vol = parseStlVolume(buf);
       volumeRef.current = vol;
-      runCalc(vol, materialKey, infillPct, qty);
+      const est = calcEstimate(vol, materialKey, infillPct, qty);
+      setEstimate(est);
+
+      const volumeCm3 = vol / 1000;
+
+      // Fire-and-forget DB logging
+      supabase.from("price_estimates").insert({
+        volume_cm3: volumeCm3,
+        material: materialKey,
+        infill_pct: infillPct,
+        quantity: qty,
+        grams: est.grams,
+        est_hours: est.estHours,
+        price_low: est.low,
+        price_high: est.high,
+        file_name: f.name,
+        language,
+      }).then(({ error: dbErr }) => {
+        if (dbErr) console.error("price_estimates insert error:", dbErr);
+      });
+
+      // Fire-and-forget email notification
+      supabase.functions.invoke("send-price-estimate", {
+        body: {
+          fileName: f.name,
+          material: materialKey,
+          infillPct,
+          quantity: qty,
+          volumeCm3,
+          grams: est.grams,
+          estHours: est.estHours,
+          priceLow: est.low,
+          priceHigh: est.high,
+          language,
+        },
+      }).catch((err) => console.error("send-price-estimate invoke error:", err));
     } catch {
       setError(t("calc.error.parse"));
     } finally {
       setParsing(false);
     }
-  }, [materialKey, infillPct, qty, t, runCalc]);
+  }, [materialKey, infillPct, qty, t]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
