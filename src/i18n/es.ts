@@ -271,8 +271,8 @@ export const esTranslations: Record<string, string> = {
   "footer.nav.makerGuide": "Guía del Maker",
 
   // STL Price Calculator
-  "calc.title": "Estimación de precio instantánea",
-  "calc.subtitle": "Sube tu STL para obtener un precio aproximado — sin cuenta, sin compromiso.",
+  "calc.title": "Obtén un precio instantáneo",
+  "calc.subtitle": "Sube tu STL — sin cuenta, sin compromiso.",
   "calc.drop": "Suelta tu archivo STL aquí",
   "calc.dropSub": "o haz clic para explorar · solo STL",
   "calc.material": "Material",
@@ -284,7 +284,7 @@ export const esTranslations: Record<string, string> = {
   "calc.infill.100": "100% — sólido",
   "calc.analysing": "Analizando…",
   "calc.result.heading": "Precio estimado",
-  "calc.result.disclaimer": "Estimación aproximada — confirmamos tu precio exacto en menos de 1 hora",
+  "calc.result.disclaimer": "El precio final es revisado y confirmado por una persona real",
   "calc.result.detail": "{grams}g de material · ~{hours}h de impresión (estimado)",
   "calc.result.qty": "{qty}× unidades · {discount}% descuento por cantidad aplicado",
   "calc.result.cta": "Obtener precio exacto",
@@ -295,6 +295,10 @@ export const esTranslations: Record<string, string> = {
   "calc.reset": "Borrar",
   "calc.adminTitle": "Estimador de precios",
   "calc.change": "Cambiar archivo",
+  "calc.admin.weight": "Peso estimado",
+  "calc.admin.hours": "Tiempo de impresión est.",
+  "calc.admin.filamentCost": "Coste filamento (~€0.015/g)",
+  "calc.admin.profit": "Beneficio estimado",
 
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",

@@ -102,10 +102,11 @@ function calcEstimate(volumeMm3: number, materialKey: string, infillPct: number,
   const volumeCm3 = volumeMm3 / 1000;
 
   // Effective fill fraction.
-  // wall_factor = 0.30: perimeters + top/bottom are solid regardless of infill.
-  // effective_fill = 0.30 + (infill_pct/100) × 0.70
-  // → 15% infill: 0.405 | 30%: 0.510 | 50%: 0.650 | 100%: 1.000
-  const effectiveFill = 0.30 + (infillPct / 100) * 0.70;
+  // wall_factor = 0.20: ~3 perimeter lines + top/bottom floors as fraction of volume.
+  // effective_fill = 0.20 + (infill_pct/100) × 0.80
+  // → 15% infill: 0.32 | 30%: 0.44 | 50%: 0.60 | 100%: 1.00
+  // (Old 0.30 wall factor overestimated grams by ~25% at low infill.)
+  const effectiveFill = 0.20 + (infillPct / 100) * 0.80;
   const grams = volumeCm3 * mat.density * effectiveFill;
 
   // Print time: business data gives ~28 g/h average across job types
@@ -118,16 +119,20 @@ function calcEstimate(volumeMm3: number, materialKey: string, infillPct: number,
   const materialCost = grams * effectiveRate;
   const timeCost = estHours * 0.50;
 
-  // Unit price = (base €10 + material cost + time cost) × material multiplier, floor €10
-  const rawUnit = 10 + materialCost + timeCost;
-  const unitPrice = Math.max(rawUnit * mat.multiplier, 10);
+  // Unit price: €10 is a FLOOR, not an additive base.
+  // Compute cost from real material+time, apply material multiplier, then floor.
+  const unitPrice = Math.max((materialCost + timeCost) * mat.multiplier, 10);
 
-  // Quantity discount: 10% off ≥10 units, 20% off ≥25 units
-  const qtyDiscount = qty >= 25 ? 0.20 : qty >= 10 ? 0.10 : 0;
+  // Quantity discount scaling with economies of scale
+  const qtyDiscount =
+    qty >= 100 ? 0.38 :
+    qty >= 50  ? 0.30 :
+    qty >= 25  ? 0.20 :
+    qty >= 10  ? 0.10 : 0;
   const total = unitPrice * qty * (1 - qtyDiscount);
 
-  // Range skewed low: −15% to +5%
-  return { grams, estHours, unitPrice, total, low: total * 0.85, high: total * 1.05, qtyDiscount };
+  // Range: −20% to +5% (wider low anchor for affordable feel)
+  return { grams, estHours, unitPrice, total, low: total * 0.80, high: total * 1.05, qtyDiscount };
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -402,10 +407,32 @@ export function StlEstimator({ adminMode = false }: Props) {
                 </p>
               )}
 
-              {/* Disclaimer */}
-              <p className="text-xs text-muted-foreground/70 mt-3 italic">
-                {t("calc.result.disclaimer")}
-              </p>
+              {/* Disclaimer — consumer only */}
+              {!adminMode && (
+                <p className="text-xs text-muted-foreground/70 mt-3 italic">
+                  {t("calc.result.disclaimer")}
+                </p>
+              )}
+
+              {/* Admin internals — never shown to consumers */}
+              {adminMode && (() => {
+                const filamentCost = estimate.grams * qty * 0.015;
+                const profit = estimate.total - filamentCost;
+                return (
+                  <div className="mt-4 border-t border-border pt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+                    <span className="text-muted-foreground">{t("calc.admin.weight")}</span>
+                    <span className="font-medium">{estimate.grams.toFixed(1)} g</span>
+                    <span className="text-muted-foreground">{t("calc.admin.hours")}</span>
+                    <span className="font-medium">{estimate.estHours.toFixed(1)} h</span>
+                    <span className="text-muted-foreground">{t("calc.admin.filamentCost")}</span>
+                    <span className="font-medium">€{filamentCost.toFixed(2)}</span>
+                    <span className="text-muted-foreground">{t("calc.admin.profit")}</span>
+                    <span className={`font-semibold ${profit >= 0 ? "text-green-600" : "text-destructive"}`}>
+                      €{profit.toFixed(2)}
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* CTAs */}

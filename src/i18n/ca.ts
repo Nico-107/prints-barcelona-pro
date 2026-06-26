@@ -271,8 +271,8 @@ export const caTranslations: Record<string, string> = {
   "footer.nav.makerGuide": "Guia del Maker",
 
   // STL Price Calculator
-  "calc.title": "Estimació de preu instantània",
-  "calc.subtitle": "Puja el teu STL per obtenir un preu aproximat — sense compte, sense compromís.",
+  "calc.title": "Obtén un preu instantani",
+  "calc.subtitle": "Puja el teu STL — sense compte, sense compromís.",
   "calc.drop": "Deixa anar el teu arxiu STL aquí",
   "calc.dropSub": "o fes clic per explorar · només STL",
   "calc.material": "Material",
@@ -284,7 +284,7 @@ export const caTranslations: Record<string, string> = {
   "calc.infill.100": "100% — sòlid",
   "calc.analysing": "Analitzant…",
   "calc.result.heading": "Preu estimat",
-  "calc.result.disclaimer": "Estimació aproximada — confirmem el teu preu exacte en menys d'1 hora",
+  "calc.result.disclaimer": "El preu final és revisat i confirmat per una persona real",
   "calc.result.detail": "{grams}g de material · ~{hours}h d'impressió (estimat)",
   "calc.result.qty": "{qty}× unitats · {discount}% descompte per quantitat aplicat",
   "calc.result.cta": "Obtenir preu exacte",
@@ -295,6 +295,10 @@ export const caTranslations: Record<string, string> = {
   "calc.reset": "Esborrar",
   "calc.adminTitle": "Estimador de preus",
   "calc.change": "Canviar arxiu",
+  "calc.admin.weight": "Pes estimat",
+  "calc.admin.hours": "Temps d'impressió est.",
+  "calc.admin.filamentCost": "Cost filament (~€0.015/g)",
+  "calc.admin.profit": "Benefici estimat",
 
   // WhatsApp
   "whatsapp.tooltip": "Parlem?",

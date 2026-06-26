@@ -271,8 +271,8 @@ export const enTranslations: Record<string, string> = {
   "footer.nav.makerGuide": "Maker Guide",
 
   // STL Price Calculator
-  "calc.title": "Instant Price Estimate",
-  "calc.subtitle": "Drop your STL for an instant ballpark — no account, no commitment.",
+  "calc.title": "Get an Instant Price",
+  "calc.subtitle": "Drop your STL — no account, no commitment.",
   "calc.drop": "Drop your STL file here",
   "calc.dropSub": "or click to browse · STL only",
   "calc.material": "Material",
@@ -284,7 +284,7 @@ export const enTranslations: Record<string, string> = {
   "calc.infill.100": "100% — solid",
   "calc.analysing": "Analysing…",
   "calc.result.heading": "Estimated price",
-  "calc.result.disclaimer": "Approximate estimate — we confirm your exact price within 1 hour",
+  "calc.result.disclaimer": "Final price reviewed and confirmed by a real person",
   "calc.result.detail": "{grams}g material · ~{hours}h print time (estimated)",
   "calc.result.qty": "{qty}× units · {discount}% quantity discount applied",
   "calc.result.cta": "Get Exact Quote",
@@ -295,6 +295,10 @@ export const enTranslations: Record<string, string> = {
   "calc.reset": "Clear",
   "calc.adminTitle": "Price Estimator",
   "calc.change": "Change file",
+  "calc.admin.weight": "Est. weight",
+  "calc.admin.hours": "Est. print time",
+  "calc.admin.filamentCost": "Filament cost (~€0.015/g)",
+  "calc.admin.profit": "Est. profit",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
