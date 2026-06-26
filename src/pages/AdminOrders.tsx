@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { StlEstimator } from "@/components/StlEstimator";
 import { toast } from "@/hooks/use-toast";
 import { ORDER_STATUSES, type OrderStatus } from "@/lib/orderStatus";
 import type { Session } from "@supabase/supabase-js";
@@ -312,6 +313,7 @@ const AdminOrders = () => {
       </header>
 
       <main className="container px-4 py-6 md:py-8 max-w-6xl">
+        <StlEstimator adminMode />
         <div className="flex items-center gap-3 mb-6 flex-wrap">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
