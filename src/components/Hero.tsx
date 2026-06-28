@@ -14,7 +14,7 @@ const Hero = () => {
   };
 
   const handleScrollToUpload = () => {
-    const el = document.getElementById("quote");
+    const el = document.getElementById("calculator");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });

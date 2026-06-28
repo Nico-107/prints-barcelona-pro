@@ -1,9 +1,8 @@
 import { useState, useRef } from "react";
-import { FileBox, X, MessageCircle, ArrowRight, Loader2, RefreshCw, Calculator, Plus } from "lucide-react";
+import { FileBox, X, MessageCircle, ArrowRight, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -11,7 +10,6 @@ const MAX_BYTES = 50 * 1024 * 1024;
 const MAX_FILES = 10;
 
 // ─── Material table ───────────────────────────────────────────────────────────
-// density: g/cm³  |  multiplier: price factor relative to PLA baseline
 const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
   PLA:        { label: "PLA",       density: 1.24, multiplier: 1.0 },
   PETG:       { label: "PETG",      density: 1.27, multiplier: 1.1 },
@@ -28,22 +26,21 @@ const MATERIALS: Record<string, { label: string; density: number; multiplier: nu
 };
 
 const INFILL_OPTIONS = [
-  { value: 15,  key: "calc.infill.15" },
-  { value: 30,  key: "calc.infill.30" },
-  { value: 50,  key: "calc.infill.50" },
-  { value: 100, key: "calc.infill.100" },
+  { value: 5,  key: "calc.infill.5" },
+  { value: 15, key: "calc.infill.15" },
+  { value: 30, key: "calc.infill.30" },
+  { value: 50, key: "calc.infill.50" },
 ];
 
+// wall factor per loop count — drives material estimate
+function wallFactor(loops: number): number {
+  return loops === 2 ? 0.14 : loops === 3 ? 0.20 : 0.27;
+}
+
 // ─── STL parser ───────────────────────────────────────────────────────────────
-// Reads a binary or ASCII STL from an ArrayBuffer and returns volume in mm³.
-// Uses the signed-tetrahedron / divergence-theorem method: for each triangle
-// with vertices V1,V2,V3, contribution = V1·(V2×V3)/6. Sum and take abs.
-// This is correct for any closed, orientable mesh.
-// Note: STL files use mm as the length unit; returned volume is in mm³.
 function parseStlVolume(buffer: ArrayBuffer): number {
   const bytes = new Uint8Array(buffer);
 
-  // Binary STL: offset 80 stores triangle count N; total size = 84 + N×50.
   const isBinary = (() => {
     if (buffer.byteLength < 84) return false;
     const dv = new DataView(buffer);
@@ -65,7 +62,6 @@ function parseStlVolume(buffer: ArrayBuffer): number {
     return Math.abs(vol);
   }
 
-  // ASCII STL
   const text = new TextDecoder().decode(bytes);
   const vertRe = /vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
   const verts: [number, number, number][] = [];
@@ -90,6 +86,7 @@ interface ParsedFile {
   sizeBytes: number;
   volumeMm3: number;
   qty: number;
+  file?: File;        // original File object for upload; undefined on parse error
   parseError?: string;
 }
 
@@ -97,20 +94,22 @@ interface BundleEstimate {
   totalGrams: number;
   totalHours: number;
   totalUnits: number;
-  bundlePrice: number;  // after €10 floor, before qty discount
-  total: number;        // after qty discount
+  bundlePrice: number;
+  total: number;
   low: number;
   high: number;
   qtyDiscount: number;
 }
 
-// Bundle: sum grams×qty across all valid files, price once, floor once.
-// The taper on effectiveRate benefits larger bundles automatically.
-function computeBundle(files: ParsedFile[], materialKey: string, infillPct: number): BundleEstimate | null {
+function computeBundle(
+  files: ParsedFile[],
+  materialKey: string,
+  infillPct: number,
+  wallLoops: number,
+): BundleEstimate | null {
   const mat = MATERIALS[materialKey];
-  // wall_factor=0.20: ~3 perimeter lines + top/bottom floors as fraction of volume.
-  // 15%→0.32 | 30%→0.44 | 50%→0.60 | 100%→1.00
-  const effectiveFill = 0.20 + (infillPct / 100) * 0.80;
+  const wf = wallFactor(wallLoops);
+  const effectiveFill = wf + (infillPct / 100) * (1 - wf);
 
   let totalGrams = 0;
   let totalUnits = 0;
@@ -123,10 +122,8 @@ function computeBundle(files: ParsedFile[], materialKey: string, infillPct: numb
   if (totalUnits === 0) return null;
 
   const totalHours = totalGrams / 28;
-  // Power-law taper: large bundles get better per-gram rate
   const effectiveRate = 0.08 * Math.pow(100 / Math.max(totalGrams, 100), 0.20);
   const bundleRaw = (totalGrams * effectiveRate + totalHours * 0.50) * mat.multiplier;
-  // €10 floor applied ONCE to the entire bundle, not per file
   const bundlePrice = Math.max(bundleRaw, 10);
 
   const qtyDiscount =
@@ -153,16 +150,24 @@ export function StlEstimator({ adminMode = false }: Props) {
   const [parsing, setParsing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [materialKey, setMaterialKey] = useState("PLA");
-  const [infillPct, setInfillPct] = useState(30);
+  const [infillPct, setInfillPct] = useState(15);
+  const [wallLoops, setWallLoops] = useState(2);
+
+  // Quote submission state
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
+  const [isSubmittedQuote, setIsSubmittedQuote] = useState(false);
+  const [quoteError, setQuoteError] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const emailSentRef = useRef(false);  // fire email notification only once per session
+  const emailSentRef = useRef(false);
 
-  // Bundle derived from current state — recomputes on every render (no useMemo needed)
   const mat = MATERIALS[materialKey];
-  const effectiveFill = 0.20 + (infillPct / 100) * 0.80;
+  const wf = wallFactor(wallLoops);
+  const effectiveFill = wf + (infillPct / 100) * (1 - wf);
   const validFiles = parsedFiles.filter(f => !f.parseError);
-  const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct) : null;
+  const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops) : null;
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -196,7 +201,7 @@ export function StlEstimator({ adminMode = false }: Props) {
       try {
         const buf = await f.arrayBuffer();
         const vol = parseStlVolume(buf);
-        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: vol, qty: 1 });
+        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: vol, qty: 1, file: f });
 
         // DB logging — per file (fire-and-forget)
         const volumeCm3 = vol / 1000;
@@ -223,7 +228,7 @@ export function StlEstimator({ adminMode = false }: Props) {
         if (!emailSentRef.current) {
           emailSentRef.current = true;
           supabase.functions.invoke("send-price-estimate", {
-            body: { fileName: f.name, material: materialKey, infillPct, quantity: 1, volumeCm3, grams, estHours, priceLow: unitPrice * 0.80, priceHigh: unitPrice * 1.05, language },
+            body: { fileName: f.name, material: materialKey, infillPct, wallLoops, quantity: 1, volumeCm3, grams, estHours, priceLow: unitPrice * 0.80, priceHigh: unitPrice * 1.05, language },
           }).catch((err) => console.error("send-price-estimate invoke error:", err));
         }
       } catch {
@@ -261,6 +266,11 @@ export function StlEstimator({ adminMode = false }: Props) {
     setParsedFiles([]);
     setError(null);
     setParsing(false);
+    setContactEmail("");
+    setContactPhone("");
+    setIsSubmittingQuote(false);
+    setIsSubmittedQuote(false);
+    setQuoteError(null);
     emailSentRef.current = false;
   };
 
@@ -270,6 +280,59 @@ export function StlEstimator({ adminMode = false }: Props) {
       language === "es" ? "Hola, me gustaría obtener un presupuesto exacto para mis archivos 3D." :
       "Hi, I'd like to get an exact quote for my 3D prints.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  const submitQuote = async () => {
+    if (!contactEmail.trim() && !contactPhone.trim()) {
+      setQuoteError(t("calc.contact.atLeastOne"));
+      return;
+    }
+    setQuoteError(null);
+    setIsSubmittingQuote(true);
+
+    try {
+      const timestamp = Date.now();
+      const uploadedPaths: string[] = [];
+      const uploadedNames: string[] = [];
+
+      for (const f of parsedFiles) {
+        if (f.parseError || !f.file) continue;
+        const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+        const path = `${timestamp}-${sanitized}`;
+        const { error: uploadErr } = await supabase.storage
+          .from("print-requests")
+          .upload(path, f.file);
+        if (uploadErr) throw new Error(uploadErr.message);
+        uploadedPaths.push(path);
+        uploadedNames.push(f.name);
+      }
+
+      // Show success immediately — email is fire-and-forget
+      setIsSubmittedQuote(true);
+      setIsSubmittingQuote(false);
+
+      supabase.functions.invoke("send-quote-request", {
+        body: {
+          filePaths: uploadedPaths,
+          fileNames: uploadedNames,
+          contactEmail: contactEmail.trim() || null,
+          contactPhone: contactPhone.trim() || null,
+          material: materialKey,
+          infillPct,
+          wallLoops,
+          totalGrams: bundle!.totalGrams,
+          totalHours: bundle!.totalHours,
+          totalUnits: bundle!.totalUnits,
+          priceLow: bundle!.low,
+          priceHigh: bundle!.high,
+          language,
+        },
+      }).catch(e => console.error("send-quote-request failed:", e));
+    } catch (err: any) {
+      setIsSubmittingQuote(false);
+      setQuoteError(t("calc.contact.uploadError"));
+      console.error("Quote upload error:", err);
+    }
   };
 
   const dragHandlers = {
@@ -282,7 +345,6 @@ export function StlEstimator({ adminMode = false }: Props) {
     <div className={adminMode ? "" : "max-w-xl mx-auto"}>
       <div className="bg-card rounded-2xl border border-border p-6 md:p-8 card-shadow">
 
-        {/* Single hidden file input — shared by all click targets */}
         <input
           ref={inputRef}
           type="file"
@@ -359,7 +421,7 @@ export function StlEstimator({ adminMode = false }: Props) {
           </div>
         )}
 
-        {/* Drop zone — full when empty, compact when files present */}
+        {/* Drop zone */}
         {parsedFiles.length === 0 ? (
           <div
             {...dragHandlers}
@@ -391,7 +453,7 @@ export function StlEstimator({ adminMode = false }: Props) {
           </div>
         )}
 
-        {/* Global controls: material + infill (qty is per-file) */}
+        {/* Controls: material + infill */}
         <div className="grid grid-cols-2 gap-3 mt-4">
           <div>
             <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
@@ -419,7 +481,21 @@ export function StlEstimator({ adminMode = false }: Props) {
           </div>
         </div>
 
-        {/* Top-level error (over-limit, skipped files) */}
+        {/* Wall loops */}
+        <div className="mt-2">
+          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+          <select
+            value={wallLoops}
+            onChange={e => setWallLoops(Number(e.target.value))}
+            className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          >
+            <option value={2}>{t("calc.walls.2")}</option>
+            <option value={3}>{t("calc.walls.3")}</option>
+            <option value={4}>{t("calc.walls.4")}</option>
+          </select>
+        </div>
+
+        {/* Top-level error */}
         {error && (
           <div className="mt-4 flex items-center gap-2 text-sm text-destructive bg-destructive/8 border border-destructive/20 rounded-lg px-4 py-3">
             <X className="w-4 h-4 flex-shrink-0" />
@@ -443,14 +519,12 @@ export function StlEstimator({ adminMode = false }: Props) {
                 {t("calc.result.heading")}
               </p>
 
-              {/* Bundle price range — large and prominent */}
               <div className="flex items-baseline gap-2 mb-3">
                 <span className="text-3xl font-bold text-foreground">
                   ~€{bundle.low.toFixed(0)}–{bundle.high.toFixed(0)}
                 </span>
               </div>
 
-              {/* File + unit summary */}
               <p className="text-sm text-muted-foreground mb-1">
                 {validFiles.length} file{validFiles.length !== 1 ? "s" : ""} · {bundle.totalUnits} unit{bundle.totalUnits !== 1 ? "s" : ""}
                 {bundle.qtyDiscount > 0 && (
@@ -460,20 +534,17 @@ export function StlEstimator({ adminMode = false }: Props) {
                 )}
               </p>
 
-              {/* Disclaimer — consumer only */}
               {!adminMode && (
                 <p className="text-xs text-muted-foreground/70 mt-3 italic">
                   {t("calc.result.disclaimer")}
                 </p>
               )}
 
-              {/* Admin internals — never shown to consumers */}
               {adminMode && (() => {
                 const filamentCost = bundle.totalGrams * 0.015;
                 const profit = bundle.total - filamentCost;
                 return (
                   <>
-                    {/* Per-file breakdown when multiple files */}
                     {validFiles.length > 1 && (
                       <div className="mt-3 mb-3 space-y-0.5 border-t border-border pt-3">
                         {validFiles.map(f => {
@@ -504,26 +575,62 @@ export function StlEstimator({ adminMode = false }: Props) {
               })()}
             </div>
 
-            {/* CTAs — consumer only */}
+            {/* Quote submission form — consumer only */}
             {!adminMode && (
-              <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                <Button asChild variant="cta" size="lg" className="flex-1 gap-2">
-                  <Link
-                    to="#quote"
-                    onClick={e => {
-                      e.preventDefault();
-                      document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                  >
-                    {t("calc.result.cta")}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </Button>
-                <Button variant="whatsapp-outline" size="lg" className="flex-1 gap-2" onClick={handleWhatsApp}>
-                  <MessageCircle className="w-4 h-4" />
-                  {t("calc.result.whatsapp")}
-                </Button>
-              </div>
+              isSubmittedQuote ? (
+                <div className="mt-4 rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-5 text-center">
+                  <CheckCircle className="w-8 h-8 text-whatsapp mx-auto mb-2" />
+                  <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
+                </div>
+              ) : (
+                <div className="mt-4 rounded-xl border border-border bg-background/50 p-4">
+                  <p className="text-sm font-semibold text-foreground mb-3">{t("calc.contact.heading")}</p>
+                  <div className="space-y-2">
+                    <input
+                      type="email"
+                      value={contactEmail}
+                      onChange={e => setContactEmail(e.target.value)}
+                      placeholder={t("calc.contact.email")}
+                      disabled={isSubmittingQuote}
+                      className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    <input
+                      type="tel"
+                      value={contactPhone}
+                      onChange={e => setContactPhone(e.target.value)}
+                      placeholder={t("calc.contact.phone")}
+                      disabled={isSubmittingQuote}
+                      className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    {quoteError && (
+                      <p className="text-xs text-destructive">{quoteError}</p>
+                    )}
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      onClick={submitQuote}
+                      disabled={isSubmittingQuote}
+                    >
+                      {isSubmittingQuote
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                        : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
+                      }
+                    </Button>
+                    <Button
+                      variant="whatsapp-outline"
+                      size="sm"
+                      className="w-full gap-2"
+                      onClick={handleWhatsApp}
+                      disabled={isSubmittingQuote}
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {t("calc.result.whatsapp")}
+                    </Button>
+                  </div>
+                </div>
+              )
             )}
           </div>
         )}
@@ -531,7 +638,6 @@ export function StlEstimator({ adminMode = false }: Props) {
     </div>
   );
 
-  // Admin mode: compact card, no section wrapper
   if (adminMode) {
     return (
       <div className="mb-6">
@@ -544,7 +650,6 @@ export function StlEstimator({ adminMode = false }: Props) {
     );
   }
 
-  // Homepage mode: full section
   return (
     <section id="calculator" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">

@@ -72,9 +72,9 @@ const COPY: Record<string, GuideCopy> = {
         heading: "3. How orders reach you",
         body: [
           "Customers find Dimension3D through Google search, Instagram, and word of mouth. We invest continuously in SEO and brand visibility so customers come to us first.",
-          "When a customer places a request — via our quote form, WhatsApp, or Instagram — we assess the job: material, size, complexity, and deadline. If it matches your city and printer capabilities, we send it to you via WhatsApp.",
-          "You'll receive everything you need in one message: the 3D file (or a link to download it), the material and colour requested, the expected quality level, the deadline, and any specific notes from the customer.",
-          "We route jobs based on location first, then printer capability. If you're in Barcelona and a Barcelona customer submits a job, it comes to you. As the network grows, we'll develop smarter matching — but the principle stays the same: you get the jobs that make sense for your setup.",
+          "When you join, we collect your preferred contact — a phone number or email address — where you want customer quote requests sent directly. This is the number or address customers will reach you at.",
+          "When a customer submits a quote request for your city — via our web form, WhatsApp, or Instagram — the request goes directly to your contact. It does not pass through us. You receive the customer's message and the details they provided: what they want printed, any files they attached, and their own contact info.",
+          "You and the customer then deal directly with each other from that point forward. You reply to them, discuss the job, quote the price, print it, and arrange payment and delivery — all between the two of you. Dimension3D is not in the loop for individual transactions.",
         ],
       },
       {
@@ -199,9 +199,9 @@ const COPY: Record<string, GuideCopy> = {
         heading: "3. Cómo llegan los pedidos",
         body: [
           "Los clientes encuentran Dimension3D a través de la búsqueda de Google, Instagram y el boca a boca. Invertimos continuamente en SEO y visibilidad de marca para que los clientes vengan a nosotros primero.",
-          "Cuando un cliente hace una solicitud — a través de nuestro formulario de presupuesto, WhatsApp o Instagram — evaluamos el encargo: material, tamaño, complejidad y plazo. Si coincide con tu ciudad y las capacidades de tu impresora, te lo enviamos por WhatsApp.",
-          "Recibirás todo lo que necesitas en un mensaje: el archivo 3D (o un enlace para descargarlo), el material y color solicitados, el nivel de calidad esperado, el plazo y cualquier nota específica del cliente.",
-          "Asignamos encargos según la ubicación primero, luego las capacidades de la impresora. Si estás en Barcelona y un cliente de Barcelona envía un encargo, te llega a ti.",
+          "Cuando te unes, recogemos tu contacto preferido — un número de teléfono o una dirección de email — donde quieres que lleguen directamente las solicitudes de presupuesto de los clientes. Ese es el número o la dirección a la que te llegan los clientes.",
+          "Cuando un cliente envía una solicitud de presupuesto para tu ciudad — a través de nuestro formulario web, WhatsApp o Instagram — la solicitud va directamente a tu contacto. No pasa por nosotros. Tú recibes el mensaje del cliente y los detalles que proporcionó: qué quiere imprimir, cualquier archivo que haya adjuntado y su propia información de contacto.",
+          "Tú y el cliente tratan directamente entre sí desde ese momento. Tú le respondes, discutes el encargo, presupuestas el precio, lo imprimes y organizas el pago y la entrega — todo entre vosotros. Dimension3D no interviene en las transacciones individuales.",
         ],
       },
       {
@@ -326,9 +326,9 @@ const COPY: Record<string, GuideCopy> = {
         heading: "3. Com arriben les comandes",
         body: [
           "Els clients troben Dimension3D a través de la cerca de Google, Instagram i el boca-orella. Invertim contínuament en SEO i visibilitat de marca perquè els clients vinguin a nosaltres primer.",
-          "Quan un client fa una sol·licitud — a través del nostre formulari de pressupost, WhatsApp o Instagram — avaluem l'encàrrec: material, mida, complexitat i termini. Si coincideix amb la teva ciutat i les capacitats de la teva impressora, te'l enviem per WhatsApp.",
-          "Rebràs tot el que necessites en un missatge: l'arxiu 3D (o un enllaç per descarregar-lo), el material i color sol·licitats, el nivell de qualitat esperat, el termini i qualsevol nota específica del client.",
-          "Assignem encàrrecs per ubicació primer, després per les capacitats de la impressora. Si ets a Barcelona i un client de Barcelona envia un encàrrec, et ve a tu.",
+          "Quan t'uneixes, recollim el teu contacte preferit — un número de telèfon o una adreça d'email — on vols que arribin directament les sol·licituds de pressupost dels clients. Aquell és el número o l'adreça a través del qual et contacten els clients.",
+          "Quan un client envia una sol·licitud de pressupost per a la teva ciutat — a través del nostre formulari web, WhatsApp o Instagram — la sol·licitud va directament al teu contacte. No passa per nosaltres. Tu reps el missatge del client i els detalls que va proporcionar: què vol imprimir, qualsevol arxiu que hagi adjuntat i la seva pròpia informació de contacte.",
+          "Tu i el client tracten directament entre ells des d'aquell moment. Tu li respons, discuteixes l'encàrrec, pressuposta el preu, ho imprimeixes i organitzeu el pagament i el lliurament — tot entre vosaltres. Dimension3D no intervé en les transaccions individuals.",
         ],
       },
       {
