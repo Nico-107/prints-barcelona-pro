@@ -122,7 +122,7 @@ function computeBundle(
   if (totalUnits === 0) return null;
 
   const totalHours = totalGrams / 28;
-  const bundleRaw = (totalGrams * 0.09 + totalHours * 0.50) * mat.multiplier;
+  const bundleRaw = (totalGrams * 0.10 + totalHours * 0.50) * mat.multiplier;
   const bundlePrice = Math.max(bundleRaw, 10);
 
   const qtyDiscount =
@@ -205,7 +205,7 @@ export function StlEstimator({ adminMode = false }: Props) {
         const volumeCm3 = vol / 1000;
         const grams = volumeCm3 * mat.density * effectiveFill;
         const estHours = grams / 28;
-        const unitPrice = Math.max((grams * 0.09 + estHours * 0.50) * mat.multiplier, 10);
+        const unitPrice = Math.max((grams * 0.10 + estHours * 0.50) * mat.multiplier, 10);
         supabase.from("price_estimates").insert({
           volume_cm3: volumeCm3,
           material: materialKey,
