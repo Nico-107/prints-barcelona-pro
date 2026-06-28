@@ -122,18 +122,16 @@ function computeBundle(
   if (totalUnits === 0) return null;
 
   const totalHours = totalGrams / 28;
-  const effectiveRate = 0.08 * Math.pow(100 / Math.max(totalGrams, 100), 0.20);
-  const bundleRaw = (totalGrams * effectiveRate + totalHours * 0.50) * mat.multiplier;
+  const bundleRaw = (totalGrams * 0.09 + totalHours * 0.50) * mat.multiplier;
   const bundlePrice = Math.max(bundleRaw, 10);
 
   const qtyDiscount =
-    totalUnits >= 100 ? 0.38 :
-    totalUnits >= 50  ? 0.30 :
-    totalUnits >= 25  ? 0.20 :
-    totalUnits >= 10  ? 0.10 : 0;
+    totalUnits >= 50 ? 0.15 :
+    totalUnits >= 25 ? 0.10 :
+    totalUnits >= 10 ? 0.05 : 0;
   const total = bundlePrice * (1 - qtyDiscount);
 
-  return { totalGrams, totalHours, totalUnits, bundlePrice, total, low: total * 0.80, high: total * 1.05, qtyDiscount };
+  return { totalGrams, totalHours, totalUnits, bundlePrice, total, low: total * 0.85, high: total * 1.15, qtyDiscount };
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -207,8 +205,7 @@ export function StlEstimator({ adminMode = false }: Props) {
         const volumeCm3 = vol / 1000;
         const grams = volumeCm3 * mat.density * effectiveFill;
         const estHours = grams / 28;
-        const effRate = 0.08 * Math.pow(100 / Math.max(grams, 100), 0.20);
-        const unitPrice = Math.max((grams * effRate + estHours * 0.50) * mat.multiplier, 10);
+        const unitPrice = Math.max((grams * 0.09 + estHours * 0.50) * mat.multiplier, 10);
         supabase.from("price_estimates").insert({
           volume_cm3: volumeCm3,
           material: materialKey,
@@ -216,8 +213,8 @@ export function StlEstimator({ adminMode = false }: Props) {
           quantity: 1,
           grams,
           est_hours: estHours,
-          price_low: unitPrice * 0.80,
-          price_high: unitPrice * 1.05,
+          price_low: unitPrice * 0.85,
+          price_high: unitPrice * 1.15,
           file_name: f.name,
           language,
         }).then(({ error: dbErr }) => {
@@ -228,7 +225,7 @@ export function StlEstimator({ adminMode = false }: Props) {
         if (!emailSentRef.current) {
           emailSentRef.current = true;
           supabase.functions.invoke("send-price-estimate", {
-            body: { fileName: f.name, material: materialKey, infillPct, wallLoops, quantity: 1, volumeCm3, grams, estHours, priceLow: unitPrice * 0.80, priceHigh: unitPrice * 1.05, language },
+            body: { fileName: f.name, material: materialKey, infillPct, wallLoops, quantity: 1, volumeCm3, grams, estHours, priceLow: unitPrice * 0.85, priceHigh: unitPrice * 1.15, language },
           }).catch((err) => console.error("send-price-estimate invoke error:", err));
         }
       } catch {
