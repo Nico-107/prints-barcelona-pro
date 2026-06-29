@@ -302,6 +302,8 @@ export const esTranslations: Record<string, string> = {
   "calc.admin.hours": "Tiempo total de impresión",
   "calc.admin.filamentCost": "Coste filamento (~€0.015/g)",
   "calc.admin.profit": "Beneficio estimado",
+  "calc.color": "Preferencia de color",
+  "calc.color.placeholder": "ej. negro, blanco, rojo, cualquiera",
 
   // Wall loops
   "calc.walls": "Perímetros / paredes",

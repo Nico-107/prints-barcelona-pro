@@ -154,6 +154,7 @@ export function StlEstimator({ adminMode = false }: Props) {
   // Quote submission state
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
+  const [colorPref, setColorPref] = useState("");
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
   const [isSubmittedQuote, setIsSubmittedQuote] = useState(false);
   const [quoteError, setQuoteError] = useState<string | null>(null);
@@ -265,6 +266,7 @@ export function StlEstimator({ adminMode = false }: Props) {
     setParsing(false);
     setContactEmail("");
     setContactPhone("");
+    setColorPref("");
     setIsSubmittingQuote(false);
     setIsSubmittedQuote(false);
     setQuoteError(null);
@@ -304,6 +306,24 @@ export function StlEstimator({ adminMode = false }: Props) {
         uploadedNames.push(f.name);
       }
 
+      // Save to quote_requests table (anon INSERT — fire-and-forget)
+      supabase.from("quote_requests").insert({
+        contact_email: contactEmail.trim() || null,
+        contact_phone: contactPhone.trim() || null,
+        material: materialKey,
+        color: colorPref.trim() || null,
+        infill: `${infillPct}%`,
+        wall_loops: wallLoops,
+        quantity: bundle!.totalUnits,
+        estimated_grams: bundle!.totalGrams,
+        estimated_hours: bundle!.totalHours,
+        estimated_price_low: bundle!.low,
+        estimated_price_high: bundle!.high,
+        file_paths: uploadedPaths,
+      }).then(({ error: dbErr }) => {
+        if (dbErr) console.error("quote_requests insert error:", dbErr);
+      });
+
       // Show success immediately — email is fire-and-forget
       setIsSubmittedQuote(true);
       setIsSubmittingQuote(false);
@@ -315,6 +335,7 @@ export function StlEstimator({ adminMode = false }: Props) {
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
           material: materialKey,
+          color: colorPref.trim() || null,
           infillPct,
           wallLoops,
           totalGrams: bundle!.totalGrams,
@@ -476,6 +497,18 @@ export function StlEstimator({ adminMode = false }: Props) {
               ))}
             </select>
           </div>
+        </div>
+
+        {/* Color preference */}
+        <div className="mt-2">
+          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.color")}</label>
+          <input
+            type="text"
+            value={colorPref}
+            onChange={e => setColorPref(e.target.value)}
+            placeholder={t("calc.color.placeholder")}
+            className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          />
         </div>
 
         {/* Wall loops */}

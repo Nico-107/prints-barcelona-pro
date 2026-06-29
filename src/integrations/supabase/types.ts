@@ -131,6 +131,63 @@ export type Database = {
         }
         Relationships: []
       }
+      quote_requests: {
+        Row: {
+          id: string
+          created_at: string
+          contact_email: string | null
+          contact_phone: string | null
+          material: string
+          color: string | null
+          infill: string
+          wall_loops: number
+          quantity: number
+          estimated_grams: number
+          estimated_hours: number
+          estimated_price_low: number
+          estimated_price_high: number
+          file_paths: string[]
+          status: string
+          converted_order_id: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          material: string
+          color?: string | null
+          infill: string
+          wall_loops: number
+          quantity: number
+          estimated_grams: number
+          estimated_hours: number
+          estimated_price_low: number
+          estimated_price_high: number
+          file_paths?: string[]
+          status?: string
+          converted_order_id?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          material?: string
+          color?: string | null
+          infill?: string
+          wall_loops?: number
+          quantity?: number
+          estimated_grams?: number
+          estimated_hours?: number
+          estimated_price_low?: number
+          estimated_price_high?: number
+          file_paths?: string[]
+          status?: string
+          converted_order_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

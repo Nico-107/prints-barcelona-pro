@@ -16,6 +16,7 @@ interface QuoteRequestPayload {
   contactEmail?: string | null;
   contactPhone?: string | null;
   material: string;
+  color?: string | null;
   infillPct: number;
   wallLoops: number;
   totalGrams: number;
@@ -72,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
     const payload: QuoteRequestPayload = await req.json();
     const {
       filePaths, fileNames, contactEmail, contactPhone,
-      material, infillPct, wallLoops,
+      material, color, infillPct, wallLoops,
       totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
     } = payload;
 
@@ -108,6 +109,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const safeMaterial = sanitize(material);
+    const safeColor = color ? sanitize(color.trim()) : null;
     const safeEmail = contactEmail ? sanitize(contactEmail.trim()) : null;
     const safePhone = contactPhone ? sanitize(contactPhone.trim()) : null;
     const safeLang = language ? sanitize(language) : "es";
@@ -151,6 +153,7 @@ const handler = async (req: Request): Promise<Response> => {
             <div style="background:#fffbeb;padding:20px;border-radius:8px;margin:20px 0;">
               <h2 style="color:#92400e;margin-top:0;">Detalles del presupuesto</h2>
               <p><strong>Material:</strong> ${safeMaterial}</p>
+              ${safeColor ? `<p><strong>Color:</strong> ${safeColor}</p>` : ""}
               <p><strong>Relleno:</strong> ${infillPct}%</p>
               <p><strong>Perímetros:</strong> ${wallsLabel}</p>
               <p><strong>Peso estimado:</strong> ${totalGrams.toFixed(1)} g</p>

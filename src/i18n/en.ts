@@ -302,6 +302,8 @@ export const enTranslations: Record<string, string> = {
   "calc.admin.hours": "Total print time",
   "calc.admin.filamentCost": "Filament cost (~€0.015/g)",
   "calc.admin.profit": "Est. profit",
+  "calc.color": "Color preference",
+  "calc.color.placeholder": "e.g. black, white, red, any",
 
   // Wall loops
   "calc.walls": "Wall loops / perimeters",

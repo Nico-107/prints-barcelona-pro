@@ -302,6 +302,8 @@ export const caTranslations: Record<string, string> = {
   "calc.admin.hours": "Temps total d'impressió",
   "calc.admin.filamentCost": "Cost filament (~€0.015/g)",
   "calc.admin.profit": "Benefici estimat",
+  "calc.color": "Preferència de color",
+  "calc.color.placeholder": "p. ex. negre, blanc, vermell, qualsevol",
 
   // Wall loops
   "calc.walls": "Perímetres / parets",
