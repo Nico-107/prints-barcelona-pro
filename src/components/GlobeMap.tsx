@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { EuropeMapSVG } from "./EuropeMapSVG";
 
+const Z_DEFAULT  = 2.0;  // ~25% more zoomed in than the original 2.6
+const Z_MIN      = 1.6;  // closest allowed (globe extends past frame edges)
+const Z_MAX      = 3.5;  // furthest allowed (globe still meaningfully sized)
+const ZOOM_STEP  = 0.3;  // per button click
+
 export interface GlobeCity {
   name: string;
   lat: number;
@@ -19,6 +24,8 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Mutable zoom target — shared between Three.js loop, pinch handler, and buttons
+  const zoomRef = useRef(Z_DEFAULT);
   const [tooltip, setTooltip] = useState<{
     name: string;
     live: boolean;
@@ -67,7 +74,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
 
         // ── Camera ────────────────────────────────────────────────────
         const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 200);
-        camera.position.z = 2.6;
+        camera.position.z = Z_DEFAULT;
 
         // ── Renderer ──────────────────────────────────────────────────
         const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -233,14 +240,16 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
         }
 
         // ── Interaction state ─────────────────────────────────────────
-        let isDragging   = false;
-        let autoRotate   = true;
-        let prevMouseX   = 0;
-        let prevMouseY   = 0;
-        let velX         = 0;
-        let velY         = 0;
-        let hoveredIdx   = -1;
-        let dragDist     = 0;
+        let isDragging     = false;
+        let autoRotate     = true;
+        let prevMouseX     = 0;
+        let prevMouseY     = 0;
+        let velX           = 0;
+        let velY           = 0;
+        let hoveredIdx     = -1;
+        let dragDist       = 0;
+        let pinchStartDist = 0;
+        let pinchStartZ    = Z_DEFAULT;
 
         const raycaster = new THREE.Raycaster();
 
@@ -325,6 +334,15 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
         let touchPrevX = 0, touchPrevY = 0, touchDragDist = 0;
 
         const onTouchStart = (e: TouchEvent) => {
+          if (e.touches.length === 2) {
+            // Pinch start — record initial finger distance and camera Z
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            pinchStartDist = Math.sqrt(dx * dx + dy * dy);
+            pinchStartZ    = zoomRef.current;
+            isDragging     = false;
+            return;
+          }
           if (e.touches.length !== 1) return;
           isDragging    = true;
           autoRotate    = false;
@@ -334,6 +352,19 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
         };
 
         const onTouchMove = (e: TouchEvent) => {
+          if (e.touches.length === 2) {
+            // Pinch move — scale camera Z by the ratio of current to initial distance
+            e.preventDefault();
+            const dx   = e.touches[0].clientX - e.touches[1].clientX;
+            const dy   = e.touches[0].clientY - e.touches[1].clientY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (pinchStartDist > 0) {
+              zoomRef.current = Math.max(Z_MIN, Math.min(Z_MAX,
+                pinchStartZ * (pinchStartDist / dist),
+              ));
+            }
+            return;
+          }
           if (!isDragging || e.touches.length !== 1) return;
           e.preventDefault();
           const dx = e.touches[0].clientX - touchPrevX;
@@ -401,6 +432,9 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
             pulseRing.scale.setScalar(s);
             pulseRingMat.opacity = 0.55 - 0.3 * Math.abs(Math.sin(t * 1.8));
           }
+
+          // Smooth zoom — lerp camera Z toward the shared target each frame
+          camera.position.z += (zoomRef.current - camera.position.z) * 0.12;
 
           renderer.render(scene, camera);
         };
@@ -484,6 +518,24 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
           <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
           {expandingLabel}
         </div>
+      </div>
+
+      {/* Zoom buttons */}
+      <div className="absolute bottom-3 right-3 flex flex-col gap-1.5 select-none">
+        <button
+          onClick={() => { zoomRef.current = Math.max(Z_MIN, zoomRef.current - ZOOM_STEP); }}
+          className="w-8 h-8 flex items-center justify-center bg-slate-900/75 border border-slate-700/50 rounded-lg text-white/75 hover:text-amber-400 hover:border-amber-500/40 transition-colors backdrop-blur-sm text-base leading-none"
+          aria-label="Zoom in"
+        >
+          +
+        </button>
+        <button
+          onClick={() => { zoomRef.current = Math.min(Z_MAX, zoomRef.current + ZOOM_STEP); }}
+          className="w-8 h-8 flex items-center justify-center bg-slate-900/75 border border-slate-700/50 rounded-lg text-white/75 hover:text-amber-400 hover:border-amber-500/40 transition-colors backdrop-blur-sm text-base leading-none"
+          aria-label="Zoom out"
+        >
+          −
+        </button>
       </div>
     </div>
   );
