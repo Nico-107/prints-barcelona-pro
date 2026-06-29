@@ -92,6 +92,71 @@ export type Database = {
         }
         Relationships: []
       }
+      quote_requests: {
+        Row: {
+          color: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          converted_order_id: string | null
+          created_at: string
+          estimated_grams: number
+          estimated_hours: number
+          estimated_price_high: number
+          estimated_price_low: number
+          file_paths: string[]
+          id: string
+          infill: string
+          material: string
+          quantity: number
+          status: string
+          wall_loops: number
+        }
+        Insert: {
+          color?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          estimated_grams: number
+          estimated_hours: number
+          estimated_price_high: number
+          estimated_price_low: number
+          file_paths?: string[]
+          id?: string
+          infill: string
+          material: string
+          quantity: number
+          status?: string
+          wall_loops: number
+        }
+        Update: {
+          color?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          estimated_grams?: number
+          estimated_hours?: number
+          estimated_price_high?: number
+          estimated_price_low?: number
+          file_paths?: string[]
+          id?: string
+          infill?: string
+          material?: string
+          quantity?: number
+          status?: string
+          wall_loops?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_requests_converted_order_id_fkey"
+            columns: ["converted_order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           approval_token: string
