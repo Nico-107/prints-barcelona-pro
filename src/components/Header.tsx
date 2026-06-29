@@ -1,5 +1,5 @@
 import { Menu, X, Star, PackageSearch, ChevronDown, Building2, Cpu } from "lucide-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +14,16 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 
-const LogoSvg = ({ onDark, className }: { onDark: boolean; className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="470" height="130" viewBox="0 0 470 130" fill="none" role="img" aria-label="Dimension3D" className={className}>
+const LogoSvg = ({ onDark, style, className }: { onDark: boolean; style?: React.CSSProperties; className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 470 130"
+    fill="none"
+    role="img"
+    aria-label="Dimension3D"
+    className={className}
+    style={{ height: '32px', width: 'auto', display: 'block', ...style }}
+  >
     <g transform="translate(6,12) scale(0.88)" fill="none">
       <g stroke="#ffffff" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
         <line x1="66" y1="14" x2="60" y2="42"/>
@@ -77,7 +85,8 @@ const Header = () => {
       <div className="container px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center" aria-label="Dimension3D">
-            <LogoSvg onDark={!scrolled} className="h-8 w-auto" />
+            <LogoSvg onDark={!scrolled} style={{ height: '28px', width: 'auto' }} className="lg:hidden" />
+            <LogoSvg onDark={!scrolled} style={{ height: '32px', width: 'auto' }} className="hidden lg:block" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-5">
