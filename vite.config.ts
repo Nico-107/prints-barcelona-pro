@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 import { ACTIVE_CITY } from "./src/config/cities";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode, isSsrBuild }) => ({
   server: {
     host: "::",
     port: 8080,
@@ -25,6 +25,22 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: isSsrBuild ? {} : {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "three": ["three"],
+          "topojson": ["topojson-client"],
+          "vendor-ui": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-dropdown-menu",
+            "@radix-ui/react-tabs",
+          ],
+          "supabase": ["@supabase/supabase-js"],
+        },
+      },
     },
   },
 }));
