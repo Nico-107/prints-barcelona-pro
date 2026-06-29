@@ -306,8 +306,8 @@ export function StlEstimator({ adminMode = false }: Props) {
         uploadedNames.push(f.name);
       }
 
-      // Save to quote_requests table (anon INSERT — fire-and-forget)
-      supabase.from("quote_requests").insert({
+      // Save to quote_requests table (awaited — errors surface to the user)
+      const { error: dbErr } = await supabase.from("quote_requests").insert({
         contact_email: contactEmail.trim() || null,
         contact_phone: contactPhone.trim() || null,
         material: materialKey,
@@ -320,11 +320,10 @@ export function StlEstimator({ adminMode = false }: Props) {
         estimated_price_low: bundle!.low,
         estimated_price_high: bundle!.high,
         file_paths: uploadedPaths,
-      }).then(({ error: dbErr }) => {
-        if (dbErr) console.error("quote_requests insert error:", dbErr);
       });
+      if (dbErr) throw new Error(`Quote save failed: ${dbErr.message}`);
 
-      // Show success immediately — email is fire-and-forget
+      // Show success — email is fire-and-forget
       setIsSubmittedQuote(true);
       setIsSubmittingQuote(false);
 

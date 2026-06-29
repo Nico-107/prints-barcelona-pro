@@ -469,10 +469,15 @@ const Admin = () => {
   // ── Price Estimates handlers ──────────────────────────────────────────────────
   const loadEstimates = async () => {
     setEstimatesLoading(true);
-    const { data, error } = await supabase.from("price_estimates").select("*").order("created_at", { ascending: false }).limit(100);
-    setEstimatesLoading(false);
-    if (error) { setEstimatesUnavailable(true); return; }
-    setEstimates((data || []) as PriceEstimate[]);
+    try {
+      const { data, error } = await (supabase as any).from("price_estimates").select("*").order("created_at", { ascending: false }).limit(100);
+      if (error) { setEstimatesUnavailable(true); }
+      else { setEstimates((data || []) as PriceEstimate[]); }
+    } catch {
+      setEstimatesUnavailable(true);
+    } finally {
+      setEstimatesLoading(false);
+    }
   };
 
   // ── Auth screens ─────────────────────────────────────────────────────────────
