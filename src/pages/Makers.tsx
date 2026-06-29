@@ -24,6 +24,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { EuropeMapSVG } from "@/components/EuropeMapSVG";
+import { GlobeMap, type GlobeCity } from "@/components/GlobeMap";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -59,6 +60,53 @@ const CITY_LIVE = [true, false, false, false, false, false, false, false, false]
 function buildCities(names: string[]): CityEntry[] {
   return names.map((name, i) => ({ name, live: CITY_LIVE[i] ?? false }));
 }
+
+// All globe cities with real lat/lon coordinates
+const GLOBE_CITIES: GlobeCity[] = [
+  // Live
+  { name: "Barcelona",    lat:  41.39, lon:   2.17, live: true },
+  // Europe expanding
+  { name: "Madrid",       lat:  40.42, lon:  -3.70, live: false },
+  { name: "Lisbon",       lat:  38.72, lon:  -9.14, live: false },
+  { name: "Valencia",     lat:  39.47, lon:  -0.38, live: false },
+  { name: "Paris",        lat:  48.86, lon:   2.35, live: false },
+  { name: "Amsterdam",    lat:  52.37, lon:   4.90, live: false },
+  { name: "Munich",       lat:  48.14, lon:  11.58, live: false },
+  { name: "Berlin",       lat:  52.52, lon:  13.40, live: false },
+  { name: "Milan",        lat:  45.46, lon:   9.19, live: false },
+  { name: "Rome",         lat:  41.90, lon:  12.50, live: false },
+  { name: "Zurich",       lat:  47.38, lon:   8.54, live: false },
+  { name: "Brussels",     lat:  50.85, lon:   4.35, live: false },
+  { name: "Vienna",       lat:  48.21, lon:  16.37, live: false },
+  { name: "Hamburg",      lat:  53.55, lon:   9.99, live: false },
+  { name: "Stockholm",    lat:  59.33, lon:  18.07, live: false },
+  { name: "Warsaw",       lat:  52.23, lon:  21.01, live: false },
+  { name: "Prague",       lat:  50.07, lon:  14.44, live: false },
+  { name: "Lyon",         lat:  45.75, lon:   4.83, live: false },
+  { name: "Porto",        lat:  41.16, lon:  -8.63, live: false },
+  // Americas expanding
+  { name: "New York",     lat:  40.71, lon: -74.01, live: false },
+  { name: "Chicago",      lat:  41.88, lon: -87.63, live: false },
+  { name: "Los Angeles",  lat:  34.05, lon:-118.24, live: false },
+  { name: "Miami",        lat:  25.77, lon: -80.19, live: false },
+  { name: "Toronto",      lat:  43.65, lon: -79.38, live: false },
+  { name: "Mexico City",  lat:  19.43, lon: -99.13, live: false },
+  { name: "São Paulo",    lat: -23.55, lon: -46.63, live: false },
+  { name: "Buenos Aires", lat: -34.60, lon: -58.38, live: false },
+  // Asia / other expanding
+  { name: "Tokyo",        lat:  35.69, lon: 139.69, live: false },
+  { name: "Singapore",    lat:   1.35, lon: 103.82, live: false },
+  { name: "Dubai",        lat:  25.20, lon:  55.27, live: false },
+  { name: "Sydney",       lat: -33.87, lon: 151.21, live: false },
+  { name: "Seoul",        lat:  37.57, lon: 126.98, live: false },
+  { name: "Mumbai",       lat:  19.08, lon:  72.88, live: false },
+];
+
+// Maps globe English city name → index in c.cities dropdown (the 9 standard cities)
+const GLOBE_TO_FORM_IDX: Record<string, number> = {
+  "Barcelona": 0, "Madrid": 1, "Valencia": 2, "Lisbon": 3,
+  "Paris": 4, "Amsterdam": 5, "Berlin": 6, "Munich": 7, "Milan": 8,
+};
 
 const COPY: Record<string, MakersCopy> = {
   en: {
@@ -310,6 +358,21 @@ const Makers = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Globe click → match localized dropdown name or fall into "other" with pre-fill.
+  // Cities outside the 9-city dropdown (Rome, Tokyo, etc.) are pre-filled into the
+  // custom city input so the maker never has to type their city manually.
+  const handleGlobeCityClick = (englishName: string) => {
+    const idx = GLOBE_TO_FORM_IDX[englishName];
+    if (idx !== undefined && idx < c.cities.length) {
+      handleCitySelect(c.cities[idx].name);
+    } else {
+      setCitySelectVal("__other__");
+      setCityIsOther(true);
+      setCity(englishName);
+      scrollToForm();
+    }
+  };
+
   const handleCitySelect = (cityName: string) => {
     setCitySelectVal(cityName);
     setCityIsOther(false);
@@ -467,18 +530,18 @@ const Makers = () => {
                 </Link>
               </div>
 
-              {/* Right: Europe SVG map (desktop only, decorative) */}
+              {/* Right: 3D interactive globe (desktop only) */}
               <div className="hidden lg:flex items-center justify-center">
                 <div
-                  className="relative w-full max-w-xl"
-                  style={{
-                    aspectRatio: "800/660",
-                    WebkitMaskImage: "radial-gradient(ellipse 85% 80% at 50% 52%, black 50%, transparent 100%)",
-                    maskImage: "radial-gradient(ellipse 85% 80% at 50% 52%, black 50%, transparent 100%)",
-                    opacity: 0.68,
-                  }}
+                  className="relative w-full max-w-xl overflow-hidden rounded-2xl"
+                  style={{ aspectRatio: "800/660" }}
                 >
-                  <EuropeMapSVG variant="dark" />
+                  <GlobeMap
+                    cities={GLOBE_CITIES}
+                    onCityClick={handleGlobeCityClick}
+                    liveLabel={c.cityLive}
+                    expandingLabel={c.cityExpanding}
+                  />
                 </div>
               </div>
             </div>
