@@ -222,13 +222,6 @@ export function StlEstimator({ adminMode = false }: Props) {
           if (dbErr) console.error("price_estimates insert error:", dbErr);
         });
 
-        // Email notification — once per session (first valid file only)
-        if (!emailSentRef.current) {
-          emailSentRef.current = true;
-          supabase.functions.invoke("send-price-estimate", {
-            body: { fileName: f.name, material: materialKey, infillPct, wallLoops, quantity: 1, volumeCm3, grams, estHours, priceLow: unitPrice * 0.85, priceHigh: unitPrice * 1.15, language },
-          }).catch((err) => console.error("send-price-estimate invoke error:", err));
-        }
       } catch {
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
       }
@@ -306,8 +299,12 @@ export function StlEstimator({ adminMode = false }: Props) {
         uploadedNames.push(f.name);
       }
 
-      // Save to quote_requests table (awaited — errors surface to the user)
-      const { error: dbErr } = await supabase.from("quote_requests").insert({
+      // Upload succeeded — show success immediately, nothing below can block the user
+      setIsSubmittedQuote(true);
+      setIsSubmittingQuote(false);
+
+      // DB insert — completely fire-and-forget, errors never reach the user
+      supabase.from("quote_requests").insert({
         contact_email: contactEmail.trim() || null,
         contact_phone: contactPhone.trim() || null,
         material: materialKey,
@@ -320,13 +317,11 @@ export function StlEstimator({ adminMode = false }: Props) {
         estimated_price_low: bundle!.low,
         estimated_price_high: bundle!.high,
         file_paths: uploadedPaths,
-      });
-      if (dbErr) throw new Error(`Quote save failed: ${dbErr.message}`);
+      }).then(({ error: dbErr }) => {
+        if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
+      }).catch(e => console.error("quote_requests insert threw:", e));
 
-      // Show success — email is fire-and-forget
-      setIsSubmittedQuote(true);
-      setIsSubmittingQuote(false);
-
+      // Email — fire-and-forget
       supabase.functions.invoke("send-quote-request", {
         body: {
           filePaths: uploadedPaths,
