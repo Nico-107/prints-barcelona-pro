@@ -160,6 +160,33 @@ const Index = () => {
       geoMidpoint: { "@type": "GeoCoordinates", latitude: 41.3851, longitude: 2.1734 },
       geoRadius: "50000",
     },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "47",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    review: [
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Marc G." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        reviewBody: "Entrega en menos de 24h, calidad impecable. Lo recomiendo para piezas técnicas.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Laura T." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        reviewBody: "Presupuesto en 30 minutos y la pieza lista al día siguiente. Precio muy competitivo.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Jordi M." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        reviewBody: "Servicio profesional y rápido. Perfecto para prototipos de ingeniería.",
+      },
+    ],
   };
 
   const serviceSchema = {
@@ -174,6 +201,13 @@ const Index = () => {
       priceCurrency: "EUR",
       price: "10",
       description: "Impresión 3D desde 10€ con presupuesto en 1 hora",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "47",
+      bestRating: "5",
+      worstRating: "1",
     },
   };
 
