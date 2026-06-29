@@ -64,8 +64,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* SEO links: Services / Materials / Specialties */}
-        <div className="grid md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-background/10">
+        {/* SEO links: Services / Materials / Specialties / Blog */}
+        <div className="grid md:grid-cols-4 gap-8 mb-10 pb-10 border-b border-background/10">
           {SERVICES_MENU.map((group) => (
             <div key={group.labelEn}>
               <p className="font-medium text-sm mb-3">{groupLabel(group)}</p>
@@ -80,6 +80,33 @@ const Footer = () => {
               </ul>
             </div>
           ))}
+          <div>
+            <p className="font-medium text-sm mb-3">
+              {isCa ? "Guies" : isEs ? "Guías" : "Guides"}
+            </p>
+            <ul className="flex flex-col gap-1.5">
+              <li>
+                <Link to="/blog" className="text-background/70 text-sm hover:text-background transition-colors">
+                  {isCa ? "Totes les guies" : isEs ? "Todas las guías" : "All guides"}
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog/precio-impresion-3d-barcelona" className="text-background/70 text-sm hover:text-background transition-colors">
+                  {isCa ? "Guia de preus 2026" : isEs ? "Guía de precios 2026" : "Pricing guide 2026"}
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog/impresion-3d-urgente-barcelona" className="text-background/70 text-sm hover:text-background transition-colors">
+                  {isCa ? "Impressió urgent 24h" : isEs ? "Impresión urgente 24h" : "Urgent printing 24h"}
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog/recambios-piezas-rotas-impresion-3d-barcelona" className="text-background/70 text-sm hover:text-background transition-colors">
+                  {isCa ? "Recanvis i peces trencades" : isEs ? "Recambios y piezas rotas" : "Replacement parts"}
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">

@@ -21,6 +21,7 @@ import MakerGuide from "./pages/MakerGuide";
 import BlogPrecioBcn from "./pages/BlogPrecioBcn";
 import BlogUrgentesBcn from "./pages/BlogUrgentesBcn";
 import BlogRecambiosBcn from "./pages/BlogRecambiosBcn";
+import Blog from "./pages/Blog";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 
 function PostHogPageView() {
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/blog/precio-impresion-3d-barcelona" element={<BlogPrecioBcn />} />
             <Route path="/blog/impresion-3d-urgente-barcelona" element={<BlogUrgentesBcn />} />
             <Route path="/blog/recambios-piezas-rotas-impresion-3d-barcelona" element={<BlogRecambiosBcn />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin-orders" element={<AdminOrders />} />
