@@ -92,7 +92,7 @@ const Index = () => {
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "ProfessionalService"],
     name: `Dimension3D ${ACTIVE_CITY.cityName}`,
     url: SITE_URL,
     telephone: `+${ACTIVE_CITY.whatsappNumber}`,
@@ -109,6 +109,40 @@ const Index = () => {
       { "@type": "City", name: ACTIVE_CITY.areaServed },
       { "@type": "Country", name: ACTIVE_CITY.countryName },
     ],
+    geo: { "@type": "GeoCoordinates", latitude: 41.3851, longitude: 2.1734 },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "09:00",
+        closes: "20:00",
+      },
+    ],
+    hasMap: "https://maps.google.com/?q=Dimension3D+Barcelona+impresion+3D",
+    sameAs: ["https://www.instagram.com/dimension3dprints/"],
+    currenciesAccepted: "EUR",
+    paymentAccepted: "Cash, Credit Card, Bank Transfer",
+    foundingDate: "2024",
+    serviceArea: {
+      "@type": "GeoCircle",
+      geoMidpoint: { "@type": "GeoCoordinates", latitude: 41.3851, longitude: 2.1734 },
+      geoRadius: "50000",
+    },
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Impresión 3D Barcelona",
+    serviceType: "3D Printing Service",
+    provider: { "@type": "LocalBusiness", name: "Dimension3D Barcelona" },
+    areaServed: { "@type": "City", name: "Barcelona" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EUR",
+      price: "10",
+      description: "Impresión 3D desde 10€ con presupuesto en 1 hora",
+    },
   };
 
   const faqSchema = {
@@ -144,6 +178,7 @@ const Index = () => {
         <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
       </Helmet>
       <LaunchOfferBanner />
       <Header />
