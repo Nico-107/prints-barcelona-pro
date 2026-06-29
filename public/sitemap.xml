@@ -16,6 +16,13 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- BLOG: IMPRESION 3D URGENTE BARCELONA -->
+  <url>
+    <loc>https://www.dimension3dprints.com/blog/impresion-3d-urgente-barcelona</loc>
+    <lastmod>2026-06-29</lastmod>
+    <priority>0.75</priority>
+  </url>
+
   <!-- MAKERS -->
   <url>
     <loc>https://www.dimension3dprints.com/makers</loc>
