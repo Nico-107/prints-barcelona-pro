@@ -9,6 +9,13 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- BLOG: PRECIO IMPRESION 3D BARCELONA -->
+  <url>
+    <loc>https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona</loc>
+    <lastmod>2026-06-29</lastmod>
+    <priority>0.8</priority>
+  </url>
+
   <!-- MAKERS -->
   <url>
     <loc>https://www.dimension3dprints.com/makers</loc>
