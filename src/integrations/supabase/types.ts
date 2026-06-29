@@ -92,6 +92,71 @@ export type Database = {
         }
         Relationships: []
       }
+      quote_requests: {
+        Row: {
+          color: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          converted_order_id: string | null
+          created_at: string
+          estimated_grams: number
+          estimated_hours: number
+          estimated_price_high: number
+          estimated_price_low: number
+          file_paths: string[]
+          id: string
+          infill: string
+          material: string
+          quantity: number
+          status: string
+          wall_loops: number
+        }
+        Insert: {
+          color?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          estimated_grams: number
+          estimated_hours: number
+          estimated_price_high: number
+          estimated_price_low: number
+          file_paths?: string[]
+          id?: string
+          infill: string
+          material: string
+          quantity: number
+          status?: string
+          wall_loops: number
+        }
+        Update: {
+          color?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          estimated_grams?: number
+          estimated_hours?: number
+          estimated_price_high?: number
+          estimated_price_low?: number
+          file_paths?: string[]
+          id?: string
+          infill?: string
+          material?: string
+          quantity?: number
+          status?: string
+          wall_loops?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_requests_converted_order_id_fkey"
+            columns: ["converted_order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           approval_token: string
@@ -128,63 +193,6 @@ export type Database = {
           rating?: number
           review_text?: string
           status?: string
-        }
-        Relationships: []
-      }
-      quote_requests: {
-        Row: {
-          id: string
-          created_at: string
-          contact_email: string | null
-          contact_phone: string | null
-          material: string
-          color: string | null
-          infill: string
-          wall_loops: number
-          quantity: number
-          estimated_grams: number
-          estimated_hours: number
-          estimated_price_low: number
-          estimated_price_high: number
-          file_paths: string[]
-          status: string
-          converted_order_id: string | null
-        }
-        Insert: {
-          id?: string
-          created_at?: string
-          contact_email?: string | null
-          contact_phone?: string | null
-          material: string
-          color?: string | null
-          infill: string
-          wall_loops: number
-          quantity: number
-          estimated_grams: number
-          estimated_hours: number
-          estimated_price_low: number
-          estimated_price_high: number
-          file_paths?: string[]
-          status?: string
-          converted_order_id?: string | null
-        }
-        Update: {
-          id?: string
-          created_at?: string
-          contact_email?: string | null
-          contact_phone?: string | null
-          material?: string
-          color?: string | null
-          infill?: string
-          wall_loops?: number
-          quantity?: number
-          estimated_grams?: number
-          estimated_hours?: number
-          estimated_price_low?: number
-          estimated_price_high?: number
-          file_paths?: string[]
-          status?: string
-          converted_order_id?: string | null
         }
         Relationships: []
       }
