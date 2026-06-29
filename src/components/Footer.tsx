@@ -1,4 +1,4 @@
-import { MessageCircle, Printer, MapPin, Clock, Truck } from "lucide-react";
+import { MessageCircle, MapPin, Clock, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
@@ -112,7 +112,12 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2.5 mb-2">
-              <Printer className="w-5 h-5 text-accent" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 120 120" aria-hidden="true" className="flex-shrink-0">
+                <rect width="120" height="120" rx="26" fill="#0f172a"/>
+                <polygon points="60,26 94,62 60,98 26,62" fill="none" stroke="#ffffff" strokeWidth="8" strokeLinejoin="round"/>
+                <line x1="26" y1="62" x2="94" y2="62" stroke="#ffffff" strokeWidth="8" strokeLinecap="round"/>
+                <circle cx="60" cy="26" r="12" fill="#f59e0b"/>
+              </svg>
               <span className="font-semibold tracking-tight">Dimension3D {ACTIVE_CITY.cityName}</span>
             </div>
             <p className="text-background/60 text-sm">{t("footer.tagline")}</p>
