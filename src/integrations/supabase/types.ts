@@ -92,6 +92,42 @@ export type Database = {
         }
         Relationships: []
       }
+      price_estimates: {
+        Row: {
+          created_at: string | null
+          estimated_grams: number | null
+          estimated_price_high: number | null
+          estimated_price_low: number | null
+          id: string
+          infill: string | null
+          material: string | null
+          quantity: number | null
+          volume: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          estimated_grams?: number | null
+          estimated_price_high?: number | null
+          estimated_price_low?: number | null
+          id?: string
+          infill?: string | null
+          material?: string | null
+          quantity?: number | null
+          volume?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          estimated_grams?: number | null
+          estimated_price_high?: number | null
+          estimated_price_low?: number | null
+          id?: string
+          infill?: string | null
+          material?: string | null
+          quantity?: number | null
+          volume?: number | null
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           color: string | null
