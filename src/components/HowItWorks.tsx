@@ -43,19 +43,19 @@ const HowItWorks = () => {
             const isLast = index === steps.length - 1;
             const Wrapper: any = isLast ? "button" : "div";
             const wrapperProps = isLast
-              ? { onClick: handleStep4Click, type: "button", className: "relative group text-left w-full" }
-              : { className: "relative group" };
+              ? { onClick: handleStep4Click, type: "button", className: "relative text-left w-full cursor-default" }
+              : { className: "relative" };
             return (
               <Wrapper key={index} {...wrapperProps}>
                 {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-12 left-1/2 w-full h-px bg-border" />
                 )}
-                <div className="relative bg-card rounded-xl p-6 card-shadow hover:card-shadow-hover hover:-translate-y-1 transition-all duration-300 border border-border">
+                <div className="relative bg-card rounded-xl p-6 card-shadow border border-border">
                   <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-accent text-accent-foreground text-sm font-bold flex items-center justify-center shadow-md">
                     {index + 1}
                   </div>
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/15 transition-colors duration-300">
+                    <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
                       <step.icon className="w-7 h-7 text-accent" />
                     </div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">{t(step.titleKey)}</h3>

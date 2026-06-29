@@ -134,13 +134,22 @@ function computeBundle(
   return { totalGrams, totalHours, totalUnits, bundlePrice, total, low: total * 0.85, high: total * 1.15, qtyDiscount };
 }
 
+// ─── Section heading — action-oriented copy per language ──────────────────────
+const UPLOAD_HEADING: Record<string, { action: string; benefit: string }> = {
+  en: { action: "Upload your files",       benefit: "get an instant price"   },
+  es: { action: "Sube tus archivos",       benefit: "precio al instante"      },
+  ca: { action: "Puja els teus arxius",    benefit: "preu a l'instant"        },
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 interface Props {
   adminMode?: boolean;
+  /** When true, pulses an amber ring on the card for 1.5 s to guide new arrivals */
+  highlighted?: boolean;
 }
 
-export function StlEstimator({ adminMode = false }: Props) {
+export function StlEstimator({ adminMode = false, highlighted = false }: Props) {
   const { t, language } = useLanguage();
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
@@ -355,7 +364,11 @@ export function StlEstimator({ adminMode = false }: Props) {
 
   const inner = (
     <div className={adminMode ? "" : "max-w-xl mx-auto"}>
-      <div className="bg-card rounded-2xl border border-border p-6 md:p-8 card-shadow">
+      <div className={`bg-card rounded-2xl border p-6 md:p-8 card-shadow transition-all duration-300 ${
+        highlighted
+          ? "border-amber-400 ring-2 ring-amber-400 animate-pulse"
+          : "border-border"
+      }`}>
 
         <input
           ref={inputRef}
@@ -678,7 +691,13 @@ export function StlEstimator({ adminMode = false }: Props) {
     <section id="calculator" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">{t("calc.title")}</h2>
+          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+            {t("calc.title")}
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+            {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.es).action}
+            {" "}<span className="text-accent">— {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.es).benefit}</span>
+          </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">{t("calc.subtitle")}</p>
         </div>
         {inner}

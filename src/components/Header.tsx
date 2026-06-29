@@ -112,7 +112,7 @@ const Header = () => {
                 {t("nav.trackOrder")}
               </Link>
             </Button>
-            <Button variant="cta" size="sm" onClick={() => scrollToSection("quote")} className="whitespace-nowrap">
+            <Button variant="cta" size="sm" onClick={() => scrollToSection("calculator")} className="whitespace-nowrap">
               {t("nav.requestQuote")}
             </Button>
           </nav>
@@ -173,7 +173,7 @@ const Header = () => {
                   <PackageSearch className="w-4 h-4" /> {t("nav.trackOrder")}
                 </Link>
               </Button>
-              <Button variant="cta" className="w-full" onClick={() => scrollToSection("quote")}>
+              <Button variant="cta" className="w-full" onClick={() => scrollToSection("calculator")}>
                 {t("nav.requestQuote")}
               </Button>
             </div>

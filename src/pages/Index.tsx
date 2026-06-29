@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
@@ -72,6 +73,19 @@ const HOME_FAQS: Record<string, { q: string; a: string }[]> = {
 const Index = () => {
   const { language } = useLanguage();
   const meta = HOME_META[language] ?? HOME_META.es;
+
+  // Shared calculator highlight — toggled by any primary quote CTA click
+  const [calcHighlight, setCalcHighlight] = useState(false);
+
+  const handleScrollToCalc = () => {
+    const el = document.getElementById("calculator");
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+    setCalcHighlight(true);
+    setTimeout(() => setCalcHighlight(false), 1500);
+  };
   // Always emit a single English FAQPage schema to avoid duplicate/multi-language
   // FAQPage entries being reported in Google Search Console.
   const faqs = HOME_FAQS.en;
@@ -134,9 +148,9 @@ const Index = () => {
       <LaunchOfferBanner />
       <Header />
       <main className="pt-16">
-        <Hero />
+        <Hero onScrollToCalc={handleScrollToCalc} />
         <HowItWorks />
-        <StlEstimator />
+        <StlEstimator highlighted={calcHighlight} />
         <WhatCanWePrint />
         <Materials />
         <WhyChooseUs />

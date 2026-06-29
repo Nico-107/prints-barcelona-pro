@@ -5,8 +5,18 @@ import { ACTIVE_CITY, whatsappUrl, countryFlag } from "@/config/cities";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const Hero = () => {
-  const { t } = useLanguage();
+const MOBILE_HINT: Record<string, string> = {
+  en: "Upload your file below",
+  es: "Sube tu archivo abajo",
+  ca: "Puja el teu arxiu a sota",
+};
+
+interface HeroProps {
+  onScrollToCalc?: () => void;
+}
+
+const Hero = ({ onScrollToCalc }: HeroProps) => {
+  const { t, language } = useLanguage();
 
   const handleWhatsApp = () => {
     const msg = "Hola, me gustaría solicitar un presupuesto para impresión 3D";
@@ -14,10 +24,15 @@ const Hero = () => {
   };
 
   const handleScrollToUpload = () => {
-    const el = document.getElementById("calculator");
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: "smooth" });
+    if (onScrollToCalc) {
+      onScrollToCalc();
+    } else {
+      // Fallback if used outside Index
+      const el = document.getElementById("calculator");
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
     }
   };
 
@@ -85,6 +100,11 @@ const Hero = () => {
               {t("hero.cta.whatsapp")}
             </Button>
           </div>
+
+          {/* Mobile scroll hint — visible only on small screens */}
+          <p className="md:hidden mt-4 text-center text-sm text-primary-foreground/60 animate-fade-in-delay-2">
+            ↓ {MOBILE_HINT[language] ?? MOBILE_HINT.es}
+          </p>
 
           {/* Trust indicators */}
           <div className="mt-12 flex flex-wrap justify-center gap-6 text-primary-foreground/70 text-sm animate-fade-in-delay-2">
