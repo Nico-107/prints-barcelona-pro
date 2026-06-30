@@ -61,6 +61,9 @@ interface Order {
   photos: string[];
   created_at: string;
   updated_at: string;
+  payment_method: string | null;
+  stripe_payment_link: string | null;
+  payment_status: string;
 }
 
 interface MakerApplication {
@@ -126,6 +129,7 @@ const emptyAcceptDraft = {
   deliveryDate: "",
   customerName: "",
   fulfillment: "pickup" as "pickup" | "shipping",
+  paymentMethod: "" as "" | "stripe" | "bizum" | "transfer" | "cash",
 };
 
 const PRINTING_MANAGEMENT_URL = "https://REPLACE_ME";
@@ -391,8 +395,14 @@ const Admin = () => {
     if (isNaN(priceNum) || priceNum <= 0) {
       toast({ title: "Enter a valid price", variant: "destructive" }); return;
     }
+    if (!acceptDraft.paymentMethod) {
+      toast({ title: "Select a payment method", variant: "destructive" }); return;
+    }
     setAcceptBusy(true);
     try {
+      const { data: { session: s } } = await supabase.auth.getSession();
+      const authHeaders = s?.access_token ? { Authorization: `Bearer ${s.access_token}` } : {};
+
       const phone = acceptTarget.contact_phone?.trim() || "see notes";
       const noteParts = [
         `Accepted from quote request ${acceptTarget.id.slice(0, 8)}.`,
@@ -412,9 +422,27 @@ const Admin = () => {
         fulfillment: acceptDraft.fulfillment,
         notes: noteParts,
         photos: [],
+        payment_method: acceptDraft.paymentMethod,
+        payment_status: "pending",
       }).select("id, order_number").single();
 
       if (orderErr) throw orderErr;
+
+      // Generate Stripe payment link if needed
+      let stripePaymentLink: string | null = null;
+      if (acceptDraft.paymentMethod === "stripe") {
+        const res = await supabase.functions.invoke("create-stripe-payment-link", {
+          body: { orderNumber: newOrders.order_number, finalPrice: priceNum },
+          headers: authHeaders,
+        });
+        if (res.error || !res.data?.url) {
+          console.error("create-stripe-payment-link failed:", res.error);
+          toast({ title: "Warning", description: "Order created but Stripe link generation failed. Check logs.", variant: "destructive" });
+        } else {
+          stripePaymentLink = res.data.url;
+          await supabase.from("orders").update({ stripe_payment_link: stripePaymentLink }).eq("id", newOrders.id);
+        }
+      }
 
       await supabase.from("quote_requests").update({
         status: "accepted",
@@ -423,7 +451,6 @@ const Admin = () => {
 
       // Fire-and-forget confirmation email if customer email is known
       if (acceptTarget.contact_email) {
-        const { data: { session: s } } = await supabase.auth.getSession();
         supabase.functions.invoke("send-order-confirmation", {
           body: {
             customerEmail: acceptTarget.contact_email,
@@ -433,8 +460,10 @@ const Admin = () => {
             color: acceptDraft.color || null,
             deliveryDate: acceptDraft.deliveryDate || null,
             customerName: acceptDraft.customerName || null,
+            paymentMethod: acceptDraft.paymentMethod,
+            stripePaymentLink,
           },
-          headers: s?.access_token ? { Authorization: `Bearer ${s.access_token}` } : {},
+          headers: authHeaders,
         }).catch(e => console.error("send-order-confirmation failed:", e));
       }
 
@@ -616,6 +645,16 @@ const Admin = () => {
                           <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
                           {orderStatusBadge(o.status)}
                           <span className="text-xs text-slate-400">{o.fulfillment}</span>
+                          {o.payment_method && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
+                              {o.payment_method === "stripe" ? "Stripe" : o.payment_method === "bizum" ? "Bizum" : o.payment_method === "transfer" ? "Transfer" : "Cash"}
+                            </span>
+                          )}
+                          {o.payment_method && (
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${o.payment_status === "paid" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
+                              {o.payment_status === "paid" ? "Pagado" : "Pendiente"}
+                            </span>
+                          )}
                         </div>
                         <p className="text-sm font-medium text-slate-700">{o.product_title || <span className="text-slate-400 italic">No title</span>}</p>
                         <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1">
@@ -628,6 +667,17 @@ const Admin = () => {
                             <span className="text-xs text-slate-400 italic">No delivery date set</span>
                           )}
                         </div>
+                        {o.stripe_payment_link && (
+                          <a
+                            href={o.stripe_payment_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                            Stripe payment link
+                          </a>
+                        )}
                         {o.notes && (
                           <p className="text-xs text-slate-400 mt-1.5 line-clamp-1">{o.notes}</p>
                         )}
@@ -1058,6 +1108,21 @@ const Admin = () => {
                   <SelectContent>
                     <SelectItem value="pickup">Pickup</SelectItem>
                     <SelectItem value="shipping">Shipping</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium block mb-1.5 text-slate-700">Método de pago *</label>
+                <Select value={acceptDraft.paymentMethod} onValueChange={(v) => setAcceptDraft(d => ({ ...d, paymentMethod: v as typeof d.paymentMethod }))}>
+                  <SelectTrigger className={!acceptDraft.paymentMethod ? "border-amber-300" : ""}>
+                    <SelectValue placeholder="Selecciona método de pago…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="stripe">Stripe — generar link de pago</SelectItem>
+                    <SelectItem value="bizum">Bizum</SelectItem>
+                    <SelectItem value="transfer">Transferencia bancaria</SelectItem>
+                    <SelectItem value="cash">Efectivo (en persona)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

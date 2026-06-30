@@ -16,6 +16,8 @@ interface ConfirmationPayload {
   color?: string | null;
   deliveryDate?: string | null;
   customerName?: string | null;
+  paymentMethod?: "stripe" | "bizum" | "transfer" | "cash" | null;
+  stripePaymentLink?: string | null;
 }
 
 const sanitize = (s: string): string =>
@@ -25,6 +27,56 @@ const sanitize = (s: string): string =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
+function buildPaymentBlock(
+  paymentMethod: string | null | undefined,
+  stripePaymentLink: string | null | undefined,
+  orderNumber: number,
+): string {
+  if (paymentMethod === "stripe" && stripePaymentLink) {
+    return `
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:20px;margin:24px 0;text-align:center;">
+        <p style="color:#1e40af;font-size:15px;margin:0 0 16px 0;font-weight:600;">Completa tu pago para confirmar el pedido</p>
+        <a href="${stripePaymentLink}"
+           style="display:inline-block;background:#1e40af;color:#ffffff;padding:12px 28px;text-decoration:none;border-radius:6px;font-weight:700;font-size:15px;">
+          Pagar ahora &rarr;
+        </a>
+        <p style="color:#64748b;font-size:12px;margin:12px 0 0 0;">Pago seguro con tarjeta a través de Stripe</p>
+      </div>
+    `;
+  }
+
+  if (paymentMethod === "bizum") {
+    return `
+      <div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0;">
+        <p style="color:#92400e;font-size:15px;margin:0 0 8px 0;font-weight:600;">Instrucciones de pago &mdash; Bizum</p>
+        <p style="color:#334155;margin:0;">Puedes pagar por Bizum al <strong>(+34) 672 051 147</strong></p>
+        <p style="color:#64748b;font-size:13px;margin:8px 0 0 0;">Indica el número de pedido <strong>#${orderNumber}</strong> en el concepto.</p>
+      </div>
+    `;
+  }
+
+  if (paymentMethod === "transfer") {
+    return `
+      <div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0;">
+        <p style="color:#92400e;font-size:15px;margin:0 0 8px 0;font-weight:600;">Instrucciones de pago &mdash; Transferencia bancaria</p>
+        <p style="color:#334155;margin:0;">Puedes pagar por transferencia a:</p>
+        <p style="color:#0f172a;font-weight:700;font-size:15px;margin:8px 0 0 0;font-family:monospace;">ES08 1465 0120 34 1770495246</p>
+        <p style="color:#64748b;font-size:13px;margin:8px 0 0 0;">Indica el número de pedido <strong>#${orderNumber}</strong> como concepto.</p>
+      </div>
+    `;
+  }
+
+  if (paymentMethod === "cash") {
+    return `
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px 20px;margin:24px 0;">
+        <p style="color:#166534;margin:0;font-size:14px;"><strong>Pago en efectivo</strong> al recoger o al entregar el pedido.</p>
+      </div>
+    `;
+  }
+
+  return "";
+}
 
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -52,7 +104,7 @@ serve(async (req: Request) => {
     if (!roleData) return new Response("Forbidden", { status: 403, headers: corsHeaders });
 
     const payload: ConfirmationPayload = await req.json();
-    const { customerEmail, orderNumber, finalPrice, material, color, deliveryDate, customerName } = payload;
+    const { customerEmail, orderNumber, finalPrice, material, color, deliveryDate, customerName, paymentMethod, stripePaymentLink } = payload;
 
     if (!customerEmail || !orderNumber) {
       return new Response(
@@ -69,8 +121,10 @@ serve(async (req: Request) => {
     const greeting = safeName ? `Hola ${safeName},` : "Hola,";
 
     const deliveryHtml = deliveryDate
-      ? `<p><strong>Fecha de entrega estimada:</strong> ${new Date(deliveryDate).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}</p>`
+      ? `<p style="margin:6px 0;"><strong>Fecha de entrega estimada:</strong> ${new Date(deliveryDate).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}</p>`
       : "";
+
+    const paymentBlock = buildPaymentBlock(paymentMethod, stripePaymentLink, orderNumber);
 
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -101,6 +155,8 @@ serve(async (req: Request) => {
                 <p style="margin:6px 0;"><strong>Precio confirmado:</strong> €${finalPrice.toFixed(2)}</p>
                 ${deliveryHtml}
               </div>
+
+              ${paymentBlock}
 
               <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:24px 0;text-align:center;">
                 <p style="color:#166534;font-size:15px;margin:0 0 16px 0;font-weight:600;">Sigue el estado de tu pedido en tiempo real</p>
