@@ -110,10 +110,11 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
 
         // ── Globe group — everything rotates together ─────────────────
         const globeGroup = new THREE.Group();
-        // ~100° initial Y rotation centers Europe (lon ≈ 10°E) toward the camera.
-        // Derivation: Europe center is at (0.633, 0.766, −0.112) in local space;
-        // rotating +100° around Y maps z → 0.633·sin(100°) + (−0.112)·cos(100°) ≈ +0.64.
-        globeGroup.rotation.y = 1.745;
+        // −100° (−1.745 rad) initial Y rotation centers Europe toward the camera.
+        // Three.js makeRotationY: z_world = −x·sin(θ) + z·cos(θ).
+        // Europe center (lon≈10°E, lat≈50°N) is at local (0.633, 0.766, −0.112).
+        // At θ = −1.745: z_world = −0.633·sin(−1.745) + (−0.112)·cos(−1.745) ≈ +0.64. ✓
+        globeGroup.rotation.y = -1.745;
         scene.add(globeGroup);
 
         const R = 1;
