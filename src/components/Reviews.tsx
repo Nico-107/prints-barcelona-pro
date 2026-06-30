@@ -10,7 +10,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
 
-const staticReviews = [
+const staticReviews: { name: string; text: string; rating: number; source?: "google" | "wallapop" }[] = [
+  { name: "Valentino Modestino Lombardi", text: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!", rating: 5, source: "google" },
+  { name: "Kirill Gromskiy", text: "I'm working for a construction company. We needed a special round shadow gap profile for a wall, but there was no way to buy one because nobody sells it. So we decided to make it with the help of 3D printing. It was fast, affordable, and worked perfectly.", rating: 5, source: "google" },
+  { name: "Daniel Cáceres Álvarez", text: "Espectacular, compré dos maquetas de Stranger Things para los Funkos de Kinder Joy y quedaron geniales. Servicio y calidad de 10.", rating: 5, source: "google" },
+  { name: "Alex A.", text: "Todo lo impreso está tal cual lo pedí. Gran calidad de impresión y persona seria y de confianza. 100% recomendable.", rating: 5, source: "wallapop" },
+  { name: "Fco Javier M.", text: "Perfecto con las medidas exactas. Muy bien trabajado.", rating: 5, source: "wallapop" },
+  { name: "Jose Antonio A.", text: "Trabajo perfecto. Atención inmejorable. Muy contento.", rating: 5, source: "wallapop" },
   { name: "Alex A.", text: "Gran calidad de impresión. Todo exactamente como lo pedí. Persona seria y de confianza. 100% recomendable.", rating: 5 },
   { name: "Anastasia A.", text: "La base para las figuras de Stranger Things es espectacular. Muy contenta con la compra. Excelente producto.", rating: 5 },
   { name: "Jose Antonio A.", text: "Trabajo perfecto y atención inmejorable.", rating: 5 },
@@ -69,7 +75,7 @@ const Reviews = () => {
   useEffect(() => { formStartTimeRef.current = Date.now(); }, []);
 
   const allReviews = [
-    ...dbReviews.map((r) => ({ name: r.name, text: r.review_text, rating: r.rating, fromDb: true })),
+    ...dbReviews.map((r) => ({ name: r.name, text: r.review_text, rating: r.rating, source: undefined as "google" | "wallapop" | undefined, fromDb: true })),
     ...staticReviews.map((r) => ({ ...r, fromDb: false })),
   ];
 
@@ -143,10 +149,22 @@ const Reviews = () => {
             <div key={index} className="bg-card rounded-xl p-5 card-shadow hover:card-shadow-hover border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300">
               <div className="flex items-center justify-between mb-3">
                 <Quote className="w-5 h-5 text-accent/30" />
-                <div className="flex items-center gap-1 text-xs text-accent">
-                  <BadgeCheck className="w-3.5 h-3.5" />
-                  <span>{t("reviews.verifiedBadge")}</span>
-                </div>
+                {review.source === "google" ? (
+                  <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "#4285F4" }}>
+                    <span className="w-3.5 h-3.5 rounded-full text-[8px] font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
+                    Google
+                  </div>
+                ) : review.source === "wallapop" ? (
+                  <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "#13c1ac" }}>
+                    <span className="w-3.5 h-3.5 rounded-full text-[8px] font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#13c1ac", color: "#fff" }}>W</span>
+                    Wallapop
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-xs text-accent">
+                    <BadgeCheck className="w-3.5 h-3.5" />
+                    <span>{t("reviews.verifiedBadge")}</span>
+                  </div>
+                )}
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{review.text}"</p>
               <div className="flex items-center justify-between">

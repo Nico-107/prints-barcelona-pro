@@ -163,28 +163,46 @@ const Index = () => {
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
-      reviewCount: "47",
+      reviewCount: "53",
       bestRating: "5",
       worstRating: "1",
     },
     review: [
       {
         "@type": "Review",
-        author: { "@type": "Person", name: "Marc G." },
+        author: { "@type": "Person", name: "Valentino Modestino Lombardi" },
         reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Entrega en menos de 24h, calidad impecable. Lo recomiendo para piezas técnicas.",
+        reviewBody: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!",
       },
       {
         "@type": "Review",
-        author: { "@type": "Person", name: "Laura T." },
+        author: { "@type": "Person", name: "Kirill Gromskiy" },
         reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Presupuesto en 30 minutos y la pieza lista al día siguiente. Precio muy competitivo.",
+        reviewBody: "I'm working for a construction company. We needed a special round shadow gap profile for a wall, but there was no way to buy one because nobody sells it. So we decided to make it with the help of 3D printing. It was fast, affordable, and worked perfectly.",
       },
       {
         "@type": "Review",
-        author: { "@type": "Person", name: "Jordi M." },
+        author: { "@type": "Person", name: "Daniel Cáceres Álvarez" },
         reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Servicio profesional y rápido. Perfecto para prototipos de ingeniería.",
+        reviewBody: "Espectacular, compré dos maquetas de Stranger Things para los Funkos de Kinder Joy y quedaron geniales. Servicio y calidad de 10.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Alex A." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        reviewBody: "Todo lo impreso está tal cual lo pedí. Gran calidad de impresión y persona seria y de confianza. 100% recomendable.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Fco Javier M." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        reviewBody: "Perfecto con las medidas exactas. Muy bien trabajado.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Jose Antonio A." },
+        reviewRating: { "@type": "Rating", ratingValue: "5" },
+        reviewBody: "Trabajo perfecto. Atención inmejorable. Muy contento.",
       },
     ],
   };
@@ -205,7 +223,7 @@ const Index = () => {
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
-      reviewCount: "47",
+      reviewCount: "53",
       bestRating: "5",
       worstRating: "1",
     },
