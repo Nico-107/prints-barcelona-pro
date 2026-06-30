@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock, Wrench, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Clock, Settings2, Wrench, Zap } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -35,6 +35,15 @@ const POSTS = [
     description: "Qué piezas se pueden reproducir en 3D, cómo enviarnos la foto o la pieza rota, qué material recomendamos para recambios funcionales y 5 ejemplos reales con precios.",
     readTime: "7 min",
     tags: ["Recambios", "PETG", "Sin STL"],
+  },
+  {
+    slug: "/blog/prototipos-rapidos-piezas-funcionales-barcelona",
+    icon: Settings2,
+    title: "Prototipos Rápidos y Piezas Funcionales en 3D",
+    subtitle: "Para ingenieros y empresas",
+    description: "Materiales de ingeniería, tolerancias FDM, iteración rápida y tiradas cortas. Para equipos de I+D, startups de hardware y fabricantes en Barcelona.",
+    readTime: "9 min",
+    tags: ["Prototipos", "Ingeniería", "PETG"],
   },
 ];
 

@@ -23,6 +23,7 @@ const MakerGuide = lazy(() => import("./pages/MakerGuide"));
 const BlogPrecioBcn = lazy(() => import("./pages/BlogPrecioBcn"));
 const BlogUrgentesBcn = lazy(() => import("./pages/BlogUrgentesBcn"));
 const BlogRecambiosBcn = lazy(() => import("./pages/BlogRecambiosBcn"));
+const BlogPrototiposBcn = lazy(() => import("./pages/BlogPrototiposBcn"));
 const Blog = lazy(() => import("./pages/Blog"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
@@ -55,6 +56,7 @@ const App = () => (
               <Route path="/blog/precio-impresion-3d-barcelona" element={<BlogPrecioBcn />} />
               <Route path="/blog/impresion-3d-urgente-barcelona" element={<BlogUrgentesBcn />} />
               <Route path="/blog/recambios-piezas-rotas-impresion-3d-barcelona" element={<BlogRecambiosBcn />} />
+              <Route path="/blog/prototipos-rapidos-piezas-funcionales-barcelona" element={<BlogPrototiposBcn />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/admin" element={<Admin />} />

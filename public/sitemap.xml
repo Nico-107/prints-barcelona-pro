@@ -37,6 +37,13 @@
     <priority>0.75</priority>
   </url>
 
+  <!-- BLOG: PROTOTIPOS RAPIDOS Y PIEZAS FUNCIONALES BARCELONA -->
+  <url>
+    <loc>https://www.dimension3dprints.com/blog/prototipos-rapidos-piezas-funcionales-barcelona</loc>
+    <lastmod>2026-06-30</lastmod>
+    <priority>0.75</priority>
+  </url>
+
   <!-- MAKERS -->
   <url>
     <loc>https://www.dimension3dprints.com/makers</loc>

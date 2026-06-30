@@ -18,6 +18,7 @@ import MakerGuide from "./pages/MakerGuide";
 import BlogPrecioBcn from "./pages/BlogPrecioBcn";
 import BlogUrgentesBcn from "./pages/BlogUrgentesBcn";
 import BlogRecambiosBcn from "./pages/BlogRecambiosBcn";
+import BlogPrototiposBcn from "./pages/BlogPrototiposBcn";
 import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
@@ -57,6 +58,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/blog/precio-impresion-3d-barcelona" element={<BlogPrecioBcn />} />
                 <Route path="/blog/impresion-3d-urgente-barcelona" element={<BlogUrgentesBcn />} />
                 <Route path="/blog/recambios-piezas-rotas-impresion-3d-barcelona" element={<BlogRecambiosBcn />} />
+                <Route path="/blog/prototipos-rapidos-piezas-funcionales-barcelona" element={<BlogPrototiposBcn />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
