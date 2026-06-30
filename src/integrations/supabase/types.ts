@@ -56,10 +56,13 @@ export type Database = {
           id: string
           notes: string
           order_number: number
+          payment_method: string | null
+          payment_status: string
           phone_last3: string | null
           photos: string[]
           product_title: string
           status: string
+          stripe_payment_link: string | null
           updated_at: string
         }
         Insert: {
@@ -70,10 +73,13 @@ export type Database = {
           id?: string
           notes?: string
           order_number?: number
+          payment_method?: string | null
+          payment_status?: string
           phone_last3?: string | null
           photos?: string[]
           product_title?: string
           status?: string
+          stripe_payment_link?: string | null
           updated_at?: string
         }
         Update: {
@@ -84,10 +90,13 @@ export type Database = {
           id?: string
           notes?: string
           order_number?: number
+          payment_method?: string | null
+          payment_status?: string
           phone_last3?: string | null
           photos?: string[]
           product_title?: string
           status?: string
+          stripe_payment_link?: string | null
           updated_at?: string
         }
         Relationships: []
