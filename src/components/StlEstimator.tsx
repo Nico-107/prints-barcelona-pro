@@ -574,9 +574,14 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
               </p>
 
               {!adminMode && (
-                <p className="text-xs text-muted-foreground/70 mt-3 italic">
-                  {t("calc.result.disclaimer")}
-                </p>
+                <>
+                  <p className="text-xs text-muted-foreground/70 mt-3 italic">
+                    {t("calc.result.disclaimer")}
+                  </p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">
+                    ¿Eres estudiante? Menciona tu universidad al confirmar tu presupuesto y obtén un 20% de descuento.
+                  </p>
+                </>
               )}
 
               {adminMode && (() => {
