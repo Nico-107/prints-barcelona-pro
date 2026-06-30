@@ -11,6 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -83,6 +84,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
   };
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'landing_page' });
     const msg = isEs
       ? `Hola, me interesa: ${page.h1}`
       : `Hi, I'm interested in: ${page.h1}`;

@@ -12,6 +12,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import { capture } from "@/lib/analytics";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
@@ -429,6 +430,7 @@ const MakerGuide = () => {
   const c = COPY[language] ?? COPY.en;
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'maker_guide' });
     const msg =
       language === "ca" ? "Hola, m'interessa unir-me a la xarxa de makers de Dimension3D." :
       language === "es" ? "Hola, me interesa unirme a la red de makers de Dimension3D." :

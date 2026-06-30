@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -19,6 +20,7 @@ const Footer = () => {
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'footer' });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

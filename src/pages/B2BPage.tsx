@@ -14,6 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -148,6 +149,7 @@ const B2BPage = ({ page }: Props) => {
   };
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'b2b_page' });
     const msg =
       lang === "es"
         ? "Hola, me interesa el servicio de impresión 3D para mi empresa. Me gustaría hablar de un proyecto."

@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -67,6 +68,7 @@ const faqSchema = {
 
 const BlogRecambiosBcn = () => {
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'blog_recambios' });
     const msg = "Hola, tengo una pieza rota y me gustaría saber si podéis reproducirla en 3D. Os mando fotos.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

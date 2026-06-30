@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle, Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl, countryFlag } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -19,11 +20,13 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
   const { t, language } = useLanguage();
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'hero_cta' });
     const msg = "Hola, me gustaría solicitar un presupuesto para impresión 3D";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message") || msg)}`, "_blank");
   };
 
   const handleScrollToUpload = () => {
+    capture('quote_cta_click', { source: 'hero_cta' });
     if (onScrollToCalc) {
       onScrollToCalc();
     } else {

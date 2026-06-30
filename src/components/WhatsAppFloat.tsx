@@ -9,7 +9,7 @@ const WhatsAppFloat = () => {
   const { t } = useLanguage();
 
   const handleClick = () => {
-    capture('whatsapp contact clicked', { source: 'float_button' });
+    capture('whatsapp_click', { source: 'float_button' });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

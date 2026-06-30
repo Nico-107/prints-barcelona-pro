@@ -392,6 +392,7 @@ const Makers = () => {
   };
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'makers_page' });
     const msg =
       language === "ca" ? "Hola, m'interessa unir-me a la xarxa de makers de Dimension3D." :
       language === "es" ? "Hola, me interesa unirme a la red de makers de Dimension3D." :

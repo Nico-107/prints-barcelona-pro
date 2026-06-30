@@ -124,7 +124,7 @@ const FileUpload = () => {
   };
 
   const handleWhatsApp = () => {
-    capture('print request whatsapp clicked', { source: 'upload_form' });
+    capture('whatsapp_click', { source: 'file_upload' });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

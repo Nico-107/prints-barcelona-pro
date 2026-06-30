@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase } from "@/integrations/supabase/client";
+import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_BYTES = 50 * 1024 * 1024;
@@ -276,6 +277,7 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
   };
 
   const handleWhatsApp = () => {
+    capture('whatsapp_click', { source: 'calculator' });
     const msg =
       language === "ca" ? "Hola, m'agradaria obtenir un pressupost exacte per als meus arxius 3D." :
       language === "es" ? "Hola, me gustaría obtener un presupuesto exacto para mis archivos 3D." :
