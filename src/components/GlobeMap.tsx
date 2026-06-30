@@ -114,7 +114,8 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
         // Three.js makeRotationY: z_world = −x·sin(θ) + z·cos(θ).
         // Europe center (lon≈10°E, lat≈50°N) is at local (0.633, 0.766, −0.112).
         // At θ = −1.745: z_world = −0.633·sin(−1.745) + (−0.112)·cos(−1.745) ≈ +0.64. ✓
-        globeGroup.rotation.y = -1.745;
+        // θ = atan(x/−z) − π ≈ −1.609 rad: Barcelona x_world≈0, z_world≈0.750 (facing camera)
+        globeGroup.rotation.y = -1.609;
         scene.add(globeGroup);
 
         const R = 1;
