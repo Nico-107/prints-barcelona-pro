@@ -206,7 +206,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
               const landGeo = new THREE.BufferGeometry();
               landGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(landVerts), 3));
               globeGroup.add(
-                new THREE.Mesh(landGeo, new THREE.MeshBasicMaterial({ color: 0x162440, side: THREE.DoubleSide }))
+                new THREE.Mesh(landGeo, new THREE.MeshBasicMaterial({ color: 0x1e3a5f, side: THREE.DoubleSide }))
               );
             }
 
@@ -230,7 +230,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
               globeGroup.add(
                 new THREE.LineSegments(
                   geo,
-                  new THREE.LineBasicMaterial({ color: 0x3b5a82, transparent: true, opacity: 0.75 })
+                  new THREE.LineBasicMaterial({ color: 0x6a9fd8, transparent: true, opacity: 0.9 })
                 )
               );
             }
@@ -246,7 +246,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
 
         for (const city of cities) {
           const pos  = ll2v(city.lat, city.lon, R + 0.022);
-          const size = city.live ? 0.027 : 0.017;
+          const size = city.live ? 0.024 : 0.015;
           const defMat = new THREE.MeshBasicMaterial({ color: city.live ? 0x22c55e : 0xf59e0b });
           const hovMat = new THREE.MeshBasicMaterial({ color: city.live ? 0x4ade80 : 0xfbbf24 });
           const marker = new THREE.Mesh(new THREE.SphereGeometry(size, 10, 10), defMat);
