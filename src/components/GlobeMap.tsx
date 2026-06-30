@@ -164,7 +164,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
           );
         };
 
-        // ── Country borders (optional — gracefully skipped) ───────────
+        // ── Country land fill + borders (optional — gracefully skipped) ─
         try {
           const [topoRes, topojson] = await Promise.all([
             fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"),
@@ -172,6 +172,44 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
           ]);
           if (!canceled) {
             const topology = await topoRes.json();
+
+            // Land fill — triangulate each country polygon onto the sphere
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const countries = (topojson as any).feature(topology, topology.objects.countries);
+            const landVerts: number[] = [];
+            for (const feature of countries.features) {
+              const geom = feature.geometry;
+              const polygons: [number, number][][][] =
+                geom.type === "Polygon" ? [geom.coordinates] : geom.coordinates;
+              for (const polygon of polygons) {
+                const outer = polygon[0];
+                const holes = polygon.slice(1);
+                const outer2D = outer.map(([lon, lat]: [number, number]) => ({ x: lon, y: lat }));
+                const holes2D = holes.map((h: [number, number][]) =>
+                  h.map(([lon, lat]: [number, number]) => ({ x: lon, y: lat }))
+                );
+                try {
+                  const tris = THREE.ShapeUtils.triangulateShape(outer2D, holes2D);
+                  const allPts = [...outer, ...holes.flat()];
+                  for (const [a, b, c] of tris) {
+                    const pA = allPts[a], pB = allPts[b], pC = allPts[c];
+                    const vA = ll2v(pA[1], pA[0], R + 0.001);
+                    const vB = ll2v(pB[1], pB[0], R + 0.001);
+                    const vC = ll2v(pC[1], pC[0], R + 0.001);
+                    landVerts.push(vA.x, vA.y, vA.z, vB.x, vB.y, vB.z, vC.x, vC.y, vC.z);
+                  }
+                } catch { /* skip degenerate polygons */ }
+              }
+            }
+            if (landVerts.length > 0) {
+              const landGeo = new THREE.BufferGeometry();
+              landGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(landVerts), 3));
+              globeGroup.add(
+                new THREE.Mesh(landGeo, new THREE.MeshBasicMaterial({ color: 0x162440, side: THREE.DoubleSide }))
+              );
+            }
+
+            // Country borders — rendered on top of land fill
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const meshFeature = (topojson as any).mesh(topology, topology.objects.countries);
             if (meshFeature.type === "MultiLineString") {
@@ -191,13 +229,13 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
               globeGroup.add(
                 new THREE.LineSegments(
                   geo,
-                  new THREE.LineBasicMaterial({ color: 0x1e3a5f, transparent: true, opacity: 0.65 })
+                  new THREE.LineBasicMaterial({ color: 0x3b5a82, transparent: true, opacity: 0.75 })
                 )
               );
             }
           }
         } catch {
-          // Country borders are decorative; silently continue without them.
+          // Country land + borders are decorative; silently continue without them.
         }
 
         // ── City markers ──────────────────────────────────────────────
@@ -207,7 +245,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
 
         for (const city of cities) {
           const pos  = ll2v(city.lat, city.lon, R + 0.022);
-          const size = city.live ? 0.030 : 0.019;
+          const size = city.live ? 0.027 : 0.017;
           const defMat = new THREE.MeshBasicMaterial({ color: city.live ? 0x22c55e : 0xf59e0b });
           const hovMat = new THREE.MeshBasicMaterial({ color: city.live ? 0x4ade80 : 0xfbbf24 });
           const marker = new THREE.Mesh(new THREE.SphereGeometry(size, 10, 10), defMat);
@@ -230,7 +268,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
             opacity: 0.55,
           });
           pulseRing = new THREE.Mesh(
-            new THREE.TorusGeometry(0.048, 0.007, 8, 40),
+            new THREE.TorusGeometry(0.043, 0.0063, 8, 40),
             pulseRingMat
           );
           pulseRing.position.copy(ll2v(bcn.lat, bcn.lon, R + 0.022));
