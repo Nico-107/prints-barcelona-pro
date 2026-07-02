@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Clock, Zap } from "lucide-react";
@@ -9,6 +10,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
+import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -64,6 +66,20 @@ const faqSchema = {
 };
 
 const BlogUrgentesBcn = () => {
+  const endRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        capture('blog_read_75pct', { post: 'urgentes' });
+        observer.disconnect();
+      }
+    }, { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -442,7 +458,7 @@ const BlogUrgentesBcn = () => {
         </section>
 
         {/* ── FAQ ── */}
-        <section className="py-16 md:py-20 bg-secondary/30">
+        <section ref={endRef} className="py-16 md:py-20 bg-secondary/30">
           <div className="container px-4 max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               Preguntas frecuentes sobre impresión urgente

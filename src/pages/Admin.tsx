@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
 import { toast } from "@/hooks/use-toast";
 import { ORDER_STATUSES, type OrderStatus } from "@/lib/orderStatus";
@@ -466,6 +467,12 @@ const Admin = () => {
       }).catch(e => console.error("send-order-confirmation failed:", e));
 
       toast({ title: `Order #${newOrders.order_number} created`, description: "Quote marked as accepted." });
+      capture('order_accepted', {
+        payment_method: acceptDraft.paymentMethod,
+        final_price: priceNum,
+        material: acceptDraft.material,
+        has_customer_email: !!acceptTarget.contact_email,
+      });
       setAcceptOpen(false);
       loadQuotes();
       loadOrders();

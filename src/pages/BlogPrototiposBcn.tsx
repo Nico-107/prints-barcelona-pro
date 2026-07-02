@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, MessageCircle, Settings2 } from "lucide-react";
@@ -67,6 +68,20 @@ const faqSchema = {
 };
 
 const BlogPrototiposBcn = () => {
+  const endRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        capture('blog_read_75pct', { post: 'prototipos' });
+        observer.disconnect();
+      }
+    }, { threshold: 0 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'blog_prototipos' });
     const msg = "Hola, necesito prototipos o piezas funcionales en 3D para un proyecto de ingeniería. ¿Podéis ayudarme?";
@@ -465,7 +480,7 @@ const BlogPrototiposBcn = () => {
         </section>
 
         {/* ── FAQ ── */}
-        <section className="py-16 md:py-20 bg-secondary/30">
+        <section ref={endRef} className="py-16 md:py-20 bg-secondary/30">
           <div className="container px-4 max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               Preguntas frecuentes sobre prototipos y piezas funcionales

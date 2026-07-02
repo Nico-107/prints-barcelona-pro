@@ -170,6 +170,7 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
   const [quoteError, setQuoteError] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const estimateShownRef = useRef(false);
 
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -236,8 +237,25 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
       }
     }
 
-    setParsedFiles(prev => [...prev, ...results]);
+    const nextFiles = [...parsedFiles, ...results];
+    setParsedFiles(nextFiles);
     setParsing(false);
+
+    if (!adminMode) {
+      const nextBundle = computeBundle(nextFiles, materialKey, infillPct, wallLoops);
+      if (nextBundle) {
+        estimateShownRef.current = true;
+        capture('estimate_generated', {
+          material: materialKey,
+          infill: infillPct,
+          quantity: nextBundle.totalUnits,
+          estimated_grams: Math.round(nextBundle.totalGrams),
+          price_low: Math.round(nextBundle.low),
+          price_high: Math.round(nextBundle.high),
+          file_count: nextFiles.filter(f => !f.parseError).length,
+        });
+      }
+    }
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -259,10 +277,29 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
   };
 
   const removeFile = (id: string) => {
+    if (bundle && estimateShownRef.current && !isSubmittedQuote && !adminMode) {
+      const afterRemoval = parsedFiles.filter(f => f.id !== id && !f.parseError);
+      if (afterRemoval.length === 0) {
+        capture('estimate_abandoned', {
+          price_low: Math.round(bundle.low),
+          price_high: Math.round(bundle.high),
+          material: materialKey,
+        });
+        estimateShownRef.current = false;
+      }
+    }
     setParsedFiles(prev => prev.filter(f => f.id !== id));
   };
 
   const reset = () => {
+    if (bundle && estimateShownRef.current && !isSubmittedQuote && !adminMode) {
+      capture('estimate_abandoned', {
+        price_low: Math.round(bundle.low),
+        price_high: Math.round(bundle.high),
+        material: materialKey,
+      });
+    }
+    estimateShownRef.current = false;
     setParsedFiles([]);
     setError(null);
     setParsing(false);
@@ -311,6 +348,16 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
       // Upload succeeded — show success immediately, nothing below can block the user
       setIsSubmittedQuote(true);
       setIsSubmittingQuote(false);
+      capture('quote_submitted', {
+        has_email: !!contactEmail.trim(),
+        has_phone: !!contactPhone.trim(),
+        material: materialKey,
+        file_count: validFiles.length,
+        estimated_price_low: Math.round(bundle!.low),
+        estimated_price_high: Math.round(bundle!.high),
+        color: !!colorPref.trim(),
+      });
+      estimateShownRef.current = false;
 
       // DB insert — use anon client so an admin session in localStorage
       // doesn't override the anon RLS policy and cause a 42501 error.

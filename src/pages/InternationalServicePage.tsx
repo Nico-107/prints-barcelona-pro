@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle } from "lucide-react";
@@ -6,6 +7,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
+import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const PAGE_URL = `${SITE_URL}/3d-printing-service`;
@@ -61,7 +63,12 @@ const faqSchema = {
   })),
 };
 
-const InternationalServicePage = () => (
+const InternationalServicePage = () => {
+  useEffect(() => {
+    capture('international_page_view', { referrer: document.referrer });
+  }, []);
+
+  return (
   <div className="min-h-screen bg-background">
     <Helmet>
       <html lang="en" />
@@ -128,7 +135,7 @@ const InternationalServicePage = () => (
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
               <Button variant="cta" size="xl" asChild className="shadow-lg">
-                <Link to="/#calculator">
+                <Link to="/#calculator" onClick={() => capture('international_cta_click')}>
                   Get an Instant Quote
                   <ArrowRight className="w-5 h-5" />
                 </Link>
@@ -136,7 +143,7 @@ const InternationalServicePage = () => (
               <Button
                 variant="whatsapp-outline"
                 size="xl"
-                onClick={() => window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'd like a quote for 3D printing. I'm based outside Spain.")}`, "_blank")}
+                onClick={() => { capture('international_cta_click'); window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'd like a quote for 3D printing. I'm based outside Spain.")}`, "_blank"); }}
                 className="group"
               >
                 <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
@@ -477,7 +484,7 @@ const InternationalServicePage = () => (
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="cta" size="xl" asChild className="shadow-lg">
-              <Link to="/#calculator">
+              <Link to="/#calculator" onClick={() => capture('international_cta_click')}>
                 Get an Instant Quote
                 <ArrowRight className="w-5 h-5" />
               </Link>
@@ -485,12 +492,13 @@ const InternationalServicePage = () => (
             <Button
               variant="whatsapp-outline"
               size="xl"
-              onClick={() =>
+              onClick={() => {
+                capture('international_cta_click');
                 window.open(
                   `${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'm based outside Spain and I'd like a quote for 3D printing.")}`,
                   "_blank"
-                )
-              }
+                );
+              }}
               className="group"
             >
               <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
@@ -504,6 +512,7 @@ const InternationalServicePage = () => (
     <Footer />
     <WhatsAppFloat />
   </div>
-);
+  );
+};
 
 export default InternationalServicePage;
