@@ -26,6 +26,7 @@ const BlogRecambiosBcn = lazy(() => import("./pages/BlogRecambiosBcn"));
 const BlogPrototiposBcn = lazy(() => import("./pages/BlogPrototiposBcn"));
 const StudentsBcn = lazy(() => import("./pages/StudentsBcn"));
 const Blog = lazy(() => import("./pages/Blog"));
+const InternationalServicePage = lazy(() => import("./pages/InternationalServicePage"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -51,6 +52,7 @@ const App = () => (
           <Suspense fallback={PageFallback}>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/3d-printing-service" element={<InternationalServicePage />} />
               <Route path="/track" element={<Track />} />
               <Route path="/makers" element={<Makers />} />
               <Route path="/maker-guide" element={<MakerGuide />} />

@@ -23,6 +23,7 @@ import StudentsBcn from "./pages/StudentsBcn";
 import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import InternationalServicePage from "./pages/InternationalServicePage";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import type { Language } from "@/contexts/LanguageContext";
 
@@ -53,6 +54,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
             <StaticRouter location={url}>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/3d-printing-service" element={<InternationalServicePage />} />
                 <Route path="/track" element={<Track />} />
                 <Route path="/makers" element={<Makers />} />
                 <Route path="/maker-guide" element={<MakerGuide />} />

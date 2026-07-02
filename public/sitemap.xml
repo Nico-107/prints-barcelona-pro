@@ -9,6 +9,17 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- INTERNATIONAL ENGLISH LANDING -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-service</loc>
+    <lastmod>2026-07-02</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
+  </url>
+
   <!-- BLOG INDEX -->
   <url>
     <loc>https://www.dimension3dprints.com/blog</loc>

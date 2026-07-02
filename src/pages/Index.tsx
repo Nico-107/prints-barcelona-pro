@@ -258,9 +258,9 @@ const Index = () => {
         <meta name="description" content={meta.description} />
         <link rel="canonical" href={`${SITE_URL}/`} />
         <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
-        <link rel="alternate" hrefLang="en" href={`${SITE_URL}/`} />
-        <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/`} />
-        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/`} />
+        <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/ca/`} />
+        <link rel="alternate" hrefLang="en" href={`${SITE_URL}/3d-printing-service`} />
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/3d-printing-service`} />
         <meta property="og:title" content={meta.title} />
         <meta property="og:description" content={meta.description} />
         <meta property="og:url" content={`${SITE_URL}/`} />
