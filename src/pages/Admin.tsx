@@ -449,23 +449,21 @@ const Admin = () => {
         converted_order_id: newOrders.id,
       }).eq("id", acceptTarget.id);
 
-      // Fire-and-forget confirmation email if customer email is known
-      if (acceptTarget.contact_email) {
-        supabase.functions.invoke("send-order-confirmation", {
-          body: {
-            customerEmail: acceptTarget.contact_email,
-            orderNumber: newOrders.order_number,
-            finalPrice: priceNum,
-            material: acceptDraft.material,
-            color: acceptDraft.color || null,
-            deliveryDate: acceptDraft.deliveryDate || null,
-            customerName: acceptDraft.customerName || null,
-            paymentMethod: acceptDraft.paymentMethod,
-            stripePaymentLink,
-          },
-          headers: authHeaders,
-        }).catch(e => console.error("send-order-confirmation failed:", e));
-      }
+      // Always fire confirmation email — edge fn falls back to admin if no customer email
+      supabase.functions.invoke("send-order-confirmation", {
+        body: {
+          customerEmail: acceptTarget.contact_email || null,
+          orderNumber: newOrders.order_number,
+          finalPrice: priceNum,
+          material: acceptDraft.material,
+          color: acceptDraft.color || null,
+          deliveryDate: acceptDraft.deliveryDate || null,
+          customerName: acceptDraft.customerName || null,
+          paymentMethod: acceptDraft.paymentMethod,
+          stripePaymentLink,
+        },
+        headers: authHeaders,
+      }).catch(e => console.error("send-order-confirmation failed:", e));
 
       toast({ title: `Order #${newOrders.order_number} created`, description: "Quote marked as accepted." });
       setAcceptOpen(false);

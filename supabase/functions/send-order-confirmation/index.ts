@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const ADMIN_EMAIL = "011107miko@gmail.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -9,7 +10,7 @@ const corsHeaders = {
 };
 
 interface ConfirmationPayload {
-  customerEmail: string;
+  customerEmail?: string | null;
   orderNumber: number;
   finalPrice: number;
   material: string;
@@ -106,19 +107,32 @@ serve(async (req: Request) => {
     const payload: ConfirmationPayload = await req.json();
     const { customerEmail, orderNumber, finalPrice, material, color, deliveryDate, customerName, paymentMethod, stripePaymentLink } = payload;
 
-    if (!customerEmail || !orderNumber) {
+    if (!orderNumber) {
       return new Response(
-        JSON.stringify({ error: "customerEmail and orderNumber are required" }),
+        JSON.stringify({ error: "orderNumber is required" }),
         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } },
       );
     }
 
-    const safeEmail = sanitize(customerEmail.trim());
+    // If no customer email, fall back to admin so the confirmation is never silently dropped
+    const hasCustomerEmail = !!(customerEmail && customerEmail.trim());
+    const toEmail = hasCustomerEmail ? customerEmail!.trim() : ADMIN_EMAIL;
+
+    // Always BCC admin — unless the to address is already admin (avoid duplicate)
+    const bccList = toEmail !== ADMIN_EMAIL ? [ADMIN_EMAIL] : [];
+
     const safeName = customerName ? sanitize(customerName.trim()) : null;
     const safeMaterial = sanitize(material);
     const safeColor = color ? sanitize(color.trim()) : null;
 
     const greeting = safeName ? `Hola ${safeName},` : "Hola,";
+
+    // Banner shown at top when we're sending to admin as fallback (customer had no email)
+    const fallbackBanner = !hasCustomerEmail
+      ? `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-bottom:24px;">
+           <p style="color:#991b1b;margin:0;font-size:13px;"><strong>Nota interna:</strong> El cliente no proporcionó email. Este mensaje ha ido a la bandeja del admin como copia.</p>
+         </div>`
+      : "";
 
     const deliveryHtml = deliveryDate
       ? `<p style="margin:6px 0;"><strong>Fecha de entrega estimada:</strong> ${new Date(deliveryDate).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}</p>`
@@ -126,57 +140,67 @@ serve(async (req: Request) => {
 
     const paymentBlock = buildPaymentBlock(paymentMethod, stripePaymentLink, orderNumber);
 
+    const subjectPrefix = !hasCustomerEmail ? "[SIN EMAIL CLIENTE] " : "";
+    const subject = `${subjectPrefix}Pedido confirmado — #${orderNumber} · Dimension3D`;
+
+    const resendBody: Record<string, unknown> = {
+      from: "Dimension3D <onboarding@resend.dev>",
+      to: [toEmail],
+      subject,
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+          <div style="background:#0f172a;padding:24px 32px;border-radius:8px 8px 0 0;">
+            <h1 style="color:#f59e0b;margin:0;font-size:22px;">Dimension3D</h1>
+            <p style="color:#94a3b8;margin:4px 0 0 0;font-size:13px;">Impresión 3D profesional en Barcelona</p>
+          </div>
+
+          <div style="background:#ffffff;padding:32px;border:1px solid #e2e8f0;border-top:none;">
+            ${fallbackBanner}
+            <p style="font-size:16px;color:#0f172a;">${greeting}</p>
+            <p style="color:#334155;">¡Tu pedido ha sido confirmado! Estamos preparando tu impresión 3D.</p>
+
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0;">
+              <h2 style="color:#92400e;margin:0 0 12px 0;font-size:16px;">Detalles del pedido</h2>
+              <p style="margin:6px 0;"><strong>Número de pedido:</strong> #${orderNumber}</p>
+              <p style="margin:6px 0;"><strong>Material:</strong> ${safeMaterial}</p>
+              ${safeColor ? `<p style="margin:6px 0;"><strong>Color:</strong> ${safeColor}</p>` : ""}
+              <p style="margin:6px 0;"><strong>Precio confirmado:</strong> &euro;${finalPrice.toFixed(2)}</p>
+              ${deliveryHtml}
+            </div>
+
+            ${paymentBlock}
+
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:24px 0;text-align:center;">
+              <p style="color:#166534;font-size:15px;margin:0 0 16px 0;font-weight:600;">Sigue el estado de tu pedido en tiempo real</p>
+              <a href="https://dimension3dprints.com/track"
+                 style="display:inline-block;background:#f59e0b;color:#0f172a;padding:12px 28px;text-decoration:none;border-radius:6px;font-weight:700;font-size:15px;">
+                Ver seguimiento &rarr; #${orderNumber}
+              </a>
+            </div>
+
+            <p style="color:#64748b;font-size:13px;">¿Tienes alguna pregunta? Responde a este email o contáctanos por WhatsApp.</p>
+          </div>
+
+          <div style="background:#f8fafc;padding:16px 32px;border-radius:0 0 8px 8px;border:1px solid #e2e8f0;border-top:none;">
+            <p style="color:#94a3b8;font-size:12px;margin:0;text-align:center;">
+              Dimension3D &mdash; Impresión 3D profesional en Barcelona &middot; dimension3dprints.com
+            </p>
+          </div>
+        </div>
+      `,
+    };
+
+    if (bccList.length > 0) {
+      resendBody.bcc = bccList;
+    }
+
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: "Dimension3D <onboarding@resend.dev>",
-        to: [safeEmail],
-        subject: `Pedido confirmado — #${orderNumber} · Dimension3D`,
-        html: `
-          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-            <div style="background:#0f172a;padding:24px 32px;border-radius:8px 8px 0 0;">
-              <h1 style="color:#f59e0b;margin:0;font-size:22px;">Dimension3D</h1>
-              <p style="color:#94a3b8;margin:4px 0 0 0;font-size:13px;">Impresión 3D profesional en Barcelona</p>
-            </div>
-
-            <div style="background:#ffffff;padding:32px;border:1px solid #e2e8f0;border-top:none;">
-              <p style="font-size:16px;color:#0f172a;">${greeting}</p>
-              <p style="color:#334155;">¡Tu pedido ha sido confirmado! Estamos preparando tu impresión 3D.</p>
-
-              <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0;">
-                <h2 style="color:#92400e;margin:0 0 12px 0;font-size:16px;">Detalles del pedido</h2>
-                <p style="margin:6px 0;"><strong>Número de pedido:</strong> #${orderNumber}</p>
-                <p style="margin:6px 0;"><strong>Material:</strong> ${safeMaterial}</p>
-                ${safeColor ? `<p style="margin:6px 0;"><strong>Color:</strong> ${safeColor}</p>` : ""}
-                <p style="margin:6px 0;"><strong>Precio confirmado:</strong> €${finalPrice.toFixed(2)}</p>
-                ${deliveryHtml}
-              </div>
-
-              ${paymentBlock}
-
-              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:24px 0;text-align:center;">
-                <p style="color:#166534;font-size:15px;margin:0 0 16px 0;font-weight:600;">Sigue el estado de tu pedido en tiempo real</p>
-                <a href="https://dimension3dprints.com/track"
-                   style="display:inline-block;background:#f59e0b;color:#0f172a;padding:12px 28px;text-decoration:none;border-radius:6px;font-weight:700;font-size:15px;">
-                  Ver seguimiento → #${orderNumber}
-                </a>
-              </div>
-
-              <p style="color:#64748b;font-size:13px;">¿Tienes alguna pregunta? Responde a este email o contáctanos por WhatsApp.</p>
-            </div>
-
-            <div style="background:#f8fafc;padding:16px 32px;border-radius:0 0 8px 8px;border:1px solid #e2e8f0;border-top:none;">
-              <p style="color:#94a3b8;font-size:12px;margin:0;text-align:center;">
-                Dimension3D — Impresión 3D profesional en Barcelona · dimension3dprints.com
-              </p>
-            </div>
-          </div>
-        `,
-      }),
+      body: JSON.stringify(resendBody),
     });
 
     if (!emailResponse.ok) {
@@ -189,7 +213,9 @@ serve(async (req: Request) => {
     }
 
     const emailData = await emailResponse.json();
-    console.log("Order confirmation sent to", safeEmail, "— emailId:", emailData.id);
+    console.log(
+      `Order #${orderNumber} confirmation → to:${toEmail}${bccList.length ? ` bcc:${bccList.join(",")}` : ""} — emailId:${emailData.id}`,
+    );
 
     return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       headers: { "Content-Type": "application/json", ...corsHeaders },
