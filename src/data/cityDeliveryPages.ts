@@ -1,20 +1,32 @@
 export interface CityPageConfig {
-  slug: string;                        // full path e.g. "/3d-printing-delivery-paris"
+  slug: string;
   lang: "en" | "es";
   locale: string;
   city: string;
   country: string;
-  deliveryDays: string;                // e.g. "3–4 business days"
+  deliveryDays: string;
   metaTitle: string;
   metaDescription: string;
   h1: string;
   eyebrowText: string;
   heroSubtitle: string;
-  introParagraph: string;              // 2-3 sentences unique to this city
-  deliveryTableRow: [string, string];  // [destination label, time]
+  introParagraph: string;
+  deliveryTableRow: [string, string];
   shippingFaqQ: string;
   shippingFaqA: string;
   whatsappMsg: string;
+  nativeSection?: {
+    lang: string;
+    headline: string;
+    body: string;
+    ctaLabel: string;
+  };
+  articleInLanguage?: string;
+  secondaryLink?: {
+    to: string;
+    label: string;
+    description: string;
+  };
 }
 
 export const CITY_PAGES: CityPageConfig[] = [
@@ -30,11 +42,23 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to Paris",
     eyebrowText: "Shipping to France · 3–4 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to Paris in 3–4 business days. From €10. No minimum order.",
-    introParagraph: "Paris sits at the intersection of industrial design, aerospace engineering, and independent maker culture — from the precision suppliers around Toulouse-Blagnac to the product studios clustered near Marais and Oberkampf. We ship regularly to customers in Paris and the wider Île-de-France region, with parcels typically arriving at Paris addresses in 3–4 business days from dispatch. There are no customs formalities between Spain and France within the EU single market, so your order moves freely across the border with no delays or paperwork.",
+    introParagraph: "France has the fastest-growing 3D printing market in Europe, driven by its aerospace and defence industries — Safran, the Airbus supply chain network — the grandes écoles engineering culture at Arts et Métiers, ENPC, and Centrale Paris, and a design ecosystem that stretches from the product studios of Le Marais to the industrial manufacturers on the Île-de-France periphery. French customers across engineering, architecture, and industrial design typically combine high precision requirements with a preference for direct, technical communication with the people producing their parts. We ship to Paris and the wider Île-de-France region regularly, parcels travelling within the EU single market — no customs, no delays — and arriving in 3–4 business days from dispatch.",
     deliveryTableRow: ["Paris & Île-de-France, France", "3–4 business days"],
     shippingFaqQ: "How long does shipping from Barcelona to Paris take?",
     shippingFaqA: "Most orders arrive at Paris addresses in 3–4 business days from dispatch. All shipments are fully tracked — you receive a tracking number as soon as the parcel leaves our Barcelona workshop. Delivery to Île-de-France suburbs is the same timeframe. No EU customs formalities apply between Spain and France.",
     whatsappMsg: "Hi, I'm based in Paris and I'd like a quote for 3D printing.",
+    nativeSection: {
+      lang: "fr",
+      headline: "Service d'impression 3D professionnel avec livraison à Paris",
+      body: "Devis instantané en 1 heure. Livraison en 3–4 jours ouvrables depuis Barcelone. FDM en PLA, PETG, ABS, Nylon et composites carbone. Sans minimum de commande.",
+      ctaLabel: "Obtenir un devis",
+    },
+    articleInLanguage: "fr",
+    secondaryLink: {
+      to: "/blog/prototipos-rapidos-piezas-funcionales-barcelona",
+      label: "Functional Prototypes & Industrial Parts",
+      description: "From rapid prototyping to production-ready functional parts",
+    },
   },
   {
     slug: "/3d-printing-delivery-london",
@@ -48,11 +72,17 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to London",
     eyebrowText: "Shipping to the UK · 4–6 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to London in 4–6 business days. Pricing in euros. From €10.",
-    introParagraph: "London's hardware and maker community — from the accelerators in Shoreditch and the university labs in South Kensington to the fabrication workshops scattered across East London — has a strong appetite for fast, quality FDM prototyping. We handle UK shipments regularly: post-Brexit export documentation is managed on our end, and parcels typically reach London addresses in 4–6 business days. Pricing is quoted in euros; at current GBP/EUR exchange rates, European production costs are genuinely competitive. Small personal orders under £135 generally clear UK customs without additional import VAT; commercial orders above this threshold may be subject to UK duties.",
+    introParagraph: "London's product development and creative industries ecosystem — from the hardware accelerators in Shoreditch and the design consultancies of South Kensington to the fabrication labs at Imperial, UCL, and the RCA — places consistent demand on fast, quality FDM prototyping. UK customers in product design, engineering, and the creative sector increasingly source from European studios for access to engineering-grade materials at competitive euro-denominated rates. We handle UK shipments as a routine part of our operations: post-Brexit export documentation is prepared by us, commercial invoices are provided with every UK order, and parcels typically reach London addresses in 4–6 business days.",
     deliveryTableRow: ["London & Greater London, UK", "4–6 business days"],
     shippingFaqQ: "Does Brexit affect shipping from Barcelona to London?",
     shippingFaqA: "Yes — UK shipments require export documentation, which we handle as standard. Parcels typically arrive in 4–6 business days from dispatch. Orders for personal use under £135 generally clear UK customs without additional import VAT. Commercial orders above this threshold may incur UK import VAT at 20%. We provide commercial invoices with all UK shipments to facilitate customs clearance.",
     whatsappMsg: "Hi, I'm based in London and I'd like a quote for 3D printing.",
+    articleInLanguage: "en",
+    secondaryLink: {
+      to: "/blog/recambios-piezas-rotas-impresion-3d-barcelona",
+      label: "Replacement Parts & Custom Components",
+      description: "One-off parts, repairs, and hard-to-source components",
+    },
   },
   {
     slug: "/3d-printing-delivery-amsterdam",
@@ -66,11 +96,23 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to Amsterdam",
     eyebrowText: "Shipping to Netherlands · 3–4 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to Amsterdam in 3–4 business days. From €10. No minimum order.",
-    introParagraph: "Amsterdam's tech and design ecosystem — from the Silicon Canal startups along Prinsengracht to the hardware labs at Amsterdam Science Park and the manufacturing innovators in the greater Randstad — generates consistent demand for custom parts and rapid prototypes. The Netherlands is one of our most frequent EU export destinations, and the logistics are seamless: parcels from our Barcelona studio travel within the EU single market and arrive at Amsterdam addresses in 3–4 business days via tracked courier, with no customs delays or paperwork.",
+    introParagraph: "The Netherlands punches well above its weight in European tech and maker culture — from the hardware startups along Amsterdam's Silicon Canal and the deep-tech companies in Eindhoven's Brainport region to the robotics labs at TU Delft and the precision manufacturing suppliers feeding ASML's supply chain. Dutch tech culture values speed, transparent pricing, and direct communication — exactly the operating model of our studio. We ship to Amsterdam and across the Netherlands regularly, parcels travelling within the EU single market and arriving in 3–4 business days with no customs complications.",
     deliveryTableRow: ["Amsterdam & Netherlands", "3–4 business days"],
     shippingFaqQ: "How long does 3D print delivery from Barcelona to Amsterdam take?",
     shippingFaqA: "Parcels dispatched from our Barcelona workshop typically arrive at Amsterdam addresses in 3–4 business days via tracked courier. Delivery to other Dutch cities — Rotterdam, The Hague, Utrecht, Eindhoven — is the same timeframe. No EU customs formalities apply between Spain and the Netherlands.",
     whatsappMsg: "Hi, I'm based in Amsterdam and I'd like a quote for 3D printing.",
+    nativeSection: {
+      lang: "nl",
+      headline: "Professionele 3D-printservice met levering naar Amsterdam",
+      body: "Directe prijsopgave in 1 uur. Levering in 3–4 werkdagen vanuit Barcelona. FDM in PLA, PETG, ABS, Nylon en composieten. Geen minimumbestelling.",
+      ctaLabel: "Offerte aanvragen",
+    },
+    articleInLanguage: "nl",
+    secondaryLink: {
+      to: "/impresion-3d-estudiantes-barcelona",
+      label: "Student & Maker Projects",
+      description: "One-off parts for students, makers, and side projects",
+    },
   },
   {
     slug: "/3d-printing-delivery-berlin",
@@ -84,11 +126,23 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to Berlin",
     eyebrowText: "Shipping to Germany · 3–4 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to Berlin in 3–4 business days. From €10. No minimum order.",
-    introParagraph: "Berlin's identity as Europe's startup capital extends deep into its hardware scene: makerspaces in Neukölln, industrial designers in Tempelhof, deep-tech ventures across Mitte, and mechanical engineers in the surrounding Brandenburg region all rely on fast access to custom-printed parts. Thanks to EU free movement of goods, shipping from Barcelona to Berlin involves no customs delays — parcels travel seamlessly and typically arrive at Berlin addresses in 3–4 business days from dispatch. We serve customers across the greater Berlin-Brandenburg metropolitan area on a regular basis.",
+    introParagraph: "Germany is Europe's largest 3D printing market — roughly a third of EU additive manufacturing revenue flows through German industry, driven by the Mittelstand manufacturing base, the automotive supply chains feeding BMW, Mercedes, and Volkswagen, and the deep-tech hardware ventures building Industry 4.0 solutions. Berlin specifically sits at the intersection of this engineering culture and a startup ecosystem with intense demand for custom parts without industrial batch minimums: hardware founders in Mitte, precision engineers in Tempelhof, makers in Neukölln, and product designers who need direct communication with the person producing their parts rather than an automated print-farm queue. We ship to Berlin and the wider Brandenburg region regularly — EU single market, no customs formalities, 3–4 business days from dispatch.",
     deliveryTableRow: ["Berlin & Brandenburg, Germany", "3–4 business days"],
     shippingFaqQ: "How long does shipping from Barcelona to Berlin take?",
     shippingFaqA: "Standard tracked delivery from Barcelona to Berlin typically takes 3–4 business days. As both Spain and Germany are EU member states, there are no customs formalities or border delays. Delivery to other German cities — Munich, Hamburg, Frankfurt, Cologne — is similarly 3–4 business days from dispatch.",
     whatsappMsg: "Hi, I'm based in Berlin and I'd like a quote for 3D printing.",
+    nativeSection: {
+      lang: "de",
+      headline: "Professioneller 3D-Druck Service mit Lieferung nach Berlin",
+      body: "FDM-Druck in PLA, PETG, ABS, ASA und Nylon — Angebot in 1 Stunde, Lieferung in 3–4 Werktagen aus Barcelona. Kein Mindestbestellwert. Kein Zoll innerhalb der EU.",
+      ctaLabel: "Angebot anfordern",
+    },
+    articleInLanguage: "de",
+    secondaryLink: {
+      to: "/blog/prototipos-rapidos-piezas-funcionales-barcelona",
+      label: "Functional Prototypes & Industrial Parts",
+      description: "From rapid prototyping to production-ready functional parts",
+    },
   },
   {
     slug: "/3d-printing-delivery-milan",
@@ -102,11 +156,23 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to Milan",
     eyebrowText: "Shipping to Italy · 3–4 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to Milan in 3–4 business days. From €10. No minimum order.",
-    introParagraph: "Milan occupies a unique position at the crossroads of Italian industrial design, fashion prototyping, and precision manufacturing — from the product studios of Brera and Porta Nuova to the component manufacturers in the wider Lombardy region who keep Italian industry running. We work with designers, engineers, and product teams in Milan regularly, shipping finished prints in 3–4 business days from our Barcelona studio. All shipments move within the EU single market with no customs complications, arriving tracked at your door.",
+    introParagraph: "Milan occupies a unique position at the crossroads of Italian industrial design, fashion prototyping, and precision manufacturing — from the product studios and architecture firms of Brera and Porta Nuova (home to Salone del Mobile's design-week ecosystem) to the automotive component suppliers feeding the Ferrari, Lamborghini, Alfa Romeo, and Stellantis supply chains across the Po Valley. Italian industry has a deep appreciation for surface finish, material quality, and precision tolerances — the same standards we apply to every print we produce. We ship to Milan and Lombardy regularly, with parcels arriving in 3–4 business days within the EU single market. Whether you need architecture models, automotive component prototypes, fashion accessory iterations, or functional mechanical parts, our full FDM material range covers Italian design's broad requirements.",
     deliveryTableRow: ["Milan & Lombardy, Italy", "3–4 business days"],
     shippingFaqQ: "How long does 3D printing delivery from Barcelona to Milan take?",
     shippingFaqA: "Parcels dispatched from our Barcelona workshop typically reach Milan in 3–4 business days via tracked courier. Delivery to other northern Italian cities — Turin, Venice, Genoa, Bologna, Verona — is similarly 3–4 business days. No EU customs delays apply between Spain and Italy.",
     whatsappMsg: "Hi, I'm based in Milan and I'd like a quote for 3D printing.",
+    nativeSection: {
+      lang: "it",
+      headline: "Servizio di stampa 3D professionale con consegna a Milano",
+      body: "Preventivo istantaneo in 1 ora. Consegna in 3–4 giorni lavorativi da Barcellona. FDM in PLA, PETG, ABS, Nylon e compositi in fibra di carbonio. Nessun ordine minimo.",
+      ctaLabel: "Richiedi un preventivo",
+    },
+    articleInLanguage: "it",
+    secondaryLink: {
+      to: "/blog/prototipos-rapidos-piezas-funcionales-barcelona",
+      label: "Functional Prototypes & Industrial Parts",
+      description: "From rapid prototyping to production-ready functional parts",
+    },
   },
   {
     slug: "/3d-printing-delivery-rome",
@@ -120,11 +186,23 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to Rome",
     eyebrowText: "Shipping to Italy · 3–4 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to Rome in 3–4 business days. From €10. No minimum order.",
-    introParagraph: "Rome and the surrounding Lazio region host a growing cluster of engineering firms, university research labs at La Sapienza and Tor Vergata, and independent makers who need precision custom parts without the long lead times of traditional manufacturing. Shipping from Barcelona to Rome is entirely within the EU — no customs formalities, no delays at the border. Parcels typically arrive at Rome addresses in 3–4 business days from dispatch, fully tracked from the moment they leave our workshop.",
+    introParagraph: "Rome and the Lazio region occupy a different industrial niche from the northern Italian manufacturing belt — the region hosts major architecture and urban planning firms, the engineering and design faculties at La Sapienza and Tor Vergata universities, archaeological conservation and restoration labs, government and institutional engineering projects, and a growing cluster of creative and digital media companies. These sectors generate consistent demand for scale models, precision prototypes, and custom components that traditional manufacturing cannot supply at short notice and small quantities. We ship to Rome and Lazio regularly within the EU — 3–4 business days, fully tracked, no customs formalities.",
     deliveryTableRow: ["Rome & Lazio, Italy", "3–4 business days"],
     shippingFaqQ: "How long does delivery from Barcelona to Rome take?",
     shippingFaqA: "Parcels dispatched from our Barcelona workshop typically arrive at Rome addresses in 3–4 business days. Delivery to other central Italian cities — Florence, Naples, Bologna — is similarly 3–4 business days. All shipments are fully tracked from dispatch, and no EU customs formalities apply between Spain and Italy.",
     whatsappMsg: "Hi, I'm based in Rome and I'd like a quote for 3D printing.",
+    nativeSection: {
+      lang: "it",
+      headline: "Servizio di stampa 3D professionale con consegna a Roma",
+      body: "Preventivo istantaneo in 1 ora. Consegna in 3–4 giorni lavorativi da Barcellona. FDM in PLA, PETG, ABS, Nylon e compositi. Nessun ordine minimo.",
+      ctaLabel: "Richiedi un preventivo",
+    },
+    articleInLanguage: "it",
+    secondaryLink: {
+      to: "/blog/prototipos-rapidos-piezas-funcionales-barcelona",
+      label: "Functional Prototypes & Industrial Parts",
+      description: "From rapid prototyping to production-ready functional parts",
+    },
   },
   {
     slug: "/3d-printing-delivery-lisbon",
@@ -138,11 +216,18 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to Lisbon",
     eyebrowText: "Shipping to Portugal · 2–3 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to Lisbon in just 2–3 business days. From €10. No minimum order.",
-    introParagraph: "Lisbon has become one of Europe's most dynamic startup and maker hubs — from the creative clusters around Beato and LX Factory to the engineering firms lining the Tagus estuary and the hardware startups energised by Web Summit. As a neighbouring Iberian country, Portugal benefits from some of our fastest EU transit times: parcels from our Barcelona studio reach Lisbon in just 2–3 business days via tracked courier — sometimes the next working day for orders dispatched early. The entire journey is within the EU, with no border friction.",
+    introParagraph: "Lisbon has transformed over the past decade into one of Europe's most dynamic startup and innovation hubs — from the creative manufacturing at Beato Tech City and LX Factory to the engineering ventures energised by Web Summit, NOVA SBE, and IST's technology transfer programmes. As Portugal's immediate Iberian neighbour, Barcelona offers Lisbon one of our fastest EU shipping connections: parcels typically arrive in 2–3 business days, sometimes the next working day for orders dispatched early. The combination of Iberian logistics, a shared EU regulatory framework, and no customs barrier makes this one of our smoothest international supply routes for customers needing quality FDM parts fast.",
     deliveryTableRow: ["Lisbon & Portugal", "2–3 business days"],
     shippingFaqQ: "How quickly can you deliver 3D prints to Lisbon?",
     shippingFaqA: "Lisbon is one of our fastest destinations: parcels from Barcelona typically arrive in 2–3 business days via tracked courier. Porto and other Portuguese cities are within the same timeframe. No EU customs formalities apply between Spain and Portugal, and all shipments are tracked from our workshop door to yours.",
     whatsappMsg: "Hi, I'm based in Lisbon and I'd like a quote for 3D printing.",
+    nativeSection: {
+      lang: "pt",
+      headline: "Serviço de impressão 3D profissional com entrega em Lisboa",
+      body: "Orçamento instantâneo em 1 hora. Entrega em 2–3 dias úteis a partir de Barcelona. FDM em PLA, PETG, ABS, Nylon e compósitos. Sem pedido mínimo.",
+      ctaLabel: "Pedir orçamento",
+    },
+    articleInLanguage: "pt",
   },
   {
     slug: "/3d-printing-delivery-new-york",
@@ -156,11 +241,12 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "3D Printing Service with Delivery to New York",
     eyebrowText: "Shipping to the USA · 7–10 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to New York in 7–10 business days. From €10. No minimum order.",
-    introParagraph: "New York's maker and hardware community — from the innovation labs at the Brooklyn Navy Yard to the product designers in Manhattan's Garment District and the fabrication shops across Queens — increasingly looks to European studios for high-quality FDM printing at competitive rates. We ship to the US regularly: parcels are dispatched from our Barcelona studio, clear US customs at JFK or Newark, and typically arrive at New York City addresses in 7–10 business days. Pricing is quoted in euros, which at current exchange rates translates to genuinely competitive costs for US customers compared to domestic alternatives.",
+    introParagraph: "New York's maker and product development community — from the hardware startups at Brooklyn Navy Yard and the design studios in DUMBO to the fabrication labs at NYU, Columbia, and Pratt Institute — increasingly sources from European studios for FDM work that demands material range, precision, and direct communication unavailable at domestic print farms. The honest transit picture: parcels leave our Barcelona studio and arrive at NYC addresses in 7–10 business days, clearing US customs at JFK or Newark. What makes the cross-Atlantic journey worthwhile is European manufacturing precision standards, a broader engineering-grade material range, and euro-denominated pricing that is genuinely competitive for US customers at current exchange rates. Personal orders under the $800 US de minimis threshold typically clear customs without additional duties.",
     deliveryTableRow: ["New York City, USA", "7–10 business days"],
     shippingFaqQ: "How does shipping from Barcelona to New York work?",
     shippingFaqA: "Parcels are dispatched from our Barcelona studio and typically arrive at New York City addresses in 7–10 business days. All shipments are tracked. They clear US customs at the port of entry (usually JFK or Newark). Personal orders under $800 are generally below the US de minimis threshold and clear without additional duties. Commercial orders above $800 may be subject to US import duties — we provide commercial invoices with all US shipments to facilitate customs clearance.",
     whatsappMsg: "Hi, I'm based in New York and I'd like a quote for 3D printing.",
+    articleInLanguage: "en",
   },
   {
     slug: "/impresion-3d-con-entrega-a-madrid",
@@ -174,11 +260,12 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "Impresión 3D con Entrega a Madrid",
     eyebrowText: "Envío a Madrid · 1–2 Días Hábiles",
     heroSubtitle: "Estudio FDM profesional en Barcelona. Sube tu STL o STEP, recibe presupuesto en 1 hora, entrega en Madrid en 1–2 días hábiles. Desde €10. Sin pedido mínimo.",
-    introParagraph: "Madrid es el centro industrial, tecnológico y creativo de España, con una enorme variedad de clientes que necesitan piezas impresas en 3D: desde startups del Corredor del Henares hasta diseñadores de producto en Malasaña, pasando por talleres de ingeniería en Leganés y Getafe. Al estar en la misma Península Ibérica, los envíos desde nuestro taller en Barcelona llegan a domicilios en Madrid en tan solo 1–2 días hábiles mediante mensajería estándar con seguimiento — a menudo el día siguiente del envío.",
+    introParagraph: "Madrid es el centro neurálgico industrial y tecnológico de España — desde las startups del Corredor del Henares y los fabricantes aeroespaciales de Getafe hasta los estudios de diseño de producto en Malasaña y los talleres de ingeniería de precisión en Leganés. Para clientes en Madrid, ofrecemos lo que los grandes marketplaces internacionales no pueden dar: presupuesto humano confirmado en menos de 1 hora, producción en 24–48 horas para pedidos urgentes, entrega en 1–2 días hábiles sin trámites aduaneros, y comunicación directa en español con el equipo que imprime tu pieza. Sin pedido mínimo, sin comisiones de plataforma.",
     deliveryTableRow: ["Madrid y Comunidad de Madrid", "1–2 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda el envío de Barcelona a Madrid?",
     shippingFaqA: "Los pedidos se envían desde nuestro taller en Barcelona y llegan a domicilios en Madrid en 1–2 días hábiles mediante mensajería estándar con seguimiento. Para muchos envíos, la entrega se produce al día siguiente del despacho. También es posible recoger el pedido en Barcelona con cita previa, o contratar envío exprés para mayor urgencia.",
     whatsappMsg: "Hola, soy de Madrid y me gustaría un presupuesto para impresión 3D.",
+    articleInLanguage: "es",
   },
   {
     slug: "/impresion-3d-con-entrega-a-valencia",
@@ -192,10 +279,17 @@ export const CITY_PAGES: CityPageConfig[] = [
     h1: "Impresión 3D con Entrega a Valencia",
     eyebrowText: "Envío a Valencia · 1–2 Días Hábiles",
     heroSubtitle: "Estudio FDM profesional en Barcelona. Sube tu STL o STEP, recibe presupuesto en 1 hora, entrega en Valencia en 1–2 días hábiles. Desde €10. Sin pedido mínimo.",
-    introParagraph: "Valencia es una de las ciudades con mayor crecimiento en industria, tecnología y diseño de España, con un ecosistema vibrante que incluye fabricantes de automoción en Almussafes, empresas tecnológicas en el Parque Tecnológico y una comunidad activa de makers y diseñadores de producto. Al estar a tan solo unas horas de Barcelona, los envíos llegan a domicilios en Valencia en 1–2 días hábiles — en muchos casos al día siguiente del despacho — mediante mensajería estándar con seguimiento.",
+    introParagraph: "Valencia combina una de las cadenas de automoción más importantes de España — con la planta de Ford en Almussafes y su extensa red de proveedores de primer nivel — con un ecosistema tecnológico en crecimiento en el Parque Tecnológico y Las Naves, y una comunidad activa de makers, diseñadores de producto y artesanos en el centro histórico y el barrio del Cabanyal. Al estar a pocas horas de Barcelona, los envíos llegan a Valencia en 1–2 días hábiles con seguimiento completo — frecuentemente al día siguiente del despacho. Para componentes de automoción, prototipos de ingeniería o proyectos de diseño urgentes, somos la opción más cercana y rápida disponible.",
     deliveryTableRow: ["Valencia y Comunitat Valenciana", "1–2 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda un pedido de Barcelona a Valencia?",
     shippingFaqA: "Los pedidos se envían desde Barcelona y llegan a Valencia en 1–2 días hábiles mediante mensajería estándar con seguimiento. La Comunitat Valenciana es una de nuestras zonas de entrega más rápidas — en muchos casos el pedido llega al día siguiente del envío. También ofrecemos recogida en Barcelona con cita previa para mayor comodidad.",
     whatsappMsg: "Hola, soy de Valencia y me gustaría un presupuesto para impresión 3D.",
+    nativeSection: {
+      lang: "ca",
+      headline: "Servei d'impressió 3D professional amb lliurament a València",
+      body: "Pressupost instantani en 1 hora. Lliurament en 1–2 dies hàbils des de Barcelona. FDM en PLA, PETG, ABS, Nylon i compostos. Sense comanda mínima.",
+      ctaLabel: "Demanar pressupost",
+    },
+    articleInLanguage: "es",
   },
 ];

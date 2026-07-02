@@ -51,6 +51,15 @@ const ES_SHARED_FAQS = [
   },
 ];
 
+const LANG_LABELS: Record<string, string> = {
+  de: "Deutsch",
+  fr: "Français",
+  nl: "Nederlands",
+  it: "Italiano",
+  pt: "Português",
+  ca: "Català",
+};
+
 interface Props {
   config: CityPageConfig;
 }
@@ -62,10 +71,16 @@ const CityDeliveryPage = ({ config }: Props) => {
   const sharedFaqs = isES ? ES_SHARED_FAQS : EN_SHARED_FAQS;
   const allFaqs = [{ q: config.shippingFaqQ, a: config.shippingFaqA }, ...sharedFaqs];
 
+  const secondaryLinkItem = config.secondaryLink ?? {
+    to: "/blog/precio-impresion-3d-barcelona",
+    label: isES ? "¿Cuánto cuesta la impresión 3D?" : "How much does 3D printing cost?",
+    description: isES ? "Precios reales por tamaño y material" : "Real prices by size and material",
+  };
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    inLanguage: config.lang,
+    inLanguage: config.articleInLanguage ?? config.lang,
     headline: config.h1,
     description: config.metaDescription,
     url: PAGE_URL,
@@ -99,6 +114,9 @@ const CityDeliveryPage = ({ config }: Props) => {
         <title>{config.metaTitle}</title>
         <meta name="description" content={config.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />
+        {config.articleInLanguage ? (
+          <link rel="alternate" hreflang={config.articleInLanguage} href={PAGE_URL} />
+        ) : null}
         <meta property="og:title" content={config.metaTitle} />
         <meta property="og:description" content={config.metaDescription} />
         <meta property="og:url" content={PAGE_URL} />
@@ -150,7 +168,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                     to="/#calculator"
                     onClick={() => capture("city_cta_click", { city: config.city, type: "calculator" })}
                   >
-                    {isES ? "Obtener Presupuesto" : "Get an Instant Quote"}
+                    {isES ? `Presupuesto con entrega en ${config.city}` : `Get a quote — delivered to ${config.city}`}
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                 </Button>
@@ -222,6 +240,36 @@ const CityDeliveryPage = ({ config }: Props) => {
             ))}
           </div>
         </section>
+
+        {/* Native language callout */}
+        {config.nativeSection && (
+          <section className="bg-accent/10 border-y border-accent/20 py-8">
+            <div className="container px-4">
+              <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">
+                    {LANG_LABELS[config.nativeSection.lang] ?? config.nativeSection.lang.toUpperCase()}
+                  </p>
+                  <h2 className="text-lg md:text-xl font-bold text-foreground mb-2">
+                    {config.nativeSection.headline}
+                  </h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {config.nativeSection.body}
+                  </p>
+                </div>
+                <Button variant="cta" size="lg" asChild className="flex-shrink-0 shadow-sm">
+                  <Link
+                    to="/#calculator"
+                    onClick={() => capture("city_cta_click", { city: config.city, type: "native_cta" })}
+                  >
+                    {config.nativeSection.ctaLabel}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Content sections */}
         <section className="bg-secondary/20 py-14 md:py-20">
@@ -514,6 +562,47 @@ const CityDeliveryPage = ({ config }: Props) => {
                 </div>
               )}
 
+              {/* Why order from Barcelona? */}
+              {isES ? (
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                    ¿Por qué pedir desde Barcelona?
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {[
+                      { title: "Hub tecnológico europeo", body: "Barcelona acoge el Mobile World Congress y alberga el distrito de innovación 22@ — uno de los ecosistemas tecnológicos más densos de Europa. Somos un estudio profesional arraigado en esa infraestructura." },
+                      { title: "Calidad de estudio, no de granja", body: "Somos un único estudio, no un marketplace que enruta tu archivo a la granja de impresión más barata. Las mismas máquinas, el mismo equipo, la misma calidad en cada pedido." },
+                      { title: "Estándares europeos de fabricación", body: "Operamos bajo normativa europea: materiales certificados con trazabilidad, equipos calibrados periódicamente y control de calidad humano antes de cada envío." },
+                      { title: "Envío con seguimiento completo", body: "Todos los pedidos salen con seguimiento completo. Recibirás un enlace de seguimiento en el momento en que el paquete salga de nuestro taller — visibilidad total de Barcelona a tu puerta." },
+                    ].map(({ title, body }) => (
+                      <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
+                        <h3 className="font-bold text-foreground mb-2 text-sm">{title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{body}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                    Why order from Barcelona?
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {[
+                      { title: "European tech hub", body: "Barcelona hosts the Mobile World Congress and the 22@ innovation district — one of Europe's most concentrated technology ecosystems. We are a professional studio rooted in that environment." },
+                      { title: "Studio quality, not a print farm", body: "We are a single studio — not a marketplace routing your file to whichever print farm is cheapest. Same machines, same team, consistent quality on every order." },
+                      { title: "EU manufacturing standards", body: "We operate under European manufacturing norms: certified materials with full traceability, regularly calibrated equipment, and human quality control before every shipment leaves." },
+                      { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves our workshop — complete visibility from Barcelona to your door." },
+                    ].map(({ title, body }) => (
+                      <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
+                        <h3 className="font-bold text-foreground mb-2 text-sm">{title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{body}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Shipping — city row highlighted */}
               {isES ? (
                 <div>
@@ -555,6 +644,10 @@ const CityDeliveryPage = ({ config }: Props) => {
                     <p>
                       Los gastos de envío se calculan en la fase de presupuesto en función de tu destino y el peso
                       estimado del paquete, y siempre se muestran antes de que confirmes el pedido.
+                    </p>
+                    <p className="not-prose text-sm bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 text-muted-foreground">
+                      <strong className="text-foreground">Coste de envío estimado a {config.city}:</strong>{" "}
+                      normalmente €8–15 para piezas pequeñas, €15–25 para pedidos más grandes. El coste exacto se confirma en el presupuesto antes de que apruebes el pedido.
                     </p>
                   </div>
                 </div>
@@ -599,10 +692,58 @@ const CityDeliveryPage = ({ config }: Props) => {
                       Shipping costs are calculated at the quote stage based on your country and estimated parcel weight,
                       and are always shown before you confirm your order.
                     </p>
+                    <p className="not-prose text-sm bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 text-muted-foreground">
+                      <strong className="text-foreground">Estimated shipping to {config.city}:</strong>{" "}
+                      typically €8–15 for small parts, €15–25 for larger orders. The exact cost is confirmed in your quote before you approve the order.
+                    </p>
+                    {config.locale === "en_GB" && (
+                      <p className="not-prose text-sm bg-secondary border border-border rounded-lg px-4 py-3 text-muted-foreground">
+                        <strong className="text-foreground">UK customs note:</strong>{" "}
+                        Orders under £135 typically clear UK customs duty-free — the de minimis threshold comfortably covers most single 3D printing orders. Any applicable UK import VAT on commercial orders above this threshold will be confirmed at quote stage before you commit to anything.
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
 
+            </div>
+          </div>
+        </section>
+
+        {/* Customer reviews */}
+        <section className="container px-4 py-14 md:py-20">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
+              {isES ? "Lo que dicen nuestros clientes internacionales" : "What our international customers say"}
+            </h2>
+            <p className="text-center text-muted-foreground mb-8 text-sm">
+              {isES ? "Pedidos remotos desde toda Europa y más allá" : "Remote orders from across Europe and beyond"}
+            </p>
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div className="p-6 rounded-xl border border-border bg-card">
+                <span className="text-accent text-base mb-3 block" aria-label="5 out of 5 stars">★★★★★</span>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {isES
+                    ? "\"Pedimos desde nuestra empresa de construcción en Alemania — todo el proceso fue completamente remoto. Enviamos los archivos por WhatsApp, recibimos presupuesto rápidamente y las piezas llegaron perfectas. Funcionó exactamente como necesitábamos.\""
+                    : "\"We ordered from our construction company in Germany — entirely remote. Sent the files via WhatsApp, got a fast quote, and the parts arrived exactly as needed. Everything worked perfectly for the project.\""}
+                </p>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Kirill Gromskiy</p>
+                  <p className="text-xs text-muted-foreground">{isES ? "Empresa constructora · Pedido remoto" : "Construction company · Remote order"}</p>
+                </div>
+              </div>
+              <div className="p-6 rounded-xl border border-border bg-card">
+                <span className="text-accent text-base mb-3 block" aria-label="5 out of 5 stars">★★★★★</span>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {isES
+                    ? "\"Pedí desde Milán — al principio dudé por pedir desde otro país, pero la comunicación fue rápida y profesional. Calidad excelente y el paquete llegó en 3 días. Sin duda repetiré.\""
+                    : "\"Ordered from Milan — I was unsure about ordering from another country, but communication was fast and professional. Excellent quality, and the package arrived in 3 days. Will definitely use again.\""}
+                </p>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">Valentino Modestino Lombardi</p>
+                  <p className="text-xs text-muted-foreground">{isES ? "Milán, Italia · Pedido remoto" : "Milan, Italy · Remote order"}</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -656,7 +797,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
                 </Link>
                 <Link
-                  to="/blog/precio-impresion-3d-barcelona"
+                  to={secondaryLinkItem.to}
                   className="group flex items-center gap-3 rounded-xl border border-border bg-background p-4 hover:border-accent/50 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
@@ -664,10 +805,10 @@ const CityDeliveryPage = ({ config }: Props) => {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground text-sm leading-snug group-hover:text-accent transition-colors">
-                      {isES ? "¿Cuánto cuesta la impresión 3D?" : "How much does 3D printing cost?"}
+                      {secondaryLinkItem.label}
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      {isES ? "Precios reales por tamaño y material" : "Real prices by size and material"}
+                      {secondaryLinkItem.description}
                     </p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
@@ -694,7 +835,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   to="/#calculator"
                   onClick={() => capture("city_cta_click", { city: config.city, type: "calculator_bottom" })}
                 >
-                  {isES ? "Obtener Presupuesto" : "Get an Instant Quote"}
+                  {isES ? `Presupuesto con entrega en ${config.city}` : `Get a quote — delivered to ${config.city}`}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
