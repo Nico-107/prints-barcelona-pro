@@ -11,6 +11,7 @@ const corsHeaders = {
 
 interface ConfirmationPayload {
   customerEmail?: string | null;
+  customerPhone?: string | null;
   orderNumber: number;
   finalPrice: number;
   material: string;
@@ -105,7 +106,18 @@ serve(async (req: Request) => {
     if (!roleData) return new Response("Forbidden", { status: 403, headers: corsHeaders });
 
     const payload: ConfirmationPayload = await req.json();
-    const { customerEmail, orderNumber, finalPrice, material, color, deliveryDate, customerName, paymentMethod, stripePaymentLink } = payload;
+    const {
+      customerEmail,
+      customerPhone,
+      orderNumber,
+      finalPrice,
+      material,
+      color,
+      deliveryDate,
+      customerName,
+      paymentMethod,
+      stripePaymentLink,
+    } = payload;
 
     if (!orderNumber) {
       return new Response(
@@ -114,25 +126,30 @@ serve(async (req: Request) => {
       );
     }
 
-    // If no customer email, fall back to admin so the confirmation is never silently dropped
-    const hasCustomerEmail = !!(customerEmail && customerEmail.trim());
-    const toEmail = hasCustomerEmail ? customerEmail!.trim() : ADMIN_EMAIL;
-
-    // Always BCC admin — unless the to address is already admin (avoid duplicate)
-    const bccList = toEmail !== ADMIN_EMAIL ? [ADMIN_EMAIL] : [];
-
+    const safeEmail = customerEmail?.trim() || null;
+    const safePhone = customerPhone?.trim() || null;
     const safeName = customerName ? sanitize(customerName.trim()) : null;
     const safeMaterial = sanitize(material);
     const safeColor = color ? sanitize(color.trim()) : null;
 
-    const greeting = safeName ? `Hola ${safeName},` : "Hola,";
+    // Build a human-readable customer identifier for the subject line
+    const clientContact = safeEmail ?? safePhone ?? "sin contacto";
 
-    // Banner shown at top when we're sending to admin as fallback (customer had no email)
-    const fallbackBanner = !hasCustomerEmail
-      ? `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-bottom:24px;">
-           <p style="color:#991b1b;margin:0;font-size:13px;"><strong>Nota interna:</strong> El cliente no proporcionó email. Este mensaje ha ido a la bandeja del admin como copia.</p>
-         </div>`
-      : "";
+    const subject = `Pedido #${orderNumber} confirmado — cliente: ${clientContact}`;
+
+    // Customer contact block shown at the very top of the email body
+    const contactRows = [
+      safeName ? `<p style="margin:4px 0;"><strong>Nombre:</strong> ${safeName}</p>` : "",
+      safeEmail ? `<p style="margin:4px 0;"><strong>Email:</strong> ${sanitize(safeEmail)}</p>` : "",
+      safePhone ? `<p style="margin:4px 0;"><strong>Teléfono:</strong> ${sanitize(safePhone)}</p>` : "",
+    ].join("");
+
+    const clientBlock = `
+      <div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:16px 20px;margin-bottom:24px;">
+        <p style="color:#0f172a;font-size:13px;font-weight:700;margin:0 0 8px 0;text-transform:uppercase;letter-spacing:.05em;">Cliente</p>
+        ${contactRows || '<p style="margin:4px 0;color:#64748b;">Sin datos de contacto</p>'}
+      </div>
+    `;
 
     const deliveryHtml = deliveryDate
       ? `<p style="margin:6px 0;"><strong>Fecha de entrega estimada:</strong> ${new Date(deliveryDate).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}</p>`
@@ -140,12 +157,12 @@ serve(async (req: Request) => {
 
     const paymentBlock = buildPaymentBlock(paymentMethod, stripePaymentLink, orderNumber);
 
-    const subjectPrefix = !hasCustomerEmail ? "[SIN EMAIL CLIENTE] " : "";
-    const subject = `${subjectPrefix}Pedido confirmado — #${orderNumber} · Dimension3D`;
-
-    const resendBody: Record<string, unknown> = {
+    // Always send to the registered Resend address — the shared onboarding@resend.dev
+    // sender can only deliver to the account owner's email (011107miko@gmail.com).
+    // Customer contact is included in the subject and body above for easy reply.
+    const resendBody = {
       from: "Dimension3D <onboarding@resend.dev>",
-      to: [toEmail],
+      to: [ADMIN_EMAIL],
       subject,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
@@ -155,9 +172,9 @@ serve(async (req: Request) => {
           </div>
 
           <div style="background:#ffffff;padding:32px;border:1px solid #e2e8f0;border-top:none;">
-            ${fallbackBanner}
-            <p style="font-size:16px;color:#0f172a;">${greeting}</p>
-            <p style="color:#334155;">¡Tu pedido ha sido confirmado! Estamos preparando tu impresión 3D.</p>
+            ${clientBlock}
+
+            <p style="color:#334155;">¡El pedido ha sido confirmado!</p>
 
             <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0;">
               <h2 style="color:#92400e;margin:0 0 12px 0;font-size:16px;">Detalles del pedido</h2>
@@ -171,14 +188,12 @@ serve(async (req: Request) => {
             ${paymentBlock}
 
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:24px 0;text-align:center;">
-              <p style="color:#166534;font-size:15px;margin:0 0 16px 0;font-weight:600;">Sigue el estado de tu pedido en tiempo real</p>
+              <p style="color:#166534;font-size:15px;margin:0 0 16px 0;font-weight:600;">Seguimiento del pedido</p>
               <a href="https://dimension3dprints.com/track"
                  style="display:inline-block;background:#f59e0b;color:#0f172a;padding:12px 28px;text-decoration:none;border-radius:6px;font-weight:700;font-size:15px;">
                 Ver seguimiento &rarr; #${orderNumber}
               </a>
             </div>
-
-            <p style="color:#64748b;font-size:13px;">¿Tienes alguna pregunta? Responde a este email o contáctanos por WhatsApp.</p>
           </div>
 
           <div style="background:#f8fafc;padding:16px 32px;border-radius:0 0 8px 8px;border:1px solid #e2e8f0;border-top:none;">
@@ -189,10 +204,6 @@ serve(async (req: Request) => {
         </div>
       `,
     };
-
-    if (bccList.length > 0) {
-      resendBody.bcc = bccList;
-    }
 
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -213,9 +224,7 @@ serve(async (req: Request) => {
     }
 
     const emailData = await emailResponse.json();
-    console.log(
-      `Order #${orderNumber} confirmation → to:${toEmail}${bccList.length ? ` bcc:${bccList.join(",")}` : ""} — emailId:${emailData.id}`,
-    );
+    console.log(`Order #${orderNumber} confirmation → to:${ADMIN_EMAIL} client:${clientContact} — emailId:${emailData.id}`);
 
     return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       headers: { "Content-Type": "application/json", ...corsHeaders },
