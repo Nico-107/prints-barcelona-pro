@@ -424,6 +424,60 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/rapid-prototyping-barcelona"/>
   </url>
 
+  <!-- CITY DELIVERY PAGES (EN) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-paris</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-london</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-amsterdam</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-berlin</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-milan</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-rome</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-lisbon</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-delivery-new-york</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- CITY DELIVERY PAGES (ES) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/impresion-3d-con-entrega-a-madrid</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/impresion-3d-con-entrega-a-valencia</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+
   <!-- PIEZAS FUNCIONALES -->
   <url>
     <loc>https://www.dimension3dprints.com/functional-parts-barcelona</loc>

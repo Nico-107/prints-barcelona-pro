@@ -1,8 +1,31 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl, countryFlag } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+
+const GEO_DELIVERY: Record<string, string> = {
+  FR: "3–4 business days",
+  PT: "2–3 business days",
+  DE: "3–4 business days",
+  IT: "3–4 business days",
+  NL: "3–4 business days",
+  BE: "3–4 business days",
+  AT: "3–5 business days",
+  PL: "4–6 business days",
+  CH: "4–6 business days",
+  SE: "4–6 business days",
+  DK: "4–6 business days",
+  NO: "4–6 business days",
+  FI: "4–6 business days",
+  GB: "4–6 business days",
+  US: "7–10 business days",
+  CA: "7–10 business days",
+  AU: "7–10 business days",
+  MX: "7–10 business days",
+  JP: "7–10 business days",
+};
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -18,6 +41,24 @@ interface HeroProps {
 
 const Hero = ({ onScrollToCalc }: HeroProps) => {
   const { t, language } = useLanguage();
+  const [geoSubtitle, setGeoSubtitle] = useState<string | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3000);
+    fetch("https://ipapi.co/json/", { signal: controller.signal })
+      .then((r) => r.json())
+      .then((data: { country_code?: string; city?: string; country_name?: string }) => {
+        const code = data.country_code ?? "";
+        if (code === "ES" || !code) return;
+        const days = GEO_DELIVERY[code] ?? "5–7 business days";
+        const place = data.city || data.country_name || code;
+        setGeoSubtitle(`We deliver to ${place} in ${days}. Upload your file for an instant quote.`);
+      })
+      .catch(() => {})
+      .finally(() => clearTimeout(timer));
+    return () => { controller.abort(); clearTimeout(timer); };
+  }, []);
 
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'hero_cta' });
@@ -72,7 +113,7 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
           </h1>
 
           <p className="text-lg md:text-xl text-primary-foreground/90 mb-6 animate-fade-in-delay max-w-2xl mx-auto">
-            {t("hero.subtitle")}
+            {geoSubtitle ?? t("hero.subtitle")}
           </p>
 
           <div className="flex justify-center mb-8 animate-fade-in-delay">

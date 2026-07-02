@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import NotFound from "./pages/NotFound";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
+import { CITY_PAGES } from "@/data/cityDeliveryPages";
 
 const Track = lazy(() => import("./pages/Track"));
 const Admin = lazy(() => import("./pages/Admin"));
@@ -27,6 +28,7 @@ const BlogPrototiposBcn = lazy(() => import("./pages/BlogPrototiposBcn"));
 const StudentsBcn = lazy(() => import("./pages/StudentsBcn"));
 const Blog = lazy(() => import("./pages/Blog"));
 const InternationalServicePage = lazy(() => import("./pages/InternationalServicePage"));
+const CityDeliveryPage = lazy(() => import("./pages/CityDeliveryPage"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -71,6 +73,9 @@ const App = () => (
               <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
               {ALL_PAGES.map((p) => (
                 <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
+              ))}
+              {CITY_PAGES.map((p) => (
+                <Route key={p.slug} path={p.slug} element={<CityDeliveryPage config={p} />} />
               ))}
               <Route path="*" element={<NotFound />} />
             </Routes>

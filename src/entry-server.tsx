@@ -24,10 +24,12 @@ import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import InternationalServicePage from "./pages/InternationalServicePage";
+import CityDeliveryPage from "./pages/CityDeliveryPage";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
+import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import type { Language } from "@/contexts/LanguageContext";
 
-export { ALL_PAGES };
+export { ALL_PAGES, CITY_PAGES };
 
 type HelmetServerContext = {
   helmet?: HelmetServerState | null;
@@ -70,6 +72,9 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
                 {ALL_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
+                ))}
+                {CITY_PAGES.map((p) => (
+                  <Route key={p.slug} path={p.slug} element={<CityDeliveryPage config={p} />} />
                 ))}
                 <Route path="*" element={<NotFound />} />
               </Routes>
