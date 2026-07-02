@@ -15,3 +15,13 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
   },
 });
+
+// Anon-only client — never loads a persisted session, so it always runs as
+// the anon role. Use for public INSERT operations (quote_requests, etc.) that
+// must not inherit an admin JWT stored in localStorage.
+export const supabaseAnon = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  },
+});

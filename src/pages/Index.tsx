@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Wrench, Zap } from "lucide-react";
@@ -108,6 +108,13 @@ const Index = () => {
 
   // Shared calculator highlight — toggled by any primary quote CTA click
   const [calcHighlight, setCalcHighlight] = useState(false);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (highlightTimerRef.current !== null) clearTimeout(highlightTimerRef.current);
+    };
+  }, []);
 
   const handleScrollToCalc = () => {
     const el = document.getElementById("calculator");
@@ -115,8 +122,12 @@ const Index = () => {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
     }
+    if (highlightTimerRef.current !== null) clearTimeout(highlightTimerRef.current);
     setCalcHighlight(true);
-    setTimeout(() => setCalcHighlight(false), 1500);
+    highlightTimerRef.current = setTimeout(() => {
+      setCalcHighlight(false);
+      highlightTimerRef.current = null;
+    }, 1500);
   };
   // Always emit a single English FAQPage schema to avoid duplicate/multi-language
   // FAQPage entries being reported in Google Search Console.

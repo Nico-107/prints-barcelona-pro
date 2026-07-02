@@ -3,7 +3,7 @@ import { FileBox, X, MessageCircle, ArrowRight, Loader2, RefreshCw, Calculator, 
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -170,7 +170,6 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
   const [quoteError, setQuoteError] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const emailSentRef = useRef(false);
 
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -273,7 +272,6 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
     setIsSubmittingQuote(false);
     setIsSubmittedQuote(false);
     setQuoteError(null);
-    emailSentRef.current = false;
   };
 
   const handleWhatsApp = () => {
@@ -314,8 +312,9 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
       setIsSubmittedQuote(true);
       setIsSubmittingQuote(false);
 
-      // DB insert — completely fire-and-forget, errors never reach the user
-      supabase.from("quote_requests").insert({
+      // DB insert — use anon client so an admin session in localStorage
+      // doesn't override the anon RLS policy and cause a 42501 error.
+      supabaseAnon.from("quote_requests").insert({
         contact_email: contactEmail.trim() || null,
         contact_phone: contactPhone.trim() || null,
         material: materialKey,
