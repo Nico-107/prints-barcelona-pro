@@ -14,7 +14,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 
-const Header = () => {
+const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boolean }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
@@ -125,7 +125,7 @@ const Header = () => {
               <span className="text-muted-foreground font-medium whitespace-nowrap">{t("nav.headerRating")}</span>
             </div>
 
-            <LanguageSelector />
+            {!hideLanguageSelector && <LanguageSelector />}
             <Button asChild variant="ghost" size="sm">
               <Link to="/track" className="gap-1.5 whitespace-nowrap">
                 <PackageSearch className="w-4 h-4" />
@@ -138,7 +138,7 @@ const Header = () => {
           </nav>
 
           <div className="lg:hidden flex items-center gap-3">
-            <LanguageSelector />
+            {!hideLanguageSelector && <LanguageSelector />}
             <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

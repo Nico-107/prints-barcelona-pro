@@ -171,7 +171,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
-      <Header />
+      <Header hideLanguageSelector={["fr", "de", "nl", "it", "pt"].includes(config.articleInLanguage ?? "")} />
 
       <main className="pt-16">
         {/* Hero */}
