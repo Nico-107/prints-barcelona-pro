@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck } from "lucide-react";
@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import type { CityPageConfig } from "@/data/cityDeliveryPages";
+
+const StlEstimator = lazy(() => import("@/components/StlEstimator"));
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -95,7 +97,15 @@ const CityDeliveryPage = ({ config }: Props) => {
   }, [config.lang, setLanguage]);
 
   const PAGE_URL = `${SITE_URL}${config.slug}`;
-  const calcUrl = `/?ref=${encodeURIComponent(config.city)}&days=${encodeURIComponent(config.deliveryDays)}#calculator`;
+
+  const scrollToCalculator = () => {
+    capture("city_cta_click", { city: config.city, type: "calculator" });
+    const el = document.getElementById("calculator");
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
 
   const sharedFaqs = isES ? ES_SHARED_FAQS : isFR ? FR_SHARED_FAQS : EN_SHARED_FAQS;
   const allFaqs = [{ q: config.shippingFaqQ, a: config.shippingFaqA }, ...sharedFaqs];
@@ -143,7 +153,10 @@ const CityDeliveryPage = ({ config }: Props) => {
   };
 
   useEffect(() => {
-    capture("city_page_view", { city: config.city, slug: config.slug });
+    const timer = setTimeout(() => {
+      capture("city_page_view", { city: config.city, slug: config.slug });
+    }, 500);
+    return () => clearTimeout(timer);
   }, [config.city, config.slug]);
 
   return (
@@ -214,18 +227,13 @@ const CityDeliveryPage = ({ config }: Props) => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-                <Button variant="cta" size="xl" asChild className="shadow-lg">
-                  <Link
-                    to={calcUrl}
-                    onClick={() => capture("city_cta_click", { city: config.city, type: "calculator" })}
-                  >
-                    {isES
-                      ? `Presupuesto con entrega en ${config.city}`
-                      : isFR
-                      ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
-                      : `Get a quote — delivered to ${config.city}`}
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
+                <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalculator}>
+                  {isES
+                    ? `Presupuesto con entrega en ${config.city}`
+                    : isFR
+                    ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
+                    : `Get a quote — delivered to ${config.city}`}
+                  <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button
                   variant="whatsapp-outline"
@@ -305,6 +313,13 @@ const CityDeliveryPage = ({ config }: Props) => {
           </div>
         </section>
 
+        {/* Calculator */}
+        <section id="calculator" className="container px-4 py-10">
+          <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl" />}>
+            <StlEstimator refCity={config.city} refDays={config.deliveryDays} />
+          </Suspense>
+        </section>
+
         {/* Native language callout — hidden when the page is already rendering in that language */}
         {config.nativeSection && !isFR && (
           <section id="native-section" className="bg-accent/10 border-y border-accent/20 py-8">
@@ -321,14 +336,17 @@ const CityDeliveryPage = ({ config }: Props) => {
                     {config.nativeSection.body}
                   </p>
                 </div>
-                <Button variant="cta" size="lg" asChild className="flex-shrink-0 shadow-sm">
-                  <Link
-                    to={calcUrl}
-                    onClick={() => capture("city_cta_click", { city: config.city, type: "native_cta" })}
-                  >
-                    {config.nativeSection.ctaLabel}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="flex-shrink-0 shadow-sm"
+                  onClick={() => {
+                    capture("city_cta_click", { city: config.city, type: "native_cta" });
+                    scrollToCalculator();
+                  }}
+                >
+                  {config.nativeSection.ctaLabel}
+                  <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>
@@ -415,7 +433,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       <li>
                         <strong className="text-foreground">Sube tu archivo.</strong> Envía tu STL, STEP, OBJ o 3MF
                         a través de nuestra{" "}
-                        <Link to={calcUrl} className="text-accent hover:underline">calculadora online</Link>,
+                        <button onClick={scrollToCalculator} className="text-accent hover:underline">calculadora online</button>,
                         por email o directamente por WhatsApp.
                       </li>
                       <li>
@@ -449,7 +467,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         <ol className="space-y-3 list-decimal list-inside">
                           <li>
                             <strong className="text-foreground">Envoyez votre fichier.</strong> Transmettez votre fichier STL, STEP, OBJ ou 3MF via notre{" "}
-                            <Link to={calcUrl} className="text-accent hover:underline">estimateur en ligne</Link>,
+                            <button onClick={scrollToCalculator} className="text-accent hover:underline">estimateur en ligne</button>,
                             par e-mail ou directement sur WhatsApp.
                           </li>
                           <li>
@@ -470,7 +488,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                           <li>
                             <strong className="text-foreground">Upload your file.</strong> Send your STL, STEP, OBJ, or
                             3MF file via our{" "}
-                            <Link to={calcUrl} className="text-accent hover:underline">online estimator</Link>,
+                            <button onClick={scrollToCalculator} className="text-accent hover:underline">online estimator</button>,
                             by email, or directly on WhatsApp. The estimator gives an instant price estimate based on your
                             file's weight and print time.
                           </li>
@@ -583,9 +601,9 @@ const CityDeliveryPage = ({ config }: Props) => {
                     </p>
                     <p>
                       Usa la{" "}
-                      <Link to={calcUrl} className="text-accent hover:underline font-semibold">
+                      <button onClick={scrollToCalculator} className="text-accent hover:underline font-semibold">
                         calculadora online
-                      </Link>{" "}
+                      </button>{" "}
                       para obtener un presupuesto instantáneo, o envíanos el archivo y te cotizamos en menos de una hora.
                     </p>
                   </div>
@@ -612,9 +630,9 @@ const CityDeliveryPage = ({ config }: Props) => {
                         </p>
                         <p>
                           Utilisez notre{" "}
-                          <Link to={calcUrl} className="text-accent hover:underline font-semibold">
+                          <button onClick={scrollToCalculator} className="text-accent hover:underline font-semibold">
                             calculateur en ligne
-                          </Link>{" "}
+                          </button>{" "}
                           pour obtenir une estimation instantanée, ou envoyez le fichier directement et nous vous
                           répondrons avec un devis en moins d'une heure.
                         </p>
@@ -634,9 +652,9 @@ const CityDeliveryPage = ({ config }: Props) => {
                         </p>
                         <p>
                           Use the{" "}
-                          <Link to={calcUrl} className="text-accent hover:underline font-semibold">
+                          <button onClick={scrollToCalculator} className="text-accent hover:underline font-semibold">
                             online calculator
-                          </Link>{" "}
+                          </button>{" "}
                           to upload your file and get an instant estimate, or send the file directly and we'll quote within
                           the hour.
                         </p>
@@ -1022,18 +1040,21 @@ const CityDeliveryPage = ({ config }: Props) => {
                 : "Upload your STL or STEP file to our online calculator for an instant price estimate. A member of the team reviews every file and confirms the exact price within one hour. No account required."}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="cta" size="xl" asChild className="shadow-lg">
-                <Link
-                  to={calcUrl}
-                  onClick={() => capture("city_cta_click", { city: config.city, type: "calculator_bottom" })}
-                >
-                  {isES
-                    ? `Presupuesto con entrega en ${config.city}`
-                    : isFR
-                    ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
-                    : `Get a quote — delivered to ${config.city}`}
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+              <Button
+                variant="cta"
+                size="xl"
+                className="shadow-lg"
+                onClick={() => {
+                  capture("city_cta_click", { city: config.city, type: "calculator_bottom" });
+                  scrollToCalculator();
+                }}
+              >
+                {isES
+                  ? `Presupuesto con entrega en ${config.city}`
+                  : isFR
+                  ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
+                  : `Get a quote — delivered to ${config.city}`}
+                <ArrowRight className="w-5 h-5" />
               </Button>
               <Button
                 variant="whatsapp-outline"
