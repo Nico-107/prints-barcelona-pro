@@ -1,6 +1,6 @@
 import { Menu, X, Star, PackageSearch, ChevronDown, Building2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,6 +25,7 @@ export interface HeaderCityLanguage {
 const Header = ({ cityLanguages }: { cityLanguages?: HeaderCityLanguage[] } = {}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const isEs = language === "es";
   const isCa = language === "ca";
   const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
@@ -36,7 +37,12 @@ const Header = ({ cityLanguages }: { cityLanguages?: HeaderCityLanguage[] } = {}
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
   const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(`/#${id}`);
+    }
     setIsMenuOpen(false);
   };
 

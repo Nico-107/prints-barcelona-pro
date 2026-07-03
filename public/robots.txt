@@ -11,6 +11,9 @@ User-agent: facebookexternalhit
 Allow: /
 
 User-agent: *
+Disallow: /admin
+Disallow: /admin-orders
+Disallow: /admin-makers
 Allow: /
 
 Sitemap: https://www.dimension3dprints.com/sitemap.xml

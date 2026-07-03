@@ -67,6 +67,7 @@ interface Props {
 const CityDeliveryPage = ({ config }: Props) => {
   const isES = config.lang === "es";
   const PAGE_URL = `${SITE_URL}${config.slug}`;
+  const calcUrl = `/?ref=${encodeURIComponent(config.city)}&days=${encodeURIComponent(config.deliveryDays)}#calculator`;
 
   const cityLanguages: HeaderCityLanguage[] = (() => {
     const nativeLang = config.nativeSection?.lang;
@@ -143,6 +144,16 @@ const CityDeliveryPage = ({ config }: Props) => {
     })),
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: isES ? "Inicio" : "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: isES ? "Servicio de Impresión 3D" : "3D Printing Service", item: `${SITE_URL}/3d-printing-service` },
+      { "@type": "ListItem", position: 3, name: config.city, item: PAGE_URL },
+    ],
+  };
+
   useEffect(() => {
     capture("city_page_view", { city: config.city, slug: config.slug });
   }, [config.city, config.slug]);
@@ -169,6 +180,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       <Header cityLanguages={cityLanguages} />
@@ -189,6 +201,17 @@ const CityDeliveryPage = ({ config }: Props) => {
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">
+              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
+                <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
+                  {isES ? "Inicio" : "Home"}
+                </Link>
+                <span>/</span>
+                <Link to="/3d-printing-service" className="hover:text-primary-foreground/80 transition-colors">
+                  {isES ? "Servicio Internacional" : "3D Printing Service"}
+                </Link>
+                <span>/</span>
+                <span className="text-primary-foreground/70">{config.city}</span>
+              </nav>
               <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
                 <Truck className="w-3.5 h-3.5" />
                 {config.eyebrowText}
@@ -205,7 +228,7 @@ const CityDeliveryPage = ({ config }: Props) => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Button variant="cta" size="xl" asChild className="shadow-lg">
                   <Link
-                    to="/#calculator"
+                    to={calcUrl}
                     onClick={() => capture("city_cta_click", { city: config.city, type: "calculator" })}
                   >
                     {isES ? `Presupuesto con entrega en ${config.city}` : `Get a quote — delivered to ${config.city}`}
@@ -299,7 +322,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                 </div>
                 <Button variant="cta" size="lg" asChild className="flex-shrink-0 shadow-sm">
                   <Link
-                    to="/#calculator"
+                    to={calcUrl}
                     onClick={() => capture("city_cta_click", { city: config.city, type: "native_cta" })}
                   >
                     {config.nativeSection.ctaLabel}
@@ -370,7 +393,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       <li>
                         <strong className="text-foreground">Sube tu archivo.</strong> Envía tu STL, STEP, OBJ o 3MF
                         a través de nuestra{" "}
-                        <Link to="/#calculator" className="text-accent hover:underline">calculadora online</Link>,
+                        <Link to={calcUrl} className="text-accent hover:underline">calculadora online</Link>,
                         por email o directamente por WhatsApp.
                       </li>
                       <li>
@@ -401,7 +424,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       <li>
                         <strong className="text-foreground">Upload your file.</strong> Send your STL, STEP, OBJ, or
                         3MF file via our{" "}
-                        <Link to="/#calculator" className="text-accent hover:underline">online estimator</Link>,
+                        <Link to={calcUrl} className="text-accent hover:underline">online estimator</Link>,
                         by email, or directly on WhatsApp. The estimator gives an instant price estimate based on your
                         file's weight and print time.
                       </li>
@@ -498,7 +521,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                     </p>
                     <p>
                       Usa la{" "}
-                      <Link to="/#calculator" className="text-accent hover:underline font-semibold">
+                      <Link to={calcUrl} className="text-accent hover:underline font-semibold">
                         calculadora online
                       </Link>{" "}
                       para obtener un presupuesto instantáneo, o envíanos el archivo y te cotizamos en menos de una hora.
@@ -524,7 +547,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                     </p>
                     <p>
                       Use the{" "}
-                      <Link to="/#calculator" className="text-accent hover:underline font-semibold">
+                      <Link to={calcUrl} className="text-accent hover:underline font-semibold">
                         online calculator
                       </Link>{" "}
                       to upload your file and get an instant estimate, or send the file directly and we'll quote within
@@ -872,7 +895,7 @@ const CityDeliveryPage = ({ config }: Props) => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="cta" size="xl" asChild className="shadow-lg">
                 <Link
-                  to="/#calculator"
+                  to={calcUrl}
                   onClick={() => capture("city_cta_click", { city: config.city, type: "calculator_bottom" })}
                 >
                   {isES ? `Presupuesto con entrega en ${config.city}` : `Get a quote — delivered to ${config.city}`}

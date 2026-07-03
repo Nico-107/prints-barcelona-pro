@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock, Settings2, Wrench, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Clock, GraduationCap, Settings2, Wrench, Zap } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -44,6 +44,15 @@ const POSTS = [
     description: "Materiales de ingeniería, tolerancias FDM, iteración rápida y tiradas cortas. Para equipos de I+D, startups de hardware y fabricantes en Barcelona.",
     readTime: "9 min",
     tags: ["Prototipos", "Ingeniería", "PETG"],
+  },
+  {
+    slug: "/impresion-3d-estudiantes-barcelona",
+    icon: GraduationCap,
+    title: "Descuento 20% para Estudiantes Universitarios",
+    subtitle: "Descuento universitario",
+    description: "20% de descuento en todos los pedidos de impresión 3D para estudiantes universitarios. Sin pedido mínimo. Mismo servicio express y calidad que el resto de clientes.",
+    readTime: "3 min",
+    tags: ["Estudiantes", "Descuento", "Universitarios"],
   },
 ];
 

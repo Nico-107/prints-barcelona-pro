@@ -182,7 +182,7 @@ const Admin = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-  const [email, setEmail] = useState("011107miko@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
 
@@ -1037,7 +1037,7 @@ const Admin = () => {
               <div className="grid grid-cols-3 gap-2 mb-2">
                 {draft.photos.map((p) => (
                   <div key={p} className="relative group">
-                    <img src={p} className="w-full aspect-square object-cover rounded border" />
+                    <img src={p} alt="Order photo" className="w-full aspect-square object-cover rounded border" />
                     <button type="button" onClick={() => removePhoto(p)} className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition">
                       <X className="w-3 h-3" />
                     </button>

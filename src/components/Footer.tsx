@@ -1,5 +1,5 @@
 import { MessageCircle, MapPin, Clock, Truck } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
@@ -9,6 +9,12 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const Footer = () => {
   const { t, language } = useLanguage();
+  const { pathname } = useLocation();
+  const isInternational =
+    pathname.startsWith("/3d-printing-service") ||
+    pathname.startsWith("/3d-printing-delivery-") ||
+    pathname.startsWith("/impresion-3d-con-entrega-");
+  const brandSuffix = isInternational ? "" : ` ${ACTIVE_CITY.cityName}`;
   const isEs = language === "es";
   const isCa = language === "ca";
   const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
@@ -60,6 +66,7 @@ const Footer = () => {
               <Link to={businessSlug} className="text-background/70 text-sm hover:text-background transition-colors">{forBusinessLabel}</Link>
               <Link to="/makers" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.becomeMaker")}</Link>
               <Link to="/maker-guide" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.makerGuide")}</Link>
+              <Link to="/3d-printing-service" className="text-background/70 text-sm hover:text-background transition-colors">International service</Link>
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
             </div>
@@ -107,6 +114,16 @@ const Footer = () => {
                   {isCa ? "Recanvis i peces trencades" : isEs ? "Recambios y piezas rotas" : "Replacement parts"}
                 </Link>
               </li>
+              <li>
+                <Link to="/blog/prototipos-rapidos-piezas-funcionales-barcelona" className="text-background/70 text-sm hover:text-background transition-colors">
+                  {isCa ? "Prototips funcionals" : isEs ? "Prototipos funcionales" : "Functional prototypes"}
+                </Link>
+              </li>
+              <li>
+                <Link to="/impresion-3d-estudiantes-barcelona" className="text-background/70 text-sm hover:text-background transition-colors">
+                  {isCa ? "Descompte estudiants" : isEs ? "Descuento estudiantes" : "Student discount"}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -120,7 +137,7 @@ const Footer = () => {
                 <line x1="26" y1="62" x2="94" y2="62" stroke="#ffffff" strokeWidth="8" strokeLinecap="round"/>
                 <circle cx="60" cy="26" r="12" fill="#f59e0b"/>
               </svg>
-              <span className="font-semibold tracking-tight">Dimension3D {ACTIVE_CITY.cityName}</span>
+              <span className="font-semibold tracking-tight">Dimension3D{brandSuffix}</span>
             </div>
             <p className="text-background/60 text-sm">{t("footer.tagline")}</p>
             <p className="text-background/40 text-xs mt-1">{t("footer.taglineSub")}</p>
@@ -137,7 +154,7 @@ const Footer = () => {
 
         <div className="border-t border-background/10 mt-8 pt-8 text-center">
           <p className="text-background/40 text-sm">
-            © {new Date().getFullYear()} Dimension3D {ACTIVE_CITY.cityName}. {t("footer.copyright")}
+            © {new Date().getFullYear()} Dimension3D{brandSuffix}. {t("footer.copyright")}
           </p>
         </div>
       </div>

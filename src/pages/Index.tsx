@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Wrench, Zap } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { ArrowRight, BookOpen, GraduationCap, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import Header from "@/components/Header";
@@ -82,6 +82,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "¿Cuánto cuesta la impresión 3D en Barcelona?", desc: "Precios reales por tamaño y material, con ejemplos y tabla de tarifas." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Sin pedido mínimo, mismo servicio express." },
     ],
   },
   en: {
@@ -90,6 +91,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "How much does 3D printing cost in Barcelona?", desc: "Real prices by size and material, with examples and a pricing table." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Urgent 3D printing — delivery in 24-48h", desc: "How the express service works and which materials are available." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Replacement parts & broken pieces in 3D", desc: "From photo or broken part to a printed replacement in Barcelona." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. No minimum order, same express service." },
     ],
   },
   ca: {
@@ -98,6 +100,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "¿Cuánto cuesta la impresión 3D en Barcelona?", desc: "Precios reales por tamaño y material, con ejemplos y tabla de tarifas." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Sense comanda mínima, mateix servei express." },
     ],
   },
 };
@@ -105,6 +108,9 @@ const GUIDES_COPY: Record<string, {
 const Index = () => {
   const { language } = useLanguage();
   const meta = HOME_META[language] ?? HOME_META.es;
+  const [searchParams] = useSearchParams();
+  const refCity = searchParams.get("ref") ?? undefined;
+  const refDays = searchParams.get("days") ?? undefined;
 
   // Shared calculator highlight — toggled by any primary quote CTA click
   const [calcHighlight, setCalcHighlight] = useState(false);
@@ -280,7 +286,7 @@ const Index = () => {
       <main className="pt-16">
         <Hero onScrollToCalc={handleScrollToCalc} />
         <HowItWorks />
-        <StlEstimator highlighted={calcHighlight} />
+        <StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} />
         <WhatCanWePrint />
         <Materials />
         <WhyChooseUs />
@@ -304,7 +310,7 @@ const Index = () => {
                 <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-8">
                   {guides.heading}
                 </h2>
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                   {guides.posts.map(({ slug, icon: Icon, title, desc }) => (
                     <Link
                       key={slug}

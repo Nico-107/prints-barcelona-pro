@@ -148,9 +148,13 @@ interface Props {
   adminMode?: boolean;
   /** When true, pulses an amber ring on the card for 1.5 s to guide new arrivals */
   highlighted?: boolean;
+  /** City name from a delivery page ref, e.g. "Paris" */
+  refCity?: string;
+  /** Delivery time string from a delivery page ref, e.g. "3–4 business days" */
+  refDays?: string;
 }
 
-export function StlEstimator({ adminMode = false, highlighted = false }: Props) {
+export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays }: Props) {
   const { t, language } = useLanguage();
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
@@ -431,9 +435,19 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
         {parsedFiles.length > 0 && (
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                {parsedFiles.length}/{MAX_FILES} files
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                  {parsedFiles.length}/{MAX_FILES} files
+                </span>
+                {parsedFiles.length >= 2 && (
+                  <button
+                    onClick={reset}
+                    className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+                  >
+                    · {language === "ca" ? "Netejar tot" : language === "es" ? "Limpiar todo" : "Clear all"}
+                  </button>
+                )}
+              </div>
               <button
                 onClick={reset}
                 className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
@@ -753,6 +767,17 @@ export function StlEstimator({ adminMode = false, highlighted = false }: Props) 
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">{t("calc.subtitle")}</p>
         </div>
+        {refCity && (
+          <div className="max-w-xl mx-auto mb-6">
+            <p className="text-sm bg-amber-50 border border-amber-200 text-amber-800 rounded-lg px-4 py-2.5 text-center">
+              {language === "es"
+                ? `Enviando a ${refCity}${refDays ? ` — envío con seguimiento en ${refDays}` : ""}`
+                : language === "ca"
+                ? `Enviant a ${refCity}${refDays ? ` — enviament seguit en ${refDays}` : ""}`
+                : `Delivering to ${refCity}${refDays ? ` — tracked shipping in ${refDays}` : ""}`}
+            </p>
+          </div>
+        )}
         {inner}
       </div>
     </section>

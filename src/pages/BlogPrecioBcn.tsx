@@ -97,6 +97,15 @@ const BlogPrecioBcn = () => {
         <meta name="twitter:description" content={META_DESC} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/` },
+            { "@type": "ListItem", position: 2, name: "Guías", item: `${SITE_URL}/blog` },
+            { "@type": "ListItem", position: 3, name: "Guía de precios 2026", item: CANONICAL },
+          ],
+        })}</script>
       </Helmet>
 
       <LaunchOfferBanner />
@@ -107,13 +116,16 @@ const BlogPrecioBcn = () => {
         {/* ── HERO ── */}
         <section className="py-16 md:py-20 hero-gradient">
           <div className="container px-4 max-w-3xl mx-auto">
-            <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-6">
-              <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
-                Inicio
-              </Link>
+            <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
+              <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
               <span>/</span>
-              <span className="text-primary-foreground/70">Guía de precios</span>
+              <Link to="/blog" className="hover:text-primary-foreground/80 transition-colors">Guías</Link>
+              <span>/</span>
+              <span className="text-primary-foreground/70">Guía de precios 2026</span>
             </nav>
+            <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-primary-foreground/50 hover:text-primary-foreground/80 transition-colors mb-5">
+              ← Todas las guías
+            </Link>
             <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-5">
               Guía 2026
             </div>
@@ -477,6 +489,11 @@ const BlogPrecioBcn = () => {
           </div>
         </section>
 
+        <div className="container px-4 py-8 max-w-3xl mx-auto">
+          <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            ← Todas las guías
+          </Link>
+        </div>
       </main>
 
       <Footer />
