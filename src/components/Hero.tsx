@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,19 +12,72 @@ const GEO_DELIVERY: Record<string, string> = {
   IT: "3–4 business days",
   NL: "3–4 business days",
   BE: "3–4 business days",
-  AT: "3–5 business days",
+  AT: "3–4 business days",
+  CH: "3–4 business days",
+  SE: "4–5 business days",
+  NO: "4–5 business days",
+  DK: "4–5 business days",
+  FI: "5–6 business days",
   PL: "4–6 business days",
-  CH: "4–6 business days",
-  SE: "4–6 business days",
-  DK: "4–6 business days",
-  NO: "4–6 business days",
-  FI: "4–6 business days",
+  CZ: "4–5 business days",
+  HU: "4–5 business days",
+  RO: "5–6 business days",
   GB: "4–6 business days",
   US: "7–10 business days",
-  CA: "7–10 business days",
-  AU: "7–10 business days",
+  CA: "8–12 business days",
+  AU: "10–14 business days",
   MX: "7–10 business days",
-  JP: "7–10 business days",
+  JP: "8–12 business days",
+};
+
+const GEO_DELIVERY_ES: Record<string, string> = {
+  FR: "3–4 días laborables",
+  PT: "2–3 días laborables",
+  DE: "3–4 días laborables",
+  IT: "3–4 días laborables",
+  NL: "3–4 días laborables",
+  BE: "3–4 días laborables",
+  AT: "3–4 días laborables",
+  CH: "3–4 días laborables",
+  SE: "4–5 días laborables",
+  NO: "4–5 días laborables",
+  DK: "4–5 días laborables",
+  FI: "5–6 días laborables",
+  PL: "4–6 días laborables",
+  CZ: "4–5 días laborables",
+  HU: "4–5 días laborables",
+  RO: "5–6 días laborables",
+  GB: "4–6 días laborables",
+  US: "7–10 días laborables",
+  CA: "8–12 días laborables",
+  AU: "10–14 días laborables",
+  MX: "7–10 días laborables",
+  JP: "8–12 días laborables",
+};
+
+const GEO_DELIVERY_CA: Record<string, string> = {
+  FR: "3–4 dies laborables",
+  PT: "2–3 dies laborables",
+  DE: "3–4 dies laborables",
+  IT: "3–4 dies laborables",
+  NL: "3–4 dies laborables",
+  BE: "3–4 dies laborables",
+  AT: "3–4 dies laborables",
+  CH: "3–4 dies laborables",
+  SE: "4–5 dies laborables",
+  NO: "4–5 dies laborables",
+  DK: "4–5 dies laborables",
+  FI: "5–6 dies laborables",
+  PL: "4–6 dies laborables",
+  CZ: "4–5 dies laborables",
+  HU: "4–5 dies laborables",
+  RO: "5–6 dies laborables",
+  GB: "4–6 dies laborables",
+  US: "7–10 dies laborables",
+  CA: "8–12 dies laborables",
+  AU: "10–14 dies laborables",
+  MX: "7–10 dies laborables",
+  JP: "8–12 dies laborables",
 };
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -42,8 +95,24 @@ interface HeroProps {
 const Hero = ({ onScrollToCalc }: HeroProps) => {
   const { t, language } = useLanguage();
   const [geoSubtitle, setGeoSubtitle] = useState<string | null>(null);
+  const geoDataRef = useRef<{ code: string; place: string } | null>(null);
 
   useEffect(() => {
+    const buildSubtitle = (code: string, place: string) => {
+      const table = language === "es" ? GEO_DELIVERY_ES : language === "ca" ? GEO_DELIVERY_CA : GEO_DELIVERY;
+      const fallback = language === "es" ? "5–7 días laborables" : language === "ca" ? "5–7 dies laborables" : "5–7 business days";
+      const days = table[code] ?? fallback;
+      if (language === "es") return `Entregamos en ${place} en ${days}. Sube tu archivo para un presupuesto al instante.`;
+      if (language === "ca") return `Lliurem a ${place} en ${days}. Puja el teu arxiu per a un pressupost instantani.`;
+      return `We deliver to ${place} in ${days}. Upload your file for an instant quote.`;
+    };
+
+    // Language changed and we already have geo data — recompute without fetching
+    if (geoDataRef.current) {
+      setGeoSubtitle(buildSubtitle(geoDataRef.current.code, geoDataRef.current.place));
+      return;
+    }
+
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 3000);
     fetch("https://ipapi.co/json/", { signal: controller.signal })
@@ -51,14 +120,14 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
       .then((data: { country_code?: string; city?: string; country_name?: string }) => {
         const code = data.country_code ?? "";
         if (code === "ES" || !code) return;
-        const days = GEO_DELIVERY[code] ?? "5–7 business days";
         const place = data.city || data.country_name || code;
-        setGeoSubtitle(`We deliver to ${place} in ${days}. Upload your file for an instant quote.`);
+        geoDataRef.current = { code, place };
+        setGeoSubtitle(buildSubtitle(code, place));
       })
       .catch(() => {})
       .finally(() => clearTimeout(timer));
     return () => { controller.abort(); clearTimeout(timer); };
-  }, []);
+  }, [language]);
 
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'hero_cta' });
