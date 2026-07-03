@@ -38,6 +38,13 @@ type HelmetServerContext = {
 // Mirror of pathLanguage() in LanguageContext.tsx — must stay in sync.
 function urlLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
+  if (path === "/3d-printing-delivery-paris") return "fr";
+  if (
+    path.startsWith("/3d-printing-") ||
+    path.startsWith("/blog") ||
+    path === "/maker-guide" ||
+    path === "/privacy"
+  ) return "en";
   return "es";
 }
 

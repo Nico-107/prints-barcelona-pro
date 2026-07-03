@@ -14,26 +14,19 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 
-export interface HeaderCityLanguage {
-  code: string;
-  label: string;
-  aria: string;
-  isActive: boolean;
-  scrollTo?: string;
-}
-
-const Header = ({ cityLanguages }: { cityLanguages?: HeaderCityLanguage[] } = {}) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const isEs = language === "es";
   const isCa = language === "ca";
+  const isFr = language === "fr";
   const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? g.labelCa : isEs ? g.labelEs : g.labelEn;
   const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
   const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
-  const forBusinessLabel = isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
+  const forBusinessLabel = isFr ? "Pour les Entreprises" : isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
   const scrollToSection = (id: string) => {
@@ -50,41 +43,6 @@ const Header = ({ cityLanguages }: { cityLanguages?: HeaderCityLanguage[] } = {}
     { label: t("nav.howItWorks"), id: "como-funciona" },
   ];
 
-  const langSelectorEl = cityLanguages ? (
-    <div className="flex items-center gap-1 text-sm">
-      {cityLanguages.map((l, i) => (
-        <span key={l.code} className="flex items-center gap-1">
-          {i > 0 && <span className="text-muted-foreground/50">|</span>}
-          {l.isActive ? (
-            <span
-              className="px-2 py-1 rounded bg-primary text-primary-foreground font-medium text-sm"
-              aria-current="true"
-            >
-              {l.label}
-            </span>
-          ) : (
-            <button
-              onClick={() => {
-                if (l.scrollTo) {
-                  document.getElementById(l.scrollTo)?.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className={`px-2 py-1 rounded transition-colors text-sm ${
-                l.scrollTo
-                  ? "text-muted-foreground hover:text-foreground"
-                  : "text-muted-foreground cursor-default"
-              }`}
-              aria-label={l.aria}
-            >
-              {l.label}
-            </button>
-          )}
-        </span>
-      ))}
-    </div>
-  ) : (
-    <LanguageSelector />
-  );
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
@@ -167,7 +125,7 @@ const Header = ({ cityLanguages }: { cityLanguages?: HeaderCityLanguage[] } = {}
               <span className="text-muted-foreground font-medium whitespace-nowrap">{t("nav.headerRating")}</span>
             </div>
 
-            {langSelectorEl}
+            <LanguageSelector />
             <Button asChild variant="ghost" size="sm">
               <Link to="/track" className="gap-1.5 whitespace-nowrap">
                 <PackageSearch className="w-4 h-4" />
@@ -180,7 +138,7 @@ const Header = ({ cityLanguages }: { cityLanguages?: HeaderCityLanguage[] } = {}
           </nav>
 
           <div className="lg:hidden flex items-center gap-3">
-            {langSelectorEl}
+            <LanguageSelector />
             <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

@@ -1,6 +1,6 @@
 export interface CityPageConfig {
   slug: string;
-  lang: "en" | "es";
+  lang: "en" | "es" | "fr";
   locale: string;
   city: string;
   country: string;
@@ -32,7 +32,7 @@ export interface CityPageConfig {
 export const CITY_PAGES: CityPageConfig[] = [
   {
     slug: "/3d-printing-delivery-paris",
-    lang: "en",
+    lang: "fr",
     locale: "en_FR",
     city: "Paris",
     country: "France",

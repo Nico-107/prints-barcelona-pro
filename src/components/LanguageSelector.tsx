@@ -21,11 +21,18 @@ const LanguageSelector = () => {
     }
   };
 
-  const langs: { code: Language; label: string; aria: string }[] = [
-    { code: "es", label: "ES", aria: "Español" },
-    { code: "en", label: "EN", aria: "English" },
-    { code: "ca", label: "CA", aria: "Català" },
-  ];
+  // On French pages show FR | EN only; elsewhere keep the ES | EN | CA selector.
+  const langs: { code: Language; label: string; aria: string }[] =
+    language === "fr"
+      ? [
+          { code: "fr", label: "FR", aria: "Français" },
+          { code: "en", label: "EN", aria: "English" },
+        ]
+      : [
+          { code: "es", label: "ES", aria: "Español" },
+          { code: "en", label: "EN", aria: "English" },
+          { code: "ca", label: "CA", aria: "Català" },
+        ];
 
   return (
     <div className="flex items-center gap-1 text-sm">

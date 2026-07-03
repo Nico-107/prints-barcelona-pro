@@ -105,5 +105,5 @@ export const SERVICES_MENU: MenuGroup[] = [
 export function slugForLang(item: { slugEn: string; slugEs: string; slugCa: string }, lang: Lang): string {
   if (lang === "ca") return item.slugCa;
   if (lang === "es") return item.slugEs;
-  return item.slugEn;
+  return item.slugEn; // "en" and "fr" both use English slugs
 }

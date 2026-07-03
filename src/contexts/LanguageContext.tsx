@@ -2,8 +2,9 @@ import React, { createContext, useContext, useState, useEffect, useCallback, Rea
 import { esTranslations } from "@/i18n/es";
 import { enTranslations } from "@/i18n/en";
 import { caTranslations } from "@/i18n/ca";
+import { frTranslations } from "@/i18n/fr";
 
-export type Language = "es" | "en" | "ca";
+export type Language = "es" | "en" | "ca" | "fr";
 
 interface LanguageContextType {
   language: Language;
@@ -17,12 +18,14 @@ const translations: Record<Language, Record<string, string>> = {
   es: esTranslations,
   en: enTranslations,
   ca: caTranslations,
+  fr: frTranslations,
 };
 
 // Derive language from a URL path alone — deterministic, no browser APIs needed.
 // Must stay in sync with the SSR detect function in entry-server.tsx.
 function pathLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
+  if (path === "/3d-printing-delivery-paris") return "fr";
   if (
     path.startsWith("/3d-printing-") ||
     path.startsWith("/blog") ||
@@ -51,9 +54,9 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   // cause a hydration mismatch — it simply triggers a post-hydration re-render.
   useEffect(() => {
     const pageLang = pathLanguage(window.location.pathname);
-    if (pageLang === "en") return;
+    if (pageLang === "en" || pageLang === "fr") return;
     const stored = localStorage.getItem("preferred-language");
-    if (stored === "es" || stored === "en" || stored === "ca") {
+    if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
       setLanguageState(stored as Language);
       return;
     }
@@ -66,7 +69,8 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
     document.documentElement.lang = language;
     // English-routed pages always force EN — don't persist that to localStorage
     // or the Spanish homepage will load in English on the next visit.
-    if (pathLanguage(window.location.pathname) !== "en") {
+    const pl = pathLanguage(window.location.pathname);
+    if (pl !== "en" && pl !== "fr") {
       localStorage.setItem("preferred-language", language);
     }
   }, [language]);

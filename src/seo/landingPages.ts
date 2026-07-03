@@ -1,7 +1,7 @@
 // Centralized SEO landing page content (EN + ES) for Dimension3D Barcelona
 // Shared LandingPage template renders one entry per route.
 
-export type Lang = "en" | "es" | "ca";
+export type Lang = "en" | "es" | "ca" | "fr";
 
 // Stable topic key shared by EN/ES/CA versions of the same page.
 // Used to resolve hreflang alternates and equivalent-page language switching.
