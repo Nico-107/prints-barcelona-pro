@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { esTranslations } from "@/i18n/es";
 import { enTranslations } from "@/i18n/en";
 import { caTranslations } from "@/i18n/ca";
@@ -48,6 +48,9 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
     if (typeof window !== "undefined") return pathLanguage(window.location.pathname);
     return defaultLanguage ?? "es";
   });
+  // True only after the user explicitly picks a language — keeps us from
+  // persisting page-forced languages (en, fr) to localStorage.
+  const manualOverride = useRef(false);
 
   // After hydration completes, apply the user's stored preference or browser
   // language. Runs client-only (useEffect never runs during SSR), so it cannot
@@ -67,15 +70,18 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
 
   useEffect(() => {
     document.documentElement.lang = language;
-    // English-routed pages always force EN — don't persist that to localStorage
-    // or the Spanish homepage will load in English on the next visit.
+    // Only persist to localStorage when the user explicitly chose a language
+    // AND we're not on a page that forces its own language (en, fr).
     const pl = pathLanguage(window.location.pathname);
-    if (pl !== "en" && pl !== "fr") {
+    if (manualOverride.current && pl !== "en" && pl !== "fr") {
       localStorage.setItem("preferred-language", language);
     }
   }, [language]);
 
-  const setLanguage = useCallback((lang: Language) => setLanguageState(lang), []);
+  const setLanguage = useCallback((lang: Language) => {
+    manualOverride.current = true;
+    setLanguageState(lang);
+  }, []);
   const t = (key: string): string =>
     translations[language][key] || translations.en[key] || key;
 

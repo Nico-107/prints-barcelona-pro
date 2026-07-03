@@ -103,7 +103,8 @@ export const SERVICES_MENU: MenuGroup[] = [
 
 // Helper to pick the slug for a given language with sensible fallbacks.
 export function slugForLang(item: { slugEn: string; slugEs: string; slugCa: string }, lang: Lang): string {
+  if (lang === "fr") return item.slugEn; // French pages use English slugs
   if (lang === "ca") return item.slugCa;
   if (lang === "es") return item.slugEs;
-  return item.slugEn; // "en" and "fr" both use English slugs
+  return item.slugEn;
 }

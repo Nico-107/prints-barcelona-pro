@@ -10,8 +10,14 @@ const LanguageSelector = () => {
   const handleChange = (lang: Language) => {
     setLanguage(lang);
 
-    // If we're currently on a landing page, navigate to the equivalent
-    // page in the target language so the user keeps their context.
+    // City delivery pages are bilingual — the same URL serves all languages,
+    // so we only swap the language state without navigating.
+    const isCityPage =
+      location.pathname.startsWith("/3d-printing-delivery-") ||
+      location.pathname.startsWith("/impresion-3d-con-entrega-");
+    if (isCityPage) return;
+
+    // For SEO landing pages navigate to the equivalent slug in the new language.
     const currentPage = PAGES_BY_SLUG[location.pathname];
     if (currentPage) {
       const target = SLUGS_BY_TOPIC[currentPage.topic]?.[lang];

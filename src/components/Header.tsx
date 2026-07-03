@@ -27,7 +27,7 @@ const Header = () => {
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
   const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
   const forBusinessLabel = isFr ? "Pour les Entreprises" : isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
-  const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
+  const businessSlug = SLUGS_BY_TOPIC["business"][language === "fr" ? "en" : language] ?? "/3d-printing-for-business-barcelona";
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
