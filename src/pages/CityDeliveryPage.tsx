@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck } from "lucide-react";
-import Header, { type HeaderCityLanguage } from "@/components/Header";
+import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -52,6 +52,25 @@ const ES_SHARED_FAQS = [
   },
 ];
 
+const FR_SHARED_FAQS = [
+  {
+    q: "Quels formats de fichiers acceptez-vous ?",
+    a: "Nous acceptons STL, STEP, OBJ, 3MF et IGES. Les exports directs de SolidWorks, Fusion 360, Onshape, CATIA et FreeCAD fonctionnent sans conversion. Si vous n'avez qu'un plan ou une photo, contactez-nous et nous étudierons les options.",
+  },
+  {
+    q: "Y a-t-il un minimum de commande ?",
+    a: "Le minimum de commande est de 10 €. La plupart des petites pièces individuelles se situent entre 10 € et 40 €. Il n'y a pas de quantité minimale — nous imprimons des pièces uniques aussi facilement que des lots de 50.",
+  },
+  {
+    q: "Pouvez-vous imprimer dans mon matériau spécifique ?",
+    a: "Nous stockons du PLA, PETG, ABS, ASA, TPU, Nylon (PA12/PA6), Polycarbonate et des variantes composites en fibre de carbone. Si vous avez besoin d'une couleur ou d'un grade spécifique non listé, demandez — nous pouvons souvent l'approvisionner.",
+  },
+  {
+    q: "Comment le prix est-il calculé ?",
+    a: "Le prix dépend de deux facteurs : le poids de la pièce imprimée (grammes de filament utilisé) et le temps machine (heures d'impression). Pas de frais de mise en place ni de révision de fichier. Utilisez le calculateur en ligne pour une estimation instantanée.",
+  },
+];
+
 const LANG_LABELS: Record<string, string> = {
   de: "Deutsch",
   fr: "Français",
@@ -66,33 +85,25 @@ interface Props {
 }
 
 const CityDeliveryPage = ({ config }: Props) => {
-  const { setLanguage } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const isES = config.lang === "es";
+  const isFR = language === "fr";
 
-  // Force the context language to match the page on SPA navigation — the
-  // useState initializer in LanguageContext only runs once at app load, so
-  // navigating from the Spanish homepage to a city page without a hard reload
-  // would leave the Header menus in Spanish.
+  // Force context language to match the page on SPA navigation.
   useEffect(() => {
     setLanguage(config.lang);
   }, [config.lang, setLanguage]);
+
   const PAGE_URL = `${SITE_URL}${config.slug}`;
   const calcUrl = `/?ref=${encodeURIComponent(config.city)}&days=${encodeURIComponent(config.deliveryDays)}#calculator`;
 
-  const cityLanguages: HeaderCityLanguage[] = [{
-    code: config.lang,
-    label: config.lang.toUpperCase(),
-    aria: config.lang === "en" ? "English" : "Español",
-    isActive: true,
-  }];
-
-  const sharedFaqs = isES ? ES_SHARED_FAQS : EN_SHARED_FAQS;
+  const sharedFaqs = isES ? ES_SHARED_FAQS : isFR ? FR_SHARED_FAQS : EN_SHARED_FAQS;
   const allFaqs = [{ q: config.shippingFaqQ, a: config.shippingFaqA }, ...sharedFaqs];
 
   const secondaryLinkItem = config.secondaryLink ?? {
     to: "/blog/precio-impresion-3d-barcelona",
-    label: isES ? "¿Cuánto cuesta la impresión 3D?" : "How much does 3D printing cost?",
-    description: isES ? "Precios reales por tamaño y material" : "Real prices by size and material",
+    label: isES ? "¿Cuánto cuesta la impresión 3D?" : isFR ? "Combien coûte l'impression 3D ?" : "How much does 3D printing cost?",
+    description: isES ? "Precios reales por tamaño y material" : isFR ? "Prix réels par taille et matériau" : "Real prices by size and material",
   };
 
   const articleSchema = {
@@ -160,7 +171,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
-      <Header cityLanguages={cityLanguages} />
+      <Header />
 
       <main className="pt-16">
         {/* Hero */}
@@ -180,11 +191,11 @@ const CityDeliveryPage = ({ config }: Props) => {
             <div className="max-w-3xl mx-auto text-center">
               <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
                 <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
-                  {isES ? "Inicio" : "Home"}
+                  {isES ? "Inicio" : isFR ? "Accueil" : "Home"}
                 </Link>
                 <span>/</span>
                 <Link to="/3d-printing-service" className="hover:text-primary-foreground/80 transition-colors">
-                  {isES ? "Servicio Internacional" : "3D Printing Service"}
+                  {isES ? "Servicio Internacional" : isFR ? "Service d'impression 3D" : "3D Printing Service"}
                 </Link>
                 <span>/</span>
                 <span className="text-primary-foreground/70">{config.city}</span>
@@ -195,11 +206,11 @@ const CityDeliveryPage = ({ config }: Props) => {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-                {config.h1}
+                {isFR && config.nativeSection ? config.nativeSection.headline : config.h1}
               </h1>
 
               <p className="text-lg md:text-xl text-primary-foreground/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-                {config.heroSubtitle}
+                {isFR && config.nativeSection ? config.nativeSection.body : config.heroSubtitle}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
@@ -208,7 +219,11 @@ const CityDeliveryPage = ({ config }: Props) => {
                     to={calcUrl}
                     onClick={() => capture("city_cta_click", { city: config.city, type: "calculator" })}
                   >
-                    {isES ? `Presupuesto con entrega en ${config.city}` : `Get a quote — delivered to ${config.city}`}
+                    {isES
+                      ? `Presupuesto con entrega en ${config.city}`
+                      : isFR
+                      ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
+                      : `Get a quote — delivered to ${config.city}`}
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                 </Button>
@@ -222,13 +237,15 @@ const CityDeliveryPage = ({ config }: Props) => {
                   className="group"
                 >
                   <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-                  {isES ? "WhatsApp" : "Message Us on WhatsApp"}
+                  {isES ? "WhatsApp" : isFR ? "Nous écrire sur WhatsApp" : "Message Us on WhatsApp"}
                 </Button>
               </div>
 
               <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
                 {(isES
                   ? ["Desde €10", "Presupuesto en 1 hora", "Seguimiento incluido", "Sin pedido mínimo", "Sin registro"]
+                  : isFR
+                  ? ["À partir de 10 €", "Devis en 1 heure", "Livraison suivie", "Sans minimum de commande", "Sans inscription"]
                   : ["From €10", "Quote in 1 hour", "Tracked delivery", "No minimum order", "No account needed"]
                 ).map((label) => (
                   <span
@@ -263,6 +280,13 @@ const CityDeliveryPage = ({ config }: Props) => {
                   { icon: Globe, label: "Países de envío", value: "30+" },
                   { icon: CheckCircle2, label: "Pedido mínimo", value: "€10" },
                 ]
+              : isFR
+              ? [
+                  { icon: Clock, label: "Délai de devis", value: "< 1 heure" },
+                  { icon: Truck, label: `Livraison à ${config.city}`, value: config.deliveryDays },
+                  { icon: Globe, label: "Pays livrés", value: "30+" },
+                  { icon: CheckCircle2, label: "Commande minimum", value: "10 €" },
+                ]
               : [
                   { icon: Clock, label: "Quote turnaround", value: "< 1 hour" },
                   { icon: Truck, label: `Delivery to ${config.city}`, value: config.deliveryDays },
@@ -281,8 +305,8 @@ const CityDeliveryPage = ({ config }: Props) => {
           </div>
         </section>
 
-        {/* Native language callout */}
-        {config.nativeSection && (
+        {/* Native language callout — hidden when the page is already rendering in that language */}
+        {config.nativeSection && !isFR && (
           <section id="native-section" className="bg-accent/10 border-y border-accent/20 py-8">
             <div className="container px-4">
               <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -340,20 +364,41 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    One studio. Consistent quality. Direct communication.
+                    {isFR
+                      ? "Un studio. Qualité constante. Communication directe."
+                      : "One studio. Consistent quality. Direct communication."}
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <p>{config.introParagraph}</p>
-                    <p>
-                      We are a professional FDM 3D printing studio based in Barcelona. Unlike online marketplaces where
-                      your file passes through multiple hands and gets routed to whichever print farm accepts the job, we
-                      are a single studio — one team, one set of machines, consistent quality on every order.
-                    </p>
-                    <p>
-                      Every print is reviewed, produced, and dispatched by the same people. We specialise in FDM (Fused
-                      Deposition Modelling) printing across a full range of thermoplastics — from everyday PLA to
-                      engineering-grade Nylon, ASA, Polycarbonate, and carbon-fibre composites.
-                    </p>
+                    {isFR ? (
+                      <>
+                        <p>
+                          Nous sommes un studio professionnel d'impression 3D FDM basé à Barcelone. Contrairement aux
+                          marketplaces en ligne où votre fichier passe entre de nombreuses mains et est acheminé vers la
+                          ferme d'impression la moins chère, nous sommes un studio unique — une équipe, les mêmes
+                          machines, une qualité constante à chaque commande.
+                        </p>
+                        <p>
+                          Chaque impression est vérifiée, produite et expédiée par les mêmes personnes. Nous sommes
+                          spécialisés dans l'impression FDM (Modélisation par Dépôt de Filament) sur toute la gamme
+                          de thermoplastiques — du PLA courant au Nylon de grade ingénierie, ASA, Polycarbonate et
+                          composites en fibre de carbone.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p>
+                          We are a professional FDM 3D printing studio based in Barcelona. Unlike online marketplaces where
+                          your file passes through multiple hands and gets routed to whichever print farm accepts the job, we
+                          are a single studio — one team, one set of machines, consistent quality on every order.
+                        </p>
+                        <p>
+                          Every print is reviewed, produced, and dispatched by the same people. We specialise in FDM (Fused
+                          Deposition Modelling) printing across a full range of thermoplastics — from everyday PLA to
+                          engineering-grade Nylon, ASA, Polycarbonate, and carbon-fibre composites.
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -393,32 +438,58 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    How it works — fully remote, from anywhere in the world
+                    {isFR
+                      ? "Comment ça marche — entièrement à distance"
+                      : "How it works — fully remote, from anywhere in the world"}
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
-                    <p>You don't need to be in Barcelona to use our service. The entire process is remote from the first second to the last tracking notification.</p>
-                    <ol className="space-y-3 list-decimal list-inside">
-                      <li>
-                        <strong className="text-foreground">Upload your file.</strong> Send your STL, STEP, OBJ, or
-                        3MF file via our{" "}
-                        <Link to={calcUrl} className="text-accent hover:underline">online estimator</Link>,
-                        by email, or directly on WhatsApp. The estimator gives an instant price estimate based on your
-                        file's weight and print time.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">Human review within 1 hour.</strong> A real person checks
-                        your file for printability — wall thicknesses, overhangs, orientation — and confirms the exact
-                        price, lead time, and any material recommendations.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">Approve and we print.</strong> Once you confirm the quote,
-                        the job enters our print queue. Most standard orders ship within 3–7 business days.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">Tracked courier delivery.</strong> You receive a tracking
-                        number as soon as the parcel leaves our workshop.
-                      </li>
-                    </ol>
+                    {isFR ? (
+                      <>
+                        <p>Vous n'avez pas besoin d'être à Barcelone pour utiliser notre service. Tout le processus est à distance, de la première seconde à la dernière notification de suivi.</p>
+                        <ol className="space-y-3 list-decimal list-inside">
+                          <li>
+                            <strong className="text-foreground">Envoyez votre fichier.</strong> Transmettez votre fichier STL, STEP, OBJ ou 3MF via notre{" "}
+                            <Link to={calcUrl} className="text-accent hover:underline">estimateur en ligne</Link>,
+                            par e-mail ou directement sur WhatsApp.
+                          </li>
+                          <li>
+                            <strong className="text-foreground">Vérification humaine en 1 heure.</strong> Une vraie personne contrôle votre fichier — épaisseurs de paroi, surplombs, orientation — et confirme le prix exact, le délai et les recommandations de matériau.
+                          </li>
+                          <li>
+                            <strong className="text-foreground">Validez et nous imprimons.</strong> Une fois le devis confirmé, le travail entre dans notre file d'impression. La plupart des commandes standard sont expédiées sous 3–7 jours ouvrables.
+                          </li>
+                          <li>
+                            <strong className="text-foreground">Livraison avec suivi.</strong> Vous recevez un numéro de suivi dès que le colis quitte notre atelier.
+                          </li>
+                        </ol>
+                      </>
+                    ) : (
+                      <>
+                        <p>You don't need to be in Barcelona to use our service. The entire process is remote from the first second to the last tracking notification.</p>
+                        <ol className="space-y-3 list-decimal list-inside">
+                          <li>
+                            <strong className="text-foreground">Upload your file.</strong> Send your STL, STEP, OBJ, or
+                            3MF file via our{" "}
+                            <Link to={calcUrl} className="text-accent hover:underline">online estimator</Link>,
+                            by email, or directly on WhatsApp. The estimator gives an instant price estimate based on your
+                            file's weight and print time.
+                          </li>
+                          <li>
+                            <strong className="text-foreground">Human review within 1 hour.</strong> A real person checks
+                            your file for printability — wall thicknesses, overhangs, orientation — and confirms the exact
+                            price, lead time, and any material recommendations.
+                          </li>
+                          <li>
+                            <strong className="text-foreground">Approve and we print.</strong> Once you confirm the quote,
+                            the job enters our print queue. Most standard orders ship within 3–7 business days.
+                          </li>
+                          <li>
+                            <strong className="text-foreground">Tracked courier delivery.</strong> You receive a tracking
+                            number as soon as the parcel leaves our workshop.
+                          </li>
+                        </ol>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -453,22 +524,36 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    Materials — full FDM range
+                    {isFR ? "Matériaux — gamme FDM complète" : "Materials — full FDM range"}
                   </h2>
                   <p className="text-muted-foreground mb-6 leading-relaxed">
-                    We print across the complete FDM material range. Here's what each material is best suited for:
+                    {isFR
+                      ? "Nous imprimons sur toute la gamme de matériaux FDM. Voici l'utilisation optimale de chaque matériau :"
+                      : "We print across the complete FDM material range. Here's what each material is best suited for:"}
                   </p>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    {[
-                      { name: "PLA", desc: "The most versatile entry-level material. Ideal for prototypes, display models, and parts not exposed to heat above 60 °C. Available in dozens of colours. Most economical choice." },
-                      { name: "PETG", desc: "Tougher than PLA with slight flexibility. Excellent for housings, brackets, and parts that need impact resistance without the warping risk of ABS." },
-                      { name: "ABS", desc: "Strong, heat-resistant (up to ~100 °C), and easily machined or sanded. Standard choice for functional enclosures and automotive interior parts." },
-                      { name: "ASA", desc: "ABS but UV-stabilised and more weather-resistant. The go-to for anything outdoors: garden fixtures, automotive exterior parts, signage, mounting brackets." },
-                      { name: "TPU (Flexible)", desc: "Rubber-like filament in various shore hardnesses. Used for phone cases, grips, gaskets, pipe seals, anti-vibration pads, and wearable components." },
-                      { name: "Nylon (PA12 / PA6)", desc: "High tensile strength, excellent fatigue resistance, low friction. The standard engineering choice for gears, hinges, snap-fits, and parts under repeated stress." },
-                      { name: "Polycarbonate (PC)", desc: "Extremely tough and heat-resistant up to ~115 °C. Best for parts that must survive significant mechanical stress, high temperatures, or impacts." },
-                      { name: "Carbon Fibre Composites", desc: "Short-fibre reinforced materials with higher stiffness-to-weight ratio. Used in structural brackets, drone frames, robotic arms, and precision parts where rigidity is paramount." },
-                    ].map(({ name, desc }) => (
+                    {(isFR
+                      ? [
+                          { name: "PLA", desc: "Le matériau polyvalent d'entrée de gamme. Idéal pour les prototypes, maquettes et pièces non exposées à des températures supérieures à 60 °C. Disponible en dizaines de couleurs." },
+                          { name: "PETG", desc: "Plus solide que le PLA avec une légère flexibilité. Excellent pour les boîtiers, supports et pièces nécessitant une résistance aux chocs sans le risque de déformation de l'ABS." },
+                          { name: "ABS", desc: "Solide, résistant à la chaleur (jusqu'à ~100 °C) et facilement usinable. Choix standard pour les boîtiers fonctionnels et les pièces d'intérieur automobile." },
+                          { name: "ASA", desc: "ABS stabilisé UV et plus résistant aux intempéries. Le choix pour tout usage extérieur : fixations de jardin, pièces auto extérieures, signalétique, supports de montage." },
+                          { name: "TPU (Flexible)", desc: "Filament caoutchouté en différentes duretés Shore. Utilisé pour les coques de téléphone, poignées, joints, garnitures étanches et absorbeurs de vibrations." },
+                          { name: "Nylon (PA12 / PA6)", desc: "Haute résistance à la traction, excellente résistance à la fatigue, faible friction. Le choix standard en ingénierie pour engrenages, charnières, clips et pièces sous contraintes répétées." },
+                          { name: "Polycarbonate (PC)", desc: "Extrêmement robuste et résistant à la chaleur jusqu'à ~115 °C. Idéal pour les pièces devant supporter des contraintes mécaniques importantes, des températures élevées ou des chocs." },
+                          { name: "Composites Fibre de Carbone", desc: "Matériaux renforcés à fibres courtes offrant un meilleur rapport rigidité/poids. Utilisés pour les supports structurels, cadres de drones, bras robotiques et pièces de précision." },
+                        ]
+                      : [
+                          { name: "PLA", desc: "The most versatile entry-level material. Ideal for prototypes, display models, and parts not exposed to heat above 60 °C. Available in dozens of colours. Most economical choice." },
+                          { name: "PETG", desc: "Tougher than PLA with slight flexibility. Excellent for housings, brackets, and parts that need impact resistance without the warping risk of ABS." },
+                          { name: "ABS", desc: "Strong, heat-resistant (up to ~100 °C), and easily machined or sanded. Standard choice for functional enclosures and automotive interior parts." },
+                          { name: "ASA", desc: "ABS but UV-stabilised and more weather-resistant. The go-to for anything outdoors: garden fixtures, automotive exterior parts, signage, mounting brackets." },
+                          { name: "TPU (Flexible)", desc: "Rubber-like filament in various shore hardnesses. Used for phone cases, grips, gaskets, pipe seals, anti-vibration pads, and wearable components." },
+                          { name: "Nylon (PA12 / PA6)", desc: "High tensile strength, excellent fatigue resistance, low friction. The standard engineering choice for gears, hinges, snap-fits, and parts under repeated stress." },
+                          { name: "Polycarbonate (PC)", desc: "Extremely tough and heat-resistant up to ~115 °C. Best for parts that must survive significant mechanical stress, high temperatures, or impacts." },
+                          { name: "Carbon Fibre Composites", desc: "Short-fibre reinforced materials with higher stiffness-to-weight ratio. Used in structural brackets, drone frames, robotic arms, and precision parts where rigidity is paramount." },
+                        ]
+                    ).map(({ name, desc }) => (
                       <div key={name} className="p-5 rounded-xl border border-border/50 bg-card hover:border-accent/40 transition-colors">
                         <h3 className="font-bold text-foreground mb-2">{name}</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
@@ -508,28 +593,55 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    Pricing — transparent formula, no hidden fees
+                    {isFR ? "Tarification — formule transparente, sans frais cachés" : "Pricing — transparent formula, no hidden fees"}
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
-                    <p>
-                      Our pricing is formula-based and fully transparent. The final price depends on two factors: the
-                      weight of the printed part (grams of filament consumed) and the machine time (hours of print).
-                      There are no set-up fees, no file review fees, and no platform charges.
-                    </p>
-                    <p>
-                      The minimum order is <strong className="text-foreground">€10</strong>. Most single small parts
-                      fall in the €10–€40 range. Material choice affects the per-gram cost: PLA is the most economical,
-                      with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but
-                      still far more affordable than equivalent resin or SLS parts from industrial bureaus.
-                    </p>
-                    <p>
-                      Use the{" "}
-                      <Link to={calcUrl} className="text-accent hover:underline font-semibold">
-                        online calculator
-                      </Link>{" "}
-                      to upload your file and get an instant estimate, or send the file directly and we'll quote within
-                      the hour.
-                    </p>
+                    {isFR ? (
+                      <>
+                        <p>
+                          Notre tarification est basée sur une formule entièrement transparente. Le prix final dépend de
+                          deux facteurs : le poids de la pièce imprimée (grammes de filament consommé) et le temps machine
+                          (heures d'impression). Aucun frais de mise en place, de révision de fichier ni de commission de
+                          plateforme.
+                        </p>
+                        <p>
+                          La commande minimum est de <strong className="text-foreground">10 €</strong>. La plupart des
+                          petites pièces individuelles se situent entre 10 € et 40 €. Le PLA est le choix le plus
+                          économique ; les matériaux d'ingénierie comme le Polycarbonate et les composites carbone sont
+                          plus chers, mais restent bien plus abordables que les pièces résine ou SLS équivalentes.
+                        </p>
+                        <p>
+                          Utilisez notre{" "}
+                          <Link to={calcUrl} className="text-accent hover:underline font-semibold">
+                            calculateur en ligne
+                          </Link>{" "}
+                          pour obtenir une estimation instantanée, ou envoyez le fichier directement et nous vous
+                          répondrons avec un devis en moins d'une heure.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p>
+                          Our pricing is formula-based and fully transparent. The final price depends on two factors: the
+                          weight of the printed part (grams of filament consumed) and the machine time (hours of print).
+                          There are no set-up fees, no file review fees, and no platform charges.
+                        </p>
+                        <p>
+                          The minimum order is <strong className="text-foreground">€10</strong>. Most single small parts
+                          fall in the €10–€40 range. Material choice affects the per-gram cost: PLA is the most economical,
+                          with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but
+                          still far more affordable than equivalent resin or SLS parts from industrial bureaus.
+                        </p>
+                        <p>
+                          Use the{" "}
+                          <Link to={calcUrl} className="text-accent hover:underline font-semibold">
+                            online calculator
+                          </Link>{" "}
+                          to upload your file and get an instant estimate, or send the file directly and we'll quote within
+                          the hour.
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -570,33 +682,29 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    Why choose us over large 3D printing platforms?
+                    {isFR
+                      ? "Pourquoi nous choisir plutôt que les grandes plateformes ?"
+                      : "Why choose us over large 3D printing platforms?"}
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <ul className="space-y-3">
-                      <li>
-                        <strong className="text-foreground">Direct communication.</strong> You message the person who
-                        actually prints your part, not a support bot or a ticket queue. Questions are answered in
-                        minutes, not days.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace
-                        overhead, no multi-step routing. Most orders ship within 3–7 business days from confirmation.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">No minimum order.</strong> We print single parts starting
-                        at €10. Unlike many industrial services that require batch minimums of 5 or 10 units.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">Honest file review.</strong> A real human checks every file
-                        before it goes to print. If your model has a wall that will fail, we tell you before we print
-                        it — not after, when the part arrives broken.
-                      </li>
-                      <li>
-                        <strong className="text-foreground">WhatsApp access.</strong> For urgent or complex projects,
-                        reach us directly — something no platform-based service can match. We aim to respond within the
-                        hour during business hours.
-                      </li>
+                      {isFR ? (
+                        <>
+                          <li><strong className="text-foreground">Communication directe.</strong> Vous échangez avec la personne qui imprime réellement votre pièce, pas avec un bot ou une file de tickets. Les questions reçoivent une réponse en minutes, pas en jours.</li>
+                          <li><strong className="text-foreground">Délais plus courts pour les petites commandes.</strong> Pas d'intermédiaire de marketplace, pas de routage multi-étapes. La plupart des commandes sont expédiées sous 3–7 jours ouvrables.</li>
+                          <li><strong className="text-foreground">Sans minimum de commande.</strong> Nous imprimons des pièces uniques à partir de 10 €. Contrairement à de nombreux services industriels qui exigent des minimums de 5 ou 10 pièces.</li>
+                          <li><strong className="text-foreground">Révision honnête du fichier.</strong> Un humain vérifie chaque fichier avant impression. Si votre modèle présente un problème, nous vous le signalons avant d'imprimer — pas après réception d'une pièce cassée.</li>
+                          <li><strong className="text-foreground">Accès WhatsApp.</strong> Pour les projets urgents ou complexes, contactez-nous directement. Nous répondons dans l'heure pendant les heures de bureau.</li>
+                        </>
+                      ) : (
+                        <>
+                          <li><strong className="text-foreground">Direct communication.</strong> You message the person who actually prints your part, not a support bot or a ticket queue. Questions are answered in minutes, not days.</li>
+                          <li><strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing. Most orders ship within 3–7 business days from confirmation.</li>
+                          <li><strong className="text-foreground">No minimum order.</strong> We print single parts starting at €10. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
+                          <li><strong className="text-foreground">Honest file review.</strong> A real human checks every file before it goes to print. If your model has a wall that will fail, we tell you before we print it — not after, when the part arrives broken.</li>
+                          <li><strong className="text-foreground">WhatsApp access.</strong> For urgent or complex projects, reach us directly — something no platform-based service can match. We aim to respond within the hour during business hours.</li>
+                        </>
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -625,15 +733,23 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    Why order from Barcelona?
+                    {isFR ? "Pourquoi commander depuis Barcelone ?" : "Why order from Barcelona?"}
                   </h2>
                   <div className="grid sm:grid-cols-2 gap-4">
-                    {[
-                      { title: "European tech hub", body: "Barcelona hosts the Mobile World Congress and the 22@ innovation district — one of Europe's most concentrated technology ecosystems. We are a professional studio rooted in that environment." },
-                      { title: "Studio quality, not a print farm", body: "We are a single studio — not a marketplace routing your file to whichever print farm is cheapest. Same machines, same team, consistent quality on every order." },
-                      { title: "EU manufacturing standards", body: "We operate under European manufacturing norms: certified materials with full traceability, regularly calibrated equipment, and human quality control before every shipment leaves." },
-                      { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves our workshop — complete visibility from Barcelona to your door." },
-                    ].map(({ title, body }) => (
+                    {(isFR
+                      ? [
+                          { title: "Hub technologique européen", body: "Barcelone accueille le Mobile World Congress et le district d'innovation 22@ — l'un des écosystèmes technologiques les plus denses d'Europe. Nous sommes un studio professionnel ancré dans cet environnement." },
+                          { title: "Qualité studio, pas ferme d'impression", body: "Nous sommes un studio unique — pas une marketplace qui achemine votre fichier vers la ferme la moins chère. Mêmes machines, même équipe, qualité constante à chaque commande." },
+                          { title: "Normes de fabrication européennes", body: "Nous opérons selon les normes de fabrication européennes : matériaux certifiés avec traçabilité complète, équipements calibrés régulièrement et contrôle qualité humain avant chaque expédition." },
+                          { title: "Livraison entièrement suivie", body: "Chaque commande est expédiée avec un suivi complet. Vous recevez un lien de suivi dès que le colis quitte notre atelier — visibilité totale de Barcelone à votre porte." },
+                        ]
+                      : [
+                          { title: "European tech hub", body: "Barcelona hosts the Mobile World Congress and the 22@ innovation district — one of Europe's most concentrated technology ecosystems. We are a professional studio rooted in that environment." },
+                          { title: "Studio quality, not a print farm", body: "We are a single studio — not a marketplace routing your file to whichever print farm is cheapest. Same machines, same team, consistent quality on every order." },
+                          { title: "EU manufacturing standards", body: "We operate under European manufacturing norms: certified materials with full traceability, regularly calibrated equipment, and human quality control before every shipment leaves." },
+                          { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves our workshop — complete visibility from Barcelona to your door." },
+                        ]
+                    ).map(({ title, body }) => (
                       <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
                         <h3 className="font-bold text-foreground mb-2 text-sm">{title}</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">{body}</p>
@@ -694,19 +810,24 @@ const CityDeliveryPage = ({ config }: Props) => {
               ) : (
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                    Shipping — tracked delivery to {config.city} and worldwide
+                    {isFR
+                      ? `Expédition — livraison suivie à ${config.city} et dans le monde entier`
+                      : `Shipping — tracked delivery to ${config.city} and worldwide`}
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <p>
-                      We ship via trusted courier partners, dispatching from our Barcelona workshop. All orders are
-                      fully tracked — you receive a tracking number as soon as the parcel leaves us.
+                      {isFR
+                        ? "Nous expédions via des transporteurs de confiance depuis notre atelier à Barcelone. Toutes les commandes sont entièrement suivies — vous recevez un numéro de suivi dès que le colis nous quitte."
+                        : "We ship via trusted courier partners, dispatching from our Barcelona workshop. All orders are fully tracked — you receive a tracking number as soon as the parcel leaves us."}
                     </p>
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm border-collapse not-prose">
                         <thead>
                           <tr className="border-b border-border">
                             <th className="text-left py-2 pr-4 font-semibold text-foreground">Destination</th>
-                            <th className="text-left py-2 font-semibold text-foreground">Typical delivery</th>
+                            <th className="text-left py-2 font-semibold text-foreground">
+                              {isFR ? "Délai typique" : "Typical delivery"}
+                            </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-border/50">
@@ -714,12 +835,20 @@ const CityDeliveryPage = ({ config }: Props) => {
                             <td className="py-2 pr-4 font-semibold text-foreground">{config.deliveryTableRow[0]}</td>
                             <td className="py-2 font-semibold text-accent">{config.deliveryTableRow[1]}</td>
                           </tr>
-                          {[
-                            ["Spain", "1–2 business days"],
-                            ["France, Portugal, Germany, Italy, Netherlands", "3–5 business days"],
-                            ["Rest of Europe", "4–7 business days"],
-                            ["UK, US, Canada, Australia", "5–10 business days"],
-                          ].map(([dest, time]) => (
+                          {(isFR
+                            ? [
+                                ["Espagne", "1–2 jours ouvrables"],
+                                ["France (livraison directe)", "3–4 jours ouvrables"],
+                                ["Reste de l'Europe", "4–7 jours ouvrables"],
+                                ["Royaume-Uni, États-Unis, Canada, Australie", "5–10 jours ouvrables"],
+                              ]
+                            : [
+                                ["Spain", "1–2 business days"],
+                                ["France, Portugal, Germany, Italy, Netherlands", "3–5 business days"],
+                                ["Rest of Europe", "4–7 business days"],
+                                ["UK, US, Canada, Australia", "5–10 business days"],
+                              ]
+                          ).map(([dest, time]) => (
                             <tr key={dest}>
                               <td className="py-2 pr-4 text-muted-foreground">{dest}</td>
                               <td className="py-2 text-muted-foreground">{time}</td>
@@ -729,12 +858,17 @@ const CityDeliveryPage = ({ config }: Props) => {
                       </table>
                     </div>
                     <p>
-                      Shipping costs are calculated at the quote stage based on your country and estimated parcel weight,
-                      and are always shown before you confirm your order.
+                      {isFR
+                        ? "Les frais d'expédition sont calculés à l'étape du devis en fonction de votre pays et du poids estimé du colis, et sont toujours affichés avant que vous confirmiez votre commande."
+                        : "Shipping costs are calculated at the quote stage based on your country and estimated parcel weight, and are always shown before you confirm your order."}
                     </p>
                     <p className="not-prose text-sm bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 text-muted-foreground">
-                      <strong className="text-foreground">Estimated shipping to {config.city}:</strong>{" "}
-                      typically €8–15 for small parts, €15–25 for larger orders. The exact cost is confirmed in your quote before you approve the order.
+                      <strong className="text-foreground">
+                        {isFR ? `Frais d'expédition estimés vers ${config.city} :` : `Estimated shipping to ${config.city}:`}
+                      </strong>{" "}
+                      {isFR
+                        ? "généralement 8–15 € pour les petites pièces, 15–25 € pour les commandes plus importantes. Le coût exact est confirmé dans votre devis avant que vous approuviez la commande."
+                        : "typically €8–15 for small parts, €15–25 for larger orders. The exact cost is confirmed in your quote before you approve the order."}
                     </p>
                     {config.locale === "en_GB" && (
                       <p className="not-prose text-sm bg-secondary border border-border rounded-lg px-4 py-3 text-muted-foreground">
@@ -754,10 +888,18 @@ const CityDeliveryPage = ({ config }: Props) => {
         <section className="container px-4 py-14 md:py-20">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
-              {isES ? "Lo que dicen nuestros clientes internacionales" : "What our international customers say"}
+              {isES
+                ? "Lo que dicen nuestros clientes internacionales"
+                : isFR
+                ? "Ce que disent nos clients internationaux"
+                : "What our international customers say"}
             </h2>
             <p className="text-center text-muted-foreground mb-8 text-sm">
-              {isES ? "Pedidos remotos desde toda Europa y más allá" : "Remote orders from across Europe and beyond"}
+              {isES
+                ? "Pedidos remotos desde toda Europa y más allá"
+                : isFR
+                ? "Commandes à distance depuis toute l'Europe et au-delà"
+                : "Remote orders from across Europe and beyond"}
             </p>
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="p-6 rounded-xl border border-border bg-card">
@@ -765,11 +907,15 @@ const CityDeliveryPage = ({ config }: Props) => {
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                   {isES
                     ? "\"Pedimos desde nuestra empresa de construcción en Alemania — todo el proceso fue completamente remoto. Enviamos los archivos por WhatsApp, recibimos presupuesto rápidamente y las piezas llegaron perfectas. Funcionó exactamente como necesitábamos.\""
+                    : isFR
+                    ? "\"Nous avons commandé depuis notre entreprise de construction en Allemagne — entièrement à distance. Nous avons envoyé les fichiers via WhatsApp, reçu un devis rapidement et les pièces sont arrivées exactement comme prévu. Tout a fonctionné parfaitement.\""
                     : "\"We ordered from our construction company in Germany — entirely remote. Sent the files via WhatsApp, got a fast quote, and the parts arrived exactly as needed. Everything worked perfectly for the project.\""}
                 </p>
                 <div>
                   <p className="font-semibold text-foreground text-sm">Kirill Gromskiy</p>
-                  <p className="text-xs text-muted-foreground">{isES ? "Empresa constructora · Pedido remoto" : "Construction company · Remote order"}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isES ? "Empresa constructora · Pedido remoto" : isFR ? "Entreprise de construction · Commande à distance" : "Construction company · Remote order"}
+                  </p>
                 </div>
               </div>
               <div className="p-6 rounded-xl border border-border bg-card">
@@ -777,11 +923,15 @@ const CityDeliveryPage = ({ config }: Props) => {
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                   {isES
                     ? "\"Pedí desde Milán — al principio dudé por pedir desde otro país, pero la comunicación fue rápida y profesional. Calidad excelente y el paquete llegó en 3 días. Sin duda repetiré.\""
+                    : isFR
+                    ? "\"J'ai commandé depuis Milan — j'avais des doutes sur une commande depuis un autre pays, mais la communication était rapide et professionnelle. Qualité excellente, et le colis est arrivé en 3 jours. Je recommanderai sans hésiter.\""
                     : "\"Ordered from Milan — I was unsure about ordering from another country, but communication was fast and professional. Excellent quality, and the package arrived in 3 days. Will definitely use again.\""}
                 </p>
                 <div>
                   <p className="font-semibold text-foreground text-sm">Valentino Modestino Lombardi</p>
-                  <p className="text-xs text-muted-foreground">{isES ? "Milán, Italia · Pedido remoto" : "Milan, Italy · Remote order"}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {isES ? "Milán, Italia · Pedido remoto" : isFR ? "Milan, Italie · Commande à distance" : "Milan, Italy · Remote order"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -792,7 +942,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <section className="container px-4 py-14 md:py-20">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-              {isES ? "Preguntas Frecuentes" : "Frequently Asked Questions"}
+              {isES ? "Preguntas Frecuentes" : isFR ? "Questions fréquentes" : "Frequently Asked Questions"}
             </h2>
             <div className="space-y-4">
               {allFaqs.map(({ q, a }) => (
@@ -816,7 +966,7 @@ const CityDeliveryPage = ({ config }: Props) => {
           <div className="container px-4">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-lg font-bold text-foreground mb-4">
-                {isES ? "Lectura relacionada" : "Related reading"}
+                {isES ? "Lectura relacionada" : isFR ? "À lire aussi" : "Related reading"}
               </h2>
               <div className="grid sm:grid-cols-2 gap-4">
                 <Link
@@ -828,10 +978,10 @@ const CityDeliveryPage = ({ config }: Props) => {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground text-sm leading-snug group-hover:text-accent transition-colors">
-                      {isES ? "Servicio Internacional" : "International Shipping Service"}
+                      {isES ? "Servicio Internacional" : isFR ? "Service de livraison internationale" : "International Shipping Service"}
                     </p>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      {isES ? "Envíos a Europa y todo el mundo" : "Delivery across Europe and worldwide"}
+                      {isES ? "Envíos a Europa y todo el mundo" : isFR ? "Livraison en Europe et dans le monde entier" : "Delivery across Europe and worldwide"}
                     </p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
@@ -862,11 +1012,13 @@ const CityDeliveryPage = ({ config }: Props) => {
         <section className="container px-4 py-16 md:py-20">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {isES ? "¿Listo para pedir presupuesto?" : "Ready to get a quote?"}
+              {isES ? "¿Listo para pedir presupuesto?" : isFR ? "Prêt à obtenir un devis ?" : "Ready to get a quote?"}
             </h2>
             <p className="text-muted-foreground mb-8 leading-relaxed">
               {isES
                 ? "Sube tu archivo STL o STEP a nuestra calculadora para obtener un presupuesto instantáneo. Un miembro del equipo revisa cada archivo y confirma el precio exacto en menos de una hora. Sin registro necesario."
+                : isFR
+                ? "Envoyez votre fichier STL ou STEP à notre calculateur en ligne pour une estimation instantanée. Un membre de l'équipe examine chaque fichier et confirme le prix exact en moins d'une heure. Sans inscription."
                 : "Upload your STL or STEP file to our online calculator for an instant price estimate. A member of the team reviews every file and confirms the exact price within one hour. No account required."}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -875,7 +1027,11 @@ const CityDeliveryPage = ({ config }: Props) => {
                   to={calcUrl}
                   onClick={() => capture("city_cta_click", { city: config.city, type: "calculator_bottom" })}
                 >
-                  {isES ? `Presupuesto con entrega en ${config.city}` : `Get a quote — delivered to ${config.city}`}
+                  {isES
+                    ? `Presupuesto con entrega en ${config.city}`
+                    : isFR
+                    ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
+                    : `Get a quote — delivered to ${config.city}`}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
@@ -889,7 +1045,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                 className="group"
               >
                 <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-                {isES ? "WhatsApp" : "Message Us on WhatsApp"}
+                {isES ? "WhatsApp" : isFR ? "Nous écrire sur WhatsApp" : "Message Us on WhatsApp"}
               </Button>
             </div>
           </div>
