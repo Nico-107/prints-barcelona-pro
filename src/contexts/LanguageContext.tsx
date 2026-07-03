@@ -58,6 +58,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   useEffect(() => {
     const pageLang = pathLanguage(window.location.pathname);
     if (pageLang === "en" || pageLang === "fr") return;
+    if (manualOverride.current) return; // user already picked manually this session
     const stored = localStorage.getItem("preferred-language");
     if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
       setLanguageState(stored as Language);
@@ -70,12 +71,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
 
   useEffect(() => {
     document.documentElement.lang = language;
-    // Only persist to localStorage when the user explicitly chose a language
-    // AND we're not on a page that forces its own language (en, fr).
     const pl = pathLanguage(window.location.pathname);
-    if (manualOverride.current && pl !== "en" && pl !== "fr") {
-      localStorage.setItem("preferred-language", language);
-    }
+    if (!manualOverride.current) return;
+    if (pl === "en" || pl === "fr") return;
+    localStorage.setItem("preferred-language", language);
   }, [language]);
 
   const setLanguage = useCallback((lang: Language) => {
