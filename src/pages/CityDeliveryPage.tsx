@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck } from "lucide-react";
-import Header from "@/components/Header";
+import Header, { type HeaderCityLanguage } from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
@@ -68,6 +68,46 @@ const CityDeliveryPage = ({ config }: Props) => {
   const isES = config.lang === "es";
   const PAGE_URL = `${SITE_URL}${config.slug}`;
 
+  const cityLanguages: HeaderCityLanguage[] = (() => {
+    const nativeLang = config.nativeSection?.lang;
+    const nativeLabels: Record<string, { label: string; aria: string }> = {
+      fr: { label: "FR", aria: "Français" },
+      de: { label: "DE", aria: "Deutsch" },
+      nl: { label: "NL", aria: "Nederlands" },
+      it: { label: "IT", aria: "Italiano" },
+      pt: { label: "PT", aria: "Português" },
+      ca: { label: "CA", aria: "Català" },
+    };
+    // London, New York — EN only, no toggle
+    if (config.lang === "en" && !nativeLang) {
+      return [{ code: "en", label: "EN", aria: "English", isActive: true }];
+    }
+    // Madrid — ES active, EN no-op
+    if (config.lang === "es" && !nativeLang) {
+      return [
+        { code: "es", label: "ES", aria: "Español", isActive: true },
+        { code: "en", label: "EN", aria: "English", isActive: false },
+      ];
+    }
+    // Valencia — ES active, EN no-op, CA scrolls to native section
+    if (config.lang === "es" && nativeLang === "ca") {
+      return [
+        { code: "es", label: "ES", aria: "Español", isActive: true },
+        { code: "en", label: "EN", aria: "English", isActive: false },
+        { code: "ca", label: "CA", aria: "Català", isActive: false, scrollTo: "native-section" },
+      ];
+    }
+    // Paris/Berlin/Amsterdam/Milan/Rome/Lisbon — native scrolls to section, EN active
+    if (config.lang === "en" && nativeLang) {
+      const n = nativeLabels[nativeLang] ?? { label: nativeLang.toUpperCase(), aria: nativeLang };
+      return [
+        { code: nativeLang, ...n, isActive: false, scrollTo: "native-section" },
+        { code: "en", label: "EN", aria: "English", isActive: true },
+      ];
+    }
+    return [{ code: "en", label: "EN", aria: "English", isActive: true }];
+  })();
+
   const sharedFaqs = isES ? ES_SHARED_FAQS : EN_SHARED_FAQS;
   const allFaqs = [{ q: config.shippingFaqQ, a: config.shippingFaqA }, ...sharedFaqs];
 
@@ -131,7 +171,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
 
-      <Header />
+      <Header cityLanguages={cityLanguages} />
 
       <main className="pt-16">
         {/* Hero */}
@@ -243,7 +283,7 @@ const CityDeliveryPage = ({ config }: Props) => {
 
         {/* Native language callout */}
         {config.nativeSection && (
-          <section className="bg-accent/10 border-y border-accent/20 py-8">
+          <section id="native-section" className="bg-accent/10 border-y border-accent/20 py-8">
             <div className="container px-4">
               <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-6">
                 <div className="flex-1 min-w-0">
