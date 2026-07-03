@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { esTranslations } from "@/i18n/es";
 import { enTranslations } from "@/i18n/en";
 import { caTranslations } from "@/i18n/ca";
@@ -63,11 +63,15 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("preferred-language", language);
     document.documentElement.lang = language;
+    // English-routed pages always force EN — don't persist that to localStorage
+    // or the Spanish homepage will load in English on the next visit.
+    if (pathLanguage(window.location.pathname) !== "en") {
+      localStorage.setItem("preferred-language", language);
+    }
   }, [language]);
 
-  const setLanguage = (lang: Language) => setLanguageState(lang);
+  const setLanguage = useCallback((lang: Language) => setLanguageState(lang), []);
   const t = (key: string): string =>
     translations[language][key] || translations.en[key] || key;
 
