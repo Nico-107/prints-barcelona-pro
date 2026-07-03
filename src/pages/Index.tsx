@@ -106,7 +106,7 @@ const GUIDES_COPY: Record<string, {
 };
 
 const Index = () => {
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const meta = HOME_META[language] ?? HOME_META.es;
   const [searchParams] = useSearchParams();
   const refCity = searchParams.get("ref") ?? undefined;
@@ -121,6 +121,22 @@ const Index = () => {
       if (highlightTimerRef.current !== null) clearTimeout(highlightTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (refCity) setLanguage("en");
+  }, [refCity]);
+
+  useEffect(() => {
+    if (!refCity) return;
+    const timer = setTimeout(() => {
+      const el = document.getElementById("calculator");
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [refCity]);
 
   const handleScrollToCalc = () => {
     const el = document.getElementById("calculator");

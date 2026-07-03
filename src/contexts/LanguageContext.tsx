@@ -23,6 +23,12 @@ const translations: Record<Language, Record<string, string>> = {
 // Must stay in sync with the SSR detect function in entry-server.tsx.
 function pathLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
+  if (
+    path.startsWith("/3d-printing-") ||
+    path.startsWith("/blog") ||
+    path === "/maker-guide" ||
+    path === "/privacy"
+  ) return "en";
   return "es";
 }
 
@@ -44,6 +50,8 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   // language. Runs client-only (useEffect never runs during SSR), so it cannot
   // cause a hydration mismatch — it simply triggers a post-hydration re-render.
   useEffect(() => {
+    const pageLang = pathLanguage(window.location.pathname);
+    if (pageLang === "en") return;
     const stored = localStorage.getItem("preferred-language");
     if (stored === "es" || stored === "en" || stored === "ca") {
       setLanguageState(stored as Language);
