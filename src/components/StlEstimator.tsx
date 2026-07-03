@@ -137,9 +137,10 @@ function computeBundle(
 
 // ─── Section heading — action-oriented copy per language ──────────────────────
 const UPLOAD_HEADING: Record<string, { action: string; benefit: string }> = {
-  en: { action: "Upload your files",       benefit: "get an instant price"   },
-  es: { action: "Sube tus archivos",       benefit: "precio al instante"      },
-  ca: { action: "Puja els teus arxius",    benefit: "preu a l'instant"        },
+  en: { action: "Upload your files",        benefit: "get an instant price"       },
+  es: { action: "Sube tus archivos",        benefit: "precio al instante"         },
+  ca: { action: "Puja els teus arxius",     benefit: "preu a l'instant"           },
+  fr: { action: "Déposez vos fichiers",     benefit: "obtenez un prix instantané" },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -762,8 +763,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             {t("calc.title")}
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.es).action}
-            {" "}<span className="text-accent">— {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.es).benefit}</span>
+            {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).action}
+            {" "}<span className="text-accent">— {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).benefit}</span>
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">{t("calc.subtitle")}</p>
         </div>
