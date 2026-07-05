@@ -137,10 +137,14 @@ function computeBundle(
 
 // ─── Section heading — action-oriented copy per language ──────────────────────
 const UPLOAD_HEADING: Record<string, { action: string; benefit: string }> = {
-  en: { action: "Upload your files",        benefit: "get an instant price"       },
-  es: { action: "Sube tus archivos",        benefit: "precio al instante"         },
-  ca: { action: "Puja els teus arxius",     benefit: "preu a l'instant"           },
-  fr: { action: "Déposez vos fichiers",     benefit: "obtenez un prix instantané" },
+  en: { action: "Upload your files",            benefit: "get an instant price"        },
+  es: { action: "Sube tus archivos",            benefit: "precio al instante"          },
+  ca: { action: "Puja els teus arxius",         benefit: "preu a l'instant"            },
+  fr: { action: "Déposez vos fichiers",         benefit: "obtenez un prix instantané"  },
+  de: { action: "Dateien hochladen",            benefit: "Sofortpreis erhalten"        },
+  nl: { action: "Bestanden uploaden",           benefit: "direct een prijs ontvangen"  },
+  it: { action: "Carica i tuoi file",           benefit: "ottieni un prezzo istantaneo"},
+  pt: { action: "Carregue os seus ficheiros",   benefit: "obtenha um preço instantâneo"},
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────

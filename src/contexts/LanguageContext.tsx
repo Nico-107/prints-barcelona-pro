@@ -3,8 +3,12 @@ import { esTranslations } from "@/i18n/es";
 import { enTranslations } from "@/i18n/en";
 import { caTranslations } from "@/i18n/ca";
 import { frTranslations } from "@/i18n/fr";
+import { deTranslations } from "@/i18n/de";
+import { nlTranslations } from "@/i18n/nl";
+import { itTranslations } from "@/i18n/it";
+import { ptTranslations } from "@/i18n/pt";
 
-export type Language = "es" | "en" | "ca" | "fr";
+export type Language = "es" | "en" | "ca" | "fr" | "de" | "nl" | "it" | "pt";
 
 interface LanguageContextType {
   language: Language;
@@ -19,6 +23,10 @@ const translations: Record<Language, Record<string, string>> = {
   en: enTranslations,
   ca: caTranslations,
   fr: frTranslations,
+  de: deTranslations,
+  nl: nlTranslations,
+  it: itTranslations,
+  pt: ptTranslations,
 };
 
 // Derive language from a URL path alone — deterministic, no browser APIs needed.
@@ -26,6 +34,11 @@ const translations: Record<Language, Record<string, string>> = {
 function pathLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
   if (path === "/3d-printing-delivery-paris") return "fr";
+  if (path === "/3d-printing-delivery-berlin") return "de";
+  if (path === "/3d-printing-delivery-amsterdam") return "nl";
+  if (path === "/3d-printing-delivery-milan") return "it";
+  if (path === "/3d-printing-delivery-rome") return "it";
+  if (path === "/3d-printing-delivery-lisbon") return "pt";
   if (
     path.startsWith("/3d-printing-") ||
     path.startsWith("/blog") ||
@@ -57,7 +70,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   // cause a hydration mismatch — it simply triggers a post-hydration re-render.
   useEffect(() => {
     const pageLang = pathLanguage(window.location.pathname);
-    if (pageLang === "en" || pageLang === "fr") return;
+    if (pageLang === "en" || pageLang === "fr" || pageLang === "de" || pageLang === "nl" || pageLang === "it" || pageLang === "pt") return;
     if (manualOverride.current) return; // user already picked manually this session
     const stored = localStorage.getItem("preferred-language");
     if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
@@ -73,7 +86,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
     document.documentElement.lang = language;
     const pl = pathLanguage(window.location.pathname);
     if (!manualOverride.current) return;
-    if (pl === "en" || pl === "fr") return;
+    if (pl === "en" || pl === "fr" || pl === "de" || pl === "nl" || pl === "it" || pl === "pt") return;
     localStorage.setItem("preferred-language", language);
   }, [language]);
 

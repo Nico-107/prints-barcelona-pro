@@ -39,6 +39,11 @@ type HelmetServerContext = {
 function urlLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
   if (path === "/3d-printing-delivery-paris") return "fr";
+  if (path === "/3d-printing-delivery-berlin") return "de";
+  if (path === "/3d-printing-delivery-amsterdam") return "nl";
+  if (path === "/3d-printing-delivery-milan") return "it";
+  if (path === "/3d-printing-delivery-rome") return "it";
+  if (path === "/3d-printing-delivery-lisbon") return "pt";
   if (
     path.startsWith("/3d-printing-") ||
     path.startsWith("/blog") ||
