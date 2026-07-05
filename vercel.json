@@ -1,13 +1,22 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/ingest/static/:path*",
-      "destination": "https://eu-assets.i.posthog.com/static/:path*"
+      "src": "/ingest/static/(.*)",
+      "dest": "https://eu-assets.i.posthog.com/static/$1",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
     },
     {
-      "source": "/ingest/:path*",
-      "destination": "https://eu.i.posthog.com/:path*"
+      "src": "/ingest/(.*)",
+      "dest": "https://eu.i.posthog.com/$1",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
     },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
