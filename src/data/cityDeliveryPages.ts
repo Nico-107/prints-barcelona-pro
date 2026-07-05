@@ -103,9 +103,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     whatsappMsg: "Hi, I'm based in Amsterdam and I'd like a quote for 3D printing.",
     nativeSection: {
       lang: "nl",
-      headline: "Professionele 3D-printservice met levering naar Amsterdam",
-      body: "Directe prijsopgave in 1 uur. Levering in 3–4 werkdagen vanuit Barcelona. FDM in PLA, PETG, ABS, Nylon en composieten. Geen minimumbestelling.",
-      ctaLabel: "Offerte aanvragen",
+      headline: "3D-printservice met levering naar Amsterdam",
+      body: "Professionele FDM-studio in Barcelona. Offerte in 1 uur, levering naar Amsterdam in 3–4 werkdagen. Vanaf €10. Geen minimumbestelling.",
+      ctaLabel: "Offerte aanvragen — levering naar Amsterdam",
     },
     articleInLanguage: "nl",
     secondaryLink: {
@@ -133,9 +133,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     whatsappMsg: "Hi, I'm based in Berlin and I'd like a quote for 3D printing.",
     nativeSection: {
       lang: "de",
-      headline: "Professioneller 3D-Druck Service mit Lieferung nach Berlin",
-      body: "FDM-Druck in PLA, PETG, ABS, ASA und Nylon — Angebot in 1 Stunde, Lieferung in 3–4 Werktagen aus Barcelona. Kein Mindestbestellwert. Kein Zoll innerhalb der EU.",
-      ctaLabel: "Angebot anfordern",
+      headline: "3D-Druckservice mit Lieferung nach Berlin",
+      body: "Professionelles FDM-Druckstudio in Barcelona. Angebot in 1 Stunde, Lieferung nach Berlin in 3–4 Werktagen. Ab €10. Keine Mindestbestellung.",
+      ctaLabel: "Angebot anfordern — Lieferung nach Berlin",
     },
     articleInLanguage: "de",
     secondaryLink: {
@@ -163,9 +163,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     whatsappMsg: "Hi, I'm based in Milan and I'd like a quote for 3D printing.",
     nativeSection: {
       lang: "it",
-      headline: "Servizio di stampa 3D professionale con consegna a Milano",
-      body: "Preventivo istantaneo in 1 ora. Consegna in 3–4 giorni lavorativi da Barcellona. FDM in PLA, PETG, ABS, Nylon e compositi in fibra di carbonio. Nessun ordine minimo.",
-      ctaLabel: "Richiedi un preventivo",
+      headline: "Servizio di stampa 3D con consegna a Milano",
+      body: "Studio FDM professionale a Barcellona. Preventivo in 1 ora, consegna a Milano in 3–4 giorni lavorativi. Da €10. Nessun ordine minimo.",
+      ctaLabel: "Richiedi preventivo — consegna a Milano",
     },
     articleInLanguage: "it",
     secondaryLink: {
@@ -193,9 +193,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     whatsappMsg: "Hi, I'm based in Rome and I'd like a quote for 3D printing.",
     nativeSection: {
       lang: "it",
-      headline: "Servizio di stampa 3D professionale con consegna a Roma",
-      body: "Preventivo istantaneo in 1 ora. Consegna in 3–4 giorni lavorativi da Barcellona. FDM in PLA, PETG, ABS, Nylon e compositi. Nessun ordine minimo.",
-      ctaLabel: "Richiedi un preventivo",
+      headline: "Servizio di stampa 3D con consegna a Roma",
+      body: "Studio FDM professionale a Barcellona. Preventivo in 1 ora, consegna a Roma in 3–4 giorni lavorativi. Da €10. Nessun ordine minimo.",
+      ctaLabel: "Richiedi preventivo — consegna a Roma",
     },
     articleInLanguage: "it",
     secondaryLink: {
@@ -223,9 +223,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     whatsappMsg: "Hi, I'm based in Lisbon and I'd like a quote for 3D printing.",
     nativeSection: {
       lang: "pt",
-      headline: "Serviço de impressão 3D profissional com entrega em Lisboa",
-      body: "Orçamento instantâneo em 1 hora. Entrega em 2–3 dias úteis a partir de Barcelona. FDM em PLA, PETG, ABS, Nylon e compósitos. Sem pedido mínimo.",
-      ctaLabel: "Pedir orçamento",
+      headline: "Serviço de impressão 3D com entrega em Lisboa",
+      body: "Estúdio FDM profissional em Barcelona. Orçamento em 1 hora, entrega em Lisboa em 2–3 dias úteis. A partir de €10. Sem pedido mínimo.",
+      ctaLabel: "Pedir orçamento — entrega em Lisboa",
     },
     articleInLanguage: "pt",
   },

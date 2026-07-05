@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck } from "lucide-react";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
+import type { Language } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
@@ -90,11 +91,27 @@ const CityDeliveryPage = ({ config }: Props) => {
   const { language, setLanguage } = useLanguage();
   const isES = config.lang === "es";
   const isFR = language === "fr";
+  const isDE = language === "de";
+  const isNL = language === "nl";
+  const isIT = language === "it";
+  const isPT = language === "pt";
+  const isNative = isFR || isDE || isNL || isIT || isPT;
+
+  const homeLabel = isES ? "Inicio" : isFR ? "Accueil" : isDE ? "Startseite" : isNL ? "Home" : isIT ? "Home" : isPT ? "Início" : "Home";
+  const serviceLabel = isES
+    ? "Servicio Internacional"
+    : isFR ? "Service d'impression 3D"
+    : isDE ? "3D-Druckservice"
+    : isNL ? "3D-printservice"
+    : isIT ? "Servizio di stampa 3D"
+    : isPT ? "Serviço de impressão 3D"
+    : "3D Printing Service";
 
   // Force context language to match the page on SPA navigation.
+  // Use nativeSection.lang when present so Berlin → "de", Amsterdam → "nl", etc.
   useEffect(() => {
-    setLanguage(config.lang);
-  }, [config.lang, setLanguage]);
+    setLanguage((config.nativeSection?.lang ?? config.lang) as Language);
+  }, [config.slug, setLanguage]);
 
   const PAGE_URL = `${SITE_URL}${config.slug}`;
 
@@ -107,7 +124,7 @@ const CityDeliveryPage = ({ config }: Props) => {
     }
   };
 
-  const sharedFaqs = isES ? ES_SHARED_FAQS : isFR ? FR_SHARED_FAQS : EN_SHARED_FAQS;
+  const sharedFaqs = isES ? ES_SHARED_FAQS : isFR ? FR_SHARED_FAQS : isNative ? EN_SHARED_FAQS : EN_SHARED_FAQS;
   const allFaqs = [{ q: config.shippingFaqQ, a: config.shippingFaqA }, ...sharedFaqs];
 
   const secondaryLinkItem = config.secondaryLink ?? {
@@ -184,7 +201,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
-      <Header hideLanguageSelector={["fr", "de", "nl", "it", "pt"].includes(config.articleInLanguage ?? "")} />
+      <Header hideLanguageSelector={["fr", "de", "it", "pt"].includes(config.articleInLanguage ?? "")} />
 
       <main className="pt-16">
         {/* Hero */}
@@ -204,11 +221,11 @@ const CityDeliveryPage = ({ config }: Props) => {
             <div className="max-w-3xl mx-auto text-center">
               <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
                 <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
-                  {isES ? "Inicio" : isFR ? "Accueil" : "Home"}
+                  {homeLabel}
                 </Link>
                 <span>/</span>
                 <Link to="/3d-printing-service" className="hover:text-primary-foreground/80 transition-colors">
-                  {isES ? "Servicio Internacional" : isFR ? "Service d'impression 3D" : "3D Printing Service"}
+                  {serviceLabel}
                 </Link>
                 <span>/</span>
                 <span className="text-primary-foreground/70">{config.city}</span>
@@ -219,19 +236,19 @@ const CityDeliveryPage = ({ config }: Props) => {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-                {isFR && config.nativeSection ? config.nativeSection.headline : config.h1}
+                {isNative && config.nativeSection ? config.nativeSection.headline : config.h1}
               </h1>
 
               <p className="text-lg md:text-xl text-primary-foreground/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-                {isFR && config.nativeSection ? config.nativeSection.body : config.heroSubtitle}
+                {isNative && config.nativeSection ? config.nativeSection.body : config.heroSubtitle}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalculator}>
                   {isES
                     ? `Presupuesto con entrega en ${config.city}`
-                    : isFR
-                    ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
+                    : isNative
+                    ? (config.nativeSection?.ctaLabel ?? `Get a quote — delivered to ${config.city}`)
                     : `Get a quote — delivered to ${config.city}`}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
@@ -321,7 +338,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         </section>
 
         {/* Native language callout — hidden when the page is already rendering in that language */}
-        {config.nativeSection && !isFR && (
+        {config.nativeSection && !isNative && (
           <section id="native-section" className="bg-accent/10 border-y border-accent/20 py-8">
             <div className="container px-4">
               <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -1051,8 +1068,8 @@ const CityDeliveryPage = ({ config }: Props) => {
               >
                 {isES
                   ? `Presupuesto con entrega en ${config.city}`
-                  : isFR
-                  ? (config.nativeSection?.ctaLabel ?? `Devis — livraison à ${config.city}`)
+                  : isNative
+                  ? (config.nativeSection?.ctaLabel ?? `Get a quote — delivered to ${config.city}`)
                   : `Get a quote — delivered to ${config.city}`}
                 <ArrowRight className="w-5 h-5" />
               </Button>

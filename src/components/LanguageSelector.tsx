@@ -27,11 +27,16 @@ const LanguageSelector = () => {
     }
   };
 
-  // On French pages show FR | EN only; elsewhere keep the ES | EN | CA selector.
+  // FR pages: FR | EN. NL pages (Amsterdam bilingual): NL | EN. Elsewhere: ES | EN | CA.
   const langs: { code: Language; label: string; aria: string }[] =
     language === "fr"
       ? [
           { code: "fr", label: "FR", aria: "Français" },
+          { code: "en", label: "EN", aria: "English" },
+        ]
+      : language === "nl"
+      ? [
+          { code: "nl", label: "NL", aria: "Nederlands" },
           { code: "en", label: "EN", aria: "English" },
         ]
       : [
