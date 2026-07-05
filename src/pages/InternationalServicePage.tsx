@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle } from "lucide-react";
@@ -8,6 +8,8 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+
+const StlEstimator = lazy(() => import("@/components/StlEstimator").then(m => ({ default: m.StlEstimator })));
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const PAGE_URL = `${SITE_URL}/3d-printing-service`;
@@ -68,6 +70,15 @@ const InternationalServicePage = () => {
     capture('international_page_view', { referrer: document.referrer });
   }, []);
 
+  const scrollToCalc = () => {
+    capture('international_cta_click');
+    const el = document.getElementById("calculator");
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   return (
   <div className="min-h-screen bg-background">
     <Helmet>
@@ -102,7 +113,7 @@ const InternationalServicePage = () => {
       <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
     </Helmet>
 
-    <Header />
+    <Header hideLanguageSelector={true} />
 
     <main className="pt-16">
       {/* Hero */}
@@ -134,11 +145,9 @@ const InternationalServicePage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button variant="cta" size="xl" asChild className="shadow-lg">
-                <Link to="/#calculator" onClick={() => capture('international_cta_click')}>
-                  Get an Instant Quote
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
+              <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+                Get an Instant Quote
+                <ArrowRight className="w-5 h-5" />
               </Button>
               <Button
                 variant="whatsapp-outline"
@@ -189,6 +198,13 @@ const InternationalServicePage = () => {
         </div>
       </section>
 
+      {/* Calculator */}
+      <section id="calculator" className="container px-4 py-10">
+        <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl" />}>
+          <StlEstimator />
+        </Suspense>
+      </section>
+
       {/* Content sections */}
       <section className="bg-secondary/20 py-14 md:py-20">
         <div className="container px-4">
@@ -224,9 +240,7 @@ const InternationalServicePage = () => {
                 <ol className="space-y-3 list-decimal list-inside">
                   <li>
                     <strong className="text-foreground">Upload your file.</strong> Send your STL, STEP, OBJ, or 3MF file via our{" "}
-                    <Link to="/#calculator" className="text-accent hover:underline">
-                      online estimator
-                    </Link>
+                    <button onClick={scrollToCalc} className="text-accent hover:underline">online estimator</button>
                     , by email, or directly on WhatsApp. The estimator gives an instant price estimate based on your file's weight and print time.
                   </li>
                   <li>
@@ -316,9 +330,7 @@ const InternationalServicePage = () => {
                 </p>
                 <p>
                   Use the{" "}
-                  <Link to="/#calculator" className="text-accent hover:underline font-semibold">
-                    online calculator
-                  </Link>{" "}
+                  <button onClick={scrollToCalc} className="text-accent hover:underline font-semibold">online calculator</button>{" "}
                   to upload your file and get an instant estimate, or send the file directly and we'll quote within the hour.
                 </p>
               </div>
@@ -483,11 +495,9 @@ const InternationalServicePage = () => {
             Upload your STL or STEP file to our online calculator for an instant price estimate. A member of the team reviews every file and confirms the exact price within one hour. No account required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="cta" size="xl" asChild className="shadow-lg">
-              <Link to="/#calculator" onClick={() => capture('international_cta_click')}>
-                Get an Instant Quote
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+            <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+              Get an Instant Quote
+              <ArrowRight className="w-5 h-5" />
             </Button>
             <Button
               variant="whatsapp-outline"
