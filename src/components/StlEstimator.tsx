@@ -226,7 +226,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const grams = volumeCm3 * mat.density * effectiveFill;
         const estHours = grams / 28;
         const unitPrice = Math.max((grams * 0.10 + estHours * 0.50) * mat.multiplier, 10);
-        supabase.from("price_estimates").insert({
+        supabaseAnon.from("price_estimates").insert({
           volume_cm3: volumeCm3,
           material: materialKey,
           infill_pct: infillPct,
@@ -346,7 +346,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         if (f.parseError || !f.file) continue;
         const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
         const path = `${timestamp}-${sanitized}`;
-        const { error: uploadErr } = await supabase.storage
+        const { error: uploadErr } = await supabaseAnon.storage
           .from("print-requests")
           .upload(path, f.file);
         if (uploadErr) throw new Error(uploadErr.message);
