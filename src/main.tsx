@@ -7,20 +7,27 @@ import "./index.css";
 
 const phKey = (import.meta.env.VITE_POSTHOG_KEY as string | undefined)?.trim();
 const phHost = (import.meta.env.VITE_POSTHOG_HOST as string | undefined)?.trim();
-if (phKey && phHost) {
-  // Use persistent storage only when the visitor has explicitly accepted cookies.
-  // Default is memory-only: anonymous aggregate analytics, no cookie/localStorage writes.
-  const cookieConsent = localStorage.getItem("cookie-consent");
-  posthog.init(phKey, {
-    api_host: phHost ?? "https://eu.i.posthog.com",
-    ui_host: "https://eu.posthog.com",
-    capture_pageview: false,
-    capture_pageleave: true,
-    persistence: cookieConsent === "accepted" ? "localStorage+cookie" : "memory",
-  });
-  registerPostHog(posthog);
-} else if (import.meta.env.DEV) {
-  console.warn("[analytics] VITE_POSTHOG_KEY or VITE_POSTHOG_HOST not set — PostHog disabled");
+const initPostHog = () => {
+  if (phKey && phHost) {
+    // Use persistent storage only when the visitor has explicitly accepted cookies.
+    // Default is memory-only: anonymous aggregate analytics, no cookie/localStorage writes.
+    const cookieConsent = localStorage.getItem("cookie-consent");
+    posthog.init(phKey, {
+      api_host: phHost ?? "https://eu.i.posthog.com",
+      ui_host: "https://eu.posthog.com",
+      capture_pageview: false,
+      capture_pageleave: true,
+      persistence: cookieConsent === "accepted" ? "localStorage+cookie" : "memory",
+    });
+    registerPostHog(posthog);
+  } else if (import.meta.env.DEV) {
+    console.warn("[analytics] VITE_POSTHOG_KEY or VITE_POSTHOG_HOST not set — PostHog disabled");
+  }
+};
+if (typeof window.requestIdleCallback === "function") {
+  window.requestIdleCallback(initPostHog, { timeout: 3000 });
+} else {
+  setTimeout(initPostHog, 1);
 }
 
 const rootEl = document.getElementById("root")!;
