@@ -321,6 +321,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.contact.success.title": "Offerteaanvraag verzonden!",
   "calc.contact.success.desc": "Wij beoordelen uw schatting en bevestigen de exacte prijs binnen 1 uur.",
   "calc.contact.uploadError": "Upload mislukt. Probeer het opnieuw.",
+  "calc.notice.largeFile": "Groot bestand — de berekening kan een paar seconden langer duren.",
+  "calc.notice.tooLargeToUpload": "Bestanden groter dan 50 MB kunnen niet direct worden geüpload, maar u heeft uw prijs — neem contact met ons op via WhatsApp om dit bestand te sturen.",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",

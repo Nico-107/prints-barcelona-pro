@@ -321,6 +321,8 @@ export const caTranslations: Record<string, string> = {
   "calc.contact.success.title": "Sol·licitud enviada!",
   "calc.contact.success.desc": "Revisarem la teva estimació i confirmarem el preu exacte en menys d'1 hora.",
   "calc.contact.uploadError": "Error en pujar l'arxiu. Si us plau, torna-ho a provar.",
+  "calc.notice.largeFile": "Arxiu gran — pot trigar uns segons addicionals a calcular-se.",
+  "calc.notice.tooLargeToUpload": "Els arxius de més de 50 MB no es poden pujar directament, però ja tens el teu preu — contacta'ns per WhatsApp per enviar-nos aquest arxiu.",
 
   // WhatsApp
   "whatsapp.tooltip": "Parlem?",

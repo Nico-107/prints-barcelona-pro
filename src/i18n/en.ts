@@ -321,6 +321,8 @@ export const enTranslations: Record<string, string> = {
   "calc.contact.success.title": "Quote request sent!",
   "calc.contact.success.desc": "We'll review your estimate and confirm the exact price within 1 hour.",
   "calc.contact.uploadError": "Upload failed. Please try again.",
+  "calc.notice.largeFile": "Large file — this may take a few extra seconds to calculate.",
+  "calc.notice.tooLargeToUpload": "Files over 50 MB can't be uploaded directly, but you have your price — contact us on WhatsApp to send this file.",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",

@@ -321,6 +321,8 @@ export const itTranslations: Record<string, string> = {
   "calc.contact.success.title": "Richiesta di preventivo inviata!",
   "calc.contact.success.desc": "Esamineremo la tua stima e confermeremo il prezzo esatto entro 1 ora.",
   "calc.contact.uploadError": "Caricamento fallito. Riprova.",
+  "calc.notice.largeFile": "File di grandi dimensioni — il calcolo potrebbe richiedere qualche secondo in più.",
+  "calc.notice.tooLargeToUpload": "I file superiori a 50 MB non possono essere caricati direttamente, ma hai già il tuo prezzo — contattaci su WhatsApp per inviare questo file.",
 
   // WhatsApp
   "whatsapp.tooltip": "Chatta con noi",

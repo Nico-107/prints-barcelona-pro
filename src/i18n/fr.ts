@@ -321,6 +321,8 @@ export const frTranslations: Record<string, string> = {
   "calc.contact.success.title": "Demande de devis envoyée !",
   "calc.contact.success.desc": "Nous allons examiner votre estimation et confirmer le prix exact en moins d'1 heure.",
   "calc.contact.uploadError": "Échec du téléchargement. Veuillez réessayer.",
+  "calc.notice.largeFile": "Fichier volumineux — le calcul peut prendre quelques secondes supplémentaires.",
+  "calc.notice.tooLargeToUpload": "Les fichiers de plus de 50 Mo ne peuvent pas être envoyés directement, mais vous avez votre prix — contactez-nous sur WhatsApp pour nous envoyer ce fichier.",
 
   // WhatsApp
   "whatsapp.tooltip": "Discutons",

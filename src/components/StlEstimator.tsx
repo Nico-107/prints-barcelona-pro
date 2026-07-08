@@ -7,7 +7,8 @@ import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture } from "@/lib/analytics";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
-const MAX_BYTES = 50 * 1024 * 1024;
+const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — upload limit
+const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
 const MAX_FILES = 10;
 
 // ─── Material table ───────────────────────────────────────────────────────────
@@ -165,6 +166,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [parsing, setParsing] = useState(false);
+  const [parsingHasLargeFile, setParsingHasLargeFile] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [materialKey, setMaterialKey] = useState("PLA");
   const [infillPct, setInfillPct] = useState(15);
@@ -185,6 +187,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const wf = wallFactor(wallLoops);
   const effectiveFill = wf + (infillPct / 100) * (1 - wf);
   const validFiles = parsedFiles.filter(f => !f.parseError);
+  const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
   const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops) : null;
 
   const processFiles = async (newFiles: File[]) => {
@@ -201,6 +204,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       : null
     );
 
+    setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
     setParsing(true);
     const results: ParsedFile[] = [];
 
@@ -211,7 +215,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.notStl") });
         continue;
       }
-      if (f.size > MAX_BYTES) {
+      if (f.size > MAX_ESTIMATE_BYTES) {
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.size") });
         continue;
       }
@@ -249,6 +253,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const nextFiles = [...parsedFiles, ...results];
     setParsedFiles(nextFiles);
     setParsing(false);
+    setParsingHasLargeFile(false);
 
     if (!adminMode) {
       const nextBundle = computeBundle(nextFiles, materialKey, infillPct, wallLoops);
@@ -344,6 +349,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
       for (const f of parsedFiles) {
         if (f.parseError || !f.file) continue;
+        if (f.sizeBytes > MAX_BYTES) continue; // too large for Supabase storage — price shown, skip upload
         const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
         const path = `${timestamp}-${sanitized}`;
         const { error: uploadErr } = await supabaseAnon.storage
@@ -609,9 +615,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         {/* Parsing spinner */}
         {parsing && (
-          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            {t("calc.analysing")}
+          <div className="mt-6 flex flex-col items-center gap-1.5 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {t("calc.analysing")}
+            </div>
+            {parsingHasLargeFile && (
+              <p className="text-xs text-amber-600 dark:text-amber-400 text-center">
+                {t("calc.notice.largeFile")}
+              </p>
+            )}
           </div>
         )}
 
@@ -714,6 +727,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     />
                     {quoteError && (
                       <p className="text-xs text-destructive">{quoteError}</p>
+                    )}
+                    {oversizedFiles.length > 0 && (
+                      <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+                        {t("calc.notice.tooLargeToUpload")}
+                      </p>
                     )}
                     <Button
                       variant="cta"

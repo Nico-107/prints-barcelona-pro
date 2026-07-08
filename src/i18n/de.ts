@@ -321,6 +321,8 @@ export const deTranslations: Record<string, string> = {
   "calc.contact.success.title": "Angebotsanfrage gesendet!",
   "calc.contact.success.desc": "Wir überprüfen Ihre Schätzung und bestätigen den genauen Preis innerhalb von 1 Stunde.",
   "calc.contact.uploadError": "Upload fehlgeschlagen. Bitte versuchen Sie es erneut.",
+  "calc.notice.largeFile": "Große Datei — die Berechnung kann einige Sekunden länger dauern.",
+  "calc.notice.tooLargeToUpload": "Dateien über 50 MB können nicht direkt hochgeladen werden, aber Sie haben Ihren Preis — kontaktieren Sie uns per WhatsApp, um diese Datei zu senden.",
 
   // WhatsApp
   "whatsapp.tooltip": "Mit uns chatten",
