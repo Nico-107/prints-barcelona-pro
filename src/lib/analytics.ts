@@ -12,6 +12,9 @@ export function registerPostHog(instance: PHInstance) {
 
 export function capture(event: string, properties?: Record<string, unknown>) {
   ph?.capture(event, properties)
+  if (event !== '$pageview' && typeof window !== 'undefined') {
+    (window as any).gtag?.('event', event, properties ?? {})
+  }
 }
 
 // Called when user accepts cookies — upgrades from session-memory to

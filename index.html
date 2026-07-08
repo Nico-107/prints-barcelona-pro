@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="apple-touch-icon" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
@@ -14,16 +14,15 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+      gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      if (localStorage.getItem('cookie-consent') === 'accepted') { gtag('consent', 'update', { analytics_storage: 'granted' }); }
       gtag('config', 'G-S4ZRNY6M30');
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="geo.region" content="__GEO_REGION__" />
     <meta name="geo.placename" content="__CITY_NAME__" />
-    <meta property="og:image" content="https://www.dimension3dprints.com/og-image.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Dimension3DBCN" />
-    <meta name="twitter:image" content="https://www.dimension3dprints.com/og-image.jpg" />
     <!--app-head-->
   </head>
 

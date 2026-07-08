@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ArrowRight, BookOpen, GraduationCap, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
@@ -108,6 +108,8 @@ const GUIDES_COPY: Record<string, {
 const Index = () => {
   const { language, setLanguage } = useLanguage();
   const meta = HOME_META[language] ?? HOME_META.es;
+  const { pathname } = useLocation();
+  const isCa = pathname === "/ca" || pathname === "/ca/";
   const [searchParams] = useSearchParams();
   const refCity = searchParams.get("ref") ?? undefined;
   const refDays = searchParams.get("days") ?? undefined;
@@ -151,9 +153,7 @@ const Index = () => {
       highlightTimerRef.current = null;
     }, 1500);
   };
-  // Always emit a single English FAQPage schema to avoid duplicate/multi-language
-  // FAQPage entries being reported in Google Search Console.
-  const faqs = HOME_FAQS.en;
+  const faqs = HOME_FAQS[language] ?? HOME_FAQS.es;
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
@@ -253,13 +253,6 @@ const Index = () => {
       price: "10",
       description: "Impresión 3D desde 10€ con presupuesto en 1 hora",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "53",
-      bestRating: "5",
-      worstRating: "1",
-    },
   };
 
   const faqSchema = {
@@ -278,14 +271,14 @@ const Index = () => {
         <html lang={language} />
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
-        <link rel="canonical" href={`${SITE_URL}/`} />
+        <link rel="canonical" href={isCa ? `${SITE_URL}/ca/` : `${SITE_URL}/`} />
         <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
         <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/ca/`} />
         <link rel="alternate" hrefLang="en" href={`${SITE_URL}/3d-printing-service`} />
         <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/3d-printing-service`} />
         <meta property="og:title" content={meta.title} />
         <meta property="og:description" content={meta.description} />
-        <meta property="og:url" content={`${SITE_URL}/`} />
+        <meta property="og:url" content={isCa ? `${SITE_URL}/ca/` : `${SITE_URL}/`} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={meta.locale} />
         <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />

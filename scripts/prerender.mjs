@@ -30,7 +30,7 @@ const { render, ALL_PAGES, CITY_PAGES } = await import(
 // by the city-html-tokens Vite plugin).
 const template = readFileSync(resolve(root, "dist/index.html"), "utf-8");
 
-const routes = ["/", "/3d-printing-service", "/track", "/makers", "/maker-guide", "/blog", "/blog/precio-impresion-3d-barcelona", "/blog/impresion-3d-urgente-barcelona", "/blog/recambios-piezas-rotas-impresion-3d-barcelona", "/blog/prototipos-rapidos-piezas-funcionales-barcelona", "/impresion-3d-estudiantes-barcelona", "/privacy", ...ALL_PAGES.map((p) => p.slug), ...CITY_PAGES.map((p) => p.slug)];
+const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker-guide", "/blog", "/blog/precio-impresion-3d-barcelona", "/blog/impresion-3d-urgente-barcelona", "/blog/recambios-piezas-rotas-impresion-3d-barcelona", "/blog/prototipos-rapidos-piezas-funcionales-barcelona", "/impresion-3d-estudiantes-barcelona", "/privacy", ...ALL_PAGES.map((p) => p.slug), ...CITY_PAGES.map((p) => p.slug)];
 
 let ok = 0;
 let fail = 0;

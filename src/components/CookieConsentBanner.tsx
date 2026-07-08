@@ -24,6 +24,7 @@ const CookieConsentBanner = () => {
   const accept = () => {
     localStorage.setItem(CONSENT_KEY, "accepted");
     upgradeAnalyticsPersistence();
+    (window as any).gtag?.('consent', 'update', { analytics_storage: 'granted' });
     setConsent("accepted");
   };
 

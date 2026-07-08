@@ -176,9 +176,6 @@ const CityDeliveryPage = ({ config }: Props) => {
         <title>{config.metaTitle}</title>
         <meta name="description" content={config.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />
-        {config.articleInLanguage ? (
-          <link rel="alternate" hreflang={config.articleInLanguage} href={PAGE_URL} />
-        ) : null}
         <meta property="og:title" content={config.metaTitle} />
         <meta property="og:description" content={config.metaDescription} />
         <meta property="og:url" content={PAGE_URL} />

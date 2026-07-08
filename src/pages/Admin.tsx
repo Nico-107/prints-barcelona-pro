@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useLocation } from "react-router-dom";
 import {
   Plus,
@@ -565,6 +566,7 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Helmet><meta name="robots" content="noindex" /><title>Not indexed</title></Helmet>
       {/* ── Top bar ──────────────────────────────────────────────────────────── */}
       <header className="bg-slate-900 sticky top-0 z-40 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">

@@ -68,6 +68,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
             <StaticRouter location={url}>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/ca" element={<Index />} />
                 <Route path="/3d-printing-service" element={<InternationalServicePage />} />
                 <Route path="/track" element={<Track />} />
                 <Route path="/makers" element={<Makers />} />
