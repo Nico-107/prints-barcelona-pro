@@ -144,6 +144,7 @@ export type Database = {
           contact_phone: string | null
           converted_order_id: string | null
           created_at: string
+          customization: Json | null
           estimated_grams: number
           estimated_hours: number
           estimated_price_high: number
@@ -152,6 +153,8 @@ export type Database = {
           id: string
           infill: string
           material: string
+          product_name: string | null
+          product_slug: string | null
           quantity: number
           status: string
           wall_loops: number
@@ -162,6 +165,7 @@ export type Database = {
           contact_phone?: string | null
           converted_order_id?: string | null
           created_at?: string
+          customization?: Json | null
           estimated_grams: number
           estimated_hours: number
           estimated_price_high: number
@@ -170,6 +174,8 @@ export type Database = {
           id?: string
           infill: string
           material: string
+          product_name?: string | null
+          product_slug?: string | null
           quantity: number
           status?: string
           wall_loops: number
@@ -180,6 +186,7 @@ export type Database = {
           contact_phone?: string | null
           converted_order_id?: string | null
           created_at?: string
+          customization?: Json | null
           estimated_grams?: number
           estimated_hours?: number
           estimated_price_high?: number
@@ -188,6 +195,8 @@ export type Database = {
           id?: string
           infill?: string
           material?: string
+          product_name?: string | null
+          product_slug?: string | null
           quantity?: number
           status?: string
           wall_loops?: number
