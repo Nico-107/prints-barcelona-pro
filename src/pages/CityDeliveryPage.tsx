@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck } from "lucide-react";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
-import type { Language } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
@@ -88,7 +87,7 @@ interface Props {
 }
 
 const CityDeliveryPage = ({ config }: Props) => {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const isES = config.lang === "es";
   const isFR = language === "fr";
   const isDE = language === "de";
@@ -106,12 +105,6 @@ const CityDeliveryPage = ({ config }: Props) => {
     : isIT ? "Servizio di stampa 3D"
     : isPT ? "Serviço de impressão 3D"
     : "3D Printing Service";
-
-  // Force context language to match the page on SPA navigation.
-  // Use nativeSection.lang when present so Berlin → "de", Amsterdam → "nl", etc.
-  useEffect(() => {
-    setLanguage((config.nativeSection?.lang ?? config.lang) as Language);
-  }, [config.slug, setLanguage]);
 
   const PAGE_URL = `${SITE_URL}${config.slug}`;
 

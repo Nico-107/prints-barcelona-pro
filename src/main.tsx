@@ -12,8 +12,8 @@ if (phKey && phHost) {
   // Default is memory-only: anonymous aggregate analytics, no cookie/localStorage writes.
   const cookieConsent = localStorage.getItem("cookie-consent");
   posthog.init(phKey, {
-    api_host: "/ingest",
-    ui_host: phHost ?? "https://eu.posthog.com",
+    api_host: phHost ?? "https://eu.i.posthog.com",
+    ui_host: "https://eu.posthog.com",
     capture_pageview: false,
     capture_pageleave: true,
     persistence: cookieConsent === "accepted" ? "localStorage+cookie" : "memory",
