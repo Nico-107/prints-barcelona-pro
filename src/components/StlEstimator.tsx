@@ -15,6 +15,8 @@ const GENERAL_MARGIN = 1.08;      // +8% across all quotes
 const SMALL_PART_MARGIN = 1.15;   // +15% extra on cheap parts
 const SMALL_PART_THRESHOLD = 12;  // apply extra margin when pre-floor price is <= this
 const MIN_PRICE = 10;             // absolute floor
+const RANGE_LOW_FLOOR = 10;       // displayed range low never shown below this
+const RANGE_HIGH_FLOOR = 20;      // displayed range high never shown below this
 
 // ─── Material table ───────────────────────────────────────────────────────────
 const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
@@ -146,7 +148,7 @@ function computeBundle(
     totalUnits >= 10 ? 0.05 : 0;
   const total = bundlePrice * (1 - qtyDiscount);
 
-  return { totalGrams, totalHours, totalUnits, bundlePrice, total, low: total * 0.85, high: total * 1.15, qtyDiscount };
+  return { totalGrams, totalHours, totalUnits, bundlePrice, total, low: Math.max(total * 0.85, RANGE_LOW_FLOOR), high: Math.max(total * 1.15, RANGE_HIGH_FLOOR), qtyDiscount };
 }
 
 // ─── Section heading — action-oriented copy per language ──────────────────────
@@ -250,8 +252,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           quantity: 1,
           grams,
           est_hours: estHours,
-          price_low: unitPrice * 0.85,
-          price_high: unitPrice * 1.15,
+          price_low: Math.max(unitPrice * 0.85, RANGE_LOW_FLOOR),
+          price_high: Math.max(unitPrice * 1.15, RANGE_HIGH_FLOOR),
           file_name: f.name,
           language,
         }).then(({ error: dbErr }) => {
