@@ -11,6 +11,11 @@ const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — 
 const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
 const MAX_FILES = 10;
 
+const GENERAL_MARGIN = 1.08;      // +8% across all quotes
+const SMALL_PART_MARGIN = 1.15;   // +15% extra on cheap parts
+const SMALL_PART_THRESHOLD = 12;  // apply extra margin when pre-floor price is <= this
+const MIN_PRICE = 10;             // absolute floor
+
 // ─── Material table ───────────────────────────────────────────────────────────
 const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
   PLA:        { label: "PLA",       density: 1.24, multiplier: 1.0 },
@@ -103,6 +108,14 @@ interface BundleEstimate {
   qtyDiscount: number;
 }
 
+function applyMargin(rawPrice: number): number {
+  let price = rawPrice * GENERAL_MARGIN;
+  if (price <= SMALL_PART_THRESHOLD) {
+    price = price * SMALL_PART_MARGIN;
+  }
+  return Math.max(price, MIN_PRICE);
+}
+
 function computeBundle(
   files: ParsedFile[],
   materialKey: string,
@@ -125,7 +138,7 @@ function computeBundle(
 
   const totalHours = totalGrams / 28;
   const bundleRaw = (totalGrams * 0.10 + totalHours * 0.50) * mat.multiplier;
-  const bundlePrice = Math.max(bundleRaw, 10);
+  const bundlePrice = applyMargin(bundleRaw);
 
   const qtyDiscount =
     totalUnits >= 50 ? 0.15 :
@@ -229,7 +242,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const volumeCm3 = vol / 1000;
         const grams = volumeCm3 * mat.density * effectiveFill;
         const estHours = grams / 28;
-        const unitPrice = Math.max((grams * 0.10 + estHours * 0.50) * mat.multiplier, 10);
+        const unitPrice = applyMargin((grams * 0.10 + estHours * 0.50) * mat.multiplier);
         supabaseAnon.from("price_estimates").insert({
           volume_cm3: volumeCm3,
           material: materialKey,
