@@ -84,6 +84,12 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 {item.label}
               </button>
             ))}
+            <Link
+              to="/catalogo"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              Catálogo
+            </Link>
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
@@ -157,6 +163,13 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                   {item.label}
                 </button>
               ))}
+              <Link
+                to="/catalogo"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-left py-2 text-foreground font-medium"
+              >
+                Catálogo
+              </Link>
 
               {SERVICES_MENU.map((group) => (
                 <div key={group.labelEn} className="pt-2">

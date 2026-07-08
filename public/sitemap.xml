@@ -493,6 +493,33 @@
     <priority>0.6</priority>
   </url>
 
+  <!-- CATÁLOGO DE PRODUCTOS PERSONALIZADOS -->
+  <url>
+    <loc>https://www.dimension3dprints.com/catalogo</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/catalogo/jarron-personalizado</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/catalogo/placa-nombre</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/catalogo/placa-mascota</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/catalogo/topper-boda</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+
   <!-- PIEZAS FUNCIONALES -->
   <url>
     <loc>https://www.dimension3dprints.com/functional-parts-barcelona</loc>

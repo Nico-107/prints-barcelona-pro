@@ -29,6 +29,8 @@ const StudentsBcn = lazy(() => import("./pages/StudentsBcn"));
 const Blog = lazy(() => import("./pages/Blog"));
 const InternationalServicePage = lazy(() => import("./pages/InternationalServicePage"));
 const CityDeliveryPage = lazy(() => import("./pages/CityDeliveryPage"));
+const Catalog = lazy(() => import("./pages/Catalog"));
+const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -78,6 +80,8 @@ const App = () => (
               {CITY_PAGES.map((p) => (
                 <Route key={p.slug} path={p.slug} element={<CityDeliveryPage config={p} />} />
               ))}
+              <Route path="/catalogo" element={<Catalog />} />
+              <Route path="/catalogo/:slug" element={<CatalogProduct />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
