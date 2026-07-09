@@ -1,10 +1,12 @@
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { FileBox, X, MessageCircle, ArrowRight, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture } from "@/lib/analytics";
+
+const StlViewer = lazy(() => import("./StlViewer"));
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — upload limit
@@ -527,6 +529,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         <X className="w-4 h-4 text-muted-foreground" />
                       </button>
                     </div>
+                    {!f.parseError && f.file && (
+                      <Suspense fallback={<div style={{ width: 240, height: 240, background: "#f0f0f0", borderRadius: 8, marginTop: 8 }} />}>
+                        <StlViewer file={f.file} />
+                      </Suspense>
+                    )}
                   </div>
                 );
               })}
