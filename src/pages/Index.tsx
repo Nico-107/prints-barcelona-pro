@@ -9,7 +9,6 @@ import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import WhatCanWePrint from "@/components/WhatCanWePrint";
 import Materials from "@/components/Materials";
-import FileUpload from "@/components/FileUpload";
 import StlEstimator from "@/components/StlEstimator";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ExpressPrinting from "@/components/ExpressPrinting";
@@ -305,7 +304,6 @@ const Index = () => {
         <PricingInfo />
         <ServiceInfo />
         <ExpressPrinting />
-        <FileUpload />
         <FAQ />
         <LocationMap />
         <CallToAction />

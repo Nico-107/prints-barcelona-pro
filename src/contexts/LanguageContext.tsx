@@ -69,17 +69,22 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   // language. Runs client-only (useEffect never runs during SSR), so it cannot
   // cause a hydration mismatch — it simply triggers a post-hydration re-render.
   useEffect(() => {
-    const pageLang = pathLanguage(window.location.pathname);
-    if (pageLang === "en" || pageLang === "fr" || pageLang === "de" || pageLang === "nl" || pageLang === "it" || pageLang === "pt") return;
-    if (manualOverride.current) return; // user already picked manually this session
-    const stored = localStorage.getItem("preferred-language");
-    if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
-      setLanguageState(stored as Language);
-      return;
-    }
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith("ca")) setLanguageState("ca");
-    else if (browserLang.startsWith("en")) setLanguageState("en");
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const pageLang = pathLanguage(window.location.pathname);
+        if (pageLang === "en" || pageLang === "fr" || pageLang === "de" || pageLang === "nl" || pageLang === "it" || pageLang === "pt") return;
+        if (manualOverride.current) return;
+        const stored = localStorage.getItem("preferred-language");
+        if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
+          setLanguageState(stored as Language);
+          return;
+        }
+        const browserLang = navigator.language.toLowerCase();
+        if (browserLang.startsWith("ca")) setLanguageState("ca");
+        else if (browserLang.startsWith("en")) setLanguageState("en");
+      });
+    });
+    return () => cancelAnimationFrame(id);
   }, []);
 
   useEffect(() => {

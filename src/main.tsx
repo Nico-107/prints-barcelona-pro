@@ -18,6 +18,9 @@ const initPostHog = () => {
       capture_pageview: false,
       capture_pageleave: true,
       persistence: cookieConsent === "accepted" ? "localStorage+cookie" : "memory",
+      on_request_error: (failure) => {
+        console.error('[PostHog] request failed:', failure);
+      },
     });
     registerPostHog(posthog);
   } else if (import.meta.env.DEV) {
@@ -41,7 +44,12 @@ const app = (
 // blowing away server-rendered DOM while still doing a fresh render for
 // routes that use the SPA shell (e.g. /admin-orders).
 if (rootEl.getAttribute("data-prerendered") === window.location.pathname) {
-  hydrateRoot(rootEl, app);
+  hydrateRoot(rootEl, app, {
+    onRecoverableError: (error, errorInfo) => {
+      console.error('[Hydration Error]', error);
+      console.error('[Component Stack]', errorInfo?.componentStack);
+    }
+  });
 } else {
   createRoot(rootEl).render(app);
 }
