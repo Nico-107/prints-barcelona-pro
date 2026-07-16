@@ -156,6 +156,17 @@ const Footer = () => {
           <p className="text-background/40 text-sm">
             © {new Date().getFullYear()} Dimension3D{brandSuffix}. {t("footer.copyright")}
           </p>
+          <p className="text-background/40 text-xs mt-2">
+            Built by{" "}
+            <a
+              href="https://nico-portfolio-gold.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-background/70 transition-colors"
+            >
+              Mikołaj Szczełkun
+            </a>
+          </p>
         </div>
       </div>
     </footer>

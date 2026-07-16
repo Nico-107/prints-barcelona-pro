@@ -31,6 +31,7 @@ const InternationalServicePage = lazy(() => import("./pages/InternationalService
 const CityDeliveryPage = lazy(() => import("./pages/CityDeliveryPage"));
 const Catalog = lazy(() => import("./pages/Catalog"));
 const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
+const Creator = lazy(() => import("./pages/Creator"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -82,6 +83,7 @@ const App = () => (
               ))}
               <Route path="/catalogo" element={<Catalog />} />
               <Route path="/catalogo/:slug" element={<CatalogProduct />} />
+              <Route path="/creator" element={<Creator />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
