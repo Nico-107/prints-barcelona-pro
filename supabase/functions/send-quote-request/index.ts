@@ -76,6 +76,7 @@ const handler = async (req: Request): Promise<Response> => {
       filePaths, fileNames, contactEmail, contactPhone,
       material, color, infillPct, wallLoops,
       totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
+      urgency,
     } = payload;
 
     if (!filePaths?.length) {
