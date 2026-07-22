@@ -324,6 +324,18 @@ export const nlTranslations: Record<string, string> = {
   "calc.notice.largeFile": "Groot bestand — de berekening kan een paar seconden langer duren.",
   "calc.notice.tooLargeToUpload": "Bestanden groter dan 50 MB kunnen niet direct worden geüpload, maar u heeft uw prijs — neem contact met ons op via WhatsApp om dit bestand te sturen.",
 
+  // Urgency tiers
+  "calc.urgency.heading": "Leversnelheid",
+  "calc.urgency.standard.label": "Standaard",
+  "calc.urgency.standard.time": "3–5 dagen",
+  "calc.urgency.express.label": "Express",
+  "calc.urgency.express.time": "24–48 uur",
+  "calc.urgency.urgent.label": "Urgent",
+  "calc.urgency.urgent.time": "Zelfde dag",
+
+  // Contact block reassurance
+  "calc.contact.reassure": "Stuur uw bestanden en wij bevestigen de exacte prijs — doorgaans binnen 1 uur",
+
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",
   "whatsapp.message": "Hallo, ik wil graag een 3D printservice aanvragen bij Dimension3D.",

@@ -324,6 +324,18 @@ export const frTranslations: Record<string, string> = {
   "calc.notice.largeFile": "Fichier volumineux — le calcul peut prendre quelques secondes supplémentaires.",
   "calc.notice.tooLargeToUpload": "Les fichiers de plus de 50 Mo ne peuvent pas être envoyés directement, mais vous avez votre prix — contactez-nous sur WhatsApp pour nous envoyer ce fichier.",
 
+  // Urgency tiers
+  "calc.urgency.heading": "Vitesse de livraison",
+  "calc.urgency.standard.label": "Standard",
+  "calc.urgency.standard.time": "3–5 jours",
+  "calc.urgency.express.label": "Express",
+  "calc.urgency.express.time": "24–48h",
+  "calc.urgency.urgent.label": "Urgent",
+  "calc.urgency.urgent.time": "Jour même",
+
+  // Contact block reassurance
+  "calc.contact.reassure": "Envoyez vos fichiers et nous confirmons le prix exact — généralement en moins d'1 heure",
+
   // WhatsApp
   "whatsapp.tooltip": "Discutons",
   "whatsapp.message": "Bonjour, je souhaite obtenir un devis pour un service d'impression 3D chez Dimension3D.",
