@@ -25,6 +25,7 @@ interface QuoteRequestPayload {
   priceLow: number;
   priceHigh: number;
   language?: string;
+  urgency?: string | null;
 }
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
