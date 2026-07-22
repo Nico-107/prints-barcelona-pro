@@ -155,6 +155,7 @@ const handler = async (req: Request): Promise<Response> => {
 
             <div style="background:#fffbeb;padding:20px;border-radius:8px;margin:20px 0;">
               <h2 style="color:#92400e;margin-top:0;">Detalles del presupuesto</h2>
+              <p style="font-size:16px;"><strong>Urgencia / Urgency:</strong> ${safeUrgency}</p>
               <p><strong>Material:</strong> ${safeMaterial}</p>
               ${safeColor ? `<p><strong>Color:</strong> ${safeColor}</p>` : ""}
               <p><strong>Relleno:</strong> ${infillPct}%</p>
