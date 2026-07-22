@@ -115,6 +115,7 @@ const handler = async (req: Request): Promise<Response> => {
     const safeEmail = contactEmail ? sanitize(contactEmail.trim()) : null;
     const safePhone = contactPhone ? sanitize(contactPhone.trim()) : null;
     const safeLang = language ? sanitize(language) : "es";
+    const safeUrgency = urgency ? sanitize(urgency.trim()) : "Estándar";
 
     const wallsLabel =
       wallLoops === 2 ? "2 (standard)" :
