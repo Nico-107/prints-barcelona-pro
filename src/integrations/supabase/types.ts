@@ -107,6 +107,8 @@ export type Database = {
           estimated_grams: number | null
           estimated_price_high: number | null
           estimated_price_low: number | null
+          file_names: string[] | null
+          file_paths: string[] | null
           id: string
           infill: string | null
           material: string | null
@@ -118,6 +120,8 @@ export type Database = {
           estimated_grams?: number | null
           estimated_price_high?: number | null
           estimated_price_low?: number | null
+          file_names?: string[] | null
+          file_paths?: string[] | null
           id?: string
           infill?: string | null
           material?: string | null
@@ -129,6 +133,8 @@ export type Database = {
           estimated_grams?: number | null
           estimated_price_high?: number | null
           estimated_price_low?: number | null
+          file_names?: string[] | null
+          file_paths?: string[] | null
           id?: string
           infill?: string | null
           material?: string | null
@@ -149,6 +155,7 @@ export type Database = {
           estimated_hours: number
           estimated_price_high: number
           estimated_price_low: number
+          file_names: string[] | null
           file_paths: string[]
           id: string
           infill: string
@@ -157,6 +164,7 @@ export type Database = {
           product_slug: string | null
           quantity: number
           status: string
+          urgency: string | null
           wall_loops: number
         }
         Insert: {
@@ -170,6 +178,7 @@ export type Database = {
           estimated_hours: number
           estimated_price_high: number
           estimated_price_low: number
+          file_names?: string[] | null
           file_paths?: string[]
           id?: string
           infill: string
@@ -178,6 +187,7 @@ export type Database = {
           product_slug?: string | null
           quantity: number
           status?: string
+          urgency?: string | null
           wall_loops: number
         }
         Update: {
@@ -191,6 +201,7 @@ export type Database = {
           estimated_hours?: number
           estimated_price_high?: number
           estimated_price_low?: number
+          file_names?: string[] | null
           file_paths?: string[]
           id?: string
           infill?: string
@@ -199,6 +210,7 @@ export type Database = {
           product_slug?: string | null
           quantity?: number
           status?: string
+          urgency?: string | null
           wall_loops?: number
         }
         Relationships: [

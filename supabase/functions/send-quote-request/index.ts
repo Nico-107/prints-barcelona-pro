@@ -25,6 +25,7 @@ interface QuoteRequestPayload {
   priceLow: number;
   priceHigh: number;
   language?: string;
+  urgency?: string | null;
 }
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
@@ -75,6 +76,7 @@ const handler = async (req: Request): Promise<Response> => {
       filePaths, fileNames, contactEmail, contactPhone,
       material, color, infillPct, wallLoops,
       totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
+      urgency,
     } = payload;
 
     if (!filePaths?.length) {
@@ -113,6 +115,7 @@ const handler = async (req: Request): Promise<Response> => {
     const safeEmail = contactEmail ? sanitize(contactEmail.trim()) : null;
     const safePhone = contactPhone ? sanitize(contactPhone.trim()) : null;
     const safeLang = language ? sanitize(language) : "es";
+    const safeUrgency = urgency ? sanitize(urgency.trim()) : "Estándar";
 
     const wallsLabel =
       wallLoops === 2 ? "2 (standard)" :
@@ -152,6 +155,7 @@ const handler = async (req: Request): Promise<Response> => {
 
             <div style="background:#fffbeb;padding:20px;border-radius:8px;margin:20px 0;">
               <h2 style="color:#92400e;margin-top:0;">Detalles del presupuesto</h2>
+              <p style="font-size:16px;"><strong>Urgencia / Urgency:</strong> ${safeUrgency}</p>
               <p><strong>Material:</strong> ${safeMaterial}</p>
               ${safeColor ? `<p><strong>Color:</strong> ${safeColor}</p>` : ""}
               <p><strong>Relleno:</strong> ${infillPct}%</p>
