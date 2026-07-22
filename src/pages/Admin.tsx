@@ -158,6 +158,7 @@ function orderStatusBadge(status: string) {
 }
 
 function quoteStatusBadge(status: string) {
+  if (status === "uploaded") return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700"><FileText className="w-3 h-3" />Files only</span>;
   if (status === "pending")  return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700"><Clock className="w-3 h-3" />Pending</span>;
   if (status === "accepted") return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700"><CheckCircle2 className="w-3 h-3" />Accepted</span>;
   return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600"><XCircle className="w-3 h-3" />Declined</span>;
@@ -734,7 +735,7 @@ const Admin = () => {
               <div className="flex flex-col items-center justify-center py-20 text-slate-400">
                 <FileText className="w-10 h-10 mb-3 opacity-30" />
                 <p className="font-medium">No quote requests yet</p>
-                <p className="text-sm mt-1">They'll appear here when customers submit from the calculator</p>
+                <p className="text-sm mt-1">They'll appear here as soon as customers upload files in the calculator</p>
               </div>
             ) : (
               <div className="grid gap-4">
@@ -742,6 +743,7 @@ const Admin = () => {
                   <div
                     key={q.id}
                     className={`bg-white rounded-xl border shadow-sm p-5 transition-shadow hover:shadow-md ${
+                      q.status === "uploaded" ? "border-blue-200" :
                       q.status === "pending" ? "border-amber-200" :
                       q.status === "accepted" ? "border-green-200 opacity-80" :
                       "border-slate-200 opacity-60"

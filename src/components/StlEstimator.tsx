@@ -214,6 +214,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const estimateShownRef = useRef(false);
   const uploadedRef = useRef<{ paths: string[]; names: string[] } | null>(null);
   const modalShownRef = useRef(false);
+  const quoteRequestIdRef = useRef<string | null>(null);
 
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -237,8 +238,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       : null
     );
 
-    // Reset pre-upload ref — new files may differ from previous upload
+    // Reset per-estimate refs — new files mean a fresh estimate and upload
     uploadedRef.current = null;
+    quoteRequestIdRef.current = null;
 
     setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
     setParsing(true);
@@ -299,6 +301,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const effFill = wfVal + (infillPct / 100) * (1 - wfVal);
         const capturedInfill = infillPct;
         const capturedLang = language;
+        const capturedWallLoops = wallLoops;
+        const capturedUrgency = urgency;
 
         (async () => {
           const uploadTimestamp = Date.now();
@@ -317,6 +321,34 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               }
             }
             uploadedRef.current = { paths: uploadedPaths, names: uploadedNames };
+
+            // Create quote_requests row immediately — visible in admin before contact info arrives
+            try {
+              const { data: qrData } = await supabaseAnon
+                .from("quote_requests")
+                .insert({
+                  contact_email: null,
+                  contact_phone: null,
+                  material: materialKey,
+                  color: null,
+                  infill: `${capturedInfill}%`,
+                  wall_loops: capturedWallLoops,
+                  urgency: capturedUrgency,
+                  quantity: nextBundle.totalUnits,
+                  estimated_grams: nextBundle.totalGrams,
+                  estimated_hours: nextBundle.totalHours,
+                  estimated_price_low: nextBundle.low,
+                  estimated_price_high: nextBundle.high,
+                  file_paths: uploadedPaths,
+                  file_names: uploadedNames,
+                  status: "uploaded",
+                })
+                .select("id")
+                .single();
+              quoteRequestIdRef.current = qrData?.id ?? null;
+            } catch (qrErr) {
+              console.error("quote_requests early insert failed:", qrErr);
+            }
           } catch (e) {
             console.error("Pre-estimate upload failed:", e);
             // uploadedRef stays null — submitQuote will run the fallback upload loop
@@ -394,6 +426,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     estimateShownRef.current = false;
     uploadedRef.current = null;
     modalShownRef.current = false;
+    quoteRequestIdRef.current = null;
     setParsedFiles([]);
     setError(null);
     setParsing(false);
@@ -465,26 +498,49 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       });
       estimateShownRef.current = false;
 
-      // DB insert — use anon client so an admin session in localStorage
-      // doesn't override the anon RLS policy and cause a 42501 error.
-      supabaseAnon.from("quote_requests").insert({
-        contact_email: contactEmail.trim() || null,
-        contact_phone: contactPhone.trim() || null,
-        material: materialKey,
-        color: colorPref.trim() || null,
-        infill: `${infillPct}%`,
-        wall_loops: wallLoops,
-        urgency,
-        quantity: bundle!.totalUnits,
-        estimated_grams: bundle!.totalGrams,
-        estimated_hours: bundle!.totalHours,
-        estimated_price_low: bundle!.low,
-        estimated_price_high: bundle!.high,
-        file_paths: uploadedPaths,
-        file_names: uploadedNames,
-      }).then(({ error: dbErr }) => {
-        if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
-      }).catch(e => console.error("quote_requests insert threw:", e));
+      // DB write — update the row created at estimate time, or insert fresh if that failed.
+      // Use anon client so an admin session in localStorage doesn't trigger a 42501 error.
+      if (quoteRequestIdRef.current) {
+        supabaseAnon.from("quote_requests").update({
+          contact_email: contactEmail.trim() || null,
+          contact_phone: contactPhone.trim() || null,
+          color: colorPref.trim() || null,
+          material: materialKey,
+          infill: `${infillPct}%`,
+          wall_loops: wallLoops,
+          urgency,
+          quantity: bundle!.totalUnits,
+          estimated_grams: bundle!.totalGrams,
+          estimated_hours: bundle!.totalHours,
+          estimated_price_low: bundle!.low,
+          estimated_price_high: bundle!.high,
+          file_paths: uploadedPaths,
+          file_names: uploadedNames,
+          status: "pending",
+        }).eq("id", quoteRequestIdRef.current).then(({ error: dbErr }) => {
+          if (dbErr) console.error("quote_requests update error:", dbErr.message, dbErr);
+        }).catch(e => console.error("quote_requests update threw:", e));
+      } else {
+        // Fallback: early insert failed — create the row now with full contact info
+        supabaseAnon.from("quote_requests").insert({
+          contact_email: contactEmail.trim() || null,
+          contact_phone: contactPhone.trim() || null,
+          material: materialKey,
+          color: colorPref.trim() || null,
+          infill: `${infillPct}%`,
+          wall_loops: wallLoops,
+          urgency,
+          quantity: bundle!.totalUnits,
+          estimated_grams: bundle!.totalGrams,
+          estimated_hours: bundle!.totalHours,
+          estimated_price_low: bundle!.low,
+          estimated_price_high: bundle!.high,
+          file_paths: uploadedPaths,
+          file_names: uploadedNames,
+        }).then(({ error: dbErr }) => {
+          if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
+        }).catch(e => console.error("quote_requests insert threw:", e));
+      }
 
       // Email — fire-and-forget
       supabase.functions.invoke("send-quote-request", {
