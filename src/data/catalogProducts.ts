@@ -13,6 +13,8 @@ export interface CatalogProduct {
   priceHigh: number;
   description: string;
   fields: CatalogField[];
+  colorImages?: Record<string, string>;
+  coverImages?: Record<string, string>;
 }
 
 export const catalogProducts: CatalogProduct[] = [
@@ -42,7 +44,7 @@ export const catalogProducts: CatalogProduct[] = [
   {
     slug: "placa-nombre",
     name: "Placa de nombre personalizada",
-    image: "/images/catalog/nameplate.jpg",
+    image: "/images/catalog/placa-nombre-blanco.jpg",
     priceLow: 12,
     priceHigh: 20,
     description:
@@ -56,6 +58,17 @@ export const catalogProducts: CatalogProduct[] = [
         options: ["Blanco", "Negro", "Madera clara", "Dorado"],
       },
     ],
+    colorImages: {
+      "Blanco": "/images/catalog/placa-nombre-blanco.jpg",
+      "Negro": "/images/catalog/placa-nombre-negro.jpg",
+      "Madera clara": "/images/catalog/placa-nombre-madera-clara.jpg",
+      "Dorado": "/images/catalog/placa-nombre-dorado.jpg",
+    },
+    coverImages: {
+      es: "/images/catalog/placa-nombre-cover-es.jpg",
+      en: "/images/catalog/placa-nombre-cover-en.jpg",
+      ca: "/images/catalog/placa-nombre-cover-ca.jpg",
+    },
   },
   {
     slug: "placa-mascota",

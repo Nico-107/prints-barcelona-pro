@@ -4,10 +4,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { catalogProducts } from "@/data/catalogProducts";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
 const Catalog = () => {
+  const { language } = useLanguage();
   return (
     <>
       <Helmet>
@@ -41,7 +43,7 @@ const Catalog = () => {
               >
                 <div className="aspect-square bg-secondary/30 overflow-hidden">
                   <img
-                    src={product.image}
+                    src={product.coverImages?.[language] ?? product.image}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
