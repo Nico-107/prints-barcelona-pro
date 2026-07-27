@@ -104,7 +104,11 @@ const CatalogProduct = () => {
             <div className="grid md:grid-cols-2 gap-10 items-start">
               <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-square">
                 <img
-                  src={product.colorImages?.[fieldValues['color']] ?? product.image}
+                  src={
+                    product.variantImages
+                      ? (product.variantImages.images[fieldValues[product.variantImages.field]] ?? product.image)
+                      : product.image
+                  }
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />

@@ -13,7 +13,7 @@ export interface CatalogProduct {
   priceHigh: number;
   description: string;
   fields: CatalogField[];
-  colorImages?: Record<string, string>;
+  variantImages?: { field: string; images: Record<string, string> };
   coverImages?: Record<string, string>;
 }
 
@@ -58,11 +58,14 @@ export const catalogProducts: CatalogProduct[] = [
         options: ["Blanco", "Negro", "Madera clara", "Dorado"],
       },
     ],
-    colorImages: {
-      "Blanco": "/images/catalog/placa-nombre-blanco.jpg",
-      "Negro": "/images/catalog/placa-nombre-negro.jpg",
-      "Madera clara": "/images/catalog/placa-nombre-madera-clara.jpg",
-      "Dorado": "/images/catalog/placa-nombre-dorado.jpg",
+    variantImages: {
+      field: "color",
+      images: {
+        "Blanco": "/images/catalog/placa-nombre-blanco.jpg",
+        "Negro": "/images/catalog/placa-nombre-negro.jpg",
+        "Madera clara": "/images/catalog/placa-nombre-madera-clara.jpg",
+        "Dorado": "/images/catalog/placa-nombre-dorado.jpg",
+      },
     },
     coverImages: {
       es: "/images/catalog/placa-nombre-cover-es.jpg",
@@ -94,9 +97,35 @@ export const catalogProducts: CatalogProduct[] = [
     ],
   },
   {
+    slug: "soporte-telefono",
+    name: "Soporte de teléfono acanalado",
+    image: "/images/catalog/stand-space-black.jpg",
+    priceLow: 10,
+    priceHigh: 16,
+    description:
+      "Soporte de teléfono con textura acanalada, diseño minimalista impreso en 3D. Ideal para el escritorio, la mesita de noche o cualquier rincón donde quieras tener el móvil siempre a mano y bien visible.",
+    fields: [
+      {
+        key: "color",
+        label: "Color",
+        type: "select",
+        options: ["Negro espacial", "Blanco hueso", "Azul", "Naranja"],
+      },
+    ],
+    variantImages: {
+      field: "color",
+      images: {
+        "Negro espacial": "/images/catalog/stand-space-black.jpg",
+        "Blanco hueso": "/images/catalog/stand-off-white.jpg",
+        "Azul": "/images/catalog/stand-blue.jpg",
+        "Naranja": "/images/catalog/stand-orange.jpg",
+      },
+    },
+  },
+  {
     slug: "topper-boda",
     name: "Topper de tarta personalizado",
-    image: "/images/catalog/cake-topper.jpg",
+    image: "/images/catalog/topper-1-abrazo.jpg",
     priceLow: 20,
     priceHigh: 40,
     description:
@@ -105,11 +134,26 @@ export const catalogProducts: CatalogProduct[] = [
       { key: "names", label: "Nombres de los novios", type: "text" },
       { key: "date", label: "Fecha (opcional)", type: "text" },
       {
+        key: "style",
+        label: "Diseño",
+        type: "select",
+        options: ["Abrazo con corazón", "Beso con anillos", "Choca las manos", "LOVE decorativo"],
+      },
+      {
         key: "color",
         label: "Color",
         type: "select",
         options: ["Dorado", "Plateado", "Negro", "Blanco"],
       },
     ],
+    variantImages: {
+      field: "style",
+      images: {
+        "Abrazo con corazón": "/images/catalog/topper-1-abrazo.jpg",
+        "Beso con anillos": "/images/catalog/topper-2-beso.jpg",
+        "Choca las manos": "/images/catalog/topper-3-choca-manos.jpg",
+        "LOVE decorativo": "/images/catalog/topper-4-love.jpg",
+      },
+    },
   },
 ];
