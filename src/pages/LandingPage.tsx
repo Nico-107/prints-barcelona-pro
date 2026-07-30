@@ -35,6 +35,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
   const pageCity = page.cityId ? CITIES[page.cityId] ?? ACTIVE_CITY : ACTIVE_CITY;
   const WHATSAPP_URL = whatsappUrl(pageCity);
+  const isMadrid = pageCity.id === "madrid";
 
   const isEs = page.lang === "es";
   const isCa = page.lang === "ca";
@@ -43,10 +44,10 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
 
   const trustBadges = [
-    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`) },
-    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas") },
-    { icon: Award, label: t("Quality Materials", "Materiales de Calidad") },
-    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida") },
+    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-700" : "text-accent" },
+    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas"), iconClass: "text-accent" },
+    { icon: Award, label: t("Quality Materials", "Materiales de Calidad"), iconClass: "text-accent" },
+    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida"), iconClass: "text-accent" },
   ];
 
   const serviceSchema = {
@@ -132,7 +133,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {/* Hero */}
         <section className="container px-4 py-12 md:py-16">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium mb-5">
+            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-5 ${isMadrid ? "bg-orange-50 text-orange-700 border border-orange-200" : "bg-accent/10 text-accent"}`}>
               <MapPin className="w-3.5 h-3.5" /> {pageCity.cityName}
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-5">
@@ -158,7 +159,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">
               {trustBadges.map((b) => (
                 <div key={b.label} className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border/50 bg-card">
-                  <b.icon className="w-4 h-4 text-accent flex-shrink-0" />
+                  <b.icon className={`w-4 h-4 ${b.iconClass} flex-shrink-0`} />
                   <span className="text-xs font-medium text-foreground">{b.label}</span>
                 </div>
               ))}
@@ -238,7 +239,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         </section>
 
         {/* Reviews */}
-        <Reviews />
+        <Reviews cityName={pageCity.cityName} />
 
         {/* Related pages */}
         <section className="container px-4 py-16 md:py-20 border-t border-border/40">
@@ -253,7 +254,6 @@ const LandingPage = ({ page: pageProp }: Props) => {
                   <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-accent transition-all" />
                 </div>
                 <h3 className="font-semibold text-foreground">{r.label}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{pageCity.cityName}</p>
               </Link>
             ))}
           </div>

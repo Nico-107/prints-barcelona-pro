@@ -168,6 +168,7 @@ export const enTranslations: Record<string, string> = {
   // Reviews
   "reviews.title": "Customer Reviews",
   "reviews.subtitle": "Real feedback from customers we've worked with in Barcelona",
+  "reviews.subtitle.generic": "Real feedback from Dimension3D customers",
   "reviews.based": "based on",
   "reviews.verified": "verified reviews",
   "reviews.showMore": "Show more reviews",

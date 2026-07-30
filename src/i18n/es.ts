@@ -168,6 +168,7 @@ export const esTranslations: Record<string, string> = {
   // Reviews
   "reviews.title": "Reseñas de clientes",
   "reviews.subtitle": "Opiniones reales de clientes con los que hemos trabajado en Barcelona",
+  "reviews.subtitle.generic": "Opiniones reales de clientes de Dimension3D",
   "reviews.based": "basado en",
   "reviews.verified": "reseñas verificadas",
   "reviews.showMore": "Ver más reseñas",

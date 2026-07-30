@@ -45,7 +45,7 @@ interface DBReview {
 
 const INITIAL_VISIBLE_COUNT = 6;
 
-const Reviews = () => {
+const Reviews = ({ cityName }: { cityName?: string }) => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const sectionRef = useReveal<HTMLElement>();
@@ -136,7 +136,7 @@ const Reviews = () => {
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("reviews.title")}</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">{t("reviews.subtitle")}</p>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">{cityName && cityName !== "Barcelona" ? t("reviews.subtitle.generic") : t("reviews.subtitle")}</p>
           <div className="inline-flex items-center gap-3 bg-card border border-border rounded-full px-6 py-3 card-shadow">
             <GoldStars rating={5} size="w-5 h-5" />
             <span className="text-foreground font-bold text-lg">{averageRating}</span>
