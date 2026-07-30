@@ -44,7 +44,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
 
   const trustBadges = [
-    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-700" : "text-accent" },
+    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
     { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas"), iconClass: "text-accent" },
     { icon: Award, label: t("Quality Materials", "Materiales de Calidad"), iconClass: "text-accent" },
     { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida"), iconClass: "text-accent" },
@@ -131,39 +131,59 @@ const LandingPage = ({ page: pageProp }: Props) => {
         </nav>
 
         {/* Hero */}
-        <section className="container px-4 py-12 md:py-16">
-          <div className="max-w-3xl">
-            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-5 ${isMadrid ? "bg-orange-50 text-orange-700 border border-orange-200" : "bg-accent/10 text-accent"}`}>
-              <MapPin className="w-3.5 h-3.5" /> {pageCity.cityName}
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-5">
-              {page.h1}
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-              {page.intro}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button asChild variant="accent" size="lg" className="gap-2">
-                <Link to={isEs ? "/#upload" : "/#upload"}>
-                  <Upload className="w-4 h-4" />
-                  {t("Request a Quote", "Solicitar Presupuesto")}
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
-                <MessageCircle className="w-4 h-4" />
-                {t("Contact on WhatsApp", "Contactar por WhatsApp")}
-              </Button>
-            </div>
+        <section className={`relative overflow-hidden ${isMadrid ? "hero-gradient-madrid" : "hero-gradient"}`}>
+          <div className="absolute inset-0 opacity-[0.03]">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
+            }} />
+          </div>
 
-            {/* Trust badges */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">
-              {trustBadges.map((b) => (
-                <div key={b.label} className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border/50 bg-card">
-                  <b.icon className={`w-4 h-4 ${b.iconClass} flex-shrink-0`} />
-                  <span className="text-xs font-medium text-foreground">{b.label}</span>
-                </div>
-              ))}
+          <div className={`absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl ${isMadrid ? "bg-orange-400/10" : "bg-accent/10"}`} />
+          <div className={`absolute bottom-32 right-20 w-48 h-48 rounded-full blur-3xl ${isMadrid ? "bg-orange-400/10" : "bg-accent/10"}`} />
+
+          <div className="container relative z-10 px-4 pt-12 md:pt-16 pb-32 md:pb-40">
+            <div className="max-w-3xl">
+              <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 font-medium">
+                Dimension3D {pageCity.cityName}
+              </p>
+              <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-5 border ${isMadrid ? "bg-orange-400/20 text-orange-200 border-orange-400/30" : "bg-white/10 text-white border-white/20"}`}>
+                <MapPin className="w-3.5 h-3.5" /> {pageCity.cityName}
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground tracking-tight mb-5">
+                {page.h1}
+              </h1>
+              <p className="text-lg md:text-xl text-primary-foreground/90 leading-relaxed mb-8">
+                {page.intro}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button asChild variant="accent" size="lg" className="gap-2">
+                  <Link to={isEs ? "/#upload" : "/#upload"}>
+                    <Upload className="w-4 h-4" />
+                    {t("Request a Quote", "Solicitar Presupuesto")}
+                  </Link>
+                </Button>
+                <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
+                  <MessageCircle className="w-4 h-4" />
+                  {t("Contact on WhatsApp", "Contactar por WhatsApp")}
+                </Button>
+              </div>
+
+              {/* Trust badges */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">
+                {trustBadges.map((b) => (
+                  <div key={b.label} className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-white/10 bg-white/5">
+                    <b.icon className={`w-4 h-4 ${b.iconClass} flex-shrink-0`} />
+                    <span className="text-xs font-medium text-white">{b.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+              <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 70C1200 65 1320 55 1380 50L1440 45V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"/>
+            </svg>
           </div>
         </section>
 
