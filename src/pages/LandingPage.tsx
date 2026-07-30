@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2 } from "lucide-react";
+import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2, Wrench, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -12,6 +12,8 @@ import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+
+const SECTION_ICONS = [Wrench, Zap, Award, Users];
 
 interface Props {
   page?: LandingContent;
@@ -187,21 +189,30 @@ const LandingPage = ({ page: pageProp }: Props) => {
           </div>
         </section>
 
-        {/* Content sections */}
-        <section className="container px-4 py-8 md:py-12">
-          <div className="max-w-3xl space-y-12">
-            {page.sections.map((s, i) => (
-              <article key={i}>
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">{s.heading}</h2>
-                <div className="text-muted-foreground leading-relaxed space-y-4">
-                  {s.body.split("\n\n").map((p, j) => (
-                    <p key={j} className="whitespace-pre-line">{p}</p>
-                  ))}
+        {/* Content sections — alternating bands with icon cards */}
+        {page.sections.map((s, i) => {
+          const Icon = SECTION_ICONS[i % SECTION_ICONS.length];
+          const isAlt = i % 2 === 1;
+          return (
+            <section key={i} className={`py-16 md:py-20 ${isAlt ? "bg-secondary/30" : "bg-background"}`}>
+              <div className="container px-4">
+                <div className="max-w-3xl mx-auto">
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${isMadrid ? "bg-orange-50" : "bg-accent/10"}`}>
+                      <Icon className={`w-6 h-6 ${isMadrid ? "text-orange-700" : "text-accent"}`} />
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground pt-1.5">{s.heading}</h2>
+                  </div>
+                  <div className="text-muted-foreground leading-relaxed space-y-4 md:pl-16">
+                    {s.body.split("\n\n").map((p, j) => (
+                      <p key={j} className="whitespace-pre-line">{p}</p>
+                    ))}
+                  </div>
                 </div>
-              </article>
-            ))}
-          </div>
-        </section>
+              </div>
+            </section>
+          );
+        })}
 
         {/* Gallery */}
         {page.galleryImages.length > 0 && (

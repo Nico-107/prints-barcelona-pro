@@ -680,15 +680,15 @@ export const PAGES_EN: LandingContent[] = [
     metaTitle: "3D Printing in Madrid — Local Service, Quote in 1h | Dimension3D",
     metaDescription: "Local 3D printing in Madrid by Dimension3D. On-site production with a fast Creality K1 FDM printer — metal parts also available. Quote in under 1 hour via WhatsApp.",
     h1: "3D Printing in Madrid — Dimension3D Local Service",
-    intro: "Dimension3D Madrid is a local branch of the studio, producing parts directly in Madrid. This is not the same as our Barcelona-to-Madrid shipping service (/impresion-3d-con-entrega-a-madrid) — the Madrid workshop prints and delivers locally, with no parts travelling across the country.",
+    intro: "Dimension3D Madrid is a local workshop producing parts on-site in Madrid — led by Antonio, running a Creality K1 for fast FDM turnaround, with metal fabrication available in parallel. Quote in under 1 hour via WhatsApp.",
     sections: [
       {
-        heading: "Local production in Madrid — not a shipment from Barcelona",
-        body: "Dimension3D already has a page for customers who want prints shipped from Barcelona to Madrid — that is a different service. The Madrid workshop produces your parts on-site, in the city. Nothing travels 600 km, there are no interprovincial delivery windows, no dependency on another location's queue.\n\nDimension3D Madrid runs on a Creality K1, a machine chosen for its speed and reliability across a full range of FDM materials. PLA, PETG, ABS/ASA, Nylon and TPU are all available, selected on a per-project basis according to what the part actually has to do — not what happens to be loaded that day. The same material-selection discipline the Barcelona studio applies is applied here."
+        heading: "Local production, right here in Madrid",
+        body: "Dimension3D Madrid produces your parts on-site, in the city. Nothing travels 600 km, there are no interprovincial delivery windows, no dependency on another location's queue — the file lands in the workshop, the part comes out in Madrid.\n\nThe workshop runs on a Creality K1, a machine chosen for its speed and reliability across a full range of FDM materials. PLA, PETG, ABS/ASA, Nylon and TPU are all available, selected on a per-project basis according to what the part actually has to do — not what happens to be loaded that day. The same rigour applied to every Dimension3D order."
       },
       {
-        heading: "Plastic and metal parts — what makes Madrid different",
-        body: "The specialist leading Dimension3D Madrid, Antonio, runs a metal fabrication company alongside the 3D printing operation. That makes the Madrid location genuinely unique within Dimension3D: if your project calls for a metal part — a structural bracket, a precision fitting, something where polymer won't hold up — raise it in the same WhatsApp conversation and it gets handled locally.\n\nThis combination of FDM 3D printing and metal fabrication capacity is not something the Barcelona studio currently offers. For projects that mix plastic and metal components — a housing that needs a steel insert, a bracket assembly with both materials — Dimension3D Madrid can cover the full scope with one point of contact. No need to manage two separate suppliers."
+        heading: "Plastic and metal parts under one roof",
+        body: "The specialist leading Dimension3D Madrid, Antonio, runs a metal fabrication company alongside the 3D printing operation. That gives the Madrid workshop a capability most FDM shops don't have: if your project calls for a metal part — a structural bracket, a precision fitting, something where polymer won't hold up — raise it in the same WhatsApp conversation and it gets handled locally.\n\nThis combination of FDM 3D printing and metal fabrication means Dimension3D Madrid can cover projects that mix both materials — a housing that needs a steel insert, a bracket assembly with both — with one point of contact. No need to manage two separate suppliers."
       },
       {
         heading: "Quote in under 1 hour",
@@ -696,7 +696,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "How to order from the Madrid location",
-        body: "1. Tap the WhatsApp button on this page — it connects directly to the Madrid number, not the Barcelona studio.\n2. Send your file or photo along with a brief description of what the part needs to do.\n3. The Madrid team reviews the geometry, flags any issues, recommends the right material and sends the price.\n4. You approve — the part is printed, inspected, and handed off or delivered in Madrid.\n\nIf you're unsure whether a part is printable, whether plastic or metal is the right call, or whether FDM tolerances will meet your requirement, all of that gets addressed in step 3."
+        body: "1. Tap the WhatsApp button on this page — it connects directly to the Madrid workshop.\n2. Send your file or photo along with a brief description of what the part needs to do.\n3. The Madrid team reviews the geometry, flags any issues, recommends the right material and sends the price.\n4. You approve — the part is printed, inspected, and handed off or delivered in Madrid.\n\nIf you're unsure whether a part is printable, whether plastic or metal is the right call, or whether FDM tolerances will meet your requirement, all of that gets addressed in step 3."
       }
     ],
     faqs: [
