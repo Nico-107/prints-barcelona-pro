@@ -18,7 +18,8 @@ export type LandingTopic =
   | "miniatures"
   | "business"
   | "rapid-prototyping"
-  | "functional-parts";
+  | "functional-parts"
+  | "madrid";
 
 export interface LandingFAQ {
   q: string;
@@ -36,6 +37,7 @@ export interface LandingContent {
   topic: LandingTopic;     // shared key across EN/ES/CA versions
   lang: Lang;
   category: "service" | "material" | "use-case";
+  cityId?: string;         // when set, page uses that city's identity instead of ACTIVE_CITY
   metaTitle: string;
   metaDescription: string;
   h1: string;
@@ -665,5 +667,53 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Replacement Parts", slug: "/replacement-parts-barcelona" }
     ],
     schemaServiceName: "Functional 3D Printed Parts Barcelona"
+  },
+
+  // ----- MADRID -----
+  {
+    slug: "/3d-printing-madrid",
+    topic: "madrid",
+    altSlug: "/impresion-3d-madrid",
+    lang: "en",
+    category: "service",
+    cityId: "madrid",
+    metaTitle: "3D Printing in Madrid — Local Service, Quote in 1h | Dimension3D",
+    metaDescription: "Local 3D printing in Madrid by Dimension3D. Antonio prints on-site with a fast Creality K1 FDM printer — metal parts also available through his fabrication company. Quote in under 1 hour via WhatsApp.",
+    h1: "3D Printing in Madrid — Dimension3D Local Service",
+    intro: "Dimension3D Madrid is a local branch of Dimension3D, operated by Antonio directly in Madrid. This is not the same as our Barcelona-to-Madrid shipping service (/impresion-3d-con-entrega-a-madrid). Antonio prints your parts locally on a Creality K1 — one of the fastest FDM machines currently available — and delivers or hands them off in Madrid.",
+    sections: [
+      {
+        heading: "Local production in Madrid — not a shipment from Barcelona",
+        body: "Dimension3D already has a page for customers who want prints shipped from Barcelona to Madrid. That is a different service. Here, Antonio produces your parts on-site in Madrid. Nothing travels 600 km, no interprovincial lead time, no dependency on another city's queue.\n\nAntonio works with a Creality K1, a machine recognised for its speed and reliability across a wide range of FDM materials. PLA, PETG, ABS/ASA, Nylon and TPU are all available, selected on a per-project basis according to what the part actually needs to do — not what happens to be loaded. The same material-selection rigour Dimension3D applies in Barcelona applies here."
+      },
+      {
+        heading: "Plastic and metal parts — what makes Madrid different",
+        body: "Antonio runs a metal fabrication company alongside the 3D printing service. That makes the Madrid location genuinely unique within Dimension3D: if your project calls for a metal part — a structural bracket, a precision fitting, something where polymer won't hold up — you can discuss it in the same WhatsApp conversation and Antonio will handle it.\n\nThis combination of FDM 3D printing and metal fabrication capacity is not something the Barcelona studio currently offers. For projects that mix plastic and metal components — a housing that needs a steel insert, a bracket assembly with both materials — the Madrid location can cover the full scope with one point of contact. No need to manage two separate suppliers."
+      },
+      {
+        heading: "Quote in under 1 hour",
+        body: "The same Dimension3D promise applies in Madrid. Send your file (STL, STEP, OBJ, 3MF) or a clear photo of the part via WhatsApp, describe what it needs to do and in what environment, and Antonio replies with a transparent quote, the right material recommendation, and a realistic timeline — in under one hour during business hours.\n\nNo subscription, no minimum order, no surprise fees. You pay for the part you approve, nothing more."
+      },
+      {
+        heading: "How to order from the Madrid location",
+        body: "1. Tap the WhatsApp button on this page — it connects directly to the Madrid number, not the Barcelona studio.\n2. Send your file or photo along with a brief description of what the part needs to do.\n3. Antonio reviews the geometry, flags any issues, recommends the right material and sends the price.\n4. You approve — Antonio prints, inspects and arranges handoff or delivery in Madrid.\n\nIf you're unsure whether a part is printable, whether plastic or metal is the right call, or whether FDM tolerances will meet your requirement, that conversation happens in step 3. Antonio handles each order personally from the first message."
+      }
+    ],
+    faqs: [
+      { q: "Is this the same as the Barcelona-to-Madrid shipping service?", a: "No — they are completely separate services. The page at /impresion-3d-con-entrega-a-madrid is the Barcelona studio's service that prints and ships to Madrid customers. This page is a fully local Madrid service: Antonio prints your parts in Madrid. Different timelines, different logistics, and with capabilities — including metal parts — that the shipping service doesn't include." },
+      { q: "What printer does Antonio use in Madrid?", a: "Antonio works with a Creality K1, a machine known for its speed and reliability in FDM printing. It enables fast turnaround even on medium-sized parts across all standard FDM materials." },
+      { q: "Can I get metal parts made in Madrid?", a: "Yes. Antonio runs a metal fabrication company alongside the 3D printing service, so he can produce metal components as well. This is a genuine differentiator — the Barcelona studio does not currently offer metalwork. Send a WhatsApp message and Antonio will assess your requirements directly." },
+      { q: "How fast is the quote?", a: "Under 1 hour during business hours — the same promise as the rest of the Dimension3D service." },
+      { q: "How do I contact the Madrid location?", a: "Via WhatsApp only. The button on this page connects directly to the Madrid number, not Barcelona." },
+      { q: "Is there a physical address in Madrid?", a: "The service is fully managed over WhatsApp, with pickup or delivery coordinated directly with Antonio. There is no public-facing shopfront at this time." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "3D Printing Barcelona", slug: "/3d-printing-barcelona" },
+      { label: "Custom Parts", slug: "/custom-parts-barcelona" },
+      { label: "Pricing", slug: "/3d-printing-price-barcelona" },
+      { label: "Prototype Printing", slug: "/prototype-printing-barcelona" }
+    ],
+    schemaServiceName: "3D Printing Service Madrid"
   }
 ];

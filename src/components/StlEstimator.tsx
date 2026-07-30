@@ -14,9 +14,9 @@ const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — 
 const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
 const MAX_FILES = 10;
 
-const GENERAL_MARGIN = 1.08;      // +8% across all quotes
+const GENERAL_MARGIN = 1.15;      // +15% across all quotes
 const SMALL_PART_MARGIN = 1.15;   // +15% extra on cheap parts
-const SMALL_PART_THRESHOLD = 12;  // apply extra margin when pre-floor price is <= this
+const SMALL_PART_THRESHOLD = 20;  // apply extra margin when pre-floor price is <= this
 const MIN_PRICE = 10;             // absolute floor
 const RANGE_LOW_FLOOR = 10;       // displayed range low never shown below this
 const RANGE_HIGH_FLOOR = 20;      // displayed range high never shown below this

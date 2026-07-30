@@ -593,5 +593,53 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" }
     ],
     schemaServiceName: "Piezas Funcionales 3D Barcelona"
+  },
+
+  // ----- MADRID -----
+  {
+    slug: "/impresion-3d-madrid",
+    topic: "madrid",
+    altSlug: "/3d-printing-madrid",
+    lang: "es",
+    category: "service",
+    cityId: "madrid",
+    metaTitle: "Impresión 3D en Madrid — Servicio Local, Presupuesto en 1h | Dimension3D",
+    metaDescription: "Impresión 3D local en Madrid con Dimension3D. Antonio imprime directamente en Madrid con Creality K1 — también disponibles piezas metálicas. Presupuesto en menos de 1 hora por WhatsApp.",
+    h1: "Impresión 3D en Madrid — Servicio Local de Dimension3D",
+    intro: "Dimension3D Madrid es el punto local de Dimension3D en Madrid, gestionado por Antonio. No es lo mismo que nuestro servicio de envío desde Barcelona a Madrid (/impresion-3d-con-entrega-a-madrid). Antonio imprime tus piezas directamente en Madrid con una Creality K1 — una de las impresoras FDM más rápidas del mercado — y las entrega o las pone a tu disposición en la propia ciudad.",
+    sections: [
+      {
+        heading: "Producción local en Madrid — no un envío desde Barcelona",
+        body: "Dimension3D ya tiene una página para quienes quieren piezas impresas en Barcelona y enviadas a Madrid. Ese es un servicio diferente. Aquí, Antonio produce tus piezas en Madrid. Nada recorre 600 km, no hay tiempos de envío interprovincial ni dependencia de la agenda de otra ciudad.\n\nAntonio trabaja con una Creality K1, una máquina reconocida por su velocidad y fiabilidad en una amplia gama de materiales FDM. PLA, PETG, ABS/ASA, Nylon y TPU están disponibles, seleccionados para cada proyecto según lo que la pieza realmente necesita hacer — no según lo que esté cargado en ese momento. El mismo rigor en la selección de material que Dimension3D aplica en Barcelona se aplica aquí."
+      },
+      {
+        heading: "Plástico y también metal — la diferencia de Madrid",
+        body: "Antonio gestiona una empresa de fabricación metálica de forma paralela al servicio de impresión 3D. Eso convierte el punto Madrid en algo genuinamente único dentro de Dimension3D: si tu proyecto necesita una pieza metálica — un soporte estructural, un acoplamiento de precisión, algo donde el polímero no va a aguantar — puedes plantearlo en la misma conversación de WhatsApp y Antonio lo gestiona.\n\nEsta combinación de impresión 3D FDM y capacidad de fabricación metálica no es algo que el estudio de Barcelona ofrezca actualmente. Para proyectos que mezclan componentes de plástico y metal — una carcasa que necesita un inserto de acero, un conjunto de soportes con ambos materiales — el punto Madrid puede cubrir el alcance completo con un solo interlocutor. Sin necesidad de gestionar dos proveedores distintos."
+      },
+      {
+        heading: "Presupuesto en menos de 1 hora",
+        body: "La misma promesa de Dimension3D se aplica en Madrid. Envía tu archivo (STL, STEP, OBJ, 3MF) o una foto clara de la pieza por WhatsApp, describe lo que necesita hacer y en qué entorno, y Antonio responde con un presupuesto transparente, la recomendación de material adecuada y un plazo realista — en menos de una hora en horario laboral.\n\nSin suscripción, sin pedido mínimo, sin cargos ocultos. Pagas por la pieza que apruebas, nada más."
+      },
+      {
+        heading: "Cómo hacer tu pedido desde Madrid",
+        body: "1. Pulsa el botón de WhatsApp de esta página — conecta directamente con el número de Madrid, no con el estudio de Barcelona.\n2. Envía tu archivo o foto junto con una breve descripción de lo que necesita hacer la pieza.\n3. Antonio revisa la geometría, detecta posibles problemas, recomienda el material correcto y te envía el precio.\n4. Apruebas — Antonio imprime, inspecciona y acuerda contigo la recogida o la entrega en Madrid.\n\nSi no tienes claro si la pieza es imprimible, si el plástico o el metal es la mejor opción, o si las tolerancias de FDM cubren tu requisito, esa conversación ocurre en el paso 3. Antonio gestiona cada encargo de forma personalizada desde el primer mensaje."
+      }
+    ],
+    faqs: [
+      { q: "¿Es esto lo mismo que el servicio de envío desde Barcelona a Madrid?", a: "No — son servicios completamente independientes. La página /impresion-3d-con-entrega-a-madrid es el servicio del estudio de Barcelona que imprime y envía piezas a clientes en Madrid. Esta página es un servicio local en Madrid: Antonio imprime en Madrid. Plazos distintos, logística distinta y con capacidades — incluyendo piezas metálicas — que el servicio de envío no incluye." },
+      { q: "¿Qué impresora usa Antonio en Madrid?", a: "Antonio trabaja con una Creality K1, una máquina conocida por su velocidad y fiabilidad en impresión FDM. Permite plazos de producción ágiles incluso en piezas de tamaño medio, en todos los materiales FDM estándar." },
+      { q: "¿Puedo pedir piezas metálicas en Madrid?", a: "Sí. Antonio gestiona una empresa de fabricación metálica de forma paralela al servicio de impresión 3D, por lo que también puede producir componentes metálicos. Es algo que el estudio de Barcelona no ofrece actualmente. Envía un WhatsApp y Antonio evalúa tus necesidades directamente." },
+      { q: "¿En cuánto tiempo recibo el presupuesto?", a: "En menos de 1 hora en horario laboral — la misma promesa que en el resto del servicio Dimension3D." },
+      { q: "¿Cómo contacto con el punto Madrid?", a: "Únicamente por WhatsApp. El botón de esta página conecta directamente con el número de Madrid, no con Barcelona." },
+      { q: "¿Hay dirección física en Madrid?", a: "El servicio se gestiona íntegramente por WhatsApp y la recogida o entrega se acuerda directamente con Antonio. Por el momento no hay local abierto al público." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Impresión 3D en Barcelona", slug: "/impresion-3d-barcelona" },
+      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Precios", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Envío a Madrid desde Barcelona", slug: "/impresion-3d-con-entrega-a-madrid" }
+    ],
+    schemaServiceName: "Servicio de Impresión 3D Madrid"
   }
 ];

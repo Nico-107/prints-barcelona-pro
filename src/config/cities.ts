@@ -35,6 +35,21 @@ export const CITIES: Record<string, City> = {
     streetAddress: "Rambla de Brasil 53",
     launchOffer: { enabled: false, text: "" },
   },
+  madrid: {
+    id: "madrid",
+    cityName: "Madrid",
+    countryCode: "ES",
+    countryName: "España",
+    addressRegion: "Comunidad de Madrid",
+    languages: ["es", "en"],
+    whatsappNumber: "34634455110",
+    geoRegion: "ES-M",
+    geoPlacename: "Madrid",
+    addressLocality: "Madrid",
+    areaServed: "Madrid",
+    streetAddress: "", // TODO: fill in once Antonio's exact address is confirmed, needed for Google Business Profile setup later
+    launchOffer: { enabled: false, text: "" },
+  },
 };
 
 export const ACTIVE_CITY: City = CITIES.barcelona;

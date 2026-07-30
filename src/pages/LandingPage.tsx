@@ -10,10 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
-import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
-
-const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 interface Props {
   page?: LandingContent;
@@ -35,6 +33,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
     );
   }
 
+  const pageCity = page.cityId ? CITIES[page.cityId] ?? ACTIVE_CITY : ACTIVE_CITY;
+  const WHATSAPP_URL = whatsappUrl(pageCity);
+
   const isEs = page.lang === "es";
   const isCa = page.lang === "ca";
   const t = (en: string, es: string) => (isCa ? es : isEs ? es : en);
@@ -42,7 +43,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
 
   const trustBadges = [
-    { icon: MapPin, label: t(`${ACTIVE_CITY.cityName} Based`, `Local en ${ACTIVE_CITY.cityName}`) },
+    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`) },
     { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas") },
     { icon: Award, label: t("Quality Materials", "Materiales de Calidad") },
     { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida") },
@@ -54,16 +55,16 @@ const LandingPage = ({ page: pageProp }: Props) => {
     name: page.schemaServiceName,
     provider: {
       "@type": "LocalBusiness",
-      name: `Dimension3D ${ACTIVE_CITY.cityName}`,
+      name: `Dimension3D ${pageCity.cityName}`,
       url: SITE_URL,
-      telephone: `+${ACTIVE_CITY.whatsappNumber}`,
+      telephone: `+${pageCity.whatsappNumber}`,
       address: {
         "@type": "PostalAddress",
-        addressLocality: ACTIVE_CITY.addressLocality,
-        addressCountry: ACTIVE_CITY.countryCode,
+        addressLocality: pageCity.addressLocality,
+        addressCountry: pageCity.countryCode,
       },
     },
-    areaServed: { "@type": "City", name: ACTIVE_CITY.areaServed },
+    areaServed: { "@type": "City", name: pageCity.areaServed },
     description: page.metaDescription,
     url
   };
@@ -132,7 +133,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <section className="container px-4 py-12 md:py-16">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium mb-5">
-              <MapPin className="w-3.5 h-3.5" /> {ACTIVE_CITY.cityName}
+              <MapPin className="w-3.5 h-3.5" /> {pageCity.cityName}
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-5">
               {page.h1}
@@ -186,7 +187,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <section className="bg-secondary/30 py-16 md:py-20">
             <div className="container px-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-                {t(`Real prints from our ${ACTIVE_CITY.cityName} workshop`, `Impresiones reales de nuestro taller en ${ACTIVE_CITY.cityName}`)}
+                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`)}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (
@@ -252,7 +253,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
                   <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-accent transition-all" />
                 </div>
                 <h3 className="font-semibold text-foreground">{r.label}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{ACTIVE_CITY.cityName}</p>
+                <p className="text-xs text-muted-foreground mt-1">{pageCity.cityName}</p>
               </Link>
             ))}
           </div>
