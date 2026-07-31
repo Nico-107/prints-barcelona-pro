@@ -42,12 +42,12 @@ export const CITIES: Record<string, City> = {
     countryName: "España",
     addressRegion: "Comunidad de Madrid",
     languages: ["es", "en"],
-    whatsappNumber: "34634455110",
+    whatsappNumber: "34672051147",
     geoRegion: "ES-M",
     geoPlacename: "Madrid",
     addressLocality: "Madrid",
     areaServed: "Madrid",
-    streetAddress: "", // TODO: fill in once Antonio's exact address is confirmed, needed for Google Business Profile setup later
+    streetAddress: "",
     launchOffer: { enabled: false, text: "" },
   },
 };
