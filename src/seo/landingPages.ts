@@ -19,7 +19,11 @@ export type LandingTopic =
   | "business"
   | "rapid-prototyping"
   | "functional-parts"
-  | "madrid";
+  | "madrid"
+  | "choosing-service"
+  | "materials-guide"
+  | "file-prep"
+  | "best-service";
 
 export interface LandingFAQ {
   q: string;
@@ -667,5 +671,221 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Replacement Parts", slug: "/replacement-parts-barcelona" }
     ],
     schemaServiceName: "Functional 3D Printed Parts Barcelona"
+  },
+
+  // ----- NEW: HOW TO CHOOSE A 3D PRINTING SERVICE -----
+  {
+    slug: "/how-to-choose-3d-printing-service-barcelona",
+    topic: "choosing-service",
+    altSlug: "/como-elegir-servicio-impresion-3d-barcelona",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "How to Choose a 3D Printing Service in Barcelona — Buyer's Guide | Dimension3D",
+    metaDescription: "Practical buyer's guide to 3D printing services in Barcelona: what to ask before you order, red flags to watch for, and a neutral comparison of local workshops, online platforms and maker marketplaces.",
+    h1: "How to Choose a 3D Printing Service in Barcelona",
+    intro: "Before you send your file to the first Google result, take five minutes to ask a few concrete questions. The answers tell you whether the price you'll be quoted reflects the part you'll actually receive — and whether the service you're picking is genuinely suited to your project. This guide walks through what to ask, what to watch out for, and how the three common service models structurally differ.",
+    sections: [
+      {
+        heading: "What to ask before you place an order",
+        body: "A serious 3D printing service will answer all of the following clearly and in writing. If any answer is vague, that is data.\n\n• Which materials do you actually stock, and which are you happy to recommend for my part? A shop that offers twenty materials but only prints two of them regularly is different from one that keeps six materials in day-to-day rotation.\n• What layer height and infill will you use for my quote? Layer height (typically 0.12–0.28 mm on FDM) and infill percentage directly change both the price and the strength of the part.\n• What tolerance can you hold on the critical features of my geometry? FDM in practice sits around ±0.2 mm across most dimensions. Ask what the shop actually measures, not the marketing figure.\n• Who reviews my file before printing? A human, an algorithm, or nothing? File review catches wall-thickness issues, orientation problems and support decisions that automated quoting cannot see.\n• Is there a minimum order? What is the smallest thing you'll print, and for how much?\n• What's your realistic turnaround from approved quote to shipped part, in business days, for the size and material I'm asking about?\n\nA shop that answers these six questions in a WhatsApp reply within an hour has already told you a great deal about how they work."
+      },
+      {
+        heading: "Red flags in a 3D printing quote",
+        body: "Some patterns are worth pausing over before you approve a job:\n\n• A firm price without anyone looking at the file. Price on FDM is a function of grams of plastic and hours of machine time. Without opening the geometry, no one can quote either accurately — an instant number is either padded for safety or unrealistic.\n• No minimum order stated anywhere on the site. Every workshop has one, whether it's €10 or €200. Not saying so up front usually means it's negotiated case by case, which makes budgeting unpredictable.\n• Vague or missing lead times. \"Fast turnaround\" is not a lead time. \"Ships in 3–5 business days from approval\" is.\n• No support channel with a human at the other end. If your only contact route is a web form that generates a ticket number, expect the pace of communication to match.\n• Silence on file review. If nobody looks at the geometry before printing, the shop is trusting your CAD to be perfect. Most CAD isn't.\n\nNone of these on their own means a shop is bad — but three or four together is a pattern."
+      },
+      {
+        heading: "Three service models — an objective comparison",
+        body: "There are three common ways to source a 3D print in Barcelona, and they differ in structural ways that matter more than any individual company's marketing:\n\n| Feature | Local Barcelona workshop | International online platform | Maker marketplace |\n|---|---|---|---|\n| Typical lead time (approved quote → part in hand) | 2–5 business days for standard orders; express 24–48h possible | 7–14 business days including international shipping | Varies by individual maker; commonly 5–15 business days |\n| Minimum order | Set by the workshop; often €10–€50 or none | Usually no per-part minimum; per-order minimums common | Set by each maker independently |\n| Human file review before quote | Standard practice at most local workshops | Algorithmic quote by default; human review on request or by tier | Depends entirely on the individual maker |\n| Language of support | Spanish, Catalan and English available locally | Usually English-only, or a language-specific portal | Depends on the maker's own languages |\n| In-person pickup option | Available by appointment at most local workshops | Not offered — international shipping only | Sometimes, if the maker is local and willing |\n| Customisation and design help | Direct dialogue with the person producing the part | Standard specs only; customisation via ticket or premium tier | Direct with the maker, quality varies |\n\nFor Dimension3D specifically: we're a local Barcelona workshop, we quote within one hour during business hours, minimum order is €10 with no per-part minimum, every file is reviewed manually before we send the quote, we handle enquiries in Spanish, Catalan and English, and pickup in Barcelona is available by appointment.\n\nThe right choice depends on your project. If you need a single functional part next week with a specific material recommendation, a local workshop is structurally set up for that. If you need 500 identical injection-quality parts at the lowest possible unit price and can wait, an international platform's economics may fit better. Pick the model that matches the job."
+      },
+      {
+        heading: "Questions specific to your project type",
+        body: "The generic checklist above is a floor, not a ceiling. Depending on what you're ordering, add project-specific questions:\n\n• For a functional load-bearing part: ask which material and infill they recommend and why, and what the expected temperature and load environment is that they're specifying for.\n• For an outdoor part: ask specifically about UV stability. ASA and PETG behave differently outdoors than PLA. A shop that answers \"we'll print it in whatever you want\" without asking about the environment isn't optimising for the part working.\n• For a visual prototype: ask about layer height, surface finish and post-processing options (sanding, priming, painting).\n• For a batch of 20+ identical parts: ask about tiered pricing, per-batch quality control, and how they handle any parts that come out of spec.\n• For anything with a deadline: ask for an approved-quote-to-dispatch lead time in business days, not calendar days, and confirm whether express service is separately quoted.\n\nA good shop welcomes these questions. They tell them what to prioritise on your job."
+      },
+      {
+        heading: "How Dimension3D answers each of these — in short",
+        body: "For direct reference, here's how the checklist maps to our operation:\n\n• Materials in day-to-day rotation: PLA, PETG, ABS, ASA, TPU, Nylon (PA12), and carbon-fibre reinforced variants (PLA-CF, PETG-CF, Nylon-CF).\n• Layer height range: 0.12–0.28 mm depending on part function; specified per quote.\n• Typical tolerance: ±0.2 mm across most FDM dimensions; tighter features quoted individually.\n• File review: every file is opened manually before we send the quote; wall thickness, support and orientation questions get raised at that stage.\n• Minimum order: €10. No per-part minimum — a single small clip is a valid order.\n• Turnaround: standard 2–5 business days from approved quote; express 24–48h available; same-day sometimes possible when the queue allows.\n• Support language: Spanish, Catalan and English, via WhatsApp or email.\n• Pickup: available at our Barcelona workshop by appointment; shipping to mainland Spain with tracking.\n\nUse this guide with any shop you're considering. The point isn't to steer you to us — it's to give you the shape of a good conversation with any 3D printing supplier."
+      }
+    ],
+    faqs: [
+      { q: "Is instant online pricing a bad sign?", a: "Not automatically — an instant estimator is genuinely useful for a first-pass number. What matters is whether a human reviews the file before the quote is confirmed. Instant pricing followed by human review is fine. Instant pricing that goes straight to print without anyone looking at the geometry is where problems appear." },
+      { q: "How do I know if a workshop can hold the tolerance I need?", a: "Ask which features you care about (holes, mating surfaces, threaded inserts) and what tolerance they can hold on those specifically. A shop that answers with an actual figure and an explanation of how they'd achieve it — orientation, wall count, post-processing — knows what they're doing. A shop that just says 'yes, high tolerance' hasn't answered the question." },
+      { q: "Should I be worried about a workshop with no minimum order?", a: "No — the opposite. A stated €10-or-similar minimum with no per-part floor is a workshop set up to happily print one clip. A workshop that only quotes above €200 per order is optimised for a different type of customer, and that's fine — just make sure it matches your project." },
+      { q: "What's a fair lead time for a small functional part in Barcelona?", a: "For a small PLA or PETG part with no complex geometry, from approved quote to ready-for-pickup is typically 2–5 business days at a local workshop. Express service in 24–48 hours is a common option on top of that. If someone quotes 3 weeks for a small standard part with no specific reason, ask why." },
+      { q: "Is it worth paying more for a local workshop over an international online service?", a: "It depends on the project. A local workshop is structurally set up for direct dialogue, faster turnaround, in-person pickup and file review by a human. An international platform is structurally set up for high-volume standardised production. If your project matches the second profile — hundreds of identical parts, no rush, no unusual materials — the platform's economics may fit. If it matches the first profile, the price premium of local is usually smaller than people expect and the friction reduction is real." },
+      { q: "How do I know a workshop will actually deliver what they've quoted?", a: "Two practical tests. First, ask to see photographs of a similar part they've printed recently — a serious workshop has a portfolio. Second, look at how they answer your pre-quote questions: precise, direct answers with acknowledged tradeoffs correlate strongly with the same behaviour on the actual job." }
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg", "curved-parts.jpg", "black-intake.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "3D Printing Materials Guide", slug: "/3d-printing-materials-guide" },
+      { label: "How to Prepare Your File", slug: "/how-to-prepare-file-for-3d-printing" },
+      { label: "3D Printing in Barcelona", slug: "/3d-printing-barcelona" },
+      { label: "Pricing", slug: "/3d-printing-price-barcelona" }
+    ],
+    schemaServiceName: "3D Printing Buyer's Guide Barcelona"
+  },
+
+  // ----- NEW: MATERIALS GUIDE -----
+  {
+    slug: "/3d-printing-materials-guide",
+    topic: "materials-guide",
+    altSlug: "/guia-materiales-impresion-3d",
+    lang: "en",
+    category: "material",
+    metaTitle: "3D Printing Materials Guide — PLA, PETG, ABS, TPU, Nylon, CF | Dimension3D",
+    metaDescription: "Practical FDM material selection guide. Real strengths, real weaknesses and typical uses for PLA, PETG, ABS, ASA, TPU, Nylon and carbon-fibre composites — with honest tradeoffs, not marketing.",
+    h1: "3D Printing Materials — A Practical Selection Guide",
+    intro: "The single most common reason a 3D printed part fails in use is that the wrong material was picked for the job. This guide is not a specification sheet — it's a practical description of what each material we stock is genuinely good at, what it isn't, and when to reach for something else. Every material listed here is in our day-to-day rotation.",
+    sections: [
+      {
+        heading: "PLA — the sensible default for parts that don't need heat resistance",
+        body: "PLA (polylactic acid) is the easiest FDM material to print and the most economical. It's dimensionally stable, has minimal warp, prints cleanly at small layer heights, and comes in more colours than any other filament category. For visual models, prototypes, decorative pieces, cookie cutters and any indoor part that won't see mechanical stress, PLA is the sensible default.\n\nStrengths: cheap, printable, dimensionally accurate, good aesthetic finish.\n\nWeaknesses: PLA softens around 55–60 °C. A PLA part left in a parked car in Barcelona in July will deform. It's also more brittle than PETG under sharp impact, and it degrades slowly under prolonged UV exposure.\n\nWhen NOT to use PLA: any application involving heat above 50 °C, outdoor use for more than a few weeks, or parts that need to flex or absorb impact repeatedly."
+      },
+      {
+        heading: "PETG — the practical workhorse for functional parts",
+        body: "PETG (polyethylene terephthalate glycol) is what we most often recommend when a customer says \"functional part\". It's tougher than PLA, more heat-tolerant (softens around 75–80 °C), resists moisture and UV reasonably well, and prints without an enclosure. For enclosures, brackets, mounts, replacement clips, outdoor fixtures and parts that need moderate mechanical strength without industrial-grade requirements, PETG is the practical workhorse.\n\nStrengths: tougher and more impact-resistant than PLA, better temperature and UV behaviour, food-safe grades exist, layer adhesion is good.\n\nWeaknesses: slightly stringier to print (some post-processing may be needed for clean surfaces), less rigid than ABS, not suitable for very high-temperature applications.\n\nWhen NOT to use PETG: parts exposed to sustained heat above 70 °C, or applications needing very high stiffness (Nylon or PC is better)."
+      },
+      {
+        heading: "ABS and ASA — heat, mechanical stress, and outdoor use",
+        body: "ABS (acrylonitrile butadiene styrene) is the traditional engineering plastic — strong, temperature-resistant to around 100 °C, and machinable with common tools. ASA (acrylonitrile styrene acrylate) is chemically similar but adds proper UV stabilisation, making it the correct choice for anything living outdoors year-round. Both print best in an enclosure to control warping.\n\nStrengths: heat resistance to ~100 °C, good mechanical strength, easily glued and post-machined, ASA is genuinely UV-stable.\n\nWeaknesses: prone to warping without an enclosure or good bed adhesion, ABS releases mild fumes when printing (which is why we run these in a ventilated space), and finish is usually rougher than PLA out of the printer.\n\nWhen NOT to use ABS/ASA: display models where surface finish matters more than strength, or thin-walled parts where warping distortion would compromise fit."
+      },
+      {
+        heading: "TPU — flexible parts, gaskets and grips",
+        body: "TPU (thermoplastic polyurethane) is a rubber-like filament that prints in various Shore hardness grades. It's used for anything that needs to flex, damp vibration, or seal against another surface: phone cases, gaskets, feet, cable strain-reliefs, grips, small tyres for robotics projects.\n\nStrengths: excellent flexibility with high tear resistance, chemically robust, good vibration damping.\n\nWeaknesses: slow to print (typically 20–30 mm/s vs 60+ mm/s for PLA), sensitive to moisture (needs to be kept dry), and small features (thin walls, sharp edges) are harder to resolve cleanly than in rigid materials.\n\nWhen NOT to use TPU: rigid structural parts, anything requiring high dimensional tolerance on tight-fitting features, or when print time is a critical constraint."
+      },
+      {
+        heading: "Nylon (PA12) and carbon-fibre composites",
+        body: "Nylon is the workhorse engineering polymer of FDM. High tensile strength, excellent fatigue resistance, low friction, and stable across a wide temperature range. Standard applications: gears, hinges, snap-fits, sliding mechanisms, structural brackets under repeated load.\n\nCarbon-fibre reinforced grades (PLA-CF, PETG-CF, Nylon-CF) add short-fibre reinforcement, which increases stiffness and dimensional stability at the cost of some brittleness and abrasive wear on the nozzle. They're the right call for structural brackets, drone frames, robot arms and jigs that need to hold their shape under load without deflecting.\n\nStrengths of Nylon: outstanding mechanical performance for FDM, self-lubricating, tolerates repeated flexing without fatigue failure. Carbon-fibre composites add stiffness and reduce warp.\n\nWeaknesses: Nylon is hygroscopic — it absorbs moisture from the air and needs to be printed dry. Both Nylon and CF composites are more expensive per gram than PLA/PETG. CF variants also require a hardened steel or ruby nozzle because they wear out brass in a few kilos of print.\n\nWhen NOT to use Nylon or CF: for cost-sensitive parts that PETG could do, or for parts where post-processing (painting, priming) matters more than mechanical performance."
+      },
+      {
+        heading: "Comparison at a glance",
+        body: "The table below is a rough ranking of the materials we stock across the properties that most commonly determine material choice. Rankings are relative — \"low\" for TPU flexibility means low compared with rubber, not compared with PLA. Cost is relative per-gram, at typical filament pricing.\n\n| Material | Heat resistance | Mechanical strength | Flexibility | Ease of printing | Outdoor durability | Relative cost |\n|---|---|---|---|---|---|---|\n| PLA | Low (~55 °C) | Medium | Low | High | Low | Low |\n| PETG | Medium (~75 °C) | Medium-High | Slight | Medium-High | Medium-High | Low-Medium |\n| ABS | High (~100 °C) | High | Low | Medium (needs enclosure) | Medium | Medium |\n| ASA | High (~100 °C) | High | Low | Medium (needs enclosure) | High (UV-stable) | Medium |\n| TPU | Medium | Medium (tear-resistant) | Very high | Medium-Low | Medium | Medium |\n| Nylon (PA12) | High | Very High | Low-Medium (some grades) | Medium (needs drying) | Medium | Medium-High |\n| PLA-CF | Low (~55 °C) | High (stiff) | Very low | Medium | Low | High |\n| PETG-CF | Medium (~75 °C) | High (stiff) | Very low | Medium | Medium-High | High |\n| Nylon-CF | High | Very High (stiff) | Low | Medium (needs drying) | Medium | High |\n\nIf you're unsure which of these best fits your part, describe the application when you request a quote — expected loads, temperature range, indoor or outdoor, cost sensitivity — and we'll recommend a material with the reasoning explicit."
+      }
+    ],
+    faqs: [
+      { q: "Which material is best for a part that will live outdoors in Barcelona?", a: "ASA is the correct default — it's chemically similar to ABS but genuinely UV-stable, so it holds its colour and mechanical properties over years of sun exposure. PETG is a reasonable secondary option for parts that don't need maximum UV resistance. PLA is not recommended for outdoor use beyond a few weeks." },
+      { q: "Can I use PLA for a functional load-bearing part?", a: "For light indoor loads at room temperature, yes — PLA is actually stiffer than PETG on a spec sheet. The reason we usually recommend PETG for functional parts is that PLA is more brittle under sudden impact and has a much lower heat deflection point. If the part will always be indoors, never impacted, and never see heat, PLA is a valid choice." },
+      { q: "What's the actual difference between PLA-CF, PETG-CF and Nylon-CF?", a: "They differ in the base polymer — the short-fibre carbon reinforcement improves stiffness in each case, but the underlying strengths remain. Nylon-CF is the strongest and most temperature-resistant, PETG-CF is a middle ground with good chemical resistance, and PLA-CF is the most economical and prints easily, but retains PLA's low heat tolerance." },
+      { q: "How much does material choice actually change the price of a part?", a: "For most small parts, material accounts for maybe half of the final cost — the other half is machine time. Between PLA (cheapest) and Nylon-CF (most expensive per gram), the per-gram cost roughly doubles. But because most parts are small, the absolute difference is often only a few euros. For batches of larger parts, material choice starts to matter more." },
+      { q: "Do you print with materials I don't see in this guide?", a: "The materials in this guide are our day-to-day rotation. We can source PC (polycarbonate) and other specialty grades on request if the application justifies it — ask when you request the quote and we'll advise on availability and lead time." },
+      { q: "How do I decide between PETG and ABS for an outdoor bracket?", a: "For outdoor use specifically, ASA is a better default than ABS because it's UV-stable — regular ABS yellows and eventually cracks in direct sun. PETG is also a reasonable outdoor material for parts that don't need maximum heat or UV resistance. If it will see occasional impact and moderate weather, PETG. If it needs to survive sustained heat and full UV year-round, ASA." }
+    ],
+    galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "PLA Printing", slug: "/pla-printing-barcelona" },
+      { label: "PETG Printing", slug: "/petg-printing-barcelona" },
+      { label: "TPU Flexible", slug: "/tpu-printing-barcelona" },
+      { label: "How to Prepare Your File", slug: "/how-to-prepare-file-for-3d-printing" }
+    ],
+    schemaServiceName: "3D Printing Materials Guide"
+  },
+
+  // ----- NEW: FILE PREPARATION GUIDE -----
+  {
+    slug: "/how-to-prepare-file-for-3d-printing",
+    topic: "file-prep",
+    altSlug: "/como-preparar-archivo-impresion-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "How to Prepare a File for 3D Printing — Practical Guide | Dimension3D",
+    metaDescription: "Practical file-preparation guide for FDM 3D printing. Accepted formats, wall thickness, realistic tolerances, orientation, supports, hole sizing, and what to do if you don't have a file at all.",
+    h1: "How to Prepare a File for 3D Printing",
+    intro: "You've got a 3D model — or an idea of one — and you want it printed. Before you send it, spending ten minutes checking a few things will save time on your quote, avoid revisions, and produce a better part. This guide covers the practical file-preparation steps that make the difference between a smooth print and one that comes back to the design phase.",
+    sections: [
+      {
+        heading: "Accepted file formats — and which one to send",
+        body: "We accept the standard 3D file formats: STL, STEP, OBJ, 3MF, and IGES. Each has tradeoffs, and which one to send depends on where your model came from.\n\n• STL is the classic mesh format — a surface of triangles. It's universal, small in file size, and works with everything. Downside: it loses all parametric information; once exported, it's just triangles. Send STL if that's what your software exports or if you exported your model manually.\n\n• STEP (or STP) is the professional CAD interchange format. It preserves the actual geometry — planes, curves, features — so we can measure critical dimensions accurately from the source. If you're modelling in SolidWorks, Fusion 360, Onshape or any professional CAD tool, exporting STEP is preferred. It's a bit larger in file size but gives us more to work with.\n\n• 3MF is a modern replacement for STL that carries colour, material and unit information alongside the mesh. If your software supports it, 3MF is often the safest choice for a clean export.\n\n• OBJ is common in artistic and sculpting workflows (ZBrush, Blender). It preserves mesh detail well but carries no engineering data. Fine for decorative or organic models.\n\nIf you're not sure: STEP if you have it, STL as a universal fallback. Send it as-is. We'll open it, check it, and get back to you if the file has any issues before quoting."
+      },
+      {
+        heading: "Wall thickness minimums for FDM",
+        body: "The single most common cause of a printed part that fails is walls that are too thin. FDM prints in extruded lines (typically 0.4 mm wide from a standard nozzle), and walls need to be at least a few line widths thick to hold their shape and function structurally.\n\nPractical minimums for FDM (0.4 mm nozzle):\n\n• Absolute minimum for a wall that must exist: 0.8 mm (two extrusion lines).\n• Minimum for a wall that must be structural — take load, not crack when handled: 1.5–2.0 mm.\n• Comfortable default for enclosure walls, brackets, functional parts: 2.0–3.0 mm.\n• Vertical text or embossed features: at least 0.8 mm wide and 0.4 mm deep for readability.\n\nWalls thinner than 0.8 mm may not print at all — the slicer will skip them. Walls between 0.8 and 1.2 mm will print but are brittle. If your CAD includes sub-millimetre walls (e.g. shells at 0.5 mm) that were fine for injection moulding, they need to be thickened for FDM. If you're not sure whether your part meets these minimums, we'll flag it during file review."
+      },
+      {
+        heading: "Realistic tolerances and how to design for them",
+        body: "FDM is not a precision machining process. Typical accuracy on a well-tuned FDM printer is around ±0.2 mm across most dimensions — sometimes tighter on individual features, sometimes wider on large parts due to thermal contraction.\n\nWhat this means in practice:\n\n• Holes print smaller than modelled, typically by 0.1–0.3 mm on diameter, because the extrusion overshoots slightly on the inside of curves. If you need a Ø5 mm hole for a Ø5 mm shaft, model it at Ø5.2–5.3 mm, or plan to drill it out after printing.\n\n• Snap-fits and press-fits need clearance. For two parts that must slide together, allow at least 0.2 mm clearance on each mating surface. For a friction press-fit, 0.1 mm may work but is at the edge of reliability.\n\n• Threaded holes: printing threads directly in FDM works for M6 and larger, but the surface finish is rough. For anything smaller or load-bearing, we typically install a heat-set brass threaded insert (M3, M4, M5 are stocked sizes). Model the hole for the insert, not the thread — we'll do the rest.\n\n• Overall dimensions on large parts (>150 mm) can shrink 0.5–1.0 mm from thermal contraction, especially in ABS or ASA. For a critical outer dimension, we can scale-compensate at slice time.\n\nIf a specific tolerance matters — a mounting-hole spacing, a critical clearance — call it out when you send the file. That's the difference between a quote we can commit to and one we can't."
+      },
+      {
+        heading: "Overhangs, supports and part orientation",
+        body: "FDM prints layer by layer from the bed upward. Any part of your geometry that overhangs unsupported space needs support material printed underneath it — which uses filament, takes time, and leaves a rougher surface where it's removed.\n\nRules of thumb:\n\n• Overhangs steeper than 45° from vertical usually need support. A 30° overhang is easy, a 60° overhang needs support, a full 90° overhang (horizontal shelf sticking out) always needs support.\n\n• Bridges — flat sections spanning between two supports — can print unsupported up to about 20–30 mm on a well-tuned printer. Longer bridges need support underneath.\n\n• Orientation changes everything. A part that looks impossible to print in the orientation modelled is often trivial to print rotated. When we review your file, we choose the orientation that minimises supports and maximises the strength of critical features (FDM parts are strongest along the layer plane, weakest between layers — so a hinge, snap-fit or load-bearing tab should be printed with the load direction parallel to the layers, not perpendicular).\n\nYou don't need to design for a specific orientation — that's part of what file review is for. But if a feature has to be a specific finish or a specific strength direction, mention it so we orient accordingly."
+      },
+      {
+        heading: "Hole sizing, thread inserts and press-fits",
+        body: "Small mechanical features are where FDM prints most often disappoint if the design wasn't adjusted for the process. A few practical numbers:\n\n• Screw holes for wood or self-tapping screws: model at the shaft diameter (e.g. Ø3 mm for an M3 self-tapper). The plastic gives enough for the thread to bite.\n\n• Holes for metric bolts passing through: model at bolt diameter + 0.3–0.5 mm clearance. An M4 clearance hole should be Ø4.4–4.5 mm in the model.\n\n• Threaded inserts (heat-set brass inserts): we install these commonly in M3, M4 and M5. Model the hole per the insert manufacturer's spec — usually about the outside diameter of the knurled portion minus 0.1 mm. If you're not sure, model a Ø4.5 mm hole for M3, Ø5.7 mm for M4, Ø6.7 mm for M5, and we'll adjust at file review.\n\n• Press-fit shafts: allow 0.1–0.2 mm undersize on the hole for a friction fit. Tighter than that is unreliable; looser than that will spin.\n\n• Living hinges in TPU or PETG: 0.5–1.0 mm thickness, at least 5 mm wide, with rounded transitions. FDM living hinges work but have shorter fatigue lives than injection-moulded equivalents.\n\nIf you're designing from scratch specifically for FDM, these numbers save iteration. If you're adapting a design from another process (injection moulding, CNC), we'll walk through the changes needed at file review."
+      },
+      {
+        heading: "What if you don't have a file at all",
+        body: "A significant share of our orders come in with no CAD file at all. That's fine. The process is different, not worse.\n\nWhat we need instead of a file:\n\n• A clear photograph of the part or object — with a ruler, calliper or a Euro coin visible for scale. Two or three angles help. If the part is broken, photograph the pieces separately as well as together.\n\n• Key dimensions if you know them: overall height, width, depth, hole diameters, thickness of any critical features. A quick sketch with measurements written on it works well.\n\n• A description of what the part does: it holds this thing to that thing, it needs to flex, it goes outside, it takes this much weight.\n\nSend those over WhatsApp and we'll assess whether we can reconstruct the geometry from the reference. For simple parts — clips, brackets, spacers, replacement plastic bits from appliances — the reconstruction is usually straightforward and included in the standard quote. For more complex geometry, we may need a modelling fee, which we quote upfront before starting.\n\nThe worst case is that we look at the reference and tell you the reconstruction isn't practical — at which point we can point you toward alternatives (3D scanning, or a modelling contractor). We won't take on a job we can't deliver."
+      }
+    ],
+    faqs: [
+      { q: "Is STEP or STL better to send?", a: "STEP if you have it — it preserves the actual geometry so we can measure features exactly. STL is fine as a fallback and works universally. Both produce the same final part if the STL is exported at a high enough resolution." },
+      { q: "What's the smallest feature I can reliably print in FDM?", a: "Features smaller than 0.8 mm on a horizontal surface will struggle to resolve cleanly on a 0.4 mm nozzle. Vertical features (like text on a wall) can go a bit smaller but become hard to read. For anything critical below 1 mm, we'll flag it at file review and discuss alternatives — a smaller nozzle, a different orientation, or resin if the feature really matters." },
+      { q: "How do I know if my wall thicknesses are OK?", a: "Most CAD tools have a wall-thickness analysis feature that highlights thin regions. If you don't have one, the practical rule is: nothing structural under 1.5 mm, nothing decorative under 0.8 mm. If you send us the file, we check this as part of the standard review — we'd rather flag it than print a part that snaps." },
+      { q: "Do I need to add supports myself?", a: "No — never. We handle support generation and orientation as part of the slicing process. Supports added in your CAD or by another slicer would usually just conflict with our own settings. Send the model clean." },
+      { q: "Can you scale my file at print time if I need it larger or smaller?", a: "Yes, and we do this often for prototypes and gift items. Say what scale factor or final dimension you want; we'll confirm the resulting dimensions before printing so nothing surprises you." },
+      { q: "What happens if my file has errors — non-manifold geometry, flipped normals?", a: "Most modern slicers repair minor mesh issues automatically. For more serious problems (holes in the surface, self-intersecting geometry) we'll flag it at file review and either repair it ourselves for straightforward cases, or send it back for correction if the fix would meaningfully change the geometry. Either way you'll know before we print." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "red-adapter.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "3D Printing Materials Guide", slug: "/3d-printing-materials-guide" },
+      { label: "How to Choose a Service", slug: "/how-to-choose-3d-printing-service-barcelona" },
+      { label: "Custom Parts", slug: "/custom-parts-barcelona" },
+      { label: "Prototype Printing", slug: "/prototype-printing-barcelona" }
+    ],
+    schemaServiceName: "3D Printing File Preparation Guide"
+  },
+
+  // ----- NEW: BEST 3D PRINTING SERVICE (need-based) -----
+  {
+    slug: "/best-3d-printing-service-barcelona",
+    topic: "best-service",
+    altSlug: "/mejor-servicio-impresion-3d-barcelona",
+    lang: "en",
+    category: "service",
+    metaTitle: "Best 3D Printing Service in Barcelona — Which One Fits Your Case | Dimension3D",
+    metaDescription: "There is no single \"best\" 3D printing service in Barcelona — it depends on what you're printing, how fast you need it, and what the part has to do. A practical breakdown by use case.",
+    h1: "Best 3D Printing Service in Barcelona",
+    intro: "There is no single \"best\" 3D printing service — the honest answer depends on what you're printing, how quickly you need it, and what the part has to survive in use. Someone printing 500 identical caps for a production run has different needs from someone who needs one replacement clip by Friday. This page breaks the question down by use case, tells you what to look for in each, and is honest about the cases where we're not the right supplier.",
+    sections: [
+      {
+        heading: "Best for urgent parts (needed this week)",
+        body: "If the deciding factor is time — a demo on Monday, a repair the machine can't wait for, a client presentation before the weekend — what matters is:\n\n• A quoted turnaround expressed in business days from approved quote, not vague \"fast turnaround\" language.\n• A clearly stated express or priority service, and what it actually costs.\n• A support channel with a human who answers within the hour during business hours, not a form that returns a ticket number.\n• Willingness to say no if the timeline isn't realistic — a shop that commits to any deadline is a shop that misses some of them.\n\nFor Dimension3D specifically: quotes come back in under 1 hour during business hours, standard turnaround is 2–5 business days from approved quote, express service delivers in 24–48 hours, and same-day production is possible when the queue allows. If your deadline can't be met, we say so upfront rather than committing and slipping."
+      },
+      {
+        heading: "Best for one-off and custom parts",
+        body: "For a single custom piece — a replacement bracket, a fixture, a personal project, a broken clip nobody sells anymore — the priorities are different:\n\n• A minimum order low enough that a single small part is a valid job.\n• A person willing to look at the geometry (or a photograph, or a rough sketch) and advise on whether it's printable and in what material.\n• No obligation to design in CAD yourself — either accepting reference images and measurements, or offering paid modelling as a separate line item.\n• Willingness to explain material choice and print settings so you understand what you're paying for.\n\nFor Dimension3D specifically: minimum order is €10, there is no per-part minimum, every file (or reference photograph) is reviewed manually before we quote, and we accept quotes based on photographs plus measurements when no CAD file exists. Material and settings are always explained on the quote so you know what you're approving."
+      },
+      {
+        heading: "Best for business and functional prototypes",
+        body: "For engineering teams, R&D departments and small manufacturers, the priorities shift again:\n\n• A working knowledge of the practical difference between materials — when Nylon-CF matters versus when PETG would do the same job for a fraction of the price.\n• Realistic tolerance commitments backed by measurement, not marketing.\n• The ability to repeat a validated part on demand at consistent quality.\n• Standard VAT invoicing and, where required, NDAs signed as a matter of course.\n• Willingness to progress from prototype to short-run production with the same supplier, without re-quoting from scratch.\n\nFor business projects, our dedicated page for business customers goes into more detail: see 3D Printing for Business Barcelona. Typical FDM accuracy is ±0.2 mm across most dimensions; tighter features are quoted individually. Short-run production of 5–200 parts is a routine part of what we do."
+      },
+      {
+        heading: "Best for decoration, gifts and miniatures",
+        body: "For personal or gift purposes — figurines, custom decoration, personalised items — the deciding factors are different again:\n\n• Available finishes and surface quality (layer height range, post-processing options).\n• Colour selection and whether the shop stocks the material variety needed for the aesthetic.\n• Realistic photos of what the shop has actually produced, not stock imagery.\n• A ready-made catalogue for items where you don't need something entirely bespoke.\n\nFor commonly-requested items — custom vases, name plates, pet plates, phone stands, cake toppers — see our product catalogue. For fine-detail character work, tabletop gaming pieces and figurines, the miniatures page explains how we approach these projects specifically, including the tradeoffs of FDM at small scales."
+      },
+      {
+        heading: "How to decide, in short",
+        body: "The five-second decision framework:\n\n• Urgent and functional → prioritise a shop with an explicit express service and human file review.\n• Single custom part → prioritise a shop with a low or zero per-part minimum and file-review willingness.\n• Business or prototype work → prioritise material knowledge, tolerance commitments, VAT invoicing, and short-run capability.\n• Gift, decoration or personal → prioritise finish options, catalogue availability, and demonstrated portfolio.\n\nFor most of these, a local Barcelona workshop is a structural fit. For very large production runs, ultra-fine detail work, or certified industrial metal parts, other types of provider are structurally better — see the honest section below."
+      },
+      {
+        heading: "When Dimension3D is NOT the best option",
+        body: "There are cases where honestly the answer is no. If any of these describe your project, we'd rather send you to the right type of provider than take a job we can't deliver well.\n\n• Very large production runs — hundreds or thousands of identical units. FDM is a per-unit process where cost scales with quantity in a way that injection moulding does not. Above roughly 200 units, or where per-unit cost matters more than tooling investment, a shop specialising in injection moulding (or a dedicated production facility with parallel-machine capacity) will produce parts more economically. For jobs in this range, look for a supplier with an injection-moulding process quote, or a large-scale FDM farm with dozens of machines running the same job in parallel.\n\n• Jewellery, ultra-fine surface detail, dental or high-precision figurines. FDM leaves visible layer lines at even the finest layer heights (about 0.08 mm on a well-tuned printer), which is fine for functional and most decorative parts but visible on jewellery-scale work. For pieces where surface detail below layer resolution matters, look for a shop working with SLA or DLP resin — the process fundamentally produces smoother surfaces at that scale.\n\n• Certified industrial metal parts. We do not offer metal 3D printing. If your project requires structural metal parts to specific certification or material standards — aerospace, medical, load-critical structural components — look for a workshop specialising in metal AM (SLM, DMLS, or binder jetting) with the relevant certifications for your industry.\n\nIn any of these cases, tell us what you're building and we'll suggest the type of provider that fits — even though it isn't us."
+      }
+    ],
+    faqs: [
+      { q: "What is the best 3D printing service in Barcelona?", a: "There is no single answer — it depends on the use case. For urgent functional parts, an express-capable local workshop with human file review. For one-off custom parts, a workshop with a low minimum order. For business and prototype work, a workshop with material expertise and tolerance commitments. For decoration and gifts, a workshop with a portfolio and finish options. The sections above walk through how to decide by need." },
+      { q: "How do I compare 3D printing services objectively?", a: "Look at structural features rather than marketing: minimum order stated in numbers, turnaround expressed in business days from approved quote, whether a human reviews the file before printing, language of support, in-person pickup availability, and whether the shop can quote based on photographs when no CAD exists. Our companion buyer's guide covers this in more detail." },
+      { q: "What's the fastest 3D printing service in Barcelona?", a: "For genuine urgency, look for a shop with a stated express service (24–48 hours) rather than vague \"fast\" language, and with a support channel that answers within the hour. We offer express in 24–48 hours and same-day production when the queue allows." },
+      { q: "Which service is best for a single custom part?", a: "A local workshop with a low or zero per-part minimum, willing to accept a photograph or sketch when no CAD file exists, and willing to review the geometry manually. Minimum orders in the €10–€50 range are common at local workshops. Ours is €10 with no per-part minimum." },
+      { q: "Is Dimension3D always the cheapest option?", a: "No. Cheapest per-unit for large production runs is usually an injection-moulding supplier or a large-scale FDM farm. For small quantities, one-off parts and functional prototypes, the price gap between local workshops is usually small — the meaningful difference is response speed, human file review and communication quality. If the price for your project matters more than any other factor, always compare quotes." },
+      { q: "When should I not use FDM 3D printing at all?", a: "For pieces requiring surface detail below the layer-line resolution (roughly 0.08 mm on a well-tuned FDM printer) — fine jewellery, dental work, ultra-detailed figurines — SLA or DLP resin printing is fundamentally the right process. For structural metal parts requiring specific certifications, metal AM (SLM, DMLS) is the right process. FDM is the right tool for a wide range of applications, but not every one." }
+    ],
+    galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "intake-manifold.jpg", "purple-figures.jpg", "green-chameleon.jpg", "eiffel-tower.jpg"),
+    related: [
+      { label: "How to Choose a 3D Printing Service", slug: "/how-to-choose-3d-printing-service-barcelona" },
+      { label: "3D Printing Materials Guide", slug: "/3d-printing-materials-guide" },
+      { label: "How to Prepare Your File", slug: "/how-to-prepare-file-for-3d-printing" },
+      { label: "Product Catalogue", slug: "/catalogo" }
+    ],
+    schemaServiceName: "Best 3D Printing Service Barcelona"
   }
 ];
