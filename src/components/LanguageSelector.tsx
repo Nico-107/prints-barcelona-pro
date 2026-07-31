@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
 import { PAGES_BY_SLUG, SLUGS_BY_TOPIC } from "@/seo/registry";
+import { CITY_PAGES } from "@/data/cityDeliveryPages";
 
 const LanguageSelector = () => {
   const { language, setLanguage } = useLanguage();
@@ -10,12 +11,17 @@ const LanguageSelector = () => {
   const handleChange = (lang: Language) => {
     setLanguage(lang);
 
-    // City delivery pages are bilingual — the same URL serves all languages,
-    // so we only swap the language state without navigating.
-    const isCityPage =
-      location.pathname.startsWith("/3d-printing-delivery-") ||
-      location.pathname.startsWith("/impresion-3d-con-entrega-");
-    if (isCityPage) return;
+    // City delivery pages: some have language-paired counterparts (Madrid:
+    // /madrid ES ↔ /3d-printing-madrid EN) and must navigate to altSlug.
+    // Other city pages (Paris, Berlin, …) are bilingual on the same URL —
+    // just swap the language state without navigating.
+    const currentCityPage = CITY_PAGES.find((p) => p.slug === location.pathname);
+    if (currentCityPage) {
+      if (currentCityPage.altSlug && currentCityPage.altSlug !== location.pathname) {
+        navigate(currentCityPage.altSlug);
+      }
+      return;
+    }
 
     // For SEO landing pages navigate to the equivalent slug in the new language.
     const currentPage = PAGES_BY_SLUG[location.pathname];

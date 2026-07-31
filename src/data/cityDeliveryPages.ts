@@ -1,5 +1,9 @@
 export interface CityPageConfig {
   slug: string;
+  // When set, the paired-language counterpart of this page. The language
+  // switcher navigates here instead of trying to translate the current URL
+  // in place (used for Madrid: /madrid ES ↔ /3d-printing-madrid EN).
+  altSlug?: string;
   lang: "en" | "es" | "fr";
   locale: string;
   city: string;
@@ -249,23 +253,44 @@ export const CITY_PAGES: CityPageConfig[] = [
     articleInLanguage: "en",
   },
   {
-    slug: "/impresion-3d-con-entrega-a-madrid",
+    slug: "/madrid",
+    altSlug: "/3d-printing-madrid",
     lang: "es",
     locale: "es_ES",
     city: "Madrid",
     country: "España",
-    deliveryDays: "1–2 días hábiles",
-    metaTitle: "Impresión 3D con Entrega a Madrid — Desde €10 | Dimension3D",
-    metaDescription: "Servicio profesional de impresión 3D desde Barcelona con entrega a Madrid en 1–2 días hábiles. Sube tu STL, presupuesto en 1 hora, sin pedido mínimo. Desde €10.",
-    h1: "Impresión 3D con Entrega a Madrid",
-    eyebrowText: "Envío a Madrid · 1–2 Días Hábiles",
-    heroSubtitle: "Estudio FDM profesional en Barcelona. Sube tu STL o STEP, recibe presupuesto en 1 hora, entrega en Madrid en 1–2 días hábiles. Desde €10. Sin pedido mínimo.",
-    introParagraph: "Madrid es el centro neurálgico industrial y tecnológico de España — desde las startups del Corredor del Henares y los fabricantes aeroespaciales de Getafe hasta los estudios de diseño de producto en Malasaña y los talleres de ingeniería de precisión en Leganés. Para clientes en Madrid, ofrecemos lo que los grandes marketplaces internacionales no pueden dar: presupuesto humano confirmado en menos de 1 hora, producción en 24–48 horas para pedidos urgentes, entrega en 1–2 días hábiles sin trámites aduaneros, y comunicación directa en español con el equipo que imprime tu pieza. Sin pedido mínimo, sin comisiones de plataforma.",
-    deliveryTableRow: ["Madrid y Comunidad de Madrid", "1–2 días hábiles"],
-    shippingFaqQ: "¿Cuánto tarda el envío de Barcelona a Madrid?",
-    shippingFaqA: "Los pedidos se envían desde nuestro taller en Barcelona y llegan a domicilios en Madrid en 1–2 días hábiles mediante mensajería estándar con seguimiento. Para muchos envíos, la entrega se produce al día siguiente del despacho. También es posible recoger el pedido en Barcelona con cita previa, o contratar envío exprés para mayor urgencia.",
-    whatsappMsg: "Hola, soy de Madrid y me gustaría un presupuesto para impresión 3D.",
+    deliveryDays: "Recogida el mismo día o siguiente laborable",
+    metaTitle: "Impresión 3D en Madrid — Taller Local, Presupuesto en 1h | Dimension3D",
+    metaDescription: "Impresión 3D local en Madrid. Producción in-situ en el taller de Madrid, presupuesto en menos de 1 hora por WhatsApp. Piezas metálicas junto a FDM. Desde €10.",
+    h1: "Impresión 3D en Madrid — Taller Local",
+    eyebrowText: "Madrid · Producción Local en la Ciudad",
+    heroSubtitle: "Taller local en Madrid produciendo las piezas in-situ. Presupuesto en menos de 1 hora por WhatsApp, recogida el mismo día para pedidos urgentes. FDM en toda la gama de materiales y fabricación metálica en paralelo. Desde €10, sin pedido mínimo.",
+    introParagraph: "Madrid es el centro industrial y tecnológico de España — desde las startups del Corredor del Henares y los proveedores aeroespaciales de Getafe hasta los estudios de diseño de producto en Malasaña y los talleres de ingeniería de precisión en Leganés. Nuestro taller de Madrid produce las piezas directamente en la ciudad, in-situ: el archivo entra al taller, la pieza sale en Madrid. Producción local con Creality K1 para FDM rápido, fabricación metálica disponible en paralelo cuando el polímero no cubre el requisito, recogida el mismo día para pedidos urgentes, y comunicación directa por WhatsApp con el equipo del taller de Madrid. Sin pedido mínimo, sin comisiones de plataforma.",
+    deliveryTableRow: ["Madrid — recogida en el taller local", "Mismo día o siguiente laborable"],
+    shippingFaqQ: "¿Dónde se producen las piezas para pedidos en Madrid?",
+    shippingFaqA: "En el propio taller de Madrid, no en otra ciudad. Los pedidos urgentes se producen y se recogen el mismo día en muchos casos, con recogida directa en el taller o entrega local dentro de la ciudad coordinada por WhatsApp con el equipo del taller de Madrid. Para piezas metálicas — soportes estructurales, acoplamientos de precisión — también contamos con capacidad local en paralelo al FDM.",
+    whatsappMsg: "Hola, soy de Madrid y me gustaría un presupuesto para impresión 3D local en el taller.",
     articleInLanguage: "es",
+  },
+  {
+    slug: "/3d-printing-madrid",
+    altSlug: "/madrid",
+    lang: "en",
+    locale: "en_US",
+    city: "Madrid",
+    country: "Spain",
+    deliveryDays: "Same-day or next business day pickup",
+    metaTitle: "3D Printing in Madrid — Local Workshop, Quote in 1h | Dimension3D",
+    metaDescription: "Local 3D printing in Madrid. On-site production at the Madrid workshop, quote in under 1 hour via WhatsApp. Metal parts alongside FDM. From €10.",
+    h1: "3D Printing in Madrid — Local Workshop",
+    eyebrowText: "Madrid · On-Site Local Production",
+    heroSubtitle: "Local Madrid workshop producing parts on-site in the city. Quote in under 1 hour via WhatsApp, same-day pickup for urgent orders. Full FDM material range plus metal fabrication in parallel. From €10, no minimum order.",
+    introParagraph: "Madrid is Spain's industrial and technology hub — from the startups of the Corredor del Henares and the aerospace suppliers of Getafe to the product design studios of Malasaña and the precision engineering workshops of Leganés. The Madrid workshop produces parts on-site in the city: your file lands in the workshop, the part comes out in Madrid. Local production on a Creality K1 for fast FDM turnaround, metal fabrication available in parallel when polymer isn't the right call, same-day pickup for urgent orders, and direct WhatsApp communication with the Madrid workshop team. No minimum order, no marketplace commission.",
+    deliveryTableRow: ["Madrid — pickup at the local workshop", "Same-day or next business day"],
+    shippingFaqQ: "Where are parts produced for Madrid orders?",
+    shippingFaqA: "At the Madrid workshop itself, not in another city. Urgent orders are frequently produced and handed over the same day, with direct pickup at the workshop or local delivery within the city coordinated over WhatsApp with the Madrid workshop team. For metal parts — structural brackets, precision fittings — we also have local capability running in parallel with FDM.",
+    whatsappMsg: "Hi, I'm in Madrid and I'd like a quote for local 3D printing at the Madrid workshop.",
+    articleInLanguage: "en",
   },
   {
     slug: "/impresion-3d-con-entrega-a-valencia",

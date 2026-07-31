@@ -176,6 +176,23 @@ const CityDeliveryPage = ({ config }: Props) => {
         <title>{config.metaTitle}</title>
         <meta name="description" content={config.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />
+        {config.altSlug && (
+          <link
+            rel="alternate"
+            hrefLang={config.lang === "es" ? "en" : "es"}
+            href={`${SITE_URL}${config.altSlug}`}
+          />
+        )}
+        {config.altSlug && (
+          <link rel="alternate" hrefLang={config.lang} href={PAGE_URL} />
+        )}
+        {config.altSlug && (
+          <link
+            rel="alternate"
+            hrefLang="x-default"
+            href={config.lang === "es" ? PAGE_URL : `${SITE_URL}${config.altSlug}`}
+          />
+        )}
         <meta property="og:title" content={config.metaTitle} />
         <meta property="og:description" content={config.metaDescription} />
         <meta property="og:url" content={PAGE_URL} />

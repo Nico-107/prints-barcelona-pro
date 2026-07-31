@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/impresion-3d-madrid", "destination": "/madrid", "permanent": true },
+    { "source": "/impresion-3d-con-entrega-a-madrid", "destination": "/madrid", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
