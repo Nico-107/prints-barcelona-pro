@@ -25,6 +25,7 @@ import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import InternationalServicePage from "./pages/InternationalServicePage";
 import CityDeliveryPage from "./pages/CityDeliveryPage";
+import DesignRequest from "./pages/DesignRequest";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import type { Language } from "@/contexts/LanguageContext";
@@ -44,6 +45,8 @@ function urlLanguage(path: string): Language {
   if (path === "/3d-printing-delivery-milan") return "it";
   if (path === "/3d-printing-delivery-rome") return "it";
   if (path === "/3d-printing-delivery-lisbon") return "pt";
+  if (path === "/design-your-3d-part") return "en";
+  if (path === "/dissenya-la-teva-peca-3d") return "ca";
   if (
     path.startsWith("/3d-printing-") ||
     path.startsWith("/blog") ||
@@ -89,6 +92,9 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 {CITY_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<CityDeliveryPage config={p} />} />
                 ))}
+                <Route path="/design-your-3d-part" element={<DesignRequest />} />
+                <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
+                <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </StaticRouter>

@@ -32,6 +32,7 @@ const CityDeliveryPage = lazy(() => import("./pages/CityDeliveryPage"));
 const Catalog = lazy(() => import("./pages/Catalog"));
 const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
 const Creator = lazy(() => import("./pages/Creator"));
+const DesignRequest = lazy(() => import("./pages/DesignRequest"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -84,6 +85,9 @@ const App = () => (
               <Route path="/catalogo" element={<Catalog />} />
               <Route path="/catalogo/:slug" element={<CatalogProduct />} />
               <Route path="/creator" element={<Creator />} />
+              <Route path="/design-your-3d-part" element={<DesignRequest />} />
+              <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
+              <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

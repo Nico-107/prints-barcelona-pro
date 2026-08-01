@@ -23,6 +23,7 @@ import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
+import { Button } from "@/components/ui/button";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -105,7 +106,7 @@ const GUIDES_COPY: Record<string, {
 };
 
 const Index = () => {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const meta = HOME_META[language] ?? HOME_META.es;
   const { pathname } = useLocation();
   const isCa = pathname === "/ca" || pathname === "/ca/";
@@ -295,6 +296,27 @@ const Index = () => {
         <Hero onScrollToCalc={handleScrollToCalc} />
         <HowItWorks />
         <StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} />
+
+        {/* No-file alternative path */}
+        <section className="py-14 md:py-16 bg-foreground text-background">
+          <div className="container px-4 max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+              {t("design.hero.badge")}
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-background mb-4">
+              {t("nofile.heading")}
+            </h2>
+            <p className="text-background/70 leading-relaxed mb-8 max-w-lg mx-auto">
+              {t("nofile.subheading")}
+            </p>
+            <Button asChild variant="cta" size="lg">
+              <Link to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "en" ? "/design-your-3d-part" : "/disena-tu-pieza-3d"}>
+                {t("nofile.cta")}
+              </Link>
+            </Button>
+          </div>
+        </section>
+
         <WhatCanWePrint />
         <Materials />
         <WhyChooseUs />

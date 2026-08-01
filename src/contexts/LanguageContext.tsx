@@ -39,6 +39,8 @@ function pathLanguage(path: string): Language {
   if (path === "/3d-printing-delivery-milan") return "it";
   if (path === "/3d-printing-delivery-rome") return "it";
   if (path === "/3d-printing-delivery-lisbon") return "pt";
+  if (path === "/design-your-3d-part") return "en";
+  if (path === "/dissenya-la-teva-peca-3d") return "ca";
   if (
     path.startsWith("/3d-printing-") ||
     path.startsWith("/blog") ||

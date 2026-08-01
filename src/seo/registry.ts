@@ -51,7 +51,7 @@ const item = (
   topic,
   slugEn: SLUGS_BY_TOPIC[topic].en ?? "/",
   slugEs: SLUGS_BY_TOPIC[topic].es ?? "/",
-  slugCa: SLUGS_BY_TOPIC[topic].ca ?? "/",
+  slugCa: SLUGS_BY_TOPIC[topic].ca ?? SLUGS_BY_TOPIC[topic].es ?? "/",
   labelEn,
   labelEs,
   labelCa,
@@ -97,6 +97,17 @@ export const SERVICES_MENU: MenuGroup[] = [
     labelCa: "Especialitats",
     items: [
       item("miniatures", "Miniatures & Figures", "Miniaturas y Figuras", "Miniatures i Figures"),
+    ],
+  },
+  {
+    labelEn: "Guides",
+    labelEs: "Guías",
+    labelCa: "Guies",
+    items: [
+      item("choosing-service", "How to Choose a Service", "Cómo Elegir un Servicio", "Com Triar un Servei"),
+      item("materials-guide", "Materials Guide", "Guía de Materiales", "Guia de Materials"),
+      item("file-prep", "File Preparation Guide", "Cómo Preparar tu Archivo", "Com Preparar el teu Arxiu"),
+      item("best-service", "Best 3D Printing Service", "Mejor Servicio en Barcelona", "Millor Servei a Barcelona"),
     ],
   },
 ];

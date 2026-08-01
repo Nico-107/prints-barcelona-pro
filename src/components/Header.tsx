@@ -88,7 +88,13 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               to="/catalogo"
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
-              Catálogo
+              {isEs ? "Catálogo" : isCa ? "Catàleg" : "Catalogue"}
+            </Link>
+            <Link
+              to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
             </Link>
 
             <DropdownMenu>
@@ -168,7 +174,14 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 onClick={() => setIsMenuOpen(false)}
                 className="text-left py-2 text-foreground font-medium"
               >
-                Catálogo
+                {isEs ? "Catálogo" : isCa ? "Catàleg" : "Catalogue"}
+              </Link>
+              <Link
+                to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
+                onClick={() => setIsMenuOpen(false)}
+                className="text-left py-2 text-foreground font-medium"
+              >
+                {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
               </Link>
 
               {SERVICES_MENU.map((group) => (
