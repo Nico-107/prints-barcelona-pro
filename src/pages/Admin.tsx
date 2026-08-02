@@ -388,6 +388,7 @@ const Admin = () => {
       deliveryDate: "",
       customerName: "",
       fulfillment: "pickup",
+      paymentMethod: "",
     });
     setAcceptOpen(true);
   };

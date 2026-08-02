@@ -126,7 +126,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Dimension3D <onboarding@resend.dev>",
-        to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
+        to: ["011107miko@gmail.com"],
         subject: "New price estimate requested",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
