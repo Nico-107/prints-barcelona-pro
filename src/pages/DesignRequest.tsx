@@ -118,7 +118,7 @@ const DesignRequest = () => {
           } as any)
           .then(({ error: dbErr }) => {
             if (dbErr) console.error("quote_requests insert error:", dbErr);
-          }, (console.error);
+          }, console.error);
 
         supabase.functions
           .invoke("send-quote-request", {
@@ -135,7 +135,7 @@ const DesignRequest = () => {
               priceHigh: 0,
               language,
             },
-          }, (console.error);
+          }, console.error);
       })();
     } catch {
       setIsSubmitting(false);

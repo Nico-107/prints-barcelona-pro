@@ -66,7 +66,7 @@ const CatalogProduct = () => {
         } as any)
         .then(({ error: dbErr }) => {
           if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
-        }, ((e: unknown) => console.error("quote_requests insert threw:", e));
+        }, (e: unknown) => console.error("quote_requests insert threw:", e));
 
       supabase.functions
         .invoke("send-catalog-request", {
@@ -80,7 +80,7 @@ const CatalogProduct = () => {
             priceHigh: product.priceHigh,
             language,
           },
-        }, (console.error);
+        }, console.error);
     } catch (err: unknown) {
       setIsSubmitting(false);
       setFormError("Error al enviar la solicitud. Por favor, inténtalo de nuevo.");
