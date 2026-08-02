@@ -66,7 +66,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const payload: PriceEstimatePayload = await req.json();
-    const { fileName, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language } = payload;
+    const { fileName, filePaths, fileNames, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language } = payload;
 
     // Validate required fields
     if (!material || infillPct == null || quantity == null || volumeCm3 == null) {
@@ -88,6 +88,33 @@ const handler = async (req: Request): Promise<Response> => {
     const safeMaterial = sanitize(material);
     const safeFileName = fileName ? sanitize(fileName) : null;
     const safeLang     = language ? sanitize(language) : "es";
+
+    // Generate a 7-day signed URL for each uploaded file
+    const fileLinks: { name: string; url: string }[] = [];
+    if (filePaths?.length) {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      );
+      for (let i = 0; i < filePaths.length; i++) {
+        const { data, error } = await supabase.storage
+          .from("print-requests")
+          .createSignedUrl(filePaths[i], 60 * 60 * 24 * 7);
+        if (!error && data?.signedUrl) {
+          fileLinks.push({ name: fileNames?.[i] ?? filePaths[i], url: data.signedUrl });
+        } else {
+          console.error("Signed URL error for", filePaths[i], error);
+        }
+      }
+    }
+
+    const fileLinksHtml = fileLinks.map(f =>
+      `<p style="margin:8px 0;">
+        <a href="${f.url}" style="display:inline-block;background:#f59e0b;color:#0f172a;padding:8px 16px;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;">
+          ⬇ ${sanitize(f.name)}
+        </a>
+      </p>`
+    ).join("\n");
 
     console.log(`Processing price estimate: ${safeMaterial} ${infillPct}% infill x${quantity} (IP: ${clientIP})`);
 
