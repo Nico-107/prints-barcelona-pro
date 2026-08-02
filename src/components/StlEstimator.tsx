@@ -469,7 +469,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 filePaths: uploadedPaths,
                 language: capturedLang,
               },
-            }, (console.error);
+            }, console.error);
           }
         })();
       }
