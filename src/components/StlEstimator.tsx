@@ -469,7 +469,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 filePaths: uploadedPaths,
                 language: capturedLang,
               },
-            }, console.error);
+            }).catch(console.error);
           }
         })();
       }
@@ -661,7 +661,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           language,
           multicolour,
         },
-      }, e => console.error("send-quote-request failed:", e));
+      }).catch(e => console.error("send-quote-request failed:", e));
     } catch (err: any) {
       setIsSubmittingQuote(false);
       setQuoteError(t("calc.contact.uploadError"));
