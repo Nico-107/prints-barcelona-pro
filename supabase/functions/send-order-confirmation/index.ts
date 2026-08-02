@@ -162,7 +162,7 @@ serve(async (req: Request) => {
     // Customer contact is included in the subject and body above for easy reply.
     const resendBody = {
       from: "Dimension3D <onboarding@resend.dev>",
-      to: [ADMIN_EMAIL, "dimension3dprintsbcn@gmail.com"],
+      to: ["011107miko@gmail.com"],
       subject,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">

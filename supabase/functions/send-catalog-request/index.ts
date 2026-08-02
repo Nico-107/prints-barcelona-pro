@@ -109,7 +109,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Dimension3D <onboarding@resend.dev>",
-        to: [ADMIN_EMAIL, "dimension3dprintsbcn@gmail.com"],
+        to: ["011107miko@gmail.com"],
         subject: `Nuevo pedido de catálogo: ${safeProductName}`,
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
