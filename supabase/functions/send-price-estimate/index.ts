@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
@@ -10,6 +11,8 @@ const corsHeaders = {
 
 interface PriceEstimatePayload {
   fileName?: string;
+  filePaths?: string[];
+  fileNames?: string[];
   material: string;
   infillPct: number;
   quantity: number;
@@ -63,7 +66,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const payload: PriceEstimatePayload = await req.json();
-    const { fileName, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language } = payload;
+    const { fileName, filePaths, fileNames, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language } = payload;
 
     // Validate required fields
     if (!material || infillPct == null || quantity == null || volumeCm3 == null) {
@@ -85,6 +88,33 @@ const handler = async (req: Request): Promise<Response> => {
     const safeMaterial = sanitize(material);
     const safeFileName = fileName ? sanitize(fileName) : null;
     const safeLang     = language ? sanitize(language) : "es";
+
+    // Generate a 7-day signed URL for each uploaded file
+    const fileLinks: { name: string; url: string }[] = [];
+    if (filePaths?.length) {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      );
+      for (let i = 0; i < filePaths.length; i++) {
+        const { data, error } = await supabase.storage
+          .from("print-requests")
+          .createSignedUrl(filePaths[i], 60 * 60 * 24 * 7);
+        if (!error && data?.signedUrl) {
+          fileLinks.push({ name: fileNames?.[i] ?? filePaths[i], url: data.signedUrl });
+        } else {
+          console.error("Signed URL error for", filePaths[i], error);
+        }
+      }
+    }
+
+    const fileLinksHtml = fileLinks.map(f =>
+      `<p style="margin:8px 0;">
+        <a href="${f.url}" style="display:inline-block;background:#f59e0b;color:#0f172a;padding:8px 16px;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;">
+          ⬇ ${sanitize(f.name)}
+        </a>
+      </p>`
+    ).join("\n");
 
     console.log(`Processing price estimate: ${safeMaterial} ${infillPct}% infill x${quantity} (IP: ${clientIP})`);
 
@@ -118,6 +148,14 @@ const handler = async (req: Request): Promise<Response> => {
               <p><strong>Est. print time:</strong> ${estHours.toFixed(1)} h</p>
               <p><strong>Price range:</strong> €${priceLow.toFixed(0)} – €${priceHigh.toFixed(0)}</p>
             </div>
+
+            <div style="background-color: #ecfdf5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="color: #065f46; margin-top: 0;">STL files (${fileLinks.length})</h2>
+              ${fileLinksHtml || "<p>No files attached.</p>"}
+              <p style="color:#6b7280;font-size:12px;margin-top:12px;">Links expire in 7 days.</p>
+            </div>
+
+
 
             <p style="color: #6b7280; font-size: 14px;">
               This email was sent automatically from Dimension3D when a visitor used the STL price calculator.
