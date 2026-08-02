@@ -192,7 +192,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Dimension3D <onboarding@resend.dev>",
-        to: [ADMIN_EMAIL],
+        to: [ADMIN_EMAIL, "dimension3dprintsbcn@gmail.com"],
          subject: `${isUrgent ? "🚨 URGENTE - " : ""}Nueva solicitud de impresión 3D - ${safeFileName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
