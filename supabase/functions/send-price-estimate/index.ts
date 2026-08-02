@@ -149,6 +149,14 @@ const handler = async (req: Request): Promise<Response> => {
               <p><strong>Price range:</strong> €${priceLow.toFixed(0)} – €${priceHigh.toFixed(0)}</p>
             </div>
 
+            <div style="background-color: #ecfdf5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="color: #065f46; margin-top: 0;">STL files (${fileLinks.length})</h2>
+              ${fileLinksHtml || "<p>No files attached.</p>"}
+              <p style="color:#6b7280;font-size:12px;margin-top:12px;">Links expire in 7 days.</p>
+            </div>
+
+
+
             <p style="color: #6b7280; font-size: 14px;">
               This email was sent automatically from Dimension3D when a visitor used the STL price calculator.
             </p>
