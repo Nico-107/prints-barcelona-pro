@@ -48,6 +48,11 @@ function urlLanguage(path: string): Language {
   if (path === "/design-your-3d-part") return "en";
   if (path === "/dissenya-la-teva-peca-3d") return "ca";
   if (
+    path === "/mit-3d-drucker-geld-verdienen" ||
+    path === "/ist-3d-druck-geschaeft-rentabel" ||
+    path === "/kunden-fuer-3d-druck-finden"
+  ) return "de";
+  if (
     path.startsWith("/3d-printing-") ||
     path.startsWith("/blog") ||
     path === "/maker-guide" ||

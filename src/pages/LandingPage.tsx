@@ -41,15 +41,17 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
   const isEs = page.lang === "es";
   const isCa = page.lang === "ca";
-  const t = (en: string, es: string) => (isCa ? es : isEs ? es : en);
+  const isDe = page.lang === "de";
+  const t = (en: string, es: string, de?: string) =>
+    isDe ? (de ?? en) : (isCa || isEs) ? es : en;
   const url = `${SITE_URL}${page.slug}`;
   const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
 
   const trustBadges = [
-    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
-    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas"), iconClass: "text-accent" },
-    { icon: Award, label: t("Quality Materials", "Materiales de Calidad"), iconClass: "text-accent" },
-    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida"), iconClass: "text-accent" },
+    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`, `Standort ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
+    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas", "Schnelle Lieferung"), iconClass: "text-accent" },
+    { icon: Award, label: t("Quality Materials", "Materiales de Calidad", "Qualitätsmaterialien"), iconClass: "text-accent" },
+    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida", "Individuelle Aufträge"), iconClass: "text-accent" },
   ];
 
   const serviceSchema = {
@@ -89,9 +91,11 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'landing_page' });
-    const msg = isEs
-      ? `Hola, me interesa: ${page.h1}`
-      : `Hi, I'm interested in: ${page.h1}`;
+    const msg = isDe
+      ? `Hallo, ich interessiere mich für: ${page.h1}`
+      : isEs || isCa
+        ? `Hola, me interesa: ${page.h1}`
+        : `Hi, I'm interested in: ${page.h1}`;
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -105,12 +109,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {topicSlugs.en && <link rel="alternate" hrefLang="en" href={`${SITE_URL}${topicSlugs.en}`} />}
         {topicSlugs.es && <link rel="alternate" hrefLang="es" href={`${SITE_URL}${topicSlugs.es}`} />}
         {topicSlugs.ca && <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${topicSlugs.ca}`} />}
+        {topicSlugs.de && <link rel="alternate" hrefLang="de" href={`${SITE_URL}${topicSlugs.de}`} />}
         {topicSlugs.en && <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${topicSlugs.en}`} />}
         <meta property="og:title" content={page.metaTitle} />
         <meta property="og:description" content={page.metaDescription} />
         <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
-        <meta property="og:locale" content={isCa ? "ca_ES" : isEs ? "es_ES" : "en_US"} />
+        <meta property="og:locale" content={isDe ? "de_DE" : isCa ? "ca_ES" : isEs ? "es_ES" : "en_US"} />
         <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={page.metaTitle} />
@@ -161,12 +166,12 @@ const LandingPage = ({ page: pageProp }: Props) => {
                 <Button asChild variant="accent" size="lg" className="gap-2">
                   <Link to={isEs ? "/#upload" : "/#upload"}>
                     <Upload className="w-4 h-4" />
-                    {t("Request a Quote", "Solicitar Presupuesto")}
+                    {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
                   <MessageCircle className="w-4 h-4" />
-                  {t("Contact on WhatsApp", "Contactar por WhatsApp")}
+                  {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren")}
                 </Button>
               </div>
 
@@ -219,7 +224,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <section className="bg-secondary/30 py-16 md:py-20">
             <div className="container px-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`)}
+                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`, `Echte Drucke aus unserer Werkstatt in ${pageCity.cityName}`)}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (
@@ -236,17 +241,17 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <section className="hero-gradient py-16 md:py-20">
           <div className="container px-4 text-center max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-              {t("Ready to start your project?", "¿Listo para empezar tu proyecto?")}
+              {t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?")}
             </h2>
             <p className="text-lg text-primary-foreground/80 mb-8">
-              {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.")}
+              {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button asChild variant="accent" size="xl" className="shadow-lg">
-                <Link to="/#upload"><Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo")}</Link>
+                <Link to="/#upload"><Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen")}</Link>
               </Button>
               <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
-                <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp")}
+                <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp", "WhatsApp")}
               </Button>
             </div>
           </div>
@@ -256,7 +261,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <section className="container px-4 py-16 md:py-20">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
-              {t("Frequently Asked Questions", "Preguntas Frecuentes")}
+              {t("Frequently Asked Questions", "Preguntas Frecuentes", "Häufige Fragen")}
             </h2>
             <Accordion type="single" collapsible className="w-full">
               {page.faqs.map((f, i) => (
@@ -275,7 +280,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {/* Related pages */}
         <section className="container px-4 py-16 md:py-20 border-t border-border/40">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-            {t("Related services", "Servicios relacionados")}
+            {t("Related services", "Servicios relacionados", "Weiterführende Themen")}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {page.related.map((r) => (

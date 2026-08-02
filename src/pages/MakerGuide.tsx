@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, DollarSign, Users, Zap,
-  MessageCircle, ShieldCheck, TrendingUp, Clock, HelpCircle, Store,
+  MessageCircle, ShieldCheck, TrendingUp, Clock, HelpCircle, Store, BookOpen,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -38,6 +38,10 @@ interface GuideCopy {
   ctaBody: string;
   ctaButton: string;
   whatsappButton: string;
+  relatedHeading: string;
+  relatedSubheading: string;
+  relatedEyebrow: string;
+  relatedLinks: { label: string; slug: string }[];
 }
 
 const COPY: Record<string, GuideCopy> = {
@@ -166,6 +170,14 @@ const COPY: Record<string, GuideCopy> = {
     ctaBody: "Apply now — it takes two minutes, and your first month is completely free.",
     ctaButton: "Apply to join",
     whatsappButton: "Ask us a question",
+    relatedEyebrow: "Related reading",
+    relatedHeading: "The business side of running a printer",
+    relatedSubheading: "Three practical guides on income, profitability and customer acquisition — worth reading alongside this one.",
+    relatedLinks: [
+      { label: "How to Make Money With a 3D Printer", slug: "/how-to-make-money-with-a-3d-printer" },
+      { label: "Is a 3D Printing Business Profitable?", slug: "/is-3d-printing-business-profitable" },
+      { label: "How to Get 3D Printing Customers", slug: "/how-to-get-3d-printing-customers" },
+    ],
   },
 
   es: {
@@ -293,6 +305,14 @@ const COPY: Record<string, GuideCopy> = {
     ctaBody: "Solicita ahora — solo lleva dos minutos, y tu primer mes es completamente gratis.",
     ctaButton: "Solicitar unirme",
     whatsappButton: "Pregúntanos algo",
+    relatedEyebrow: "Lectura complementaria",
+    relatedHeading: "El lado de negocio de tener una impresora",
+    relatedSubheading: "Tres guías prácticas sobre ingresos, rentabilidad y captación de clientes — merece la pena leerlas junto a esta.",
+    relatedLinks: [
+      { label: "Cómo Ganar Dinero con una Impresora 3D", slug: "/como-ganar-dinero-con-impresora-3d" },
+      { label: "¿Es Rentable un Negocio de Impresión 3D?", slug: "/es-rentable-negocio-impresion-3d" },
+      { label: "Cómo Conseguir Clientes de Impresión 3D", slug: "/como-conseguir-clientes-impresion-3d" },
+    ],
   },
 
   ca: {
@@ -420,6 +440,14 @@ const COPY: Record<string, GuideCopy> = {
     ctaBody: "Sol·licita ara — només triga dos minuts, i el teu primer mes és completament gratis.",
     ctaButton: "Sol·licitar unir-me",
     whatsappButton: "Fes-nos una pregunta",
+    relatedEyebrow: "Lectura complementària",
+    relatedHeading: "El vessant de negoci de tenir una impressora",
+    relatedSubheading: "Tres guies pràctiques sobre ingressos, rendibilitat i captació de clients — val la pena llegir-les al costat d'aquesta.",
+    relatedLinks: [
+      { label: "Cómo Ganar Dinero con una Impresora 3D", slug: "/como-ganar-dinero-con-impresora-3d" },
+      { label: "¿Es Rentable un Negocio de Impresión 3D?", slug: "/es-rentable-negocio-impresion-3d" },
+      { label: "Cómo Conseguir Clientes de Impresión 3D", slug: "/como-conseguir-clientes-impresion-3d" },
+    ],
   },
 };
 
@@ -546,6 +574,35 @@ const MakerGuide = () => {
                   </article>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        {/* ── RELATED READING (business-side guides) ── */}
+        <section className="py-14 md:py-16 bg-background border-t border-border/40">
+          <div className="container px-4 max-w-3xl mx-auto">
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest mb-3">
+                <BookOpen className="w-3.5 h-3.5" />
+                {c.relatedEyebrow}
+              </div>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">{c.relatedHeading}</h2>
+              <p className="text-muted-foreground text-sm">{c.relatedSubheading}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {c.relatedLinks.map((r) => (
+                <Link
+                  key={r.slug}
+                  to={r.slug}
+                  className="group p-4 rounded-lg border border-border/50 bg-card hover:border-accent hover:card-shadow-hover transition-all"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <BookOpen className="w-4 h-4 text-accent" />
+                    <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:translate-x-1 group-hover:text-accent transition-all" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-sm leading-snug">{r.label}</h3>
+                </Link>
+              ))}
             </div>
           </div>
         </section>

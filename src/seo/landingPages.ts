@@ -1,9 +1,9 @@
 // Centralized SEO landing page content (EN + ES) for Dimension3D Barcelona
 // Shared LandingPage template renders one entry per route.
 
-export type Lang = "en" | "es" | "ca" | "fr";
+export type Lang = "en" | "es" | "ca" | "fr" | "de";
 
-// Stable topic key shared by EN/ES/CA versions of the same page.
+// Stable topic key shared by EN/ES/CA/DE versions of the same page.
 // Used to resolve hreflang alternates and equivalent-page language switching.
 export type LandingTopic =
   | "service-3d-printing"
@@ -23,7 +23,10 @@ export type LandingTopic =
   | "choosing-service"
   | "materials-guide"
   | "file-prep"
-  | "best-service";
+  | "best-service"
+  | "maker-income"
+  | "maker-profitability"
+  | "maker-customers";
 
 export interface LandingFAQ {
   q: string;
@@ -887,5 +890,174 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Product Catalogue", slug: "/catalogo" }
     ],
     schemaServiceName: "Best 3D Printing Service Barcelona"
+  },
+
+  // ----- NEW: MAKER INCOME (how to make money with a 3D printer) -----
+  {
+    slug: "/how-to-make-money-with-a-3d-printer",
+    topic: "maker-income",
+    altSlug: "/como-ganar-dinero-con-impresora-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "How to Make Money With a 3D Printer — Honest Guide for Owners | Dimension3D",
+    metaDescription: "A practical guide to earning income from a 3D printer you already own. Real income paths — local sales, marketplaces, design files, small-batch work, replacement parts, print networks — with realistic effort and honest downsides for each.",
+    h1: "How to Make Money With a 3D Printer",
+    intro: "You own a 3D printer and you want it to earn its keep. Good — but the internet is full of tutorials that skip the awkward parts (competition, fees, slow ramp times, the amount of hands-on hustle each channel really needs). This guide walks through the concrete ways people actually generate income from an FDM printer at home, with the tradeoffs stated up front and no promises attached.",
+    sections: [
+      {
+        heading: "Selling finished prints locally — the fastest first sale",
+        body: "Selling physical prints to people in your own city is the shortest path from printer to first income. You avoid shipping, you avoid platform fees, and the customer either loves the object in their hands or they don't — no returns from a photo not matching reality.\n\nWhat sells locally, in practice: personalised gifts (name plates, keyrings, cake toppers), practical household items (phone stands, cable holders, small organisers, planters), replacement clips and knobs neighbours ask you about once they know what you do, and modest decorative pieces (small vases, seasonal decorations, tabletop miniatures for local hobby groups). The volume is small but the friction is almost zero.\n\nRealistic effort: low to medium. You need a way to be found — a WhatsApp status, a couple of Instagram posts, a local Facebook group, a mention in a neighbourhood chat. Time to first income: fast, often within a week or two of telling anyone. Main downside: local demand caps out. In a small circle, one dozen sales in a month is already a lot, and you'll plateau quickly without expanding your reach or your catalogue."
+      },
+      {
+        heading: "Marketplaces (Etsy, Wallapop, eBay) — reach at the cost of fees and competition",
+        body: "Marketplaces let a stranger halfway across the country find your listing on a Tuesday afternoon. That reach is genuinely valuable — and it comes with two costs.\n\nFirst, fees. Etsy charges a listing fee plus a percentage of each sale plus payment processing. eBay's fee structure is similar in effect. Wallapop is free for casual selling but takes a cut on shipping-integrated sales and pushes paid promotion. Assume something in the range of 8–15% off the top on any platform that does customer discovery for you.\n\nSecond, competition. Any product you can list, hundreds of other sellers have already listed too — often cheaper, often with better photography, sometimes shipping from a country with lower labour and material costs. Winning on price is a race to the bottom that isn't worth entering. Winning on differentiation (a niche, better photos, a specific personalisation option, faster shipping to a local market) is the only durable strategy.\n\nRealistic effort: medium to high, ongoing. Listings need updating, photos need improving, messages need answering fast, reviews need protecting. Time to first income: days to weeks after the listing is live and priced correctly. Main downside: without a specific niche or genuine differentiator, most listings drown."
+      },
+      {
+        heading: "Selling design files (Cults3D, MakerWorld, others) — passive income that ramps slowly",
+        body: "If you're comfortable in a 3D modelling tool, you can sell the file instead of the print. A single well-designed model uploaded to Cults3D or MakerWorld can sell for years without you doing anything after the upload. It is the closest thing 3D printing has to genuinely passive income.\n\nThe ramp, though, is slow. A new file with no reviews and no brand behind it typically sells nothing for the first few months. What works: publishing a steady stream of files (dozens, not two or three), building a following, and either aiming at a specific niche (a game franchise's fans, a specific hobby) or producing files with a distinctive style people learn to recognise.\n\nRealistic effort: high upfront (learning to model, iterating on quality, producing enough files to matter), low ongoing after the catalogue is built. Time to first meaningful income: months, sometimes longer. Main downside: it's a portfolio business — early income is essentially zero, and giving up before month six means walking away just before the compounding starts."
+      },
+      {
+        heading: "Prototyping and small-batch work for local businesses",
+        body: "Every neighbourhood has small businesses that occasionally need a physical part — an architect who wants a scale model for a client presentation, a bar owner who needs custom drink markers, a workshop that broke a proprietary bracket, a dental clinic that wants branded desk objects. These jobs pay better per part than consumer sales because the customer is buying a solution, not a novelty.\n\nHow to reach them: introduce yourself as a local 3D printing service to businesses in a specific radius, hand out a simple card, list yourself on Google Business, and stay responsive. The first job is the hard one; repeat jobs happen without prompting once you've delivered well.\n\nRealistic effort: medium — a few afternoons of outreach up front, then reactive work. Time to first income: weeks. Main downside: unpredictable — a good month might be four jobs, a slow month might be zero, and it takes 6–12 months of consistent presence before local businesses think of you first for this kind of work."
+      },
+      {
+        heading: "Repair and replacement parts — high-value, high-trust work",
+        body: "One of the highest-margin uses of a home printer is replacing broken plastic parts on things people already own — a specific washing-machine detergent-drawer clip, a fridge shelf support, a vacuum cleaner adaptor, a discontinued furniture connector. The customer is comparing your quote (a few tens of euros) against the alternative of buying a whole new appliance (hundreds), so pricing is generous relative to consumer items.\n\nThe catch is that most jobs require either modelling from a photo or careful measurement of the broken original. That skill takes practice. Simple symmetric parts are quick; complex geometries are legitimately hard and sometimes not worth quoting.\n\nRealistic effort: medium per job, but each successful repair produces a delighted customer who tells other people. Word of mouth on replacement work compounds unusually well. Time to first income: fast once you start telling neighbours and posting in local groups. Main downside: workload is bursty (five jobs one week, none the next), and the modelling skill has a real learning curve — expect to write off a couple of early jobs to experience."
+      },
+      {
+        heading: "Joining a print network — cheapest way to get orders you didn't chase",
+        body: "A print network is a third-party brand that already runs the marketing side — SEO, listings, ads, customer relationships — and routes real orders to makers in the customer's local area. You keep your printer, work under the network's brand for those specific jobs, and the network handles the pipeline that would otherwise take you years to build alone.\n\nAs a specific example, the Dimension3D maker network works on this model. Joining is free — there is no signup fee, no commission on your work, and no exclusivity clause; you continue selling wherever else you already sell. Makers produce locally under the Dimension3D brand when orders arrive in their area, so you're not restricted to a particular city. Working terms are agreed individually with each maker before any work begins, so nothing is imposed generically. The network is expanding city by city, and the actual number of orders you'll see depends on demand in your specific city — a maker in a market where the brand is already established will see more requests than one in a city where the network has just launched.\n\nWhat makes this genuinely worth trying is that it costs nothing to join and there's no lock-in. If it works in your city, you gain orders you never had to market for. If it doesn't yet, you've lost nothing. Realistic effort: low — you print, quote, and deliver the jobs you accept. Time to first income: depends entirely on demand in your city. Main downside: no guarantees, no promised order volume — the network provides the pipeline, but demand is real-world demand, not a subscription.\n\nFor the specifics of how it works — how orders reach you, how quoting works, how you get paid — see [/makers](/makers) and [/maker-guide](/maker-guide)."
+      }
+    ],
+    faqs: [
+      { q: "How do I monetize a 3D printer if I've never sold anything before?", a: "Start with the shortest path to a first sale: tell people you know that you're printing, take one photo of a project, and offer to do small personalised or practical jobs for anyone in your circle. Once you have one paying customer, patterns become obvious — what people ask for, what they're willing to pay, where the friction is. Every other channel (marketplaces, networks, design files) becomes easier once you've actually delivered something for money." },
+      { q: "How much money can I realistically make with a 3D printer at home?", a: "Honestly, it varies enormously — from nothing at all (if the printer sits idle) to a modest side income (a few hundred euros a month, part-time) to a genuine primary income (with multiple printers and full-time hustle). What matters most is how much time you put in and which income channel you're leaning on. Passive channels like design files pay very slowly. Active channels like local sales pay faster but cap lower. Networks pay based on the demand in your city." },
+      { q: "Is it worth selling on Etsy or Wallapop specifically for 3D prints?", a: "It's worth trying, but go in expecting fees to eat 10–15% and expecting the first months to be quiet. Both platforms reward sellers who have a specific niche or a distinctive style. Generic listings (a phone stand, a name keychain) compete with thousands of near-identical ones and typically don't move." },
+      { q: "How long before selling 3D-printed products becomes profitable?", a: "For local direct sales, first income can arrive within days but the total often stays small unless you actively expand reach. For marketplaces, expect 1–3 months of tuning listings before consistent orders. For design files, meaningful income usually takes 6 months or more. For network-driven orders, it depends on demand in your specific city rather than time spent." },
+      { q: "Do I need to register as self-employed to sell 3D prints legally?", a: "That depends entirely on your local tax rules and how much you earn, not on 3D printing specifically. In Spain, occasional casual income below certain thresholds does not require autónomo registration, but regular business activity does. Rules differ in every country. If you're going beyond casual, consult a local tax adviser — we're not tax professionals and this isn't legal advice." },
+      { q: "Which income path has the best ratio of effort to money earned?", a: "Nothing dominates all the others — that's why this guide covers six of them. In practice, most makers who earn consistently combine two or three channels: for example, local repeat customers plus a print network plus a small design-file catalogue. That way slow channels compound in the background while active channels pay the bills." }
+    ],
+    galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "halloween-set.jpg", "cookie-cutters.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "Is a 3D Printing Business Profitable?", slug: "/is-3d-printing-business-profitable" },
+      { label: "How to Get 3D Printing Customers", slug: "/how-to-get-3d-printing-customers" },
+      { label: "Join the Maker Network", slug: "/makers" },
+      { label: "Maker Network — How It Works", slug: "/maker-guide" }
+    ],
+    schemaServiceName: "Making Money With a 3D Printer — Guide"
+  },
+
+  // ----- NEW: MAKER PROFITABILITY (is a 3D printing business profitable) -----
+  {
+    slug: "/is-3d-printing-business-profitable",
+    topic: "maker-profitability",
+    altSlug: "/es-rentable-negocio-impresion-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "Is a 3D Printing Business Profitable? Real Costs & Pricing | Dimension3D",
+    metaDescription: "The honest economics of a 3D printing business: filament cost per gram, electricity per print hour, printer amortisation, failure rate, packaging and shipping — and a worked example turning those inputs into a defendable price.",
+    h1: "Is a 3D Printing Business Profitable? The Real Numbers",
+    intro: "Whether 3D printing is profitable depends on whether the price you charge covers every input that goes into a part — not just the plastic. This page breaks the cost of an FDM print down into its actual components, gives realistic ranges for each (with the reasoning), and walks through a fully worked example so you can build defendable pricing for your own work.",
+    sections: [
+      {
+        heading: "Filament cost — per kilo and per gram",
+        body: "Filament is the most visible input, and the easiest to price correctly if you approach it in grams rather than reels.\n\nTypical spool pricing at retail in Europe in the current market: PLA runs roughly €18–28 per kg for basic colours from mid-range brands, €30–45 per kg for silks, marbles and specialty finishes. PETG usually sits €20–30 per kg. ABS/ASA lands around €22–35 per kg. TPU is meaningfully more expensive at €35–55 per kg. Nylon and carbon-fibre-reinforced grades start around €45 per kg and climb from there.\n\nConvert to grams and price per gram becomes: PLA at roughly €0.02–0.045 per gram, PETG at €0.02–0.03, TPU at €0.035–0.055, Nylon-CF at €0.06+. A slicer estimates the grams-in-part figure directly — the number to trust for pricing is the slicer's estimate plus a small buffer (5–10%) for purge, priming and inevitable minor waste.\n\nA small everyday part is typically 15–60 g. A medium functional part is 80–200 g. A large decorative piece or a helmet can be 300 g to well over a kilo. Meaning: material cost alone on most consumer-scale prints is in the range of a few tens of cents to a few euros — small relative to the final price the customer should pay."
+      },
+      {
+        heading: "Electricity — the cost per print hour",
+        body: "A running FDM printer draws power almost entirely for the heated bed and hotend, with a small constant draw for motors and electronics. Average power draw during printing on a typical desktop FDM machine (single hotend, 60 °C bed) sits around 80–150 W. Enclosed printers with heated chambers or dual hotends run higher, sometimes 200–300 W.\n\nAt a European retail electricity price in a normal range of €0.15–0.30 per kWh, that works out to roughly €0.015–0.045 per print hour on a standard machine, or a few cents per hour. A 10-hour print in that bracket costs €0.15–0.45 in electricity. That is genuinely low — electricity is rarely the cost that decides whether a job is profitable.\n\nBe explicit about it anyway. Pricing based on plastic alone leaves a small but consistent margin unaccounted for, and over dozens of prints a month it adds up. The way to fold it in is to include a per-hour machine rate (see printer amortisation below) that combines electricity and depreciation into a single number."
+      },
+      {
+        heading: "Printer amortisation — spreading the machine cost across print hours",
+        body: "The printer itself has a finite working life. Rather than treating the purchase as a lump sum you either recovered or didn't, price it in per hour of use — the same way any equipment-based business does.\n\nA reasonable assumption for a mid-range consumer FDM printer purchased around €400–800: expect a useful working life on the order of 2,000–4,000 print hours before major components (hotend, bed, extruder) need replacing or the machine itself needs meaningful maintenance. Actual working life varies enormously with brand, care and duty cycle — some machines last much longer, some die earlier — but assuming somewhere in that range for planning is fair.\n\nDividing €400–800 across 2,000–4,000 hours gives an amortised machine cost of roughly €0.10–0.40 per print hour. Combined with electricity (a few cents an hour), a defendable machine rate is somewhere around €0.15–0.50 per print hour depending on your printer and your assumptions. For a 10-hour print, that's €1.50–5.00 attributable to the machine itself — small compared to your time, but not zero and worth including."
+      },
+      {
+        heading: "Failure rate, packaging, shipping — the hidden costs new sellers miss",
+        body: "Failed prints are real cost. A well-tuned printer running well-understood materials fails maybe 5–10% of the time in normal home operation, higher on unusual geometries or unfamiliar materials, lower on flat-bottomed simple parts you print often. Every failed print consumed material, electricity and machine time you now have to recover from successful ones. Add roughly 10% to your per-part cost as a failure buffer — more if you're working with a difficult material or a first-time geometry.\n\nPackaging matters more than most new sellers estimate. A protective mailer bag or a small box, bubble wrap, a printed label — figure €0.50–2.00 per shipped order depending on part size. Skimp on packaging and the first broken-in-transit part costs more in refunds and reviews than the packaging would have for a hundred orders.\n\nShipping is either paid by the customer (transparent, no ambiguity) or bundled into your price (simpler for the customer, but be honest with yourself about the actual cost — €4–8 for a small tracked national package in most of Europe, more for larger boxes and international destinations). Under-costed shipping is the single most common way small sellers accidentally lose money on orders."
+      },
+      {
+        heading: "Worked example — building a price from the inputs",
+        body: "Take a concrete part: a mid-sized custom bracket, 120 g of PETG, 8-hour print time, shipped nationally within Spain in a small padded box.\n\n• Material: 120 g × €0.025/g = €3.00 (PETG at a mid-range price), plus 10% waste buffer = €3.30.\n• Machine rate: 8 hours × €0.30/hour = €2.40 (mid-range printer amortisation plus electricity).\n• Failure buffer: 10% of material + machine cost = €0.57.\n• Packaging + labels: €1.20.\n• Shipping: €5.50 for a small tracked national package.\n• Direct cost so far: €12.97.\n\nAt this point you have covered every physical input and lost nothing — but you have paid yourself zero. Add labour: even 30 minutes of hands-on time (slicing, prep, post-processing, packing, communicating with the customer) at a modest €15/hour is €7.50. Direct cost including your time: €20.47.\n\nNow add margin. A commercial 3D printing service typically applies a 40–100% markup over direct cost, depending on complexity, urgency and how differentiated the offering is. For this part at a mid-range 60% markup, the final price becomes roughly €33. At the very low end (a hobby seller barely covering costs), €25 might be defendable. At the high end for an urgent job with tight-tolerance requirements, €45 is not unreasonable.\n\nThe point is not that €33 is the right number for every bracket. The point is that a price built up from inputs plus labour plus margin is defendable — you can explain every component of it to a customer who asks. A price pulled from thin air is not."
+      },
+      {
+        heading: "Why very small cheap parts are usually unprofitable — and minimum order values",
+        body: "Once you internalise the cost breakdown, one specific type of job becomes obviously problematic: the very small, very cheap request. A 5-gram print that takes 20 minutes costs less than a euro in material and machine time, but the fixed costs — labour to communicate with the customer, packaging, shipping, transaction processing — do not shrink proportionally. You still need to slice it, message the customer, pack it and ship it. On a €5 print those fixed costs consume most of the price. On a €30 print they're a footnote.\n\nThis is why almost every commercial 3D printing operation has a minimum order value, typically somewhere between €10 and €30 depending on the business model. It isn't greed — it's arithmetic. Below the minimum, orders lose money once fixed costs are honestly included.\n\nAs a maker, set your own minimum from the start. If a €5 print takes you 15 minutes of hands-on work and consumes packaging and shipping, you are losing money and building a habit of undervaluing your time. A stated minimum (whether €10, €15 or €20) filters out the requests that were never going to be worth your time and gives you space to serve the customers who do value the work."
+      }
+    ],
+    faqs: [
+      { q: "Is a 3D printing business actually profitable in practice?", a: "It can be, but not automatically — profitability depends entirely on whether the price charged covers material, machine time, failure rate, packaging, shipping and labour, and still leaves a margin. Businesses that price on plastic alone typically break even at best. Businesses that build a defendable per-part price from the inputs above regularly earn a healthy margin, especially on functional and repair work where customers are comparing against the cost of a replacement product." },
+      { q: "How much does it really cost to run a 3D printer per hour?", a: "For a typical consumer FDM printer, electricity alone runs a few cents an hour (€0.015–0.045/hour at European retail rates and 80–150 W draw). Once you fold in printer amortisation (spreading the purchase price over 2,000–4,000 useful hours), a defendable per-hour machine rate lands somewhere around €0.15–0.50. Consumables (nozzles, PTFE tubes, occasional replacement parts) add a small further ongoing cost." },
+      { q: "What profit margin should I charge on a 3D print?", a: "Commercial 3D printing services typically add a 40–100% markup over direct cost (material + machine time + failure buffer + packaging + shipping + labour). At the low end you're a hobby seller barely covering yourself; at the high end you're pricing for complex, urgent or differentiated work. Below 40% markup and unusual events (a returned order, a failed batch, a slow month) will eat your profit entirely." },
+      { q: "Why do 3D printing services have minimum order values?", a: "Because fixed costs — communicating with the customer, slicing, packaging, shipping, transaction processing — do not scale down as the part gets smaller. A €5 print that takes 20 minutes of your time is a loss once those fixed costs are honestly included. A stated minimum (typically €10–30) filters out orders that were never going to be profitable and lets the business focus on jobs where the value is proportionate to the work." },
+      { q: "How do I calculate my price per gram of filament accurately?", a: "Take the actual price you paid for the spool (including shipping if relevant) and divide by the weight in grams — for a €22, 1 kg spool that's €0.022 per gram. Then have your slicer estimate the grams of filament your part will consume, add a 5–10% waste buffer for purge and priming, and multiply. This is the material line only — not the price you charge the customer, which layers machine time, failure buffer, packaging, shipping, labour and margin on top." },
+      { q: "How many prints can a consumer 3D printer do before it needs major maintenance?", a: "There is no single number — it depends on the brand, how well the printer is maintained, and how hard it's being run. A reasonable planning assumption for a mid-range consumer FDM printer is 2,000–4,000 print hours before major components (hotend, bed, extruder) need replacement or significant maintenance. Some machines last far longer with proper care; some die sooner if run hot and hard. Use whatever assumption you're comfortable with for the amortisation calculation and revise it as your own printer's history unfolds." }
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "How to Make Money With a 3D Printer", slug: "/how-to-make-money-with-a-3d-printer" },
+      { label: "How to Get 3D Printing Customers", slug: "/how-to-get-3d-printing-customers" },
+      { label: "Join the Maker Network", slug: "/makers" },
+      { label: "Maker Network — How It Works", slug: "/maker-guide" }
+    ],
+    schemaServiceName: "3D Printing Business Profitability Guide"
+  },
+
+  // ----- NEW: MAKER CUSTOMERS (how to get 3D printing customers) -----
+  {
+    slug: "/how-to-get-3d-printing-customers",
+    topic: "maker-customers",
+    altSlug: "/como-conseguir-clientes-impresion-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "How to Get 3D Printing Customers — What Actually Works | Dimension3D",
+    metaDescription: "Printer ready but nobody ordering? Practical customer-acquisition guide for 3D printing makers: Google Business Profile, marketplaces, photography, transparent pricing, response speed, repeat customers, and joining an existing print network.",
+    h1: "How to Get 3D Printing Customers — The Real Problem",
+    intro: "The hardest problem in 3D printing isn't printing. It's the silence between installing the printer and the first customer message arriving. This page is about closing that gap — the concrete things that convert a working printer into a steady flow of orders, in the order of effort-to-payoff, with an honest section at the end on when it makes sense to skip the whole self-marketing route.",
+    sections: [
+      {
+        heading: "Google Business Profile — the free listing every maker skips",
+        body: "Google Business Profile (formerly Google My Business) is a free listing that puts your 3D printing service on Google Maps and in the local pack at the top of local search results. It is the single highest-leverage piece of free marketing for a location-based service, and most home-based makers never set it up.\n\nWhat you need: a name for your service, a service area (you don't need a public storefront — a service-area business is a legitimate profile type), contact details, business hours, categories (3D printing service is a valid category), and photographs of your work. Google will verify the business, typically by postcard or phone, before the listing goes live.\n\nOnce live, encourage happy customers to leave a review. Reviews are the single largest signal Google uses to rank local businesses. Ten genuine reviews from real customers over a few months will outperform any amount of paid advertising for a small local service. Reply to every review, positive or negative, in a professional tone — that's visible to future customers too."
+      },
+      {
+        heading: "Local marketplace listings — where people already look",
+        body: "In Spain, Wallapop is where people go when they need something specific and want to see local sellers. In France, Leboncoin. In Germany, Kleinanzeigen (formerly eBay Kleinanzeigen). Etsy and eBay cover cross-border reach. Each has its own dynamics; the common thread is that people are already there, actively looking.\n\nWhat performs well on classifieds: specific practical items (name plates, phone stands, cable organisers, custom keychains, cake toppers), replacement parts described specifically enough that someone searching for the exact problem finds them, and personalised gifts with a clear photo of what the customisation looks like.\n\nWhat doesn't work: generic listings with no photograph, prices with no context, or copy that doesn't say what the item does. Compete on clarity, not on being the cheapest. The cheapest listing on every marketplace is usually one you don't want to be underbidding."
+      },
+      {
+        heading: "Photographing your prints properly — the single biggest lever",
+        body: "The gap between a listing that sells and one that doesn't is very often the photograph. Prints on a cluttered desk under harsh overhead lighting look worse than the object actually is. Prints on a clean background in soft daylight look like a professional catalogue.\n\nThe minimum practical setup for good product photography of a 3D print: a plain background (a folded white sheet, a piece of foamcore, a lightbox if you're serious), soft indirect daylight or a cheap softbox lamp, a phone camera held steady (a tripod, a stack of books, anything), and multiple angles including one that shows the object at the correct scale (either next to a coin, a hand, or a familiar object).\n\nOne genuinely well-lit photograph with a clean background will outsell three phone snaps taken quickly on the workshop floor. It costs nothing except twenty minutes of setup and re-use across every listing you post."
+      },
+      {
+        heading: "Transparent pricing — remove friction, not margin",
+        body: "Every customer message you receive that asks 'how much does this cost' is a message you didn't need to spend time on. Transparent pricing published up front (whether as a table, a per-gram figure, a minimum order value, or a set of common item prices) converts casual browsers into customers because they can decide without having to interact with a stranger.\n\nWhat to publish: your minimum order value (this alone filters out the requests that were never going to be profitable), typical prices for the categories of work you actually do (a per-gram rate, a starting-from figure for common items), and any surcharges or discounts that consistently apply (urgent surcharge, quantity discount for larger batches). You do not need to publish every possible price — you need to publish enough that the customer knows whether they're in your general range before they contact you.\n\nHiding pricing 'to preserve flexibility' loses more sales than it protects. Customers who never got a rough number will assume the worst and move on."
+      },
+      {
+        heading: "Response speed — the underrated competitive advantage",
+        body: "In service work, the first responder frequently wins the job. If a customer sends the same enquiry to three makers and one replies within thirty minutes, one within four hours and one the next day, the fast responder gets the order most of the time — regardless of who was cheapest.\n\nWhat this looks like in practice: keep WhatsApp notifications on during your working hours, reply with at least an acknowledgement even if the full quote will take longer, and set expectations honestly ('I'll have a full quote by tonight' beats silence for four hours). A short polite acknowledgement message within minutes is worth more to conversion than a beautifully-formatted quote sent six hours later.\n\nThis is not about being on-call at 2 a.m. — it's about defining your response window (say, weekdays 9 a.m. to 8 p.m.) and being consistently fast within it. Publish that window somewhere visible so customers who message outside it know when to expect an answer."
+      },
+      {
+        heading: "Repeat vs one-off customers — where the real business is",
+        body: "One-off customers pay the bills on Tuesday. Repeat customers are the actual business. A customer who ordered a bracket in March, a personalised gift in June and a small batch of prototypes in September is worth many times more, over a year, than three unrelated first-time buyers — and cost far less to acquire because you already have their trust.\n\nThe simplest thing you can do to encourage repeat business: keep the customer's file on record so a reorder takes minutes rather than starting from scratch, follow up briefly after delivery to check the part worked as expected (this is genuinely rare and it stands out), and remember what they ordered so the next conversation starts warm rather than cold. Small businesses that order once for a specific need often come back for the next one if the first experience was good and the friction to reorder is low.\n\nMost consumer channels (marketplaces, classifieds) actively discourage direct repeat business by pushing communication back through their platform. Local relationships and direct-contact customers are where the compounding happens."
+      },
+      {
+        heading: "Joining an existing network — orders you didn't have to market for",
+        body: "Everything above is worth doing regardless of anything else — but every path requires time and consistency before it produces orders reliably. If you want a shorter path to customer requests that you did not have to source yourself, joining an established print network is the low-friction option worth considering.\n\nThe Dimension3D maker network works this way: joining is free (no signup fee, no commission on your work, and no exclusivity clause, so you continue with any other channels you're already using), makers produce locally under the Dimension3D brand when orders arrive in their area, and working terms are agreed individually with each maker before any work begins. The network is expanding city by city, so the actual volume of requests you'll see depends on the specific demand in your city — a maker in a market where the network is well established will see more requests than one in a city where it has just launched.\n\nThe reason it's worth trying is simply that it costs nothing to join and there's no lock-in. If it produces orders in your city, you gain a channel you never had to market for. If it doesn't yet, you've lost nothing and can continue building the other channels above. Either way it complements — rather than replaces — your own local marketing.\n\nSee [/makers](/makers) to apply and [/maker-guide](/maker-guide) for the full walkthrough of how orders reach you, how quoting works, and how payment goes directly from customer to maker."
+      }
+    ],
+    faqs: [
+      { q: "How do I find my first 3D printing customer?", a: "The shortest path is telling people you already know — post one clear photograph of a project to your existing social circle (Instagram, WhatsApp status, a local Facebook or Nextdoor group), offer something small and specific rather than a generic 'I can print anything', and be ready to reply quickly when the first message arrives. First customers almost always come from someone one or two connections away rather than a stranger finding your listing." },
+      { q: "Is Google Business Profile worth setting up for a 3D printing service?", a: "Yes — it's free, and for any location-based service it's the single highest-leverage piece of local marketing. You do not need a public storefront (service-area business profiles are a legitimate profile type). Ten genuine reviews from happy customers over a few months will produce more sustained inbound enquiries than any amount of paid advertising for a small local operation." },
+      { q: "Why do my Wallapop or Etsy listings get views but no orders?", a: "Almost always one of three things: the price is out of line with visible competition, the photograph does not show the object clearly against a clean background, or the description does not explicitly say what the object does and who it's for. Views without orders are actually a positive signal — it means the listing surfaces in search. The gap to close is between 'someone clicked' and 'someone messaged', which is usually a photography and copy problem, not a reach problem." },
+      { q: "How fast do I need to reply to customer enquiries?", a: "During your stated working hours, within thirty minutes is a genuine competitive advantage and often the difference between winning and losing a job. Even if the full quote will take longer, sending a brief acknowledgement quickly ('Received, I'll have a quote by 6 p.m.') keeps the conversation warm and stops the customer messaging your competitors while they wait." },
+      { q: "What's the best way to get repeat 3D printing customers?", a: "Three things: keep the customer's file on record so reorders take minutes instead of starting from scratch, follow up briefly after delivery to confirm the part worked (this is rare and stands out), and remember what someone ordered previously so the next conversation starts warm. Small businesses that ordered once for a specific need often come back if the experience was good and reordering is low-friction." },
+      { q: "Does joining a print network mean I stop selling on my own?", a: "No — at least not with any network worth joining. The Dimension3D network specifically is non-exclusive: makers continue with Wallapop, Etsy, direct clients or any other channel they already use. Network orders come in addition to what you already do, which is the point. If a network requires you to stop selling elsewhere in exchange for joining, that's worth thinking hard about before signing." }
+    ],
+    galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "purple-figures.jpg", "green-chameleon.jpg", "halloween-set.jpg", "red-adapter.jpg"),
+    related: [
+      { label: "How to Make Money With a 3D Printer", slug: "/how-to-make-money-with-a-3d-printer" },
+      { label: "Is a 3D Printing Business Profitable?", slug: "/is-3d-printing-business-profitable" },
+      { label: "Join the Maker Network", slug: "/makers" },
+      { label: "Maker Network — How It Works", slug: "/maker-guide" }
+    ],
+    schemaServiceName: "Getting 3D Printing Customers — Guide"
   }
 ];

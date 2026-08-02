@@ -49,6 +49,8 @@ interface MakersCopy {
   formHeading: string; formSubheading: string;
   faqHeading: string; faqs: FAQ[];
   successTitle: string; successDesc: string;
+  relatedHeading: string; relatedSubheading: string;
+  relatedLinks: { label: string; slug: string }[];
 }
 
 const OFFER_ICONS = [Users, Shield, Gift, DollarSign, BookOpen, Globe];
@@ -181,6 +183,13 @@ const COPY: Record<string, MakersCopy> = {
     ],
     successTitle: "Application received!",
     successDesc: "We'll review your profile and get back to you within 24 hours via email or WhatsApp.",
+    relatedHeading: "Before you decide — read these first",
+    relatedSubheading: "Three honest guides on the business side of running a 3D printer. Read them, then decide whether joining the network is right for you.",
+    relatedLinks: [
+      { label: "How to Make Money With a 3D Printer", slug: "/how-to-make-money-with-a-3d-printer" },
+      { label: "Is a 3D Printing Business Profitable?", slug: "/is-3d-printing-business-profitable" },
+      { label: "How to Get 3D Printing Customers", slug: "/how-to-get-3d-printing-customers" },
+    ],
   },
   es: {
     metaTitle: "Únete a la Red de Makers | Dimension3D",
@@ -254,6 +263,13 @@ const COPY: Record<string, MakersCopy> = {
     ],
     successTitle: "¡Solicitud recibida!",
     successDesc: "Revisaremos tu perfil y te responderemos en 24 horas por email o WhatsApp.",
+    relatedHeading: "Antes de decidir — lee esto primero",
+    relatedSubheading: "Tres guías honestas sobre el lado de negocio de una impresora 3D. Léelas y decide luego si unirte a la red te encaja.",
+    relatedLinks: [
+      { label: "Cómo Ganar Dinero con una Impresora 3D", slug: "/como-ganar-dinero-con-impresora-3d" },
+      { label: "¿Es Rentable un Negocio de Impresión 3D?", slug: "/es-rentable-negocio-impresion-3d" },
+      { label: "Cómo Conseguir Clientes de Impresión 3D", slug: "/como-conseguir-clientes-impresion-3d" },
+    ],
   },
   ca: {
     metaTitle: "Uneix-te a la Xarxa de Makers | Dimension3D",
@@ -327,6 +343,13 @@ const COPY: Record<string, MakersCopy> = {
     ],
     successTitle: "Sol·licitud rebuda!",
     successDesc: "Revisarem el teu perfil i et respondrem en 24 hores per email o WhatsApp.",
+    relatedHeading: "Abans de decidir — llegeix això primer",
+    relatedSubheading: "Tres guies honestes sobre la vessant de negoci d'una impressora 3D. Llegeix-les i decideix després si unir-te a la xarxa t'encaixa.",
+    relatedLinks: [
+      { label: "Cómo Ganar Dinero con una Impresora 3D", slug: "/como-ganar-dinero-con-impresora-3d" },
+      { label: "¿Es Rentable un Negocio de Impresión 3D?", slug: "/es-rentable-negocio-impresion-3d" },
+      { label: "Cómo Conseguir Clientes de Impresión 3D", slug: "/como-conseguir-clientes-impresion-3d" },
+    ],
   },
 };
 
@@ -858,6 +881,35 @@ const Makers = () => {
                   </form>
                 )}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 7.5 RELATED READING (business-side guides) ──────────── */}
+        <section className="py-16 md:py-20 bg-background border-t border-border/40">
+          <div className="container px-4 max-w-4xl mx-auto">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest mb-4">
+                <BookOpen className="w-3.5 h-3.5" />
+                {language === "ca" ? "Lectura complementària" : language === "es" ? "Lectura complementaria" : "Related reading"}
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">{c.relatedHeading}</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">{c.relatedSubheading}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {c.relatedLinks.map((r) => (
+                <Link
+                  key={r.slug}
+                  to={r.slug}
+                  className="group p-5 rounded-xl border border-border/50 bg-card hover:border-accent hover:card-shadow-hover transition-all"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <BookOpen className="w-5 h-5 text-accent" />
+                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-accent transition-all" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-sm leading-snug">{r.label}</h3>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
