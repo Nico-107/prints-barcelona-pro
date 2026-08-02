@@ -424,8 +424,8 @@ export const esTranslations: Record<string, string> = {
   "privacy.consent.change": "Cambiar preferencia",
 
   // DesignRequest page
-  "design.meta.title": "Diseña tu Pieza 3D sin Archivo | Dimension3D Barcelona",
-  "design.meta.description": "¿No tienes archivo 3D? Descríbenos tu pieza, sube una foto y nuestro equipo la diseña e imprime por ti en Barcelona.",
+  "design.meta.title": "Diseño 3D en Barcelona — Sin Archivo, Presupuesto en 1h",
+  "design.meta.description": "¿Necesitas diseño 3D en Barcelona? Envía una foto, un boceto o describe la pieza. Diseñamos e imprimimos por ti. Presupuesto gratis en 1h.",
   "design.hero.badge": "Sin archivo 3D",
   "design.hero.heading": "¿No tienes archivo 3D? No hace falta.",
   "design.hero.intro": "La mayoría de nuestros clientes llegan con una idea, una foto o una pieza rota — no con un archivo listo para imprimir. Descríbenos lo que necesitas y nos encargamos de todo.",

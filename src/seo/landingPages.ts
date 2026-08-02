@@ -94,8 +94,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/impresion-3d-barcelona",
     lang: "en",
     category: "service",
-    metaTitle: "3D Printing in Barcelona — Quote in 1h, Delivery 24–48h | Dimension3D",
-    metaDescription: "Professional 3D printing in Barcelona. Send your STL/STEP file — quote in under 1 hour, delivery in 24–48h. Functional parts, prototypes and custom prints. Local pickup or Spain-wide shipping.",
+    metaTitle: "3D Printing Service Barcelona — Quote in 1h, From 10€",
+    metaDescription: "Professional 3D printing service in Barcelona. Custom parts, prototypes and replacements. Free quote in under 1 hour. From 10€. Local pickup available.",
     h1: "3D Printing in Barcelona — Fast Quote, Professional Results",
     intro: "Dimension3D is a Barcelona-based 3D printing studio helping individuals, makers, engineers and small businesses bring physical parts to life — fast, clean and at a fair price. From a single replacement clip to a small batch of functional prototypes, we handle the full process locally in the city.",
     sections: [
@@ -274,8 +274,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/precio-impresion-3d-barcelona",
     lang: "en",
     category: "service",
-    metaTitle: "3D Printing Prices Barcelona — From 10€, Free Quote in 1h | Dimension3D",
-    metaDescription: "How much does 3D printing cost in Barcelona? Small parts from 10€. Transparent pricing by size, material and quantity. Free quote in under 1 hour, no commitment.",
+    metaTitle: "3D Printing Prices Barcelona — From 10€, Free Quote in 1h",
+    metaDescription: "How much does 3D printing cost in Barcelona? Small parts from 10€. Transparent pricing by size and material. Free quote in 1h, no commitment.",
     h1: "3D Printing Prices in Barcelona",
     intro: "One of the first questions every customer asks is: how much will my 3D print cost? On this page we explain exactly what drives the price of a 3D print in Barcelona, with realistic examples, so you can plan your project with no surprises.",
     sections: [

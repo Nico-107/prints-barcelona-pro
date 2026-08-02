@@ -424,8 +424,8 @@ export const caTranslations: Record<string, string> = {
   "privacy.consent.change": "Canviar preferència",
 
   // DesignRequest page
-  "design.meta.title": "Dissenya la teva Peça 3D sense Arxiu | Dimension3D Barcelona",
-  "design.meta.description": "Sense arxiu 3D? Descriu la teva peça, penja una foto i el nostre equip la dissenya i imprimeix per tu a Barcelona.",
+  "design.meta.title": "Disseny 3D a Barcelona — Sense Arxiu, Pressupost en 1h",
+  "design.meta.description": "Necessites disseny 3D a Barcelona? Envia una foto, un esbós o descriu la peça. La dissenyem i imprimim per tu. Pressupost gratis en 1h.",
   "design.hero.badge": "Sense arxiu 3D",
   "design.hero.heading": "No tens arxiu 3D? No cal.",
   "design.hero.intro": "La majoria dels nostres clients arriben amb una idea, una foto o una peça trencada — no amb un arxiu llest per imprimir. Descriu el que necessites i ens encarreguem de tot.",

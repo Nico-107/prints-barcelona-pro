@@ -1,0 +1,53 @@
+# Dimension3D
+
+> Professional FDM 3D printing service based in Barcelona, serving customers across Spain and Europe, with a maker network expanding to other cities.
+
+## Services
+
+- [Homepage](https://www.dimension3dprints.com/) — main site: file upload for a quote in under 1 hour, service overview, reviews, city coverage
+- [3D printing service (international)](https://www.dimension3dprints.com/3d-printing-service) — English landing page for customers outside Barcelona
+- [3D printing Barcelona](https://www.dimension3dprints.com/3d-printing-barcelona) — local Barcelona service page: quote in 1h, delivery in 24–48h
+- [3D printing for business](https://www.dimension3dprints.com/3d-printing-for-business-barcelona) — companies, engineering teams, short production runs, NDAs
+- [Urgent / express 3D printing](https://www.dimension3dprints.com/urgent-3d-printing-barcelona) — priority queue, 24–48h and same-day delivery for genuine emergencies
+- [Custom parts](https://www.dimension3dprints.com/custom-parts-barcelona) — parts from an STL/STEP file, a photograph, or measurements; no minimum order
+- [Prototype printing](https://www.dimension3dprints.com/prototype-printing-barcelona) — functional prototypes for startups, engineers and design students
+- [Replacement parts](https://www.dimension3dprints.com/replacement-parts-barcelona) — discontinued or broken plastic parts for appliances, furniture, vehicles
+
+## Guides
+
+- [How to choose a 3D printing service](https://www.dimension3dprints.com/how-to-choose-3d-printing-service-barcelona) — buyer's guide: what to ask, red flags, service-model comparison
+- [3D printing materials guide](https://www.dimension3dprints.com/3d-printing-materials-guide) — PLA, PETG, ABS, ASA, TPU, Nylon, CF composites with honest tradeoffs
+- [How to prepare a file for 3D printing](https://www.dimension3dprints.com/how-to-prepare-file-for-3d-printing) — accepted formats, wall thickness, tolerances, supports, hole sizing
+- [Best 3D printing service in Barcelona](https://www.dimension3dprints.com/best-3d-printing-service-barcelona) — practical breakdown by use case, honest about when we're not the right fit
+- [3D printing pricing (blog)](https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona) — Spanish blog post explaining what drives the price of a 3D print
+
+## For Makers
+
+- [Join the maker network](https://www.dimension3dprints.com/makers) — recruitment page: free to join, no signup fee, no commission, no exclusivity
+- [Maker network — how it works](https://www.dimension3dprints.com/maker-guide) — full walkthrough: how orders reach you, quoting, direct customer payment
+- [How to make money with a 3D printer](https://www.dimension3dprints.com/how-to-make-money-with-a-3d-printer) — six income paths (local, marketplaces, files, business, repair, networks) with realistic effort per path
+- [Is a 3D printing business profitable?](https://www.dimension3dprints.com/is-3d-printing-business-profitable) — real cost breakdown per gram, per hour, worked pricing example
+- [How to get 3D printing customers](https://www.dimension3dprints.com/how-to-get-3d-printing-customers) — customer acquisition tactics: Google Business, marketplaces, photography, pricing, response speed
+
+## Products
+
+- [Catálogo — product catalogue](https://www.dimension3dprints.com/catalogo) — index of ready-to-order customisable products
+- [Custom vase](https://www.dimension3dprints.com/catalogo/jarron-personalizado) — personalised 3D printed vase
+- [Custom name plate](https://www.dimension3dprints.com/catalogo/placa-nombre) — 3D printed name plate for door, desk or shelf
+- [Pet name plate](https://www.dimension3dprints.com/catalogo/placa-mascota) — 3D printed plate for pet collars, kennels, feeding bowls
+- [Phone stand](https://www.dimension3dprints.com/catalogo/soporte-telefono) — customisable 3D printed phone stand
+- [Wedding cake topper](https://www.dimension3dprints.com/catalogo/topper-boda) — personalised wedding cake topper made to order
+
+## Locations
+
+- [Madrid (Spanish page)](https://www.dimension3dprints.com/madrid) — local Madrid workshop presence and service
+- [3D printing Madrid (English)](https://www.dimension3dprints.com/3d-printing-madrid) — English-language Madrid landing page
+- [Delivery to Valencia](https://www.dimension3dprints.com/impresion-3d-con-entrega-a-valencia) — Barcelona-produced prints shipped to Valencia
+- [Delivery to Paris](https://www.dimension3dprints.com/3d-printing-delivery-paris) — cross-border delivery from Barcelona to Paris
+- [Delivery to London](https://www.dimension3dprints.com/3d-printing-delivery-london) — cross-border delivery from Barcelona to London
+- [Delivery to Amsterdam](https://www.dimension3dprints.com/3d-printing-delivery-amsterdam) — cross-border delivery from Barcelona to Amsterdam
+- [Delivery to Berlin](https://www.dimension3dprints.com/3d-printing-delivery-berlin) — cross-border delivery from Barcelona to Berlin
+- [Delivery to Milan](https://www.dimension3dprints.com/3d-printing-delivery-milan) — cross-border delivery from Barcelona to Milan
+- [Delivery to Rome](https://www.dimension3dprints.com/3d-printing-delivery-rome) — cross-border delivery from Barcelona to Rome
+- [Delivery to Lisbon](https://www.dimension3dprints.com/3d-printing-delivery-lisbon) — cross-border delivery from Barcelona to Lisbon
+- [Delivery to New York](https://www.dimension3dprints.com/3d-printing-delivery-new-york) — international delivery from Barcelona to New York

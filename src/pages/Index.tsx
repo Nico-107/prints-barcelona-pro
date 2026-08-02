@@ -29,21 +29,21 @@ const SITE_URL = "https://www.dimension3dprints.com";
 
 const HOME_META: Record<string, { title: string; description: string; locale: string }> = {
   es: {
-    title: `Impresión 3D en ${ACTIVE_CITY.cityName} | Dimension3D`,
+    title: `Impresión 3D en ${ACTIVE_CITY.cityName} — Desde 10€, Presupuesto en 1h`,
     description:
-      `Servicio profesional de impresión 3D en ${ACTIVE_CITY.cityName}. Piezas a medida, prototipos y urgentes. Presupuesto en menos de 1 hora.`,
+      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 10€, sin pedido mínimo. Recogida local o envío. 4,9/5.`,
     locale: "es_ES",
   },
   en: {
-    title: `3D Printing Service in ${ACTIVE_CITY.cityName} | Dimension3D`,
+    title: `3D Printing ${ACTIVE_CITY.cityName} — From 10€, Quote in Under 1 Hour`,
     description:
-      `Professional 3D printing in ${ACTIVE_CITY.cityName}. Custom parts, prototypes, urgent orders. Quote in under 1 hour.`,
+      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From 10€, no minimum order. Local pickup or shipping. 4.9/5.`,
     locale: "en_US",
   },
   ca: {
-    title: `Impressió 3D a ${ACTIVE_CITY.cityName} | Dimension3D`,
+    title: `Impressió 3D a ${ACTIVE_CITY.cityName} — Des de 10€, Pressupost en 1h`,
     description:
-      `Servei professional d'impressió 3D a ${ACTIVE_CITY.cityName}. Peces a mida, prototips i urgents. Pressupost en menys d'1 hora.`,
+      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 10€, sense comanda mínima. Recollida local o enviament. 4,9/5.`,
     locale: "ca_ES",
   },
 };

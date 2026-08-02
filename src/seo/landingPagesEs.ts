@@ -9,8 +9,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Impresión 3D en Barcelona — Presupuesto en 1h, Entrega 24–48h | Dimension3D",
-    metaDescription: "Servicio profesional de impresión 3D en Barcelona. Envía tu archivo STL/STEP — presupuesto en menos de 1 hora, entrega en 24–48h. Piezas funcionales, prototipos y piezas a medida. Recogida local o envío a España.",
+    metaTitle: "Servicio de Impresión 3D en Barcelona — Desde 10€, en 1h",
+    metaDescription: "Servicio profesional de impresión 3D en Barcelona. Piezas a medida, prototipos y recambios. Presupuesto en 1h, desde 10€. Recogida local o envío.",
     h1: "Impresión 3D en Barcelona — Presupuesto en 1h, Entrega Rápida",
     intro: "Dimension3D es un estudio de impresión 3D ubicado en Barcelona que ayuda a particulares, makers, ingenieros y pequeñas empresas a fabricar piezas físicas de forma rápida, limpia y a un precio justo. Desde un solo recambio hasta una pequeña tirada de prototipos funcionales, gestionamos todo el proceso de forma local en la ciudad.",
     sections: [
@@ -189,8 +189,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-price-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Precio Impresión 3D Barcelona — Desde 10€, Presupuesto Gratis en 1h | Dimension3D",
-    metaDescription: "¿Cuánto cuesta la impresión 3D en Barcelona? Piezas pequeñas desde 10€. Precios transparentes por tamaño, material y cantidad. Presupuesto gratis en menos de 1 hora, sin compromiso.",
+    metaTitle: "Precios Impresión 3D Barcelona — Desde 10€, Gratis en 1h",
+    metaDescription: "¿Cuánto cuesta la impresión 3D en Barcelona? Piezas desde 10€. Precios transparentes por tamaño y material. Presupuesto gratis en 1h, sin compromiso.",
     h1: "Precio de Impresión 3D en Barcelona",
     intro: "Una de las primeras preguntas de cualquier cliente es: ¿cuánto va a costar mi impresión 3D? En esta página explicamos exactamente qué determina el precio de una impresión 3D en Barcelona, con ejemplos realistas, para que puedas planificar tu proyecto sin sorpresas.",
     sections: [

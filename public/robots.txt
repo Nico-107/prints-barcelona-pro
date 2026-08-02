@@ -5,3 +5,4 @@ Disallow: /admin-makers
 Allow: /
 
 Sitemap: https://www.dimension3dprints.com/sitemap.xml
+# LLM guidance: https://www.dimension3dprints.com/llms.txt
