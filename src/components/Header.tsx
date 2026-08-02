@@ -74,7 +74,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             </svg>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-5">
+          <nav className="hidden xl:flex items-center gap-4">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -128,7 +128,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               </Link>
             </Button>
 
-            <div className="hidden xl:flex items-center gap-1.5 text-sm">
+            <div className="hidden 2xl:flex items-center gap-1.5 text-sm">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
@@ -149,7 +149,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             </Button>
           </nav>
 
-          <div className="lg:hidden flex items-center gap-3">
+          <div className="xl:hidden flex items-center gap-3">
             {!hideLanguageSelector && <LanguageSelector />}
             <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -158,7 +158,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
         </div>
 
         {isMenuOpen && (
-          <nav className="lg:hidden py-4 border-t border-border/50 max-h-[80vh] overflow-y-auto">
+          <nav className="xl:hidden py-4 border-t border-border/50 max-h-[80vh] overflow-y-auto">
             <div className="flex flex-col gap-2">
               {navItems.map((item) => (
                 <button
