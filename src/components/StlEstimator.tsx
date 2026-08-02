@@ -1,5 +1,5 @@
 import { useState, useRef, lazy, Suspense } from "react";
-import { FileBox, X, MessageCircle, ArrowRight, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle } from "lucide-react";
+import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,12 +14,12 @@ const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — 
 const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
 const MAX_FILES = 10;
 
-const GENERAL_MARGIN = 1.15;      // +15% across all quotes
-const SMALL_PART_MARGIN = 1.15;   // +15% extra on cheap parts
-const SMALL_PART_THRESHOLD = 20;  // apply extra margin when pre-floor price is <= this
-const MIN_PRICE = 10;             // absolute floor
-const RANGE_LOW_FLOOR = 10;       // displayed range low never shown below this
-const RANGE_HIGH_FLOOR = 20;      // displayed range high never shown below this
+const SETUP_FEE = 8;        // once per job: file check, slicing, plate prep, packaging, comms
+const RATE_PER_GRAM = 0.22; // material + machine time
+const MIN_PRICE = 10;       // absolute floor
+const RANGE_LOW_FLOOR = 10; // displayed range low never shown below this
+const RANGE_HIGH_FLOOR = 20;// displayed range high never shown below this
+const MULTICOLOUR_FEE = 20; // flat addition for multicolour jobs
 
 const URGENCY_TIERS = [
   { key: "standard", multiplier: 1.0 },
@@ -56,9 +56,17 @@ function wallFactor(loops: number): number {
 }
 
 // ─── STL parser ───────────────────────────────────────────────────────────────
-function parseStlVolume(buffer: ArrayBuffer): number {
-  const bytes = new Uint8Array(buffer);
 
+interface StlParseResult {
+  volumeMm3: number;
+  hasHeavyOverhangs: boolean;
+}
+
+// Faces with downward normal angle > 45° from vertical need supports.
+// nz < -cos(45°) ≈ -0.707 means the face points predominantly downward.
+const OVERHANG_NZ_THRESHOLD = -Math.cos(Math.PI / 4);
+
+function parseStl(buffer: ArrayBuffer): StlParseResult {
   const isBinary = (() => {
     if (buffer.byteLength < 84) return false;
     const dv = new DataView(buffer);
@@ -70,30 +78,84 @@ function parseStlVolume(buffer: ArrayBuffer): number {
     const dv = new DataView(buffer);
     const n = dv.getUint32(80, true);
     let vol = 0;
+    let totalArea = 0;
+    let overhangArea = 0;
+
     for (let i = 0; i < n; i++) {
-      const base = 84 + i * 50 + 12;
-      const x1 = dv.getFloat32(base,      true), y1 = dv.getFloat32(base + 4,  true), z1 = dv.getFloat32(base + 8,  true);
-      const x2 = dv.getFloat32(base + 12, true), y2 = dv.getFloat32(base + 16, true), z2 = dv.getFloat32(base + 20, true);
-      const x3 = dv.getFloat32(base + 24, true), y3 = dv.getFloat32(base + 28, true), z3 = dv.getFloat32(base + 32, true);
+      const base = 84 + i * 50;
+      // Stored face normal
+      const nz = dv.getFloat32(base + 8, true);
+
+      const vb = base + 12;
+      const x1 = dv.getFloat32(vb,      true), y1 = dv.getFloat32(vb + 4,  true), z1 = dv.getFloat32(vb + 8,  true);
+      const x2 = dv.getFloat32(vb + 12, true), y2 = dv.getFloat32(vb + 16, true), z2 = dv.getFloat32(vb + 20, true);
+      const x3 = dv.getFloat32(vb + 24, true), y3 = dv.getFloat32(vb + 28, true), z3 = dv.getFloat32(vb + 32, true);
+
       vol += (x1 * (y2 * z3 - y3 * z2) + y1 * (z2 * x3 - z3 * x2) + z1 * (x2 * y3 - x3 * y2)) / 6;
+
+      // Triangle area via cross product of edge vectors
+      const ax = x2 - x1, ay = y2 - y1, az = z2 - z1;
+      const bx = x3 - x1, by = y3 - y1, bz = z3 - z1;
+      const area = 0.5 * Math.sqrt(
+        (ay * bz - az * by) ** 2 +
+        (az * bx - ax * bz) ** 2 +
+        (ax * by - ay * bx) ** 2,
+      );
+      totalArea += area;
+      if (nz < OVERHANG_NZ_THRESHOLD) overhangArea += area;
     }
-    return Math.abs(vol);
+
+    return {
+      volumeMm3: Math.abs(vol),
+      hasHeavyOverhangs: totalArea > 0 && overhangArea / totalArea > 0.15,
+    };
   }
 
-  const text = new TextDecoder().decode(bytes);
-  const vertRe = /vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
+  // ASCII STL
+  const text = new TextDecoder().decode(new Uint8Array(buffer));
+  const normalRe = /facet\s+normal\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
+  const vertRe   = /vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
+
+  const normals: number[] = []; // nz values per triangle
+  let fm: RegExpExecArray | null;
+  while ((fm = normalRe.exec(text)) !== null) {
+    normals.push(parseFloat(fm[3])); // nz is the third component
+  }
+
   const verts: [number, number, number][] = [];
   let m: RegExpExecArray | null;
   while ((m = vertRe.exec(text)) !== null) {
     verts.push([parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3])]);
   }
   if (verts.length % 3 !== 0) throw new Error("Malformed ASCII STL");
+
   let vol = 0;
+  let totalArea = 0;
+  let overhangArea = 0;
+
   for (let i = 0; i < verts.length; i += 3) {
     const [x1, y1, z1] = verts[i], [x2, y2, z2] = verts[i + 1], [x3, y3, z3] = verts[i + 2];
     vol += (x1 * (y2 * z3 - y3 * z2) + y1 * (z2 * x3 - z3 * x2) + z1 * (x2 * y3 - x3 * y2)) / 6;
+
+    const ax = x2 - x1, ay = y2 - y1, az = z2 - z1;
+    const bx = x3 - x1, by = y3 - y1, bz = z3 - z1;
+    const area = 0.5 * Math.sqrt(
+      (ay * bz - az * by) ** 2 +
+      (az * bx - ax * bz) ** 2 +
+      (ax * by - ay * bx) ** 2,
+    );
+    totalArea += area;
+
+    const triIdx = i / 3;
+    if (triIdx < normals.length && normals[triIdx] < OVERHANG_NZ_THRESHOLD) {
+      overhangArea += area;
+    }
   }
-  return Math.abs(vol);
+
+  return {
+    volumeMm3: Math.abs(vol),
+    hasHeavyOverhangs: totalArea > 0 && overhangArea / totalArea > 0.15,
+  };
 }
 
 // ─── Bundle pricing ───────────────────────────────────────────────────────────
@@ -106,6 +168,7 @@ interface ParsedFile {
   qty: number;
   file?: File;        // original File object for upload; undefined on parse error
   parseError?: string;
+  hasHeavyOverhangs?: boolean;
 }
 
 interface BundleEstimate {
@@ -116,15 +179,11 @@ interface BundleEstimate {
   total: number;
   low: number;
   high: number;
-  qtyDiscount: number;
+  supportHeavy: boolean;
 }
 
 function applyMargin(rawPrice: number): number {
-  let price = rawPrice * GENERAL_MARGIN;
-  if (price <= SMALL_PART_THRESHOLD) {
-    price = price * SMALL_PART_MARGIN;
-  }
-  return Math.max(price, MIN_PRICE);
+  return Math.max(rawPrice, MIN_PRICE);
 }
 
 function computeBundle(
@@ -133,6 +192,7 @@ function computeBundle(
   infillPct: number,
   wallLoops: number,
   urgencyMultiplier: number = 1.0,
+  multicolour: boolean = false,
 ): BundleEstimate | null {
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -149,17 +209,20 @@ function computeBundle(
   if (totalUnits === 0) return null;
 
   const totalHours = totalGrams / 28;
-  const bundleRaw = (totalGrams * 0.10 + totalHours * 0.50) * mat.multiplier;
-  // Apply urgency multiplier AFTER margin, BEFORE qty discount and range floors
+  const bundleRaw = SETUP_FEE + totalGrams * RATE_PER_GRAM * mat.multiplier + (multicolour ? MULTICOLOUR_FEE : 0);
   const bundlePrice = applyMargin(bundleRaw) * urgencyMultiplier;
+  const total = bundlePrice;
 
-  const qtyDiscount =
-    totalUnits >= 50 ? 0.15 :
-    totalUnits >= 25 ? 0.10 :
-    totalUnits >= 10 ? 0.05 : 0;
-  const total = bundlePrice * (1 - qtyDiscount);
+  const supportHeavy = files.some(f => !f.parseError && f.hasHeavyOverhangs);
+  // Overhang uncertainty goes only into the upper bound — supports are volatile
+  const highMultiplier = supportHeavy ? 1.15 * 1.10 : 1.15;
 
-  return { totalGrams, totalHours, totalUnits, bundlePrice, total, low: Math.max(total * 0.85, RANGE_LOW_FLOOR), high: Math.max(total * 1.15, RANGE_HIGH_FLOOR), qtyDiscount };
+  return {
+    totalGrams, totalHours, totalUnits, bundlePrice, total,
+    low:  Math.max(total * 0.85, RANGE_LOW_FLOOR),
+    high: Math.max(total * highMultiplier, RANGE_HIGH_FLOOR),
+    supportHeavy,
+  };
 }
 
 // ─── Section heading — action-oriented copy per language ──────────────────────
@@ -198,6 +261,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [infillPct, setInfillPct] = useState(15);
   const [wallLoops, setWallLoops] = useState(2);
   const [urgency, setUrgency] = useState<"standard" | "express" | "urgent">("standard");
+  const [multicolour, setMulticolour] = useState(false);
 
   // Quote submission state
   const [contactEmail, setContactEmail] = useState("");
@@ -222,7 +286,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const urgencyMultiplier = URGENCY_TIERS.find(t => t.key === urgency)?.multiplier ?? 1.0;
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
-  const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier) : null;
+  const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier, multicolour) : null;
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -260,8 +324,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
       try {
         const buf = await f.arrayBuffer();
-        const vol = parseStlVolume(buf);
-        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: vol, qty: 1, file: f });
+        const { volumeMm3, hasHeavyOverhangs } = parseStl(buf);
+        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: f, hasHeavyOverhangs });
       } catch {
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
       }
@@ -274,7 +338,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     if (!adminMode) {
       const urgMult = URGENCY_TIERS.find(t => t.key === urgency)?.multiplier ?? 1.0;
-      const nextBundle = computeBundle(nextFiles, materialKey, infillPct, wallLoops, urgMult);
+      const nextBundle = computeBundle(nextFiles, materialKey, infillPct, wallLoops, urgMult, multicolour);
       if (nextBundle) {
         estimateShownRef.current = true;
         capture('estimate_generated', {
@@ -286,6 +350,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           price_low: Math.round(nextBundle.low),
           price_high: Math.round(nextBundle.high),
           file_count: nextFiles.filter(f => !f.parseError).length,
+          multicolour,
         });
 
         // Trigger mobile modal once per estimate
@@ -303,6 +368,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const capturedLang = language;
         const capturedWallLoops = wallLoops;
         const capturedUrgency = urgency;
+        const capturedMulticolour = multicolour;
 
         (async () => {
           const uploadTimestamp = Date.now();
@@ -342,7 +408,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   file_paths: uploadedPaths,
                   file_names: uploadedNames,
                   status: "uploaded",
-                })
+                  multicolour: capturedMulticolour,
+                } as any)
                 .select("id")
                 .single();
               quoteRequestIdRef.current = qrData?.id ?? null;
@@ -359,7 +426,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             const volCm3 = f.volumeMm3 / 1000;
             const gr = volCm3 * matObj.density * effFill;
             const hrs = gr / 28;
-            const unitPrice = applyMargin((gr * 0.10 + hrs * 0.50) * matObj.multiplier);
+            const unitPrice = Math.max(RATE_PER_GRAM * gr * matObj.multiplier, MIN_PRICE);
             supabaseAnon.from("price_estimates").insert({
               volume_cm3: volCm3,
               material: materialKey,
@@ -373,9 +440,25 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               file_paths: uploadedPaths,
               file_names: uploadedNames,
               language: capturedLang,
+              multicolour: capturedMulticolour,
             }).then(({ error: dbErr }) => {
               if (dbErr) console.error("price_estimates insert error:", dbErr);
             });
+            supabase.functions.invoke("send-price-estimate", {
+              body: {
+                fileName: f.name,
+                material: materialKey,
+                infillPct: capturedInfill,
+                quantity: f.qty,
+                volumeCm3: volCm3,
+                grams: gr,
+                estHours: hrs,
+                priceLow: Math.max(unitPrice * 0.85, RANGE_LOW_FLOOR),
+                priceHigh: Math.max(unitPrice * 1.15, RANGE_HIGH_FLOOR),
+                filePaths: uploadedPaths,
+                language: capturedLang,
+              },
+            }).catch(console.error);
           }
         })();
       }
@@ -495,6 +578,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         estimated_price_low: Math.round(bundle!.low),
         estimated_price_high: Math.round(bundle!.high),
         color: !!colorPref.trim(),
+        multicolour,
       });
       estimateShownRef.current = false;
 
@@ -517,7 +601,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_paths: uploadedPaths,
           file_names: uploadedNames,
           status: "pending",
-        }).eq("id", quoteRequestIdRef.current).then(({ error: dbErr }) => {
+          multicolour,
+        } as any).eq("id", quoteRequestIdRef.current).then(({ error: dbErr }) => {
           if (dbErr) console.error("quote_requests update error:", dbErr.message, dbErr);
         }).catch(e => console.error("quote_requests update threw:", e));
       } else {
@@ -537,7 +622,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           estimated_price_high: bundle!.high,
           file_paths: uploadedPaths,
           file_names: uploadedNames,
-        }).then(({ error: dbErr }) => {
+          multicolour,
+        } as any).then(({ error: dbErr }) => {
           if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
         }).catch(e => console.error("quote_requests insert threw:", e));
       }
@@ -560,6 +646,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           priceLow: bundle!.low,
           priceHigh: bundle!.high,
           language,
+          multicolour,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
     } catch (err: any) {
@@ -574,6 +661,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     onDragLeave: () => setIsDragging(false),
     onDrop: handleDrop,
   };
+
+  // Price display — multicolour shows "from €X", normal shows "~€X–Y"
+  const priceDisplay = bundle
+    ? multicolour
+      ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}`
+      : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
+    : "";
 
   // Shared contact form content — used in both inline block and mobile modal
   const contactFormContent = (
@@ -826,6 +920,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </select>
         </div>
 
+        {/* Multicolour toggle */}
+        <div className="mt-2">
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={multicolour}
+              onChange={e => setMulticolour(e.target.checked)}
+              className="h-4 w-4 rounded border-input accent-accent"
+            />
+            <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
+          </label>
+        </div>
+
         {/* Top-level error */}
         {error && (
           <div className="mt-4 flex items-center gap-2 text-sm text-destructive bg-destructive/8 border border-destructive/20 rounded-lg px-4 py-3">
@@ -859,17 +966,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
               <div className="flex items-baseline gap-2 mb-3">
                 <span className="text-3xl font-bold text-foreground">
-                  ~€{bundle.low.toFixed(0)}–{bundle.high.toFixed(0)}
+                  {priceDisplay}
                 </span>
               </div>
 
               <p className="text-sm text-muted-foreground mb-1">
                 {validFiles.length} file{validFiles.length !== 1 ? "s" : ""} · {bundle.totalUnits} unit{bundle.totalUnits !== 1 ? "s" : ""}
-                {bundle.qtyDiscount > 0 && (
-                  <> · <span className="text-accent font-medium">
-                    {t("calc.result.qty").replace("{discount}", String(Math.round(bundle.qtyDiscount * 100)))}
-                  </span></>
-                )}
               </p>
 
               {!adminMode && (
@@ -877,6 +979,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <p className="text-xs text-muted-foreground/70 mt-3 italic">
                     {t("calc.result.disclaimer")}
                   </p>
+                  {bundle.supportHeavy && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+                      {t("calc.overhang.note")}
+                    </p>
+                  )}
+                  {multicolour && (
+                    <p className="text-xs text-accent mt-2 bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
+                      {t("calc.multicolour.note")}
+                    </p>
+                  )}
                   <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">
                     ¿Eres estudiante? Menciona tu universidad al confirmar tu presupuesto y obtén un 20% de descuento.
                   </p>
@@ -943,11 +1055,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         <Dialog open={mobileModalOpen} onOpenChange={setMobileModalOpen}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle className="text-accent text-2xl font-bold">
-                ~€{bundle.low.toFixed(0)}–{bundle.high.toFixed(0)}
-              </DialogTitle>
+              <div className="text-accent text-2xl font-bold">
+                {priceDisplay}
+              </div>
             </DialogHeader>
             <p className="text-sm text-muted-foreground -mt-2 mb-2">{t("calc.result.disclaimer")}</p>
+            {bundle.supportHeavy && (
+              <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2 mb-2">
+                {t("calc.overhang.note")}
+              </p>
+            )}
+            {multicolour && (
+              <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2 mb-2">
+                {t("calc.multicolour.note")}
+              </p>
+            )}
             {isSubmittedQuote ? (
               <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
                 <CheckCircle className="w-7 h-7 text-whatsapp mx-auto mb-2" />

@@ -336,6 +336,12 @@ export const frTranslations: Record<string, string> = {
   // Contact block reassurance
   "calc.contact.reassure": "Envoyez vos fichiers et nous confirmons le prix exact — généralement en moins d'1 heure",
 
+  // Multicolour & overhang
+  "calc.multicolour.label": "Impression multicolore",
+  "calc.multicolour.note": "Les travaux multicolores nécessitent un devis manuel. Nous vous recontacterons.",
+  "calc.multicolour.from": "à partir de",
+  "calc.overhang.note": "Cette pièce peut nécessiter des supports — le prix élevé en tient compte.",
+
   // WhatsApp
   "whatsapp.tooltip": "Discutons",
   "whatsapp.message": "Bonjour, je souhaite obtenir un devis pour un service d'impression 3D chez Dimension3D.",

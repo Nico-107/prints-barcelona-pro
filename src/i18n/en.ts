@@ -337,6 +337,12 @@ export const enTranslations: Record<string, string> = {
   // Contact block reassurance
   "calc.contact.reassure": "Send your files and we'll confirm the exact price — usually within 1 hour",
 
+  // Multicolour & overhang
+  "calc.multicolour.label": "Multicolour printing",
+  "calc.multicolour.note": "Multicolour jobs require manual quoting. We will get back to you.",
+  "calc.multicolour.from": "from",
+  "calc.overhang.note": "This part may need supports — the high price reflects that possibility.",
+
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
   "whatsapp.message": "Hello, I'd like to request a 3D printing service from Dimension3D.",

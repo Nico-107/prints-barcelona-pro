@@ -336,6 +336,12 @@ export const nlTranslations: Record<string, string> = {
   // Contact block reassurance
   "calc.contact.reassure": "Stuur uw bestanden en wij bevestigen de exacte prijs — doorgaans binnen 1 uur",
 
+  // Multicolour & overhang
+  "calc.multicolour.label": "Meerkleurig printen",
+  "calc.multicolour.note": "Meerkleurige opdrachten vereisen een handmatige offerte. We nemen contact met u op.",
+  "calc.multicolour.from": "vanaf",
+  "calc.overhang.note": "Dit onderdeel heeft mogelijk ondersteuning nodig — de hoge prijs houdt hier rekening mee.",
+
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",
   "whatsapp.message": "Hallo, ik wil graag een 3D printservice aanvragen bij Dimension3D.",

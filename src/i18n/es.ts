@@ -337,6 +337,12 @@ export const esTranslations: Record<string, string> = {
   // Contact block reassurance
   "calc.contact.reassure": "Envía tus archivos y confirmamos el precio exacto — normalmente en menos de 1 hora",
 
+  // Multicolour & overhang
+  "calc.multicolour.label": "Impresión multicolor",
+  "calc.multicolour.note": "Los trabajos en varios colores requieren presupuesto manual. Nos pondremos en contacto contigo.",
+  "calc.multicolour.from": "desde",
+  "calc.overhang.note": "Esta pieza puede necesitar soportes — el precio alto refleja esa posibilidad.",
+
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",
   "whatsapp.message": "Hola, me gustaría solicitar un presupuesto para impresión 3D",
