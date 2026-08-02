@@ -342,6 +342,12 @@ export const nlTranslations: Record<string, string> = {
   "calc.multicolour.from": "vanaf",
   "calc.overhang.note": "Dit onderdeel heeft mogelijk ondersteuning nodig — de hoge prijs houdt hier rekening mee.",
 
+  // Upload status
+  "calc.upload.status.uploading": "Bestand wordt verzonden...",
+  "calc.upload.status.slow": "Groot bestand, nog aan het uploaden — even geduld",
+  "calc.upload.status.done": "Bestand succesvol verzonden",
+  "calc.upload.status.failed": "Upload mislukt — stuur via WhatsApp",
+
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",
   "whatsapp.message": "Hallo, ik wil graag een 3D printservice aanvragen bij Dimension3D.",

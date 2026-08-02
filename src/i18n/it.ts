@@ -342,6 +342,12 @@ export const itTranslations: Record<string, string> = {
   "calc.multicolour.from": "da",
   "calc.overhang.note": "Questo pezzo potrebbe richiedere supporti — il prezzo alto tiene conto di questa possibilità.",
 
+  // Upload status
+  "calc.upload.status.uploading": "Invio del file in corso...",
+  "calc.upload.status.slow": "File grande, caricamento in corso — attendere prego",
+  "calc.upload.status.done": "File inviato con successo",
+  "calc.upload.status.failed": "Caricamento fallito — invia via WhatsApp",
+
   // WhatsApp
   "whatsapp.tooltip": "Chatta con noi",
   "whatsapp.message": "Salve, vorrei richiedere un preventivo per un servizio di stampa 3D da Dimension3D.",

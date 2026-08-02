@@ -343,6 +343,12 @@ export const esTranslations: Record<string, string> = {
   "calc.multicolour.from": "desde",
   "calc.overhang.note": "Esta pieza puede necesitar soportes — el precio alto refleja esa posibilidad.",
 
+  // Upload status
+  "calc.upload.status.uploading": "Enviando tu archivo...",
+  "calc.upload.status.slow": "Archivo grande, cargando... por favor espera",
+  "calc.upload.status.done": "Archivo enviado correctamente",
+  "calc.upload.status.failed": "Error al subir el archivo — envíalo por WhatsApp",
+
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",
   "whatsapp.message": "Hola, me gustaría solicitar un presupuesto para impresión 3D",
