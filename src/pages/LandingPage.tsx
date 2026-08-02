@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2, Wrench, Users } from "lucide-react";
+import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -46,6 +46,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
     isDe ? (de ?? en) : (isCa || isEs) ? es : en;
   const url = `${SITE_URL}${page.slug}`;
   const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
+
+  // Pages authored for makers (people who own a 3D printer and want income
+  // from it) — CTAs route to the maker network funnel instead of a print
+  // quote. audience defaults to "customer", preserving old behaviour.
+  const isMaker = page.audience === "maker";
+  const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks");
+  const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es");
 
   const trustBadges = [
     { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`, `Standort ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
@@ -163,16 +170,35 @@ const LandingPage = ({ page: pageProp }: Props) => {
                 {page.intro}
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button asChild variant="accent" size="lg" className="gap-2">
-                  <Link to={isEs ? "/#upload" : "/#upload"}>
-                    <Upload className="w-4 h-4" />
-                    {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
-                  <MessageCircle className="w-4 h-4" />
-                  {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren")}
-                </Button>
+                {isMaker ? (
+                  <>
+                    <Button asChild variant="accent" size="lg" className="gap-2">
+                      <Link to="/makers">
+                        <Users className="w-4 h-4" />
+                        {makerJoinLabel}
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" size="lg" className="gap-2">
+                      <Link to="/maker-guide">
+                        <BookOpen className="w-4 h-4" />
+                        {makerHowLabel}
+                      </Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button asChild variant="accent" size="lg" className="gap-2">
+                      <Link to={isEs ? "/#upload" : "/#upload"}>
+                        <Upload className="w-4 h-4" />
+                        {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
+                      </Link>
+                    </Button>
+                    <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
+                      <MessageCircle className="w-4 h-4" />
+                      {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren")}
+                    </Button>
+                  </>
+                )}
               </div>
 
               {/* Trust badges */}
@@ -199,23 +225,64 @@ const LandingPage = ({ page: pageProp }: Props) => {
           const Icon = SECTION_ICONS[i % SECTION_ICONS.length];
           const isAlt = i % 2 === 1;
           return (
-            <section key={i} className={`py-16 md:py-20 ${isAlt ? "bg-secondary/30" : "bg-background"}`}>
-              <div className="container px-4">
-                <div className="max-w-3xl mx-auto">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${isMadrid ? "bg-orange-50" : "bg-accent/10"}`}>
-                      <Icon className={`w-6 h-6 ${isMadrid ? "text-orange-700" : "text-accent"}`} />
+            <Fragment key={i}>
+              <section className={`py-16 md:py-20 ${isAlt ? "bg-secondary/30" : "bg-background"}`}>
+                <div className="container px-4">
+                  <div className="max-w-3xl mx-auto">
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${isMadrid ? "bg-orange-50" : "bg-accent/10"}`}>
+                        <Icon className={`w-6 h-6 ${isMadrid ? "text-orange-700" : "text-accent"}`} />
+                      </div>
+                      <h2 className="text-2xl md:text-3xl font-bold text-foreground pt-1.5">{s.heading}</h2>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-foreground pt-1.5">{s.heading}</h2>
-                  </div>
-                  <div className="text-muted-foreground leading-relaxed space-y-4 md:pl-16">
-                    {s.body.split("\n\n").map((p, j) => (
-                      <p key={j} className="whitespace-pre-line">{p}</p>
-                    ))}
+                    <div className="text-muted-foreground leading-relaxed space-y-4 md:pl-16">
+                      {s.body.split("\n\n").map((p, j) => (
+                        <p key={j} className="whitespace-pre-line">{p}</p>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+
+              {/* Mid-article maker CTA band — fires once, right after section 2 */}
+              {isMaker && i === 1 && (
+                <section className="py-8 md:py-12 bg-background">
+                  <div className="container px-4">
+                    <div className="max-w-3xl mx-auto rounded-2xl border-2 border-accent/40 bg-accent/5 p-6 md:p-8">
+                      <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+                        {t(
+                          "Prefer orders that come to you?",
+                          "¿Prefieres que los pedidos lleguen solos?",
+                          "Lieber Aufträge, die zu dir kommen?"
+                        )}
+                      </h3>
+                      <p className="text-muted-foreground mb-5">
+                        {t(
+                          "Free to join, no commission, no exclusivity — orders from your area go directly to you.",
+                          "Unirse es gratis, sin comisión, sin exclusividad — los pedidos de tu zona van directamente a ti.",
+                          "Kostenloser Beitritt, keine Provision, keine Exklusivität — Aufträge aus deiner Region gehen direkt an dich."
+                        )}
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Button asChild variant="accent" size="lg" className="gap-2">
+                          <Link to="/makers">
+                            <Users className="w-4 h-4" />
+                            {makerJoinLabel}
+                            <ArrowRight className="w-4 h-4" />
+                          </Link>
+                        </Button>
+                        <Button asChild variant="outline" size="lg" className="gap-2">
+                          <Link to="/maker-guide">
+                            <BookOpen className="w-4 h-4" />
+                            {makerHowLabel}
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              )}
+            </Fragment>
           );
         })}
 
@@ -240,20 +307,49 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {/* CTA */}
         <section className="hero-gradient py-16 md:py-20">
           <div className="container px-4 text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-              {t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?")}
-            </h2>
-            <p className="text-lg text-primary-foreground/80 mb-8">
-              {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.")}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button asChild variant="accent" size="xl" className="shadow-lg">
-                <Link to="/#upload"><Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen")}</Link>
-              </Button>
-              <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
-                <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp", "WhatsApp")}
-              </Button>
-            </div>
+            {isMaker ? (
+              <>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+                  {t(
+                    "Start earning with your 3D printer",
+                    "Empieza a ganar con tu impresora 3D",
+                    "Verdiene Geld mit deinem 3D-Drucker"
+                  )}
+                </h2>
+                <p className="text-lg text-primary-foreground/80 mb-8">
+                  {t(
+                    "Free to join. No fees, no commission, no exclusivity. Orders from your area go to you.",
+                    "Unirse es gratis. Sin cuotas, sin comisión, sin exclusividad. Los pedidos de tu zona van para ti.",
+                    "Kostenloser Beitritt. Keine Gebühren, keine Provision, keine Exklusivität. Aufträge aus deiner Region gehen an dich."
+                  )}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button asChild variant="accent" size="xl" className="shadow-lg gap-2">
+                    <Link to="/makers"><Users className="w-5 h-5" /> {makerJoinLabel}</Link>
+                  </Button>
+                  <Button asChild variant="hero-outline" size="xl" className="gap-2">
+                    <Link to="/maker-guide"><BookOpen className="w-5 h-5" /> {makerHowLabel}</Link>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+                  {t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?")}
+                </h2>
+                <p className="text-lg text-primary-foreground/80 mb-8">
+                  {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.")}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button asChild variant="accent" size="xl" className="shadow-lg">
+                    <Link to="/#upload"><Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen")}</Link>
+                  </Button>
+                  <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
+                    <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp", "WhatsApp")}
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </section>
 
