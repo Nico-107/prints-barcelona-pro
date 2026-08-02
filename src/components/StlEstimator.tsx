@@ -617,7 +617,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
         } as any).eq("id", quoteRequestIdRef.current).then(({ error: dbErr }) => {
           if (dbErr) console.error("quote_requests update error:", dbErr.message, dbErr);
-        }, (e => console.error("quote_requests update threw:", e));
+        }, e => console.error("quote_requests update threw:", e));
       } else {
         // Fallback: early insert failed — create the row now with full contact info
         supabaseAnon.from("quote_requests").insert({
@@ -638,7 +638,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
         } as any).then(({ error: dbErr }) => {
           if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
-        }, (e => console.error("quote_requests insert threw:", e));
+        }, e => console.error("quote_requests insert threw:", e));
       }
 
       // Email — fire-and-forget
@@ -661,7 +661,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           language,
           multicolour,
         },
-      }, (e => console.error("send-quote-request failed:", e));
+      }, e => console.error("send-quote-request failed:", e));
     } catch (err: any) {
       setIsSubmittingQuote(false);
       setQuoteError(t("calc.contact.uploadError"));
