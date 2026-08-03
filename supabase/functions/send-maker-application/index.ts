@@ -117,8 +117,8 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Dimension3D <onboarding@resend.dev>",
-        to: ["011107miko@gmail.com"],
+        from: "Dimension3D <noreply@dimension3dprints.com>",
+        to: ["dimension3dprintsbcn@gmail.com"],
         subject: `Nueva solicitud de maker — ${safeName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

@@ -2,7 +2,6 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "011107miko@gmail.com";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
@@ -199,8 +198,8 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Dimension3D <onboarding@resend.dev>",
-        to: ["011107miko@gmail.com"],
+        from: "Dimension3D <noreply@dimension3dprints.com>",
+        to: ["dimension3dprintsbcn@gmail.com"],
         subject: `📝 Nueva reseña de cliente – Pendiente de aprobación (${starsDisplay})`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
