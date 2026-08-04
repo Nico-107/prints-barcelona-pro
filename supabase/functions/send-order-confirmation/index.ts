@@ -158,7 +158,7 @@ serve(async (req: Request) => {
 
     const resendBody = {
       from: "Dimension3D <noreply@dimension3dprints.com>",
-      to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
+      to: safeEmail ? [safeEmail, "dimension3dprintsbcn@gmail.com"] : ["dimension3dprintsbcn@gmail.com"],
       subject,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">

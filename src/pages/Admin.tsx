@@ -91,6 +91,8 @@ interface PriceEstimate {
   price_high: number;
   language: string | null;
   created_at: string;
+  file_paths: string[] | null;
+  file_names: string[] | null;
 }
 
 interface QuoteRequest {
@@ -373,7 +375,7 @@ const Admin = () => {
         for (const entry of res.data.signedUrls as { path: string; url: string | null }[]) {
           if (entry.url) map[entry.path] = entry.url;
         }
-        setSignedUrlMap(map);
+        setSignedUrlMap(prev => ({ ...prev, ...map }));
       }
     } catch (e) {
       console.error("admin-sign-urls error:", e);
@@ -520,8 +522,29 @@ const Admin = () => {
     setEstimatesLoading(true);
     try {
       const { data, error } = await (supabase as any).from("price_estimates").select("*").order("created_at", { ascending: false }).limit(100);
-      if (error) { setEstimatesUnavailable(true); }
-      else { setEstimates((data || []) as PriceEstimate[]); }
+      if (error) { setEstimatesUnavailable(true); return; }
+      const rows = (data || []) as PriceEstimate[];
+      setEstimates(rows);
+
+      // Fetch signed URLs for file_paths on price_estimates and merge into the shared map.
+      const allPaths = [...new Set(rows.flatMap(r => r.file_paths ?? []))];
+      if (allPaths.length === 0) return;
+      try {
+        const { data: { session: s } } = await supabase.auth.getSession();
+        const res = await supabase.functions.invoke("admin-sign-urls", {
+          body: { paths: allPaths },
+          headers: s?.access_token ? { Authorization: `Bearer ${s.access_token}` } : {},
+        });
+        if (!res.error && res.data?.signedUrls) {
+          const map: Record<string, string> = {};
+          for (const entry of res.data.signedUrls as { path: string; url: string | null }[]) {
+            if (entry.url) map[entry.path] = entry.url;
+          }
+          setSignedUrlMap(prev => ({ ...prev, ...map }));
+        }
+      } catch (e) {
+        console.error("admin-sign-urls (estimates) error:", e);
+      }
     } catch {
       setEstimatesUnavailable(true);
     } finally {
@@ -950,7 +973,7 @@ const Admin = () => {
                   <table className="w-full text-sm">
                     <thead className="bg-slate-50 border-b border-slate-200">
                       <tr className="text-left">
-                        {["Date", "File", "Material", "Infill", "Qty", "Grams", "Hours", "Range"].map(h => (
+                        {["Date", "File", "Material", "Infill", "Qty", "Grams", "Hours", "Range", "Files"].map(h => (
                           <th key={h} className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap">{h}</th>
                         ))}
                       </tr>
@@ -968,6 +991,35 @@ const Admin = () => {
                           <td className="px-4 py-3 text-slate-600">{Number(e.grams).toFixed(1)} g</td>
                           <td className="px-4 py-3 text-slate-600">{Number(e.est_hours).toFixed(1)} h</td>
                           <td className="px-4 py-3 font-semibold text-slate-800">€{Number(e.price_low).toFixed(0)}–{Number(e.price_high).toFixed(0)}</td>
+                          <td className="px-4 py-3">
+                            {e.file_paths && e.file_paths.length > 0 ? (
+                              <div className="flex flex-wrap gap-1.5">
+                                {e.file_paths.map((path, i) => {
+                                  const url = signedUrlMap[path];
+                                  const label = e.file_names?.[i] || path.replace(/^\d+-/, "").replace(/_/g, " ");
+                                  const shown = label.length > 30 ? label.slice(0, 30) + "…" : label;
+                                  return url ? (
+                                    <a
+                                      key={path}
+                                      href={url}
+                                      download
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-xs font-medium text-slate-700 hover:text-amber-700 transition-colors"
+                                    >
+                                      <Download className="w-3.5 h-3.5" />
+                                      {shown}
+                                    </a>
+                                  ) : (
+                                    <span key={path} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs text-slate-400">
+                                      <Download className="w-3.5 h-3.5" />
+                                      {shown}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            ) : null}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

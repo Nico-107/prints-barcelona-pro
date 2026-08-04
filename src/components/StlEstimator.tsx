@@ -392,7 +392,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             // Create quote_requests row immediately — visible in admin before contact info arrives
             try {
               const newId = crypto.randomUUID();
-              await supabaseAnon
+              const { error: insertErr } = await supabaseAnon
                 .from("quote_requests")
                 .insert({
                   id: newId,
@@ -413,9 +413,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   status: "uploaded",
                   multicolour: capturedMulticolour,
                 } as any);
-              quoteRequestIdRef.current = newId;
+              if (insertErr) {
+                // Don't set the ref if insert failed — submit path will upsert with a fresh id.
+                console.error("quote_requests early insert failed:", insertErr);
+              } else {
+                quoteRequestIdRef.current = newId;
+              }
             } catch (qrErr) {
-              console.error("quote_requests early insert failed:", qrErr);
+              console.error("quote_requests early insert threw:", qrErr);
             }
           } catch (e) {
             console.error("Pre-estimate upload failed:", e);
@@ -591,10 +596,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       });
       estimateShownRef.current = false;
 
-      // DB write — update the row created at estimate time, or insert fresh if that failed.
+      // DB write — try UPDATE on the early-created row; if that errors (or the row is missing),
+      // upsert with the same id so contact details are never lost. Fire-and-forget from the
+      // user's perspective — wrapped in an IIFE so the outer submit flow doesn't wait on it.
       // Use anon client so an admin session in localStorage doesn't trigger a 42501 error.
-      if (quoteRequestIdRef.current) {
-        supabaseAnon.from("quote_requests").update({
+      (async () => {
+        const payload = {
           contact_email: contactEmail.trim() || null,
           contact_phone: contactPhone.trim() || null,
           color: colorPref.trim() || null,
@@ -611,31 +618,43 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_names: uploadedNames,
           status: "pending",
           multicolour,
-        } as any).eq("id", quoteRequestIdRef.current).then(({ error: dbErr }) => {
-          if (dbErr) console.error("quote_requests update error:", dbErr.message, dbErr);
-        }).catch(e => console.error("quote_requests update threw:", e));
-      } else {
-        // Fallback: early insert failed — create the row now with full contact info
-        supabaseAnon.from("quote_requests").insert({
-          contact_email: contactEmail.trim() || null,
-          contact_phone: contactPhone.trim() || null,
-          material: materialKey,
-          color: colorPref.trim() || null,
-          infill: `${infillPct}%`,
-          wall_loops: wallLoops,
-          urgency,
-          quantity: bundle!.totalUnits,
-          estimated_grams: bundle!.totalGrams,
-          estimated_hours: bundle!.totalHours,
-          estimated_price_low: bundle!.low,
-          estimated_price_high: bundle!.high,
-          file_paths: uploadedPaths,
-          file_names: uploadedNames,
-          multicolour,
-        } as any).then(({ error: dbErr }) => {
-          if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
-        }).catch(e => console.error("quote_requests insert threw:", e));
-      }
+        };
+
+        let needsFallback = !quoteRequestIdRef.current;
+
+        if (quoteRequestIdRef.current) {
+          try {
+            const updateResult = await supabaseAnon
+              .from("quote_requests")
+              .update(payload as any)
+              .eq("id", quoteRequestIdRef.current);
+            if (updateResult.error) {
+              console.error(
+                "quote_requests update failed — falling back to upsert:",
+                updateResult.error,
+              );
+              needsFallback = true;
+            }
+          } catch (e) {
+            console.error("quote_requests update threw — falling back to upsert:", e);
+            needsFallback = true;
+          }
+        }
+
+        if (needsFallback) {
+          const fallbackId = quoteRequestIdRef.current ?? crypto.randomUUID();
+          try {
+            const { error: upsertErr } = await supabaseAnon
+              .from("quote_requests")
+              .upsert({ id: fallbackId, ...payload } as any, { onConflict: "id" });
+            if (upsertErr) {
+              console.error("quote_requests fallback upsert error:", upsertErr);
+            }
+          } catch (e) {
+            console.error("quote_requests fallback upsert threw:", e);
+          }
+        }
+      })();
 
       // Email — fire-and-forget
       supabase.functions.invoke("send-quote-request", {
