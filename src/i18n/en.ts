@@ -339,9 +339,9 @@ export const enTranslations: Record<string, string> = {
 
   // Multicolour & overhang
   "calc.multicolour.label": "Multicolour printing",
-  "calc.multicolour.note": "Multicolour jobs require manual quoting. We will get back to you.",
+  "calc.multicolour.note": "Multicolour is quoted manually after we review your file.",
   "calc.multicolour.from": "from",
-  "calc.overhang.note": "This part may need supports — the high price reflects that possibility.",
+  "calc.overhang.note": "This part may need supports — we'll take care of that when we review your file.",
 
   // Upload status
   "calc.upload.status.uploading": "Sending your file...",

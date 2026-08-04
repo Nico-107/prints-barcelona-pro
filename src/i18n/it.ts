@@ -338,9 +338,9 @@ export const itTranslations: Record<string, string> = {
 
   // Multicolour & overhang
   "calc.multicolour.label": "Stampa multicolore",
-  "calc.multicolour.note": "I lavori multicolore richiedono un preventivo manuale. La contatteremo.",
+  "calc.multicolour.note": "Il multicolore viene preventivato manualmente dopo la revisione del file.",
   "calc.multicolour.from": "da",
-  "calc.overhang.note": "Questo pezzo potrebbe richiedere supporti — il prezzo alto tiene conto di questa possibilità.",
+  "calc.overhang.note": "Questo pezzo potrebbe richiedere supporti — ce ne occupiamo noi durante la revisione del file.",
 
   // Upload status
   "calc.upload.status.uploading": "Invio del file in corso...",

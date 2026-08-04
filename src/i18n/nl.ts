@@ -338,9 +338,9 @@ export const nlTranslations: Record<string, string> = {
 
   // Multicolour & overhang
   "calc.multicolour.label": "Meerkleurig printen",
-  "calc.multicolour.note": "Meerkleurige opdrachten vereisen een handmatige offerte. We nemen contact met u op.",
+  "calc.multicolour.note": "Meerkleurig wordt handmatig geoffreerd nadat we uw bestand hebben bekeken.",
   "calc.multicolour.from": "vanaf",
-  "calc.overhang.note": "Dit onderdeel heeft mogelijk ondersteuning nodig — de hoge prijs houdt hier rekening mee.",
+  "calc.overhang.note": "Dit onderdeel heeft mogelijk ondersteuning nodig — wij regelen dat bij de bestandscontrole.",
 
   // Upload status
   "calc.upload.status.uploading": "Bestand wordt verzonden...",

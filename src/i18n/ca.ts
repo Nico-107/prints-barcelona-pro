@@ -339,9 +339,9 @@ export const caTranslations: Record<string, string> = {
 
   // Multicolour & overhang
   "calc.multicolour.label": "Impressió multicolor",
-  "calc.multicolour.note": "Els treballs multicolor requereixen pressupost manual. Et contactarem.",
+  "calc.multicolour.note": "El multicolor es pressuposta manualment un cop revisem el teu arxiu.",
   "calc.multicolour.from": "des de",
-  "calc.overhang.note": "Aquesta peça pot necessitar suports — el preu alt ho reflecteix.",
+  "calc.overhang.note": "Aquesta peça pot necessitar suports — ens en fem càrrec quan revisem el teu arxiu.",
 
   // Upload status
   "calc.upload.status.uploading": "Enviant el teu arxiu...",

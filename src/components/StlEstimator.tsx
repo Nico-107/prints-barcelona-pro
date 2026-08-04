@@ -19,7 +19,6 @@ const RATE_PER_GRAM = 0.22; // material + machine time
 const MIN_PRICE = 10;       // absolute floor
 const RANGE_LOW_FLOOR = 10; // displayed range low never shown below this
 const RANGE_HIGH_FLOOR = 20;// displayed range high never shown below this
-const MULTICOLOUR_FEE = 20; // flat addition for multicolour jobs
 
 const URGENCY_TIERS = [
   { key: "standard", multiplier: 1.0 },
@@ -209,18 +208,16 @@ function computeBundle(
   if (totalUnits === 0) return null;
 
   const totalHours = totalGrams / 28;
-  const bundleRaw = SETUP_FEE + totalGrams * RATE_PER_GRAM * mat.multiplier + (multicolour ? MULTICOLOUR_FEE : 0);
+  const bundleRaw = SETUP_FEE + totalGrams * RATE_PER_GRAM * mat.multiplier;
   const bundlePrice = applyMargin(bundleRaw) * urgencyMultiplier;
   const total = bundlePrice;
 
   const supportHeavy = files.some(f => !f.parseError && f.hasHeavyOverhangs);
-  // Overhang uncertainty goes only into the upper bound — supports are volatile
-  const highMultiplier = supportHeavy ? 1.15 * 1.10 : 1.15;
 
   return {
     totalGrams, totalHours, totalUnits, bundlePrice, total,
     low:  Math.max(total * 0.85, RANGE_LOW_FLOOR),
-    high: Math.max(total * highMultiplier, RANGE_HIGH_FLOOR),
+    high: Math.max(total * 1.15, RANGE_HIGH_FLOOR),
     supportHeavy,
   };
 }
@@ -275,6 +272,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
 
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "slow" | "done" | "failed">("idle");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const estimateShownRef = useRef(false);
@@ -377,10 +375,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           const uploadTimestamp = Date.now();
           const uploadedPaths: string[] = [];
           const uploadedNames: string[] = [];
-          if (validForUpload.length > 0) {
-            setUploadState("uploading");
-            slowTimerRef.current = setTimeout(() => setUploadState("slow"), 5000);
-          }
           try {
             for (const f of validForUpload) {
               const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
@@ -393,8 +387,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 uploadedNames.push(f.name);
               }
             }
-            if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
-            if (validForUpload.length > 0) setUploadState("done");
             uploadedRef.current = { paths: uploadedPaths, names: uploadedNames };
 
             // Create quote_requests row immediately — visible in admin before contact info arrives
@@ -427,8 +419,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             }
           } catch (e) {
             console.error("Pre-estimate upload failed:", e);
-            if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
-            if (validForUpload.length > 0) setUploadState("failed");
             // uploadedRef stays null — submitQuote will run the fallback upload loop
           }
 
@@ -523,6 +513,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     quoteRequestIdRef.current = null;
     if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
     setUploadState("idle");
+    setHasSubmitted(false);
     setParsedFiles([]);
     setError(null);
     setParsing(false);
@@ -549,6 +540,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setQuoteError(t("calc.contact.atLeastOne"));
       return;
     }
+    setHasSubmitted(true);
     setQuoteError(null);
     setIsSubmittingQuote(true);
 
@@ -562,7 +554,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         uploadedPaths = uploadedRef.current.paths;
         uploadedNames = uploadedRef.current.names;
       } else {
-        // Fallback: upload now (upload failed earlier or ref was reset)
+        // Fallback: upload now (upload failed earlier or ref was reset) — show progress
+        setUploadState("uploading");
+        slowTimerRef.current = setTimeout(() => setUploadState("slow"), 5000);
         uploadedPaths = [];
         uploadedNames = [];
         for (const f of parsedFiles) {
@@ -577,6 +571,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           uploadedPaths.push(path);
           uploadedNames.push(f.name);
         }
+        if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
+        setUploadState("done");
       }
 
       // Upload succeeded — show success immediately, nothing below can block the user
@@ -663,6 +659,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         },
       }).catch(e => console.error("send-quote-request failed:", e));
     } catch (err: any) {
+      if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
+      setUploadState("failed");
       setIsSubmittingQuote(false);
       setQuoteError(t("calc.contact.uploadError"));
       console.error("Quote upload error:", err);
@@ -678,7 +676,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   // Price display — multicolour shows "from €X", normal shows "~€X–Y"
   const priceDisplay = bundle
     ? multicolour
-      ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}`
+      ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}+`
       : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
     : "";
 
@@ -1002,30 +1000,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       {t("calc.multicolour.note")}
                     </p>
                   )}
-                  {uploadState !== "idle" && (
-                    <div className="flex items-center gap-1.5 mt-2 text-xs">
-                      {(uploadState === "uploading" || uploadState === "slow") && (
-                        <>
-                          <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
-                          <span className="text-muted-foreground">
-                            {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
-                          </span>
-                        </>
-                      )}
-                      {uploadState === "done" && (
-                        <>
-                          <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
-                          <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
-                        </>
-                      )}
-                      {uploadState === "failed" && (
-                        <>
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                          <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
-                        </>
-                      )}
-                    </div>
-                  )}
                   <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">
                     ¿Eres estudiante? Menciona tu universidad al confirmar tu presupuesto y obtén un 20% de descuento.
                   </p>
@@ -1080,6 +1054,30 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
                   <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
                   {contactFormContent}
+                  {hasSubmitted && uploadState !== "idle" && (
+                    <div className="flex items-center gap-1.5 mt-3 text-xs">
+                      {(uploadState === "uploading" || uploadState === "slow") && (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
+                          <span className="text-muted-foreground">
+                            {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
+                          </span>
+                        </>
+                      )}
+                      {uploadState === "done" && (
+                        <>
+                          <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
+                          <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
+                        </>
+                      )}
+                      {uploadState === "failed" && (
+                        <>
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               )
             )}

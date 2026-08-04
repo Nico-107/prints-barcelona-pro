@@ -338,9 +338,9 @@ export const deTranslations: Record<string, string> = {
 
   // Multicolour & overhang
   "calc.multicolour.label": "Mehrfarbiger Druck",
-  "calc.multicolour.note": "Mehrfarbige Aufträge erfordern ein manuelles Angebot. Wir melden uns bei Ihnen.",
+  "calc.multicolour.note": "Mehrfarbdruck wird manuell kalkuliert, nachdem wir Ihre Datei geprüft haben.",
   "calc.multicolour.from": "ab",
-  "calc.overhang.note": "Dieses Teil benötigt möglicherweise Stützen — der obere Preis berücksichtigt dies.",
+  "calc.overhang.note": "Dieses Teil benötigt möglicherweise Stützen — wir kümmern uns darum bei der Dateiprüfung.",
 
   // Upload status
   "calc.upload.status.uploading": "Datei wird gesendet...",
