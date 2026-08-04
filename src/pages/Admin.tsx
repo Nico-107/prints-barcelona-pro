@@ -132,6 +132,8 @@ const emptyAcceptDraft = {
   customerName: "",
   fulfillment: "pickup" as "pickup" | "shipping",
   paymentMethod: "" as "" | "stripe" | "bizum" | "transfer" | "cash",
+  contactEmail: "",
+  contactPhone: "",
 };
 
 const PRINTING_MANAGEMENT_URL = "https://REPLACE_ME";
@@ -388,6 +390,9 @@ const Admin = () => {
       deliveryDate: "",
       customerName: "",
       fulfillment: "pickup",
+      paymentMethod: "",
+      contactEmail: "",
+      contactPhone: "",
     });
     setAcceptOpen(true);
   };
@@ -401,16 +406,23 @@ const Admin = () => {
     if (!acceptDraft.paymentMethod) {
       toast({ title: "Select a payment method", variant: "destructive" }); return;
     }
+    const needsContact = !acceptTarget.contact_email && !acceptTarget.contact_phone;
+    if (needsContact && !acceptDraft.contactEmail.trim() && !acceptDraft.contactPhone.trim()) {
+      toast({ title: "Contact details required", description: "Enter at least an email or phone for this customer.", variant: "destructive" }); return;
+    }
     setAcceptBusy(true);
     try {
       const { data: { session: s } } = await supabase.auth.getSession();
       const authHeaders = s?.access_token ? { Authorization: `Bearer ${s.access_token}` } : {};
 
-      const phone = acceptTarget.contact_phone?.trim() || "see notes";
+      const effectiveEmail = acceptTarget.contact_email || (acceptDraft.contactEmail.trim() || null);
+      const effectivePhone = acceptTarget.contact_phone || (acceptDraft.contactPhone.trim() || null);
+
+      const phone = effectivePhone?.trim() || "see notes";
       const noteParts = [
         `Accepted from quote request ${acceptTarget.id.slice(0, 8)}.`,
         acceptDraft.customerName ? `Customer: ${acceptDraft.customerName}.` : "",
-        acceptTarget.contact_email ? `Email: ${acceptTarget.contact_email}.` : "",
+        effectiveEmail ? `Email: ${effectiveEmail}.` : "",
         `Confirmed price: €${priceNum.toFixed(2)}.`,
         `Material: ${acceptDraft.material}${acceptDraft.color ? ` / ${acceptDraft.color}` : ""}.`,
         `Infill: ${acceptTarget.infill}, ${acceptTarget.wall_loops} walls, qty ${acceptTarget.quantity}.`,
@@ -450,12 +462,13 @@ const Admin = () => {
       await supabase.from("quote_requests").update({
         status: "accepted",
         converted_order_id: newOrders.id,
+        ...(needsContact ? { contact_email: effectiveEmail, contact_phone: effectivePhone } : {}),
       }).eq("id", acceptTarget.id);
 
       // Always fire confirmation email — edge fn falls back to admin if no customer email
       supabase.functions.invoke("send-order-confirmation", {
         body: {
-          customerEmail: acceptTarget.contact_email || null,
+          customerEmail: effectiveEmail,
           orderNumber: newOrders.order_number,
           finalPrice: priceNum,
           material: acceptDraft.material,
@@ -473,7 +486,7 @@ const Admin = () => {
         payment_method: acceptDraft.paymentMethod,
         final_price: priceNum,
         material: acceptDraft.material,
-        has_customer_email: !!acceptTarget.contact_email,
+        has_customer_email: !!effectiveEmail,
       });
       setAcceptOpen(false);
       loadQuotes();
@@ -822,8 +835,8 @@ const Admin = () => {
                       </div>
                     )}
 
-                    {/* Actions — only for pending */}
-                    {q.status === "pending" && (
+                    {/* Actions — for pending and files-only (uploaded) */}
+                    {(q.status === "pending" || q.status === "uploaded") && (
                       <div className="flex gap-2 pt-3 border-t border-slate-100">
                         <Button
                           size="sm"
@@ -1076,6 +1089,30 @@ const Admin = () => {
                 <p>Estimate: €{Math.round(acceptTarget.estimated_price_low)}–{Math.round(acceptTarget.estimated_price_high)} · {acceptTarget.material} · {acceptTarget.infill} · qty {acceptTarget.quantity}</p>
                 {acceptTarget.contact_email && <p>Will send confirmation email to <strong>{acceptTarget.contact_email}</strong></p>}
               </div>
+
+              {!acceptTarget.contact_email && !acceptTarget.contact_phone && (
+                <div className="space-y-3 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                  <p className="text-xs font-medium text-amber-700">Customer did not provide contact details — enter at least one to send the confirmation.</p>
+                  <div>
+                    <label className="text-sm font-medium block mb-1.5 text-slate-700">Customer email <span className="text-slate-500 font-normal">(required — not provided by customer)</span></label>
+                    <Input
+                      type="email"
+                      value={acceptDraft.contactEmail}
+                      onChange={e => setAcceptDraft(d => ({ ...d, contactEmail: e.target.value }))}
+                      placeholder="customer@example.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium block mb-1.5 text-slate-700">Customer phone <span className="text-slate-500 font-normal">(required — not provided by customer)</span></label>
+                    <Input
+                      type="tel"
+                      value={acceptDraft.contactPhone}
+                      onChange={e => setAcceptDraft(d => ({ ...d, contactPhone: e.target.value }))}
+                      placeholder="+34 612 345 678"
+                    />
+                  </div>
+                </div>
+              )}
 
               <div>
                 <label className="text-sm font-medium block mb-1.5 text-slate-700">Customer name <span className="text-slate-400 font-normal">(optional)</span></label>
