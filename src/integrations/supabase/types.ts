@@ -112,6 +112,7 @@ export type Database = {
           id: string
           infill: string | null
           material: string | null
+          multicolour: boolean | null
           quantity: number | null
           volume: number | null
         }
@@ -125,6 +126,7 @@ export type Database = {
           id?: string
           infill?: string | null
           material?: string | null
+          multicolour?: boolean | null
           quantity?: number | null
           volume?: number | null
         }
@@ -138,6 +140,7 @@ export type Database = {
           id?: string
           infill?: string | null
           material?: string | null
+          multicolour?: boolean | null
           quantity?: number | null
           volume?: number | null
         }
@@ -160,6 +163,7 @@ export type Database = {
           id: string
           infill: string
           material: string
+          multicolour: boolean | null
           product_name: string | null
           product_slug: string | null
           quantity: number
@@ -183,6 +187,7 @@ export type Database = {
           id?: string
           infill: string
           material: string
+          multicolour?: boolean | null
           product_name?: string | null
           product_slug?: string | null
           quantity: number
@@ -206,6 +211,7 @@ export type Database = {
           id?: string
           infill?: string
           material?: string
+          multicolour?: boolean | null
           product_name?: string | null
           product_slug?: string | null
           quantity?: number

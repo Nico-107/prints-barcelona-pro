@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "011107miko@gmail.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -108,8 +107,8 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Dimension3D <onboarding@resend.dev>",
-        to: [ADMIN_EMAIL, "dimension3dprintsbcn@gmail.com"],
+        from: "Dimension3D <noreply@dimension3dprints.com>",
+        to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
         subject: `Nuevo pedido de catálogo: ${safeProductName}`,
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">

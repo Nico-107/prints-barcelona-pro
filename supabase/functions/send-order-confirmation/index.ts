@@ -2,7 +2,6 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const ADMIN_EMAIL = "011107miko@gmail.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -157,12 +156,9 @@ serve(async (req: Request) => {
 
     const paymentBlock = buildPaymentBlock(paymentMethod, stripePaymentLink, orderNumber);
 
-    // Always send to the registered Resend address — the shared onboarding@resend.dev
-    // sender can only deliver to the account owner's email (011107miko@gmail.com).
-    // Customer contact is included in the subject and body above for easy reply.
     const resendBody = {
-      from: "Dimension3D <onboarding@resend.dev>",
-      to: [ADMIN_EMAIL, "dimension3dprintsbcn@gmail.com"],
+      from: "Dimension3D <noreply@dimension3dprints.com>",
+      to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
       subject,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
@@ -224,7 +220,7 @@ serve(async (req: Request) => {
     }
 
     const emailData = await emailResponse.json();
-    console.log(`Order #${orderNumber} confirmation → to:${ADMIN_EMAIL} client:${clientContact} — emailId:${emailData.id}`);
+    console.log(`Order #${orderNumber} confirmation → to:dimension3dprintsbcn@gmail.com client:${clientContact} — emailId:${emailData.id}`);
 
     return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       headers: { "Content-Type": "application/json", ...corsHeaders },

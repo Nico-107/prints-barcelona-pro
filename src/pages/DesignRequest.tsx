@@ -136,8 +136,7 @@ const DesignRequest = () => {
               priceHigh: 0,
               language,
             },
-          })
-          .catch(console.error);
+          }).catch(console.error);
       })();
     } catch {
       setIsSubmitting(false);

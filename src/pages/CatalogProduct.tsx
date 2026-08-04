@@ -81,8 +81,7 @@ const CatalogProduct = () => {
             priceHigh: product.priceHigh,
             language,
           },
-        })
-        .catch(console.error);
+        }).catch(console.error);
     } catch (err: unknown) {
       setIsSubmitting(false);
       setFormError("Error al enviar la solicitud. Por favor, inténtalo de nuevo.");

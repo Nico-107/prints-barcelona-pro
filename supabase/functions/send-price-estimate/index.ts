@@ -125,7 +125,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Dimension3D <onboarding@resend.dev>",
+        from: "Dimension3D <noreply@dimension3dprints.com>",
         to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
         subject: "New price estimate requested",
         html: `
