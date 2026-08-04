@@ -391,9 +391,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
             // Create quote_requests row immediately — visible in admin before contact info arrives
             try {
-              const { data: qrData } = await supabaseAnon
+              const newId = crypto.randomUUID();
+              await supabaseAnon
                 .from("quote_requests")
                 .insert({
+                  id: newId,
                   contact_email: null,
                   contact_phone: null,
                   material: materialKey,
@@ -410,10 +412,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   file_names: uploadedNames,
                   status: "uploaded",
                   multicolour: capturedMulticolour,
-                } as any)
-                .select("id")
-                .single();
-              quoteRequestIdRef.current = qrData?.id ?? null;
+                } as any);
+              quoteRequestIdRef.current = newId;
             } catch (qrErr) {
               console.error("quote_requests early insert failed:", qrErr);
             }
