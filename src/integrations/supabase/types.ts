@@ -104,45 +104,69 @@ export type Database = {
       price_estimates: {
         Row: {
           created_at: string | null
+          est_hours: number | null
           estimated_grams: number | null
           estimated_price_high: number | null
           estimated_price_low: number | null
+          file_name: string | null
           file_names: string[] | null
           file_paths: string[] | null
+          grams: number | null
           id: string
           infill: string | null
+          infill_pct: number | null
+          language: string | null
           material: string | null
           multicolour: boolean | null
+          price_high: number | null
+          price_low: number | null
           quantity: number | null
           volume: number | null
+          volume_cm3: number | null
         }
         Insert: {
           created_at?: string | null
+          est_hours?: number | null
           estimated_grams?: number | null
           estimated_price_high?: number | null
           estimated_price_low?: number | null
+          file_name?: string | null
           file_names?: string[] | null
           file_paths?: string[] | null
+          grams?: number | null
           id?: string
           infill?: string | null
+          infill_pct?: number | null
+          language?: string | null
           material?: string | null
           multicolour?: boolean | null
+          price_high?: number | null
+          price_low?: number | null
           quantity?: number | null
           volume?: number | null
+          volume_cm3?: number | null
         }
         Update: {
           created_at?: string | null
+          est_hours?: number | null
           estimated_grams?: number | null
           estimated_price_high?: number | null
           estimated_price_low?: number | null
+          file_name?: string | null
           file_names?: string[] | null
           file_paths?: string[] | null
+          grams?: number | null
           id?: string
           infill?: string | null
+          infill_pct?: number | null
+          language?: string | null
           material?: string | null
           multicolour?: boolean | null
+          price_high?: number | null
+          price_low?: number | null
           quantity?: number | null
           volume?: number | null
+          volume_cm3?: number | null
         }
         Relationships: []
       }
