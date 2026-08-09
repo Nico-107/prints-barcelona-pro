@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
@@ -279,7 +279,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const uploadedRef = useRef<{ paths: string[]; names: string[] } | null>(null);
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const notSentYetShownRef = useRef(false);
 
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -288,14 +287,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
   const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier, multicolour) : null;
-
-  // Fire analytics once when the not-sent-yet notice first appears per estimate session
-  useEffect(() => {
-    if (bundle && !hasSubmitted && !adminMode && !notSentYetShownRef.current) {
-      notSentYetShownRef.current = true;
-      capture('estimate_reminder_shown');
-    }
-  }, [bundle, hasSubmitted, adminMode]);
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -361,10 +352,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
         });
 
-        // Trigger mobile modal once per estimate
-        if (!modalShownRef.current && typeof window !== "undefined" && window.innerWidth < 768) {
+        // Open confirmation modal once per estimate on all screen sizes
+        if (!modalShownRef.current && !hasSubmitted) {
           modalShownRef.current = true;
           setMobileModalOpen(true);
+          capture('estimate_modal_shown');
         }
 
         // Upload files early (fire-and-forget) so submission is near-instant
@@ -488,7 +480,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     estimateShownRef.current = false;
     uploadedRef.current = null;
     modalShownRef.current = false;
-    notSentYetShownRef.current = false;
     if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
     setUploadState("idle");
     setHasSubmitted(false);
@@ -644,6 +635,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}+`
       : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
     : "";
+
+  const firstViewableFile = validFiles.find(f => f.file);
 
   // Shared contact form content — used in both inline block and mobile modal
   const contactFormContent = (
@@ -1016,18 +1009,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
               ) : (
                 <>
-                  <div className="mt-4 flex items-start gap-3 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 px-4 py-4">
-                    <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-semibold text-amber-900 dark:text-amber-200 text-sm">
-                        {t("calc.result.notSentYet.title")}
-                      </p>
-                      <p className="text-sm text-amber-800 dark:text-amber-300 mt-0.5">
-                        {t("calc.result.notSentYet.body")}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-2 rounded-xl border border-accent/30 bg-accent/5 p-5">
+                  <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-5">
                     <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
                     <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
                     {contactFormContent}
@@ -1063,26 +1045,49 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
       </div>
 
-      {/* Mobile modal — shown once on first estimate, mobile only, consumer only */}
+      {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
       {!adminMode && bundle && (
-        <Dialog open={mobileModalOpen} onOpenChange={setMobileModalOpen}>
-          <DialogContent className="sm:max-w-md">
+        <Dialog open={mobileModalOpen} onOpenChange={(open) => {
+          if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
+          setMobileModalOpen(open);
+        }}>
+          <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <div className="text-accent text-2xl font-bold">
-                {priceDisplay}
-              </div>
+              <DialogTitle className="text-lg font-bold text-foreground pr-8">
+                {t("calc.modal.title")}
+              </DialogTitle>
             </DialogHeader>
-            <p className="text-sm text-muted-foreground -mt-2 mb-2">{t("calc.result.disclaimer")}</p>
+
+            {/* STL preview — first valid file with a File object; errors hidden silently */}
+            {firstViewableFile?.file && (
+              <div className="rounded-xl overflow-hidden">
+                <Suspense fallback={<div className="h-48 bg-muted/30 rounded-xl animate-pulse" />}>
+                  <StlViewer file={firstViewableFile.file} />
+                </Suspense>
+              </div>
+            )}
+
+            {/* Price and file names */}
+            <div>
+              <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
+              <p className="text-sm text-muted-foreground mt-1 truncate">
+                {validFiles.map(f => f.name).join(" · ")}
+              </p>
+            </div>
+
+            <p className="text-sm text-muted-foreground">{t("calc.modal.subtitle")}</p>
+
             {bundle.supportHeavy && (
-              <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2 mb-2">
+              <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
                 {t("calc.overhang.note")}
               </p>
             )}
             {multicolour && (
-              <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2 mb-2">
+              <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
                 {t("calc.multicolour.note")}
               </p>
             )}
+
             {isSubmittedQuote ? (
               <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
                 <CheckCircle className="w-7 h-7 text-whatsapp mx-auto mb-2" />
@@ -1091,9 +1096,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               </div>
             ) : (
               <>
-                <p className="text-base font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
-                <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
                 {contactFormContent}
+                <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors mt-1">
+                  <X className="w-4 h-4" />
+                  {t("calc.modal.close")}
+                </DialogClose>
               </>
             )}
           </DialogContent>
