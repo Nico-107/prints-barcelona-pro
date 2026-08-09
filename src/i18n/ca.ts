@@ -288,6 +288,7 @@ export const caTranslations: Record<string, string> = {
   "calc.analysing": "Analitzant…",
   "calc.result.heading": "Preu estimat del paquet",
   "calc.result.disclaimer": "Estimació instantània — una persona revisarà i confirmarà el teu pressupost exacte en menys d'1 hora",
+  "calc.result.autoNote": "Aquesta és una estimació automàtica. Envia'ns el teu arxiu i confirmem el preu exacte — normalment en menys d'1 hora.",
   "calc.result.detail": "{grams}g · ~{hours}h d'impressió",
   "calc.result.qty": "{discount}% descompte per volum aplicat",
   "calc.result.cta": "Obtenir preu exacte",
@@ -336,6 +337,8 @@ export const caTranslations: Record<string, string> = {
 
   // Contact block reassurance
   "calc.contact.reassure": "Envia els teus arxius i confirmem el preu exacte — normalment en menys d'1 hora",
+  "calc.contact.reminder": "Encara decidint? Envia el teu arxiu ara i confirmem el preu exacte — sense compromís.",
+  "calc.contact.reminder.close": "Tancar",
 
   // Multicolour & overhang
   "calc.multicolour.label": "Impressió multicolor",

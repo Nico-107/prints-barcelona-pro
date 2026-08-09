@@ -1,4 +1,4 @@
-import { useState, useRef, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -280,6 +280,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalShownRef = useRef(false);
   const quoteRequestIdRef = useRef<string | null>(null);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reminderShownRef = useRef(false);
+  const [showReminderBanner, setShowReminderBanner] = useState(false);
 
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -288,6 +290,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
   const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier, multicolour) : null;
+
+  // 45-second reminder banner — desktop only, shown at most once per session
+  useEffect(() => {
+    if (!bundle || hasSubmitted || reminderShownRef.current) return;
+    if (typeof window !== "undefined" && window.innerWidth < 768) return;
+    const timer = setTimeout(() => {
+      if (!reminderShownRef.current) {
+        reminderShownRef.current = true;
+        setShowReminderBanner(true);
+        capture('estimate_reminder_shown');
+      }
+    }, 45000);
+    return () => clearTimeout(timer);
+  }, [bundle, hasSubmitted]);
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -528,6 +544,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsSubmittingQuote(false);
     setIsSubmittedQuote(false);
     setQuoteError(null);
+    setShowReminderBanner(false);
     setMobileModalOpen(false);
   };
 
@@ -620,39 +637,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
         };
 
-        let needsFallback = !quoteRequestIdRef.current;
-
-        if (quoteRequestIdRef.current) {
-          try {
-            const updateResult = await supabaseAnon
-              .from("quote_requests")
-              .update(payload as any)
-              .eq("id", quoteRequestIdRef.current);
-            if (updateResult.error) {
-              console.error(
-                "quote_requests update failed — falling back to upsert:",
-                updateResult.error,
-              );
-              needsFallback = true;
-            }
-          } catch (e) {
-            console.error("quote_requests update threw — falling back to upsert:", e);
-            needsFallback = true;
-          }
-        }
-
-        if (needsFallback) {
-          const fallbackId = quoteRequestIdRef.current ?? crypto.randomUUID();
-          try {
-            const { error: upsertErr } = await supabaseAnon
-              .from("quote_requests")
-              .upsert({ id: fallbackId, ...payload } as any, { onConflict: "id" });
-            if (upsertErr) {
-              console.error("quote_requests fallback upsert error:", upsertErr);
-            }
-          } catch (e) {
-            console.error("quote_requests fallback upsert threw:", e);
-          }
+        const targetId = quoteRequestIdRef.current ?? crypto.randomUUID();
+        try {
+          const { error: upsertErr } = await supabaseAnon
+            .from("quote_requests")
+            .upsert({ id: targetId, ...payload } as any, { onConflict: "id" });
+          if (upsertErr) console.error("quote_requests upsert failed:", upsertErr);
+          else console.log("quote_requests upsert OK for id", targetId);
+        } catch (e) {
+          console.error("quote_requests upsert threw:", e);
         }
       })();
 
@@ -1069,35 +1062,57 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
                 </div>
               ) : (
-                <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-5">
-                  <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
-                  <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
-                  {contactFormContent}
-                  {hasSubmitted && uploadState !== "idle" && (
-                    <div className="flex items-center gap-1.5 mt-3 text-xs">
-                      {(uploadState === "uploading" || uploadState === "slow") && (
-                        <>
-                          <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
-                          <span className="text-muted-foreground">
-                            {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
-                          </span>
-                        </>
-                      )}
-                      {uploadState === "done" && (
-                        <>
-                          <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
-                          <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
-                        </>
-                      )}
-                      {uploadState === "failed" && (
-                        <>
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                          <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
-                        </>
-                      )}
+                <>
+                  <p className="text-xs text-muted-foreground/70 mt-3 italic">
+                    {t("calc.result.autoNote")}
+                  </p>
+                  {showReminderBanner && (
+                    <div className="mt-2 flex items-start gap-3 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 px-4 py-3">
+                      <p className="flex-1 text-sm text-amber-800 dark:text-amber-300">
+                        {t("calc.contact.reminder")}
+                      </p>
+                      <button
+                        onClick={() => {
+                          setShowReminderBanner(false);
+                          capture('estimate_reminder_dismissed');
+                        }}
+                        className="shrink-0 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 transition-colors"
+                        aria-label={t("calc.contact.reminder.close")}
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
                     </div>
                   )}
-                </div>
+                  <div className="mt-2 rounded-xl border border-accent/30 bg-accent/5 p-5">
+                    <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
+                    <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
+                    {contactFormContent}
+                    {hasSubmitted && uploadState !== "idle" && (
+                      <div className="flex items-center gap-1.5 mt-3 text-xs">
+                        {(uploadState === "uploading" || uploadState === "slow") && (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
+                            <span className="text-muted-foreground">
+                              {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
+                            </span>
+                          </>
+                        )}
+                        {uploadState === "done" && (
+                          <>
+                            <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
+                            <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
+                          </>
+                        )}
+                        {uploadState === "failed" && (
+                          <>
+                            <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                            <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
               )
             )}
           </div>

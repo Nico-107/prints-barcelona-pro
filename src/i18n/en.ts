@@ -288,6 +288,7 @@ export const enTranslations: Record<string, string> = {
   "calc.analysing": "Analysing…",
   "calc.result.heading": "Estimated bundle price",
   "calc.result.disclaimer": "Instant estimate — a human will review and confirm your exact quote within 1 hour",
+  "calc.result.autoNote": "This is an automatic estimate. Send us your file and we'll confirm the exact price — usually within 1 hour.",
   "calc.result.detail": "{grams}g · ~{hours}h print time",
   "calc.result.qty": "{discount}% bundle discount applied",
   "calc.result.cta": "Get Exact Quote",
@@ -336,6 +337,8 @@ export const enTranslations: Record<string, string> = {
 
   // Contact block reassurance
   "calc.contact.reassure": "Send your files and we'll confirm the exact price — usually within 1 hour",
+  "calc.contact.reminder": "Still deciding? Send your file now and we'll confirm the exact price — no commitment.",
+  "calc.contact.reminder.close": "Close",
 
   // Multicolour & overhang
   "calc.multicolour.label": "Multicolour printing",

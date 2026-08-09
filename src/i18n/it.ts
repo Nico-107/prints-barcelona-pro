@@ -287,6 +287,7 @@ export const itTranslations: Record<string, string> = {
   "calc.analysing": "Analisi in corso…",
   "calc.result.heading": "Prezzo stimato del lotto",
   "calc.result.disclaimer": "Stima istantanea — un esperto confermerà il tuo prezzo esatto entro 1 ora",
+  "calc.result.autoNote": "Questa è una stima automatica. Inviaci il tuo file e confermiamo il prezzo esatto — di solito entro 1 ora.",
   "calc.result.detail": "{grams}g · ~{hours}h di stampa",
   "calc.result.qty": "{discount}% di sconto volume applicato",
   "calc.result.cta": "Ottieni il prezzo esatto",
@@ -335,6 +336,8 @@ export const itTranslations: Record<string, string> = {
 
   // Contact block reassurance
   "calc.contact.reassure": "Invia i tuoi file e confermiamo il prezzo esatto — di solito entro 1 ora",
+  "calc.contact.reminder": "Ancora indeciso? Invia il tuo file ora e confermiamo il prezzo esatto — senza impegno.",
+  "calc.contact.reminder.close": "Chiudi",
 
   // Multicolour & overhang
   "calc.multicolour.label": "Stampa multicolore",

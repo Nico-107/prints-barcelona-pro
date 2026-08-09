@@ -287,6 +287,7 @@ export const frTranslations: Record<string, string> = {
   "calc.analysing": "Analyse en cours…",
   "calc.result.heading": "Prix estimé du lot",
   "calc.result.disclaimer": "Estimation instantanée — un expert confirmera votre devis exact en moins d'1 heure",
+  "calc.result.autoNote": "Il s'agit d'une estimation automatique. Envoyez-nous votre fichier et nous confirmons le prix exact — généralement en moins d'1 heure.",
   "calc.result.detail": "{grams}g · ~{hours}h d'impression",
   "calc.result.qty": "{discount}% de remise volume appliquée",
   "calc.result.cta": "Obtenir le prix exact",
@@ -335,6 +336,8 @@ export const frTranslations: Record<string, string> = {
 
   // Contact block reassurance
   "calc.contact.reassure": "Envoyez vos fichiers et nous confirmons le prix exact — généralement en moins d'1 heure",
+  "calc.contact.reminder": "Encore hésitant ? Envoyez votre fichier maintenant et nous confirmons le prix exact — sans engagement.",
+  "calc.contact.reminder.close": "Fermer",
 
   // Multicolour & overhang
   "calc.multicolour.label": "Impression multicolore",

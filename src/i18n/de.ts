@@ -287,6 +287,7 @@ export const deTranslations: Record<string, string> = {
   "calc.analysing": "Analyse läuft…",
   "calc.result.heading": "Geschätzter Gesamtpreis",
   "calc.result.disclaimer": "Sofortschätzung — ein Experte bestätigt Ihren genauen Preis in weniger als 1 Stunde",
+  "calc.result.autoNote": "Dies ist eine automatische Schätzung. Senden Sie uns Ihre Datei und wir bestätigen den genauen Preis — normalerweise innerhalb von 1 Stunde.",
   "calc.result.detail": "{grams}g · ~{hours}h Druckzeit",
   "calc.result.qty": "{discount}% Mengenrabatt angewendet",
   "calc.result.cta": "Genaues Angebot erhalten",
@@ -335,6 +336,8 @@ export const deTranslations: Record<string, string> = {
 
   // Contact block reassurance
   "calc.contact.reassure": "Laden Sie Ihre Dateien hoch – wir bestätigen den genauen Preis, normalerweise innerhalb von 1 Stunde",
+  "calc.contact.reminder": "Noch unentschlossen? Senden Sie Ihre Datei jetzt und wir bestätigen den genauen Preis — ohne Verpflichtung.",
+  "calc.contact.reminder.close": "Schließen",
 
   // Multicolour & overhang
   "calc.multicolour.label": "Mehrfarbiger Druck",

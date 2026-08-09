@@ -287,6 +287,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.analysing": "A analisar...",
   "calc.result.heading": "Preço estimado do conjunto",
   "calc.result.disclaimer": "Estimativa instantânea — um especialista confirmará o seu preço exato em menos de 1 hora",
+  "calc.result.autoNote": "Esta é uma estimativa automática. Envie-nos o seu ficheiro e confirmamos o preço exato — normalmente em menos de 1 hora.",
   "calc.result.detail": "{grams}g · ~{hours}h de impressão",
   "calc.result.qty": "{discount}% de desconto de volume aplicado",
   "calc.result.cta": "Obter preço exato",
@@ -335,6 +336,8 @@ export const ptTranslations: Record<string, string> = {
 
   // Contact block reassurance
   "calc.contact.reassure": "Envie os seus ficheiros e confirmamos o preço exato — normalmente em menos de 1 hora",
+  "calc.contact.reminder": "Ainda a decidir? Envie o seu ficheiro agora e confirmamos o preço exato — sem compromisso.",
+  "calc.contact.reminder.close": "Fechar",
 
   // Multicolour & overhang
   "calc.multicolour.label": "Impressão multicolor",
