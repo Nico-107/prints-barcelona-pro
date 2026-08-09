@@ -288,6 +288,8 @@ export const ptTranslations: Record<string, string> = {
   "calc.result.heading": "Preço estimado do conjunto",
   "calc.result.disclaimer": "Estimativa instantânea — um especialista confirmará o seu preço exato em menos de 1 hora",
   "calc.result.autoNote": "Esta é uma estimativa automática. Envie-nos o seu ficheiro e confirmamos o preço exato — normalmente em menos de 1 hora.",
+  "calc.result.notSentYet.title": "O seu ficheiro AINDA NÃO foi enviado",
+  "calc.result.notSentYet.body": "Introduza o seu e-mail ou telefone abaixo e prima Enviar pedido de orçamento — confirmamos o preço exato, normalmente em menos de 1 hora.",
   "calc.result.detail": "{grams}g · ~{hours}h de impressão",
   "calc.result.qty": "{discount}% de desconto de volume aplicado",
   "calc.result.cta": "Obter preço exato",

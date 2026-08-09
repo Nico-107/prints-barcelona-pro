@@ -288,6 +288,8 @@ export const deTranslations: Record<string, string> = {
   "calc.result.heading": "Geschätzter Gesamtpreis",
   "calc.result.disclaimer": "Sofortschätzung — ein Experte bestätigt Ihren genauen Preis in weniger als 1 Stunde",
   "calc.result.autoNote": "Dies ist eine automatische Schätzung. Senden Sie uns Ihre Datei und wir bestätigen den genauen Preis — normalerweise innerhalb von 1 Stunde.",
+  "calc.result.notSentYet.title": "Ihre Datei wurde NOCH NICHT gesendet",
+  "calc.result.notSentYet.body": "Geben Sie unten Ihre E-Mail oder Telefonnummer ein und klicken Sie auf Angebotsanfrage senden — wir bestätigen den genauen Preis, normalerweise innerhalb von 1 Stunde.",
   "calc.result.detail": "{grams}g · ~{hours}h Druckzeit",
   "calc.result.qty": "{discount}% Mengenrabatt angewendet",
   "calc.result.cta": "Genaues Angebot erhalten",

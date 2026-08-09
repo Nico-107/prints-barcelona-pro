@@ -278,10 +278,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const estimateShownRef = useRef(false);
   const uploadedRef = useRef<{ paths: string[]; names: string[] } | null>(null);
   const modalShownRef = useRef(false);
-  const quoteRequestIdRef = useRef<string | null>(null);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const reminderShownRef = useRef(false);
-  const [showReminderBanner, setShowReminderBanner] = useState(false);
+  const notSentYetShownRef = useRef(false);
 
   const mat = MATERIALS[materialKey];
   const wf = wallFactor(wallLoops);
@@ -291,19 +289,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
   const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier, multicolour) : null;
 
-  // 45-second reminder banner — desktop only, shown at most once per session
+  // Fire analytics once when the not-sent-yet notice first appears per estimate session
   useEffect(() => {
-    if (!bundle || hasSubmitted || reminderShownRef.current) return;
-    if (typeof window !== "undefined" && window.innerWidth < 768) return;
-    const timer = setTimeout(() => {
-      if (!reminderShownRef.current) {
-        reminderShownRef.current = true;
-        setShowReminderBanner(true);
-        capture('estimate_reminder_shown');
-      }
-    }, 45000);
-    return () => clearTimeout(timer);
-  }, [bundle, hasSubmitted]);
+    if (bundle && !hasSubmitted && !adminMode && !notSentYetShownRef.current) {
+      notSentYetShownRef.current = true;
+      capture('estimate_reminder_shown');
+    }
+  }, [bundle, hasSubmitted, adminMode]);
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -321,7 +313,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     // Reset per-estimate refs — new files mean a fresh estimate and upload
     uploadedRef.current = null;
-    quoteRequestIdRef.current = null;
 
     setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
     setParsing(true);
@@ -404,40 +395,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               }
             }
             uploadedRef.current = { paths: uploadedPaths, names: uploadedNames };
-
-            // Create quote_requests row immediately — visible in admin before contact info arrives
-            try {
-              const newId = crypto.randomUUID();
-              const { error: insertErr } = await supabaseAnon
-                .from("quote_requests")
-                .insert({
-                  id: newId,
-                  contact_email: null,
-                  contact_phone: null,
-                  material: materialKey,
-                  color: null,
-                  infill: `${capturedInfill}%`,
-                  wall_loops: capturedWallLoops,
-                  urgency: capturedUrgency,
-                  quantity: nextBundle.totalUnits,
-                  estimated_grams: nextBundle.totalGrams,
-                  estimated_hours: nextBundle.totalHours,
-                  estimated_price_low: nextBundle.low,
-                  estimated_price_high: nextBundle.high,
-                  file_paths: uploadedPaths,
-                  file_names: uploadedNames,
-                  status: "uploaded",
-                  multicolour: capturedMulticolour,
-                } as any);
-              if (insertErr) {
-                // Don't set the ref if insert failed — submit path will upsert with a fresh id.
-                console.error("quote_requests early insert failed:", insertErr);
-              } else {
-                quoteRequestIdRef.current = newId;
-              }
-            } catch (qrErr) {
-              console.error("quote_requests early insert threw:", qrErr);
-            }
           } catch (e) {
             console.error("Pre-estimate upload failed:", e);
             // uploadedRef stays null — submitQuote will run the fallback upload loop
@@ -531,7 +488,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     estimateShownRef.current = false;
     uploadedRef.current = null;
     modalShownRef.current = false;
-    quoteRequestIdRef.current = null;
+    notSentYetShownRef.current = false;
     if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
     setUploadState("idle");
     setHasSubmitted(false);
@@ -544,7 +501,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsSubmittingQuote(false);
     setIsSubmittedQuote(false);
     setQuoteError(null);
-    setShowReminderBanner(false);
     setMobileModalOpen(false);
   };
 
@@ -613,9 +569,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       });
       estimateShownRef.current = false;
 
-      // DB write — try UPDATE on the early-created row; if that errors (or the row is missing),
-      // upsert with the same id so contact details are never lost. Fire-and-forget from the
-      // user's perspective — wrapped in an IIFE so the outer submit flow doesn't wait on it.
+      // DB write — fresh insert with all contact details. Fire-and-forget.
       // Use anon client so an admin session in localStorage doesn't trigger a 42501 error.
       (async () => {
         const payload = {
@@ -637,15 +591,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
         };
 
-        const targetId = quoteRequestIdRef.current ?? crypto.randomUUID();
         try {
-          const { error: upsertErr } = await supabaseAnon
+          const { error: insertErr } = await supabaseAnon
             .from("quote_requests")
-            .upsert({ id: targetId, ...payload } as any, { onConflict: "id" });
-          if (upsertErr) console.error("quote_requests upsert failed:", upsertErr);
-          else console.log("quote_requests upsert OK for id", targetId);
+            .insert({ id: crypto.randomUUID(), ...payload } as any);
+          if (insertErr) console.error("quote_requests insert failed:", insertErr);
+          else console.log("quote_requests insert OK");
         } catch (e) {
-          console.error("quote_requests upsert threw:", e);
+          console.error("quote_requests insert threw:", e);
         }
       })();
 
@@ -1063,26 +1016,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
               ) : (
                 <>
-                  <p className="text-xs text-muted-foreground/70 mt-3 italic">
-                    {t("calc.result.autoNote")}
-                  </p>
-                  {showReminderBanner && (
-                    <div className="mt-2 flex items-start gap-3 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 px-4 py-3">
-                      <p className="flex-1 text-sm text-amber-800 dark:text-amber-300">
-                        {t("calc.contact.reminder")}
+                  <div className="mt-4 flex items-start gap-3 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 px-4 py-4">
+                    <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold text-amber-900 dark:text-amber-200 text-sm">
+                        {t("calc.result.notSentYet.title")}
                       </p>
-                      <button
-                        onClick={() => {
-                          setShowReminderBanner(false);
-                          capture('estimate_reminder_dismissed');
-                        }}
-                        className="shrink-0 text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 transition-colors"
-                        aria-label={t("calc.contact.reminder.close")}
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                      <p className="text-sm text-amber-800 dark:text-amber-300 mt-0.5">
+                        {t("calc.result.notSentYet.body")}
+                      </p>
                     </div>
-                  )}
+                  </div>
                   <div className="mt-2 rounded-xl border border-accent/30 bg-accent/5 p-5">
                     <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
                     <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>

@@ -288,6 +288,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.result.heading": "Geschatte totaalprijs",
   "calc.result.disclaimer": "Directe schatting — een expert bevestigt uw exacte prijs binnen 1 uur",
   "calc.result.autoNote": "Dit is een automatische schatting. Stuur ons uw bestand en wij bevestigen de exacte prijs — doorgaans binnen 1 uur.",
+  "calc.result.notSentYet.title": "Uw bestand is NOG NIET verzonden",
+  "calc.result.notSentYet.body": "Voer hieronder uw e-mail of telefoonnummer in en klik op Offerteaanvraag versturen — wij bevestigen de exacte prijs, doorgaans binnen 1 uur.",
   "calc.result.detail": "{grams}g · ~{hours}u printtijd",
   "calc.result.qty": "{discount}% volumekorting toegepast",
   "calc.result.cta": "Exacte prijs opvragen",

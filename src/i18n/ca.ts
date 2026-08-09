@@ -289,6 +289,8 @@ export const caTranslations: Record<string, string> = {
   "calc.result.heading": "Preu estimat del paquet",
   "calc.result.disclaimer": "Estimació instantània — una persona revisarà i confirmarà el teu pressupost exacte en menys d'1 hora",
   "calc.result.autoNote": "Aquesta és una estimació automàtica. Envia'ns el teu arxiu i confirmem el preu exacte — normalment en menys d'1 hora.",
+  "calc.result.notSentYet.title": "El teu arxiu ENCARA NO ha estat enviat",
+  "calc.result.notSentYet.body": "Introdueix el teu email o telèfon i prem Enviar sol·licitud de pressupost — confirmem el preu exacte normalment en menys d'1 hora.",
   "calc.result.detail": "{grams}g · ~{hours}h d'impressió",
   "calc.result.qty": "{discount}% descompte per volum aplicat",
   "calc.result.cta": "Obtenir preu exacte",

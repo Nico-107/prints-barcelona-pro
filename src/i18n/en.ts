@@ -289,6 +289,8 @@ export const enTranslations: Record<string, string> = {
   "calc.result.heading": "Estimated bundle price",
   "calc.result.disclaimer": "Instant estimate — a human will review and confirm your exact quote within 1 hour",
   "calc.result.autoNote": "This is an automatic estimate. Send us your file and we'll confirm the exact price — usually within 1 hour.",
+  "calc.result.notSentYet.title": "Your file has NOT been sent yet",
+  "calc.result.notSentYet.body": "Enter your email or phone below and press Send quote request — we'll confirm the exact price, usually within 1 hour.",
   "calc.result.detail": "{grams}g · ~{hours}h print time",
   "calc.result.qty": "{discount}% bundle discount applied",
   "calc.result.cta": "Get Exact Quote",
