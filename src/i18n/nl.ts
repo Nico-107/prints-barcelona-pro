@@ -295,6 +295,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.modal.close": "Ik vul het hieronder in",
   "calc.modal.trust": "4,9/5 uit 22 beoordelingen · Geen account nodig · Geen spam",
   "calc.modal.dragHint": "Slepen om te roteren",
+  "calc.modal.andMore": "en nog {n} bestanden",
   "calc.result.detail": "{grams}g · ~{hours}u printtijd",
   "calc.result.qty": "{discount}% volumekorting toegepast",
   "calc.result.cta": "Exacte prijs opvragen",

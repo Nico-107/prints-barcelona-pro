@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 interface StlViewerProps {
   file: File;
+  size?: number;
+  onError?: () => void;
 }
 
-export default function StlViewer({ file }: StlViewerProps) {
+export default function StlViewer({ file, size = 240, onError }: StlViewerProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,8 +33,8 @@ export default function StlViewer({ file }: StlViewerProps) {
         if (canceled || !containerRef.current) return;
 
         const cont = containerRef.current;
-        const W = 240;
-        const H = 240;
+        const W = size;
+        const H = size;
 
         // ── Read file ─────────────────────────────────────────────────
         const buffer = await file.arrayBuffer();
@@ -241,6 +243,7 @@ export default function StlViewer({ file }: StlViewerProps) {
         if (!canceled) {
           setHasError(true);
           setIsLoading(false);
+          onError?.();
         }
       }
     };
@@ -251,20 +254,20 @@ export default function StlViewer({ file }: StlViewerProps) {
       canceled = true;
       cleanupFn?.();
     };
-  }, [isMounted, file]);
+  }, [isMounted, file, size]);
 
   // Placeholder while not yet mounted (SSR / pre-hydration)
   if (!isMounted) {
-    return <div style={{ width: 240, height: 240, background: "#f0f0f0", borderRadius: 8 }} />;
+    return <div style={{ width: size, height: size, background: "#f0f0f0", borderRadius: 8 }} />;
   }
 
   // On error, render nothing — never crash the parent component
   if (hasError) return null;
 
   return (
-    <div style={{ position: "relative", width: 240, height: 240, marginTop: 8 }}>
+    <div style={{ position: "relative", width: size, height: size, marginTop: 8 }}>
       {/* Canvas is appended here by the Three.js renderer */}
-      <div ref={containerRef} style={{ width: 240, height: 240, borderRadius: 8, overflow: "hidden" }} />
+      <div ref={containerRef} style={{ width: size, height: size, borderRadius: 8, overflow: "hidden" }} />
       {/* Loading placeholder overlays container until canvas is ready */}
       {isLoading && (
         <div

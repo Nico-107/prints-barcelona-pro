@@ -296,6 +296,7 @@ export const esTranslations: Record<string, string> = {
   "calc.modal.close": "Lo relleno abajo",
   "calc.modal.trust": "4,9/5 en 22 reseñas · Sin registro · Sin spam",
   "calc.modal.dragHint": "Arrastra para rotar",
+  "calc.modal.andMore": "y {n} archivo{s} más",
   "calc.result.detail": "{grams}g · ~{hours}h de impresión",
   "calc.result.qty": "{discount}% descuento por volumen aplicado",
   "calc.result.cta": "Obtener precio exacto",

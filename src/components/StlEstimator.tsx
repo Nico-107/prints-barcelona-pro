@@ -274,6 +274,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   // Mobile modal
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
+  const [viewerFailedInModal, setViewerFailedInModal] = useState(false);
 
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "slow" | "done" | "failed">("idle");
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -759,7 +760,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     <div className="flex items-center gap-3">
                       <FileBox className={`w-4 h-4 flex-shrink-0 ${f.parseError ? "text-destructive" : "text-accent"}`} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{f.name}</p>
+                        <p className="text-sm font-medium text-foreground truncate">{stripUploadPrefix(f.name)}</p>
                         {f.parseError ? (
                           <p className="text-xs text-destructive">{f.parseError}</p>
                         ) : (
@@ -1059,71 +1060,275 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       </div>
 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
-      {!adminMode && bundle && (
+      {!adminMode && bundle && (() => {
+        const stepperFile = firstViewableFile;
+        const stepperValue = stepperFile?.qty ?? 1;
+        const extraFiles = validFiles.length - 1;
+        const andMoreLine = extraFiles > 0
+          ? t("calc.modal.andMore")
+              .replace("{n}", String(extraFiles))
+              .replace("{s}", extraFiles === 1 ? "" : "s")
+          : null;
+
+        return (
         <Dialog open={mobileModalOpen} onOpenChange={(open) => {
           if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
           setMobileModalOpen(open);
+          if (open) setViewerFailedInModal(false);
         }}>
-          <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-lg font-bold text-foreground pr-8">
+          <DialogContent
+            className={`sm:max-w-md max-h-[85vh] p-0 gap-0 flex flex-col overflow-hidden
+              [&>button]:!h-11 [&>button]:!w-11 [&>button]:!top-2 [&>button]:!right-2
+              [&>button]:!flex [&>button]:!items-center [&>button]:!justify-center
+              [&>button]:!rounded-full [&>button>svg]:!h-5 [&>button>svg]:!w-5`}
+          >
+            {/* Header — subtitle stays here; title carries progress framing */}
+            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border shrink-0 text-left">
+              <DialogTitle className="text-lg font-bold text-foreground pr-12">
                 {t("calc.modal.title")}
               </DialogTitle>
+              <p className="text-sm text-muted-foreground">{t("calc.modal.subtitle")}</p>
             </DialogHeader>
 
-            {/* STL preview — first valid file with a File object; errors hidden silently */}
-            {firstViewableFile?.file && (
+            {/* Scrollable body */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 min-h-0">
+              {/* Price at top — updates live from computeBundle */}
               <div>
-                <div className="rounded-xl overflow-hidden">
-                  <Suspense fallback={<div className="h-48 bg-muted/30 rounded-xl animate-pulse" />}>
-                    <StlViewer file={firstViewableFile.file} />
-                  </Suspense>
-                </div>
-                <p className="text-xs text-center text-muted-foreground mt-1">{t("calc.modal.dragHint")}</p>
+                <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
+                <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
               </div>
-            )}
 
-            {/* Price, spec summary, and file names */}
-            <div>
-              <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
-              <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
-              <p className="text-xs text-muted-foreground mt-1 truncate">
-                {validFiles.map(f => stripUploadPrefix(f.name)).join(" · ")}
-              </p>
+              {/* STL viewer — centered, ~280px, square */}
+              {stepperFile?.file && (
+                <div className="flex flex-col items-center">
+                  <div className="rounded-xl overflow-hidden">
+                    <Suspense fallback={<div style={{ width: 280, height: 280 }} className="bg-muted/30 rounded-xl animate-pulse" />}>
+                      <StlViewer
+                        file={stepperFile.file}
+                        size={280}
+                        onError={() => setViewerFailedInModal(true)}
+                      />
+                    </Suspense>
+                  </div>
+                  {!viewerFailedInModal && (
+                    <p className="text-xs text-center text-muted-foreground mt-2">
+                      {t("calc.modal.dragHint")}
+                    </p>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-1 text-center max-w-full truncate">
+                    {stripUploadPrefix(stepperFile.name)}
+                  </p>
+                  {andMoreLine && (
+                    <p className="text-xs text-muted-foreground/70 mt-0.5 text-center">
+                      {andMoreLine}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {bundle.supportHeavy && (
+                <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+                  {t("calc.overhang.note")}
+                </p>
+              )}
+              {multicolour && (
+                <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
+                  {t("calc.multicolour.note")}
+                </p>
+              )}
+
+              {isSubmittedQuote ? (
+                <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
+                  <CheckCircle className="w-7 h-7 text-whatsapp mx-auto mb-2" />
+                  <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
+                </div>
+              ) : (
+                <>
+                  {/* Configuration controls — bound to the same state as inline form */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
+                      <select
+                        value={materialKey}
+                        onChange={e => setMaterialKey(e.target.value)}
+                        disabled={isSubmittingQuote}
+                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      >
+                        {Object.entries(MATERIALS).map(([k, v]) => (
+                          <option key={k} value={k}>{v.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+                      <select
+                        value={infillPct}
+                        onChange={e => setInfillPct(Number(e.target.value))}
+                        disabled={isSubmittingQuote}
+                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      >
+                        {INFILL_OPTIONS.map(o => (
+                          <option key={o.value} value={o.value}>{t(o.key)}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+                      <select
+                        value={wallLoops}
+                        onChange={e => setWallLoops(Number(e.target.value))}
+                        disabled={isSubmittingQuote}
+                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      >
+                        <option value={2}>{t("calc.walls.2")}</option>
+                        <option value={3}>{t("calc.walls.3")}</option>
+                        <option value={4}>{t("calc.walls.4")}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+                      <select
+                        value={urgency}
+                        onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
+                        disabled={isSubmittingQuote}
+                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      >
+                        <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
+                        <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
+                        <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.qty")}</label>
+                      <div className="flex items-center h-9 rounded-md border border-input bg-background overflow-hidden">
+                        <button
+                          type="button"
+                          onClick={() => stepperFile && updateQty(stepperFile.id, stepperValue - 1)}
+                          disabled={!stepperFile || stepperValue <= 1 || isSubmittingQuote}
+                          className="w-9 h-full flex items-center justify-center text-lg text-foreground hover:bg-muted/40 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+                          aria-label="Decrease quantity"
+                        >
+                          −
+                        </button>
+                        <span className="flex-1 text-center text-sm font-medium tabular-nums">{stepperValue}</span>
+                        <button
+                          type="button"
+                          onClick={() => stepperFile && updateQty(stepperFile.id, stepperValue + 1)}
+                          disabled={!stepperFile || isSubmittingQuote}
+                          className="w-9 h-full flex items-center justify-center text-lg text-foreground hover:bg-muted/40 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+                          aria-label="Increase quantity"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex items-end">
+                      <label className="flex items-center gap-2 h-9 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={multicolour}
+                          onChange={e => setMulticolour(e.target.checked)}
+                          disabled={isSubmittingQuote}
+                          className="h-4 w-4 rounded border-input accent-accent"
+                        />
+                        <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Contact inputs — buttons live in the sticky footer */}
+                  <div className="space-y-2">
+                    <input
+                      type="email"
+                      value={contactEmail}
+                      onChange={e => setContactEmail(e.target.value)}
+                      placeholder={t("calc.contact.email")}
+                      disabled={isSubmittingQuote}
+                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    <input
+                      type="tel"
+                      value={contactPhone}
+                      onChange={e => setContactPhone(e.target.value)}
+                      placeholder={t("calc.contact.phone")}
+                      disabled={isSubmittingQuote}
+                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    {quoteError && (
+                      <p className="text-xs text-destructive">{quoteError}</p>
+                    )}
+                    {oversizedFiles.length > 0 && (
+                      <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+                        {t("calc.notice.tooLargeToUpload")}
+                      </p>
+                    )}
+                  </div>
+
+                  {hasSubmitted && uploadState !== "idle" && (
+                    <div className="flex items-center gap-1.5 text-xs">
+                      {(uploadState === "uploading" || uploadState === "slow") && (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
+                          <span className="text-muted-foreground">
+                            {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
+                          </span>
+                        </>
+                      )}
+                      {uploadState === "done" && (
+                        <>
+                          <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
+                          <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
+                        </>
+                      )}
+                      {uploadState === "failed" && (
+                        <>
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
-            <p className="text-sm text-muted-foreground">{t("calc.modal.subtitle")}</p>
-
-            {bundle.supportHeavy && (
-              <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-                {t("calc.overhang.note")}
-              </p>
-            )}
-            {multicolour && (
-              <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
-                {t("calc.multicolour.note")}
-              </p>
-            )}
-
-            {isSubmittedQuote ? (
-              <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
-                <CheckCircle className="w-7 h-7 text-whatsapp mx-auto mb-2" />
-                <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
-                <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
-              </div>
-            ) : (
-              <>
-                {contactFormContent}
-                <p className="text-xs text-center text-muted-foreground -mt-1">{t("calc.modal.trust")}</p>
-                <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors mt-1">
+            {/* Sticky footer — primary CTA is always visible */}
+            {!isSubmittedQuote && (
+              <div className="shrink-0 border-t border-border bg-background px-6 py-4 space-y-2">
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="w-full gap-2"
+                  onClick={submitQuote}
+                  disabled={isSubmittingQuote}
+                >
+                  {isSubmittingQuote
+                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                    : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
+                  }
+                </Button>
+                <p className="text-xs text-center text-muted-foreground">{t("calc.modal.trust")}</p>
+                <Button
+                  variant="whatsapp-outline"
+                  size="sm"
+                  className="w-full gap-2"
+                  onClick={handleWhatsApp}
+                  disabled={isSubmittingQuote}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  {t("calc.result.whatsapp")}
+                </Button>
+                <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
                   <X className="w-4 h-4" />
                   {t("calc.modal.close")}
                 </DialogClose>
-              </>
+              </div>
             )}
           </DialogContent>
         </Dialog>
-      )}
+        );
+      })()}
     </div>
   );
 

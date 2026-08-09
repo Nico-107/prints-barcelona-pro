@@ -296,6 +296,7 @@ export const caTranslations: Record<string, string> = {
   "calc.modal.close": "Ho ompliré a sota",
   "calc.modal.trust": "4,9/5 en 22 ressenyes · Sense compte · Sense spam",
   "calc.modal.dragHint": "Arrossega per rotar",
+  "calc.modal.andMore": "i {n} arxiu{s} més",
   "calc.result.detail": "{grams}g · ~{hours}h d'impressió",
   "calc.result.qty": "{discount}% descompte per volum aplicat",
   "calc.result.cta": "Obtenir preu exacte",
