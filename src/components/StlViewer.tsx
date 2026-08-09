@@ -4,9 +4,10 @@ interface StlViewerProps {
   file: File;
   size?: number;
   onError?: () => void;
+  onReady?: () => void;
 }
 
-export default function StlViewer({ file, size = 240, onError }: StlViewerProps) {
+export default function StlViewer({ file, size = 240, onError, onReady }: StlViewerProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -154,6 +155,7 @@ export default function StlViewer({ file, size = 240, onError }: StlViewerProps)
         scene.add(mesh);
 
         setIsLoading(false);
+        onReady?.();
 
         // ── Interaction state ─────────────────────────────────────────
         let isDragging = false;

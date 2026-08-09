@@ -1,4 +1,4 @@
-import { useState, useRef, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
@@ -274,7 +274,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   // Mobile modal
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
-  const [viewerFailedInModal, setViewerFailedInModal] = useState(false);
+  const [viewerStateInModal, setViewerStateInModal] = useState<"loading" | "ready" | "failed">("loading");
+  const [shortViewport, setShortViewport] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(max-height: 700px)");
+    const update = () => setShortViewport(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
 
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "slow" | "done" | "failed">("idle");
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -642,6 +652,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     : "";
 
   const firstViewableFile = validFiles.find(f => f.file);
+
+  useEffect(() => {
+    setViewerStateInModal("loading");
+  }, [firstViewableFile?.id, shortViewport]);
 
   const specLine = bundle ? [
     materialKey,
@@ -1064,17 +1078,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const stepperFile = firstViewableFile;
         const stepperValue = stepperFile?.qty ?? 1;
         const extraFiles = validFiles.length - 1;
-        const andMoreLine = extraFiles > 0
-          ? t("calc.modal.andMore")
-              .replace("{n}", String(extraFiles))
-              .replace("{s}", extraFiles === 1 ? "" : "s")
+        const moreFilesLine = extraFiles > 0
+          ? t("calc.modal.moreFiles").replace("{count}", String(extraFiles))
           : null;
+        const viewerSize = shortViewport ? 180 : 240;
 
         return (
         <Dialog open={mobileModalOpen} onOpenChange={(open) => {
           if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
           setMobileModalOpen(open);
-          if (open) setViewerFailedInModal(false);
+          if (open) setViewerStateInModal("loading");
         }}>
           <DialogContent
             className={`sm:max-w-md max-h-[85vh] p-0 gap-0 flex flex-col overflow-hidden
@@ -1098,29 +1111,39 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
               </div>
 
-              {/* STL viewer — centered, ~280px, square */}
+              {/* STL viewer — centered, square, ~240px (180px on short viewports).
+                  When the viewer errors, the whole viewer box is hidden so no empty frame appears. */}
               {stepperFile?.file && (
                 <div className="flex flex-col items-center">
-                  <div className="rounded-xl overflow-hidden">
-                    <Suspense fallback={<div style={{ width: 280, height: 280 }} className="bg-muted/30 rounded-xl animate-pulse" />}>
-                      <StlViewer
-                        file={stepperFile.file}
-                        size={280}
-                        onError={() => setViewerFailedInModal(true)}
-                      />
-                    </Suspense>
-                  </div>
-                  {!viewerFailedInModal && (
-                    <p className="text-xs text-center text-muted-foreground mt-2">
-                      {t("calc.modal.dragHint")}
-                    </p>
+                  {viewerStateInModal !== "failed" && (
+                    <>
+                      <div
+                        className="rounded-xl border border-border bg-muted/20 overflow-hidden"
+                        style={{ width: viewerSize, height: viewerSize }}
+                      >
+                        <Suspense fallback={<div style={{ width: viewerSize, height: viewerSize }} className="bg-muted/20 animate-pulse" />}>
+                          <StlViewer
+                            key={`${stepperFile.id}-${viewerSize}`}
+                            file={stepperFile.file}
+                            size={viewerSize}
+                            onReady={() => setViewerStateInModal("ready")}
+                            onError={() => setViewerStateInModal("failed")}
+                          />
+                        </Suspense>
+                      </div>
+                      {viewerStateInModal === "ready" && (
+                        <p className="text-xs text-center text-muted-foreground mt-2">
+                          {t("calc.modal.dragHint")}
+                        </p>
+                      )}
+                    </>
                   )}
                   <p className="text-xs text-muted-foreground mt-1 text-center max-w-full truncate">
                     {stripUploadPrefix(stepperFile.name)}
                   </p>
-                  {andMoreLine && (
+                  {moreFilesLine && (
                     <p className="text-xs text-muted-foreground/70 mt-0.5 text-center">
-                      {andMoreLine}
+                      {moreFilesLine}
                     </p>
                   )}
                 </div>
@@ -1234,6 +1257,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         />
                         <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
                       </label>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.color")}</label>
+                      <input
+                        type="text"
+                        value={colorPref}
+                        onChange={e => setColorPref(e.target.value)}
+                        placeholder={t("calc.color.placeholder")}
+                        disabled={isSubmittingQuote}
+                        className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      />
                     </div>
                   </div>
 

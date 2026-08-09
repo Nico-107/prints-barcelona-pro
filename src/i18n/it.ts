@@ -295,7 +295,7 @@ export const itTranslations: Record<string, string> = {
   "calc.modal.close": "Lo compilo qui sotto",
   "calc.modal.trust": "4,9/5 da 22 recensioni · Nessun account · Nessun spam",
   "calc.modal.dragHint": "Trascina per ruotare",
-  "calc.modal.andMore": "e altri {n} file",
+  "calc.modal.moreFiles": "e altri {count} file",
   "calc.result.detail": "{grams}g · ~{hours}h di stampa",
   "calc.result.qty": "{discount}% di sconto volume applicato",
   "calc.result.cta": "Ottieni il prezzo esatto",

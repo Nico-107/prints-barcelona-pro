@@ -295,7 +295,7 @@ export const deTranslations: Record<string, string> = {
   "calc.modal.close": "Ich fülle es unten aus",
   "calc.modal.trust": "4,9/5 aus 22 Bewertungen · Kein Konto nötig · Kein Spam",
   "calc.modal.dragHint": "Ziehen zum Drehen",
-  "calc.modal.andMore": "und {n} weitere Dateien",
+  "calc.modal.moreFiles": "und {count} weitere Dateien",
   "calc.result.detail": "{grams}g · ~{hours}h Druckzeit",
   "calc.result.qty": "{discount}% Mengenrabatt angewendet",
   "calc.result.cta": "Genaues Angebot erhalten",

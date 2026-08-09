@@ -296,7 +296,7 @@ export const enTranslations: Record<string, string> = {
   "calc.modal.close": "I'll fill it in below",
   "calc.modal.trust": "4.9/5 from 22 reviews · No account needed · No spam",
   "calc.modal.dragHint": "Drag to rotate",
-  "calc.modal.andMore": "and {n} more file{s}",
+  "calc.modal.moreFiles": "and {count} more files",
   "calc.result.detail": "{grams}g · ~{hours}h print time",
   "calc.result.qty": "{discount}% bundle discount applied",
   "calc.result.cta": "Get Exact Quote",
