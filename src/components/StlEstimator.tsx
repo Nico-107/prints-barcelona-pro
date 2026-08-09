@@ -54,6 +54,10 @@ function wallFactor(loops: number): number {
   return loops === 2 ? 0.14 : loops === 3 ? 0.20 : 0.27;
 }
 
+function stripUploadPrefix(name: string): string {
+  return name.replace(/^\d+-/, "");
+}
+
 // ─── STL parser ───────────────────────────────────────────────────────────────
 
 interface StlParseResult {
@@ -638,6 +642,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const firstViewableFile = validFiles.find(f => f.file);
 
+  const specLine = bundle ? [
+    materialKey,
+    `${infillPct}% infill`,
+    `${wallLoops} wall${wallLoops !== 1 ? "s" : ""}`,
+    `${bundle.totalUnits} unit${bundle.totalUnits !== 1 ? "s" : ""}`,
+    `${t(`calc.urgency.${urgency}.label`)} ${t(`calc.urgency.${urgency}.time`)}`,
+    ...(multicolour ? [t("calc.multicolour.label")] : []),
+  ].join(" · ") : "";
+
   // Shared contact form content — used in both inline block and mobile modal
   const contactFormContent = (
     <div className="space-y-2">
@@ -1060,18 +1073,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
             {/* STL preview — first valid file with a File object; errors hidden silently */}
             {firstViewableFile?.file && (
-              <div className="rounded-xl overflow-hidden">
-                <Suspense fallback={<div className="h-48 bg-muted/30 rounded-xl animate-pulse" />}>
-                  <StlViewer file={firstViewableFile.file} />
-                </Suspense>
+              <div>
+                <div className="rounded-xl overflow-hidden">
+                  <Suspense fallback={<div className="h-48 bg-muted/30 rounded-xl animate-pulse" />}>
+                    <StlViewer file={firstViewableFile.file} />
+                  </Suspense>
+                </div>
+                <p className="text-xs text-center text-muted-foreground mt-1">{t("calc.modal.dragHint")}</p>
               </div>
             )}
 
-            {/* Price and file names */}
+            {/* Price, spec summary, and file names */}
             <div>
               <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
-              <p className="text-sm text-muted-foreground mt-1 truncate">
-                {validFiles.map(f => f.name).join(" · ")}
+              <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
+              <p className="text-xs text-muted-foreground mt-1 truncate">
+                {validFiles.map(f => stripUploadPrefix(f.name)).join(" · ")}
               </p>
             </div>
 
@@ -1097,6 +1114,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             ) : (
               <>
                 {contactFormContent}
+                <p className="text-xs text-center text-muted-foreground -mt-1">{t("calc.modal.trust")}</p>
                 <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors mt-1">
                   <X className="w-4 h-4" />
                   {t("calc.modal.close")}
