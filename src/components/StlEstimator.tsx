@@ -852,8 +852,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         {/* Controls: material + infill */}
         <div className="grid grid-cols-2 gap-3 mt-4">
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
+            <label htmlFor="calc-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
             <select
+              id="calc-material"
               value={materialKey}
               onChange={e => setMaterialKey(e.target.value)}
               className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
@@ -864,8 +865,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+            <label htmlFor="calc-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
             <select
+              id="calc-infill"
               value={infillPct}
               onChange={e => setInfillPct(Number(e.target.value))}
               className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
@@ -891,8 +893,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         {/* Wall loops */}
         <div className="mt-2">
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+          <label htmlFor="calc-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
           <select
+            id="calc-walls"
             value={wallLoops}
             onChange={e => setWallLoops(Number(e.target.value))}
             className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
@@ -905,8 +908,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         {/* Urgency */}
         <div className="mt-2">
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+          <label htmlFor="calc-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
           <select
+            id="calc-urgency"
             value={urgency}
             onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
             className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
@@ -1171,8 +1175,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   {/* Configuration controls — bound to the same state as inline form */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
+                      <label htmlFor="modal-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
                       <select
+                        id="modal-material"
                         value={materialKey}
                         onChange={e => setMaterialKey(e.target.value)}
                         disabled={isSubmittingQuote}
@@ -1184,8 +1189,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+                      <label htmlFor="modal-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
                       <select
+                        id="modal-infill"
                         value={infillPct}
                         onChange={e => setInfillPct(Number(e.target.value))}
                         disabled={isSubmittingQuote}
@@ -1197,8 +1203,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+                      <label htmlFor="modal-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
                       <select
+                        id="modal-walls"
                         value={wallLoops}
                         onChange={e => setWallLoops(Number(e.target.value))}
                         disabled={isSubmittingQuote}
@@ -1210,8 +1217,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+                      <label htmlFor="modal-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
                       <select
+                        id="modal-urgency"
                         value={urgency}
                         onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
                         disabled={isSubmittingQuote}

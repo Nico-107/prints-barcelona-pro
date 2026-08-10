@@ -46,7 +46,7 @@ export default defineConfig(({ mode, isSsrBuild }) => ({
           ) {
             return "react-vendor";
           }
-          return "vendor";
+          return undefined;
         },
       },
     },

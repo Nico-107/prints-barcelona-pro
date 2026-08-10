@@ -49,8 +49,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
       <div className="container px-4">
         <div className="flex items-center justify-between h-16">
 
-          <Link to="/" className="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 130" fill="none" role="img" aria-label="Dimension3D" style={{ height: '36px', width: 'auto' }}>
+          <Link to="/" className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
               <g transform="translate(6,12) scale(0.88)" fill="none">
                 <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
                   <line x1="66" y1="14" x2="60" y2="42"/>
@@ -70,8 +70,10 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 <circle cx="54" cy="108" r="7" fill="#0f172a"/>
                 <circle cx="66" cy="14" r="9" fill="#f59e0b"/>
               </g>
-              <text x="118" y="84" fontFamily="'Space Grotesk', sans-serif" fontSize="54" fontWeight="700" letterSpacing="-1.5" fill="#0f172a">Dimension<tspan fill="#f59e0b">3D</tspan></text>
             </svg>
+            <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm text-foreground" style={{ fontFamily: "'Space Grotesk', system-ui, -apple-system, sans-serif" }}>
+              Dimension<span className="text-amber-500">3D</span>
+            </span>
           </Link>
 
           <nav className="hidden xl:flex items-center gap-4">
