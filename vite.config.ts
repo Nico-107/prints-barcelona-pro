@@ -27,28 +27,5 @@ export default defineConfig(({ mode, isSsrBuild }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: isSsrBuild ? {} : {
-    rollupOptions: {
-      output: {
-        // Function-form so anything in node_modules gets a stable, cacheable
-        // chunk instead of being folded into the entry. Ordering matters:
-        // check the most-specific groups first.
-        manualChunks(id: string) {
-          if (!id.includes("node_modules")) return undefined;
-          if (id.includes("/three/") || id.endsWith("/three")) return "three";
-          if (id.includes("/topojson-client/")) return "topojson";
-          if (id.includes("/@supabase/")) return "supabase";
-          if (id.includes("/@radix-ui/")) return "vendor-ui";
-          if (
-            id.includes("/react/") ||
-            id.includes("/react-dom/") ||
-            id.includes("/scheduler/")
-          ) {
-            return "react-vendor";
-          }
-          return undefined;
-        },
-      },
-    },
-  },
+  build: isSsrBuild ? {} : {},
 }));
