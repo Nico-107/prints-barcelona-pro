@@ -58,6 +58,13 @@ export interface LandingContent {
   galleryImages: string[]; // paths under /projects/...
   related: { label: string; slug: string }[];
   schemaServiceName: string;
+  // Optional freshness signals for Article schema. When absent LandingPage
+  // falls back to shared defaults so every page still emits valid dates.
+  datePublished?: string;  // ISO date, e.g. "2026-08-01"
+  dateModified?: string;   // ISO date, e.g. "2026-08-10"
+  // Present on genuinely procedural guides only. Each step becomes a
+  // HowToStep in the emitted HowTo schema.
+  howToSteps?: { name: string; text: string }[];
 }
 
 const ALL_IMAGES = [
@@ -756,7 +763,16 @@ export const PAGES_EN: LandingContent[] = [
       { label: "3D Printing in Barcelona (Overview)", slug: "/3d-printing-barcelona" },
       { label: "Cómo Elegir (ES)", slug: "/como-elegir-servicio-impresion-3d-barcelona" }
     ],
-    schemaServiceName: "3D Printing Buyer's Guide Barcelona"
+    schemaServiceName: "3D Printing Buyer's Guide Barcelona",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "What to ask before you place an order", text: "A serious 3D printing service will answer all of the following clearly and in writing. If any answer is vague, that is data." },
+      { name: "Red flags in a 3D printing quote", text: "Some patterns are worth pausing over before you approve a job. None of these on their own means a shop is bad — but three or four together is a pattern." },
+      { name: "Three service models — an objective comparison", text: "There are three common ways to source a 3D print in Barcelona, and they differ in structural ways that matter more than any individual company's marketing." },
+      { name: "Questions specific to your project type", text: "The generic checklist above is a floor, not a ceiling. Depending on what you're ordering, add project-specific questions." },
+      { name: "How Dimension3D answers each of these — in short", text: "For direct reference, here's how the checklist maps to our operation." }
+    ]
   },
 
   // ----- NEW: MATERIALS GUIDE -----
@@ -813,7 +829,9 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Choosing a Service in Barcelona", slug: "/how-to-choose-3d-printing-service-barcelona" },
       { label: "Guía de Materiales (ES)", slug: "/guia-materiales-impresion-3d" }
     ],
-    schemaServiceName: "3D Printing Materials Guide"
+    schemaServiceName: "3D Printing Materials Guide",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10"
   },
 
   // ----- NEW: FILE PREPARATION GUIDE -----
@@ -870,7 +888,17 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Best Service by Use Case", slug: "/best-3d-printing-service-barcelona" },
       { label: "Cómo Preparar tu Archivo (ES)", slug: "/como-preparar-archivo-impresion-3d" }
     ],
-    schemaServiceName: "3D Printing File Preparation Guide"
+    schemaServiceName: "3D Printing File Preparation Guide",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Accepted file formats — and which one to send", text: "We accept the standard 3D file formats: STL, STEP, OBJ, 3MF, and IGES. Each has tradeoffs, and which one to send depends on where your model came from." },
+      { name: "Wall thickness minimums for FDM", text: "The single most common cause of a printed part that fails is walls that are too thin. FDM prints in extruded lines (typically 0.4 mm wide from a standard nozzle), and walls need to be at least a few line widths thick to hold their shape and function structurally." },
+      { name: "Realistic tolerances and how to design for them", text: "FDM is not a precision machining process. Typical accuracy on a well-tuned FDM printer is around ±0.2 mm across most dimensions." },
+      { name: "Overhangs, supports and part orientation", text: "FDM prints layer by layer from the bed upward. Any part of your geometry that overhangs unsupported space needs support material printed underneath it." },
+      { name: "Hole sizing, thread inserts and press-fits", text: "Small mechanical features are where FDM prints most often disappoint if the design wasn't adjusted for the process." },
+      { name: "What if you don't have a file at all", text: "A significant share of our orders come in with no CAD file at all. That's fine. The process is different, not worse." }
+    ]
   },
 
   // ----- NEW: BEST 3D PRINTING SERVICE (need-based) -----
@@ -927,7 +955,9 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Transparent Price Breakdown", slug: "/3d-printing-price-barcelona" },
       { label: "Mejor Servicio (ES)", slug: "/mejor-servicio-impresion-3d-barcelona" }
     ],
-    schemaServiceName: "Best 3D Printing Service Barcelona"
+    schemaServiceName: "Best 3D Printing Service Barcelona",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10"
   },
 
   // ----- NEW: MAKER INCOME (how to make money with a 3D printer) -----
@@ -986,7 +1016,17 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Guía en Español", slug: "/como-ganar-dinero-con-impresora-3d" },
       { label: "Deutsche Version", slug: "/mit-3d-drucker-geld-verdienen" }
     ],
-    schemaServiceName: "Making Money With a 3D Printer — Guide"
+    schemaServiceName: "Making Money With a 3D Printer — Guide",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Selling finished prints locally — the fastest first sale", text: "Selling physical prints to people in your own city is the shortest path from printer to first income. You avoid shipping, you avoid platform fees, and the customer either loves the object in their hands or they don't." },
+      { name: "Joining a print network — free to join, no commission, orders from your area go to you", text: "Before the individual channels below, the shortest path to real customer orders you did not have to market for is joining a local print network. The Dimension3D maker network is set up for exactly this." },
+      { name: "Marketplaces (Etsy, Wallapop, eBay) — reach at the cost of fees and competition", text: "Marketplaces let a stranger halfway across the country find your listing on a Tuesday afternoon. That reach is genuinely valuable — and it comes with two costs: fees and competition." },
+      { name: "Selling design files (Cults3D, MakerWorld, others) — passive income that ramps slowly", text: "If you're comfortable in a 3D modelling tool, you can sell the file instead of the print. A single well-designed model uploaded to Cults3D or MakerWorld can sell for years without you doing anything after the upload." },
+      { name: "Prototyping and small-batch work for local businesses", text: "Every neighbourhood has small businesses that occasionally need a physical part. These jobs pay better per part than consumer sales because the customer is buying a solution, not a novelty." },
+      { name: "Repair and replacement parts — high-value, high-trust work", text: "One of the highest-margin uses of a home printer is replacing broken plastic parts on things people already own. The customer is comparing your quote against the alternative of buying a whole new appliance, so pricing is generous relative to consumer items." }
+    ]
   },
 
   // ----- NEW: MAKER PROFITABILITY (is a 3D printing business profitable) -----
@@ -1049,7 +1089,9 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Rentabilidad (ES)", slug: "/es-rentable-negocio-impresion-3d" },
       { label: "Rentabilität (DE)", slug: "/ist-3d-druck-geschaeft-rentabel" }
     ],
-    schemaServiceName: "3D Printing Business Profitability Guide"
+    schemaServiceName: "3D Printing Business Profitability Guide",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10"
   },
 
   // ----- NEW: MAKER CUSTOMERS (how to get 3D printing customers) -----
@@ -1112,6 +1154,17 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Guía Clientes (ES)", slug: "/como-conseguir-clientes-impresion-3d" },
       { label: "Kunden finden (DE)", slug: "/kunden-fuer-3d-druck-finden" }
     ],
-    schemaServiceName: "Getting 3D Printing Customers — Guide"
+    schemaServiceName: "Getting 3D Printing Customers — Guide",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Google Business Profile — the free listing every maker skips", text: "Google Business Profile is a free listing that puts your 3D printing service on Google Maps and in the local pack at the top of local search results. It is the single highest-leverage piece of free marketing for a location-based service, and most home-based makers never set it up." },
+      { name: "Joining an existing print network — orders that come to you, free to join", text: "Everything else on this page is a channel you have to build yourself, and each takes months of consistency before it produces orders reliably. If you want a shorter path to real customer requests, joining an existing local print network is the low-friction option worth considering first." },
+      { name: "Local marketplace listings — where people already look", text: "In Spain, Wallapop is where people go when they need something specific. Etsy and eBay cover cross-border reach. The common thread is that people are already there, actively looking." },
+      { name: "Photographing your prints properly — the single biggest lever", text: "The gap between a listing that sells and one that doesn't is very often the photograph. Prints on a clean background in soft daylight look like a professional catalogue." },
+      { name: "Transparent pricing — remove friction, not margin", text: "Every customer message you receive that asks 'how much does this cost' is a message you didn't need to spend time on. Transparent pricing published up front converts casual browsers into customers because they can decide without having to interact with a stranger." },
+      { name: "Response speed — the underrated competitive advantage", text: "In service work, the first responder frequently wins the job. If a customer sends the same enquiry to three makers and one replies within thirty minutes, the fast responder gets the order most of the time — regardless of who was cheapest." },
+      { name: "Repeat vs one-off customers — where the real business is", text: "One-off customers pay the bills on Tuesday. Repeat customers are the actual business. A customer who ordered a bracket in March, a personalised gift in June and prototypes in September is worth many times more, over a year, than three unrelated first-time buyers." }
+    ]
   }
 ];

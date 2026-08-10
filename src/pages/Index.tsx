@@ -24,6 +24,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
+import { ORGANIZATION_SCHEMA } from "@/seo/entities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -289,6 +290,7 @@ const Index = () => {
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
       </Helmet>
       <LaunchOfferBanner />
       <Header />

@@ -59,7 +59,17 @@ export const PAGES_DE: LandingContent[] = [
       { label: "English Guide", slug: "/how-to-make-money-with-a-3d-printer" },
       { label: "Guía en Español", slug: "/como-ganar-dinero-con-impresora-3d" }
     ],
-    schemaServiceName: "Mit 3D-Drucker Geld verdienen — Guide"
+    schemaServiceName: "Mit 3D-Drucker Geld verdienen — Guide",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Fertige Drucke lokal verkaufen — der schnellste erste Verkauf", text: "Physische Drucke an Leute in der eigenen Stadt zu verkaufen ist der kürzeste Weg vom Drucker zum ersten Umsatz. Kein Versand, keine Plattformgebühren, und der Kunde hält das Objekt in der Hand." },
+      { name: "Einem Druck-Netzwerk beitreten — kostenlos, ohne Provision, Aufträge aus deiner Region kommen zu dir", text: "Vor den einzelnen Kanälen weiter unten: der kürzeste Weg zu echten Kundenaufträgen, für die du kein Marketing machen musstest, ist der Beitritt zu einem lokalen Druck-Netzwerk." },
+      { name: "Marktplätze (Etsy, Kleinanzeigen, eBay) — Reichweite gegen Gebühren und Konkurrenz", text: "Marktplätze machen es möglich, dass eine fremde Person am anderen Ende des Landes deine Anzeige an einem Dienstagnachmittag findet. Diese Reichweite ist echt wertvoll — und sie hat zwei Preisschilder: Gebühren und Konkurrenz." },
+      { name: "Design-Dateien verkaufen (Cults3D, MakerWorld u. a.) — passives Einkommen mit langsamem Hochlauf", text: "Wer sich in einem CAD-Werkzeug bewegen kann, verkauft die Datei statt des Drucks. Ein einziges gut gemachtes Modell auf Cults3D oder MakerWorld kann sich jahrelang verkaufen, ohne dass nach dem Upload noch etwas passiert." },
+      { name: "Prototypen und Kleinserien für lokale Betriebe", text: "In jedem Stadtviertel gibt es kleine Betriebe, die gelegentlich ein physisches Teil brauchen. Diese Aufträge zahlen pro Teil besser als Endverbrauchsverkäufe, weil der Kunde eine Lösung kauft, kein Spielzeug." },
+      { name: "Reparatur- und Ersatzteile — hochwertige, vertrauensbasierte Arbeit", text: "Eine der margenstärksten Verwendungen eines Heimdruckers ist es, kaputte Kunststoffteile an Dingen zu ersetzen, die Leute bereits besitzen." }
+    ]
   },
 
   // ----- MAKER-RENTABILITÄT (Ist ein 3D-Druck-Geschäft rentabel?) -----
@@ -122,7 +132,9 @@ export const PAGES_DE: LandingContent[] = [
       { label: "Profitability (EN)", slug: "/is-3d-printing-business-profitable" },
       { label: "Rentabilidad (ES)", slug: "/es-rentable-negocio-impresion-3d" }
     ],
-    schemaServiceName: "3D-Druck-Geschäft Rentabilität — Guide"
+    schemaServiceName: "3D-Druck-Geschäft Rentabilität — Guide",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10"
   },
 
   // ----- MAKER-KUNDEN (Kunden für 3D-Druck finden) -----
@@ -185,6 +197,17 @@ export const PAGES_DE: LandingContent[] = [
       { label: "Customers Guide (EN)", slug: "/how-to-get-3d-printing-customers" },
       { label: "Guía Clientes (ES)", slug: "/como-conseguir-clientes-impresion-3d" }
     ],
-    schemaServiceName: "Kunden für 3D-Druck finden — Guide"
+    schemaServiceName: "Kunden für 3D-Druck finden — Guide",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Google Business Profil — der kostenlose Eintrag, den jeder Maker vergisst", text: "Google Business Profil (früher Google My Business) ist ein kostenloser Eintrag, der deinen 3D-Druck-Service auf Google Maps und in den lokalen Ergebnisblock oben in der lokalen Suche bringt. Es ist das einzelne Marketing-Werkzeug mit der höchsten Hebelwirkung für einen ortsgebundenen Dienst." },
+      { name: "Einem bestehenden Druck-Netzwerk beitreten — Aufträge, die zu dir kommen, kostenlos", text: "Alles andere auf dieser Seite ist ein Kanal, den du selbst aufbauen musst, und jeder braucht Monate an Konsistenz, bevor er zuverlässig Aufträge produziert. Wenn du einen kürzeren Weg willst, ist der Beitritt zu einem bestehenden lokalen Druck-Netzwerk die risikoarme Option." },
+      { name: "Lokale Marktplätze — wo Leute ohnehin schon suchen", text: "In Deutschland ist Kleinanzeigen (früher eBay Kleinanzeigen) der Ort, an den man geht, wenn man etwas Konkretes lokal sucht. Die Gemeinsamkeit ist, dass die Leute bereits dort sind und aktiv suchen." },
+      { name: "Deine Drucke ordentlich fotografieren — der größte Einzelhebel", text: "Der Unterschied zwischen einer Anzeige, die verkauft, und einer, die es nicht tut, ist sehr oft das Foto. Drucke vor sauberem Hintergrund bei weichem Tageslicht sehen aus wie ein professioneller Katalog." },
+      { name: "Transparente Preise — Reibung reduzieren, nicht Marge", text: "Jede Kundennachricht, in der gefragt wird was kostet das, ist eine Nachricht, für die du dir Zeit hättest sparen können. Vorab veröffentlichte transparente Preise verwandeln Interessierte in Kunden." },
+      { name: "Reaktionsgeschwindigkeit — der unterschätzte Wettbewerbsvorteil", text: "Im Dienstleistungsbereich gewinnt häufig, wer zuerst antwortet. Wenn ein Kunde dieselbe Anfrage an drei Maker schickt und einer antwortet innerhalb von dreißig Minuten, bekommt der Schnelle den Auftrag in den meisten Fällen." },
+      { name: "Wiederkehrende Kunden vs. Einmalkunden — wo das eigentliche Geschäft steckt", text: "Einmalkunden zahlen die Rechnung am Dienstag. Wiederkehrende Kunden sind das eigentliche Geschäft." }
+    ]
   }
 ];

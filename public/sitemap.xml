@@ -5,7 +5,7 @@
   <!-- HOMEPAGE -->
   <url>
     <loc>https://www.dimension3dprints.com/</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/"/>
     <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/"/>
@@ -16,7 +16,7 @@
   <!-- CATALAN HOMEPAGE -->
   <url>
     <loc>https://www.dimension3dprints.com/ca/</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/"/>
     <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/"/>
@@ -27,7 +27,7 @@
   <!-- INTERNATIONAL ENGLISH LANDING -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-service</loc>
-    <lastmod>2026-07-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/"/>
@@ -38,63 +38,63 @@
   <!-- BLOG INDEX -->
   <url>
     <loc>https://www.dimension3dprints.com/blog</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
 
   <!-- BLOG: PRECIO IMPRESION 3D BARCELONA -->
   <url>
     <loc>https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
 
   <!-- BLOG: IMPRESION 3D URGENTE BARCELONA -->
   <url>
     <loc>https://www.dimension3dprints.com/blog/impresion-3d-urgente-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.75</priority>
   </url>
 
   <!-- BLOG: RECAMBIOS Y PIEZAS ROTAS BARCELONA -->
   <url>
     <loc>https://www.dimension3dprints.com/blog/recambios-piezas-rotas-impresion-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.75</priority>
   </url>
 
   <!-- BLOG: PROTOTIPOS RAPIDOS Y PIEZAS FUNCIONALES BARCELONA -->
   <url>
     <loc>https://www.dimension3dprints.com/blog/prototipos-rapidos-piezas-funcionales-barcelona</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.75</priority>
   </url>
 
   <!-- ESTUDIANTES BARCELONA -->
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-estudiantes-barcelona</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.75</priority>
   </url>
 
   <!-- MAKERS -->
   <url>
     <loc>https://www.dimension3dprints.com/makers</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.7</priority>
   </url>
 
   <!-- MAKER GUIDE -->
   <url>
     <loc>https://www.dimension3dprints.com/maker-guide</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
 
   <!-- IMPRESION 3D BARCELONA -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-barcelona"/>
@@ -103,7 +103,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-barcelona"/>
@@ -112,7 +112,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/impressio-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-barcelona"/>
@@ -123,7 +123,7 @@
   <!-- PIEZAS PERSONALIZADAS -->
   <url>
     <loc>https://www.dimension3dprints.com/custom-parts-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona"/>
@@ -132,7 +132,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona"/>
@@ -141,7 +141,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/peces-personalitzades-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/custom-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-personalizadas-3d-barcelona"/>
@@ -152,7 +152,7 @@
   <!-- PROTOTIPOS -->
   <url>
     <loc>https://www.dimension3dprints.com/prototype-printing-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-3d-barcelona"/>
@@ -161,7 +161,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/prototipos-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-3d-barcelona"/>
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/prototips-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/prototype-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-3d-barcelona"/>
@@ -181,7 +181,7 @@
   <!-- IMPRESION URGENTE -->
   <url>
     <loc>https://www.dimension3dprints.com/urgent-3d-printing-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-urgente-barcelona"/>
@@ -190,7 +190,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-urgente-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-urgente-barcelona"/>
@@ -199,7 +199,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/impressio-3d-urgent-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/urgent-3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-urgente-barcelona"/>
@@ -210,7 +210,7 @@
   <!-- PRECIO -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-price-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/precio-impresion-3d-barcelona"/>
@@ -219,7 +219,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/precio-impresion-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/precio-impresion-3d-barcelona"/>
@@ -228,7 +228,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/preu-impressio-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-price-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/precio-impresion-3d-barcelona"/>
@@ -239,7 +239,7 @@
   <!-- RECAMBIOS -->
   <url>
     <loc>https://www.dimension3dprints.com/replacement-parts-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/recambios-impresion-3d-barcelona"/>
@@ -248,7 +248,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/recambios-impresion-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/recambios-impresion-3d-barcelona"/>
@@ -257,7 +257,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/recanvis-impressio-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/replacement-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/recambios-impresion-3d-barcelona"/>
@@ -268,7 +268,7 @@
   <!-- PLA -->
   <url>
     <loc>https://www.dimension3dprints.com/pla-printing-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-pla-barcelona"/>
@@ -277,7 +277,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/impresion-pla-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-pla-barcelona"/>
@@ -286,7 +286,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/impressio-pla-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/pla-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-pla-barcelona"/>
@@ -297,7 +297,7 @@
   <!-- PETG -->
   <url>
     <loc>https://www.dimension3dprints.com/petg-printing-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-petg-barcelona"/>
@@ -306,7 +306,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/impresion-petg-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-petg-barcelona"/>
@@ -315,7 +315,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/impressio-petg-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/petg-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-petg-barcelona"/>
@@ -326,7 +326,7 @@
   <!-- TPU -->
   <url>
     <loc>https://www.dimension3dprints.com/tpu-printing-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-tpu-barcelona"/>
@@ -335,7 +335,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/impresion-tpu-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-tpu-barcelona"/>
@@ -344,7 +344,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/impressio-tpu-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/tpu-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-tpu-barcelona"/>
@@ -355,7 +355,7 @@
   <!-- MINIATURAS -->
   <url>
     <loc>https://www.dimension3dprints.com/miniatures-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/miniaturas-3d-barcelona"/>
@@ -364,7 +364,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/miniaturas-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/miniaturas-3d-barcelona"/>
@@ -373,7 +373,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/miniatures-3d-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/miniatures-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/miniaturas-3d-barcelona"/>
@@ -384,7 +384,7 @@
   <!-- IMPRESION 3D PARA EMPRESAS -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-for-business-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-for-business-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-empresas-barcelona"/>
@@ -393,7 +393,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-empresas-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-for-business-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-empresas-barcelona"/>
@@ -402,7 +402,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/impressio-3d-empreses-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-for-business-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-empresas-barcelona"/>
@@ -413,7 +413,7 @@
   <!-- PROTOTIPADO RÁPIDO -->
   <url>
     <loc>https://www.dimension3dprints.com/rapid-prototyping-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/rapid-prototyping-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipado-rapido-barcelona"/>
@@ -422,7 +422,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/prototipado-rapido-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/rapid-prototyping-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipado-rapido-barcelona"/>
@@ -431,7 +431,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/prototipatge-rapid-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/rapid-prototyping-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipado-rapido-barcelona"/>
@@ -442,49 +442,49 @@
   <!-- CITY DELIVERY PAGES (EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-paris</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-london</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-amsterdam</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-berlin</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-milan</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-rome</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-lisbon</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-new-york</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
 
   <!-- MADRID LOCAL WORKSHOP (paired ES/EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/madrid</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/madrid"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-madrid"/>
@@ -492,7 +492,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-madrid</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/madrid"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-madrid"/>
@@ -502,14 +502,14 @@
   <!-- CITY DELIVERY PAGES (ES) -->
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-con-entrega-a-valencia</loc>
-    <lastmod>2026-07-03</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.6</priority>
   </url>
 
   <!-- GUIDES: BUYER'S GUIDE (paired ES/EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/como-elegir-servicio-impresion-3d-barcelona</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-elegir-servicio-impresion-3d-barcelona"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-choose-3d-printing-service-barcelona"/>
@@ -517,7 +517,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/how-to-choose-3d-printing-service-barcelona</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-elegir-servicio-impresion-3d-barcelona"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-choose-3d-printing-service-barcelona"/>
@@ -527,7 +527,7 @@
   <!-- GUIDES: MATERIALS GUIDE (paired ES/EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/guia-materiales-impresion-3d</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/guia-materiales-impresion-3d"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-materials-guide"/>
@@ -535,7 +535,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-materials-guide</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/guia-materiales-impresion-3d"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-materials-guide"/>
@@ -545,7 +545,7 @@
   <!-- GUIDES: FILE PREPARATION (paired ES/EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/como-preparar-archivo-impresion-3d</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-preparar-archivo-impresion-3d"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-prepare-file-for-3d-printing"/>
@@ -553,7 +553,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/how-to-prepare-file-for-3d-printing</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-preparar-archivo-impresion-3d"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-prepare-file-for-3d-printing"/>
@@ -563,7 +563,7 @@
   <!-- BEST 3D PRINTING SERVICE (paired ES/EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/mejor-servicio-impresion-3d-barcelona</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/mejor-servicio-impresion-3d-barcelona"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/best-3d-printing-service-barcelona"/>
@@ -571,7 +571,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/best-3d-printing-service-barcelona</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/mejor-servicio-impresion-3d-barcelona"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/best-3d-printing-service-barcelona"/>
@@ -581,39 +581,39 @@
   <!-- CATÁLOGO DE PRODUCTOS PERSONALIZADOS -->
   <url>
     <loc>https://www.dimension3dprints.com/catalogo</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/catalogo/jarron-personalizado</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/catalogo/placa-nombre</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/catalogo/placa-mascota</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/catalogo/topper-boda</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/catalogo/soporte-telefono</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
   </url>
 
   <!-- DESIGN REQUEST (EN / ES / CA) -->
   <url>
     <loc>https://www.dimension3dprints.com/design-your-3d-part</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
@@ -622,7 +622,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/disena-tu-pieza-3d</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
@@ -631,7 +631,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/dissenya-la-teva-peca-3d</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
@@ -642,7 +642,7 @@
   <!-- PIEZAS FUNCIONALES -->
   <url>
     <loc>https://www.dimension3dprints.com/functional-parts-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/functional-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-funcionales-barcelona"/>
@@ -651,7 +651,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/piezas-funcionales-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/functional-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-funcionales-barcelona"/>
@@ -660,7 +660,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ca/peces-funcionals-barcelona</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/functional-parts-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/piezas-funcionales-barcelona"/>
@@ -671,7 +671,7 @@
   <!-- MAKER INCOME (how to make money with a 3D printer) -->
   <url>
     <loc>https://www.dimension3dprints.com/how-to-make-money-with-a-3d-printer</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-make-money-with-a-3d-printer"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-ganar-dinero-con-impresora-3d"/>
@@ -680,7 +680,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/como-ganar-dinero-con-impresora-3d</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-make-money-with-a-3d-printer"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-ganar-dinero-con-impresora-3d"/>
@@ -689,7 +689,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/mit-3d-drucker-geld-verdienen</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-make-money-with-a-3d-printer"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-ganar-dinero-con-impresora-3d"/>
@@ -700,7 +700,7 @@
   <!-- MAKER PROFITABILITY (is a 3D printing business profitable) -->
   <url>
     <loc>https://www.dimension3dprints.com/is-3d-printing-business-profitable</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/is-3d-printing-business-profitable"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/es-rentable-negocio-impresion-3d"/>
@@ -709,7 +709,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/es-rentable-negocio-impresion-3d</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/is-3d-printing-business-profitable"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/es-rentable-negocio-impresion-3d"/>
@@ -718,7 +718,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/ist-3d-druck-geschaeft-rentabel</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/is-3d-printing-business-profitable"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/es-rentable-negocio-impresion-3d"/>
@@ -729,7 +729,7 @@
   <!-- MAKER CUSTOMERS (how to get 3D printing customers) -->
   <url>
     <loc>https://www.dimension3dprints.com/how-to-get-3d-printing-customers</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-get-3d-printing-customers"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-conseguir-clientes-impresion-3d"/>
@@ -738,7 +738,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/como-conseguir-clientes-impresion-3d</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-get-3d-printing-customers"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-conseguir-clientes-impresion-3d"/>
@@ -747,7 +747,7 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/kunden-fuer-3d-druck-finden</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/how-to-get-3d-printing-customers"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/como-conseguir-clientes-impresion-3d"/>

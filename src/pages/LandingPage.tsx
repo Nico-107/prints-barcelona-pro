@@ -9,9 +9,26 @@ import Reviews from "@/components/Reviews";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
-import type { LandingContent } from "@/seo/landingPages";
+import type { LandingContent, LandingTopic } from "@/seo/landingPages";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+
+// Topics classed as guides — get TechArticle instead of plain Article, and
+// benefit most from freshness signals since they compete for AI-answer
+// citation on procedural queries.
+const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  "choosing-service",
+  "materials-guide",
+  "file-prep",
+  "best-service",
+  "maker-income",
+  "maker-profitability",
+  "maker-customers",
+]);
+
+const DEFAULT_DATE_PUBLISHED = "2026-08-01";
+const DEFAULT_DATE_MODIFIED = "2026-08-10";
 
 const SECTION_ICONS = [Wrench, Zap, Award, Users];
 
@@ -145,6 +162,43 @@ const LandingPage = ({ page: pageProp }: Props) => {
     }))
   };
 
+  const datePublished = page.datePublished ?? DEFAULT_DATE_PUBLISHED;
+  const dateModified = page.dateModified ?? DEFAULT_DATE_MODIFIED;
+  const isGuide = GUIDE_TOPICS.has(page.topic);
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": isGuide ? "TechArticle" : "Article",
+    headline: page.h1,
+    description: page.metaDescription,
+    inLanguage: page.lang,
+    author: AUTHOR_REF,
+    publisher: PUBLISHER_REF,
+    datePublished,
+    dateModified,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    image: `${SITE_URL}/og-image.jpg`,
+  };
+
+  const howToSchema = page.howToSteps && page.howToSteps.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: page.h1,
+        description: page.metaDescription,
+        inLanguage: page.lang,
+        author: AUTHOR_REF,
+        datePublished,
+        dateModified,
+        step: page.howToSteps.map((s, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: s.name,
+          text: s.text,
+        })),
+      }
+    : null;
+
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'landing_page' });
     const msg = isDe
@@ -180,6 +234,10 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
+        {howToSchema && (
+          <script type="application/ld+json">{JSON.stringify(howToSchema)}</script>
+        )}
       </Helmet>
 
       <Header />

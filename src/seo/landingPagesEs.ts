@@ -671,7 +671,16 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Impresión 3D en Barcelona", slug: "/impresion-3d-barcelona" },
       { label: "Choosing Guide (EN)", slug: "/how-to-choose-3d-printing-service-barcelona" }
     ],
-    schemaServiceName: "Guía del Comprador de Impresión 3D Barcelona"
+    schemaServiceName: "Guía del Comprador de Impresión 3D Barcelona",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Qué preguntar antes de encargar", text: "Un servicio de impresión 3D serio responde a todas estas preguntas con claridad y por escrito. Si alguna respuesta queda vaga, esa vaguedad ya es información." },
+      { name: "Señales a las que prestar atención en un presupuesto", text: "Algunos patrones merecen una pausa antes de aprobar un encargo. Ninguna de estas señales por sí sola indica un mal taller — pero tres o cuatro juntas forman un patrón." },
+      { name: "Tres modelos de servicio — comparativa objetiva", text: "Hay tres formas habituales de encargar una impresión 3D en Barcelona, y se diferencian en aspectos estructurales que importan más que el marketing de cualquier empresa concreta." },
+      { name: "Preguntas específicas según el tipo de proyecto", text: "La lista genérica anterior es un mínimo, no un techo. Según lo que estés encargando, añade preguntas específicas al proyecto." },
+      { name: "Cómo respondemos nosotros a cada punto — en corto", text: "Para referencia directa, así responde nuestra operación a la lista." }
+    ]
   },
 
   // ----- NUEVA: GUÍA DE MATERIALES -----
@@ -728,7 +737,9 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Elegir un Servicio en Barcelona", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
       { label: "Materials Guide (EN)", slug: "/3d-printing-materials-guide" }
     ],
-    schemaServiceName: "Guía de Materiales Impresión 3D"
+    schemaServiceName: "Guía de Materiales Impresión 3D",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10"
   },
 
   // ----- NUEVA: PREPARACIÓN DE ARCHIVO -----
@@ -785,7 +796,17 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Mejor Servicio por Caso de Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
       { label: "File Prep Guide (EN)", slug: "/how-to-prepare-file-for-3d-printing" }
     ],
-    schemaServiceName: "Guía de Preparación de Archivos 3D"
+    schemaServiceName: "Guía de Preparación de Archivos 3D",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Formatos aceptados — y cuál mandar", text: "Aceptamos los formatos 3D estándar: STL, STEP, OBJ, 3MF e IGES. Cada uno tiene sus compromisos, y cuál mandar depende de dónde salga tu modelo." },
+      { name: "Espesor mínimo de pared en FDM", text: "La causa más habitual de que una pieza impresa falle es tener paredes demasiado finas. El FDM imprime en líneas extruidas (habitualmente 0,4 mm de ancho desde una boquilla estándar), y las paredes necesitan tener al menos varias anchuras de línea para mantener su forma." },
+      { name: "Tolerancias reales y cómo diseñar para ellas", text: "El FDM no es un proceso de mecanizado de precisión. La precisión típica en una impresora FDM bien calibrada está en torno a ±0,2 mm en la mayoría de dimensiones." },
+      { name: "Voladizos, soportes y orientación de la pieza", text: "El FDM imprime capa a capa desde la cama hacia arriba. Cualquier parte de tu geometría que sobresalga sobre espacio no soportado necesita material de soporte impreso debajo." },
+      { name: "Agujeros, insertos roscados y encajes a presión", text: "Las features mecánicas pequeñas son donde las impresiones FDM suelen defraudar más si el diseño no se ajustó al proceso." },
+      { name: "Qué hacer si no tienes archivo", text: "Una parte significativa de nuestros encargos entra sin ningún archivo CAD. No es un problema. El proceso es distinto, no peor." }
+    ]
   },
 
   // ----- NUEVA: MEJOR SERVICIO (por necesidad) -----
@@ -842,7 +863,9 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Desglose Transparente del Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Best Service (EN)", slug: "/best-3d-printing-service-barcelona" }
     ],
-    schemaServiceName: "Mejor Servicio de Impresión 3D Barcelona"
+    schemaServiceName: "Mejor Servicio de Impresión 3D Barcelona",
+    datePublished: "2026-08-01",
+    dateModified: "2026-08-10"
   },
 
   // ----- NUEVA: INGRESOS PARA MAKERS (cómo ganar dinero con una impresora 3D) -----
@@ -901,7 +924,17 @@ export const PAGES_ES: LandingContent[] = [
       { label: "English Guide", slug: "/how-to-make-money-with-a-3d-printer" },
       { label: "Deutsche Fassung", slug: "/mit-3d-drucker-geld-verdienen" }
     ],
-    schemaServiceName: "Cómo Ganar Dinero con Impresora 3D — Guía"
+    schemaServiceName: "Cómo Ganar Dinero con Impresora 3D — Guía",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Vender impresiones acabadas en local — la primera venta más rápida", text: "Vender impresiones físicas a gente de tu propia ciudad es el camino más corto entre la impresora y el primer ingreso. Te ahorras envíos, comisiones de plataforma y el cliente ve el objeto en la mano." },
+      { name: "Unirte a una red de impresión — gratis, sin comisión, los encargos de tu zona van para ti", text: "Antes de los canales individuales que vienen abajo, el camino más corto a encargos reales que no tuviste que marketear es unirte a una red local de impresión." },
+      { name: "Marketplaces (Etsy, Wallapop, eBay) — alcance a cambio de comisiones y competencia", text: "Los marketplaces permiten que un desconocido a medio país de distancia encuentre tu anuncio un martes por la tarde. Ese alcance es genuinamente valioso — y viene con dos costes: comisiones y competencia." },
+      { name: "Vender archivos de diseño (Cults3D, MakerWorld, otros) — ingreso pasivo con rampa lenta", text: "Si te manejas en una herramienta de modelado 3D, puedes vender el archivo en lugar de la impresión. Un solo modelo bien diseñado subido a Cults3D o MakerWorld puede vender durante años sin que hagas nada después de subirlo." },
+      { name: "Prototipado y pequeñas tiradas para negocios locales", text: "Cada barrio tiene pequeños negocios que ocasionalmente necesitan una pieza física. Estos encargos pagan mejor por pieza que las ventas al consumidor porque el cliente está comprando una solución, no un capricho." },
+      { name: "Recambios y reparaciones — trabajo de alto valor y confianza", text: "Uno de los usos con mayor margen para una impresora en casa es sustituir piezas de plástico rotas de cosas que la gente ya tiene." }
+    ]
   },
 
   // ----- NUEVA: RENTABILIDAD PARA MAKERS (¿es rentable un negocio de impresión 3D?) -----
@@ -964,7 +997,9 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Profitability (EN)", slug: "/is-3d-printing-business-profitable" },
       { label: "Rentabilität (DE)", slug: "/ist-3d-druck-geschaeft-rentabel" }
     ],
-    schemaServiceName: "Guía Rentabilidad Negocio Impresión 3D"
+    schemaServiceName: "Guía Rentabilidad Negocio Impresión 3D",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10"
   },
 
   // ----- NUEVA: CLIENTES PARA MAKERS (cómo conseguir clientes de impresión 3D) -----
@@ -1027,6 +1062,17 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Customers Guide (EN)", slug: "/how-to-get-3d-printing-customers" },
       { label: "Kunden finden (DE)", slug: "/kunden-fuer-3d-druck-finden" }
     ],
-    schemaServiceName: "Guía Captación Clientes Impresión 3D"
+    schemaServiceName: "Guía Captación Clientes Impresión 3D",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-10",
+    howToSteps: [
+      { name: "Google Business Profile — el listado gratis que todo maker se salta", text: "Google Business Profile (antes Google My Business) es un listado gratuito que pone tu servicio de impresión 3D en Google Maps y en el bloque local al principio de las búsquedas locales. Es la pieza de marketing gratuito con mayor apalancamiento para un servicio basado en localización." },
+      { name: "Unirte a una red de impresión existente — encargos que vienen a ti, gratis", text: "Todo lo demás en esta página es un canal que tienes que construir tú, y cada uno lleva meses de constancia antes de producir encargos de forma fiable. Si quieres una vía más corta a peticiones reales de clientes que no hayas tenido que buscar tú mismo, unirte a una red local de impresión existente es la opción de baja fricción." },
+      { name: "Marketplaces locales — donde la gente ya busca", text: "En España, Wallapop es donde va la gente cuando necesita algo específico y quiere ver vendedores locales. Cada plataforma tiene su propia dinámica; el hilo común es que la gente ya está allí, buscando activamente." },
+      { name: "Fotografiar tus impresiones correctamente — la palanca más grande", text: "La diferencia entre un anuncio que vende y uno que no es, muy a menudo, la fotografía. Las impresiones sobre un fondo limpio con luz natural suave parecen un catálogo profesional." },
+      { name: "Precios transparentes — quita fricción, no margen", text: "Cada mensaje de cliente que recibes preguntando cuánto cuesta esto es un mensaje al que no necesitabas dedicar tiempo. Publicar precios transparentes por adelantado convierte curiosos en clientes." },
+      { name: "Velocidad de respuesta — la ventaja competitiva infravalorada", text: "En servicios, quien responde primero suele ganar el encargo. Si un cliente manda la misma petición a tres makers y uno responde en treinta minutos, el rápido se lleva la mayoría de encargos." },
+      { name: "Clientes recurrentes vs únicos — dónde está el negocio real", text: "Los clientes únicos pagan la factura del martes. Los recurrentes son el negocio real." }
+    ]
   }
 ];
