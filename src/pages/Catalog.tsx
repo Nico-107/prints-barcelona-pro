@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import PictureImg from "@/components/PictureImg";
 import { catalogProducts } from "@/data/catalogProducts";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -42,7 +43,7 @@ const Catalog = () => {
                 className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-md transition-all duration-200"
               >
                 <div className="aspect-square bg-secondary/30 overflow-hidden">
-                  <img
+                  <PictureImg
                     src={product.coverImages?.[language] ?? product.image}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

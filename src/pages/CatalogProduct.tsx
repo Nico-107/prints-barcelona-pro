@@ -5,6 +5,7 @@ import { CheckCircle, Loader2, Send } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { catalogProducts } from "@/data/catalogProducts";
@@ -102,7 +103,7 @@ const CatalogProduct = () => {
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-10 items-start">
               <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-square">
-                <img
+                <PictureImg
                   src={
                     product.variantImages
                       ? (product.variantImages.images[fieldValues[product.variantImages.field]] ?? product.image)
@@ -110,6 +111,8 @@ const CatalogProduct = () => {
                   }
                   alt={product.name}
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
 

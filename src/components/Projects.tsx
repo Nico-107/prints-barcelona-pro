@@ -3,6 +3,7 @@ import { Images, X } from "lucide-react";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import PictureImg from "@/components/PictureImg";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Project {
@@ -65,11 +66,10 @@ const Projects = () => {
                   className="group relative rounded-xl overflow-hidden bg-card border border-border card-shadow hover:card-shadow-hover transition-all duration-300"
                 >
                   <div className="aspect-square overflow-hidden">
-                    <img
+                    <PictureImg
                       src={project.image}
                       alt={language === "es" ? project.labelEs : project.labelEn}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">

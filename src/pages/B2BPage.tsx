@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Reviews from "@/components/Reviews";
+import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
@@ -281,7 +282,7 @@ const B2BPage = ({ page }: Props) => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (
                   <div key={img} className="aspect-square rounded-xl overflow-hidden bg-card border border-border/50">
-                    <img src={img} alt={page.h1} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    <PictureImg src={img} alt={page.h1} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                   </div>
                 ))}
               </div>

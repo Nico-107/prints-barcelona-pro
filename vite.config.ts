@@ -30,15 +30,23 @@ export default defineConfig(({ mode, isSsrBuild }) => ({
   build: isSsrBuild ? {} : {
     rollupOptions: {
       output: {
-        manualChunks: {
-          "three": ["three"],
-          "topojson": ["topojson-client"],
-          "vendor-ui": [
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-dropdown-menu",
-            "@radix-ui/react-tabs",
-          ],
-          "supabase": ["@supabase/supabase-js"],
+        // Function-form so anything in node_modules gets a stable, cacheable
+        // chunk instead of being folded into the entry. Ordering matters:
+        // check the most-specific groups first.
+        manualChunks(id: string) {
+          if (!id.includes("node_modules")) return undefined;
+          if (id.includes("/three/") || id.endsWith("/three")) return "three";
+          if (id.includes("/topojson-client/")) return "topojson";
+          if (id.includes("/@supabase/")) return "supabase";
+          if (id.includes("/@radix-ui/")) return "vendor-ui";
+          if (
+            id.includes("/react/") ||
+            id.includes("/react-dom/") ||
+            id.includes("/scheduler/")
+          ) {
+            return "react-vendor";
+          }
+          return "vendor";
         },
       },
     },
