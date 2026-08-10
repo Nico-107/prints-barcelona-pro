@@ -5,11 +5,7 @@ import { SITE_URL } from "./registry";
 // Keeping these in one place ensures every JSON-LD block references the same
 // entity URLs so search engines can consolidate the graph.
 
-// TODO(brand): fill in the real Google Business Profile URL for Dimension3D
-// Barcelona. Format is https://g.page/<slug> or https://www.google.com/maps/place/...
-// Leave the placeholder in place until confirmed — an incorrect sameAs URL is
-// worse for entity consolidation than a missing one.
-const GOOGLE_BUSINESS_PROFILE_URL = "TODO_GOOGLE_BUSINESS_PROFILE_URL";
+const GOOGLE_BUSINESS_PROFILE_URL = "https://maps.app.goo.gl/ebXjjrXXA6bVwUkeA";
 const INSTAGRAM_URL = "https://www.instagram.com/dimension3dprints/";
 
 export const ORGANIZATION_SCHEMA = {
