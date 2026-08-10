@@ -52,10 +52,12 @@ export const PAGES_DE: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "halloween-set.jpg", "cookie-cutters.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Ist ein 3D-Druck-Geschäft rentabel?", slug: "/ist-3d-druck-geschaeft-rentabel" },
-      { label: "Kunden für 3D-Druck finden", slug: "/kunden-fuer-3d-druck-finden" },
+      { label: "Reale Zahlen zu Rentabilität", slug: "/ist-3d-druck-geschaeft-rentabel" },
+      { label: "Erste Kunden gewinnen", slug: "/kunden-fuer-3d-druck-finden" },
       { label: "Zum Maker-Netzwerk anmelden", slug: "/makers" },
-      { label: "Maker-Netzwerk — so funktioniert es", slug: "/maker-guide" }
+      { label: "So läuft das Netzwerk ab", slug: "/maker-guide" },
+      { label: "English Guide", slug: "/how-to-make-money-with-a-3d-printer" },
+      { label: "Guía en Español", slug: "/como-ganar-dinero-con-impresora-3d" }
     ],
     schemaServiceName: "Mit 3D-Drucker Geld verdienen — Guide"
   },
@@ -113,10 +115,12 @@ export const PAGES_DE: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Mit dem 3D-Drucker Geld verdienen", slug: "/mit-3d-drucker-geld-verdienen" },
-      { label: "Kunden für 3D-Druck finden", slug: "/kunden-fuer-3d-druck-finden" },
+      { label: "Reale Einkommenswege", slug: "/mit-3d-drucker-geld-verdienen" },
+      { label: "Kundenakquise-Playbook", slug: "/kunden-fuer-3d-druck-finden" },
       { label: "Zum Maker-Netzwerk anmelden", slug: "/makers" },
-      { label: "Maker-Netzwerk — so funktioniert es", slug: "/maker-guide" }
+      { label: "Wie das Netzwerk funktioniert", slug: "/maker-guide" },
+      { label: "Profitability (EN)", slug: "/is-3d-printing-business-profitable" },
+      { label: "Rentabilidad (ES)", slug: "/es-rentable-negocio-impresion-3d" }
     ],
     schemaServiceName: "3D-Druck-Geschäft Rentabilität — Guide"
   },
@@ -174,10 +178,12 @@ export const PAGES_DE: LandingContent[] = [
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "purple-figures.jpg", "green-chameleon.jpg", "halloween-set.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Mit dem 3D-Drucker Geld verdienen", slug: "/mit-3d-drucker-geld-verdienen" },
-      { label: "Ist ein 3D-Druck-Geschäft rentabel?", slug: "/ist-3d-druck-geschaeft-rentabel" },
+      { label: "Einkommenskanäle, die zahlen", slug: "/mit-3d-drucker-geld-verdienen" },
+      { label: "Reale Kalkulation eines Druckgeschäfts", slug: "/ist-3d-druck-geschaeft-rentabel" },
       { label: "Zum Maker-Netzwerk anmelden", slug: "/makers" },
-      { label: "Maker-Netzwerk — so funktioniert es", slug: "/maker-guide" }
+      { label: "Netzwerk-Ablauf und Bezahlung", slug: "/maker-guide" },
+      { label: "Customers Guide (EN)", slug: "/how-to-get-3d-printing-customers" },
+      { label: "Guía Clientes (ES)", slug: "/como-conseguir-clientes-impresion-3d" }
     ],
     schemaServiceName: "Kunden für 3D-Druck finden — Guide"
   }

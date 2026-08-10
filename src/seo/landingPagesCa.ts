@@ -41,10 +41,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
     related: [
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Prototips 3D", slug: "/ca/prototips-3d-barcelona" },
-      { label: "Impressió 3D Urgent", slug: "/ca/impressio-3d-urgent-barcelona" },
-      { label: "Preus", slug: "/ca/preu-impressio-3d-barcelona" }
+      { label: "Peces Personalitzades a Mida", slug: "/ca/peces-personalitzades-3d-barcelona" },
+      { label: "Prototipatge Ràpid 24–72h", slug: "/ca/prototips-3d-barcelona" },
+      { label: "Preus Transparents", slug: "/ca/preu-impressio-3d-barcelona" },
+      { label: "PLA per a Peces Detallades", slug: "/ca/impressio-pla-barcelona" },
+      { label: "English Version", slug: "/3d-printing-barcelona" },
+      { label: "Versión en Español", slug: "/impresion-3d-barcelona" }
     ],
     schemaServiceName: "Servei d'Impressió 3D Barcelona"
   },
@@ -86,10 +88,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "curved-parts.jpg"),
     related: [
-      { label: "Recanvis 3D", slug: "/ca/recanvis-impressio-3d-barcelona" },
-      { label: "Prototips 3D", slug: "/ca/prototips-3d-barcelona" },
-      { label: "Impressió PETG", slug: "/ca/impressio-petg-barcelona" },
-      { label: "Impressió 3D Urgent", slug: "/ca/impressio-3d-urgent-barcelona" }
+      { label: "Recanvis Descatalogats", slug: "/ca/recanvis-impressio-3d-barcelona" },
+      { label: "Peces Funcionals", slug: "/ca/peces-funcionals-barcelona" },
+      { label: "PETG per a Càrrega", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Com es Calcula el Preu", slug: "/ca/preu-impressio-3d-barcelona" },
+      { label: "Custom Parts (EN)", slug: "/custom-parts-barcelona" },
+      { label: "Piezas a Medida (ES)", slug: "/piezas-personalizadas-3d-barcelona" }
     ],
     schemaServiceName: "Peces Personalitzades 3D Barcelona"
   },
@@ -131,10 +135,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Impressió 3D Urgent", slug: "/ca/impressio-3d-urgent-barcelona" },
-      { label: "Preus", slug: "/ca/preu-impressio-3d-barcelona" },
-      { label: "Impressió PETG", slug: "/ca/impressio-petg-barcelona" }
+      { label: "Prototipatge Ràpid 24–72h", slug: "/ca/prototipatge-rapid-barcelona" },
+      { label: "Peces Funcionals per Validar", slug: "/ca/peces-funcionals-barcelona" },
+      { label: "Servei Express i Mateix Dia", slug: "/ca/impressio-3d-urgent-barcelona" },
+      { label: "PETG — Fitxa del Material", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Prototype Printing (EN)", slug: "/prototype-printing-barcelona" },
+      { label: "Prototipos (ES)", slug: "/prototipos-3d-barcelona" }
     ],
     schemaServiceName: "Prototipatge Ràpid Barcelona"
   },
@@ -176,10 +182,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "halloween-set.jpg", "stranger-things-lit.jpg", "lion-king-figures.jpg", "intake-manifold.jpg", "custom-brackets.jpg"),
     related: [
-      { label: "Recanvis 3D", slug: "/ca/recanvis-impressio-3d-barcelona" },
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Prototips 3D", slug: "/ca/prototips-3d-barcelona" },
-      { label: "Preus", slug: "/ca/preu-impressio-3d-barcelona" }
+      { label: "Recanvis Descatalogats", slug: "/ca/recanvis-impressio-3d-barcelona" },
+      { label: "Peces a Mida al Moment", slug: "/ca/peces-personalitzades-3d-barcelona" },
+      { label: "Iteració de Prototips", slug: "/ca/prototips-3d-barcelona" },
+      { label: "Recàrrecs i Preus Express", slug: "/ca/preu-impressio-3d-barcelona" },
+      { label: "Urgent Printing (EN)", slug: "/urgent-3d-printing-barcelona" },
+      { label: "Impresión Urgente (ES)", slug: "/impresion-3d-urgente-barcelona" }
     ],
     schemaServiceName: "Impressió 3D Urgent Barcelona"
   },
@@ -221,10 +229,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Servei d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" },
+      { label: "Servei Principal d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" },
       { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Impressió PLA", slug: "/ca/impressio-pla-barcelona" },
-      { label: "Prototips 3D", slug: "/ca/prototips-3d-barcelona" }
+      { label: "PLA — Opció Més Econòmica", slug: "/ca/impressio-pla-barcelona" },
+      { label: "Prototips 3D per Iterar", slug: "/ca/prototips-3d-barcelona" },
+      { label: "Pricing (EN)", slug: "/3d-printing-price-barcelona" },
+      { label: "Precios (ES)", slug: "/precio-impresion-3d-barcelona" }
     ],
     schemaServiceName: "Preus Impressió 3D Barcelona"
   },
@@ -266,10 +276,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg"),
     related: [
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Impressió PETG", slug: "/ca/impressio-petg-barcelona" },
-      { label: "Impressió 3D Urgent", slug: "/ca/impressio-3d-urgent-barcelona" },
-      { label: "Servei d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" }
+      { label: "Peces a Mida des de Foto", slug: "/ca/peces-personalitzades-3d-barcelona" },
+      { label: "Servei Urgent", slug: "/ca/impressio-3d-urgent-barcelona" },
+      { label: "PETG per a Electrodomèstics", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Estructura del Preu", slug: "/ca/preu-impressio-3d-barcelona" },
+      { label: "Replacement Parts (EN)", slug: "/replacement-parts-barcelona" },
+      { label: "Recambios (ES)", slug: "/recambios-impresion-3d-barcelona" }
     ],
     schemaServiceName: "Recanvis Impresos 3D Barcelona"
   },
@@ -311,10 +323,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("eiffel-tower.jpg", "big-ben-tower.jpg", "green-chameleon.jpg", "purple-figures.jpg", "halloween-set.jpg", "ferrari-key-holder.jpg"),
     related: [
-      { label: "Impressió PETG", slug: "/ca/impressio-petg-barcelona" },
-      { label: "Impressió TPU", slug: "/ca/impressio-tpu-barcelona" },
-      { label: "Miniatures 3D", slug: "/ca/miniatures-3d-barcelona" },
-      { label: "Preus", slug: "/ca/preu-impressio-3d-barcelona" }
+      { label: "PETG — Més Resistent i Exterior", slug: "/ca/impressio-petg-barcelona" },
+      { label: "TPU — Flexible tipus Goma", slug: "/ca/impressio-tpu-barcelona" },
+      { label: "Miniatures amb Detall Fi", slug: "/ca/miniatures-3d-barcelona" },
+      { label: "Peces Personalitzades en PLA", slug: "/ca/peces-personalitzades-3d-barcelona" },
+      { label: "PLA Printing (EN)", slug: "/pla-printing-barcelona" },
+      { label: "Impresión PLA (ES)", slug: "/impresion-pla-barcelona" }
     ],
     schemaServiceName: "Impressió PLA Barcelona"
   },
@@ -356,10 +370,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
     related: [
-      { label: "Impressió PLA", slug: "/ca/impressio-pla-barcelona" },
-      { label: "Impressió TPU", slug: "/ca/impressio-tpu-barcelona" },
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Recanvis 3D", slug: "/ca/recanvis-impressio-3d-barcelona" }
+      { label: "PLA — Impressió Fàcil Diària", slug: "/ca/impressio-pla-barcelona" },
+      { label: "TPU — Flexible tipus Goma", slug: "/ca/impressio-tpu-barcelona" },
+      { label: "Peces Funcionals Estructurals", slug: "/ca/peces-funcionals-barcelona" },
+      { label: "Recanvis Duradors", slug: "/ca/recanvis-impressio-3d-barcelona" },
+      { label: "PETG Printing (EN)", slug: "/petg-printing-barcelona" },
+      { label: "Impresión PETG (ES)", slug: "/impresion-petg-barcelona" }
     ],
     schemaServiceName: "Impressió PETG Barcelona"
   },
@@ -401,10 +417,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("curved-parts.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
     related: [
-      { label: "Impressió PLA", slug: "/ca/impressio-pla-barcelona" },
-      { label: "Impressió PETG", slug: "/ca/impressio-petg-barcelona" },
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Recanvis 3D", slug: "/ca/recanvis-impressio-3d-barcelona" }
+      { label: "PLA — Impressió Rígida amb Detall", slug: "/ca/impressio-pla-barcelona" },
+      { label: "PETG — Peces Rígides Funcionals", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Peces Personalitzades Flexibles", slug: "/ca/peces-personalitzades-3d-barcelona" },
+      { label: "Recanvis Flexibles", slug: "/ca/recanvis-impressio-3d-barcelona" },
+      { label: "TPU Printing (EN)", slug: "/tpu-printing-barcelona" },
+      { label: "Impresión TPU (ES)", slug: "/impresion-tpu-barcelona" }
     ],
     schemaServiceName: "Impressió TPU Barcelona"
   },
@@ -446,10 +464,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("purple-figures.jpg", "lion-king-figures.jpg", "lion-king-scene.jpg", "stranger-things-diorama.jpg", "stranger-things-lit.jpg", "halloween-set.jpg"),
     related: [
-      { label: "Impressió PLA", slug: "/ca/impressio-pla-barcelona" },
-      { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Servei d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" },
-      { label: "Preus", slug: "/ca/preu-impressio-3d-barcelona" }
+      { label: "PLA — Filament amb Detall", slug: "/ca/impressio-pla-barcelona" },
+      { label: "Figures Úniques a Mida", slug: "/ca/peces-personalitzades-3d-barcelona" },
+      { label: "Servei Complet d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" },
+      { label: "Preus per Lot i Quantitat", slug: "/ca/preu-impressio-3d-barcelona" },
+      { label: "Miniatures (EN)", slug: "/miniatures-barcelona" },
+      { label: "Miniaturas (ES)", slug: "/miniaturas-3d-barcelona" }
     ],
     schemaServiceName: "Miniatures 3D Barcelona"
   },
@@ -493,10 +513,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Prototips 3D", slug: "/ca/prototips-3d-barcelona" },
-      { label: "Prototipatge Ràpid", slug: "/ca/prototipatge-rapid-barcelona" },
-      { label: "Peces Funcionals", slug: "/ca/peces-funcionals-barcelona" },
-      { label: "Impressió Urgent", slug: "/ca/impressio-3d-urgent-barcelona" }
+      { label: "Prototipatge Ràpid 24–72h", slug: "/ca/prototipatge-rapid-barcelona" },
+      { label: "Peces Funcionals Estructurals", slug: "/ca/peces-funcionals-barcelona" },
+      { label: "Prototips de Validació", slug: "/ca/prototips-3d-barcelona" },
+      { label: "PETG per a Carcasses Industrials", slug: "/ca/impressio-petg-barcelona" },
+      { label: "For Business (EN)", slug: "/3d-printing-for-business-barcelona" },
+      { label: "Para Empresas (ES)", slug: "/impresion-3d-empresas-barcelona" }
     ],
     schemaServiceName: "Impressió 3D per a Empreses Barcelona"
   },
@@ -541,9 +563,11 @@ export const PAGES_CA: LandingContent[] = [
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
       { label: "Impressió 3D per a Empreses", slug: "/ca/impressio-3d-empreses-barcelona" },
-      { label: "Peces Funcionals", slug: "/ca/peces-funcionals-barcelona" },
-      { label: "Impressió 3D Urgent", slug: "/ca/impressio-3d-urgent-barcelona" },
-      { label: "Preus", slug: "/ca/preu-impressio-3d-barcelona" }
+      { label: "Peces Funcionals amb Càrrega", slug: "/ca/peces-funcionals-barcelona" },
+      { label: "Prototips Únics i Sèries", slug: "/ca/prototips-3d-barcelona" },
+      { label: "PETG i Materials Funcionals", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Rapid Prototyping (EN)", slug: "/rapid-prototyping-barcelona" },
+      { label: "Prototipado Rápido (ES)", slug: "/prototipado-rapido-barcelona" }
     ],
     schemaServiceName: "Prototipatge Ràpid Barcelona"
   },
@@ -587,10 +611,12 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Impressió 3D per a Empreses", slug: "/ca/impressio-3d-empreses-barcelona" },
-      { label: "Prototipatge Ràpid", slug: "/ca/prototipatge-rapid-barcelona" },
-      { label: "Impressió PETG", slug: "/ca/impressio-petg-barcelona" },
-      { label: "Recanvis 3D", slug: "/ca/recanvis-impressio-3d-barcelona" }
+      { label: "Impressió 3D per a Empreses B2B", slug: "/ca/impressio-3d-empreses-barcelona" },
+      { label: "Iteració Ràpida de Prototips", slug: "/ca/prototipatge-rapid-barcelona" },
+      { label: "PETG per a Càrrega i Exterior", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Recanvis Estructurals", slug: "/ca/recanvis-impressio-3d-barcelona" },
+      { label: "Functional Parts (EN)", slug: "/functional-parts-barcelona" },
+      { label: "Piezas Funcionales (ES)", slug: "/piezas-funcionales-barcelona" }
     ],
     schemaServiceName: "Peces Funcionals 3D Barcelona"
   }

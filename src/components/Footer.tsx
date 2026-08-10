@@ -25,6 +25,32 @@ const Footer = () => {
   const forBusinessLabel = isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
+  // Delivery / cities column — surfaces the city-delivery pages and the
+  // secondary landing routes (Madrid, Valencia) so they stop being orphans.
+  const deliveryLinks = [
+    { slug: "/madrid", label: isCa ? "Madrid" : "Madrid" },
+    { slug: "/3d-printing-madrid", label: isCa ? "3D Printing Madrid" : isEs ? "Impresión 3D Madrid" : "3D Printing Madrid" },
+    { slug: "/impresion-3d-con-entrega-a-valencia", label: isCa ? "Enviament a València" : isEs ? "Envío a Valencia" : "Delivery to Valencia" },
+    { slug: "/3d-printing-delivery-paris", label: isCa ? "Enviament a París" : isEs ? "Envío a París" : "Delivery to Paris" },
+    { slug: "/3d-printing-delivery-london", label: isCa ? "Enviament a Londres" : isEs ? "Envío a Londres" : "Delivery to London" },
+    { slug: "/3d-printing-delivery-amsterdam", label: isCa ? "Enviament a Amsterdam" : isEs ? "Envío a Ámsterdam" : "Delivery to Amsterdam" },
+    { slug: "/3d-printing-delivery-berlin", label: isCa ? "Enviament a Berlín" : isEs ? "Envío a Berlín" : "Delivery to Berlin" },
+    { slug: "/3d-printing-delivery-milan", label: isCa ? "Enviament a Milà" : isEs ? "Envío a Milán" : "Delivery to Milan" },
+    { slug: "/3d-printing-delivery-rome", label: isCa ? "Enviament a Roma" : isEs ? "Envío a Roma" : "Delivery to Rome" },
+    { slug: "/3d-printing-delivery-lisbon", label: isCa ? "Enviament a Lisboa" : isEs ? "Envío a Lisboa" : "Delivery to Lisbon" },
+    { slug: "/3d-printing-delivery-new-york", label: isCa ? "Enviament a Nova York" : isEs ? "Envío a Nueva York" : "Delivery to New York" },
+  ];
+
+  // Popular catalogue products — one inbound each was the /catalogo listing;
+  // adding them here gives the second inbound so they're no longer orphaned.
+  const catalogueProducts = [
+    { slug: "/catalogo/jarron-personalizado", label: isCa ? "Gerra Personalitzada" : isEs ? "Jarrón Personalizado" : "Custom Vase" },
+    { slug: "/catalogo/placa-nombre", label: isCa ? "Placa de Nom" : isEs ? "Placa con Nombre" : "Custom Name Plate" },
+    { slug: "/catalogo/placa-mascota", label: isCa ? "Placa per a Mascota" : isEs ? "Placa para Mascota" : "Pet ID Plate" },
+    { slug: "/catalogo/soporte-telefono", label: isCa ? "Suport per a Mòbil" : isEs ? "Soporte de Teléfono" : "Phone Stand" },
+    { slug: "/catalogo/topper-boda", label: isCa ? "Topper de Casament" : isEs ? "Topper de Boda" : "Wedding Cake Topper" },
+  ];
+
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'footer' });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
@@ -68,6 +94,7 @@ const Footer = () => {
               <Link to="/maker-guide" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.makerGuide")}</Link>
               <Link to="/3d-printing-service" className="text-background/70 text-sm hover:text-background transition-colors">International service</Link>
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
+              <Link to="/creator" className="text-background/70 text-sm hover:text-background transition-colors">{isCa ? "Sobre el creador" : isEs ? "Sobre el creador" : "About the creator"}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
             </div>
           </div>
@@ -120,6 +147,40 @@ const Footer = () => {
               </div>
             );
           })()}
+        </div>
+
+        {/* Delivery cities + popular products — restores inbound links for
+            city-delivery routes and individual catalogue products that would
+            otherwise be reachable only from a single index page. */}
+        <div className="grid md:grid-cols-2 gap-8 mb-10 pb-10 border-b border-background/10">
+          <div>
+            <p className="font-medium text-sm mb-3">
+              {isCa ? "Ciutats i Enviaments" : isEs ? "Ciudades y Envíos" : "Cities & Delivery"}
+            </p>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+              {deliveryLinks.map((l) => (
+                <li key={l.slug}>
+                  <Link to={l.slug} className="text-background/70 text-sm hover:text-background transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-sm mb-3">
+              {isCa ? "Productes Populars" : isEs ? "Productos Populares" : "Popular Products"}
+            </p>
+            <ul className="flex flex-col gap-1.5">
+              {catalogueProducts.map((p) => (
+                <li key={p.slug}>
+                  <Link to={p.slug} className="text-background/70 text-sm hover:text-background transition-colors">
+                    {p.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">

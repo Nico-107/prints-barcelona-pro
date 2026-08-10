@@ -41,10 +41,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
     related: [
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" },
-      { label: "Impresión 3D Urgente", slug: "/impresion-3d-urgente-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+      { label: "Piezas Personalizadas a Medida", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Prototipado Rápido 24–72h", slug: "/prototipos-3d-barcelona" },
+      { label: "Tarifas Transparentes", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "English Version", slug: "/3d-printing-barcelona" },
+      { label: "Versió en Català", slug: "/ca/impressio-3d-barcelona" }
     ],
     schemaServiceName: "Servicio de Impresión 3D Barcelona"
   },
@@ -86,10 +88,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "curved-parts.jpg"),
     related: [
-      { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" },
-      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" },
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
-      { label: "Impresión 3D Urgente", slug: "/impresion-3d-urgente-barcelona" }
+      { label: "Recambios y Descatalogados", slug: "/recambios-impresion-3d-barcelona" },
+      { label: "Piezas Funcionales", slug: "/piezas-funcionales-barcelona" },
+      { label: "PETG para Carga", slug: "/impresion-petg-barcelona" },
+      { label: "Cómo se Calcula el Precio", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Custom Parts (EN)", slug: "/custom-parts-barcelona" },
+      { label: "Peces Personalitzades (CA)", slug: "/ca/peces-personalitzades-3d-barcelona" }
     ],
     schemaServiceName: "Piezas Personalizadas 3D Barcelona"
   },
@@ -131,10 +135,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Impresión 3D Urgente", slug: "/impresion-3d-urgente-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" },
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" }
+      { label: "Prototipado Rápido 24–72h", slug: "/prototipado-rapido-barcelona" },
+      { label: "Piezas Funcionales para Validar", slug: "/piezas-funcionales-barcelona" },
+      { label: "Servicio Express y Mismo Día", slug: "/impresion-3d-urgente-barcelona" },
+      { label: "PETG — Ficha del Material", slug: "/impresion-petg-barcelona" },
+      { label: "Prototype Printing (EN)", slug: "/prototype-printing-barcelona" },
+      { label: "Prototips 3D (CA)", slug: "/ca/prototips-3d-barcelona" }
     ],
     schemaServiceName: "Prototipado Rápido Barcelona"
   },
@@ -176,10 +182,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "halloween-set.jpg", "stranger-things-lit.jpg", "lion-king-figures.jpg", "intake-manifold.jpg", "custom-brackets.jpg"),
     related: [
-      { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" },
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+      { label: "Recambios Descatalogados", slug: "/recambios-impresion-3d-barcelona" },
+      { label: "Piezas a Medida al Momento", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Iteración de Prototipos", slug: "/prototipos-3d-barcelona" },
+      { label: "Recargos y Precios Express", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Urgent Printing (EN)", slug: "/urgent-3d-printing-barcelona" },
+      { label: "Impressió Urgent (CA)", slug: "/ca/impressio-3d-urgent-barcelona" }
     ],
     schemaServiceName: "Impresión 3D Urgente Barcelona"
   },
@@ -221,10 +229,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Servicio de Impresión 3D", slug: "/impresion-3d-barcelona" },
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Impresión PLA", slug: "/impresion-pla-barcelona" },
-      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" }
+      { label: "Servicio Principal de Impresión 3D", slug: "/impresion-3d-barcelona" },
+      { label: "Mejor Servicio Según Necesidad", slug: "/mejor-servicio-impresion-3d-barcelona" },
+      { label: "PLA — la Opción Más Económica", slug: "/impresion-pla-barcelona" },
+      { label: "Comparativa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Pricing (EN)", slug: "/3d-printing-price-barcelona" },
+      { label: "Preus (CA)", slug: "/ca/preu-impressio-3d-barcelona" }
     ],
     schemaServiceName: "Precios Impresión 3D Barcelona"
   },
@@ -266,10 +276,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg"),
     related: [
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
-      { label: "Impresión 3D Urgente", slug: "/impresion-3d-urgente-barcelona" },
-      { label: "Servicio de Impresión 3D", slug: "/impresion-3d-barcelona" }
+      { label: "Piezas a Medida desde Foto", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Servicio Urgente", slug: "/impresion-3d-urgente-barcelona" },
+      { label: "PETG para Electrodomésticos", slug: "/impresion-petg-barcelona" },
+      { label: "Estructura del Precio", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Replacement Parts (EN)", slug: "/replacement-parts-barcelona" },
+      { label: "Recanvis (CA)", slug: "/ca/recanvis-impressio-3d-barcelona" }
     ],
     schemaServiceName: "Recambios Impresos 3D Barcelona"
   },
@@ -311,10 +323,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("eiffel-tower.jpg", "big-ben-tower.jpg", "green-chameleon.jpg", "purple-figures.jpg", "halloween-set.jpg", "ferrari-key-holder.jpg"),
     related: [
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
-      { label: "Impresión TPU", slug: "/impresion-tpu-barcelona" },
-      { label: "Miniaturas 3D", slug: "/miniaturas-3d-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+      { label: "PETG — Más Resistente y Exterior", slug: "/impresion-petg-barcelona" },
+      { label: "TPU — Flexible tipo Goma", slug: "/impresion-tpu-barcelona" },
+      { label: "Elegir el Material Adecuado", slug: "/guia-materiales-impresion-3d" },
+      { label: "Cómo Preparar tu Archivo STL", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "PLA Printing (EN)", slug: "/pla-printing-barcelona" },
+      { label: "Impressió PLA (CA)", slug: "/ca/impressio-pla-barcelona" }
     ],
     schemaServiceName: "Impresión PLA Barcelona"
   },
@@ -356,10 +370,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "curved-parts.jpg", "blue-molds.jpg"),
     related: [
-      { label: "Impresión PLA", slug: "/impresion-pla-barcelona" },
-      { label: "Impresión TPU", slug: "/impresion-tpu-barcelona" },
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" }
+      { label: "PLA — Impresión Fácil Diaria", slug: "/impresion-pla-barcelona" },
+      { label: "TPU — Flexible tipo Goma", slug: "/impresion-tpu-barcelona" },
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Preparar Archivos para FDM", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "PETG Printing (EN)", slug: "/petg-printing-barcelona" },
+      { label: "Impressió PETG (CA)", slug: "/ca/impressio-petg-barcelona" }
     ],
     schemaServiceName: "Impresión PETG Barcelona"
   },
@@ -401,10 +417,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("curved-parts.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
     related: [
-      { label: "Impresión PLA", slug: "/impresion-pla-barcelona" },
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" }
+      { label: "PLA — Impresión Rígida con Detalle", slug: "/impresion-pla-barcelona" },
+      { label: "PETG — Piezas Rígidas Funcionales", slug: "/impresion-petg-barcelona" },
+      { label: "Tabla Comparativa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Modelado y Grosor de Paredes", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "TPU Printing (EN)", slug: "/tpu-printing-barcelona" },
+      { label: "Impressió TPU (CA)", slug: "/ca/impressio-tpu-barcelona" }
     ],
     schemaServiceName: "Impresión TPU Barcelona"
   },
@@ -446,10 +464,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("purple-figures.jpg", "lion-king-figures.jpg", "lion-king-scene.jpg", "stranger-things-diorama.jpg", "stranger-things-lit.jpg", "halloween-set.jpg"),
     related: [
-      { label: "Impresión PLA", slug: "/impresion-pla-barcelona" },
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Servicio de Impresión 3D", slug: "/impresion-3d-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+      { label: "PLA — Filamento con Detalle", slug: "/impresion-pla-barcelona" },
+      { label: "Figuras Únicas a Medida", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Qué Servicio Encaja Mejor", slug: "/mejor-servicio-impresion-3d-barcelona" },
+      { label: "Precios por Lote y Cantidad", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Miniatures (EN)", slug: "/miniatures-barcelona" },
+      { label: "Miniatures (CA)", slug: "/ca/miniatures-3d-barcelona" }
     ],
     schemaServiceName: "Miniaturas 3D Barcelona"
   },
@@ -493,10 +513,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" },
-      { label: "Prototipado Rápido", slug: "/prototipado-rapido-barcelona" },
-      { label: "Piezas Funcionales", slug: "/piezas-funcionales-barcelona" },
-      { label: "Impresión Urgente", slug: "/impresion-3d-urgente-barcelona" }
+      { label: "Prototipado Rápido 24–72h", slug: "/prototipado-rapido-barcelona" },
+      { label: "Piezas Funcionales Estructurales", slug: "/piezas-funcionales-barcelona" },
+      { label: "Prototipos de Validación", slug: "/prototipos-3d-barcelona" },
+      { label: "PETG para Carcasas Industriales", slug: "/impresion-petg-barcelona" },
+      { label: "For Business (EN)", slug: "/3d-printing-for-business-barcelona" },
+      { label: "Per a Empreses (CA)", slug: "/ca/impressio-3d-empreses-barcelona" }
     ],
     schemaServiceName: "Impresión 3D para Empresas Barcelona"
   },
@@ -541,9 +563,11 @@ export const PAGES_ES: LandingContent[] = [
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
       { label: "Impresión 3D para Empresas", slug: "/impresion-3d-empresas-barcelona" },
-      { label: "Piezas Funcionales", slug: "/piezas-funcionales-barcelona" },
-      { label: "Impresión 3D Urgente", slug: "/impresion-3d-urgente-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+      { label: "Piezas Funcionales con Carga", slug: "/piezas-funcionales-barcelona" },
+      { label: "Prototipos Únicos y Series", slug: "/prototipos-3d-barcelona" },
+      { label: "Guía de Selección de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Rapid Prototyping (EN)", slug: "/rapid-prototyping-barcelona" },
+      { label: "Prototipatge Ràpid (CA)", slug: "/ca/prototipatge-rapid-barcelona" }
     ],
     schemaServiceName: "Prototipado Rápido Barcelona"
   },
@@ -587,10 +611,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "black-intake.jpg", "custom-brackets.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Impresión 3D para Empresas", slug: "/impresion-3d-empresas-barcelona" },
-      { label: "Prototipado Rápido", slug: "/prototipado-rapido-barcelona" },
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
-      { label: "Recambios 3D", slug: "/recambios-impresion-3d-barcelona" }
+      { label: "Impresión 3D para Empresas B2B", slug: "/impresion-3d-empresas-barcelona" },
+      { label: "Iteración Rápida de Prototipos", slug: "/prototipado-rapido-barcelona" },
+      { label: "PETG para Carga y Exterior", slug: "/impresion-petg-barcelona" },
+      { label: "Nylon, ABS, ASA Explicados", slug: "/guia-materiales-impresion-3d" },
+      { label: "Functional Parts (EN)", slug: "/functional-parts-barcelona" },
+      { label: "Peces Funcionals (CA)", slug: "/ca/peces-funcionals-barcelona" }
     ],
     schemaServiceName: "Piezas Funcionales 3D Barcelona"
   },
@@ -638,10 +664,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "ferrari-key-holder.jpg", "curved-parts.jpg", "black-intake.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Guía de Materiales", slug: "/guia-materiales-impresion-3d" },
-      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Preparar Archivos Correctamente", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Mejor Servicio por Caso de Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
+      { label: "Cómo se Calcula el Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Impresión 3D en Barcelona", slug: "/impresion-3d-barcelona" },
-      { label: "Precios", slug: "/precio-impresion-3d-barcelona" }
+      { label: "Choosing Guide (EN)", slug: "/how-to-choose-3d-printing-service-barcelona" }
     ],
     schemaServiceName: "Guía del Comprador de Impresión 3D Barcelona"
   },
@@ -693,10 +721,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "intake-manifold.jpg", "blue-molds.jpg"),
     related: [
-      { label: "Impresión PLA", slug: "/impresion-pla-barcelona" },
-      { label: "Impresión PETG", slug: "/impresion-petg-barcelona" },
-      { label: "TPU Flexible", slug: "/impresion-tpu-barcelona" },
-      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" }
+      { label: "PLA — Filamento Rígido Diario", slug: "/impresion-pla-barcelona" },
+      { label: "PETG — Filamento Funcional Resistente", slug: "/impresion-petg-barcelona" },
+      { label: "TPU — Flexible tipo Goma", slug: "/impresion-tpu-barcelona" },
+      { label: "Checklist de Preparación de Archivo", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Elegir un Servicio en Barcelona", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
+      { label: "Materials Guide (EN)", slug: "/3d-printing-materials-guide" }
     ],
     schemaServiceName: "Guía de Materiales Impresión 3D"
   },
@@ -748,10 +778,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "red-adapter.jpg", "blue-molds.jpg"),
     related: [
-      { label: "Guía de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
       { label: "Cómo Elegir un Servicio", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
-      { label: "Piezas Personalizadas", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Prototipos 3D", slug: "/prototipos-3d-barcelona" }
+      { label: "Piezas a Medida desde Archivo o Foto", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Ciclo de Iteración de Prototipos", slug: "/prototipos-3d-barcelona" },
+      { label: "Mejor Servicio por Caso de Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
+      { label: "File Prep Guide (EN)", slug: "/how-to-prepare-file-for-3d-printing" }
     ],
     schemaServiceName: "Guía de Preparación de Archivos 3D"
   },
@@ -804,9 +836,11 @@ export const PAGES_ES: LandingContent[] = [
     galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "intake-manifold.jpg", "purple-figures.jpg", "green-chameleon.jpg", "eiffel-tower.jpg"),
     related: [
       { label: "Cómo Elegir un Servicio", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
-      { label: "Guía de Materiales", slug: "/guia-materiales-impresion-3d" },
-      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
-      { label: "Catálogo de Productos", slug: "/catalogo" }
+      { label: "Guía de Selección de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Nuestro Servicio de Impresión 3D", slug: "/impresion-3d-barcelona" },
+      { label: "Desglose Transparente del Precio", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Best Service (EN)", slug: "/best-3d-printing-service-barcelona" }
     ],
     schemaServiceName: "Mejor Servicio de Impresión 3D Barcelona"
   },
@@ -860,10 +894,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "halloween-set.jpg", "cookie-cutters.jpg", "red-adapter.jpg"),
     related: [
-      { label: "¿Es Rentable un Negocio de Impresión 3D?", slug: "/es-rentable-negocio-impresion-3d" },
-      { label: "Cómo Conseguir Clientes de Impresión 3D", slug: "/como-conseguir-clientes-impresion-3d" },
-      { label: "Únete a la Red de Makers", slug: "/makers" },
-      { label: "Guía del Maker — Cómo Funciona", slug: "/maker-guide" }
+      { label: "Economía Real de un Negocio de Impresión", slug: "/es-rentable-negocio-impresion-3d" },
+      { label: "Cómo Conseguir tus Primeros Clientes", slug: "/como-conseguir-clientes-impresion-3d" },
+      { label: "Únete a la Red Local de Makers", slug: "/makers" },
+      { label: "Cómo Funciona la Red", slug: "/maker-guide" },
+      { label: "English Guide", slug: "/how-to-make-money-with-a-3d-printer" },
+      { label: "Deutsche Fassung", slug: "/mit-3d-drucker-geld-verdienen" }
     ],
     schemaServiceName: "Cómo Ganar Dinero con Impresora 3D — Guía"
   },
@@ -921,10 +957,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Cómo Ganar Dinero con una Impresora 3D", slug: "/como-ganar-dinero-con-impresora-3d" },
-      { label: "Cómo Conseguir Clientes de Impresión 3D", slug: "/como-conseguir-clientes-impresion-3d" },
-      { label: "Únete a la Red de Makers", slug: "/makers" },
-      { label: "Guía del Maker — Cómo Funciona", slug: "/maker-guide" }
+      { label: "Rutas Reales de Ingresos", slug: "/como-ganar-dinero-con-impresora-3d" },
+      { label: "Playbook de Captación de Clientes", slug: "/como-conseguir-clientes-impresion-3d" },
+      { label: "Únete a la Red Local de Makers", slug: "/makers" },
+      { label: "Red de Makers Explicada", slug: "/maker-guide" },
+      { label: "Profitability (EN)", slug: "/is-3d-printing-business-profitable" },
+      { label: "Rentabilität (DE)", slug: "/ist-3d-druck-geschaeft-rentabel" }
     ],
     schemaServiceName: "Guía Rentabilidad Negocio Impresión 3D"
   },
@@ -982,10 +1020,12 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "purple-figures.jpg", "green-chameleon.jpg", "halloween-set.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Cómo Ganar Dinero con una Impresora 3D", slug: "/como-ganar-dinero-con-impresora-3d" },
-      { label: "¿Es Rentable un Negocio de Impresión 3D?", slug: "/es-rentable-negocio-impresion-3d" },
-      { label: "Únete a la Red de Makers", slug: "/makers" },
-      { label: "Guía del Maker — Cómo Funciona", slug: "/maker-guide" }
+      { label: "Canales de Ingresos que Realmente Pagan", slug: "/como-ganar-dinero-con-impresora-3d" },
+      { label: "Números Reales de un Negocio", slug: "/es-rentable-negocio-impresion-3d" },
+      { label: "Únete a la Red Local de Makers", slug: "/makers" },
+      { label: "Flujo y Pago en la Red", slug: "/maker-guide" },
+      { label: "Customers Guide (EN)", slug: "/how-to-get-3d-printing-customers" },
+      { label: "Kunden finden (DE)", slug: "/kunden-fuer-3d-druck-finden" }
     ],
     schemaServiceName: "Guía Captación Clientes Impresión 3D"
   }

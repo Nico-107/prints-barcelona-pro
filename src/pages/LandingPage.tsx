@@ -61,6 +61,49 @@ const LandingPage = ({ page: pageProp }: Props) => {
     { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida", "Individuelle Aufträge"), iconClass: "text-accent" },
   ];
 
+  // Category label per page.category, translated with the same t() helper.
+  const categoryLabel =
+    page.category === "material"
+      ? t("Materials", "Materiales", "Materialien")
+      : page.category === "service"
+        ? t("Services", "Servicios", "Dienstleistungen")
+        : t("Use Cases", "Aplicaciones", "Anwendungsfälle");
+
+  // Hub URL for the category level of the breadcrumb — points to the main
+  // service page in the current language (or the materials guide for material
+  // pages when it exists in that language).
+  const homeSlug = page.lang === "ca" ? "/ca" : "/";
+  const serviceHub =
+    SLUGS_BY_TOPIC["service-3d-printing"]?.[page.lang]
+      ?? SLUGS_BY_TOPIC["service-3d-printing"]?.en
+      ?? homeSlug;
+  const materialHub =
+    SLUGS_BY_TOPIC["materials-guide"]?.[page.lang]
+      ?? SLUGS_BY_TOPIC["materials-guide"]?.en
+      ?? serviceHub;
+  const categoryHub = page.category === "material" ? materialHub : serviceHub;
+
+  // Skip the category level when the current page IS the hub — avoids a
+  // Home > X > X redundancy in Google's rich result.
+  const includeCategoryCrumb = page.slug !== categoryHub;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Dimension3D", item: `${SITE_URL}${homeSlug}` },
+      ...(includeCategoryCrumb
+        ? [{ "@type": "ListItem", position: 2, name: categoryLabel, item: `${SITE_URL}${categoryHub}` }]
+        : []),
+      {
+        "@type": "ListItem",
+        position: includeCategoryCrumb ? 3 : 2,
+        name: page.h1,
+        item: url,
+      },
+    ],
+  };
+
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -78,7 +121,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
     },
     areaServed: { "@type": "City", name: pageCity.areaServed },
     description: page.metaDescription,
-    url
+    url,
+    mainEntityOfPage: url,
+    isRelatedTo: page.related.map((r) => ({
+      "@type": "Service",
+      name: r.label,
+      url: `${SITE_URL}${r.slug}`,
+    })),
   };
 
   // Always emit the English FAQPage schema (look up the EN equivalent of this
@@ -129,6 +178,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <meta name="twitter:description" content={page.metaDescription} />
         <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
 
