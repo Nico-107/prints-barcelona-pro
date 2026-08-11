@@ -360,6 +360,10 @@ export const enTranslations: Record<string, string> = {
   "calc.upload.status.done": "File uploaded successfully",
   "calc.upload.status.failed": "Upload failed — send via WhatsApp",
 
+  "calc.instantBuy.fulfillment.pickup": "Pickup in Barcelona",
+  "calc.instantBuy.fulfillment.shipping": "Shipping",
+  "calc.instantBuy.fulfillment.required": "Select pickup or shipping to continue",
+
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
   "whatsapp.message": "Hello, I'd like to request a 3D printing service from Dimension3D.",

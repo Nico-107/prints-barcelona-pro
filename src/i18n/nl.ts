@@ -359,6 +359,10 @@ export const nlTranslations: Record<string, string> = {
   "calc.upload.status.done": "Bestand succesvol verzonden",
   "calc.upload.status.failed": "Upload mislukt — stuur via WhatsApp",
 
+  "calc.instantBuy.fulfillment.pickup": "Ophalen in Barcelona",
+  "calc.instantBuy.fulfillment.shipping": "Bezorging",
+  "calc.instantBuy.fulfillment.required": "Kies afhalen of bezorging om door te gaan",
+
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",
   "whatsapp.message": "Hallo, ik wil graag een 3D printservice aanvragen bij Dimension3D.",

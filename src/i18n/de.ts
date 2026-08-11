@@ -359,6 +359,10 @@ export const deTranslations: Record<string, string> = {
   "calc.upload.status.done": "Datei erfolgreich hochgeladen",
   "calc.upload.status.failed": "Upload fehlgeschlagen — per WhatsApp senden",
 
+  "calc.instantBuy.fulfillment.pickup": "Abholung in Barcelona",
+  "calc.instantBuy.fulfillment.shipping": "Versand",
+  "calc.instantBuy.fulfillment.required": "Wählen Sie Abholung oder Versand, um fortzufahren",
+
   // WhatsApp
   "whatsapp.tooltip": "Mit uns chatten",
   "whatsapp.message": "Hallo, ich möchte einen 3D-Druckservice bei Dimension3D anfragen.",

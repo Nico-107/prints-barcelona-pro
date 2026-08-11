@@ -360,6 +360,10 @@ export const caTranslations: Record<string, string> = {
   "calc.upload.status.done": "Arxiu enviat correctament",
   "calc.upload.status.failed": "Error en pujar l'arxiu — envia'l per WhatsApp",
 
+  "calc.instantBuy.fulfillment.pickup": "Recollida a Barcelona",
+  "calc.instantBuy.fulfillment.shipping": "Enviament a domicili",
+  "calc.instantBuy.fulfillment.required": "Selecciona recollida o enviament per continuar",
+
   // WhatsApp
   "whatsapp.tooltip": "Parlem?",
   "whatsapp.message": "Hola, m'agradaria sol·licitar un servei d'impressió 3D amb Dimension3D.",

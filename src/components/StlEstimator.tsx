@@ -299,6 +299,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [preUploadDone, setPreUploadDone] = useState(false);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   const [showManualReview, setShowManualReview] = useState(false);
+  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
+  const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const estimateShownRef = useRef(false);
@@ -538,6 +540,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setCheckoutError(null);
     setCheckoutResult(null);
     setShowManualReview(false);
+    setFulfillment(null);
+    setFulfillmentAttempted(false);
   };
 
   const handleWhatsApp = () => {
@@ -549,9 +553,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
-  // Reset manual-review choice whenever eligibility drivers change
+  // Reset manual-review and fulfillment choices whenever eligibility drivers change
   useEffect(() => {
     setShowManualReview(false);
+    setFulfillment(null);
+    setFulfillmentAttempted(false);
   }, [materialKey, multicolour]);
 
   // Detect Stripe return URLs on page load
@@ -569,6 +575,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   }, []);
 
   const handleInstantBuy = async () => {
+    if (fulfillment === null) {
+      setFulfillmentAttempted(true);
+      return;
+    }
     if (!uploadedRef.current || instantDisplayPrice === null) {
       setCheckoutError("Files are still uploading. Please wait a moment and try again.");
       return;
@@ -586,6 +596,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           filePaths: uploadedRef.current.paths,
           fileNames: uploadedRef.current.names,
           exactPrice: instantDisplayPrice,
+          fulfillment,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
           language,
@@ -780,30 +791,58 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         </p>
       )}
       {instantBuyEligible && !showManualReview ? (
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            variant="cta"
-            size="lg"
-            className="w-full gap-2"
-            onClick={handleInstantBuy}
-            disabled={isCheckingOut || !preUploadDone}
-          >
-            {isCheckingOut
-              ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-              : <><CreditCard className="w-4 h-4" />Buy now — €{instantDisplayPrice?.toFixed(2)}</>
-            }
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full gap-2 text-xs"
-            onClick={() => setShowManualReview(true)}
-            disabled={isCheckingOut}
-          >
-            <Send className="w-4 h-4 shrink-0" />
-            Get a review from our team instead
-          </Button>
-        </div>
+        <>
+          {/* Fulfillment choice — required before payment */}
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-1.5">
+              {t("calc.instantBuy.fulfillment.pickup")} / {t("calc.instantBuy.fulfillment.shipping")}
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {(["pickup", "shipping"] as const).map(opt => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => { setFulfillment(opt); setFulfillmentAttempted(false); }}
+                  disabled={isCheckingOut}
+                  className={`h-10 rounded-md border text-sm font-medium transition-colors disabled:opacity-60 ${
+                    fulfillment === opt
+                      ? "border-accent bg-accent text-accent-foreground"
+                      : "border-input bg-background text-foreground hover:border-accent/60 hover:bg-accent/5"
+                  }`}
+                >
+                  {t(`calc.instantBuy.fulfillment.${opt}` as any)}
+                </button>
+              ))}
+            </div>
+            {fulfillmentAttempted && fulfillment === null && (
+              <p className="text-xs text-destructive mt-1">{t("calc.instantBuy.fulfillment.required")}</p>
+            )}
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              variant="cta"
+              size="lg"
+              className="w-full gap-2"
+              onClick={handleInstantBuy}
+              disabled={isCheckingOut || !preUploadDone}
+            >
+              {isCheckingOut
+                ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
+                : <><CreditCard className="w-4 h-4" />Buy now — €{instantDisplayPrice?.toFixed(2)}</>
+              }
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full gap-2 text-xs"
+              onClick={() => setShowManualReview(true)}
+              disabled={isCheckingOut}
+            >
+              <Send className="w-4 h-4 shrink-0" />
+              Get a review from our team instead
+            </Button>
+          </div>
+        </>
       ) : (
         <>
           <Button
@@ -937,12 +976,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           <div
             {...dragHandlers}
             onClick={() => inputRef.current?.click()}
-            className={`relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
-              isDragging ? "border-accent bg-accent/8" : "border-border hover:border-accent/60 hover:bg-accent/4"
+            className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
+              isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
             }`}
           >
-            <Calculator className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-            <p className="font-semibold text-foreground mb-1">{t("calc.drop")}</p>
+            <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
+            <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
             <p className="text-sm text-muted-foreground">{t("calc.dropSub")}</p>
           </div>
         ) : parsedFiles.length < MAX_FILES ? (
@@ -1460,6 +1499,29 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     <p className="text-xs text-center text-muted-foreground italic">
                       Instant confirmation — ready to print. No manual review needed for this price.
                     </p>
+                    {/* Fulfillment choice */}
+                    <div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {(["pickup", "shipping"] as const).map(opt => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => { setFulfillment(opt); setFulfillmentAttempted(false); }}
+                            disabled={isCheckingOut}
+                            className={`h-10 rounded-md border text-sm font-medium transition-colors disabled:opacity-60 ${
+                              fulfillment === opt
+                                ? "border-accent bg-accent text-accent-foreground"
+                                : "border-input bg-background text-foreground hover:border-accent/60 hover:bg-accent/5"
+                            }`}
+                          >
+                            {t(`calc.instantBuy.fulfillment.${opt}` as any)}
+                          </button>
+                        ))}
+                      </div>
+                      {fulfillmentAttempted && fulfillment === null && (
+                        <p className="text-xs text-destructive mt-1 text-center">{t("calc.instantBuy.fulfillment.required")}</p>
+                      )}
+                    </div>
                     {checkoutError && (
                       <p className="text-xs text-center text-destructive">{checkoutError}</p>
                     )}
