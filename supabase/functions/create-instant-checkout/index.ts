@@ -52,6 +52,7 @@ serve(async (req: Request) => {
     const {
       material, color, infill, wallLoops, quantity,
       filePaths, fileNames, exactPrice, contactEmail, contactPhone, language,
+      fulfillment,
     } = body ?? {};
 
     const price = Number(exactPrice);
@@ -64,6 +65,9 @@ serve(async (req: Request) => {
     }
     if (typeof material !== "string" || !ALLOWED_MATERIALS.includes(material)) {
       return json({ error: "INVALID_MATERIAL" }, 400);
+    }
+    if (fulfillment !== "pickup" && fulfillment !== "shipping") {
+      return json({ error: "INVALID_FULFILLMENT" }, 400);
     }
     if (!STRIPE_SECRET_KEY) return json({ error: "STRIPE_NOT_CONFIGURED" }, 500);
 
@@ -92,8 +96,10 @@ serve(async (req: Request) => {
       .insert({
         product_title: `3D Print — ${material}${color ? ` (${color})` : ""}`,
         customer_phone: (typeof contactPhone === "string" && contactPhone.trim()) || "see notes",
+        customer_email:
+          (typeof contactEmail === "string" && contactEmail.trim()) || null,
         status: "awaiting_payment",
-        fulfillment: "pickup",
+        fulfillment,
         notes,
         photos: [],
         payment_method: "stripe",
@@ -116,9 +122,14 @@ serve(async (req: Request) => {
         `Impresión 3D — Pedido #${order.order_number}`,
       "metadata[order_id]": order.id,
       "metadata[order_number]": String(order.order_number),
+      "metadata[fulfillment]": fulfillment,
       "success_url": `${SITE_URL}/?checkout=success`,
       "cancel_url": `${SITE_URL}/?checkout=cancelled`,
     });
+    if (fulfillment === "shipping") {
+      params.set("shipping_address_collection[allowed_countries][0]", "ES");
+      params.set("phone_number_collection[enabled]", "true");
+    }
     if (typeof contactEmail === "string" && contactEmail.trim()) {
       params.set("customer_email", contactEmail.trim());
     }

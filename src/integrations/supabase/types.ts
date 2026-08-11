@@ -50,6 +50,7 @@ export type Database = {
       orders: {
         Row: {
           created_at: string
+          customer_email: string | null
           customer_phone: string
           eta: string | null
           fulfillment: string
@@ -61,12 +62,14 @@ export type Database = {
           phone_last3: string | null
           photos: string[]
           product_title: string
+          shipping_address: Json | null
           status: string
           stripe_payment_link: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
+          customer_email?: string | null
           customer_phone: string
           eta?: string | null
           fulfillment?: string
@@ -78,12 +81,14 @@ export type Database = {
           phone_last3?: string | null
           photos?: string[]
           product_title?: string
+          shipping_address?: Json | null
           status?: string
           stripe_payment_link?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
+          customer_email?: string | null
           customer_phone?: string
           eta?: string | null
           fulfillment?: string
@@ -95,6 +100,7 @@ export type Database = {
           phone_last3?: string | null
           photos?: string[]
           product_title?: string
+          shipping_address?: Json | null
           status?: string
           stripe_payment_link?: string | null
           updated_at?: string
