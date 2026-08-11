@@ -52,6 +52,7 @@ serve(async (req: Request) => {
     const {
       material, color, infill, wallLoops, quantity,
       filePaths, fileNames, exactPrice, contactEmail, contactPhone, language,
+      fulfillment,
     } = body ?? {};
 
     const price = Number(exactPrice);
@@ -64,6 +65,9 @@ serve(async (req: Request) => {
     }
     if (typeof material !== "string" || !ALLOWED_MATERIALS.includes(material)) {
       return json({ error: "INVALID_MATERIAL" }, 400);
+    }
+    if (fulfillment !== "pickup" && fulfillment !== "shipping") {
+      return json({ error: "INVALID_FULFILLMENT" }, 400);
     }
     if (!STRIPE_SECRET_KEY) return json({ error: "STRIPE_NOT_CONFIGURED" }, 500);
 
