@@ -137,9 +137,9 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
         box.getCenter(center);
         geometry.translate(-center.x, -center.y, -center.z);
 
-        const size = new THREE.Vector3();
-        box.getSize(size);
-        const maxDim = Math.max(size.x, size.y, size.z);
+        const boxSize = new THREE.Vector3();
+        box.getSize(boxSize);
+        const maxDim = Math.max(boxSize.x, boxSize.y, boxSize.z);
         const fovRad = (camera.fov * Math.PI) / 180;
         const dist = (maxDim / 2) / Math.tan(fovRad / 2) * 1.8;
         camera.position.set(0, 0, dist);
