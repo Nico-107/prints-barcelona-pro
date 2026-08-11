@@ -108,7 +108,7 @@ const Footer = () => {
               <ul className="flex flex-col gap-1.5">
                 {group.items.map((item) => (
                   <li key={item.slugEn}>
-                    <Link to={slugForLang(item, language)} className="text-background/70 text-sm hover:text-background transition-colors">
+                    <Link to={slugForLang(item, language as any)} className="text-background/70 text-sm hover:text-background transition-colors">
                       {itemLabel(item)}
                     </Link>
                   </li>
@@ -128,7 +128,7 @@ const Footer = () => {
                 <ul className="flex flex-col gap-1.5">
                   {guidesGroup?.items.map((item) => (
                     <li key={item.slugEn}>
-                      <Link to={slugForLang(item, language)} className="text-background/70 text-sm hover:text-background transition-colors">
+                      <Link to={slugForLang(item, language as any)} className="text-background/70 text-sm hover:text-background transition-colors">
                         {itemLabel(item)}
                       </Link>
                     </li>

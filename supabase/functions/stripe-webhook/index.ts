@@ -51,13 +51,51 @@ serve(async (req: Request) => {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+    const orderId = session.metadata?.order_id;
     const orderNumber = session.metadata?.order_number;
 
-    if (orderNumber) {
-      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-      const adminClient = createClient(supabaseUrl, serviceRoleKey);
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
+    if (orderId) {
+      // Instant self-service checkout flow — paid, ready to print
+      const { data: order, error } = await adminClient
+        .from("orders")
+        .update({ payment_status: "paid", status: "quote_approved" })
+        .eq("id", orderId)
+        .select("order_number, product_title, notes")
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to mark instant order " + orderId + " as paid:", error);
+      } else {
+        console.log("Instant order " + orderId + " marked paid + quote_approved");
+
+        // Same customer confirmation email path used for paid orders
+        const customerEmail =
+          session.customer_details?.email ?? session.customer_email ?? null;
+        const materialMatch = /Material: ([^\s/.]+)/.exec(order?.notes ?? "");
+
+        const { error: mailErr } = await adminClient.functions.invoke(
+          "send-order-confirmation",
+          {
+            body: {
+              customerEmail,
+              orderNumber: order?.order_number,
+              finalPrice: (session.amount_total ?? 0) / 100,
+              material: materialMatch?.[1] ?? "PLA",
+              color: null,
+              deliveryDate: null,
+              customerName: session.customer_details?.name ?? null,
+              paymentMethod: "stripe",
+              stripePaymentLink: null,
+            },
+          },
+        );
+        if (mailErr) console.error("send-order-confirmation failed:", mailErr);
+      }
+    } else if (orderNumber) {
       const { error } = await adminClient
         .from("orders")
         .update({ payment_status: "paid" })
