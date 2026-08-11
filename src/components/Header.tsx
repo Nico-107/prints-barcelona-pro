@@ -113,7 +113,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                     </DropdownMenuLabel>
                     {group.items.map((item) => (
                       <DropdownMenuItem key={item.slugEn} asChild>
-                        <Link to={slugForLang(item, language)} className="cursor-pointer">
+                        <Link to={slugForLang(item, language as any)} className="cursor-pointer">
                           {itemLabel(item)}
                         </Link>
                       </DropdownMenuItem>
@@ -194,7 +194,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                   {group.items.map((item) => (
                     <Link
                       key={item.slugEn}
-                      to={slugForLang(item, language)}
+                      to={slugForLang(item, language as any)}
                       onClick={() => setIsMenuOpen(false)}
                       className="block py-1.5 text-sm text-foreground"
                     >

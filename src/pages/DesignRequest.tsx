@@ -119,7 +119,7 @@ const DesignRequest = () => {
           .then(({ error: dbErr }) => {
             if (dbErr) console.error("quote_requests insert error:", dbErr);
           })
-          .catch(console.error);
+
 
         supabase.functions
           .invoke("send-quote-request", {

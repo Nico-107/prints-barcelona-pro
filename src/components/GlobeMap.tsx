@@ -156,7 +156,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
         // ── Lat/lon → 3D ──────────────────────────────────────────────
         // Convention: 90°W faces +Z (camera default at rest).
         // globeGroup.rotation.y = 1.745 brings Europe to face the camera.
-        const ll2v = (lat: number, lon: number, r: number): THREE.Vector3 => {
+        const ll2v = (lat: number, lon: number, r: number): any => {
           const phi   = (90 - lat) * Math.PI / 180;
           const theta = (lon + 180) * Math.PI / 180;
           return new THREE.Vector3(
@@ -241,9 +241,9 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
         }
 
         // ── City markers ──────────────────────────────────────────────
-        const markerMeshes: THREE.Mesh[] = [];
-        const defaultMats: THREE.MeshBasicMaterial[] = [];
-        const hoverMats: THREE.MeshBasicMaterial[] = [];
+        const markerMeshes: any[] = [];
+        const defaultMats: any[] = [];
+        const hoverMats: any[] = [];
 
         for (const city of cities) {
           const pos  = ll2v(city.lat, city.lon, R + 0.022);
@@ -261,8 +261,8 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
 
         // ── Barcelona pulse ring ──────────────────────────────────────
         const bcn = cities.find((c) => c.name === "Barcelona");
-        let pulseRing: THREE.Mesh | null = null;
-        let pulseRingMat: THREE.MeshBasicMaterial | null = null;
+        let pulseRing: any | null = null;
+        let pulseRingMat: any | null = null;
         if (bcn) {
           pulseRingMat = new THREE.MeshBasicMaterial({
             color: 0x22c55e,
@@ -293,7 +293,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
 
         const raycaster = new THREE.Raycaster();
 
-        const ndcFrom = (clientX: number, clientY: number): THREE.Vector2 => {
+        const ndcFrom = (clientX: number, clientY: number): any => {
           const rect = canvas.getBoundingClientRect();
           return new THREE.Vector2(
             ((clientX - rect.left) / rect.width)  * 2 - 1,
@@ -340,7 +340,7 @@ export function GlobeMap({ cities, onCityClick, liveLabel, expandingLabel }: Glo
           // Hover raycasting
           const hits = hitTest(e.clientX, e.clientY);
           if (hits.length > 0) {
-            const idx = markerMeshes.indexOf(hits[0].object as THREE.Mesh);
+            const idx = markerMeshes.indexOf(hits[0].object as any);
             if (idx !== hoveredIdx) {
               resetHover();
               hoveredIdx = idx;

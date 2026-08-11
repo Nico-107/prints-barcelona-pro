@@ -68,7 +68,7 @@ const CatalogProduct = () => {
         .then(({ error: dbErr }) => {
           if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
         })
-        .catch((e: unknown) => console.error("quote_requests insert threw:", e));
+
 
       supabase.functions
         .invoke("send-catalog-request", {
