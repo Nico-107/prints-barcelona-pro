@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, lazy, Suspense } from "react";
-import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle } from "lucide-react";
+import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -25,6 +25,10 @@ const URGENCY_TIERS = [
   { key: "express",  multiplier: 1.25 },
   { key: "urgent",   multiplier: 1.6  },
 ] as const;
+
+const INSTANT_BUY_SAFE = ["PLA", "PETG", "ABS", "TPU"] as const;
+const INSTANT_BUY_MAX = 40;
+const INSTANT_BUY_DISPLAY_CAP = 35;
 
 // ─── Material table ───────────────────────────────────────────────────────────
 const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
@@ -289,6 +293,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "slow" | "done" | "failed">("idle");
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
+  // Instant checkout state
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [preUploadDone, setPreUploadDone] = useState(false);
+  const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
+  const [showManualReview, setShowManualReview] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const estimateShownRef = useRef(false);
   const uploadedRef = useRef<{ paths: string[]; names: string[] } | null>(null);
@@ -302,6 +313,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
   const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier, multicolour) : null;
+
+  const bundleExactPrice = bundle?.total ?? 0;
+  const instantBuyEligible =
+    !adminMode &&
+    !multicolour &&
+    (INSTANT_BUY_SAFE as readonly string[]).includes(materialKey) &&
+    bundle !== null &&
+    bundleExactPrice <= INSTANT_BUY_MAX;
+  const instantDisplayPrice = instantBuyEligible
+    ? (bundleExactPrice <= INSTANT_BUY_DISPLAY_CAP ? bundleExactPrice : INSTANT_BUY_DISPLAY_CAP)
+    : null;
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -319,6 +341,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     // Reset per-estimate refs — new files mean a fresh estimate and upload
     uploadedRef.current = null;
+    setPreUploadDone(false);
 
     setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
     setParsing(true);
@@ -402,8 +425,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               }
             }
             uploadedRef.current = { paths: uploadedPaths, names: uploadedNames };
+            setPreUploadDone(true);
           } catch (e) {
             console.error("Pre-estimate upload failed:", e);
+            setPreUploadDone(true);
             // uploadedRef stays null — submitQuote will run the fallback upload loop
           }
 
@@ -508,6 +533,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsSubmittedQuote(false);
     setQuoteError(null);
     setMobileModalOpen(false);
+    setPreUploadDone(false);
+    setIsCheckingOut(false);
+    setCheckoutError(null);
+    setCheckoutResult(null);
+    setShowManualReview(false);
   };
 
   const handleWhatsApp = () => {
@@ -517,6 +547,57 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       language === "es" ? "Hola, me gustaría obtener un presupuesto exacto para mis archivos 3D." :
       "Hi, I'd like to get an exact quote for my 3D prints.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  // Reset manual-review choice whenever eligibility drivers change
+  useEffect(() => {
+    setShowManualReview(false);
+  }, [materialKey, multicolour]);
+
+  // Detect Stripe return URLs on page load
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const co = params.get("checkout");
+    if (co === "success") {
+      setCheckoutResult("success");
+      capture('instant_checkout_completed');
+    } else if (co === "cancelled") {
+      setCheckoutResult("cancelled");
+      capture('instant_checkout_cancelled');
+    }
+  }, []);
+
+  const handleInstantBuy = async () => {
+    if (!uploadedRef.current || instantDisplayPrice === null) {
+      setCheckoutError("Files are still uploading. Please wait a moment and try again.");
+      return;
+    }
+    setIsCheckingOut(true);
+    setCheckoutError(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
+        body: {
+          material: materialKey,
+          color: colorPref.trim() || null,
+          infill: infillPct,
+          wallLoops,
+          quantity: bundle!.totalUnits,
+          filePaths: uploadedRef.current.paths,
+          fileNames: uploadedRef.current.names,
+          exactPrice: instantDisplayPrice,
+          contactEmail: contactEmail.trim() || null,
+          contactPhone: contactPhone.trim() || null,
+          language,
+        },
+      });
+      if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
+      capture('instant_checkout_initiated', { material: materialKey, exact_price: instantDisplayPrice, quantity: bundle!.totalUnits });
+      window.location.href = data.checkoutUrl;
+    } catch (err: any) {
+      setIsCheckingOut(false);
+      setCheckoutError(err.message ?? "Checkout failed. Please request a review instead.");
+    }
   };
 
   const submitQuote = async () => {
@@ -644,11 +725,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     onDrop: handleDrop,
   };
 
-  // Price display — multicolour shows "from €X", normal shows "~€X–Y"
+  // Price display — multicolour shows "from €X", instant-buy shows exact, normal shows "~€X–Y"
   const priceDisplay = bundle
     ? multicolour
       ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}+`
-      : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
+      : instantBuyEligible && instantDisplayPrice !== null
+        ? `€${instantDisplayPrice.toFixed(2)}`
+        : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
     : "";
 
   const firstViewableFile = validFiles.find(f => f.file);
@@ -666,7 +749,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     ...(multicolour ? [t("calc.multicolour.label")] : []),
   ].join(" · ") : "";
 
-  // Shared contact form content — used in both inline block and mobile modal
+  // Shared contact form content — used in inline block
   const contactFormContent = (
     <div className="space-y-2">
       <input
@@ -674,7 +757,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         value={contactEmail}
         onChange={e => setContactEmail(e.target.value)}
         placeholder={t("calc.contact.email")}
-        disabled={isSubmittingQuote}
+        disabled={isSubmittingQuote || isCheckingOut}
         className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
       />
       <input
@@ -682,39 +765,71 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         value={contactPhone}
         onChange={e => setContactPhone(e.target.value)}
         placeholder={t("calc.contact.phone")}
-        disabled={isSubmittingQuote}
+        disabled={isSubmittingQuote || isCheckingOut}
         className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
       />
       {quoteError && (
         <p className="text-xs text-destructive">{quoteError}</p>
+      )}
+      {checkoutError && instantBuyEligible && !showManualReview && (
+        <p className="text-xs text-destructive">{checkoutError}</p>
       )}
       {oversizedFiles.length > 0 && (
         <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
           {t("calc.notice.tooLargeToUpload")}
         </p>
       )}
-      <Button
-        variant="cta"
-        size="lg"
-        className="w-full gap-2"
-        onClick={submitQuote}
-        disabled={isSubmittingQuote}
-      >
-        {isSubmittingQuote
-          ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-          : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
-        }
-      </Button>
-      <Button
-        variant="whatsapp-outline"
-        size="sm"
-        className="w-full gap-2"
-        onClick={handleWhatsApp}
-        disabled={isSubmittingQuote}
-      >
-        <MessageCircle className="w-4 h-4" />
-        {t("calc.result.whatsapp")}
-      </Button>
+      {instantBuyEligible && !showManualReview ? (
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            variant="cta"
+            size="lg"
+            className="w-full gap-2"
+            onClick={handleInstantBuy}
+            disabled={isCheckingOut || !preUploadDone}
+          >
+            {isCheckingOut
+              ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
+              : <><CreditCard className="w-4 h-4" />Buy now — €{instantDisplayPrice?.toFixed(2)}</>
+            }
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full gap-2 text-xs"
+            onClick={() => setShowManualReview(true)}
+            disabled={isCheckingOut}
+          >
+            <Send className="w-4 h-4 shrink-0" />
+            Get a review from our team instead
+          </Button>
+        </div>
+      ) : (
+        <>
+          <Button
+            variant="cta"
+            size="lg"
+            className="w-full gap-2"
+            onClick={submitQuote}
+            disabled={isSubmittingQuote}
+          >
+            {isSubmittingQuote
+              ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+              : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
+            }
+          </Button>
+          <Button
+            variant="whatsapp-outline"
+            size="sm"
+            className="w-full gap-2"
+            onClick={handleWhatsApp}
+            disabled={isSubmittingQuote}
+          >
+            <MessageCircle className="w-4 h-4" />
+            {t("calc.result.whatsapp")}
+          </Button>
+        </>
+      )}
     </div>
   );
 
@@ -978,7 +1093,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               {!adminMode && (
                 <>
                   <p className="text-xs text-muted-foreground/70 mt-3 italic">
-                    {t("calc.result.disclaimer")}
+                    {instantBuyEligible
+                      ? "Instant confirmation — ready to print. No manual review needed for this price."
+                      : t("calc.result.disclaimer")}
                   </p>
                   {bundle.supportHeavy && (
                     <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
@@ -1338,33 +1455,72 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             {/* Sticky footer — primary CTA is always visible */}
             {!isSubmittedQuote && (
               <div className="shrink-0 border-t border-border bg-background px-6 py-4 space-y-2">
-                <Button
-                  variant="cta"
-                  size="lg"
-                  className="w-full gap-2"
-                  onClick={submitQuote}
-                  disabled={isSubmittingQuote}
-                >
-                  {isSubmittingQuote
-                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
-                  }
-                </Button>
-                <p className="text-xs text-center text-muted-foreground">{t("calc.modal.trust")}</p>
-                <Button
-                  variant="whatsapp-outline"
-                  size="sm"
-                  className="w-full gap-2"
-                  onClick={handleWhatsApp}
-                  disabled={isSubmittingQuote}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  {t("calc.result.whatsapp")}
-                </Button>
-                <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
-                  <X className="w-4 h-4" />
-                  {t("calc.modal.close")}
-                </DialogClose>
+                {instantBuyEligible && !showManualReview ? (
+                  <>
+                    <p className="text-xs text-center text-muted-foreground italic">
+                      Instant confirmation — ready to print. No manual review needed for this price.
+                    </p>
+                    {checkoutError && (
+                      <p className="text-xs text-center text-destructive">{checkoutError}</p>
+                    )}
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      onClick={handleInstantBuy}
+                      disabled={isCheckingOut || !preUploadDone}
+                    >
+                      {isCheckingOut
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
+                        : <><CreditCard className="w-4 h-4" />Buy now — €{instantDisplayPrice?.toFixed(2)}</>
+                      }
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full gap-2 text-xs"
+                      onClick={() => setShowManualReview(true)}
+                      disabled={isCheckingOut}
+                    >
+                      <Send className="w-4 h-4 shrink-0" />
+                      Get a review from our team instead
+                    </Button>
+                    <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
+                      <X className="w-4 h-4" />
+                      {t("calc.modal.close")}
+                    </DialogClose>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      onClick={submitQuote}
+                      disabled={isSubmittingQuote}
+                    >
+                      {isSubmittingQuote
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                        : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
+                      }
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground">{t("calc.modal.trust")}</p>
+                    <Button
+                      variant="whatsapp-outline"
+                      size="sm"
+                      className="w-full gap-2"
+                      onClick={handleWhatsApp}
+                      disabled={isSubmittingQuote}
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {t("calc.result.whatsapp")}
+                    </Button>
+                    <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
+                      <X className="w-4 h-4" />
+                      {t("calc.modal.close")}
+                    </DialogClose>
+                  </>
+                )}
               </div>
             )}
           </DialogContent>
@@ -1399,6 +1555,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">{t("calc.subtitle")}</p>
         </div>
+        {checkoutResult === "success" && (
+          <div className="max-w-xl mx-auto mb-6 rounded-xl bg-whatsapp/10 border border-whatsapp/25 px-5 py-4 flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 text-whatsapp shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-foreground">Payment confirmed — your order is placed!</p>
+              <p className="text-sm text-muted-foreground mt-0.5">We'll contact you with print updates. Thank you for your order.</p>
+            </div>
+          </div>
+        )}
+        {checkoutResult === "cancelled" && (
+          <div className="max-w-xl mx-auto mb-6 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 px-5 py-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-foreground">Checkout cancelled</p>
+              <p className="text-sm text-muted-foreground mt-0.5">No charge was made. Upload your files again to retry or request a review.</p>
+            </div>
+          </div>
+        )}
         {refCity && (
           <div className="max-w-xl mx-auto mb-6">
             <p className="text-sm bg-amber-50 border border-amber-200 text-amber-800 rounded-lg px-4 py-2.5 text-center">
