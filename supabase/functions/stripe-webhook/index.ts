@@ -60,9 +60,24 @@ serve(async (req: Request) => {
 
     if (orderId) {
       // Instant self-service checkout flow — paid, ready to print
+      // Authoritative contact info comes from the completed Stripe session.
+      const stripeEmail =
+        session.customer_details?.email ?? session.customer_email ?? null;
+      const stripePhone = session.customer_details?.phone ?? null;
+      const shipping =
+        session.shipping_details ?? session.collected_information?.shipping_details ?? null;
+
+      const updatePayload: Record<string, unknown> = {
+        payment_status: "paid",
+        status: "quote_approved",
+      };
+      if (stripeEmail) updatePayload.customer_email = stripeEmail;
+      if (stripePhone) updatePayload.customer_phone = stripePhone;
+      if (shipping) updatePayload.shipping_address = shipping;
+
       const { data: order, error } = await adminClient
         .from("orders")
-        .update({ payment_status: "paid", status: "quote_approved" })
+        .update(updatePayload)
         .eq("id", orderId)
         .select("order_number, product_title, notes")
         .maybeSingle();
@@ -73,8 +88,7 @@ serve(async (req: Request) => {
         console.log("Instant order " + orderId + " marked paid + quote_approved");
 
         // Same customer confirmation email path used for paid orders
-        const customerEmail =
-          session.customer_details?.email ?? session.customer_email ?? null;
+        const customerEmail = stripeEmail;
         const materialMatch = /Material: ([^\s/.]+)/.exec(order?.notes ?? "");
 
         const { error: mailErr } = await adminClient.functions.invoke(
