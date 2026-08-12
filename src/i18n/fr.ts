@@ -362,6 +362,11 @@ export const frTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Retrait à Barcelone",
   "calc.instantBuy.fulfillment.shipping": "Livraison",
   "calc.instantBuy.fulfillment.required": "Choisissez retrait ou livraison pour continuer",
+  "calc.instantBuy.shipping.print": "Impression",
+  "calc.instantBuy.shipping.surcharge": "Livraison",
+  "calc.instantBuy.shipping.total": "Total",
+  "calc.dropzone.noFile": "Pas de fichier 3D ?",
+  "calc.dropzone.noFile.cta": "On le conçoit depuis une photo ou une idée",
 
   // WhatsApp
   "whatsapp.tooltip": "Discutons",

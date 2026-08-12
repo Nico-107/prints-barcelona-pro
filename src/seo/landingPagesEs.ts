@@ -90,7 +90,7 @@ export const PAGES_ES: LandingContent[] = [
     related: [
       { label: "Recambios y Descatalogados", slug: "/recambios-impresion-3d-barcelona" },
       { label: "Piezas Funcionales", slug: "/piezas-funcionales-barcelona" },
-      { label: "PETG para Carga", slug: "/impresion-petg-barcelona" },
+      { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Cómo se Calcula el Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Custom Parts (EN)", slug: "/custom-parts-barcelona" },
       { label: "Peces Personalitzades (CA)", slug: "/ca/peces-personalitzades-3d-barcelona" }
@@ -138,7 +138,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Prototipado Rápido 24–72h", slug: "/prototipado-rapido-barcelona" },
       { label: "Piezas Funcionales para Validar", slug: "/piezas-funcionales-barcelona" },
       { label: "Servicio Express y Mismo Día", slug: "/impresion-3d-urgente-barcelona" },
-      { label: "PETG — Ficha del Material", slug: "/impresion-petg-barcelona" },
+      { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Prototype Printing (EN)", slug: "/prototype-printing-barcelona" },
       { label: "Prototips 3D (CA)", slug: "/ca/prototips-3d-barcelona" }
     ],
@@ -278,7 +278,7 @@ export const PAGES_ES: LandingContent[] = [
     related: [
       { label: "Piezas a Medida desde Foto", slug: "/piezas-personalizadas-3d-barcelona" },
       { label: "Servicio Urgente", slug: "/impresion-3d-urgente-barcelona" },
-      { label: "PETG para Electrodomésticos", slug: "/impresion-petg-barcelona" },
+      { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Estructura del Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Replacement Parts (EN)", slug: "/replacement-parts-barcelona" },
       { label: "Recanvis (CA)", slug: "/ca/recanvis-impressio-3d-barcelona" }
@@ -790,7 +790,7 @@ export const PAGES_ES: LandingContent[] = [
     galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "red-adapter.jpg", "blue-molds.jpg"),
     related: [
       { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
-      { label: "Cómo Elegir un Servicio", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
+      { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Piezas a Medida desde Archivo o Foto", slug: "/piezas-personalizadas-3d-barcelona" },
       { label: "Ciclo de Iteración de Prototipos", slug: "/prototipos-3d-barcelona" },
       { label: "Mejor Servicio por Caso de Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },

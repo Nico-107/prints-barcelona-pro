@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import { Link } from "react-router-dom";
 import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
@@ -29,6 +30,7 @@ const URGENCY_TIERS = [
 const INSTANT_BUY_SAFE = ["PLA", "PETG", "ABS", "TPU"] as const;
 const INSTANT_BUY_MAX = 40;
 const INSTANT_BUY_DISPLAY_CAP = 35;
+const SHIPPING_SURCHARGE = 6;
 
 // ─── Material table ───────────────────────────────────────────────────────────
 const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
@@ -326,6 +328,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const instantDisplayPrice = instantBuyEligible
     ? (bundleExactPrice <= INSTANT_BUY_DISPLAY_CAP ? bundleExactPrice : INSTANT_BUY_DISPLAY_CAP)
     : null;
+  const instantTotalPrice = instantDisplayPrice !== null
+    ? instantDisplayPrice + (fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0)
+    : null;
 
   const processFiles = async (newFiles: File[]) => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -579,7 +584,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setFulfillmentAttempted(true);
       return;
     }
-    if (!uploadedRef.current || instantDisplayPrice === null) {
+    if (!uploadedRef.current || instantDisplayPrice === null || instantTotalPrice === null) {
       setCheckoutError("Files are still uploading. Please wait a moment and try again.");
       return;
     }
@@ -595,7 +600,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           quantity: bundle!.totalUnits,
           filePaths: uploadedRef.current.paths,
           fileNames: uploadedRef.current.names,
-          exactPrice: instantDisplayPrice,
+          exactPrice: instantTotalPrice,
           fulfillment,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
@@ -740,8 +745,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const priceDisplay = bundle
     ? multicolour
       ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}+`
-      : instantBuyEligible && instantDisplayPrice !== null
-        ? `€${instantDisplayPrice.toFixed(2)}`
+      : instantBuyEligible && instantTotalPrice !== null
+        ? `€${instantTotalPrice.toFixed(2)}`
         : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
     : "";
 
@@ -818,6 +823,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               <p className="text-xs text-destructive mt-1">{t("calc.instantBuy.fulfillment.required")}</p>
             )}
           </div>
+          {fulfillment === "shipping" && instantDisplayPrice !== null && (
+            <div className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-sm space-y-0.5">
+              <div className="flex justify-between text-muted-foreground">
+                <span>{t("calc.instantBuy.shipping.print")}</span>
+                <span>€{instantDisplayPrice.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-muted-foreground">
+                <span>{t("calc.instantBuy.shipping.surcharge")}</span>
+                <span>+ €{SHIPPING_SURCHARGE.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-semibold border-t border-border pt-0.5 mt-0.5">
+                <span>{t("calc.instantBuy.shipping.total")}</span>
+                <span>€{instantTotalPrice?.toFixed(2)}</span>
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant="cta"
@@ -828,7 +849,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             >
               {isCheckingOut
                 ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                : <><CreditCard className="w-4 h-4" />Buy now — €{instantDisplayPrice?.toFixed(2)}</>
+                : <><CreditCard className="w-4 h-4" />Buy now — €{instantTotalPrice?.toFixed(2)}</>
               }
             </Button>
             <Button
@@ -973,17 +994,28 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         {/* Drop zone */}
         {parsedFiles.length === 0 ? (
-          <div
-            {...dragHandlers}
-            onClick={() => inputRef.current?.click()}
-            className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
-              isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
-            }`}
-          >
-            <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
-            <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
-            <p className="text-sm text-muted-foreground">{t("calc.dropSub")}</p>
-          </div>
+          <>
+            <div
+              {...dragHandlers}
+              onClick={() => inputRef.current?.click()}
+              className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
+                isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
+              }`}
+            >
+              <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
+              <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
+              <p className="text-sm text-muted-foreground">{t("calc.dropSub")}</p>
+            </div>
+            <p className="text-center text-sm text-muted-foreground mt-2">
+              {t("calc.dropzone.noFile")}{" "}
+              <Link
+                to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "es" ? "/disena-tu-pieza-3d" : "/design-your-3d-part"}
+                className="underline text-foreground hover:text-accent transition-colors"
+              >
+                {t("calc.dropzone.noFile.cta")}
+              </Link>
+            </p>
+          </>
         ) : parsedFiles.length < MAX_FILES ? (
           <div
             {...dragHandlers}
@@ -1525,6 +1557,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     {checkoutError && (
                       <p className="text-xs text-center text-destructive">{checkoutError}</p>
                     )}
+                    {fulfillment === "shipping" && instantDisplayPrice !== null && (
+                      <div className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-sm space-y-0.5">
+                        <div className="flex justify-between text-muted-foreground">
+                          <span>{t("calc.instantBuy.shipping.print")}</span>
+                          <span>€{instantDisplayPrice.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between text-muted-foreground">
+                          <span>{t("calc.instantBuy.shipping.surcharge")}</span>
+                          <span>+ €{SHIPPING_SURCHARGE.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between font-semibold border-t border-border pt-0.5 mt-0.5">
+                          <span>{t("calc.instantBuy.shipping.total")}</span>
+                          <span>€{instantTotalPrice?.toFixed(2)}</span>
+                        </div>
+                      </div>
+                    )}
                     <Button
                       variant="cta"
                       size="lg"
@@ -1534,7 +1582,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     >
                       {isCheckingOut
                         ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                        : <><CreditCard className="w-4 h-4" />Buy now — €{instantDisplayPrice?.toFixed(2)}</>
+                        : <><CreditCard className="w-4 h-4" />Buy now — €{instantTotalPrice?.toFixed(2)}</>
                       }
                     </Button>
                     <Button

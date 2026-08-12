@@ -362,6 +362,11 @@ export const ptTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Levantamento em Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Envio",
   "calc.instantBuy.fulfillment.required": "Escolha levantamento ou envio para continuar",
+  "calc.instantBuy.shipping.print": "Impressão",
+  "calc.instantBuy.shipping.surcharge": "Envio",
+  "calc.instantBuy.shipping.total": "Total",
+  "calc.dropzone.noFile": "Sem ficheiro 3D?",
+  "calc.dropzone.noFile.cta": "Criamo-lo a partir de uma foto ou ideia",
 
   // WhatsApp
   "whatsapp.tooltip": "Fale connosco",

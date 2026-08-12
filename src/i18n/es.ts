@@ -363,6 +363,11 @@ export const esTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Recogida en Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Envío a domicilio",
   "calc.instantBuy.fulfillment.required": "Selecciona recogida o envío para continuar",
+  "calc.instantBuy.shipping.print": "Impresión",
+  "calc.instantBuy.shipping.surcharge": "Envío",
+  "calc.instantBuy.shipping.total": "Total",
+  "calc.dropzone.noFile": "¿Sin archivo 3D?",
+  "calc.dropzone.noFile.cta": "Lo diseñamos desde una foto o tu idea",
 
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",
@@ -451,8 +456,8 @@ export const esTranslations: Record<string, string> = {
   "privacy.consent.change": "Cambiar preferencia",
 
   // DesignRequest page
-  "design.meta.title": "Diseño 3D en Barcelona — Sin Archivo, Presupuesto en 1h",
-  "design.meta.description": "¿Necesitas diseño 3D en Barcelona? Envía una foto, un boceto o describe la pieza. Diseñamos e imprimimos por ti. Presupuesto gratis en 1h.",
+  "design.meta.title": "Diseño 3D en Barcelona — desde foto o idea, sin archivo",
+  "design.meta.description": "¿Diseño 3D en Barcelona? Sin archivo — envía una foto o describe la pieza. Lo diseñamos e imprimimos por ti. Presupuesto gratis en 1h.",
   "design.hero.badge": "Sin archivo 3D",
   "design.hero.heading": "¿No tienes archivo 3D? No hace falta.",
   "design.hero.intro": "La mayoría de nuestros clientes llegan con una idea, una foto o una pieza rota — no con un archivo listo para imprimir. Descríbenos lo que necesitas y nos encargamos de todo.",

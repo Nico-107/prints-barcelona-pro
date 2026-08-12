@@ -363,6 +363,11 @@ export const enTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Pickup in Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Shipping",
   "calc.instantBuy.fulfillment.required": "Select pickup or shipping to continue",
+  "calc.instantBuy.shipping.print": "Print",
+  "calc.instantBuy.shipping.surcharge": "Shipping",
+  "calc.instantBuy.shipping.total": "Total",
+  "calc.dropzone.noFile": "No 3D file?",
+  "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
@@ -451,8 +456,8 @@ export const enTranslations: Record<string, string> = {
   "privacy.consent.change": "Change preference",
 
   // DesignRequest page
-  "design.meta.title": "3D Design in Barcelona — No File Needed, Quote in 1h",
-  "design.meta.description": "Need 3D design in Barcelona? Send a photo, a sketch, or describe your part. Our team designs and prints it for you. Free quote in under 1 hour.",
+  "design.meta.title": "3D Design Service Barcelona — No File, From a Photo",
+  "design.meta.description": "3D design service in Barcelona — no 3D file needed. Send a photo or describe your part and we design and print it for you. Free quote in 1 hour.",
   "design.hero.badge": "No 3D file needed",
   "design.hero.heading": "No 3D file? No problem.",
   "design.hero.intro": "Most of our customers arrive with an idea, a photo, or a broken part — not a print-ready file. Describe what you need and we take care of everything.",

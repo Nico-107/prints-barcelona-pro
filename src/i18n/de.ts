@@ -362,6 +362,11 @@ export const deTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Abholung in Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Versand",
   "calc.instantBuy.fulfillment.required": "Wählen Sie Abholung oder Versand, um fortzufahren",
+  "calc.instantBuy.shipping.print": "Druck",
+  "calc.instantBuy.shipping.surcharge": "Versand",
+  "calc.instantBuy.shipping.total": "Gesamt",
+  "calc.dropzone.noFile": "Keine 3D-Datei?",
+  "calc.dropzone.noFile.cta": "Wir gestalten es aus einem Foto oder einer Idee",
 
   // WhatsApp
   "whatsapp.tooltip": "Mit uns chatten",

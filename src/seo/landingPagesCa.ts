@@ -90,7 +90,7 @@ export const PAGES_CA: LandingContent[] = [
     related: [
       { label: "Recanvis Descatalogats", slug: "/ca/recanvis-impressio-3d-barcelona" },
       { label: "Peces Funcionals", slug: "/ca/peces-funcionals-barcelona" },
-      { label: "PETG per a Càrrega", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Dissenyem la teva Peça — Sense Arxiu", slug: "/dissenya-la-teva-peca-3d" },
       { label: "Com es Calcula el Preu", slug: "/ca/preu-impressio-3d-barcelona" },
       { label: "Custom Parts (EN)", slug: "/custom-parts-barcelona" },
       { label: "Piezas a Medida (ES)", slug: "/piezas-personalizadas-3d-barcelona" }
@@ -138,7 +138,7 @@ export const PAGES_CA: LandingContent[] = [
       { label: "Prototipatge Ràpid 24–72h", slug: "/ca/prototipatge-rapid-barcelona" },
       { label: "Peces Funcionals per Validar", slug: "/ca/peces-funcionals-barcelona" },
       { label: "Servei Express i Mateix Dia", slug: "/ca/impressio-3d-urgent-barcelona" },
-      { label: "PETG — Fitxa del Material", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Dissenyem la teva Peça — Sense Arxiu", slug: "/dissenya-la-teva-peca-3d" },
       { label: "Prototype Printing (EN)", slug: "/prototype-printing-barcelona" },
       { label: "Prototipos (ES)", slug: "/prototipos-3d-barcelona" }
     ],
@@ -278,7 +278,7 @@ export const PAGES_CA: LandingContent[] = [
     related: [
       { label: "Peces a Mida des de Foto", slug: "/ca/peces-personalitzades-3d-barcelona" },
       { label: "Servei Urgent", slug: "/ca/impressio-3d-urgent-barcelona" },
-      { label: "PETG per a Electrodomèstics", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Dissenyem la teva Peça — Sense Arxiu", slug: "/dissenya-la-teva-peca-3d" },
       { label: "Estructura del Preu", slug: "/ca/preu-impressio-3d-barcelona" },
       { label: "Replacement Parts (EN)", slug: "/replacement-parts-barcelona" },
       { label: "Recambios (ES)", slug: "/recambios-impresion-3d-barcelona" }

@@ -362,6 +362,11 @@ export const nlTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Ophalen in Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Bezorging",
   "calc.instantBuy.fulfillment.required": "Kies afhalen of bezorging om door te gaan",
+  "calc.instantBuy.shipping.print": "Print",
+  "calc.instantBuy.shipping.surcharge": "Bezorging",
+  "calc.instantBuy.shipping.total": "Totaal",
+  "calc.dropzone.noFile": "Geen 3D-bestand?",
+  "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",

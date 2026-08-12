@@ -183,7 +183,7 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Replacement & Discontinued Parts", slug: "/replacement-parts-barcelona" },
       { label: "Functional Engineering Parts", slug: "/functional-parts-barcelona" },
       { label: "PETG for Load-Bearing Work", slug: "/petg-printing-barcelona" },
-      { label: "How Pricing Works", slug: "/3d-printing-price-barcelona" },
+      { label: "We Design Your Part — No File Needed", slug: "/design-your-3d-part" },
       { label: "Piezas Personalizadas (ES)", slug: "/piezas-personalizadas-3d-barcelona" },
       { label: "Peces Personalitzades (CA)", slug: "/ca/peces-personalitzades-3d-barcelona" }
     ],
@@ -230,7 +230,7 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Rapid Prototyping — 24–72h Cycle", slug: "/rapid-prototyping-barcelona" },
       { label: "Functional Parts for Validation", slug: "/functional-parts-barcelona" },
       { label: "Same-Day & Express Turnaround", slug: "/urgent-3d-printing-barcelona" },
-      { label: "PETG Material Overview", slug: "/petg-printing-barcelona" },
+      { label: "We Design Your Part — No File Needed", slug: "/design-your-3d-part" },
       { label: "Prototipos (ES)", slug: "/prototipos-3d-barcelona" },
       { label: "Prototips (CA)", slug: "/ca/prototips-3d-barcelona" }
     ],
@@ -370,7 +370,7 @@ export const PAGES_EN: LandingContent[] = [
     related: [
       { label: "Bespoke Custom Parts", slug: "/custom-parts-barcelona" },
       { label: "Fast-Turn Urgent Prints", slug: "/urgent-3d-printing-barcelona" },
-      { label: "PETG for Appliance Parts", slug: "/petg-printing-barcelona" },
+      { label: "We Design Your Part — No File Needed", slug: "/design-your-3d-part" },
       { label: "How Prices Are Built", slug: "/3d-printing-price-barcelona" },
       { label: "Recambios (ES)", slug: "/recambios-impresion-3d-barcelona" },
       { label: "Recanvis (CA)", slug: "/ca/recanvis-impressio-3d-barcelona" }
@@ -882,7 +882,7 @@ export const PAGES_EN: LandingContent[] = [
     galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "red-adapter.jpg", "blue-molds.jpg"),
     related: [
       { label: "Full Materials Selection Guide", slug: "/3d-printing-materials-guide" },
-      { label: "How to Choose a 3D Print Shop", slug: "/how-to-choose-3d-printing-service-barcelona" },
+      { label: "We Design Your Part — No File Needed", slug: "/design-your-3d-part" },
       { label: "Custom Parts from Files or Photos", slug: "/custom-parts-barcelona" },
       { label: "Prototype Iteration Cycle", slug: "/prototype-printing-barcelona" },
       { label: "Best Service by Use Case", slug: "/best-3d-printing-service-barcelona" },
