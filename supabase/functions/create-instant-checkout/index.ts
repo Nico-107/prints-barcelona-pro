@@ -11,7 +11,7 @@ const corsHeaders = {
 };
 
 const ALLOWED_MATERIALS = ["PLA", "PETG", "ABS", "TPU"];
-const MAX_PRICE = 35.5;
+const MAX_PRICE = 41.5;
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW_MS = 60000;
