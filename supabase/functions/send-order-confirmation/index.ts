@@ -138,7 +138,29 @@ serve(async (req: Request) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
     const bearer = authHeader.replace(/^Bearer\s+/i, "").trim();
-    const isInternal = !!serviceRoleKey && bearer === serviceRoleKey;
+
+    // Trusted internal caller: the service role key (JWT or sb_secret_* form),
+    // used by stripe-webhook. Anonymous callers are still rejected below.
+    const secretKeys = (Deno.env.get("SUPABASE_SECRET_KEYS") ?? "")
+      .split(/[,\s]+/)
+      .map((s) => s.replace(/^["'\[]+|["'\]]+$/g, "").trim())
+      .filter(Boolean);
+
+    let isServiceJwt = false;
+    try {
+      const part = bearer.split(".")[1];
+      if (part) {
+        const claims = JSON.parse(
+          atob(part.replace(/-/g, "+").replace(/_/g, "/")),
+        );
+        isServiceJwt = claims?.role === "service_role";
+      }
+    } catch (_e) { /* not a JWT */ }
+
+    const isInternal =
+      (!!serviceRoleKey && bearer === serviceRoleKey) ||
+      secretKeys.includes(bearer) ||
+      isServiceJwt;
 
     if (!isInternal) {
       // Verify admin caller (unchanged path for the admin panel)
