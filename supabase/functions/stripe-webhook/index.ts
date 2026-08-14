@@ -88,18 +88,35 @@ serve(async (req: Request) => {
         console.log("Instant order " + orderId + " marked paid + quote_approved");
 
         // Same customer confirmation email path used for paid orders
-        const customerEmail = stripeEmail;
-        const materialMatch = /Material: ([^\s/.]+)/.exec(order?.notes ?? "");
+        const notes = order?.notes ?? "";
+        const materialMatch = /Material: ([^\s/.]+)/.exec(notes);
+        const colorMatch = /Material: [^\s/.]+ \/ ([^.]+)\./.exec(notes);
+        const infillMatch = /Infill: ([^,]+),/.exec(notes);
+        const wallsMatch = /,\s*(\S+) walls/.exec(notes);
+        const qtyMatch = /qty (\d+)/.exec(notes);
+        const filesMatch = /Files: ([^.]+)\./.exec(notes);
+        const filePaths: string[] = Array.isArray(order?.file_paths) ? order!.file_paths : [];
+        const fileNames = filesMatch
+          ? filesMatch[1].split(",").map((s: string) => s.trim())
+          : filePaths.map((p) => p.split("/").pop() ?? p);
 
         const { error: mailErr } = await adminClient.functions.invoke(
           "send-order-confirmation",
           {
             body: {
-              customerEmail,
+              customerEmail: stripeEmail,
+              customerPhone: stripePhone ?? order?.customer_phone ?? null,
               orderNumber: order?.order_number,
               finalPrice: (session.amount_total ?? 0) / 100,
               material: materialMatch?.[1] ?? "PLA",
-              color: null,
+              color: colorMatch?.[1]?.trim() ?? null,
+              infill: infillMatch?.[1]?.trim() ?? null,
+              wallLoops: wallsMatch?.[1] ?? null,
+              quantity: qtyMatch ? Number(qtyMatch[1]) : null,
+              fulfillment: order?.fulfillment ?? null,
+              shippingAddress: shipping ?? order?.shipping_address ?? null,
+              filePaths,
+              fileNames,
               deliveryDate: null,
               customerName: session.customer_details?.name ?? null,
               paymentMethod: "stripe",
