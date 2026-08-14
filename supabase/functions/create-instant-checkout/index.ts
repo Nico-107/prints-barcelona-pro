@@ -104,6 +104,7 @@ serve(async (req: Request) => {
         photos: [],
         payment_method: "stripe",
         payment_status: "pending",
+        file_paths: paths,
       })
       .select("id, order_number")
       .single();
