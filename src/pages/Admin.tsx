@@ -16,6 +16,7 @@ import {
   XCircle,
   Clock,
   ChevronRight,
+  ChevronDown,
   Package,
   Users,
   Calculator,
@@ -66,6 +67,7 @@ interface Order {
   payment_method: string | null;
   stripe_payment_link: string | null;
   payment_status: string;
+  file_paths?: string[] | null;
 }
 
 interface MakerApplication {
@@ -168,6 +170,20 @@ function quoteStatusBadge(status: string) {
   return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600"><XCircle className="w-3 h-3" />Declined</span>;
 }
 
+// Parses the structured notes string written by instant checkout into discrete fields.
+// Returns null for non-instant orders so the caller falls back to raw display.
+function parseInstantNotes(notes: string): Record<string, string> | null {
+  if (!notes.startsWith("Instant checkout")) return null;
+  const fields: Record<string, string> = {};
+  const mat = notes.match(/Material:\s*([^.]+)/);
+  if (mat) fields["Material"] = mat[1].trim();
+  const inf = notes.match(/Infill:\s*(\d+),\s*(\d+)\s*walls?,\s*qty\s*(\d+)/);
+  if (inf) { fields["Infill"] = inf[1] + "%"; fields["Walls"] = inf[2]; fields["Qty"] = inf[3]; }
+  const price = notes.match(/Total price:\s*(€[\d.]+)/);
+  if (price) fields["Price"] = price[1];
+  return Object.keys(fields).length > 0 ? fields : null;
+}
+
 // ─── Nav config ───────────────────────────────────────────────────────────────
 
 const NAV_ITEMS: { id: Tab; label: string; icon: React.ReactNode }[] = [
@@ -206,6 +222,8 @@ const Admin = () => {
   const [draft, setDraft] = useState(emptyDraft);
   const [open, setOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [orderSignedUrlMap, setOrderSignedUrlMap] = useState<Record<string, string>>({});
+  const [showAbandoned, setShowAbandoned] = useState(false);
 
   // ── Quote Requests state ──────────────────────────────────────────────────────
   const [quoteRequests, setQuoteRequests] = useState<QuoteRequest[]>([]);
@@ -273,7 +291,28 @@ const Admin = () => {
     const { data, error } = await supabase.from("orders").select("*").order("order_number", { ascending: false });
     setOrdersLoading(false);
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-    setOrders((data || []) as Order[]);
+    const rows = (data as any[] || []) as Order[];
+    setOrders(rows);
+
+    // Fetch signed URLs for instant-order file_paths
+    const allPaths = [...new Set(rows.flatMap(r => r.file_paths ?? []))];
+    if (allPaths.length === 0) return;
+    try {
+      const { data: { session: s } } = await supabase.auth.getSession();
+      const res = await supabase.functions.invoke("admin-sign-urls", {
+        body: { paths: allPaths },
+        headers: s?.access_token ? { Authorization: `Bearer ${s.access_token}` } : {},
+      });
+      if (!res.error && res.data?.signedUrls) {
+        const map: Record<string, string> = {};
+        for (const entry of res.data.signedUrls as { path: string; url: string | null }[]) {
+          if (entry.url) map[entry.path] = entry.url;
+        }
+        setOrderSignedUrlMap(map);
+      }
+    } catch (e) {
+      console.error("admin-sign-urls (orders) error:", e);
+    }
   };
 
   const openNew = () => { setEditing(null); setDraft(emptyDraft); setOpen(true); };
@@ -348,6 +387,8 @@ const Admin = () => {
     const q = search.toLowerCase();
     return String(o.order_number).includes(q) || o.customer_phone.toLowerCase().includes(q) || o.product_title.toLowerCase().includes(q);
   });
+  const realOrders = filtered.filter(o => o.status !== "awaiting_payment");
+  const abandonedOrders = filtered.filter(o => o.status === "awaiting_payment");
 
   // ── Quote Requests handlers ───────────────────────────────────────────────────
   const loadQuotes = async () => {
@@ -680,72 +721,209 @@ const Admin = () => {
                 <p className="text-sm mt-1">Create your first order above</p>
               </div>
             ) : (
-              <div className="grid gap-3">
-                {filtered.map((o) => (
-                  <div key={o.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-4 md:p-5">
-                    <div className="flex items-start justify-between gap-3 flex-wrap">
-                      <div className="flex-1 min-w-[200px]">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
-                          {orderStatusBadge(o.status)}
-                          <span className="text-xs text-slate-400">{o.fulfillment}</span>
-                          {o.payment_method && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
-                              {o.payment_method === "stripe" ? "Stripe" : o.payment_method === "bizum" ? "Bizum" : o.payment_method === "transfer" ? "Transfer" : "Cash"}
-                            </span>
+              <>
+                <div className="grid gap-3">
+                  {realOrders.map((o) => (
+                    <div key={o.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-4 md:p-5">
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <div className="flex-1 min-w-[200px]">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
+                            {orderStatusBadge(o.status)}
+                            <span className="text-xs text-slate-400">{o.fulfillment}</span>
+                            {o.payment_method && (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
+                                {o.payment_method === "stripe" ? "Stripe" : o.payment_method === "bizum" ? "Bizum" : o.payment_method === "transfer" ? "Transfer" : "Cash"}
+                              </span>
+                            )}
+                            {o.payment_method && (
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${o.payment_status === "paid" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
+                                {o.payment_status === "paid" ? "Pagado" : "Pendiente"}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm font-medium text-slate-700">{o.product_title || <span className="text-slate-400 italic">No title</span>}</p>
+                          <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1">
+                            <span className="text-xs text-slate-500">{o.customer_phone}</span>
+                            {o.eta ? (
+                              <span className="text-xs text-slate-500">
+                                Estimated delivery: <span className="font-medium text-slate-700">{new Date(o.eta).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
+                              </span>
+                            ) : (
+                              <span className="text-xs text-slate-400 italic">No delivery date set</span>
+                            )}
+                          </div>
+                          {o.stripe_payment_link && (
+                            <a
+                              href={o.stripe_payment_link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              Stripe payment link
+                            </a>
                           )}
-                          {o.payment_method && (
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${o.payment_status === "paid" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
-                              {o.payment_status === "paid" ? "Pagado" : "Pendiente"}
-                            </span>
+                          {o.notes && (() => {
+                            const parsed = parseInstantNotes(o.notes);
+                            if (parsed) {
+                              return (
+                                <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
+                                  {Object.entries(parsed).map(([k, v]) => (
+                                    <span key={k} className="text-xs text-slate-500"><span className="text-slate-400">{k}:</span> {v}</span>
+                                  ))}
+                                </div>
+                              );
+                            }
+                            return <p className="text-xs text-slate-400 mt-1.5 line-clamp-1">{o.notes}</p>;
+                          })()}
+                          {o.file_paths && o.file_paths.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mt-2">
+                              {o.file_paths.map((path) => {
+                                const url = orderSignedUrlMap[path];
+                                const name = path.replace(/^\d+-/, "").replace(/_/g, " ");
+                                const shown = name.length > 30 ? name.slice(0, 30) + "…" : name;
+                                return url ? (
+                                  <a
+                                    key={path}
+                                    href={url}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-xs font-medium text-slate-700 hover:text-amber-700 transition-colors"
+                                  >
+                                    <Download className="w-3.5 h-3.5" />
+                                    {shown}
+                                  </a>
+                                ) : (
+                                  <span key={path} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs text-slate-400">
+                                    <Download className="w-3.5 h-3.5" />
+                                    {shown}
+                                  </span>
+                                );
+                              })}
+                            </div>
                           )}
                         </div>
-                        <p className="text-sm font-medium text-slate-700">{o.product_title || <span className="text-slate-400 italic">No title</span>}</p>
-                        <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1">
-                          <span className="text-xs text-slate-500">{o.customer_phone}</span>
-                          {o.eta ? (
-                            <span className="text-xs text-slate-500">
-                              Estimated delivery: <span className="font-medium text-slate-700">{new Date(o.eta).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
-                            </span>
-                          ) : (
-                            <span className="text-xs text-slate-400 italic">No delivery date set</span>
-                          )}
-                        </div>
-                        {o.stripe_payment_link && (
-                          <a
-                            href={o.stripe_payment_link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1"
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            onClick={() => openEdit(o)}
+                            className="p-2 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-200"
+                            title="Edit"
                           >
-                            <ExternalLink className="w-3 h-3" />
-                            Stripe payment link
-                          </a>
-                        )}
-                        {o.notes && (
-                          <p className="text-xs text-slate-400 mt-1.5 line-clamp-1">{o.notes}</p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <button
-                          onClick={() => openEdit(o)}
-                          className="p-2 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-200"
-                          title="Edit"
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(o)}
-                          className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors border border-transparent hover:border-red-200"
-                          title="Delete"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(o)}
+                            className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors border border-transparent hover:border-red-200"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
                     </div>
+                  ))}
+                </div>
+                {abandonedOrders.length > 0 && (
+                  <div className="mt-6 border-t border-slate-200 pt-4">
+                    <button
+                      onClick={() => setShowAbandoned(v => !v)}
+                      className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors mb-3"
+                    >
+                      {showAbandoned ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                      Abandoned checkouts
+                      <span className="bg-slate-100 text-slate-600 text-xs font-bold rounded-full px-2 py-0.5 leading-none">{abandonedOrders.length}</span>
+                    </button>
+                    {showAbandoned && (
+                      <div className="grid gap-3 opacity-60">
+                        {abandonedOrders.map((o) => (
+                          <div key={o.id} className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 md:p-5">
+                            <div className="flex items-start justify-between gap-3 flex-wrap">
+                              <div className="flex-1 min-w-[200px]">
+                                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                  <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">Awaiting payment</span>
+                                  <span className="text-xs text-slate-400">{o.fulfillment}</span>
+                                </div>
+                                <p className="text-sm font-medium text-slate-700">{o.product_title || <span className="text-slate-400 italic">No title</span>}</p>
+                                <span className="text-xs text-slate-500">{o.customer_phone}</span>
+                                {o.stripe_payment_link && (
+                                  <a
+                                    href={o.stripe_payment_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 mt-1 ml-3"
+                                  >
+                                    <ExternalLink className="w-3 h-3" />
+                                    Stripe payment link
+                                  </a>
+                                )}
+                                {o.notes && (() => {
+                                  const parsed = parseInstantNotes(o.notes);
+                                  if (parsed) {
+                                    return (
+                                      <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5">
+                                        {Object.entries(parsed).map(([k, v]) => (
+                                          <span key={k} className="text-xs text-slate-500"><span className="text-slate-400">{k}:</span> {v}</span>
+                                        ))}
+                                      </div>
+                                    );
+                                  }
+                                  return <p className="text-xs text-slate-400 mt-1.5 line-clamp-1">{o.notes}</p>;
+                                })()}
+                                {o.file_paths && o.file_paths.length > 0 && (
+                                  <div className="flex flex-wrap gap-2 mt-2">
+                                    {o.file_paths.map((path) => {
+                                      const url = orderSignedUrlMap[path];
+                                      const name = path.replace(/^\d+-/, "").replace(/_/g, " ");
+                                      const shown = name.length > 30 ? name.slice(0, 30) + "…" : name;
+                                      return url ? (
+                                        <a
+                                          key={path}
+                                          href={url}
+                                          download
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-xs font-medium text-slate-700 hover:text-amber-700 transition-colors"
+                                        >
+                                          <Download className="w-3.5 h-3.5" />
+                                          {shown}
+                                        </a>
+                                      ) : (
+                                        <span key={path} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs text-slate-400">
+                                          <Download className="w-3.5 h-3.5" />
+                                          {shown}
+                                        </span>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <button
+                                  onClick={() => openEdit(o)}
+                                  className="p-2 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition-colors border border-transparent hover:border-amber-200"
+                                  title="Edit"
+                                >
+                                  <Pencil className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(o)}
+                                  className="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors border border-transparent hover:border-red-200"
+                                  title="Delete"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </>
         )}
