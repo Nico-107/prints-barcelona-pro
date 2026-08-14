@@ -53,6 +53,7 @@ export type Database = {
           customer_email: string | null
           customer_phone: string
           eta: string | null
+          file_paths: string[]
           fulfillment: string
           id: string
           notes: string
@@ -72,6 +73,7 @@ export type Database = {
           customer_email?: string | null
           customer_phone: string
           eta?: string | null
+          file_paths?: string[]
           fulfillment?: string
           id?: string
           notes?: string
@@ -91,6 +93,7 @@ export type Database = {
           customer_email?: string | null
           customer_phone?: string
           eta?: string | null
+          file_paths?: string[]
           fulfillment?: string
           id?: string
           notes?: string
