@@ -79,7 +79,7 @@ serve(async (req: Request) => {
         .from("orders")
         .update(updatePayload)
         .eq("id", orderId)
-        .select("order_number, product_title, notes")
+        .select("order_number, product_title, notes, file_paths, fulfillment, shipping_address, customer_phone")
         .maybeSingle();
 
       if (error) {
