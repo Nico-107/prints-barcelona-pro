@@ -1,4 +1,5 @@
 export const ORDER_STATUSES = [
+  "awaiting_payment",
   "order_received",
   "quote_sent",
   "quote_approved",
@@ -13,6 +14,7 @@ export type OrderStatus = typeof ORDER_STATUSES[number];
 
 // Index used for timeline progress
 export const STATUS_INDEX: Record<OrderStatus, number> = {
+  awaiting_payment: 0,
   order_received: 0,
   quote_sent: 1,
   quote_approved: 2,
