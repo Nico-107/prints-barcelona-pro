@@ -734,7 +734,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "PETG — Filamento Funcional Resistente", slug: "/impresion-petg-barcelona" },
       { label: "TPU — Flexible tipo Goma", slug: "/impresion-tpu-barcelona" },
       { label: "Checklist de Preparación de Archivo", slug: "/como-preparar-archivo-impresion-3d" },
-      { label: "Elegir un Servicio en Barcelona", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
+      { label: "Verificador de Archivo STL Gratis", slug: "/verificador-archivo-3d" },
       { label: "Materials Guide (EN)", slug: "/3d-printing-materials-guide" }
     ],
     schemaServiceName: "Guía de Materiales Impresión 3D",
@@ -790,9 +790,9 @@ export const PAGES_ES: LandingContent[] = [
     galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "black-intake.jpg", "curved-parts.jpg", "red-adapter.jpg", "blue-molds.jpg"),
     related: [
       { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Verificador de Archivo STL Gratis", slug: "/verificador-archivo-3d" },
       { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Piezas a Medida desde Archivo o Foto", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Ciclo de Iteración de Prototipos", slug: "/prototipos-3d-barcelona" },
       { label: "Mejor Servicio por Caso de Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
       { label: "File Prep Guide (EN)", slug: "/how-to-prepare-file-for-3d-printing" }
     ],

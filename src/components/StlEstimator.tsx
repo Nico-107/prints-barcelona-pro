@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture } from "@/lib/analytics";
+import { parseStl } from "@/lib/stlAnalysis";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -65,108 +66,8 @@ function stripUploadPrefix(name: string): string {
   return name.replace(/^\d+-/, "");
 }
 
-// ─── STL parser ───────────────────────────────────────────────────────────────
-
-interface StlParseResult {
-  volumeMm3: number;
-  hasHeavyOverhangs: boolean;
-}
-
-// Faces with downward normal angle > 45° from vertical need supports.
-// nz < -cos(45°) ≈ -0.707 means the face points predominantly downward.
-const OVERHANG_NZ_THRESHOLD = -Math.cos(Math.PI / 4);
-
-function parseStl(buffer: ArrayBuffer): StlParseResult {
-  const isBinary = (() => {
-    if (buffer.byteLength < 84) return false;
-    const dv = new DataView(buffer);
-    const n = dv.getUint32(80, true);
-    return buffer.byteLength === 84 + n * 50;
-  })();
-
-  if (isBinary) {
-    const dv = new DataView(buffer);
-    const n = dv.getUint32(80, true);
-    let vol = 0;
-    let totalArea = 0;
-    let overhangArea = 0;
-
-    for (let i = 0; i < n; i++) {
-      const base = 84 + i * 50;
-      // Stored face normal
-      const nz = dv.getFloat32(base + 8, true);
-
-      const vb = base + 12;
-      const x1 = dv.getFloat32(vb,      true), y1 = dv.getFloat32(vb + 4,  true), z1 = dv.getFloat32(vb + 8,  true);
-      const x2 = dv.getFloat32(vb + 12, true), y2 = dv.getFloat32(vb + 16, true), z2 = dv.getFloat32(vb + 20, true);
-      const x3 = dv.getFloat32(vb + 24, true), y3 = dv.getFloat32(vb + 28, true), z3 = dv.getFloat32(vb + 32, true);
-
-      vol += (x1 * (y2 * z3 - y3 * z2) + y1 * (z2 * x3 - z3 * x2) + z1 * (x2 * y3 - x3 * y2)) / 6;
-
-      // Triangle area via cross product of edge vectors
-      const ax = x2 - x1, ay = y2 - y1, az = z2 - z1;
-      const bx = x3 - x1, by = y3 - y1, bz = z3 - z1;
-      const area = 0.5 * Math.sqrt(
-        (ay * bz - az * by) ** 2 +
-        (az * bx - ax * bz) ** 2 +
-        (ax * by - ay * bx) ** 2,
-      );
-      totalArea += area;
-      if (nz < OVERHANG_NZ_THRESHOLD) overhangArea += area;
-    }
-
-    return {
-      volumeMm3: Math.abs(vol),
-      hasHeavyOverhangs: totalArea > 0 && overhangArea / totalArea > 0.15,
-    };
-  }
-
-  // ASCII STL
-  const text = new TextDecoder().decode(new Uint8Array(buffer));
-  const normalRe = /facet\s+normal\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
-  const vertRe   = /vertex\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)\s+([\d.eE+\-]+)/g;
-
-  const normals: number[] = []; // nz values per triangle
-  let fm: RegExpExecArray | null;
-  while ((fm = normalRe.exec(text)) !== null) {
-    normals.push(parseFloat(fm[3])); // nz is the third component
-  }
-
-  const verts: [number, number, number][] = [];
-  let m: RegExpExecArray | null;
-  while ((m = vertRe.exec(text)) !== null) {
-    verts.push([parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3])]);
-  }
-  if (verts.length % 3 !== 0) throw new Error("Malformed ASCII STL");
-
-  let vol = 0;
-  let totalArea = 0;
-  let overhangArea = 0;
-
-  for (let i = 0; i < verts.length; i += 3) {
-    const [x1, y1, z1] = verts[i], [x2, y2, z2] = verts[i + 1], [x3, y3, z3] = verts[i + 2];
-    vol += (x1 * (y2 * z3 - y3 * z2) + y1 * (z2 * x3 - z3 * x2) + z1 * (x2 * y3 - x3 * y2)) / 6;
-
-    const ax = x2 - x1, ay = y2 - y1, az = z2 - z1;
-    const bx = x3 - x1, by = y3 - y1, bz = z3 - z1;
-    const area = 0.5 * Math.sqrt(
-      (ay * bz - az * by) ** 2 +
-      (az * bx - ax * bz) ** 2 +
-      (ax * by - ay * bx) ** 2,
-    );
-    totalArea += area;
-
-    const triIdx = i / 3;
-    if (triIdx < normals.length && normals[triIdx] < OVERHANG_NZ_THRESHOLD) {
-      overhangArea += area;
-    }
-  }
-
-  return {
-    volumeMm3: Math.abs(vol),
-    hasHeavyOverhangs: totalArea > 0 && overhangArea / totalArea > 0.15,
-  };
-}
+// ─── STL parser — shared with FileChecker via src/lib/stlAnalysis.ts ─────────
+// parseStl is imported above; StlParseResult type lives in stlAnalysis.ts.
 
 // ─── Bundle pricing ───────────────────────────────────────────────────────────
 

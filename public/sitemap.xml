@@ -639,6 +639,35 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
   </url>
 
+  <!-- STL FILE CHECKER (EN / ES / CA) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-file-checker</loc>
+    <lastmod>2026-09-01</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/comprovador-arxiu-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/verificador-archivo-3d</loc>
+    <lastmod>2026-09-01</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/comprovador-arxiu-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/comprovador-arxiu-3d</loc>
+    <lastmod>2026-09-01</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/comprovador-arxiu-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+
   <!-- PIEZAS FUNCIONALES -->
   <url>
     <loc>https://www.dimension3dprints.com/functional-parts-barcelona</loc>

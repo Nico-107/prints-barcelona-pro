@@ -139,6 +139,14 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link
+                      to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : "/3d-file-checker"}
+                      className="text-background/70 text-sm hover:text-background transition-colors"
+                    >
+                      {isCa ? "Comprovador d'arxiu STL" : isEs ? "Verificador de archivo STL" : "STL File Checker"}
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/catalogo" className="text-background/70 text-sm hover:text-background transition-colors">
                       {isCa ? "Catàleg" : isEs ? "Catálogo" : "Catalogue"}
                     </Link>

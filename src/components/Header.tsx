@@ -98,6 +98,12 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             >
               {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
             </Link>
+            <Link
+              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
+            </Link>
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
@@ -184,6 +190,13 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 className="text-left py-2 text-foreground font-medium"
               >
                 {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
+              </Link>
+              <Link
+                to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
+                onClick={() => setIsMenuOpen(false)}
+                className="text-left py-2 text-foreground font-medium"
+              >
+                {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
               </Link>
 
               {SERVICES_MENU.map((group) => (

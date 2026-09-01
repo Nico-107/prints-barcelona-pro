@@ -35,6 +35,9 @@ const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker
   "/design-your-3d-part",    // DesignRequest EN
   "/disena-tu-pieza-3d",     // DesignRequest ES
   "/dissenya-la-teva-peca-3d", // DesignRequest CA
+  "/3d-file-checker",          // FileChecker EN
+  "/verificador-archivo-3d",   // FileChecker ES
+  "/comprovador-arxiu-3d",     // FileChecker CA
 ];
 
 let ok = 0;

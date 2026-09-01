@@ -33,6 +33,7 @@ const Catalog = lazy(() => import("./pages/Catalog"));
 const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
 const Creator = lazy(() => import("./pages/Creator"));
 const DesignRequest = lazy(() => import("./pages/DesignRequest"));
+const FileChecker = lazy(() => import("./pages/FileChecker"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -88,6 +89,9 @@ const App = () => (
               <Route path="/design-your-3d-part" element={<DesignRequest />} />
               <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
               <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
+              <Route path="/3d-file-checker" element={<FileChecker />} />
+              <Route path="/verificador-archivo-3d" element={<FileChecker />} />
+              <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
