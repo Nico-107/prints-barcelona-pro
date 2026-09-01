@@ -362,6 +362,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Levantamento em Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Envio",
   "calc.instantBuy.fulfillment.required": "Escolha levantamento ou envio para continuar",
+  "calc.instantBuy.fulfillment.fastPickup": "Levantamento no mesmo dia ou no dia seguinte possível em Barcelona para encomendas de PLA, PETG e TPU, consoante o volume de pedidos atual.",
   "calc.instantBuy.shipping.print": "Impressão",
   "calc.instantBuy.shipping.surcharge": "Envio",
   "calc.instantBuy.shipping.total": "Total",

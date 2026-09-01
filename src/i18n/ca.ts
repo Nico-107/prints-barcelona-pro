@@ -363,6 +363,7 @@ export const caTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Recollida a Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Enviament a domicili",
   "calc.instantBuy.fulfillment.required": "Selecciona recollida o enviament per continuar",
+  "calc.instantBuy.fulfillment.fastPickup": "Recollida el mateix dia o l'endemà possible a Barcelona per a comandes de PLA, PETG i TPU, segons el volum de comandes actual.",
   "calc.instantBuy.shipping.print": "Impressió",
   "calc.instantBuy.shipping.surcharge": "Enviament",
   "calc.instantBuy.shipping.total": "Total",

@@ -28,9 +28,10 @@ const URGENCY_TIERS = [
 ] as const;
 
 const INSTANT_BUY_SAFE = ["PLA", "PETG", "ABS", "TPU"] as const;
-const INSTANT_BUY_MAX = 40;
-const INSTANT_BUY_DISPLAY_CAP = 35;
+const INSTANT_BUY_MAX = 52.5;
+const INSTANT_BUY_DISPLAY_CAP = 50;
 const SHIPPING_SURCHARGE = 6;
+const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"] as const;
 
 // ─── Material table ───────────────────────────────────────────────────────────
 const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
@@ -822,6 +823,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             {fulfillmentAttempted && fulfillment === null && (
               <p className="text-xs text-destructive mt-1">{t("calc.instantBuy.fulfillment.required")}</p>
             )}
+            {fulfillment === "pickup" && (FAST_PICKUP_MATERIALS as readonly string[]).includes(materialKey) && (
+              <p className="text-xs text-muted-foreground mt-1.5">{t("calc.instantBuy.fulfillment.fastPickup")}</p>
+            )}
           </div>
           {fulfillment === "shipping" && instantDisplayPrice !== null && (
             <div className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-sm space-y-0.5">
@@ -1552,6 +1556,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       </div>
                       {fulfillmentAttempted && fulfillment === null && (
                         <p className="text-xs text-destructive mt-1 text-center">{t("calc.instantBuy.fulfillment.required")}</p>
+                      )}
+                      {fulfillment === "pickup" && (FAST_PICKUP_MATERIALS as readonly string[]).includes(materialKey) && (
+                        <p className="text-xs text-muted-foreground mt-1.5 text-center">{t("calc.instantBuy.fulfillment.fastPickup")}</p>
                       )}
                     </div>
                     {checkoutError && (

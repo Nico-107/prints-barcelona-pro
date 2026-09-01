@@ -362,6 +362,7 @@ export const deTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Abholung in Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Versand",
   "calc.instantBuy.fulfillment.required": "Wählen Sie Abholung oder Versand, um fortzufahren",
+  "calc.instantBuy.fulfillment.fastPickup": "Abholung am selben oder nächsten Tag in Barcelona möglich für PLA-, PETG- und TPU-Bestellungen, je nach aktuellem Auftragsvolumen.",
   "calc.instantBuy.shipping.print": "Druck",
   "calc.instantBuy.shipping.surcharge": "Versand",
   "calc.instantBuy.shipping.total": "Gesamt",

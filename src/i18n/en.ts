@@ -363,6 +363,7 @@ export const enTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Pickup in Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Shipping",
   "calc.instantBuy.fulfillment.required": "Select pickup or shipping to continue",
+  "calc.instantBuy.fulfillment.fastPickup": "Same-day or next-day pickup possible in Barcelona for PLA, PETG and TPU orders, depending on current order volume.",
   "calc.instantBuy.shipping.print": "Print",
   "calc.instantBuy.shipping.surcharge": "Shipping",
   "calc.instantBuy.shipping.total": "Total",

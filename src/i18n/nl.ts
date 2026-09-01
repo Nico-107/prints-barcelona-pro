@@ -362,6 +362,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup": "Ophalen in Barcelona",
   "calc.instantBuy.fulfillment.shipping": "Bezorging",
   "calc.instantBuy.fulfillment.required": "Kies afhalen of bezorging om door te gaan",
+  "calc.instantBuy.fulfillment.fastPickup": "Afhalen op dezelfde dag of de volgende dag mogelijk in Barcelona voor PLA-, PETG- en TPU-bestellingen, afhankelijk van het huidige ordervolume.",
   "calc.instantBuy.shipping.print": "Print",
   "calc.instantBuy.shipping.surcharge": "Bezorging",
   "calc.instantBuy.shipping.total": "Totaal",
