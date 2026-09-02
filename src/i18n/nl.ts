@@ -366,6 +366,11 @@ export const nlTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Print",
   "calc.instantBuy.shipping.surcharge": "Bezorging",
   "calc.instantBuy.shipping.total": "Totaal",
+  "calc.instantBuy.buyNow": "Nu kopen — €{price}",
+  "calc.instantBuy.manualReview": "Laat ons team het beoordelen",
+  "calc.exitIntent.headline": "Wacht — er is nog niets verzonden",
+  "calc.exitIntent.body": "Stuur ons gerust een kort bericht over uw onderdeel — gratis, vrijblijvend",
+  "calc.exitIntent.cta": "Stuur ons een bericht",
   "calc.dropzone.noFile": "Geen 3D-bestand?",
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 

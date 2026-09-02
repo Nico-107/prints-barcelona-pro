@@ -205,6 +205,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [showManualReview, setShowManualReview] = useState(false);
   const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
+  const [showExitIntent, setShowExitIntent] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const estimateShownRef = useRef(false);
@@ -754,7 +755,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             >
               {isCheckingOut
                 ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                : <><CreditCard className="w-4 h-4" />Buy now — €{instantTotalPrice?.toFixed(2)}</>
+                : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
               }
             </Button>
             <Button
@@ -765,7 +766,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               disabled={isCheckingOut}
             >
               <Send className="w-4 h-4 shrink-0" />
-              Get a review from our team instead
+              {t("calc.instantBuy.manualReview")}
             </Button>
           </div>
         </>
@@ -1183,6 +1184,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         return (
         <Dialog open={mobileModalOpen} onOpenChange={(open) => {
           if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
+          if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview) {
+            setShowExitIntent(true);
+          }
           setMobileModalOpen(open);
           if (open) setViewerStateInModal("loading");
         }}>
@@ -1490,7 +1494,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     >
                       {isCheckingOut
                         ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                        : <><CreditCard className="w-4 h-4" />Buy now — €{instantTotalPrice?.toFixed(2)}</>
+                        : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
                       }
                     </Button>
                     <Button
@@ -1501,7 +1505,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       disabled={isCheckingOut}
                     >
                       <Send className="w-4 h-4 shrink-0" />
-                      Get a review from our team instead
+                      {t("calc.instantBuy.manualReview")}
                     </Button>
                     <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
                       <X className="w-4 h-4" />
@@ -1603,6 +1607,27 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </div>
         )}
         {inner}
+
+        {/* Exit-intent dialog — shown when user closes modal without buying */}
+        <Dialog open={showExitIntent} onOpenChange={setShowExitIntent}>
+          <DialogContent className="sm:max-w-sm text-center p-8 gap-0">
+            <DialogHeader className="mb-4">
+              <DialogTitle className="text-lg font-bold">{t("calc.exitIntent.headline")}</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm text-muted-foreground mb-6">{t("calc.exitIntent.body")}</p>
+            <Button
+              variant="cta"
+              className="w-full gap-2"
+              onClick={() => {
+                setShowExitIntent(false);
+                setShowManualReview(true);
+              }}
+            >
+              <Send className="w-4 h-4" />
+              {t("calc.exitIntent.cta")}
+            </Button>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );

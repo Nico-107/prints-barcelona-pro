@@ -367,6 +367,11 @@ export const caTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Impressió",
   "calc.instantBuy.shipping.surcharge": "Enviament",
   "calc.instantBuy.shipping.total": "Total",
+  "calc.instantBuy.buyNow": "Compra ara — €{price}",
+  "calc.instantBuy.manualReview": "Sol·licitar revisió del nostre equip",
+  "calc.exitIntent.headline": "Espera — encara no hem rebut res",
+  "calc.exitIntent.body": "Si vols, envia'ns un missatge sobre la teva peça — gratuït, sense compromís",
+  "calc.exitIntent.cta": "Enviar un missatge al nostre equip",
   "calc.dropzone.noFile": "Sense arxiu 3D?",
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
 

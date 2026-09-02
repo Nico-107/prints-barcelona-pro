@@ -366,6 +366,11 @@ export const frTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Impression",
   "calc.instantBuy.shipping.surcharge": "Livraison",
   "calc.instantBuy.shipping.total": "Total",
+  "calc.instantBuy.buyNow": "Acheter maintenant — €{price}",
+  "calc.instantBuy.manualReview": "Demander une révision par notre équipe",
+  "calc.exitIntent.headline": "Attendez — rien n'a encore été envoyé",
+  "calc.exitIntent.body": "Si vous voulez, envoyez-nous un message rapide sur votre pièce — gratuit, sans engagement",
+  "calc.exitIntent.cta": "Envoyer un message à notre équipe",
   "calc.dropzone.noFile": "Pas de fichier 3D ?",
   "calc.dropzone.noFile.cta": "On le conçoit depuis une photo ou une idée",
 

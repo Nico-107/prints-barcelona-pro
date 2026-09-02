@@ -367,6 +367,11 @@ export const enTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Print",
   "calc.instantBuy.shipping.surcharge": "Shipping",
   "calc.instantBuy.shipping.total": "Total",
+  "calc.instantBuy.buyNow": "Buy now — €{price}",
+  "calc.instantBuy.manualReview": "Get a review from our team instead",
+  "calc.exitIntent.headline": "Wait — nothing has been sent yet",
+  "calc.exitIntent.body": "If you'd like, send our team a quick message about your part — free, no commitment",
+  "calc.exitIntent.cta": "Send our team a message",
   "calc.dropzone.noFile": "No 3D file?",
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 
