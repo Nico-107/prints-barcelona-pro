@@ -206,11 +206,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const [exitIntentSubmitting, setExitIntentSubmitting] = useState(false);
+  const [exitIntentSubmitted, setExitIntentSubmitted] = useState(false);
+  const [exitIntentError, setExitIntentError] = useState<string | null>(null);
   const exitIntentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitIntentCloseReasonRef = useRef<"recovered" | "dismissed" | null>(null);
 
   useEffect(() => {
-    if (showExitIntent) capture("exit_intent_shown");
+    if (showExitIntent) {
+      capture("exit_intent_shown");
+      setExitIntentSubmitted(false);
+      setExitIntentError(null);
+    }
   }, [showExitIntent]);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -641,6 +648,87 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setIsSubmittingQuote(false);
       setQuoteError(t("calc.contact.uploadError"));
       console.error("Quote upload error:", err);
+    }
+  };
+
+  const submitExitIntent = async () => {
+    if (!contactEmail.trim() && !contactPhone.trim()) {
+      setExitIntentError(t("calc.contact.atLeastOne"));
+      return;
+    }
+    setExitIntentError(null);
+    setExitIntentSubmitting(true);
+    try {
+      const timestamp = Date.now();
+      let uploadedPaths: string[];
+      let uploadedNames: string[];
+      if (uploadedRef.current) {
+        uploadedPaths = uploadedRef.current.paths;
+        uploadedNames = uploadedRef.current.names;
+      } else {
+        uploadedPaths = [];
+        uploadedNames = [];
+        for (const f of parsedFiles) {
+          if (f.parseError || !f.file || f.sizeBytes > MAX_BYTES) continue;
+          const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+          const path = `${timestamp}-${sanitized}`;
+          const { error: uploadErr } = await supabaseAnon.storage.from("print-requests").upload(path, f.file);
+          if (uploadErr) throw new Error(uploadErr.message);
+          uploadedPaths.push(path);
+          uploadedNames.push(f.name);
+        }
+      }
+      const { error: insertErr } = await supabaseAnon
+        .from("quote_requests")
+        .insert({
+          id: crypto.randomUUID(),
+          contact_email: contactEmail.trim() || null,
+          contact_phone: contactPhone.trim() || null,
+          color: colorPref.trim() || null,
+          material: materialKey,
+          infill: `${infillPct}%`,
+          wall_loops: wallLoops,
+          urgency,
+          quantity: bundle?.totalUnits ?? 1,
+          estimated_grams: bundle?.totalGrams ?? 0,
+          estimated_hours: bundle?.totalHours ?? 0,
+          estimated_price_low: bundle?.low ?? 0,
+          estimated_price_high: bundle?.high ?? 0,
+          file_paths: uploadedPaths,
+          file_names: uploadedNames,
+          status: "pending",
+          multicolour,
+        } as any);
+      if (insertErr) throw new Error(insertErr.message);
+      supabase.functions.invoke("send-quote-request", {
+        body: {
+          filePaths: uploadedPaths,
+          fileNames: uploadedNames,
+          contactEmail: contactEmail.trim() || null,
+          contactPhone: contactPhone.trim() || null,
+          material: materialKey,
+          color: colorPref.trim() || null,
+          urgency,
+          infillPct,
+          wallLoops,
+          totalGrams: bundle?.totalGrams ?? 0,
+          totalHours: bundle?.totalHours ?? 0,
+          totalUnits: bundle?.totalUnits ?? 1,
+          priceLow: bundle?.low ?? 0,
+          priceHigh: bundle?.high ?? 0,
+          language,
+          multicolour,
+        },
+      }).catch(e => console.error("send-quote-request failed:", e));
+      exitIntentCloseReasonRef.current = "recovered";
+      capture("exit_intent_recovered");
+      setExitIntentSubmitting(false);
+      setExitIntentSubmitted(true);
+      setTimeout(() => setShowExitIntent(false), 2000);
+    } catch (err: any) {
+      setExitIntentSubmitting(false);
+      setExitIntentError(t("calc.contact.uploadError"));
+      console.error("exit-intent submit error:", err);
     }
   };
 
@@ -1635,35 +1723,68 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             setShowExitIntent(open);
           }}
         >
-          <DialogContent className="sm:max-w-sm text-center p-8 gap-0 [&>button]:!hidden">
-            <DialogHeader className="mb-4">
-              <DialogTitle className="text-lg font-bold">{t("calc.exitIntent.headline")}</DialogTitle>
-            </DialogHeader>
-            <p className="text-sm text-muted-foreground mb-6">{t("calc.exitIntent.body")}</p>
-            <Button
-              variant="cta"
-              className="w-full gap-2"
-              onClick={() => {
-                exitIntentCloseReasonRef.current = "recovered";
-                capture("exit_intent_recovered");
-                setShowExitIntent(false);
-                setShowManualReview(true);
-              }}
-            >
-              <Send className="w-4 h-4" />
-              {t("calc.exitIntent.cta")}
-            </Button>
-            <button
-              type="button"
-              className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors"
-              onClick={() => {
-                exitIntentCloseReasonRef.current = "dismissed";
-                capture("exit_intent_dismissed");
-                setShowExitIntent(false);
-              }}
-            >
-              {t("calc.exitIntent.dismiss")}
-            </button>
+          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button]:!hidden">
+            {exitIntentSubmitted ? (
+              <div className="text-center py-4">
+                <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
+                <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>
+              </div>
+            ) : (
+              <>
+                <DialogHeader className="mb-3">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
+                    <DialogTitle className="text-base font-bold text-destructive leading-snug">
+                      {t("calc.exitIntent.headline")}
+                    </DialogTitle>
+                  </div>
+                </DialogHeader>
+                <p className="text-sm text-muted-foreground mb-4">{t("calc.exitIntent.body")}</p>
+                <div className="space-y-2 mb-4">
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={e => setContactEmail(e.target.value)}
+                    placeholder={t("calc.exitIntent.email")}
+                    disabled={exitIntentSubmitting}
+                    className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <input
+                    type="tel"
+                    value={contactPhone}
+                    onChange={e => setContactPhone(e.target.value)}
+                    placeholder={t("calc.exitIntent.phone")}
+                    disabled={exitIntentSubmitting}
+                    className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  {exitIntentError && (
+                    <p className="text-xs text-destructive">{exitIntentError}</p>
+                  )}
+                </div>
+                <Button
+                  variant="cta"
+                  className="w-full gap-2"
+                  onClick={submitExitIntent}
+                  disabled={exitIntentSubmitting}
+                >
+                  {exitIntentSubmitting
+                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                    : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
+                  }
+                </Button>
+                <button
+                  type="button"
+                  className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.exitIntent.dismiss")}
+                </button>
+              </>
+            )}
           </DialogContent>
         </Dialog>
       </div>
