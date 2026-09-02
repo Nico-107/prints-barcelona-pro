@@ -371,6 +371,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.exitIntent.headline": "Wacht — er is nog niets verzonden",
   "calc.exitIntent.body": "Stuur ons gerust een kort bericht over uw onderdeel — gratis, vrijblijvend",
   "calc.exitIntent.cta": "Stuur ons een bericht",
+  "calc.exitIntent.dismiss": "Nee, bedankt",
   "calc.dropzone.noFile": "Geen 3D-bestand?",
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 

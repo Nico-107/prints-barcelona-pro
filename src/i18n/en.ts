@@ -372,6 +372,7 @@ export const enTranslations: Record<string, string> = {
   "calc.exitIntent.headline": "Wait — nothing has been sent yet",
   "calc.exitIntent.body": "If you'd like, send our team a quick message about your part — free, no commitment",
   "calc.exitIntent.cta": "Send our team a message",
+  "calc.exitIntent.dismiss": "No thanks",
   "calc.dropzone.noFile": "No 3D file?",
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 

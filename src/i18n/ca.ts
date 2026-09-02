@@ -372,6 +372,7 @@ export const caTranslations: Record<string, string> = {
   "calc.exitIntent.headline": "Espera — encara no hem rebut res",
   "calc.exitIntent.body": "Si vols, envia'ns un missatge sobre la teva peça — gratuït, sense compromís",
   "calc.exitIntent.cta": "Enviar un missatge al nostre equip",
+  "calc.exitIntent.dismiss": "No, gràcies",
   "calc.dropzone.noFile": "Sense arxiu 3D?",
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
 

@@ -371,6 +371,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.exitIntent.headline": "Aguarde — ainda não foi enviado nada",
   "calc.exitIntent.body": "Se quiser, envie-nos uma mensagem rápida sobre a sua peça — gratuito, sem compromisso",
   "calc.exitIntent.cta": "Enviar mensagem à nossa equipa",
+  "calc.exitIntent.dismiss": "Não, obrigado",
   "calc.dropzone.noFile": "Sem ficheiro 3D?",
   "calc.dropzone.noFile.cta": "Criamo-lo a partir de uma foto ou ideia",
 

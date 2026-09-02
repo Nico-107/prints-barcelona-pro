@@ -206,6 +206,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const exitIntentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const exitIntentCloseReasonRef = useRef<"recovered" | "dismissed" | null>(null);
+
+  useEffect(() => {
+    if (showExitIntent) capture("exit_intent_shown");
+  }, [showExitIntent]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const estimateShownRef = useRef(false);
@@ -761,7 +767,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             <Button
               variant="outline"
               size="lg"
-              className="w-full gap-2 text-xs"
+              className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
               onClick={() => setShowManualReview(true)}
               disabled={isCheckingOut}
             >
@@ -1185,13 +1191,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         <Dialog open={mobileModalOpen} onOpenChange={(open) => {
           if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
           if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview) {
-            setShowExitIntent(true);
+            if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
+            exitIntentTimerRef.current = setTimeout(() => setShowExitIntent(true), 500);
           }
           setMobileModalOpen(open);
           if (open) setViewerStateInModal("loading");
         }}>
           <DialogContent
-            className={`sm:max-w-md max-h-[85vh] p-0 gap-0 flex flex-col overflow-hidden
+            className={`sm:max-w-md lg:max-w-3xl max-h-[85vh] p-0 gap-0 flex flex-col overflow-hidden
               [&>button]:!h-11 [&>button]:!w-11 [&>button]:!top-2 [&>button]:!right-2
               [&>button]:!flex [&>button]:!items-center [&>button]:!justify-center
               [&>button]:!rounded-full [&>button>svg]:!h-5 [&>button>svg]:!w-5`}
@@ -1204,62 +1211,69 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               <p className="text-sm text-muted-foreground">{t("calc.modal.subtitle")}</p>
             </DialogHeader>
 
-            {/* Scrollable body */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 min-h-0">
-              {/* Price at top — updates live from computeBundle */}
-              <div>
-                <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
-                <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
-              </div>
+            {/* Scrollable body — single column on mobile, two columns at lg */}
+            <div className="flex-1 overflow-y-auto min-h-0">
+              <div className={`flex flex-col ${stepperFile?.file ? "lg:grid lg:grid-cols-[5fr_6fr]" : ""}`}>
 
-              {/* STL viewer — centered, square, ~240px (180px on short viewports).
-                  When the viewer errors, the whole viewer box is hidden so no empty frame appears. */}
-              {stepperFile?.file && (
-                <div className="flex flex-col items-center">
-                  {viewerStateInModal !== "failed" && (
-                    <>
-                      <div
-                        className="rounded-xl border border-border bg-muted/20 overflow-hidden"
-                        style={{ width: viewerSize, height: viewerSize }}
-                      >
-                        <Suspense fallback={<div style={{ width: viewerSize, height: viewerSize }} className="bg-muted/20 animate-pulse" />}>
-                          <StlViewer
-                            key={`${stepperFile.id}-${viewerSize}`}
-                            file={stepperFile.file}
-                            size={viewerSize}
-                            onReady={() => setViewerStateInModal("ready")}
-                            onError={() => setViewerStateInModal("failed")}
-                          />
-                        </Suspense>
-                      </div>
-                      {viewerStateInModal === "ready" && (
-                        <p className="text-xs text-center text-muted-foreground mt-2">
-                          {t("calc.modal.dragHint")}
-                        </p>
-                      )}
-                    </>
-                  )}
-                  <p className="text-xs text-muted-foreground mt-1 text-center max-w-full truncate">
-                    {stripUploadPrefix(stepperFile.name)}
-                  </p>
-                  {moreFilesLine && (
-                    <p className="text-xs text-muted-foreground/70 mt-0.5 text-center">
-                      {moreFilesLine}
+                {/* LEFT column at lg: STL viewer + file info.
+                    On mobile this renders AFTER the right column (order-2), so price stays at top. */}
+                {stepperFile?.file && (
+                  <div className="order-2 lg:order-1 flex flex-col items-center px-6 pb-4 lg:py-4 lg:border-r lg:border-border gap-1">
+                    {/* STL viewer — centered, square, ~240px (180px on short viewports).
+                        When the viewer errors, the whole viewer box is hidden so no empty frame appears. */}
+                    {viewerStateInModal !== "failed" && (
+                      <>
+                        <div
+                          className="rounded-xl border border-border bg-muted/20 overflow-hidden"
+                          style={{ width: viewerSize, height: viewerSize }}
+                        >
+                          <Suspense fallback={<div style={{ width: viewerSize, height: viewerSize }} className="bg-muted/20 animate-pulse" />}>
+                            <StlViewer
+                              key={`${stepperFile.id}-${viewerSize}`}
+                              file={stepperFile.file}
+                              size={viewerSize}
+                              onReady={() => setViewerStateInModal("ready")}
+                              onError={() => setViewerStateInModal("failed")}
+                            />
+                          </Suspense>
+                        </div>
+                        {viewerStateInModal === "ready" && (
+                          <p className="text-xs text-center text-muted-foreground mt-1">
+                            {t("calc.modal.dragHint")}
+                          </p>
+                        )}
+                      </>
+                    )}
+                    <p className="text-xs text-muted-foreground mt-1 text-center max-w-full truncate">
+                      {stripUploadPrefix(stepperFile.name)}
+                    </p>
+                    {moreFilesLine && (
+                      <p className="text-xs text-muted-foreground/70 mt-0.5 text-center">
+                        {moreFilesLine}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* RIGHT column at lg: price + config + contact.
+                    On mobile this is order-1, so it renders first (price at top). */}
+                <div className="order-1 lg:order-2 px-6 py-4 space-y-4">
+                  {/* Price — updates live from computeBundle */}
+                  <div>
+                    <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
+                  </div>
+
+                  {bundle.supportHeavy && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+                      {t("calc.overhang.note")}
                     </p>
                   )}
-                </div>
-              )}
-
-              {bundle.supportHeavy && (
-                <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-                  {t("calc.overhang.note")}
-                </p>
-              )}
-              {multicolour && (
-                <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
-                  {t("calc.multicolour.note")}
-                </p>
-              )}
+                  {multicolour && (
+                    <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
+                      {t("calc.multicolour.note")}
+                    </p>
+                  )}
 
               {isSubmittedQuote ? (
                 <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
@@ -1430,7 +1444,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   )}
                 </>
               )}
-            </div>
+                </div>{/* end right col */}
+              </div>{/* end grid container */}
+            </div>{/* end scrollable body */}
 
             {/* Sticky footer — primary CTA is always visible */}
             {!isSubmittedQuote && (
@@ -1500,7 +1516,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     <Button
                       variant="outline"
                       size="lg"
-                      className="w-full gap-2 text-xs"
+                      className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
                       onClick={() => setShowManualReview(true)}
                       disabled={isCheckingOut}
                     >
@@ -1608,9 +1624,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
         {inner}
 
-        {/* Exit-intent dialog — shown when user closes modal without buying */}
-        <Dialog open={showExitIntent} onOpenChange={setShowExitIntent}>
-          <DialogContent className="sm:max-w-sm text-center p-8 gap-0">
+        {/* Exit-intent dialog — shown 500ms after modal closes without a purchase */}
+        <Dialog
+          open={showExitIntent}
+          onOpenChange={(open) => {
+            if (!open && exitIntentCloseReasonRef.current === null) {
+              capture("exit_intent_dismissed");
+            }
+            exitIntentCloseReasonRef.current = null;
+            setShowExitIntent(open);
+          }}
+        >
+          <DialogContent className="sm:max-w-sm text-center p-8 gap-0 [&>button]:!hidden">
             <DialogHeader className="mb-4">
               <DialogTitle className="text-lg font-bold">{t("calc.exitIntent.headline")}</DialogTitle>
             </DialogHeader>
@@ -1619,6 +1644,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               variant="cta"
               className="w-full gap-2"
               onClick={() => {
+                exitIntentCloseReasonRef.current = "recovered";
+                capture("exit_intent_recovered");
                 setShowExitIntent(false);
                 setShowManualReview(true);
               }}
@@ -1626,6 +1653,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               <Send className="w-4 h-4" />
               {t("calc.exitIntent.cta")}
             </Button>
+            <button
+              type="button"
+              className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => {
+                exitIntentCloseReasonRef.current = "dismissed";
+                capture("exit_intent_dismissed");
+                setShowExitIntent(false);
+              }}
+            >
+              {t("calc.exitIntent.dismiss")}
+            </button>
           </DialogContent>
         </Dialog>
       </div>
