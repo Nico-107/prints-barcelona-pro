@@ -76,7 +76,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             </span>
           </Link>
 
-          <nav className="hidden xl:flex items-center gap-4">
+          <nav className="hidden xl:flex items-center gap-3">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -97,12 +97,6 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
               {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
-            </Link>
-            <Link
-              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-            >
-              {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
             </Link>
 
             <DropdownMenu>
@@ -126,6 +120,18 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                     ))}
                   </div>
                 ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
+                  {isEs ? "Herramientas" : isCa ? "Eines" : "Tools"}
+                </DropdownMenuLabel>
+                <DropdownMenuItem asChild>
+                  <Link
+                    to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
+                    className="cursor-pointer"
+                  >
+                    {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
