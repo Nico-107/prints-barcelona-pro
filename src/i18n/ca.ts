@@ -369,6 +369,7 @@ export const caTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.total": "Total",
   "calc.instantBuy.buyNow": "Compra ara — €{price}",
   "calc.instantBuy.manualReview": "Sol·licitar revisió del nostre equip",
+  "calc.instantBuy.confirmation": "Confirmació instantània — llest per imprimir. No cal cap revisió manual per a aquest preu.",
   "calc.exitIntent.headline": "Atenció! Encara no hem rebut el teu arxiu",
   "calc.exitIntent.body": "Deixa'ns el teu correu o WhatsApp aquí mateix i revisem la teva peça personalment — gratuït, sense compromís.",
   "calc.exitIntent.email": "El teu correu",

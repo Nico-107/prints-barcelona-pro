@@ -426,9 +426,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           price_high: Math.round(bundle.high),
           material: materialKey,
         });
-        estimateShownRef.current = false;
       }
     }
+    estimateShownRef.current = false;
+    modalShownRef.current = false;
     setParsedFiles(prev => prev.filter(f => f.id !== id));
   };
 
@@ -1165,7 +1166,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <>
                   <p className="text-xs text-muted-foreground/70 mt-3 italic">
                     {instantBuyEligible
-                      ? "Instant confirmation — ready to print. No manual review needed for this price."
+                      ? t("calc.instantBuy.confirmation")
                       : t("calc.result.disclaimer")}
                   </p>
                   {bundle.supportHeavy && (
@@ -1542,7 +1543,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 {instantBuyEligible && !showManualReview ? (
                   <>
                     <p className="text-xs text-center text-muted-foreground italic">
-                      Instant confirmation — ready to print. No manual review needed for this price.
+                      {t("calc.instantBuy.confirmation")}
                     </p>
                     {/* Fulfillment choice */}
                     <div>

@@ -368,6 +368,7 @@ export const itTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.total": "Totale",
   "calc.instantBuy.buyNow": "Acquista ora — €{price}",
   "calc.instantBuy.manualReview": "Chiedi una revisione al nostro team",
+  "calc.instantBuy.confirmation": "Conferma immediata — pronto per la stampa. Nessuna revisione manuale necessaria per questo prezzo.",
   "calc.exitIntent.headline": "Aspetta! Non abbiamo ancora ricevuto il tuo file",
   "calc.exitIntent.body": "Lascia qui la tua email o WhatsApp — analizzeremo il tuo pezzo e ti risponderemo personalmente. Gratuito, senza impegno.",
   "calc.exitIntent.email": "La tua email",

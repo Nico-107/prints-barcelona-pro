@@ -368,6 +368,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.total": "Totaal",
   "calc.instantBuy.buyNow": "Nu kopen — €{price}",
   "calc.instantBuy.manualReview": "Laat ons team het beoordelen",
+  "calc.instantBuy.confirmation": "Directe bevestiging — klaar om te printen. Geen handmatige beoordeling nodig voor deze prijs.",
   "calc.exitIntent.headline": "Wacht! We hebben uw bestand nog niet ontvangen",
   "calc.exitIntent.body": "Laat hier uw e-mail of WhatsApp-nummer achter — we bekijken uw onderdeel persoonlijk en nemen contact met u op. Gratis, vrijblijvend.",
   "calc.exitIntent.email": "Uw e-mailadres",
