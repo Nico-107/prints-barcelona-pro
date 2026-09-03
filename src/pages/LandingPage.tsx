@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, lazy, Suspense, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
@@ -18,6 +18,8 @@ import { capture } from "@/lib/analytics";
 // Topics classed as guides — get TechArticle instead of plain Article, and
 // benefit most from freshness signals since they compete for AI-answer
 // citation on procedural queries.
+const StlEstimator = lazy(() => import("@/components/StlEstimator"));
+
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "choosing-service",
   "materials-guide",
@@ -47,6 +49,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const page = pageProp ?? PAGES_BY_SLUG[slug];
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  const [calcHighlight, setCalcHighlight] = useState(false);
 
   if (!page) {
     return (
@@ -203,6 +206,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
       }
     : null;
 
+  const scrollToCalc = () => {
+    capture('landing_page_upload_cta_click', { slug: page.slug });
+    setCalcHighlight(true);
+    document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => setCalcHighlight(false), 3000);
+  };
+
   const handleWhatsApp = () => {
     capture('whatsapp_click', { source: 'landing_page' });
     const msg = isDe
@@ -299,11 +309,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
                   </>
                 ) : (
                   <>
-                    <Button asChild variant="accent" size="lg" className="gap-2">
-                      <Link to={isEs ? "/#upload" : "/#upload"}>
-                        <Upload className="w-4 h-4" />
-                        {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
-                      </Link>
+                    <Button variant="accent" size="lg" className="gap-2" onClick={scrollToCalc}>
+                      <Upload className="w-4 h-4" />
+                      {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
                     </Button>
                     <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
                       <MessageCircle className="w-4 h-4" />
@@ -447,6 +455,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
           </section>
         )}
 
+        {/* Calculator */}
+        {!isMaker && (
+          <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl mx-4" />}>
+            <StlEstimator highlighted={calcHighlight} />
+          </Suspense>
+        )}
+
         {/* CTA */}
         <section className="hero-gradient py-16 md:py-20">
           <div className="container px-4 text-center max-w-2xl mx-auto">
@@ -484,8 +499,8 @@ const LandingPage = ({ page: pageProp }: Props) => {
                   {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button asChild variant="accent" size="xl" className="shadow-lg">
-                    <Link to="/#upload"><Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen")}</Link>
+                  <Button variant="accent" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+                    <Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen")}
                   </Button>
                   <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
                     <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp", "WhatsApp")}
