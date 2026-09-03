@@ -1,6 +1,6 @@
 import { Menu, X, Star, PackageSearch, ChevronDown, Building2 } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,12 +12,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
+import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
 
 const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boolean }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Resolve per-language slug map for the current landing page (if any) so
+  // LanguageSelector can navigate to the real translated URL, not just toggle
+  // UI chrome via setLanguage alone.
+  const currentLandingPage = PAGES_BY_SLUG[location.pathname];
+  const landingTopicSlugs = currentLandingPage
+    ? SLUGS_BY_TOPIC[currentLandingPage.topic]
+    : undefined;
   const isEs = language === "es";
   const isCa = language === "ca";
   const isFr = language === "fr";
@@ -151,7 +159,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               <span className="text-muted-foreground font-medium whitespace-nowrap">{t("nav.headerRating")}</span>
             </div>
 
-            {!hideLanguageSelector && <LanguageSelector />}
+            {!hideLanguageSelector && <LanguageSelector landingTopicSlugs={landingTopicSlugs} />}
             <Button asChild variant="ghost" size="sm">
               <Link to="/track" className="gap-1.5 whitespace-nowrap">
                 <PackageSearch className="w-4 h-4" />
@@ -164,7 +172,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
           </nav>
 
           <div className="xl:hidden flex items-center gap-3">
-            {!hideLanguageSelector && <LanguageSelector />}
+            {!hideLanguageSelector && <LanguageSelector landingTopicSlugs={landingTopicSlugs} />}
             <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

@@ -1,9 +1,15 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
-import { PAGES_BY_SLUG, SLUGS_BY_TOPIC } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 
-const LanguageSelector = () => {
+interface Props {
+  // Per-language slug map for the current landing page topic, resolved by
+  // Header.tsx from PAGES_BY_SLUG + SLUGS_BY_TOPIC. Undefined when the current
+  // page is not a landing page (homepage, static routes, etc.).
+  landingTopicSlugs?: Partial<Record<string, string>>;
+}
+
+const LanguageSelector = ({ landingTopicSlugs }: Props) => {
   const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,10 +29,15 @@ const LanguageSelector = () => {
       return;
     }
 
-    // For SEO landing pages navigate to the equivalent slug in the new language.
-    const currentPage = PAGES_BY_SLUG[location.pathname];
-    if (currentPage) {
-      const target = SLUGS_BY_TOPIC[currentPage.topic]?.[lang];
+    // Landing pages: navigate to the equivalent slug in the new language.
+    // The slug map is computed in Header.tsx via PAGES_BY_SLUG + SLUGS_BY_TOPIC
+    // and passed as a prop so the lookup happens once per render, not per click.
+    // If no equivalent exists for this language (e.g. no CA version of a
+    // comparison page), fall back to just the setLanguage() call above — the
+    // user stays on the current URL with updated UI chrome rather than being
+    // sent to an unrelated page.
+    if (landingTopicSlugs) {
+      const target = landingTopicSlugs[lang];
       if (target && target !== location.pathname) {
         navigate(target);
       }
