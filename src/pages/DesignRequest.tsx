@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const MAX_FILES = 4;
@@ -144,6 +145,29 @@ const DesignRequest = () => {
     }
   };
 
+  const designBreadcrumbLabel = language === "ca" ? "Disseny a Mida" : language === "en" ? "Custom Design" : "Diseño a Medida";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Dimension3D", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: designBreadcrumbLabel, item: `${SITE_URL}${canonicalSlug}` },
+    ],
+  };
+  const designArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: t("design.hero.heading"),
+    description: t("design.meta.description"),
+    inLanguage: htmlLang,
+    author: AUTHOR_REF,
+    publisher: PUBLISHER_REF,
+    datePublished: "2026-08-01",
+    dateModified: "2026-09-03",
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${canonicalSlug}` },
+    image: `${SITE_URL}/og-image.jpg`,
+  };
+
   return (
     <>
       <Helmet>
@@ -155,6 +179,8 @@ const DesignRequest = () => {
         <link rel="alternate" hrefLang="en" href={`${SITE_URL}${SLUG_EN}`} />
         <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${SLUG_CA}`} />
         <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${SLUG_ES}`} />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(designArticleSchema)}</script>
       </Helmet>
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">

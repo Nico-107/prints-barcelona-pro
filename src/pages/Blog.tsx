@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ArrowRight, BookOpen, Clock, GraduationCap, Settings2, Wrench, Zap } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -56,6 +57,30 @@ const POSTS = [
   },
 ];
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Dimension3D", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+  ],
+};
+
+const blogArticleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  inLanguage: "es",
+  headline: "Guías de Impresión 3D en Barcelona",
+  description: "Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más.",
+  url: `${SITE_URL}/blog`,
+  author: AUTHOR_REF,
+  publisher: PUBLISHER_REF,
+  datePublished: "2026-08-01",
+  dateModified: "2026-09-03",
+  mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/blog` },
+  image: `${SITE_URL}/og-image.jpg`,
+};
+
 const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -69,6 +94,8 @@ const Blog = () => {
         <meta property="og:url" content={`${SITE_URL}/blog`} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(blogArticleSchema)}</script>
       </Helmet>
 
       <LaunchOfferBanner />

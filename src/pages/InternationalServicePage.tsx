@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
@@ -38,6 +39,15 @@ const faqs = [
   },
 ];
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Dimension3D", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "3D Printing Service", item: PAGE_URL },
+  ],
+};
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -46,12 +56,11 @@ const articleSchema = {
   description:
     "Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €10.",
   url: PAGE_URL,
-  publisher: {
-    "@type": "Organization",
-    name: "Dimension3D",
-    url: SITE_URL,
-    logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.svg` },
-  },
+  author: AUTHOR_REF,
+  publisher: PUBLISHER_REF,
+  datePublished: "2026-08-01",
+  dateModified: "2026-09-03",
+  mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   image: `${SITE_URL}/og-image.jpg`,
 };
 
@@ -109,6 +118,7 @@ const InternationalServicePage = () => {
         content="Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €10."
       />
       <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
+      <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
     </Helmet>

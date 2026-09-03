@@ -13,6 +13,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { capture } from "@/lib/analytics";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
@@ -476,6 +477,31 @@ const MakerGuide = () => {
     })),
   };
 
+  const breadcrumbNetworkLabel = language === "ca" ? "Xarxa de Makers" : language === "es" ? "Red de Makers" : "Maker Network";
+  const breadcrumbGuideLabel = language === "ca" ? "Com funciona" : language === "es" ? "Cómo funciona" : "How It Works";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Dimension3D", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: breadcrumbNetworkLabel, item: `${SITE_URL}/makers` },
+      { "@type": "ListItem", position: 3, name: breadcrumbGuideLabel, item: `${SITE_URL}/maker-guide` },
+    ],
+  };
+  const guideArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: c.metaTitle.split("|")[0].trim(),
+    description: c.metaDesc,
+    inLanguage: language,
+    author: AUTHOR_REF,
+    publisher: PUBLISHER_REF,
+    datePublished: "2026-08-01",
+    dateModified: "2026-09-03",
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/maker-guide` },
+    image: `${SITE_URL}/og-image.jpg`,
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -492,6 +518,8 @@ const MakerGuide = () => {
         <meta property="og:url" content={`${SITE_URL}/maker-guide`} />
         <meta property="og:type" content="article" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(guideArticleSchema)}</script>
       </Helmet>
 
       <LaunchOfferBanner />

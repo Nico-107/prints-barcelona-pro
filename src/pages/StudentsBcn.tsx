@@ -11,6 +11,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -42,17 +43,27 @@ const FAQS = [
   },
 ];
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Dimension3D", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Estudiantes Barcelona", item: CANONICAL },
+  ],
+};
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline: "Impresión 3D para Estudiantes en Barcelona — 20% de Descuento",
   description: META_DESC,
-  author: { "@type": "Organization", name: "Dimension3D Barcelona" },
-  publisher: { "@type": "Organization", name: "Dimension3D Barcelona", url: SITE_URL },
+  author: AUTHOR_REF,
+  publisher: PUBLISHER_REF,
   datePublished: "2026-06-30",
-  dateModified: "2026-06-30",
+  dateModified: "2026-09-03",
   inLanguage: "es",
   url: CANONICAL,
+  mainEntityOfPage: { "@type": "WebPage", "@id": CANONICAL },
   image: `${SITE_URL}/og-image.jpg`,
 };
 
@@ -88,6 +99,7 @@ const StudentsBcn = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>

@@ -19,6 +19,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -476,6 +477,29 @@ const Makers = () => {
     })),
   };
 
+  const breadcrumbLabel = language === "ca" ? "Xarxa de Makers" : language === "es" ? "Red de Makers" : "Maker Network";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Dimension3D", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: breadcrumbLabel, item: `${SITE_URL}/makers` },
+    ],
+  };
+  const makerArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: c.metaTitle.split("|")[0].trim(),
+    description: c.metaDesc,
+    inLanguage: language,
+    author: AUTHOR_REF,
+    publisher: PUBLISHER_REF,
+    datePublished: "2026-08-01",
+    dateModified: "2026-09-03",
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/makers` },
+    image: `${SITE_URL}/og-image.jpg`,
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -493,6 +517,8 @@ const Makers = () => {
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(makerArticleSchema)}</script>
       </Helmet>
 
       <LaunchOfferBanner />
