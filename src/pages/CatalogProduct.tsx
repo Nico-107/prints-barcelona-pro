@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { catalogProducts } from "@/data/catalogProducts";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { PUBLISHER_REF } from "@/seo/entities";
 import NotFound from "@/pages/NotFound";
 
 const SITE_URL = "https://www.dimension3dprints.com";
@@ -27,6 +28,23 @@ const CatalogProduct = () => {
   const [formError, setFormError] = useState<string | null>(null);
 
   if (!product) return <NotFound />;
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: `${SITE_URL}${product.image}`,
+    url: `${SITE_URL}/catalogo/${product.slug}`,
+    offers: {
+      "@type": "Offer",
+      price: product.priceLow,
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/catalogo/${product.slug}`,
+      seller: PUBLISHER_REF,
+    },
+  };
 
   const handleFieldChange = (key: string, value: string) => {
     setFieldValues((prev) => ({ ...prev, [key]: value }));
@@ -95,6 +113,7 @@ const CatalogProduct = () => {
         <title>{product.name} | Dimension3D</title>
         <meta name="description" content={product.description} />
         <link rel="canonical" href={`${SITE_URL}/catalogo/${slug}`} />
+        <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
       </Helmet>
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">

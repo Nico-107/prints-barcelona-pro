@@ -9,6 +9,32 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Catálogo de productos personalizados | Dimension3D",
+  description: "Productos personalizados impresos en 3D: jarrón, placa de nombre, placa para mascota, soporte de teléfono y topper de boda.",
+  url: `${SITE_URL}/catalogo`,
+  itemListElement: catalogProducts.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Product",
+      "@id": `${SITE_URL}/catalogo/${p.slug}`,
+      name: p.name,
+      description: p.description,
+      image: `${SITE_URL}${p.image}`,
+      url: `${SITE_URL}/catalogo/${p.slug}`,
+      offers: {
+        "@type": "Offer",
+        price: p.priceLow,
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+      },
+    },
+  })),
+};
+
 const Catalog = () => {
   const { language } = useLanguage();
   return (
@@ -20,6 +46,7 @@ const Catalog = () => {
           content="Explora nuestro catálogo de productos personalizados impresos en 3D: jarrón acanalado, placa de nombre, placa para mascota y topper de boda. Solicita presupuesto sin compromiso."
         />
         <link rel="canonical" href={`${SITE_URL}/catalogo`} />
+        <script type="application/ld+json">{JSON.stringify(itemListSchema)}</script>
       </Helmet>
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">
