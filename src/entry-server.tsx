@@ -26,6 +26,10 @@ import NotFound from "./pages/NotFound";
 import InternationalServicePage from "./pages/InternationalServicePage";
 import CityDeliveryPage from "./pages/CityDeliveryPage";
 import DesignRequest from "./pages/DesignRequest";
+import Catalog from "./pages/Catalog";
+import CatalogProduct from "./pages/CatalogProduct";
+import Creator from "./pages/Creator";
+import FileChecker from "./pages/FileChecker";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import type { Language } from "@/contexts/LanguageContext";
@@ -100,6 +104,12 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/design-your-3d-part" element={<DesignRequest />} />
                 <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
                 <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
+                <Route path="/catalogo" element={<Catalog />} />
+                <Route path="/catalogo/:slug" element={<CatalogProduct />} />
+                <Route path="/creator" element={<Creator />} />
+                <Route path="/3d-file-checker" element={<FileChecker />} />
+                <Route path="/verificador-archivo-3d" element={<FileChecker />} />
+                <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </StaticRouter>
