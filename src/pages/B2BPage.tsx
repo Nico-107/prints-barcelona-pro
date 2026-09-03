@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
@@ -12,10 +12,12 @@ import Reviews from "@/components/Reviews";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { StlEstimator } from "@/components/StlEstimator";
 import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -108,6 +110,7 @@ const COPY: Record<string, {
 
 const B2BPage = ({ page }: Props) => {
   useEffect(() => { window.scrollTo(0, 0); }, [page.slug]);
+  const [calcHighlight, setCalcHighlight] = useState(false);
 
   const lang = page.lang;
   const c = COPY[lang];
@@ -118,6 +121,12 @@ const B2BPage = ({ page }: Props) => {
   const enSlug = topicSlugs.en;
   const enPage = enSlug ? PAGES_BY_SLUG[enSlug] : undefined;
   const faqsForSchema = enPage?.faqs ?? page.faqs;
+
+  const scrollToCalc = () => {
+    setCalcHighlight(true);
+    document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => setCalcHighlight(false), 3000);
+  };
 
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -137,6 +146,38 @@ const B2BPage = ({ page }: Props) => {
     areaServed: { "@type": "City", name: ACTIVE_CITY.areaServed },
     description: page.metaDescription,
     url,
+    isRelatedTo: page.related.map((r) => ({
+      "@type": "WebPage",
+      "@id": `${SITE_URL}${r.slug}`,
+      name: r.label,
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: page.h1, item: url },
+    ],
+  };
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: page.metaTitle,
+    description: page.metaDescription,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    author: AUTHOR_REF,
+    publisher: PUBLISHER_REF,
+    datePublished: "2026-08-01",
+    dateModified: "2026-09-03",
+    isRelatedTo: page.related.map((r) => ({
+      "@type": "WebPage",
+      "@id": `${SITE_URL}${r.slug}`,
+      name: r.label,
+    })),
   };
 
   const faqSchema = {
@@ -179,6 +220,8 @@ const B2BPage = ({ page }: Props) => {
         <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
 
       <Header />
@@ -209,11 +252,9 @@ const B2BPage = ({ page }: Props) => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                <Button variant="cta" size="xl" asChild className="shadow-lg">
-                  <Link to="/#upload">
-                    <Upload className="w-5 h-5" />
-                    {c.ctaFiles}
-                  </Link>
+                <Button variant="cta" size="xl" onClick={scrollToCalc} className="shadow-lg">
+                  <Upload className="w-5 h-5" />
+                  {c.ctaFiles}
                 </Button>
                 <Button variant="whatsapp-outline" size="xl" onClick={handleWhatsApp} className="group">
                   <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
@@ -290,6 +331,9 @@ const B2BPage = ({ page }: Props) => {
           </section>
         )}
 
+        {/* Calculator */}
+        <StlEstimator highlighted={calcHighlight} />
+
         {/* CTA strip */}
         <section className="hero-gradient py-16 md:py-20">
           <div className="container px-4 text-center max-w-2xl mx-auto">
@@ -300,11 +344,9 @@ const B2BPage = ({ page }: Props) => {
               {c.ctaStripSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button variant="cta" size="xl" asChild className="shadow-lg">
-                <Link to="/#upload">
-                  <Upload className="w-5 h-5" />
-                  {c.ctaStripFiles}
-                </Link>
+              <Button variant="cta" size="xl" onClick={scrollToCalc} className="shadow-lg">
+                <Upload className="w-5 h-5" />
+                {c.ctaStripFiles}
               </Button>
               <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
                 <MessageCircle className="w-5 h-5" />
