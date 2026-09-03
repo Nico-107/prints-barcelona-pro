@@ -29,11 +29,15 @@ const CatalogProduct = () => {
 
   if (!product) return <NotFound />;
 
+  const productLang = language === "en" || language === "ca" ? language : "es";
+  const productName = product.name[productLang];
+  const productDescription = product.description[productLang];
+
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
-    description: product.description,
+    name: productName,
+    description: productDescription,
     image: `${SITE_URL}${product.image}`,
     url: `${SITE_URL}/catalogo/${product.slug}`,
     offers: {
@@ -80,7 +84,7 @@ const CatalogProduct = () => {
           file_paths: [],
           status: "pending",
           product_slug: product.slug,
-          product_name: product.name,
+          product_name: productName,
           customization: fieldValues,
         } as any)
         .then(({ error: dbErr }) => {
@@ -91,7 +95,7 @@ const CatalogProduct = () => {
         .invoke("send-catalog-request", {
           body: {
             productSlug: product.slug,
-            productName: product.name,
+            productName: productName,
             customization: fieldValues,
             contactEmail: contactEmail.trim() || null,
             contactPhone: contactPhone.trim() || null,
@@ -110,8 +114,8 @@ const CatalogProduct = () => {
   return (
     <>
       <Helmet>
-        <title>{product.name} | Dimension3D</title>
-        <meta name="description" content={product.description} />
+        <title>{productName} | Dimension3D</title>
+        <meta name="description" content={productDescription} />
         <link rel="canonical" href={`${SITE_URL}/catalogo/${slug}`} />
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
       </Helmet>
@@ -127,7 +131,7 @@ const CatalogProduct = () => {
                       ? (product.variantImages.images[fieldValues[product.variantImages.field]] ?? product.image)
                       : product.image
                   }
-                  alt={product.name}
+                  alt={productName}
                   className="w-full h-full object-cover"
                   loading="eager"
                   fetchPriority="high"
@@ -138,11 +142,11 @@ const CatalogProduct = () => {
                 <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">
                   Producto personalizado
                 </p>
-                <h1 className="text-3xl font-bold text-foreground mb-2">{product.name}</h1>
+                <h1 className="text-3xl font-bold text-foreground mb-2">{productName}</h1>
                 <p className="text-xl font-semibold text-accent mb-4">
                   €{product.priceLow}–€{product.priceHigh}
                 </p>
-                <p className="text-muted-foreground mb-8 leading-relaxed">{product.description}</p>
+                <p className="text-muted-foreground mb-8 leading-relaxed">{productDescription}</p>
 
                 {isSubmitted ? (
                   <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-6 text-center">
