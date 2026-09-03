@@ -125,6 +125,9 @@ export const SERVICES_MENU: MenuGroup[] = [
       item("materials-guide", "Materials Guide", "Guía de Materiales", "Guia de Materials"),
       item("file-prep", "File Preparation Guide", "Cómo Preparar tu Archivo", "Com Preparar el teu Arxiu"),
       item("best-service", "Best 3D Printing Service", "Mejor Servicio en Barcelona", "Millor Servei a Barcelona"),
+      item("materials-comparison", "Materials Comparison Table", "Comparativa de Materiales", "Comparativa de Materials"),
+      item("turnaround-comparison", "Turnaround Times Compared", "Comparativa de Plazos", "Comparativa de Terminis"),
+      item("technology-comparison", "FDM vs SLA vs SLS", "FDM vs SLA vs SLS", "FDM vs SLA vs SLS"),
     ],
   },
   {

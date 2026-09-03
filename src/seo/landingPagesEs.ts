@@ -1074,5 +1074,203 @@ export const PAGES_ES: LandingContent[] = [
       { name: "Velocidad de respuesta — la ventaja competitiva infravalorada", text: "En servicios, quien responde primero suele ganar el encargo. Si un cliente manda la misma petición a tres makers y uno responde en treinta minutos, el rápido se lleva la mayoría de encargos." },
       { name: "Clientes recurrentes vs únicos — dónde está el negocio real", text: "Los clientes únicos pagan la factura del martes. Los recurrentes son el negocio real." }
     ]
-  }
+  },
+
+  // ----- COMPARATIVA DE MATERIALES -----
+  {
+    slug: "/comparativa-materiales-impresion-3d",
+    topic: "materials-comparison",
+    altSlug: "/3d-printing-materials-comparison",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "Comparativa de Materiales de Impresión 3D: PLA vs PETG vs Nylon vs CF | Dimension3D",
+    metaDescription: "Comparativa completa de materiales FDM: PLA, PETG, ABS, ASA, TPU, Nylon y variantes con fibra de carbono. Coste, resistencia, temperatura y uso en una sola tabla.",
+    h1: "Comparativa de Materiales de Impresión 3D — ¿Qué Material es el Adecuado para tu Pieza?",
+    intro: "Elegir el material equivocado cuesta dinero dos veces: una cuando pagas por una pieza que falla, y otra cuando la reimprimes. Esta página pone todos los materiales FDM que ofrecemos uno al lado del otro para que puedas comparar una sola vez y pedir con confianza. Todos los materiales de la tabla están en stock y se imprimen en nuestro taller.",
+    comparisonTable: {
+      headers: ["Material", "Coste", "Resistencia a tracción", "Resistencia al calor", "Flexibilidad", "Apto para exteriores", "Imprimibilidad", "Uso típico"],
+      rows: [
+        ["PLA",        "Bajo",         "Media",              "Baja (~55 °C)",        "Rígido",    "Baja",               "Alta",        "Decorativo, regalos, prototipos, modelos de exposición"],
+        ["PETG",       "Bajo–Medio",   "Media–Alta",         "Media (~75 °C)",       "Ligera",    "Media–Alta",         "Media–Alta",  "Piezas funcionales, carcasas, elementos en exteriores"],
+        ["ABS",        "Medio",        "Alta",               "Alta (~100 °C)",        "Rígido",    "Media",              "Media*",      "Piezas técnicas, carcasas expuestas al calor"],
+        ["ASA",        "Medio",        "Alta",               "Alta (~100 °C)",        "Rígido",    "Alta (estable UV)",  "Media*",      "Piezas estructurales en exteriores, accesorios de jardín"],
+        ["TPU",        "Medio",        "Media",              "Media (~70 °C)",        "Muy Alta",  "Media",              "Media–Baja",  "Juntas, empuñaduras, conectores flexibles, fundas"],
+        ["Nylon PA12", "Medio–Alto",   "Muy Alta",           "Alta (~110 °C)",        "Baja–Media","Media",              "Media†",      "Piezas de carga, alta resistencia al desgaste"],
+        ["PLA-CF",     "Alto",         "Alta (muy rígido)",  "Baja (~55 °C)",         "Muy Baja",  "Baja",               "Media",       "Soportes ligeros y rígidos, utillajes"],
+        ["PETG-CF",    "Alto",         "Alta (muy rígido)",  "Media (~75 °C)",        "Muy Baja",  "Media–Alta",         "Media",       "Piezas estructurales rígidas con exposición exterior"],
+        ["Nylon-CF",   "Alto",         "Muy Alta (rígido)",  "Alta (~110 °C)",        "Muy Baja",  "Media",              "Media†",      "Máxima rigidez y resistencia bajo calor"],
+      ],
+      caption: "* ABS y ASA requieren una cámara de impresión calefactada para buena adhesión y evitar deformaciones. † El Nylon debe secarse antes de imprimir. El coste es relativo por gramo a precio de filamento típico. La resistencia al calor es la temperatura de deflexión práctica de la pieza impresa a relleno estándar.",
+    },
+    sections: [
+      {
+        heading: "Cómo interpretar esta comparativa",
+        body: "Todas las valoraciones son relativas dentro del conjunto de materiales FDM que ofrecemos — no son comparaciones con nylon inyectado ni con composites aeroespaciales. El coste es relativo por gramo a precio de filamento típico: una pieza grande en material barato puede costar más que una pieza pequeña en material caro. La resistencia a tracción corresponde al plano XY con un relleno estándar de aproximadamente el 25%, no al 100% sólido. La resistencia al calor es la temperatura de deflexión práctica de la pieza impresa, que puede ser inferior a la que figura en el datasheet del filamento por el efecto de la unión entre capas. La 'imprimibilidad' mide con qué fiabilidad puede imprimirse un material sin cama caliente adicional, cámara cerrada ni secado de filamento — puntuación más alta significa menos variables y mejores resultados en más máquinas."
+      },
+      {
+        heading: "PLA y PETG — la pareja del día a día",
+        body: "El PLA es el punto de partida por defecto por una razón. Es el material más barato de nuestra selección, el más fácil de imprimir, dimensionalmente preciso y fiable para la inmensa mayoría de aplicaciones de interior. Su única debilidad real es la resistencia al calor: nada que vaya a estar dentro de un coche aparcado, cerca de un radiador o en exteriores bajo el sol de Barcelona debería ser PLA. La pieza se ablandará, deformará o fallará. Para todo lo que permanezca en interiores a temperatura ambiente, el PLA es casi siempre la elección correcta — y la más rentable.\n\nEl PETG sube un escalón en casi todas las dimensiones prácticas. Es ligeramente más caro y algo más exigente de imprimir, pero significativamente más resistente en exteriores, algo más flexible bajo carga sin fracturarse, y aguanta temperaturas de hasta unos 75 °C. El patrón más habitual que vemos: prototipo en PLA y reimpresión en PETG para la pieza final que va a vivir en exterior o cerca de una fuente de calor. El PETG también tiene mejor resistencia química que el PLA, lo que importa para piezas en contacto con productos de limpieza o disolventes suaves."
+      },
+      {
+        heading: "ABS, ASA y materiales resistentes al calor",
+        body: "ABS y ASA comparten la misma banda de precio y ambos aguantan temperaturas de hasta unos 100 °C, pero resuelven problemas distintos. El ABS es el termoplástico técnico clásico — alta resistencia, buena resistencia al impacto y comportamiento mecánico bien caracterizado. El ASA añade una propiedad crítica que el ABS no tiene: estabilidad UV. En exteriores en Barcelona, una pieza de ABS se amarillea y se vuelve frágil en pocos meses; una de ASA no. Para cualquier aplicación estructural en exterior, el ASA es casi siempre la mejor elección.\n\nAmbos materiales requieren una cámara de impresión calefactada para una impresión fiable. Sin ella, el diferencial de temperatura entre la capa extruida y el aire ambiente provoca deformaciones y delaminación. Los imprimimos en nuestro taller con el equipamiento adecuado. Si los estás evaluando para tu propia máquina, trátalos como materiales de nivel intermedio-avanzado: no porque la configuración sea complicada, sino porque el entorno de impresión debe estar controlado."
+      },
+      {
+        heading: "TPU — la alternativa flexible",
+        body: "El TPU es el material al que recurrimos cuando una pieza necesita flexarse, absorber impactos o sellar contra otra superficie. Es elástico y similar al caucho — ideal para juntas, empuñaduras, protectores de cable, fundas de móvil, tapas con cierre a presión y cualquier pieza que se fracture si fuera rígida. El compromiso: precisión dimensional reducida (el TPU se estira ligeramente al medir) y parámetros de impresión más exigentes: retracción cuidada, velocidades lentas y atención a la humedad. Si se requieren tolerancias ajustadas bajo deformación, conviene prototipar y medir primero.\n\nLa resistencia al calor del TPU se sitúa entre el PLA y el ABS. Para la mayoría de aplicaciones de sellado y agarre, las temperaturas de operación están bien dentro del rango. El TPU también se presenta en diferentes durezas Shore; si tienes un objetivo de dureza concreto, indícalo al solicitar presupuesto."
+      },
+      {
+        heading: "Nylon y filamentos reforzados con fibra de carbono",
+        body: "El Nylon PA12 ofrece la mejor combinación de resistencia a tracción, resistencia al impacto y tolerancia térmica de todos los materiales no-CF de nuestra selección. Absorbe impactos considerables sin fracturarse y mantiene integridad estructural hasta aproximadamente 110 °C. El inconveniente práctico: el nylon es higroscópico y debe secarse antes de imprimir, lo que añade un paso al proceso. Las piezas entregadas tienen la misma calidad que cualquier nylon procesado correctamente.\n\nLas variantes con fibra de carbono (PLA-CF, PETG-CF, Nylon-CF) mezclan fibra de carbono de fibra corta en el material base. El resultado es una rigidez enormemente mayor — las piezas se notan y se comportan como una clase de material diferente al base sin reforzar. El compromiso es menor ductilidad: las piezas CF resisten la deflexión pero son más frágiles bajo carga de impacto repentina. La fibra de carbono es la elección correcta cuando la rigidez y la relación rigidez-peso son el objetivo principal. Cuando una pieza necesita flexarse sin fracturarse, el material base sin CF rinde mejor.\n\nLos filamentos CF también desgastan los nozzles estándar de latón más rápido que los materiales sin reforzar — un coste que absorbemos en el precio por gramo, de ahí que las variantes CF sean las más caras de nuestra selección."
+      },
+    ],
+    faqs: [
+      { q: "¿Cuál es el material más barato para impresión 3D?", a: "El PLA es el material más barato por gramo. Como el coste de una pieza escala principalmente con el peso de material y el tiempo de impresión, una pieza en PLA será casi siempre la versión más asequible de cualquier diseño. El PETG es el siguiente, seguido de ABS/ASA y TPU, con el Nylon y las variantes de fibra de carbono en la parte superior del rango. Si el coste es la restricción principal, diseña para PLA y cambia de material solo cuando la aplicación lo requiera de verdad." },
+      { q: "¿Puedo usar PLA para piezas en exteriores o en entornos cálidos?", a: "El PLA se ablanda a unos 55 °C — una temperatura que se alcanza habitualmente dentro de un coche aparcado en verano en Barcelona, en una terraza bajo el sol o cerca de una ventana orientada al sur. Para aplicaciones en exterior, el PETG (hasta ~75 °C, buena tolerancia UV) es el mínimo que recomendamos. El ASA es mejor para cualquier cosa estructural o expuesta permanentemente al sol. El PLA funciona bien en exterior en condiciones templadas y a la sombra, pero preferimos señalar el riesgo antes de que la pieza falle." },
+      { q: "¿Cuál es el material más resistente que ofrecéis?", a: "Por resistencia a tracción, el Nylon-CF imprime las piezas más resistentes de nuestra selección. Por resistencia al impacto (tenacidad bajo carga repentina), el Nylon PA12 estándar aguanta mejor — la fibra de carbono que hace rígidos los filamentos CF también reduce la ductilidad. Para la mayoría de aplicaciones de alta resistencia, la respuesta correcta depende de si la pieza debe resistir la deflexión bajo carga sostenida (Nylon-CF) o la fractura bajo impacto repentino (Nylon PA12)." },
+      { q: "¿Qué significa '-CF' en PLA-CF, PETG-CF o Nylon-CF?", a: "CF significa reforzado con fibra de carbono. Fibras cortas de carbono se mezclan en el filamento base, aumentando drásticamente la rigidez y reduciendo el peso por volumen. El compromiso es menor resistencia al impacto en comparación con el material base sin reforzar — las piezas CF resisten la flexión pero son más frágiles bajo carga repentina. Las variantes CF también tienen un mayor coste por gramo por el precio del material y el desgaste acelerado del nozzle." },
+      { q: "Necesito una pieza resistente al calor — ¿qué material elijo?", a: "Depende del rango de temperatura. Hasta ~70 °C: el PETG cubre la mayoría de aplicaciones sin carga elevada de forma fiable. Entre 70 y 110 °C: ABS o ASA son las opciones prácticas en FDM — ASA para exposición exterior, ABS para interior. Por encima de ~110 °C: los materiales FDM estándar alcanzan sus límites prácticos. Para aplicaciones de verdadero calor extremo, describe las condiciones térmicas exactas y la carga al solicitar presupuesto y te recomendaremos el enfoque correcto." },
+      { q: "¿Afecta el material al plazo de entrega?", a: "Ligeramente. PLA y PETG son los más rápidos de procesar — no requieren cámara ni secado. ABS y ASA necesitan calefacción de cámara, lo que añade un pequeño paso de preparación. Los grados de Nylon deben secarse antes de imprimir, lo que añade unas horas. El TPU se imprime más lento por las restricciones de velocidad. Las variantes de fibra de carbono son similares en tiempo a sus materiales base. Para pedidos urgentes, indícanos el plazo al pedir para que podamos confirmar la disponibilidad." },
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "curved-parts.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Comparativa de Plazos de Entrega", slug: "/comparativa-plazos-impresion-3d" },
+      { label: "Comparativa de Tecnologías (FDM vs SLA vs SLS)", slug: "/comparativa-tecnologias-impresion-3d" },
+      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Precios Transparentes", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Mejor Servicio Según Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Comparativa de Materiales de Impresión 3D",
+    datePublished: "2026-09-03",
+    dateModified: "2026-09-03",
+  },
+
+  // ----- COMPARATIVA DE PLAZOS -----
+  {
+    slug: "/comparativa-plazos-impresion-3d",
+    topic: "turnaround-comparison",
+    altSlug: "/3d-printing-turnaround-comparison",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "Comparativa de Plazos de Impresión 3D — Estándar vs Express vs Urgente | Dimension3D",
+    metaDescription: "Compara los plazos de entrega de impresión 3D: estándar, express y urgente. Plazos reales, impacto en el precio, materiales disponibles y cuándo elegir cada opción.",
+    h1: "Comparativa de Plazos de Impresión 3D — Estándar, Express y Urgente",
+    intro: "¿Cuánto tarda una impresión 3D? La respuesta depende del nivel de servicio que elijas — y de ser honestos sobre lo que cada nivel puede y no puede ofrecer. Esta página detalla nuestros tres niveles de plazo, sus tiempos reales, el impacto en el precio, los materiales disponibles y las condiciones que aplican, para que puedas ajustar tu fecha límite al nivel correcto sin sorpresas.",
+    comparisonTable: {
+      headers: ["Nivel de servicio", "Plazo típico", "Precio vs estándar", "Materiales disponibles", "Ideal para", "Condiciones clave"],
+      rows: [
+        ["Estándar",           "2–5 días laborables",                "Precio base (×1,0)",      "Todos los materiales (PLA, PETG, ABS, ASA, TPU, Nylon, variantes CF)", "Pedidos sin urgencia, prototipos, pedidos sensibles al precio",          "Por defecto en todos los pedidos; el más fiable para control de calidad"],
+        ["Express",            "24–48 horas",                        "+25% sobre precio base",  "PLA, PETG, ABS, ASA, TPU",                                             "Fechas límite de evento, demos con clientes, iteraciones urgentes",       "No disponible para todos los materiales; los volúmenes grandes pueden no caber"],
+        ["Urgente / Mismo día","Mismo día laborable (recogida)",     "+60% sobre precio base",  "PLA, PETG, TPU",                                                       "Emergencias reales — pieza rota, atrezo de última hora, demo en vivo",   "Sujeto a cola; solo volúmenes pequeños; nunca garantizado de antemano"],
+      ],
+      caption: "Los plazos se cuentan desde el presupuesto aprobado hasta el envío o la disponibilidad para recogida, en días laborables. El servicio de mismo día es solo para recogida — no disponible para envío postal.",
+    },
+    sections: [
+      {
+        heading: "Estándar — el nivel por defecto, y casi siempre el correcto",
+        body: "El servicio estándar cubre la gran mayoría de pedidos. Un plazo de 2–5 días laborables nos da margen para revisar el archivo correctamente, seleccionar los parámetros de impresión óptimos, supervisar el proceso y realizar un control de calidad antes de que la pieza salga del taller. Admite todos los materiales de nuestra selección — desde PLA básico hasta Nylon-CF — porque la ausencia de presión de tiempo evita compromisos en el secado, el precalentamiento de la cámara o la velocidad de impresión.\n\nEl servicio estándar es también el más rentable por diseño. Si tu proyecto tiene una fecha límite flexible, el estándar es casi siempre la elección correcta. El multiplicador de precio es ×1,0 — el número que ves en el estimador es lo que pagas, sin recargo por urgencia."
+      },
+      {
+        heading: "Express — de 24 a 48 horas",
+        body: "El servicio express apunta a completar el pedido en uno o dos días laborables a partir del presupuesto aprobado. Es la elección correcta cuando tienes una fecha límite específica — una presentación a cliente, un evento, un ciclo de iteración que necesita cerrarse antes de fin de semana — pero la producción el mismo día no es necesaria.\n\nEl express está disponible para PLA, PETG, ABS, ASA y TPU. Los materiales que requieren más preparación o secado (Nylon, variantes de fibra de carbono) pueden no ser compatibles con express según la cola y la complejidad de la pieza. Las piezas muy grandes o los pedidos de gran volumen también pueden quedar fuera de la ventana de 24–48 horas independientemente del material. Al solicitar un presupuesto express, confirmamos si tu trabajo concreto entra en el plazo antes de que apruebes nada.\n\nEl recargo express es del 25% sobre el precio base de material e impresión — no sobre servicios adicionales como acabados o envío. Para piezas grandes con precio base elevado, el valor absoluto del recargo puede ser significativo. Para piezas pequeñas con precio base bajo, la prima express suele ser una adición menor."
+      },
+      {
+        heading: "Urgente y mismo día — la realidad",
+        body: "El servicio urgente implica producción el mismo día laborable y disponibilidad para recogida ese día. Está reservado para emergencias reales: una pieza de recambio crítica necesaria antes del cierre de la jornada, un atrezo necesario para un rodaje a primera hora del día siguiente, un utillaje roto en una línea de producción. El multiplicador de precio ×1,6 refleja tanto la interrupción de la cola como las restricciones físicas de la producción el mismo día.\n\nEl servicio de mismo día es solo para recogida — no envío postal. Está limitado a materiales que se imprimen de forma fiable sin preparación extendida: PLA, PETG y TPU. También está limitado a piezas que físicamente terminan dentro de una jornada laboral — una pieza de 400 gramos que tarda 14 horas de máquina no puede ser de mismo día independientemente del precio. Y, de forma crítica: el mismo día no está garantizado hasta que hayamos revisado tu archivo y confirmado disponibilidad. Si nos contactas a las 16h para recoger a las 18h, la respuesta puede ser no. Contáctanos lo antes posible en el día si necesitas servicio de mismo día."
+      },
+      {
+        heading: "Qué controla realmente el plazo de entrega",
+        body: "El nivel que eliges es un objetivo, no una garantía automática. Varios factores afectan a lo que podemos entregar en qué tiempo:\n\n• Tamaño y volumen de la pieza: Un soporte pequeño de 30 gramos puede imprimirse en dos horas. Una carcasa grande de 400 gramos se imprime de noche. Los pedidos de varias piezas tardan más que una sola impresión. Lo evaluamos durante la presupuestación.\n\n• Material: El Nylon debe secarse antes de imprimir (añade varias horas). ABS y ASA requieren precalentamiento de cámara. Son retrasos menores en servicio estándar pero relevantes en contextos urgentes.\n\n• Cola: Si el taller está a plena capacidad — situación habitual antes de fines de semana o festivos españoles — incluso los trabajos express pueden retrasarse algunas horas. Somos transparentes cuando esto afecta a tu pedido.\n\n• Calidad del archivo: Un archivo que necesita reparación antes del slicing añade tiempo. Enviar un archivo limpio y validado (ver nuestra guía de preparación de archivos) es la forma más fiable de proteger tu fecha límite."
+      },
+      {
+        heading: "Cómo indicar una fecha límite al pedir",
+        body: "Cuando envíes una solicitud de presupuesto, incluye tu fecha límite concreta de forma explícita — no un vago 'lo antes posible'. Indícanos la fecha y hora exacta en que necesitas la pieza lista, y si es para recogida o envío. Confirmaremos si tu plazo es viable antes de que apruebes nada.\n\nPara pedidos urgentes: contáctanos por WhatsApp lo antes posible en el día. Cuanto antes lo sepamos, más opciones tenemos. Un mensaje a las 9h nos da toda la jornada laboral. Un mensaje a las 17h puede dejar tiempo de máquina insuficiente independientemente del recargo.\n\nPara pedidos express planificados: solicita el presupuesto al menos 24 horas antes de la hora de disponibilidad objetivo. Esto nos da tiempo para preparar el archivo, presupuestar con precisión e iniciar el proceso sin prisas. Un servicio express pedido a las 8h para las 17h del mismo día es sustancialmente más viable que uno pedido a las 15h."
+      },
+    ],
+    faqs: [
+      { q: "¿Cuánto tarda una impresión 3D en Barcelona?", a: "Lo más rápido es la recogida el mismo día para piezas pequeñas en PLA/PETG/TPU — sujeto a cola y confirmado en el momento del pedido. Para trabajo planificado, el servicio express apunta a 24–48 horas. El servicio estándar entrega en 2–5 días laborables y cubre todos los materiales. Contáctanos lo antes posible en el día para solicitudes de mismo día." },
+      { q: "¿Cuánto más cuesta el servicio express frente al estándar?", a: "El express añade un 25% sobre el precio base de material e impresión. El urgente (mismo día) añade un 60%. Los recargos se aplican al coste de impresión, no al envío ni a los acabados presupuestados por separado. Para piezas pequeñas, la prima absoluta es modesta; para piezas grandes o con materiales caros puede ser significativa." },
+      { q: "¿Podéis imprimir Nylon o fibra de carbono el mismo día?", a: "No de forma fiable. El Nylon requiere secado antes de imprimir (añade varias horas de preparación) y las variantes de fibra de carbono también. Ambos están disponibles en servicio express según la cola, pero la producción el mismo día no es realista para estos materiales. Para un trabajo urgente en Nylon o CF, contáctanos temprano y te damos una valoración honesta." },
+      { q: "¿Las '24–48 horas' se cuentan desde que mando el archivo o desde que apruebo el presupuesto?", a: "Desde que apruebas el presupuesto. La ventana de 24–48 horas comienza una vez que tenemos el archivo limpio, el presupuesto acordado e iniciamos la impresión. La revisión del archivo y la presupuestación ocurren antes de esa ventana. Para una fecha límite realmente ajustada, merece la pena contactarnos lo antes posible para que el presupuesto pueda acordarse rápidamente." },
+      { q: "¿Es posible la entrega a domicilio el mismo día o solo la recogida?", a: "Solo recogida el mismo día. Los mensajeros postales tienen horarios de recogida fijos y el día siguiente es el mínimo realista para entrega en cualquier punto de España. Si necesitas las piezas hoy y no puedes recoger en persona, consúltanos — en algunos casos podemos coordinar recogida de mensajero para trabajos muy tempraneros, pero no es un servicio estándar." },
+      { q: "¿Qué pasa si hay un fallo de impresión en un pedido express o urgente?", a: "Si la impresión falla por un problema de archivo o slicing de nuestra parte, reimprimimos sin coste adicional y priorizamos la reimpresión. Si el fallo es causado por un problema de geometría en tu archivo, te contactamos de inmediato y valoramos las opciones. En pedidos urgentes especialmente, revisamos los archivos cuidadosamente antes de empezar para minimizar este riesgo." },
+    ],
+    galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "purple-figures.jpg", "cookie-cutters.jpg"),
+    related: [
+      { label: "Comparativa de Materiales", slug: "/comparativa-materiales-impresion-3d" },
+      { label: "Comparativa de Tecnologías (FDM vs SLA vs SLS)", slug: "/comparativa-tecnologias-impresion-3d" },
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Precios Transparentes", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Mejor Servicio Según Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Comparativa de Plazos de Impresión 3D",
+    datePublished: "2026-09-03",
+    dateModified: "2026-09-03",
+  },
+
+  // ----- COMPARATIVA DE TECNOLOGÍAS -----
+  {
+    slug: "/comparativa-tecnologias-impresion-3d",
+    topic: "technology-comparison",
+    altSlug: "/3d-printing-technology-comparison",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "FDM vs SLA vs SLS — Comparativa de Tecnologías de Impresión 3D | Dimension3D",
+    metaDescription: "Compara FDM, SLA por resina y SLS/MJF: detalle de superficie, resistencia, materiales, coste y casos de uso. Evaluación honesta de lo que hace mejor el FDM — y cuándo no es la elección correcta.",
+    h1: "FDM vs SLA vs SLS — Comparativa de Tecnologías de Impresión 3D",
+    intro: "Tres tecnologías dominan los servicios de impresión 3D profesionales: FDM (modelado por deposición fundida), SLA (estereolitografía / resina) y SLS o MJF (fusión por lecho de polvo). Cada una tiene ventajas reales y límites reales. Esta página las compara en las dimensiones que más importan — detalle de superficie, resistencia mecánica, rango de materiales, coste por pieza y caso de uso típico — y te dice con honestidad cuál elegir, incluyendo cuándo el FDM no es la respuesta correcta.",
+    comparisonTable: {
+      headers: ["Tecnología", "Detalle de superficie", "Resistencia mecánica", "Rango de materiales", "Coste por pieza", "Caso de uso típico", "¿Disponible en Dimension3D?"],
+      rows: [
+        ["FDM (Modelado por deposición fundida)", "Bueno — líneas de capa visibles; suavizable con postprocesado",   "Muy buena en plano XY; el eje Z (unión entre capas) es el más débil", "Amplio: PLA, PETG, ABS, ASA, TPU, Nylon, variantes CF y más",           "Bajo–Medio", "Piezas funcionales, prototipos, carcasas, soportes, recambios",                                "✓ Sí — nuestra tecnología principal"],
+        ["SLA / Resina",                          "Excelente — el mayor detalle de superficie de cualquier proceso de consumo", "Buena a compresión; frágil bajo carga de impacto fuerte", "Principalmente resinas rígidas estándar; existen resinas técnicas y flexibles", "Medio–Alto", "Patrones de joyería, modelos dentales, miniaturas de exposición, piezas de alta calidad superficial", "✗ No disponible"],
+        ["SLS / MJF (Fusión por lecho de polvo)", "Buena — sin marcas de soporte, acabado mate suave",               "Excelente — completamente isotrópica (igual resistencia en todas las direcciones)", "Nylon PA12, PA11, TPU (SLS); rango más amplio con MJF",                  "Alto",       "Piezas de uso final en bajos volúmenes, geometría compleja, elementos interlockados sin restricciones de soporte", "✗ No disponible"],
+      ],
+      caption: "El FDM es nuestra tecnología. SLA y SLS/MJF son alternativas del sector que ofrecen otros proveedores — incluidas aquí para una comparativa honesta.",
+    },
+    sections: [
+      {
+        heading: "FDM — qué es y dónde destaca",
+        body: "El modelado por deposición fundida funciona fundiendo un filamento termoplástico y depositándolo capa a capa para construir la pieza. Es con diferencia la tecnología de impresión 3D más accesible, cubre el mayor rango de materiales, los mayores volúmenes de construcción y el menor coste por gramo de cualquier proceso principal.\n\nEl FDM destaca de verdad en piezas funcionales. Un soporte que necesita soportar carga, una carcasa que necesita sobrevivir a golpes, una pieza de recambio que debe encajar en una interfaz concreta, un prototipo que hay que probar en condiciones reales — estas son aplicaciones en las que el FDM rinde de forma fiable y rentable. El rango de materiales es una fortaleza particular: PLA para trabajo de interior rentable, PETG para exposición exterior, ASA para piezas estructurales en exterior estables al UV, TPU para aplicaciones flexibles, Nylon y variantes de fibra de carbono para máximas prestaciones.\n\nLas líneas de capa son visibles en piezas FDM sin acabar — esto es una consecuencia inherente del proceso de deposición, no un defecto de calidad. En piezas funcionales las líneas son irrelevantes. En piezas de exposición o presentación, el lijado, el imprimado y la pintura pueden producir un acabado liso. Si la textura superficial es un requisito estricto, ver SLA abajo."
+      },
+      {
+        heading: "SLA y resina — donde supera genuinamente al FDM",
+        body: "La SLA (estereolitografía) y sus variantes (MSLA, DLP) utilizan luz UV para curar una resina líquida capa a capa. La resolución es mucho más fina que el FDM porque el proceso no está limitado por el diámetro del nozzle — son alcanzables detalles de hasta 0,05 mm en impresoras de resina de consumo.\n\nLa SLA es genuinamente la mejor elección para aplicaciones donde la calidad superficial es el requisito principal: patrones de joyería para fundición, modelos dentales, miniaturas de escala para exposición, renders de producto en fase de prototipo. Si necesitas capturar expresiones faciales en una figura, replicar un detalle mecánico fino o producir una superficie que se pintará para exposición, la SLA produce un resultado que el FDM no puede igualar sin un postprocesado extenso.\n\nSin embargo, los compromisos son reales. Las piezas de resina son típicamente más frágiles que las de FDM — aguantan bien la compresión pero se fracturan bajo impacto fuerte. El rango de materiales es limitado comparado con los filamentos técnicos de FDM. El volumen de construcción es menor en la mayoría de impresoras de resina. Y el requisito de postprocesado (lavado UV y curado) añade pasos al flujo de trabajo.\n\nNo ofrecemos impresión SLA. Si el requisito principal de tu proyecto es máxima calidad superficial y la pieza no estará sometida a carga mecánica significativa, te diremos con honestidad que una impresión en resina de un servicio especializado es la mejor opción."
+      },
+      {
+        heading: "SLS y MJF — fusión industrial por lecho de polvo",
+        body: "El sinterizado selectivo por láser (SLS) y la Multi Jet Fusion (MJF) de HP son procesos de polvo que sinterizan o unen partículas de polímero sin ninguna estructura de soporte. La ausencia de soportes es la ventaja práctica clave: canales internos, socavados y geometría compleja entrelazada que requeriría soportes extensos en FDM o SLA se imprime sin restricciones en SLS/MJF.\n\nLas propiedades mecánicas son excelentes. Las piezas de fusión por lecho de polvo son completamente isotrópicas — igual resistencia en todas las direcciones — y se comportan más como piezas inyectadas que como impresiones FDM, que tienen una debilidad medible en el eje Z por la unión entre capas. Para piezas de uso final que serán cargadas en múltiples direcciones, las características de resistencia de SLS/MJF son superiores.\n\nLa barrera práctica es el coste. SLS y MJF requieren equipamiento industrial, y la economía por pieza solo se vuelve competitiva con el FDM a volúmenes que justifican el overhead de preparación. Un soporte individual en SLS cuesta varias veces más que el mismo soporte en Nylon FDM. No ofrecemos SLS ni MJF — no son rentables para los volúmenes de pieza y las aplicaciones que nos traen la mayoría de nuestros clientes."
+      },
+      {
+        heading: "Cuándo el FDM no es la elección correcta",
+        body: "Imprimimos en FDM y creemos que es la tecnología correcta para la mayoría de aplicaciones prácticas de impresión 3D. Pero hay casos en los que genuinamente no lo es.\n\n• Si la calidad superficial es el requisito principal y el postprocesado no es viable — una figura de calidad de exposición, un patrón de joyería para fundición, un modelo dental — la SLA producirá un mejor resultado.\n\n• Si la pieza tiene geometría interna compleja o elementos entrelazados que requerirían extracción de soportes extensos — y la extracción de soportes dañaría o distorsionaría la pieza — SLS/MJF es más adecuado.\n\n• Si la pieza se cargará en los tres ejes simultáneamente y se requiere resistencia isotrópica — no solo resistencia XY — el Nylon SLS/MJF supera al Nylon FDM.\n\nEn cualquiera de estos casos, te lo diremos directamente. Preferimos ayudarte a encontrar el proceso correcto antes que aceptar un pedido que vaya a decepcionar."
+      },
+      {
+        heading: "Cómo elegir la tecnología para tu proyecto",
+        body: "Empieza por los requisitos funcionales, no por la tecnología:\n\n1. ¿Para qué es la pieza? ¿Carga estructural, exposición visual, sellado flexible, geometría interna compleja?\n2. ¿Qué acabado superficial es aceptable? ¿Las líneas de capa son tolerables, o se requiere liso?\n3. ¿Cuál es el entorno de operación? ¿Interior, exterior, expuesto al calor, al impacto?\n4. ¿Cuál es el presupuesto y el plazo?\n\nPara la mayoría de piezas funcionales — prototipos, recambios, soportes, carcasas, atrezo, utillajes — el FDM cubre el requisito bien, al menor coste y con el plazo más rápido. Si tus respuestas a las preguntas anteriores apuntan a la calidad superficial como requisito principal, a geometría compleja sin soporte, o a propiedades mecánicas completamente isotrópicas, describe esos requisitos explícitamente al solicitar presupuesto. Te daremos una recomendación honesta, incluyendo si esa recomendación apunta a otro proveedor o tecnología."
+      },
+    ],
+    faqs: [
+      { q: "¿Es la impresión FDM de menor calidad que la SLA?", a: "No en general — depende de qué se entiende por calidad. La SLA produce un detalle superficial más fino, lo que es relevante para joyería, modelos dentales y miniaturas de exposición. El FDM produce piezas funcionales más resistentes en un rango más amplio de materiales técnicos. Para piezas de carga, resistentes al calor o duraderas en exterior, el FDM supera típicamente a la SLA. Para calidad de superficie de exposición sin postprocesado, la SLA es mejor. 'Mayor calidad' depende por completo de la aplicación." },
+      { q: "¿Podéis producir piezas en SLA o SLS?", a: "No — nos especializamos en FDM. Creemos que el FDM es la tecnología correcta para la mayoría de aplicaciones prácticas, y somos honestos cuando no lo es. Si el requisito principal de tu proyecto es muy alta calidad superficial (SLA) o geometría compleja sin soporte a bajo volumen (SLS/MJF), te lo diremos y te orientaremos hacia alternativas adecuadas antes que aceptar un pedido que no te sirva bien." },
+      { q: "¿Cómo se ven las líneas de capa en piezas FDM?", a: "Las líneas de capa son visibles en piezas FDM sin acabar — es una propiedad inherente del proceso, no un problema de calidad. A la altura de capa estándar de 0,2 mm, las líneas se aprecian en inspección cercana. A 0,1 mm (modo fino), son mucho más sutiles. El postprocesado (lijado con grano progresivamente más fino y luego imprimado) puede producir una superficie casi lisa. Si la pieza es funcional y no estética, las líneas de capa no afectan al rendimiento." },
+      { q: "¿Es el FDM suficientemente resistente para piezas funcionales y de carga?", a: "Sí, para la gran mayoría de aplicaciones funcionales. Con un relleno estándar del 20–25%, las piezas FDM manejan cargas cotidianas de forma fiable. Para aplicaciones más exigentes, el relleno puede aumentarse, el número de paredes incrementarse o elegir un material de mayor rendimiento (PETG, ABS, Nylon o variantes CF). La salvedad estructural es la anisotropía en el eje Z — las piezas son algo más débiles en la dirección vertical de impresión que en XY. Para la mayoría de piezas esto es manejable con orientación; para piezas que deben ser isotrópicas en todas las direcciones, SLS/MJF es la tecnología más adecuada." },
+      { q: "¿Por qué no ofrecéis impresión en resina o SLS?", a: "Nos centramos en FDM porque cubre la amplia mayoría de aplicaciones prácticas de impresión 3D mejor que cualquier alternativa individual — a menor coste, con un rango de materiales más amplio y a mayores volúmenes de construcción. Ofrecer SLA y SLS requeriría equipamiento separado, conocimiento específico y cadenas de suministro distintas, y diluiría el foco en lugar de mejorar el resultado para la mayoría de clientes. Preferimos hacer una tecnología bien y ser honestos cuando otra es la respuesta correcta." },
+      { q: "¿Qué tecnología es más rentable para tiradas pequeñas de producción?", a: "El FDM es casi siempre el más rentable para tiradas pequeñas y medianas de piezas funcionales. El coste por pieza es bajo, no hay pedido mínimo y iterar en el diseño entre impresiones cuesta solo material y tiempo de máquina. SLS/MJF se vuelve competitivo a volúmenes más altos donde el coste por pieza baja por la utilización completa de la cama. La SLA es relativamente cara por pieza y se justifica principalmente por requisitos de calidad superficial, no por economía de volumen." },
+    ],
+    galleryImages: pick("purple-detail.jpg", "purple-figures.jpg", "intake-manifold.jpg", "curved-parts.jpg", "lion-king-figures.jpg", "stranger-things-diorama.jpg"),
+    related: [
+      { label: "Comparativa de Materiales", slug: "/comparativa-materiales-impresion-3d" },
+      { label: "Comparativa de Plazos", slug: "/comparativa-plazos-impresion-3d" },
+      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
+      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
+      { label: "Precios Transparentes", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Mejor Servicio Según Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Comparativa de Tecnologías de Impresión 3D",
+    datePublished: "2026-09-03",
+    dateModified: "2026-09-03",
+  },
 ];

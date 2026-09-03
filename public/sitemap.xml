@@ -784,4 +784,58 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/how-to-get-3d-printing-customers"/>
   </url>
 
+  <!-- MATERIALS COMPARISON -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-materials-comparison</loc>
+    <lastmod>2026-09-03</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-materials-comparison"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-materiales-impresion-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-materials-comparison"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/comparativa-materiales-impresion-3d</loc>
+    <lastmod>2026-09-03</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-materials-comparison"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-materiales-impresion-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-materials-comparison"/>
+  </url>
+
+  <!-- TURNAROUND COMPARISON -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-turnaround-comparison</loc>
+    <lastmod>2026-09-03</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-turnaround-comparison"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-plazos-impresion-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-turnaround-comparison"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/comparativa-plazos-impresion-3d</loc>
+    <lastmod>2026-09-03</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-turnaround-comparison"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-plazos-impresion-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-turnaround-comparison"/>
+  </url>
+
+  <!-- TECHNOLOGY COMPARISON -->
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-technology-comparison</loc>
+    <lastmod>2026-09-03</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-technology-comparison"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-tecnologias-impresion-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-technology-comparison"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/comparativa-tecnologias-impresion-3d</loc>
+    <lastmod>2026-09-03</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-technology-comparison"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-tecnologias-impresion-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-technology-comparison"/>
+  </url>
+
 </urlset>

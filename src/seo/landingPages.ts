@@ -26,7 +26,10 @@ export type LandingTopic =
   | "best-service"
   | "maker-income"
   | "maker-profitability"
-  | "maker-customers";
+  | "maker-customers"
+  | "materials-comparison"
+  | "turnaround-comparison"
+  | "technology-comparison";
 
 export interface LandingFAQ {
   q: string;
@@ -65,6 +68,13 @@ export interface LandingContent {
   // Present on genuinely procedural guides only. Each step becomes a
   // HowToStep in the emitted HowTo schema.
   howToSteps?: { name: string; text: string }[];
+  // Present on comparison pages. Rendered as semantic <table> between sections
+  // and gallery for AI Overview extraction.
+  comparisonTable?: {
+    headers: string[];
+    rows: string[][];
+    caption?: string;
+  };
 }
 
 const ALL_IMAGES = [
@@ -1166,5 +1176,203 @@ export const PAGES_EN: LandingContent[] = [
       { name: "Response speed — the underrated competitive advantage", text: "In service work, the first responder frequently wins the job. If a customer sends the same enquiry to three makers and one replies within thirty minutes, the fast responder gets the order most of the time — regardless of who was cheapest." },
       { name: "Repeat vs one-off customers — where the real business is", text: "One-off customers pay the bills on Tuesday. Repeat customers are the actual business. A customer who ordered a bracket in March, a personalised gift in June and prototypes in September is worth many times more, over a year, than three unrelated first-time buyers." }
     ]
-  }
+  },
+
+  // ----- MATERIALS COMPARISON -----
+  {
+    slug: "/3d-printing-materials-comparison",
+    topic: "materials-comparison",
+    altSlug: "/comparativa-materiales-impresion-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "3D Printing Materials Comparison: PLA vs PETG vs Nylon vs CF | Dimension3D",
+    metaDescription: "Side-by-side FDM materials comparison: PLA, PETG, ABS, ASA, TPU, Nylon, and carbon-fibre variants. Cost, strength, heat resistance, and best use in one table.",
+    h1: "3D Printing Materials Comparison — Which Material Is Right for Your Part?",
+    intro: "Choosing the wrong material costs money twice: once when you pay for a part that fails, and again when you reprint it. This page puts every FDM material we offer side by side so you can make the comparison once and order with confidence. All materials listed below are stocked and printed in-house.",
+    comparisonTable: {
+      headers: ["Material", "Cost", "Tensile Strength", "Heat Resistance", "Flexibility", "Outdoor Suitability", "Printability", "Typical Use"],
+      rows: [
+        ["PLA",        "Low",         "Medium",            "Low (~55 °C)",         "Rigid",     "Low",              "High",        "Decorative, gifts, prototypes, display models"],
+        ["PETG",       "Low–Medium",  "Medium–High",       "Medium (~75 °C)",      "Slight",    "Medium–High",      "Medium–High", "Functional parts, housings, outdoor fixtures"],
+        ["ABS",        "Medium",      "High",              "High (~100 °C)",        "Rigid",     "Medium",           "Medium*",     "Engineering parts, heat-exposed enclosures"],
+        ["ASA",        "Medium",      "High",              "High (~100 °C)",        "Rigid",     "High (UV-stable)", "Medium*",     "Outdoor-exposed structural parts, garden fixtures"],
+        ["TPU",        "Medium",      "Medium",            "Medium (~70 °C)",       "Very High", "Medium",           "Medium–Low",  "Gaskets, grips, flexible connectors, phone cases"],
+        ["Nylon PA12", "Medium–High", "Very High",         "High (~110 °C)",        "Low–Medium","Medium",           "Medium†",     "Load-bearing, wear-resistant, engineering parts"],
+        ["PLA-CF",     "High",        "High (very stiff)", "Low (~55 °C)",          "Very Low",  "Low",              "Medium",      "Stiff lightweight brackets, tooling jigs"],
+        ["PETG-CF",    "High",        "High (very stiff)", "Medium (~75 °C)",       "Very Low",  "Medium–High",      "Medium",      "Stiff structural with some outdoor exposure"],
+        ["Nylon-CF",   "High",        "Very High (stiff)", "High (~110 °C)",        "Very Low",  "Medium",           "Medium†",     "Maximum stiffness and strength under heat"],
+      ],
+      caption: "* ABS and ASA require a heated enclosure for reliable adhesion and low warping.  † Nylon grades must be dried before printing. Cost is relative per gram at typical filament pricing. Heat resistance is the practical heat deflection temperature of a printed part at standard infill.",
+    },
+    sections: [
+      {
+        heading: "How to read this comparison",
+        body: "All rankings are relative within the FDM material set — not comparisons against injection-moulded nylon or aerospace composites. Cost is relative per gram at typical filament pricing; a large part in a low-cost material can still cost more than a small part in an expensive one. Tensile strength refers to XY-plane strength at standard infill (roughly 25%), not at 100% solid infill. Heat resistance refers to the practical heat deflection temperature of the printed part, which can be lower than the raw filament datasheet figure due to interlayer bonding. 'Printability' captures how reliably a material prints without active bed heating, an enclosure, filament drying, or careful environmental control — a higher score means fewer variables to manage and better results on a wider range of machines."
+      },
+      {
+        heading: "PLA and PETG — the everyday pair",
+        body: "PLA is the default starting point for a reason. It is the cheapest material we stock, the easiest to print, dimensionally accurate, and reliable for the vast majority of indoor applications. Its one real weakness is heat resistance: anything sitting in a parked car, near a radiator, or outdoors in Spanish summer sun should not be PLA. The part will soften, warp, or fail. For everything that stays indoors at room temperature, PLA is usually the correct choice — and the most cost-effective one.\n\nPETG sits one step up in almost every practical dimension. It is marginally more expensive, slightly more demanding to print, but meaningfully tougher outdoors, slightly flexible under load without fracturing, and tolerates temperatures up to around 75 °C. The common pattern we see: prototype in PLA, then reprint in PETG for the final part that lives outside or near a heat source. PETG also has better chemical resistance than PLA, which matters for parts that contact cleaning agents or mild solvents."
+      },
+      {
+        heading: "ABS, ASA, and high-heat materials",
+        body: "ABS and ASA occupy the same cost band and both handle temperatures up to around 100 °C, but they solve different problems. ABS is the classic engineering thermoplastic — high strength, high impact resistance, and well-characterised mechanical behaviour. ASA adds one critical property ABS lacks: UV stability. Outdoors in Barcelona, an ABS part yellows and embrittles over months; an ASA part does not. For any outdoor structural application, ASA is almost always the better choice.\n\nBoth materials require a heated enclosure for reliable printing. Without one, the large temperature differential between the extruded layer and ambient air causes the part to warp and delaminate. We print both in-house with the appropriate setup. If you are evaluating these materials for your own printer, treat them as intermediate-to-advanced materials — not because the settings are complicated, but because the print environment must be controlled."
+      },
+      {
+        heading: "TPU — the flexible alternative",
+        body: "TPU is the material we reach for when a part needs to flex, absorb impact, or seal against another surface. It is elastic and rubber-like — excellent for gaskets, grips, cable protectors, phone cases, snap-fit covers, and any part that would crack if it were rigid. The trade-off is reduced dimensional accuracy (TPU stretches slightly during measurement) and more demanding print settings: careful retraction, slow speeds, and attention to moisture. If tight tolerances are required under deformation, prototype and measure first.\n\nTPU's heat resistance falls between PLA and ABS. For most sealing and gripping applications the operating temperatures are well within range. TPU is also available in different Shore hardness grades — if you have a specific hardness target, mention it when you request a quote."
+      },
+      {
+        heading: "Nylon and carbon-fibre reinforced filaments",
+        body: "Nylon PA12 offers the best combination of tensile strength, impact resistance, and heat tolerance of any non-CF material we stock. It absorbs significant impact without fracturing and maintains structural integrity up to around 110 °C. The practical drawback: nylon is hygroscopic and must be dried before printing, which adds a step to the workflow. Delivered parts are equivalent in quality to properly processed nylon regardless of this.\n\nCarbon-fibre variants (PLA-CF, PETG-CF, Nylon-CF) blend short-strand carbon fibre into the base material. The result is dramatically increased stiffness — parts feel and behave like a different class of material from the unfilled base. The trade-off is reduced ductility: CF parts resist deflection but are more brittle under sudden impact load. CF is the right choice when stiffness, rigidity, and a high stiffness-to-weight ratio are the primary goal. When a part needs to flex without cracking, the base material without CF performs better.\n\nCF filaments also wear standard brass nozzles faster than unfilled materials — a cost we absorb in the per-gram pricing, which is why CF variants sit at the top of our price range."
+      },
+    ],
+    faqs: [
+      { q: "Which material is cheapest for 3D printing?", a: "PLA is the lowest-cost material per gram. Since part cost scales primarily with material weight and print time, a PLA part will almost always be the most affordable version of any given design. PETG comes next, followed by ABS/ASA and TPU, with Nylon and carbon-fibre variants at the top. If cost is the primary constraint, design for PLA and upgrade the material only when the application genuinely requires it." },
+      { q: "Can I use PLA for outdoor or warm-environment parts?", a: "PLA softens at around 55 °C — a temperature routinely reached inside a parked car in Barcelona summer, on a sun-exposed balcony, or near a window in direct sun. For outdoor applications, PETG (up to ~75 °C, good UV tolerance) is the minimum we recommend. ASA is better for anything structural or permanently sun-exposed. PLA works outdoors in cool, shaded conditions, but we would rather flag the risk than have the part fail." },
+      { q: "What is the strongest material you offer?", a: "By tensile strength, Nylon-CF prints the strongest parts in our lineup. By impact resistance (toughness under sudden load), standard Nylon PA12 performs better — the carbon fibre that makes CF filaments stiff also reduces ductility. For most high-strength applications, the correct answer depends on whether the part must resist deflection under sustained load (Nylon-CF) or fracture under sudden impact (Nylon PA12)." },
+      { q: "What does '-CF' mean in PLA-CF, PETG-CF, or Nylon-CF?", a: "CF stands for carbon-fibre reinforced. Short strands of carbon fibre are blended into the base filament, dramatically increasing stiffness and reducing weight per volume. The trade-off is lower impact resistance compared with the unfilled base material — CF parts resist bending but are more brittle under sudden load. CF variants also carry a higher per-gram cost due to material price and accelerated nozzle wear." },
+      { q: "I need a heat-resistant part — which material should I choose?", a: "It depends on the temperature range. For up to ~70 °C: PETG handles most load-light applications reliably. For 70–110 °C: ABS or ASA are the practical FDM choices — ASA for outdoor exposure, ABS for indoor-only. Above ~110 °C: standard FDM materials reach their practical limits. For genuinely high-heat applications, describe the exact thermal conditions and loading when you request a quote and we will recommend the correct approach." },
+      { q: "Does material choice affect turnaround time?", a: "Slightly. PLA and PETG are the fastest to process — no enclosure or drying required. ABS and ASA need enclosure heating, which adds a small setup step. Nylon grades must be dried before printing, which adds a few hours. TPU is slower to print due to speed constraints. Carbon-fibre variants are similar in time to their base materials. For urgent jobs, mention your deadline when ordering so we can confirm availability." },
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "curved-parts.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Materials Selection Guide (Deep-Dive)", slug: "/3d-printing-materials-guide" },
+      { label: "Turnaround Times Compared", slug: "/3d-printing-turnaround-comparison" },
+      { label: "Technology Comparison (FDM vs SLA vs SLS)", slug: "/3d-printing-technology-comparison" },
+      { label: "File Preparation Guide", slug: "/how-to-prepare-file-for-3d-printing" },
+      { label: "Transparent Pricing Guide", slug: "/3d-printing-price-barcelona" },
+      { label: "Best Service by Use Case", slug: "/best-3d-printing-service-barcelona" },
+    ],
+    schemaServiceName: "3D Printing Materials Comparison",
+    datePublished: "2026-09-03",
+    dateModified: "2026-09-03",
+  },
+
+  // ----- TURNAROUND COMPARISON -----
+  {
+    slug: "/3d-printing-turnaround-comparison",
+    topic: "turnaround-comparison",
+    altSlug: "/comparativa-plazos-impresion-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "3D Printing Turnaround Times Compared — Standard vs Express vs Urgent | Dimension3D",
+    metaDescription: "Compare standard, express, and urgent 3D printing turnaround options. Realistic timeframes, price multipliers, material availability, and when to choose each tier.",
+    h1: "3D Printing Turnaround Comparison — Standard, Express, and Urgent Explained",
+    intro: "How long does 3D printing take? The answer depends on which service tier you choose — and being honest about what each tier can and cannot deliver. This page lays out our three turnaround tiers, their realistic timeframes, the price impact, available materials, and the caveats that apply, so you can match your deadline to the right option without surprises.",
+    comparisonTable: {
+      headers: ["Service Tier", "Typical Timeframe", "Price vs Standard", "Materials Available", "Best For", "Key Caveats"],
+      rows: [
+        ["Standard",          "2–5 business days",        "Base price (×1.0)",  "All materials (PLA, PETG, ABS, ASA, TPU, Nylon, CF variants)",   "Non-urgent jobs, prototypes, cost-sensitive orders",         "Default for all orders; most reliable for quality control"],
+        ["Express",           "24–48 hours",              "+25% on base price", "PLA, PETG, ABS, ASA, TPU",                                      "Event deadlines, client demos, time-sensitive iterations",   "Not available for all materials; large volumes may not qualify"],
+        ["Urgent / Same-day", "Same business day (pickup)","+ 60% on base price","PLA, PETG, TPU",                                               "True emergencies — broken part, last-minute prop, live demo","Subject to queue; small volumes only; never guaranteed in advance"],
+      ],
+      caption: "Timeframes are from approved quote to dispatch (shipping) or pickup readiness, in business days. Same-day is pickup only — not available for postal delivery.",
+    },
+    sections: [
+      {
+        heading: "Standard — the default, and usually the right choice",
+        body: "Standard service covers the vast majority of orders. A 2–5 business day lead time gives us room to review the file properly, select optimal print settings, monitor the run, and perform a quality check before the part leaves the workshop. It supports all materials we stock — from basic PLA to Nylon-CF — because there is no time pressure forcing compromises on drying, enclosure warm-up, or print speed.\n\nStandard is also the most cost-effective tier by design. If your project has a flexible deadline, standard is almost always the right choice. The price multiplier is ×1.0 — the number you see on the estimator is what you pay, with no urgency surcharge."
+      },
+      {
+        heading: "Express — 24 to 48 hours",
+        body: "Express service targets completion within one to two business days from an approved quote. It is the right choice when you have a specific deadline — a client presentation, an event, an iteration cycle that needs to close by the end of the week — but same-day production is not required.\n\nExpress is available for PLA, PETG, ABS, ASA, and TPU. Materials that require longer setup or drying (Nylon, carbon-fibre variants) may not qualify for express, depending on queue and part complexity. Very large parts or high-volume orders may also fall outside the 24–48 hour window regardless of material. When you request an express quote, we will confirm whether your specific job fits within the timeframe before you approve anything.\n\nThe express surcharge is 25% on the base material-and-print price — not on any additional services like finishing or shipping. If the part is large and the base price is significant, the absolute cost of the surcharge can be meaningful. For small parts with low base prices, the express premium is usually a minor addition."
+      },
+      {
+        heading: "Urgent and same-day — the reality",
+        body: "Urgent service means same business day production and pickup readiness. It is reserved for genuine emergencies: a critical replacement part needed before close of business, a prop needed for a shoot the next morning, a broken jig on a production line. The ×1.6 price multiplier reflects both the queue disruption and the physical constraints of same-day production.\n\nSame-day service is available only for pickup — not postal delivery. It is limited to materials that print reliably without extended setup: PLA, PETG, and TPU. It is also limited to parts that physically complete within a working day — a 400 gram print that takes 14 hours of machine time cannot be same-day regardless of what we charge. And critically: same-day is never guaranteed until we have reviewed your file and confirmed availability. If you contact us at 4pm for a 6pm pickup, the answer may be no. Contact us as early as possible in the day if you need same-day."
+      },
+      {
+        heading: "What actually controls lead time",
+        body: "The tier you select is a target, not an automatic guarantee. Several factors affect what we can deliver in what time:\n\n• Part size and volume: A small 30-gram bracket can print in two hours. A large 400-gram enclosure runs overnight. Multi-part orders take longer than single prints. We assess time during quoting.\n\n• Material: Nylon must be dried before printing (adds a few hours). ABS and ASA require enclosure pre-heating. These are minor delays in standard service but meaningful in urgent contexts.\n\n• Queue: If the workshop is at capacity — a common situation before weekends or Spanish holidays — even express jobs may slip by a few hours. We are transparent about this when it affects your order.\n\n• File quality: A file that needs repair before slicing adds time. Submitting a clean, validated file (see our file preparation guide) is the single most reliable way to protect your deadline."
+      },
+      {
+        heading: "How to specify a deadline when ordering",
+        body: "When you submit a quote request, include your hard deadline explicitly — not a vague 'as soon as possible.' Tell us the specific date and time you need the part ready, and whether pickup or delivery is required. We will confirm whether your timeline is achievable before you approve anything.\n\nFor urgent orders: contact us by WhatsApp as early in the day as possible. The earlier we know, the more options we have. A 9am message gives us the full working day. A 5pm message may leave insufficient machine time regardless of surcharge.\n\nFor planned express orders: request the quote at least 24 hours before your target readiness time. This gives us time to prepare the file, quote accurately, and start the run without rushing. An express service ordered at 8am for 5pm the same day is substantially more achievable than one ordered at 3pm."
+      },
+    ],
+    faqs: [
+      { q: "How quickly can you print a 3D part in Barcelona?", a: "Fastest is same-day pickup for small PLA/PETG/TPU parts — subject to queue and confirmed at the time of order. For planned work, express service targets 24–48 hours. Standard service delivers in 2–5 business days and covers all materials. Contact us as early in the day as possible for same-day requests." },
+      { q: "What is the price difference between standard and express 3D printing?", a: "Express adds a 25% surcharge on the base material-and-print price. Urgent (same-day) adds 60%. The surcharges apply to the print cost, not to shipping or any separately quoted finishing services. For small parts, the absolute premium is modest; for large or material-intensive parts it can be significant." },
+      { q: "Can you print Nylon or carbon-fibre filaments on a same-day basis?", a: "Not reliably. Nylon requires drying before printing (adding several hours of setup) and carbon-fibre variants require the same. Both are available on express service depending on queue, but same-day production is not realistic for these materials. For an urgent Nylon or CF job, contact us early and we will give you an honest assessment." },
+      { q: "Does '24–48 hours' mean from when I send my file, or from when I approve the quote?", a: "From when you approve the quote. The 24–48 hour window starts once we have a clean file, the quote is agreed, and we start the print. File review and quoting happen before that window. For a genuinely tight deadline, it is worth contacting us as early as possible so the quote can be agreed quickly." },
+      { q: "Is same-day delivery possible, or only same-day pickup?", a: "Same-day pickup only. Postal couriers have fixed collection times and next-day is the realistic minimum for delivery anywhere in Spain. If you need parts today and cannot collect in person, contact us — in some cases we can arrange courier collection for very early morning jobs, but this is not a standard service." },
+      { q: "What happens if the print fails on an express or urgent job?", a: "If a print fails due to a file or slicing issue on our end, we reprint at no additional charge and prioritise the rerun. If the failure is caused by a file geometry problem on your side, we will contact you immediately and discuss options. On urgent jobs especially, we review files carefully before starting to minimise this risk." },
+    ],
+    galleryImages: pick("ferrari-key-holder.jpg", "custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "purple-figures.jpg", "cookie-cutters.jpg"),
+    related: [
+      { label: "Materials Comparison Table", slug: "/3d-printing-materials-comparison" },
+      { label: "Technology Comparison (FDM vs SLA vs SLS)", slug: "/3d-printing-technology-comparison" },
+      { label: "Full Materials Guide", slug: "/3d-printing-materials-guide" },
+      { label: "File Preparation Guide", slug: "/how-to-prepare-file-for-3d-printing" },
+      { label: "Transparent Pricing Guide", slug: "/3d-printing-price-barcelona" },
+      { label: "Best Service by Use Case", slug: "/best-3d-printing-service-barcelona" },
+    ],
+    schemaServiceName: "3D Printing Turnaround Comparison",
+    datePublished: "2026-09-03",
+    dateModified: "2026-09-03",
+  },
+
+  // ----- TECHNOLOGY COMPARISON -----
+  {
+    slug: "/3d-printing-technology-comparison",
+    topic: "technology-comparison",
+    altSlug: "/comparativa-tecnologias-impresion-3d",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "FDM vs SLA vs SLS 3D Printing — Technology Comparison | Dimension3D",
+    metaDescription: "Compare FDM, SLA resin, and SLS/MJF 3D printing: surface detail, strength, material options, cost, and typical use cases. Honest about what FDM does best — and when it isn't the right choice.",
+    h1: "FDM vs SLA vs SLS — 3D Printing Technology Comparison",
+    intro: "Three technologies dominate professional 3D printing services: FDM (fused deposition modelling), SLA (stereolithography / resin), and SLS or MJF (powder-bed fusion). Each has real strengths and real limits. This page compares them across the dimensions that matter most — surface detail, mechanical strength, material range, cost per part, and typical use case — and tells you honestly which to choose, including when FDM is not the right answer.",
+    comparisonTable: {
+      headers: ["Technology", "Surface Detail", "Mechanical Strength", "Material Range", "Cost Per Part", "Typical Use Case", "Available at Dimension3D?"],
+      rows: [
+        ["FDM (Fused Deposition Modelling)", "Good — layer lines visible; smoothable with post-processing",   "Very good in XY plane; layer-bonding (Z) is the weak axis",  "Wide: PLA, PETG, ABS, ASA, TPU, Nylon, CF variants and more",       "Low–Medium",  "Functional parts, prototypes, enclosures, brackets, replacement parts",                     "✓ Yes — our primary technology"],
+        ["SLA / Resin",                       "Excellent — finest surface detail of any mainstream process",   "Good in compression; brittle under sharp impact load",        "Mostly rigid standard resins; engineering and flexible resins exist", "Medium–High", "Jewellery masters, dental models, display miniatures, parts requiring very high surface quality", "✗ Not offered"],
+        ["SLS / MJF (Powder-Bed Fusion)",     "Good — no support witness marks, smooth matte finish",          "Excellent — fully isotropic (equal strength in all directions)","Nylon PA12, PA11, TPU (SLS); broader range with MJF",                 "High",        "Low-volume end-use parts, complex geometry, thin interlocking features without support constraints", "✗ Not offered"],
+      ],
+      caption: "FDM is our primary technology. SLA and SLS/MJF are industry alternatives offered by other providers — included here for an honest comparison.",
+    },
+    sections: [
+      {
+        heading: "FDM — what it is and where it excels",
+        body: "Fused deposition modelling works by melting a thermoplastic filament and depositing it layer by layer to build the part. It is by far the most widely available 3D printing technology, covering the widest range of materials, the largest build volumes, and the lowest cost per gram of any mainstream process.\n\nFDM genuinely excels at functional parts. A bracket that needs to bear load, a housing that needs to survive impacts, a replacement part that needs to fit a specific interface, a prototype that needs to be tested under real conditions — these are applications where FDM performs reliably and cost-effectively. The material range is a particular strength: PLA for cost-effective indoor work, PETG for outdoor exposure, ASA for UV-stable outdoor structural parts, TPU for flexible applications, Nylon and carbon-fibre variants for maximum performance.\n\nLayer lines are visible on FDM parts — this is an inherent consequence of the deposition process, not a quality defect. For functional parts the lines are irrelevant. For display or presentation parts, sanding, priming, and painting can produce a smooth finish. If surface texture is a hard requirement, see SLA below."
+      },
+      {
+        heading: "SLA and resin — where it genuinely outperforms FDM",
+        body: "SLA (stereolithography) and its variants (MSLA, DLP) use UV light to cure a liquid resin layer by layer. The resolution is much finer than FDM because the process is not constrained by a nozzle diameter — detail features as small as 0.05 mm are achievable on consumer-grade resin printers.\n\nSLA is genuinely the better choice for applications where surface quality is the primary requirement: jewellery masters for casting, dental models, scale miniatures intended for display, product renders at prototype stage. If you need to capture facial expressions in a figurine, replicate fine mechanical detail, or produce a surface that will be painted for display, SLA produces a result that FDM cannot match without extensive post-processing.\n\nThe trade-offs are real, however. Resin parts are typically more brittle than FDM parts — they handle compression well but fracture under sharp impact. The material range is limited compared to FDM engineering filaments. Build volume is smaller on most resin printers. And the post-processing requirement (UV washing and curing) adds steps to the workflow.\n\nWe do not offer SLA printing. If your project's primary requirement is maximum surface quality and the part will not be subjected to significant mechanical load, we will tell you honestly that a resin print from a specialist service is the better fit."
+      },
+      {
+        heading: "SLS and MJF — industrial powder-bed fusion",
+        body: "Selective laser sintering (SLS) and HP's multi jet fusion (MJF) are powder-based processes that sinter or bond polymer particles without any support structure. The absence of supports is the key practical advantage: internal channels, undercuts, and complex interlocking geometry that would require extensive support in FDM or SLA print without constraints in SLS/MJF.\n\nThe mechanical properties are excellent. Because powder-bed fusion parts are fully isotropic — equal strength in all directions — they behave more like injection-moulded parts than FDM prints, which have a measurable Z-axis weakness from layer bonding. For end-use parts that will be loaded in multiple directions, SLS/MJF strength characteristics are superior.\n\nThe practical barrier is cost. SLS and MJF require industrial equipment, and the per-part economics only become competitive with FDM at volumes that justify the setup overhead. A single bracket in SLS costs several times more than the same bracket in FDM Nylon. We do not offer SLS or MJF — they are not cost-effective for the part volumes and applications most of our customers bring us."
+      },
+      {
+        heading: "When FDM is not the right choice",
+        body: "We print in FDM and we believe it is the right technology for the majority of practical 3D printing applications. But there are cases where it genuinely is not.\n\n• If surface quality is the primary requirement and post-processing is not viable — a display-quality figurine, a jewellery master for casting, a dental model — SLA will produce a better result.\n\n• If the part has complex internal geometry or interlocking features that would require extensive support removal — and support removal would damage or distort the part — SLS/MJF is better suited.\n\n• If the part will be loaded in all three axes simultaneously and isotropic strength is required — not just XY strength — SLS/MJF Nylon outperforms FDM Nylon.\n\nIn any of these cases, we will tell you directly. We would rather help you find the right process than take an order that will disappoint."
+      },
+      {
+        heading: "How to choose the technology for your project",
+        body: "Start with the functional requirements, not the technology:\n\n1. What is the part for? Structural load, visual display, flexible sealing, complex internal geometry?\n2. What surface finish is acceptable? Layer lines fine, or smooth required?\n3. What is the operating environment? Indoor, outdoor, heat-exposed, impact-prone?\n4. What is the budget and timeline?\n\nFor most functional parts — prototypes, replacement parts, brackets, housings, props, tools — FDM covers the requirement well, at the lowest cost and fastest lead time. If your answers to the questions above point to surface quality as the primary requirement, or to complex unsupported geometry, or to fully isotropic mechanical properties, describe those requirements explicitly when you request a quote. We will give you an honest recommendation, including if that recommendation is a different provider or technology."
+      },
+    ],
+    faqs: [
+      { q: "Is FDM printing lower quality than SLA?", a: "Not in general — it depends on what you mean by quality. SLA produces finer surface detail, which is relevant for jewellery, dental models, and display miniatures. FDM produces stronger functional parts in a wider range of engineering materials. For load-bearing, heat-resistant, or outdoor-durable parts, FDM typically outperforms SLA. For display surface quality without post-processing, SLA is better. 'Higher quality' depends entirely on the application." },
+      { q: "Can you produce SLA or SLS parts?", a: "No — we specialise in FDM. We believe FDM is the right technology for the majority of practical applications, and we are honest when it is not. If your project's primary requirement is very high surface quality (SLA) or complex unsupported geometry at low volumes (SLS/MJF), we will say so and point you toward appropriate alternatives rather than take an order that will not serve you well." },
+      { q: "What is the layer line visibility like on FDM parts?", a: "Layer lines are visible on bare FDM parts — this is an inherent property of the process, not a quality issue. At a standard 0.2 mm layer height, lines are noticeable at close inspection. At 0.1 mm (fine mode), they are much subtler. Post-processing (sanding with progressively finer grit, then priming) can produce a nearly smooth surface. If the part is functional rather than display-facing, layer lines are irrelevant to performance." },
+      { q: "Is FDM printing strong enough for functional, load-bearing parts?", a: "Yes, for the large majority of functional applications. At standard infill (20–25%), FDM parts handle everyday loads reliably. For higher-demand applications, infill can be increased, wall count raised, or a higher-performance material selected (PETG, ABS, Nylon, or CF variants). The one structural caveat is Z-axis anisotropy — parts are somewhat weaker in the vertical print direction than in XY. For most parts this is manageable with orientation; for parts that must be isotropic in all directions, SLS/MJF is the better technology." },
+      { q: "Why do you not offer resin or SLS printing?", a: "We focus on FDM because it covers the wide majority of practical 3D printing applications better than any single alternative — at lower cost, with a broader material range, and at larger build volumes. Offering SLA and SLS would require separate equipment, expertise, and supply chains, and would dilute focus rather than improve the result for most customers. We prefer to do one technology well and be honest when another is the right answer." },
+      { q: "Which technology is most cost-effective for small production runs?", a: "FDM is almost always the most cost-effective for small-to-medium runs of functional parts. The per-part cost is low, there is no minimum order, and iterating on design between prints costs only material and machine time. SLS/MJF becomes competitive at higher volumes where the per-part cost drops due to full-bed utilisation. SLA is relatively expensive per part and is mainly justified by surface quality requirements, not volume economics." },
+    ],
+    galleryImages: pick("purple-detail.jpg", "purple-figures.jpg", "intake-manifold.jpg", "curved-parts.jpg", "lion-king-figures.jpg", "stranger-things-diorama.jpg"),
+    related: [
+      { label: "Materials Comparison Table", slug: "/3d-printing-materials-comparison" },
+      { label: "Turnaround Times Compared", slug: "/3d-printing-turnaround-comparison" },
+      { label: "Full Materials Guide", slug: "/3d-printing-materials-guide" },
+      { label: "File Preparation Guide", slug: "/how-to-prepare-file-for-3d-printing" },
+      { label: "Transparent Pricing Guide", slug: "/3d-printing-price-barcelona" },
+      { label: "Best Service by Use Case", slug: "/best-3d-printing-service-barcelona" },
+    ],
+    schemaServiceName: "3D Printing Technology Comparison",
+    datePublished: "2026-09-03",
+    dateModified: "2026-09-03",
+  },
 ];

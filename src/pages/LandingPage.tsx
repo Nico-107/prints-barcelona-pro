@@ -26,6 +26,9 @@ const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "maker-income",
   "maker-profitability",
   "maker-customers",
+  "materials-comparison",
+  "turnaround-comparison",
+  "technology-comparison",
 ]);
 
 const DEFAULT_DATE_PUBLISHED = "2026-08-01";
@@ -394,6 +397,37 @@ const LandingPage = ({ page: pageProp }: Props) => {
             </Fragment>
           );
         })}
+
+        {/* Comparison table — AI Overview extraction target */}
+        {page.comparisonTable && (
+          <section className="py-16 md:py-20 bg-background">
+            <div className="container px-4">
+              <div className="max-w-5xl mx-auto overflow-x-auto rounded-xl border border-border">
+                <table className="w-full text-sm text-left border-collapse">
+                  <thead>
+                    <tr className="bg-secondary/50">
+                      {page.comparisonTable.headers.map((h, i) => (
+                        <th key={i} className="px-4 py-3 font-semibold text-foreground whitespace-nowrap border-b border-border">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {page.comparisonTable.rows.map((row, ri) => (
+                      <tr key={ri} className={ri % 2 === 0 ? "bg-background" : "bg-secondary/20"}>
+                        {row.map((cell, ci) => (
+                          <td key={ci} className="px-4 py-3 text-muted-foreground border-b border-border/50 align-top">{cell}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {page.comparisonTable.caption && (
+                <p className="mt-3 text-xs text-muted-foreground max-w-5xl mx-auto">{page.comparisonTable.caption}</p>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* Gallery */}
         {page.galleryImages.length > 0 && (
