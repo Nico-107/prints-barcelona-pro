@@ -497,9 +497,9 @@ export const ptTranslations: Record<string, string> = {
   "privacy.consent.change": "Alterar preferência",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Quality Guarantee | Dimension3D",
-  "returns.meta.description": "If your print arrives with a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost.",
-  "returns.back": "← Back to home",
-  "returns.title": "Quality Guarantee",
-  "returns.body": "If your print arrives with a defect or doesn't match what was quoted — our fault, not a design or material limitation you were already informed of — tell us within 7 days of delivery and we'll make it right, at no cost to you. Coverage for cases outside that (customer measurement errors, colour/material choices, etc.) is handled case-by-case — reach out and we'll talk it through.",
+  "returns.meta.title": "Garantia de Qualidade | Dimension3D",
+  "returns.meta.description": "Se a sua impressão chegar com um defeito ou não corresponder ao orçamento, avise-nos em 7 dias e resolvemos sem custo.",
+  "returns.back": "← Voltar ao início",
+  "returns.title": "Garantia de Qualidade",
+  "returns.body": "Se a sua impressão chegar com um defeito ou não corresponder ao que foi orçamentado — erro nosso, não uma limitação de design ou material já informada — avise-nos em até 7 dias após a entrega e resolvemos sem qualquer custo para si. Casos fora disso (erros de medida do cliente, escolha de cor ou material, etc.) são tratados caso a caso — escreva-nos e conversamos.",
 };
