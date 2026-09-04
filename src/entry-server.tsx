@@ -30,6 +30,7 @@ import Catalog from "./pages/Catalog";
 import CatalogProduct from "./pages/CatalogProduct";
 import Creator from "./pages/Creator";
 import FileChecker from "./pages/FileChecker";
+import ReturnPolicy from "./pages/ReturnPolicy";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import type { Language } from "@/contexts/LanguageContext";
@@ -110,6 +111,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/3d-file-checker" element={<FileChecker />} />
                 <Route path="/verificador-archivo-3d" element={<FileChecker />} />
                 <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
+                <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </StaticRouter>

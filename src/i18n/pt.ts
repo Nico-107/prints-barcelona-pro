@@ -495,4 +495,11 @@ export const ptTranslations: Record<string, string> = {
   "privacy.consent.rejected": "Recusou os cookies analíticos (análises anónimas ainda ativas).",
   "privacy.consent.none": "Ainda não fez uma escolha.",
   "privacy.consent.change": "Alterar preferência",
+
+  // Quality Guarantee / Returns policy page
+  "returns.meta.title": "Quality Guarantee | Dimension3D",
+  "returns.meta.description": "If your print arrives with a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost.",
+  "returns.back": "← Back to home",
+  "returns.title": "Quality Guarantee",
+  "returns.body": "If your print arrives with a defect or doesn't match what was quoted — our fault, not a design or material limitation you were already informed of — tell us within 7 days of delivery and we'll make it right, at no cost to you. Coverage for cases outside that (customer measurement errors, colour/material choices, etc.) is handled case-by-case — reach out and we'll talk it through.",
 };

@@ -38,6 +38,7 @@ const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker
   "/3d-file-checker",          // FileChecker EN
   "/verificador-archivo-3d",   // FileChecker ES
   "/comprovador-arxiu-3d",     // FileChecker CA
+  "/politica-devoluciones",    // Quality Guarantee / Return Policy
 ];
 
 let ok = 0;

@@ -162,11 +162,21 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqsForSchema.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a }
-    }))
+    mainEntity: [
+      ...faqsForSchema.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a }
+      })),
+      {
+        "@type": "Question",
+        name: "What if there's a problem with my print?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `If it's a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost. Full quality guarantee: ${SITE_URL}/politica-devoluciones`,
+        },
+      },
+    ]
   };
 
   const datePublished = page.datePublished ?? DEFAULT_DATE_PUBLISHED;
@@ -524,6 +534,20 @@ const LandingPage = ({ page: pageProp }: Props) => {
                   <AccordionContent className="text-muted-foreground leading-relaxed">{f.a}</AccordionContent>
                 </AccordionItem>
               ))}
+              <AccordionItem value="f-guarantee">
+                <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">
+                  {t("What if there's a problem with my print?", "¿Qué pasa si hay algún problema con mi impresión?")}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">
+                  {t(
+                    "If it's a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost.",
+                    "Si hay un defecto o no coincide con lo presupuestado, comunícalo en 7 días desde la entrega y lo resolvemos sin coste."
+                  )}{" "}
+                  <Link to="/politica-devoluciones" className="text-accent underline hover:text-accent/80">
+                    {t("See our full quality guarantee.", "Ver nuestra garantía de calidad completa.")}
+                  </Link>
+                </AccordionContent>
+              </AccordionItem>
             </Accordion>
           </div>
         </section>

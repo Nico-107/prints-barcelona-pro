@@ -533,4 +533,11 @@ export const caTranslations: Record<string, string> = {
   "nofile.heading": "No tens arxiu 3D?",
   "nofile.subheading": "No cal. Descriu la teva idea o penja una foto — dissenyem la peça per tu.",
   "nofile.cta": "Demanar disseny personalitzat",
+
+  // Quality Guarantee / Returns policy page
+  "returns.meta.title": "Garantia de Qualitat | Dimension3D",
+  "returns.meta.description": "Si la teva impressió arriba amb un defecte o no coincideix amb el pressupost, comunica-ho en 7 dies i ho resolem sense cost.",
+  "returns.back": "← Torna a l'inici",
+  "returns.title": "Garantia de Qualitat",
+  "returns.body": "Si la teva impressió arriba amb un defecte o no coincideix amb el que s'ha pressupostat — per error nostre, no per una limitació de disseny o material que ja t'havíem comunicat — comunica-ho en 7 dies des del lliurament i ho resolem sense cap cost per a tu. Els casos fora d'aquest supòsit (errors de mesura del client, elecció de color o material, etc.) els gestionem cas a cas — escriu-nos i ho parlem.",
 };

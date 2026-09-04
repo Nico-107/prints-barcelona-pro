@@ -40,6 +40,8 @@ const CatalogProduct = () => {
     description: productDescription,
     image: `${SITE_URL}${product.image}`,
     url: `${SITE_URL}/catalogo/${product.slug}`,
+    brand: { "@type": "Brand", name: "Dimension3D" },
+    mpn: `D3D-${product.slug}`,
     offers: {
       "@type": "Offer",
       price: product.priceLow,
@@ -47,6 +49,41 @@ const CatalogProduct = () => {
       availability: "https://schema.org/InStock",
       url: `${SITE_URL}/catalogo/${product.slug}`,
       seller: PUBLISHER_REF,
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: 6.00,
+          currency: "EUR",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "ES",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 2,
+            unitCode: "DAY",
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 3,
+            unitCode: "DAY",
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "ES",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 7,
+        returnMethod: "https://schema.org/ReturnByMail",
+        merchantReturnLink: `${SITE_URL}/politica-devoluciones`,
+      },
     },
   };
 

@@ -34,6 +34,7 @@ const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
 const Creator = lazy(() => import("./pages/Creator"));
 const DesignRequest = lazy(() => import("./pages/DesignRequest"));
 const FileChecker = lazy(() => import("./pages/FileChecker"));
+const ReturnPolicy = lazy(() => import("./pages/ReturnPolicy"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -92,6 +93,7 @@ const App = () => (
               <Route path="/3d-file-checker" element={<FileChecker />} />
               <Route path="/verificador-archivo-3d" element={<FileChecker />} />
               <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
+              <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

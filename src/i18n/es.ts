@@ -533,4 +533,11 @@ export const esTranslations: Record<string, string> = {
   "nofile.heading": "¿No tienes archivo 3D?",
   "nofile.subheading": "No hace falta. Describe tu idea o sube una foto — diseñamos la pieza por ti.",
   "nofile.cta": "Pedir diseño personalizado",
+
+  // Quality Guarantee / Returns policy page
+  "returns.meta.title": "Garantía de Calidad | Dimension3D",
+  "returns.meta.description": "Si tu impresión llega con un defecto o no coincide con el presupuesto, cuéntanoslo en 7 días y lo resolvemos sin coste.",
+  "returns.back": "← Volver al inicio",
+  "returns.title": "Garantía de Calidad",
+  "returns.body": "Si tu impresión llega con un defecto o no coincide con lo presupuestado — por error nuestro, no por una limitación de diseño o material que ya te habíamos comunicado — cuéntanoslo en 7 días desde la entrega y lo resolvemos sin coste para ti. Los casos fuera de ese supuesto (errores de medida del cliente, elección de color o material, etc.) los gestionamos caso a caso — escríbenos y lo hablamos.",
 };
