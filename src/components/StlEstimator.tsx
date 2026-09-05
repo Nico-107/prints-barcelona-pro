@@ -160,6 +160,7 @@ interface Props {
 
 export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays }: Props) {
   const { t, language } = useLanguage();
+  const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -798,7 +799,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           {/* Fulfillment choice — required before payment */}
           <div>
             <p className="text-xs font-medium text-muted-foreground mb-1.5">
-              {t("calc.instantBuy.fulfillment.pickup")} / {t("calc.instantBuy.fulfillment.shipping")}
+              {t("calc.instantBuy.fulfillment.pickup").replace("{city}", pickupCity)} / {t("calc.instantBuy.fulfillment.shipping")}
             </p>
             <div className="grid grid-cols-2 gap-2">
               {(["pickup", "shipping"] as const).map(opt => (
@@ -813,7 +814,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       : "border-input bg-background text-foreground hover:border-accent/60 hover:bg-accent/5"
                   }`}
                 >
-                  {t(`calc.instantBuy.fulfillment.${opt}` as any)}
+                  {t(`calc.instantBuy.fulfillment.${opt}` as any).replace("{city}", pickupCity)}
                 </button>
               ))}
             </div>
@@ -821,7 +822,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               <p className="text-xs text-destructive mt-1">{t("calc.instantBuy.fulfillment.required")}</p>
             )}
             {fulfillment === "pickup" && (FAST_PICKUP_MATERIALS as readonly string[]).includes(materialKey) && (
-              <p className="text-xs text-muted-foreground mt-1.5">{t("calc.instantBuy.fulfillment.fastPickup")}</p>
+              <p className="text-xs text-muted-foreground mt-1.5">{t("calc.instantBuy.fulfillment.fastPickup").replace("{city}", pickupCity)}</p>
             )}
           </div>
           {fulfillment === "shipping" && instantDisplayPrice !== null && (
@@ -1560,7 +1561,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                                 : "border-input bg-background text-foreground hover:border-accent/60 hover:bg-accent/5"
                             }`}
                           >
-                            {t(`calc.instantBuy.fulfillment.${opt}` as any)}
+                            {t(`calc.instantBuy.fulfillment.${opt}` as any).replace("{city}", pickupCity)}
                           </button>
                         ))}
                       </div>
@@ -1568,7 +1569,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         <p className="text-xs text-destructive mt-1 text-center">{t("calc.instantBuy.fulfillment.required")}</p>
                       )}
                       {fulfillment === "pickup" && (FAST_PICKUP_MATERIALS as readonly string[]).includes(materialKey) && (
-                        <p className="text-xs text-muted-foreground mt-1.5 text-center">{t("calc.instantBuy.fulfillment.fastPickup")}</p>
+                        <p className="text-xs text-muted-foreground mt-1.5 text-center">{t("calc.instantBuy.fulfillment.fastPickup").replace("{city}", pickupCity)}</p>
                       )}
                     </div>
                     {checkoutError && (

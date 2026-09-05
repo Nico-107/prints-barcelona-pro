@@ -359,10 +359,10 @@ export const frTranslations: Record<string, string> = {
   "calc.upload.status.done": "Fichier envoyé avec succès",
   "calc.upload.status.failed": "Échec du téléchargement — envoyez via WhatsApp",
 
-  "calc.instantBuy.fulfillment.pickup": "Retrait à Barcelone",
+  "calc.instantBuy.fulfillment.pickup": "Retrait à {city}",
   "calc.instantBuy.fulfillment.shipping": "Livraison",
   "calc.instantBuy.fulfillment.required": "Choisissez retrait ou livraison pour continuer",
-  "calc.instantBuy.fulfillment.fastPickup": "Retrait le jour même ou le lendemain possible à Barcelone pour les commandes en PLA, PETG et TPU, selon le volume de commandes en cours.",
+  "calc.instantBuy.fulfillment.fastPickup": "Retrait le jour même ou le lendemain possible à {city} pour les commandes en PLA, PETG et TPU, selon le volume de commandes en cours.",
   "calc.instantBuy.shipping.print": "Impression",
   "calc.instantBuy.shipping.surcharge": "Livraison",
   "calc.instantBuy.shipping.total": "Total",

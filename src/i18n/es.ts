@@ -360,10 +360,10 @@ export const esTranslations: Record<string, string> = {
   "calc.upload.status.done": "Archivo enviado correctamente",
   "calc.upload.status.failed": "Error al subir el archivo — envíalo por WhatsApp",
 
-  "calc.instantBuy.fulfillment.pickup": "Recogida en Barcelona",
+  "calc.instantBuy.fulfillment.pickup": "Recogida en {city}",
   "calc.instantBuy.fulfillment.shipping": "Envío a domicilio",
   "calc.instantBuy.fulfillment.required": "Selecciona recogida o envío para continuar",
-  "calc.instantBuy.fulfillment.fastPickup": "Recogida el mismo día o al día siguiente posible en Barcelona para pedidos de PLA, PETG y TPU, según el volumen de pedidos actual.",
+  "calc.instantBuy.fulfillment.fastPickup": "Recogida el mismo día o al día siguiente posible en {city} para pedidos de PLA, PETG y TPU, según el volumen de pedidos actual.",
   "calc.instantBuy.shipping.print": "Impresión",
   "calc.instantBuy.shipping.surcharge": "Envío",
   "calc.instantBuy.shipping.total": "Total",
