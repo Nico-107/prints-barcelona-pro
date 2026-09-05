@@ -357,7 +357,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   onClick={() => {
                     capture("city_cta_click", { city: config.city, type: "local_pickup" });
                     window.open(
-                      `${WHATSAPP_URL}?text=${encodeURIComponent(config.localPickup!.whatsappMsg)}`,
+                      `https://wa.me/${config.localPickup!.whatsappNumber}?text=${encodeURIComponent(config.localPickup!.whatsappMsg)}`,
                       "_blank"
                     );
                   }}

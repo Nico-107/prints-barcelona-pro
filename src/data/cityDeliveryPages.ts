@@ -42,6 +42,7 @@ export interface CityPageConfig {
     longitude: number;
     schedulingNote: string;
     whatsappMsg: string;
+    whatsappNumber: string;
   };
 }
 
@@ -358,6 +359,7 @@ export const CITY_PAGES: CityPageConfig[] = [
       longitude: -5.918144,
       schedulingNote: "Recogida solo con cita previa — contáctanos por WhatsApp para coordinar el horario.",
       whatsappMsg: "Hola, soy de Sevilla y me gustaría recoger un pedido de impresión 3D en Av. Parsi 21.",
+      whatsappNumber: "34695783248",
     },
     extraFaqs: [
       {
@@ -407,6 +409,7 @@ export const CITY_PAGES: CityPageConfig[] = [
       longitude: -5.918144,
       schedulingNote: "Pickup by appointment only — contact us on WhatsApp to arrange a time.",
       whatsappMsg: "Hi, I'm in Seville and I'd like to pick up a 3D printing order at Av. Parsi 21.",
+      whatsappNumber: "34695783248",
     },
     extraFaqs: [
       {
