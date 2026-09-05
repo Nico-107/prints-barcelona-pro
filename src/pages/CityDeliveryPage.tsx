@@ -294,7 +294,10 @@ const CityDeliveryPage = ({ config }: Props) => {
                   size="xl"
                   onClick={() => {
                     capture("city_cta_click", { city: config.city, type: "whatsapp" });
-                    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(config.whatsappMsg)}`, "_blank");
+                    const whatsappHref = config.localPickup
+                      ? `https://wa.me/${config.localPickup.whatsappNumber}?text=${encodeURIComponent(config.whatsappMsg)}`
+                      : `${WHATSAPP_URL}?text=${encodeURIComponent(config.whatsappMsg)}`;
+                    window.open(whatsappHref, "_blank");
                   }}
                   className="group"
                 >
@@ -1153,7 +1156,10 @@ const CityDeliveryPage = ({ config }: Props) => {
                 size="xl"
                 onClick={() => {
                   capture("city_cta_click", { city: config.city, type: "whatsapp_bottom" });
-                  window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(config.whatsappMsg)}`, "_blank");
+                  const whatsappHref = config.localPickup
+                    ? `https://wa.me/${config.localPickup.whatsappNumber}?text=${encodeURIComponent(config.whatsappMsg)}`
+                    : `${WHATSAPP_URL}?text=${encodeURIComponent(config.whatsappMsg)}`;
+                  window.open(whatsappHref, "_blank");
                 }}
                 className="group"
               >
