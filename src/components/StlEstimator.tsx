@@ -392,6 +392,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 priceHigh: Math.max(unitPrice * 1.15, RANGE_HIGH_FLOOR),
                 filePaths: uploadedPaths,
                 language: capturedLang,
+                sourceCity: refCity ?? null,
               },
             }).catch(console.error);
           }
@@ -642,6 +643,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           priceHigh: bundle!.high,
           language,
           multicolour,
+          sourceCity: refCity ?? null,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
     } catch (err: any) {
@@ -720,6 +722,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           priceHigh: bundle?.high ?? 0,
           language,
           multicolour,
+          sourceCity: refCity ?? null,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
       exitIntentCloseReasonRef.current = "recovered";
