@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck } from "lucide-react";
+import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck, ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
@@ -186,7 +186,14 @@ const CityDeliveryPage = ({ config }: Props) => {
         },
         url: PAGE_URL,
         description: "Local 3D printing pickup point, by appointment only.",
+        sameAs: ["https://share.google/YX41aS8lcqOlHGrhD"],
       }
+    : null;
+
+  const pickupEmbedUrl = config.localPickup
+    ? `https://www.google.com/maps?q=${encodeURIComponent(
+        `${config.localPickup.address}, ${config.localPickup.postalCode} ${config.localPickup.addressLocality}`
+      )}&output=embed`
     : null;
 
   useEffect(() => {
@@ -339,35 +346,59 @@ const CityDeliveryPage = ({ config }: Props) => {
         {config.localPickup && (
           <section className="container px-4 pt-10 pb-2">
             <div className="max-w-4xl mx-auto">
-              <div className="rounded-xl border border-accent/40 bg-accent/5 p-6 flex flex-col sm:flex-row items-start gap-6">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">
-                    {isES ? "Recogida Local" : "Local Pickup"}
-                  </p>
-                  <h2 className="text-lg md:text-xl font-bold text-foreground mb-2">
-                    {isES
-                      ? `Recoge en ${config.localPickup.address}, ${config.localPickup.addressLocality}`
-                      : `Pick up at ${config.localPickup.address}, ${config.localPickup.addressLocality}`}
-                  </h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {config.localPickup.schedulingNote}
-                  </p>
+              <div className="rounded-xl border border-accent/40 bg-accent/5 p-6 flex flex-col gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-6">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">
+                      {isES ? "Recogida Local" : "Local Pickup"}
+                    </p>
+                    <h2 className="text-lg md:text-xl font-bold text-foreground mb-2">
+                      {isES
+                        ? `Recoge en ${config.localPickup.address}, ${config.localPickup.addressLocality}`
+                        : `Pick up at ${config.localPickup.address}, ${config.localPickup.addressLocality}`}
+                    </h2>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {config.localPickup.schedulingNote}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-3 flex-shrink-0">
+                    <Button
+                      variant="whatsapp-outline"
+                      size="lg"
+                      onClick={() => {
+                        capture("city_cta_click", { city: config.city, type: "local_pickup" });
+                        window.open(
+                          `https://wa.me/${config.localPickup!.whatsappNumber}?text=${encodeURIComponent(config.localPickup!.whatsappMsg)}`,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {isES ? "Coordinar recogida" : "Arrange pickup"}
+                    </Button>
+                    <Button asChild variant="outline" size="lg">
+                      <a
+                        href="https://share.google/YX41aS8lcqOlHGrhD"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        {isES ? "Ver perfil en Google" : "View our Google Business Profile"}
+                      </a>
+                    </Button>
+                  </div>
                 </div>
-                <Button
-                  variant="whatsapp-outline"
-                  size="lg"
-                  className="flex-shrink-0"
-                  onClick={() => {
-                    capture("city_cta_click", { city: config.city, type: "local_pickup" });
-                    window.open(
-                      `https://wa.me/${config.localPickup!.whatsappNumber}?text=${encodeURIComponent(config.localPickup!.whatsappMsg)}`,
-                      "_blank"
-                    );
-                  }}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  {isES ? "Coordinar recogida" : "Arrange pickup"}
-                </Button>
+                <div className="rounded-lg overflow-hidden border border-accent/20">
+                  <iframe
+                    src={pickupEmbedUrl!}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: "280px" }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title={`Dimension3D ${config.city} pickup location`}
+                  />
+                </div>
               </div>
             </div>
           </section>
