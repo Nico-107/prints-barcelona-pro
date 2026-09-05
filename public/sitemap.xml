@@ -499,6 +499,24 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/madrid"/>
   </url>
 
+  <!-- SEVILLE LOCAL PRODUCTION & PICKUP (paired ES/EN) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/impresion-3d-sevilla</loc>
+    <lastmod>2026-09-05</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-sevilla"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-sevilla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/impresion-3d-sevilla"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/3d-printing-sevilla</loc>
+    <lastmod>2026-09-05</lastmod>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/impresion-3d-sevilla"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-sevilla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/impresion-3d-sevilla"/>
+  </url>
+
   <!-- CITY DELIVERY PAGES (ES) -->
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-con-entrega-a-valencia</loc>
@@ -836,6 +854,12 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-technology-comparison"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/comparativa-tecnologias-impresion-3d"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/comparativa-tecnologias-impresion-3d"/>
+  </url>
+
+  <url>
+    <loc>https://www.dimension3dprints.com/politica-devoluciones</loc>
+    <lastmod>2026-09-05</lastmod>
+    <priority>0.5</priority>
   </url>
 
 </urlset>
