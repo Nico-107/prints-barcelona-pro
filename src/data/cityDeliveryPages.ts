@@ -31,6 +31,18 @@ export interface CityPageConfig {
     label: string;
     description: string;
   };
+  extraFaqs?: Array<{ q: string; a: string }>;
+  localPickup?: {
+    address: string;
+    addressLocality: string;
+    postalCode: string;
+    addressRegion: string;
+    addressCountry: string;
+    latitude: number;
+    longitude: number;
+    schedulingNote: string;
+    whatsappMsg: string;
+  };
 }
 
 export const CITY_PAGES: CityPageConfig[] = [
@@ -316,5 +328,103 @@ export const CITY_PAGES: CityPageConfig[] = [
       ctaLabel: "Demanar pressupost",
     },
     articleInLanguage: "es",
+  },
+  {
+    slug: "/impresion-3d-sevilla",
+    altSlug: "/3d-printing-sevilla",
+    lang: "es",
+    locale: "es_ES",
+    city: "Sevilla",
+    country: "España",
+    deliveryDays: "2–3 días hábiles",
+    metaTitle: "Impresión 3D en Sevilla — Producción Local, Recogida en Av. Parsi | Dimension3D",
+    metaDescription: "Impresión 3D FDM producida localmente en Sevilla, con recogida en Av. Parsi 21 (cita previa) o envío a toda la provincia. Presupuesto en 1 hora. Desde €10.",
+    h1: "Impresión 3D en Sevilla — Producción y Recogida Local",
+    eyebrowText: "Recogida en Sevilla · Cita Previa",
+    heroSubtitle: "Tu pieza, impresa por nuestro maker local en Sevilla y verificada con fotos antes de cada entrega. Recógela en Av. Parsi 21 con cita previa, o la enviamos a cualquier punto de la provincia. Presupuesto en 1 hora, desde €10, sin pedido mínimo.",
+    introParagraph: "Sevilla es uno de los grandes polos aeroespaciales de Europa — junto a Toulouse y Hamburgo, es una de las tres únicas ciudades del continente con una línea de montaje final de aviones, gracias a la planta de Airbus Defence and Space en San Pablo y a proveedores tier-1 como Alestis Aerospace en el parque tecnológico Aerópolis. A esto se suma una comunidad de ingeniería activa en la Escuela Técnica Superior de Ingeniería de la Universidad de Sevilla, y un tejido artesanal único ligado a la Feria de Abril y la Semana Santa. Ahora imprimimos directamente en Sevilla, de la mano de un maker local verificado que produce cada pieza y nos envía fotos de control de calidad antes de completarla. Puedes recoger tu pedido en Av. Parsi 21 con cita previa, o lo enviamos a cualquier punto de la provincia. Presupuesto humano confirmado en menos de 1 hora, comunicación directa por WhatsApp, sin pedido mínimo ni comisiones de plataforma.",
+    deliveryTableRow: ["Sevilla y provincia (envío)", "2–3 días hábiles"],
+    shippingFaqQ: "¿Cuánto tarda en estar lista mi pieza para recoger en Sevilla?",
+    shippingFaqA: "Al producirse localmente en Sevilla, normalmente tu pieza está lista para recoger en 2–3 días hábiles tras confirmar el presupuesto. Te avisamos por WhatsApp en cuanto esté lista, junto con fotos de control de calidad de la pieza terminada.",
+    whatsappMsg: "Hola, soy de Sevilla y me gustaría un presupuesto para impresión 3D.",
+    articleInLanguage: "es",
+    localPickup: {
+      address: "Av. Parsi, 21",
+      addressLocality: "Sevilla",
+      postalCode: "41016",
+      addressRegion: "Sevilla",
+      addressCountry: "ES",
+      latitude: 37.375453,
+      longitude: -5.918144,
+      schedulingNote: "Recogida solo con cita previa — contáctanos por WhatsApp para coordinar el horario.",
+      whatsappMsg: "Hola, soy de Sevilla y me gustaría recoger un pedido de impresión 3D en Av. Parsi 21.",
+    },
+    extraFaqs: [
+      {
+        q: "¿Puedo recoger mi pedido en persona en Sevilla?",
+        a: "Sí — trabajamos con un maker local en Sevilla y puedes recoger tu pieza en Av. Parsi 21 con cita previa, coordinada por WhatsApp.",
+      },
+      {
+        q: "¿Cómo garantizáis la calidad si se imprime en Sevilla y no en Barcelona?",
+        a: "Nuestro maker local en Sevilla nos envía fotos de cada pieza antes de completarla, y solo se entrega una vez que confirmamos que cumple nuestro estándar de calidad.",
+      },
+      {
+        q: "¿Y si no puedo recoger en persona?",
+        a: "Sin problema — también enviamos a cualquier punto de Sevilla y su provincia mediante mensajería con seguimiento.",
+      },
+      {
+        q: "¿En qué materiales imprimís?",
+        a: "Trabajamos con PLA, PETG, ABS y TPU flexible — te recomendamos el material más adecuado según el uso de tu pieza al confirmar el presupuesto.",
+      },
+    ],
+  },
+  {
+    slug: "/3d-printing-sevilla",
+    altSlug: "/impresion-3d-sevilla",
+    lang: "en",
+    locale: "en_US",
+    city: "Seville",
+    country: "Spain",
+    deliveryDays: "2–3 business days",
+    metaTitle: "3D Printing in Seville — Local Production, Pickup on Av. Parsi | Dimension3D",
+    metaDescription: "FDM 3D printing produced locally in Seville, with pickup at Av. Parsi 21 (by appointment) or delivery across the province. Quote in 1 hour. From €10.",
+    h1: "3D Printing in Seville — Local Production & Pickup",
+    eyebrowText: "Seville Pickup · By Appointment",
+    heroSubtitle: "Your part, printed by our local Seville maker and photo-verified before every handoff. Pick it up at Av. Parsi 21 by appointment, or we ship it across the province. Quote in 1 hour, from €10, no minimum order.",
+    introParagraph: "Seville is one of Europe's major aerospace hubs — alongside Toulouse and Hamburg, it's one of only three cities on the continent with a final aircraft assembly line, thanks to the Airbus Defence and Space plant in San Pablo and tier-1 suppliers like Alestis Aerospace at the Aerópolis technology park. That sits alongside an active engineering community at the University of Seville's School of Engineering, and a distinctive craft tradition tied to the Feria de Abril and Semana Santa. We now print directly in Seville, through a verified local maker who produces each piece and sends us quality-check photos before it's marked complete. Pick up your order at Av. Parsi 21 by appointment, or we'll ship it anywhere in the province. Human-confirmed quote in under one hour, direct WhatsApp communication, no minimum order, no marketplace commission.",
+    deliveryTableRow: ["Seville & province (shipping)", "2–3 business days"],
+    shippingFaqQ: "How long until my piece is ready for pickup in Seville?",
+    shippingFaqA: "Since it's produced locally in Seville, your piece is typically ready for pickup within 2–3 business days of confirming your quote. We'll message you on WhatsApp as soon as it's ready, along with quality-check photos of the finished piece.",
+    whatsappMsg: "Hi, I'm in Seville and I'd like a quote for 3D printing.",
+    articleInLanguage: "en",
+    localPickup: {
+      address: "Av. Parsi, 21",
+      addressLocality: "Seville",
+      postalCode: "41016",
+      addressRegion: "Sevilla",
+      addressCountry: "ES",
+      latitude: 37.375453,
+      longitude: -5.918144,
+      schedulingNote: "Pickup by appointment only — contact us on WhatsApp to arrange a time.",
+      whatsappMsg: "Hi, I'm in Seville and I'd like to pick up a 3D printing order at Av. Parsi 21.",
+    },
+    extraFaqs: [
+      {
+        q: "Can I pick up my order in person in Seville?",
+        a: "Yes — we work with a local maker in Seville, and you can pick up your piece at Av. Parsi 21 by appointment, arranged over WhatsApp.",
+      },
+      {
+        q: "How do you guarantee quality if it's printed in Seville, not Barcelona?",
+        a: "Our local Seville maker sends us photos of every piece before it's marked complete, and it's only handed off once we've confirmed it meets our quality standard.",
+      },
+      {
+        q: "What if I can't pick it up in person?",
+        a: "No problem — we also ship anywhere in Seville and its province via tracked courier.",
+      },
+      {
+        q: "What materials do you print in?",
+        a: "We work with PLA, PETG, ABS, and flexible TPU — we'll recommend the right material for your part's actual use when confirming your quote.",
+      },
+    ],
   },
 ];

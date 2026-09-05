@@ -25,6 +25,7 @@ interface QuoteRequestPayload {
   priceHigh: number;
   language?: string;
   urgency?: string | null;
+  sourceCity?: string | null;
 }
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
@@ -75,7 +76,7 @@ const handler = async (req: Request): Promise<Response> => {
       filePaths, fileNames, contactEmail, contactPhone,
       material, color, infillPct, wallLoops,
       totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
-      urgency,
+      urgency, sourceCity,
     } = payload;
 
     if (!filePaths?.length) {
@@ -131,6 +132,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Processing quote request: ${safeMaterial} ${infillPct}% ${wallsLabel} (IP: ${clientIP})`);
 
+    const recipients =
+      sourceCity?.toLowerCase().includes("sevilla") ||
+      sourceCity?.toLowerCase().includes("seville")
+        ? ["3d.kayda@gmail.com", "dimension3dprintsbcn@gmail.com"]
+        : ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"];
+
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -139,7 +146,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
-        to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
+        to: recipients,
         subject: `Nueva solicitud de presupuesto — ${safeMaterial} · €${Math.round(priceLow)}–€${Math.round(priceHigh)}`,
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">

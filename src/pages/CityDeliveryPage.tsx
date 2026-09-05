@@ -118,7 +118,11 @@ const CityDeliveryPage = ({ config }: Props) => {
   };
 
   const sharedFaqs = isES ? ES_SHARED_FAQS : isFR ? FR_SHARED_FAQS : isNative ? EN_SHARED_FAQS : EN_SHARED_FAQS;
-  const allFaqs = [{ q: config.shippingFaqQ, a: config.shippingFaqA }, ...sharedFaqs];
+  const allFaqs = [
+    { q: config.shippingFaqQ, a: config.shippingFaqA },
+    ...(config.extraFaqs ?? []),
+    ...sharedFaqs,
+  ];
 
   const secondaryLinkItem = config.secondaryLink ?? {
     to: "/blog/precio-impresion-3d-barcelona",
@@ -161,6 +165,29 @@ const CityDeliveryPage = ({ config }: Props) => {
       { "@type": "ListItem", position: 3, name: config.city, item: PAGE_URL },
     ],
   };
+
+  const localBusinessSchema = config.localPickup
+    ? {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: `Dimension3D — ${config.city}`,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: config.localPickup.address,
+          addressLocality: config.localPickup.addressLocality,
+          postalCode: config.localPickup.postalCode,
+          addressRegion: config.localPickup.addressRegion,
+          addressCountry: config.localPickup.addressCountry,
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: config.localPickup.latitude,
+          longitude: config.localPickup.longitude,
+        },
+        url: PAGE_URL,
+        description: "Local 3D printing pickup point, by appointment only.",
+      }
+    : null;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -206,6 +233,9 @@ const CityDeliveryPage = ({ config }: Props) => {
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        {localBusinessSchema && (
+          <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+        )}
       </Helmet>
 
       <Header hideLanguageSelector={["fr", "de", "it", "pt"].includes(config.articleInLanguage ?? "")} />
@@ -301,6 +331,44 @@ const CityDeliveryPage = ({ config }: Props) => {
             </svg>
           </div>
         </section>
+
+        {/* Local Pickup card */}
+        {config.localPickup && (
+          <section className="container px-4 pt-10 pb-2">
+            <div className="max-w-4xl mx-auto">
+              <div className="rounded-xl border border-accent/40 bg-accent/5 p-6 flex flex-col sm:flex-row items-start gap-6">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">
+                    {isES ? "Recogida Local" : "Local Pickup"}
+                  </p>
+                  <h2 className="text-lg md:text-xl font-bold text-foreground mb-2">
+                    {isES
+                      ? `Recoge en ${config.localPickup.address}, ${config.localPickup.addressLocality}`
+                      : `Pick up at ${config.localPickup.address}, ${config.localPickup.addressLocality}`}
+                  </h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {config.localPickup.schedulingNote}
+                  </p>
+                </div>
+                <Button
+                  variant="whatsapp-outline"
+                  size="lg"
+                  className="flex-shrink-0"
+                  onClick={() => {
+                    capture("city_cta_click", { city: config.city, type: "local_pickup" });
+                    window.open(
+                      `${WHATSAPP_URL}?text=${encodeURIComponent(config.localPickup!.whatsappMsg)}`,
+                      "_blank"
+                    );
+                  }}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  {isES ? "Coordinar recogida" : "Arrange pickup"}
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Quick stats */}
         <section className="container px-4 py-12">

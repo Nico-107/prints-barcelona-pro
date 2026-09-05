@@ -22,6 +22,7 @@ interface PriceEstimatePayload {
   priceLow: number;
   priceHigh: number;
   language?: string;
+  sourceCity?: string | null;
 }
 
 // Simple in-memory rate limiting (resets on function cold start)
@@ -66,7 +67,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const payload: PriceEstimatePayload = await req.json();
-    const { fileName, filePaths, fileNames, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language } = payload;
+    const { fileName, filePaths, fileNames, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language, sourceCity } = payload;
 
     // Validate required fields
     if (!material || infillPct == null || quantity == null || volumeCm3 == null) {
@@ -118,6 +119,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Processing price estimate: ${safeMaterial} ${infillPct}% infill x${quantity} (IP: ${clientIP})`);
 
+    const recipients =
+      sourceCity?.toLowerCase().includes("sevilla") ||
+      sourceCity?.toLowerCase().includes("seville")
+        ? ["3d.kayda@gmail.com", "dimension3dprintsbcn@gmail.com"]
+        : ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"];
+
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -126,7 +133,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
-        to: ["011107miko@gmail.com", "dimension3dprintsbcn@gmail.com"],
+        to: recipients,
         subject: "New price estimate requested",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
