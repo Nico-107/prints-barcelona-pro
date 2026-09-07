@@ -68,7 +68,12 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const payload: PriceEstimatePayload = await req.json();
-    const { fileName, filePaths, fileNames, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, language, sourceCity } = payload;
+    const { fileName, filePaths, fileNames, material, infillPct, quantity, volumeCm3, grams, estHours, priceLow, priceHigh, exactPrice, language, sourceCity } = payload;
+
+    // The single price the customer actually saw; fall back to range midpoint
+    const displayPrice = (typeof exactPrice === "number" && isFinite(exactPrice) && exactPrice > 0)
+      ? exactPrice
+      : (priceLow + priceHigh) / 2;
 
     // Validate required fields
     if (!material || infillPct == null || quantity == null || volumeCm3 == null) {
