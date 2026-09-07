@@ -583,6 +583,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
       // Upload succeeded — show success immediately, nothing below can block the user
       setIsSubmittedQuote(true);
+      setShowManualReview(false);
       setIsSubmittingQuote(false);
       capture('quote_submitted', {
         has_email: !!contactEmail.trim(),
@@ -1253,17 +1254,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               ) : (
                 <>
                   <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-5">
-                    {showManualReview && (
-                      <div className="mb-3 rounded-lg bg-accent/10 border border-accent/30 px-4 py-3">
-                        <p className="text-sm font-medium text-accent">
-                          {language === "es"
-                            ? "¡Perfecto! Solo necesitamos tu email o WhatsApp para enviar tu archivo a nuestro equipo para revisión."
-                            : language === "ca"
-                            ? "Perfecte! Només necessitem el teu email o WhatsApp per enviar el teu arxiu al nostre equip per revisar-lo."
-                            : "Perfect! We just need your email or WhatsApp to send your file to our team for review."}
-                        </p>
-                      </div>
-                    )}
                     <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
                     <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
                     {contactFormContent}
@@ -1415,17 +1405,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
               ) : (
                 <>
-                  {showManualReview && (
-                    <div className="rounded-lg bg-accent/10 border border-accent/30 px-4 py-3">
-                      <p className="text-sm font-medium text-accent">
-                        {language === "es"
-                          ? "¡Perfecto! Solo necesitamos tu email o WhatsApp para enviar tu archivo a nuestro equipo para revisión."
-                          : language === "ca"
-                          ? "Perfecte! Només necessitem el teu email o WhatsApp per enviar el teu arxiu al nostre equip per revisar-lo."
-                          : "Perfect! We just need your email or WhatsApp to send your file to our team for review."}
-                      </p>
-                    </div>
-                  )}
                   {/* Configuration controls — bound to the same state as inline form */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -1708,6 +1687,55 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         </Dialog>
         );
       })()}
+
+      {/* Manual review Dialog — interrupting popup when user clicks "Solicitar revisión" */}
+      {!adminMode && (
+        <Dialog open={showManualReview} onOpenChange={(open) => { if (!open) setShowManualReview(false); }}>
+          <DialogContent className="sm:max-w-sm p-8 gap-0">
+            <DialogHeader className="mb-4">
+              <DialogTitle className="text-lg font-bold text-foreground">
+                {language === "es" ? "Solicitar revisión de equipo"
+                  : language === "ca" ? "Sol·licitar revisió d'equip"
+                  : "Request team review"}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="mb-4 rounded-lg bg-accent/10 border border-accent/30 px-4 py-3">
+              <p className="text-sm font-medium text-accent">
+                {language === "es"
+                  ? "¡Perfecto! Solo necesitamos tu email o WhatsApp para enviar tu archivo a nuestro equipo para revisión."
+                  : language === "ca"
+                  ? "Perfecte! Només necessitem el teu email o WhatsApp per enviar el teu arxiu al nostre equip per revisar-lo."
+                  : "Perfect! We just need your email or WhatsApp to send your file to our team for review."}
+              </p>
+            </div>
+            {contactFormContent}
+            {hasSubmitted && uploadState !== "idle" && (
+              <div className="flex items-center gap-1.5 mt-3 text-xs">
+                {(uploadState === "uploading" || uploadState === "slow") && (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
+                    <span className="text-muted-foreground">
+                      {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
+                    </span>
+                  </>
+                )}
+                {uploadState === "done" && (
+                  <>
+                    <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
+                    <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
+                  </>
+                )}
+                {uploadState === "failed" && (
+                  <>
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                    <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
+                  </>
+                )}
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 
