@@ -21,6 +21,7 @@ interface PriceEstimatePayload {
   estHours: number;
   priceLow: number;
   priceHigh: number;
+  exactPrice?: number;
   language?: string;
   sourceCity?: string | null;
 }
