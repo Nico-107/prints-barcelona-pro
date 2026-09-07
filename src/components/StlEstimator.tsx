@@ -156,9 +156,11 @@ interface Props {
   refCity?: string;
   /** Delivery time string from a delivery page ref, e.g. "3–4 business days" */
   refDays?: string;
+  /** When true, the city offers local pickup — banner copy switches from shipping to pickup+shipping */
+  refPickupAvailable?: boolean;
 }
 
-export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays }: Props) {
+export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
@@ -1250,6 +1252,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               ) : (
                 <>
                   <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-5">
+                    {showManualReview && (
+                      <div className="mb-3 rounded-lg bg-accent/10 border border-accent/30 px-4 py-3">
+                        <p className="text-sm font-medium text-accent">
+                          {language === "es"
+                            ? "¡Perfecto! Solo necesitamos tu email o WhatsApp para enviar tu archivo a nuestro equipo para revisión."
+                            : language === "ca"
+                            ? "Perfecte! Només necessitem el teu email o WhatsApp per enviar el teu arxiu al nostre equip per revisar-lo."
+                            : "Perfect! We just need your email or WhatsApp to send your file to our team for review."}
+                        </p>
+                      </div>
+                    )}
                     <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
                     <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
                     {contactFormContent}
@@ -1365,7 +1378,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                             }`}
                             title={stripUploadPrefix(f.name)}
                           >
-                            {stripUploadPrefix(f.name)}
+                            {language === "es" ? `Pieza ${i + 1}` : language === "ca" ? `Peça ${i + 1}` : `Part ${i + 1}`}
                           </button>
                         ))}
                       </div>
@@ -1401,6 +1414,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
               ) : (
                 <>
+                  {showManualReview && (
+                    <div className="rounded-lg bg-accent/10 border border-accent/30 px-4 py-3">
+                      <p className="text-sm font-medium text-accent">
+                        {language === "es"
+                          ? "¡Perfecto! Solo necesitamos tu email o WhatsApp para enviar tu archivo a nuestro equipo para revisión."
+                          : language === "ca"
+                          ? "Perfecte! Només necessitem el teu email o WhatsApp per enviar el teu arxiu al nostre equip per revisar-lo."
+                          : "Perfect! We just need your email or WhatsApp to send your file to our team for review."}
+                      </p>
+                    </div>
+                  )}
                   {/* Configuration controls — bound to the same state as inline form */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -1732,7 +1756,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         {refCity && (
           <div className="max-w-xl mx-auto mb-6">
             <p className="text-sm bg-amber-50 border border-amber-200 text-amber-800 rounded-lg px-4 py-2.5 text-center">
-              {language === "es"
+              {refPickupAvailable
+                ? language === "es"
+                  ? `Recogida local en ${refCity} disponible, o envío a domicilio`
+                  : language === "ca"
+                  ? `Recollida local a ${refCity} disponible, o enviament a domicili`
+                  : `Local pickup available in ${refCity}, or shipped to your door`
+                : language === "es"
                 ? `Enviando a ${refCity}${refDays ? ` — envío con seguimiento en ${refDays}` : ""}`
                 : language === "ca"
                 ? `Enviant a ${refCity}${refDays ? ` — enviament seguit en ${refDays}` : ""}`

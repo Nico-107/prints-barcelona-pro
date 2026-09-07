@@ -442,7 +442,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         {/* Calculator */}
         <section id="calculator" className="container px-4 py-10">
           <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl" />}>
-            <StlEstimator refCity={config.city} refDays={config.deliveryDays} />
+            <StlEstimator refCity={config.city} refDays={config.deliveryDays} refPickupAvailable={!!config.localPickup} />
           </Suspense>
         </section>
 
