@@ -140,7 +140,7 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
         to: recipients,
-        subject: "New price estimate requested",
+        subject: `[CALCULADORA] Sin datos de cliente — ${safeMaterial}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1 style="color: #0f172a;">New price estimate requested</h1>
@@ -159,7 +159,7 @@ const handler = async (req: Request): Promise<Response> => {
               <p><strong>Volume:</strong> ${volumeCm3.toFixed(4)} cm³</p>
               <p><strong>Weight:</strong> ${grams.toFixed(1)} g</p>
               <p><strong>Est. print time:</strong> ${estHours.toFixed(1)} h</p>
-              <p><strong>Price range:</strong> €${priceLow.toFixed(0)} – €${priceHigh.toFixed(0)}</p>
+              <p><strong>Price shown to customer:</strong> €${displayPrice.toFixed(2)}</p>
             </div>
 
             <div style="background-color: #ecfdf5; padding: 20px; border-radius: 8px; margin: 20px 0;">
