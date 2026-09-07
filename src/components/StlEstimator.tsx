@@ -207,6 +207,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [exitIntentSubmitting, setExitIntentSubmitting] = useState(false);
   const [exitIntentSubmitted, setExitIntentSubmitted] = useState(false);
   const [exitIntentError, setExitIntentError] = useState<string | null>(null);
@@ -222,6 +223,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   }, [showExitIntent]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const modalBodyRef = useRef<HTMLDivElement>(null);
   const estimateShownRef = useRef(false);
   const uploadedRef = useRef<{ paths: string[]; names: string[] } | null>(null);
   const modalShownRef = useRef(false);
@@ -459,6 +461,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsSubmittedQuote(false);
     setQuoteError(null);
     setMobileModalOpen(false);
+    setSelectedFileIndex(0);
     setPreUploadDone(false);
     setIsCheckingOut(false);
     setCheckoutError(null);
@@ -752,11 +755,23 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
     : "";
 
-  const firstViewableFile = validFiles.find(f => f.file);
+  const viewableFiles = validFiles.filter(f => !!f.file);
+
+  useEffect(() => {
+    if (selectedFileIndex >= viewableFiles.length && viewableFiles.length > 0) {
+      setSelectedFileIndex(viewableFiles.length - 1);
+    }
+  }, [viewableFiles.length, selectedFileIndex]);
+
+  useEffect(() => {
+    if (showManualReview) {
+      modalBodyRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [showManualReview]);
 
   useEffect(() => {
     setViewerStateInModal("loading");
-  }, [firstViewableFile?.id, shortViewport]);
+  }, [viewableFiles[selectedFileIndex]?.id, shortViewport]);
 
   const specLine = bundle ? [
     materialKey,
@@ -1272,12 +1287,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
       {!adminMode && bundle && (() => {
-        const stepperFile = firstViewableFile;
+        const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
         const stepperValue = stepperFile?.qty ?? 1;
-        const extraFiles = validFiles.length - 1;
-        const moreFilesLine = extraFiles > 0
-          ? t("calc.modal.moreFiles").replace("{count}", String(extraFiles))
-          : null;
         const viewerSize = shortViewport ? 180 : 240;
 
         return (
@@ -1305,7 +1316,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             </DialogHeader>
 
             {/* Scrollable body — single column on mobile, two columns at lg */}
-            <div className="flex-1 overflow-y-auto min-h-0">
+            <div ref={modalBodyRef} className="flex-1 overflow-y-auto min-h-0">
               <div className={`flex flex-col ${stepperFile?.file ? "lg:grid lg:grid-cols-[5fr_6fr]" : ""}`}>
 
                 {/* LEFT column at lg: STL viewer + file info.
@@ -1340,10 +1351,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     <p className="text-xs text-muted-foreground mt-1 text-center max-w-full truncate">
                       {stripUploadPrefix(stepperFile.name)}
                     </p>
-                    {moreFilesLine && (
-                      <p className="text-xs text-muted-foreground/70 mt-0.5 text-center">
-                        {moreFilesLine}
-                      </p>
+                    {viewableFiles.length > 1 && (
+                      <div className="flex flex-wrap gap-1 mt-1 justify-center">
+                        {viewableFiles.map((f, i) => (
+                          <button
+                            key={f.id}
+                            type="button"
+                            onClick={() => setSelectedFileIndex(i)}
+                            className={`px-2 py-0.5 rounded-full text-xs border transition-colors max-w-[100px] truncate ${
+                              i === selectedFileIndex
+                                ? "border-accent bg-accent text-accent-foreground"
+                                : "border-border bg-background text-muted-foreground hover:border-accent/60 hover:bg-accent/5"
+                            }`}
+                            title={stripUploadPrefix(f.name)}
+                          >
+                            {stripUploadPrefix(f.name)}
+                          </button>
+                        ))}
+                      </div>
                     )}
                   </div>
                 )}
