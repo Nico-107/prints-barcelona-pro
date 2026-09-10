@@ -88,36 +88,6 @@ export const catalogProducts: CatalogProduct[] = [
     },
   },
   {
-    slug: "placa-mascota",
-    name: {
-      es: "Placa identificativa para mascota",
-      en: "Custom Pet ID Tag",
-      ca: "Placa identificativa per a mascota",
-    },
-    image: "/images/catalog/pet-tag.jpg",
-    priceLow: 8,
-    priceHigh: 14,
-    description: {
-      es: "Chapa de identificación personalizada para tu mascota con su nombre y, si lo deseas, tu número de teléfono. Ligera, resistente y con un acabado suave que garantiza la comodidad del animal. Disponible en colores vivos para que sea fácil de localizar.",
-      en: "Personalised ID tag for your pet, engraved with their name and, if you wish, your phone number. Lightweight, durable and smooth-finished for the animal's comfort. Available in bright colours so they are easy to spot.",
-      ca: "Xapa d'identificació personalitzada per a la teva mascota amb el seu nom i, si vols, el teu número de telèfon. Lleugera, resistent i amb un acabat suau que garanteix la comoditat de l'animal. Disponible en colors vius perquè sigui fàcil de localitzar.",
-    },
-    fields: [
-      { key: "petName", label: "Nombre de la mascota", type: "text" },
-      {
-        key: "phone",
-        label: "Teléfono de contacto (opcional, se graba en la placa)",
-        type: "text",
-      },
-      {
-        key: "color",
-        label: "Color",
-        type: "select",
-        options: ["Rosa", "Azul", "Negro", "Blanco"],
-      },
-    ],
-  },
-  {
     slug: "soporte-telefono",
     name: {
       es: "Soporte de teléfono acanalado",
