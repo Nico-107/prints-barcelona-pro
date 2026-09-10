@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { CheckCircle, Loader2, Send } from "lucide-react";
+import { Loader2, ShoppingCart } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
-import { supabase, supabaseAnon } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
 import type { PartPage as PartPageData } from "@/data/partsPages";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SHIPPING_FEE_EUROS = 5;
 
 const FIXED_FAQ = {
   q: {
@@ -27,26 +28,21 @@ const FIXED_FAQ = {
 };
 
 const UI = {
-  badge:        { es: "Pieza a medida",       en: "Custom Part",                     ca: "Peça a mida" },
-  formTitle:    { es: "Pedir este adaptador",  en: "Order this part",                 ca: "Demanar aquesta peça" },
-  emailPh:      { es: "Tu email",              en: "Your email",                      ca: "El teu email" },
-  phonePh:      { es: "WhatsApp / teléfono",   en: "WhatsApp / phone",                ca: "WhatsApp / telèfon" },
-  contactHint:  { es: "Al menos uno de los dos es obligatorio.", en: "At least one contact method is required.", ca: "Com a mínim un dels dos és obligatori." },
-  sent:         { es: "¡Pedido enviado!",      en: "Order sent!",                     ca: "Comanda enviada!" },
-  sentSub:      { es: "Hemos recibido tu solicitud. Nos pondremos en contacto contigo en menos de 1 hora.", en: "We've received your request. We'll be in touch within 1 hour.", ca: "Hem rebut la teva sol·licitud. Ens posarem en contacte amb tu en menys d'1 hora." },
-  submitErr:    { es: "Error al enviar la solicitud. Por favor, inténtalo de nuevo.", en: "Failed to send request. Please try again.", ca: "Error en enviar la sol·licitud. Si us plau, torna-ho a intentar." },
-  sending:      { es: "Enviando...",           en: "Sending...",                      ca: "Enviant..." },
-  submitBtn:    { es: "Solicitar este adaptador", en: "Request this part",            ca: "Sol·licitar aquesta peça" },
-  howMade:      { es: "Cómo se fabrica",       en: "How it's made",                   ca: "Com es fabrica" },
-  material:     { es: "Material",              en: "Material",                        ca: "Material" },
-  compatible:   { es: "Compatible con",        en: "Compatible with",                 ca: "Compatible amb" },
-  inUse:        { es: "En uso",                en: "In use",                          ca: "En ús" },
-  dimensions:   { es: "Medidas",               en: "Dimensions",                      ca: "Mides" },
-  beforeAfter:  { es: "Antes y después",       en: "Before and after",                ca: "Abans i després" },
-  faq:          { es: "Preguntas frecuentes",  en: "Frequently asked questions",      ca: "Preguntes freqüents" },
-  inUseAlt:     { es: "en uso",                en: "in use",                          ca: "en ús" },
-  dimensionsAlt:{ es: "Medidas de",            en: "Dimensions of",                   ca: "Mides de" },
-  beforeAfterAlt:{ es: "Antes y después —",    en: "Before and after —",              ca: "Abans i després —" },
+  badge:         { es: "Pieza a medida",          en: "Custom Part",                        ca: "Peça a mida" },
+  buyNow:        { es: "Comprar ahora",             en: "Buy now",                            ca: "Comprar ara" },
+  sending:       { es: "Redirigiendo...",           en: "Redirecting...",                     ca: "Redirigint..." },
+  shippingNote:  { es: "+ €5 de envío (se muestra en el pago)", en: "+ €5 shipping (shown at checkout)", ca: "+ €5 d'enviament (es mostra al pagament)" },
+  checkoutErr:   { es: "Error al iniciar el pago. Inténtalo de nuevo.", en: "Payment failed to start. Please try again.", ca: "Error en iniciar el pagament. Torna-ho a intentar." },
+  howMade:       { es: "Cómo se fabrica",          en: "How it's made",                      ca: "Com es fabrica" },
+  material:      { es: "Material",                  en: "Material",                           ca: "Material" },
+  compatible:    { es: "Compatible con",            en: "Compatible with",                    ca: "Compatible amb" },
+  inUse:         { es: "En uso",                    en: "In use",                             ca: "En ús" },
+  dimensions:    { es: "Medidas",                   en: "Dimensions",                         ca: "Mides" },
+  beforeAfter:   { es: "Antes y después",           en: "Before and after",                   ca: "Abans i després" },
+  faq:           { es: "Preguntas frecuentes",      en: "Frequently asked questions",         ca: "Preguntes freqüents" },
+  inUseAlt:      { es: "en uso",                    en: "in use",                             ca: "en ús" },
+  dimensionsAlt: { es: "Medidas de",               en: "Dimensions of",                      ca: "Mides de" },
+  beforeAfterAlt:{ es: "Antes y después —",         en: "Before and after —",                 ca: "Abans i després —" },
 };
 
 interface Props {
@@ -58,11 +54,8 @@ const PartPage = ({ part }: Props) => {
   const lang = language === "en" || language === "ca" ? language : "es";
   const L = (x: { es: string; en: string; ca: string }) => x[lang];
 
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const allFaqs = [...part.faqs, FIXED_FAQ];
   const productSlug = part.slug.replace(/^\//, "");
@@ -88,7 +81,7 @@ const PartPage = ({ part }: Props) => {
         "@type": "OfferShippingDetails",
         shippingRate: {
           "@type": "MonetaryAmount",
-          value: 6.0,
+          value: SHIPPING_FEE_EUROS,
           currency: "EUR",
         },
         shippingDestination: {
@@ -136,61 +129,26 @@ const PartPage = ({ part }: Props) => {
   const metaTitle = `${L(part.name)} | Dimension3D`;
   const metaDescription = `${L(part.problemStatement)} ${part.keywords.slice(0, 2).join(", ")}.`;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!contactEmail.trim() && !contactPhone.trim()) {
-      setFormError(L(UI.contactHint));
-      return;
-    }
-    setFormError(null);
-    setIsSubmitting(true);
-
+  const handleBuyNow = async () => {
+    setIsCheckingOut(true);
+    setCheckoutError(null);
     try {
-      setIsSubmitted(true);
-      setIsSubmitting(false);
-
-      supabaseAnon
-        .from("quote_requests")
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .insert({
-          contact_email: contactEmail.trim() || null,
-          contact_phone: contactPhone.trim() || null,
+      const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
+        body: {
           material: part.material,
-          infill: "N/A",
-          wall_loops: 0,
-          quantity: 1,
-          estimated_grams: 0,
-          estimated_hours: 0,
-          estimated_price_low: part.price,
-          estimated_price_high: part.price,
-          file_paths: [],
-          status: "pending",
-          product_slug: productSlug,
-          product_name: part.name.es,
-          customization: {},
-        } as any)
-        .then(({ error: dbErr }) => {
-          if (dbErr) console.error("quote_requests insert error:", dbErr.message, dbErr);
-        });
-
-      supabase.functions
-        .invoke("send-catalog-request", {
-          body: {
-            productSlug: productSlug,
-            productName: part.name.es,
-            customization: {},
-            contactEmail: contactEmail.trim() || null,
-            contactPhone: contactPhone.trim() || null,
-            priceLow: part.price,
-            priceHigh: part.price,
-            language: lang,
-          },
-        })
-        .catch(console.error);
+          exactPrice: part.price,
+          fulfillment: "shipping",
+          productName: part.name.es,
+          shippingRateEuros: SHIPPING_FEE_EUROS,
+          language: lang,
+        },
+      });
+      if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL");
+      window.location.href = data.checkoutUrl;
     } catch (err: unknown) {
-      setIsSubmitting(false);
-      setFormError(L(UI.submitErr));
-      console.error("Part page submit error:", err);
+      setIsCheckingOut(false);
+      setCheckoutError(L(UI.checkoutErr));
+      console.error("Parts checkout error:", err);
     }
   };
 
@@ -230,56 +188,33 @@ const PartPage = ({ part }: Props) => {
                 <p className="text-2xl font-bold text-accent mb-1">€{part.price}</p>
                 <p className="text-xs text-muted-foreground mb-6 italic">{part.disclaimer}</p>
 
-                {isSubmitted ? (
-                  <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-6 text-center">
-                    <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
-                    <p className="font-semibold text-foreground text-lg mb-1">{L(UI.sent)}</p>
-                    <p className="text-sm text-muted-foreground">{L(UI.sentSub)}</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <p className="text-sm font-semibold text-foreground">{L(UI.formTitle)}</p>
-                    <div className="space-y-2">
-                      <input
-                        type="email"
-                        value={contactEmail}
-                        onChange={(e) => setContactEmail(e.target.value)}
-                        placeholder={L(UI.emailPh)}
-                        disabled={isSubmitting}
-                        className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      />
-                      <input
-                        type="tel"
-                        value={contactPhone}
-                        onChange={(e) => setContactPhone(e.target.value)}
-                        placeholder={L(UI.phonePh)}
-                        disabled={isSubmitting}
-                        className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      />
-                      <p className="text-xs text-muted-foreground">{L(UI.contactHint)}</p>
-                    </div>
-                    {formError && <p className="text-xs text-destructive">{formError}</p>}
-                    <Button
-                      type="submit"
-                      variant="cta"
-                      size="lg"
-                      className="w-full gap-2"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          {L(UI.sending)}
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" />
-                          {L(UI.submitBtn)}
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                )}
+                <div className="space-y-2">
+                  <Button
+                    onClick={handleBuyNow}
+                    variant="cta"
+                    size="lg"
+                    className="w-full gap-2"
+                    disabled={isCheckingOut}
+                  >
+                    {isCheckingOut ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        {L(UI.sending)}
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="w-4 h-4" />
+                        {L(UI.buyNow)} — €{part.price}
+                      </>
+                    )}
+                  </Button>
+                  {checkoutError && (
+                    <p className="text-xs text-destructive">{checkoutError}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground text-center">
+                    {L(UI.shippingNote)}
+                  </p>
+                </div>
               </div>
             </section>
 
