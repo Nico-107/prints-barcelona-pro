@@ -52,7 +52,7 @@ serve(async (req: Request) => {
     const {
       material, color, infill, wallLoops, quantity,
       filePaths, fileNames, exactPrice, contactEmail, contactPhone, language,
-      fulfillment,
+      fulfillment, shippingRateEuros,
     } = body ?? {};
 
     const price = Number(exactPrice);
@@ -128,6 +128,19 @@ serve(async (req: Request) => {
       "cancel_url": `${SITE_URL}/?checkout=cancelled`,
     });
     if (fulfillment === "shipping") {
+      const shippingRate = Number(shippingRateEuros);
+      if (Number.isFinite(shippingRate) && shippingRate > 0) {
+        params.set("line_items[1][quantity]", "1");
+        params.set("line_items[1][price_data][currency]", "eur");
+        params.set(
+          "line_items[1][price_data][unit_amount]",
+          String(Math.round(shippingRate * 100)),
+        );
+        params.set(
+          "line_items[1][price_data][product_data][name]",
+          "Envío (España)",
+        );
+      }
       params.set("shipping_address_collection[allowed_countries][0]", "ES");
       params.set("phone_number_collection[enabled]", "true");
     }
