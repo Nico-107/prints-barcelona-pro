@@ -27,8 +27,8 @@ export const partPages: PartPage[] = [
     howItsMade:
       "Diseñado a medida según el patrón de agujeros de tu monitor e impreso bajo demanda en PETG, un material rígido y resistente a la deformación. No mantenemos stock — cada pieza se fabrica cuando se confirma el pedido, por lo que no hay inventario que se quede obsoleto ni desperdicio de material.",
     images: {
-      cover: "/images/piezas/adaptador-vesa-cover.jpeg",
-      uso: "/images/piezas/adaptador-vesa-uso.jpeg",
+      cover: "/images/piezas/adaptador-vesa-uso.jpeg",
+      uso: "/images/piezas/adaptador-vesa-cover.jpeg",
       medidas: "/images/piezas/adaptador-vesa-medidas.jpeg",
     },
     compatibleWith:
