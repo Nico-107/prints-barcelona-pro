@@ -179,7 +179,7 @@ const PartPage = ({ part }: Props) => {
                 <PictureImg
                   src={part.images.cover}
                   alt={part.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   loading="eager"
                   fetchPriority="high"
                 />
@@ -288,7 +288,7 @@ const PartPage = ({ part }: Props) => {
                   <PictureImg
                     src={part.images.uso}
                     alt={`${part.name} en uso`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </div>
@@ -300,7 +300,7 @@ const PartPage = ({ part }: Props) => {
                   <PictureImg
                     src={part.images.medidas}
                     alt={`Medidas de ${part.name}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </div>
@@ -316,7 +316,7 @@ const PartPage = ({ part }: Props) => {
                   <PictureImg
                     src={part.images.antesDespues}
                     alt={`Antes y después — ${part.name}`}
-                    className="w-full object-cover"
+                    className="w-full object-contain"
                   />
                 </div>
               </section>
