@@ -22,7 +22,7 @@ if (existsSync(envPath)) {
 }
 
 // Load the SSR bundle produced by `vite build --ssr`.
-const { render, ALL_PAGES, CITY_PAGES } = await import(
+const { render, ALL_PAGES, CITY_PAGES, partPages } = await import(
   resolve(root, "dist-ssr/entry-server.js")
 );
 
@@ -31,7 +31,7 @@ const { render, ALL_PAGES, CITY_PAGES } = await import(
 const template = readFileSync(resolve(root, "dist/index.html"), "utf-8");
 
 // DesignRequest routes: EN, ES, CA variants prerendered below.
-const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker-guide", "/blog", "/blog/precio-impresion-3d-barcelona", "/blog/impresion-3d-urgente-barcelona", "/blog/recambios-piezas-rotas-impresion-3d-barcelona", "/blog/prototipos-rapidos-piezas-funcionales-barcelona", "/impresion-3d-estudiantes-barcelona", "/privacy", "/creator", ...ALL_PAGES.map((p) => p.slug), ...CITY_PAGES.map((p) => p.slug), "/catalogo", "/catalogo/jarron-personalizado", "/catalogo/placa-nombre", "/catalogo/placa-mascota", "/catalogo/soporte-telefono", "/catalogo/topper-boda",
+const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker-guide", "/blog", "/blog/precio-impresion-3d-barcelona", "/blog/impresion-3d-urgente-barcelona", "/blog/recambios-piezas-rotas-impresion-3d-barcelona", "/blog/prototipos-rapidos-piezas-funcionales-barcelona", "/impresion-3d-estudiantes-barcelona", "/privacy", "/creator", ...ALL_PAGES.map((p) => p.slug), ...CITY_PAGES.map((p) => p.slug), ...partPages.map((p) => p.slug), "/catalogo", "/catalogo/jarron-personalizado", "/catalogo/placa-nombre", "/catalogo/placa-mascota", "/catalogo/soporte-telefono", "/catalogo/topper-boda",
   "/design-your-3d-part",    // DesignRequest EN
   "/disena-tu-pieza-3d",     // DesignRequest ES
   "/dissenya-la-teva-peca-3d", // DesignRequest CA

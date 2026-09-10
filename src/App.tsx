@@ -4,13 +4,14 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
 import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import NotFound from "./pages/NotFound";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
+import { partPages } from "@/data/partsPages";
 
 const Track = lazy(() => import("./pages/Track"));
 const Admin = lazy(() => import("./pages/Admin"));
@@ -35,6 +36,7 @@ const Creator = lazy(() => import("./pages/Creator"));
 const DesignRequest = lazy(() => import("./pages/DesignRequest"));
 const FileChecker = lazy(() => import("./pages/FileChecker"));
 const ReturnPolicy = lazy(() => import("./pages/ReturnPolicy"));
+const PartPage = lazy(() => import("./pages/PartPage"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -56,6 +58,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
+          <LanguageNavigationSync />
           <CookieConsentBanner />
           <Suspense fallback={PageFallback}>
             <Routes>
@@ -83,6 +86,9 @@ const App = () => (
               ))}
               {CITY_PAGES.map((p) => (
                 <Route key={p.slug} path={p.slug} element={<CityDeliveryPage config={p} />} />
+              ))}
+              {partPages.map((p) => (
+                <Route key={p.slug} path={p.slug} element={<PartPage part={p} />} />
               ))}
               <Route path="/catalogo" element={<Catalog />} />
               <Route path="/catalogo/:slug" element={<CatalogProduct />} />

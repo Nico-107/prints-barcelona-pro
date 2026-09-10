@@ -31,11 +31,13 @@ import CatalogProduct from "./pages/CatalogProduct";
 import Creator from "./pages/Creator";
 import FileChecker from "./pages/FileChecker";
 import ReturnPolicy from "./pages/ReturnPolicy";
+import PartPage from "./pages/PartPage";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
+import { partPages } from "@/data/partsPages";
 import type { Language } from "@/contexts/LanguageContext";
 
-export { ALL_PAGES, CITY_PAGES };
+export { ALL_PAGES, CITY_PAGES, partPages };
 
 type HelmetServerContext = {
   helmet?: HelmetServerState | null;
@@ -105,6 +107,9 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/design-your-3d-part" element={<DesignRequest />} />
                 <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
                 <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
+                {partPages.map((p) => (
+                  <Route key={p.slug} path={p.slug} element={<PartPage part={p} />} />
+                ))}
                 <Route path="/catalogo" element={<Catalog />} />
                 <Route path="/catalogo/:slug" element={<CatalogProduct />} />
                 <Route path="/creator" element={<Creator />} />

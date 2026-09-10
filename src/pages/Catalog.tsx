@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import PictureImg from "@/components/PictureImg";
 import { catalogProducts } from "@/data/catalogProducts";
+import { partPages } from "@/data/partsPages";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const SITE_URL = "https://www.dimension3dprints.com";
@@ -85,6 +86,30 @@ const Catalog = () => {
                   <p className="text-sm text-accent font-medium">
                     Desde €{product.priceLow}
                   </p>
+                </div>
+              </Link>
+            ))}
+            {partPages.map((part) => (
+              <Link
+                key={part.slug}
+                to={part.slug}
+                className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-md transition-all duration-200"
+              >
+                <div className="aspect-square bg-secondary/30 overflow-hidden">
+                  <PictureImg
+                    src={part.images.cover}
+                    alt={part.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
+                    Pieza a medida
+                  </p>
+                  <h2 className="font-semibold text-foreground mb-1 leading-tight">
+                    {part.name}
+                  </h2>
+                  <p className="text-sm text-accent font-medium">€{part.price}</p>
                 </div>
               </Link>
             ))}
