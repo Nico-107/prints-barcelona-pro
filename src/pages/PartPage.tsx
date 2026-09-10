@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Box, Clock, Loader2, ShoppingCart, Truck } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
@@ -43,6 +49,9 @@ const UI = {
   inUseAlt:      { es: "en uso",                    en: "in use",                             ca: "en ús" },
   dimensionsAlt: { es: "Medidas de",               en: "Dimensions of",                      ca: "Mides de" },
   beforeAfterAlt:{ es: "Antes y después —",         en: "Before and after —",                 ca: "Abans i després —" },
+  madeToOrder:   { es: "Impreso bajo demanda",      en: "Made to order",                      ca: "Imprès sota demanda" },
+  shippingCost:  { es: "+ €5 envío",                en: "+ €5 shipping",                      ca: "+ €5 enviament" },
+  aboutProduct:  { es: "Descripción",               en: "Description",                        ca: "Descripció" },
 };
 
 interface Props {
@@ -126,7 +135,7 @@ const PartPage = ({ part }: Props) => {
     })),
   };
 
-  const metaTitle = `${L(part.name)} | Dimension3D`;
+  const metaTitle = L(part.metaTitle);
   const metaDescription = `${L(part.problemStatement)} ${part.keywords.slice(0, 2).join(", ")}.`;
 
   const handleBuyNow = async () => {
@@ -163,13 +172,13 @@ const PartPage = ({ part }: Props) => {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
       <Header />
-      <main className="min-h-screen bg-background pt-24 pb-20">
+      <main className="min-h-screen bg-background pt-20 pb-20">
         <div className="container px-4">
           <div className="max-w-5xl mx-auto space-y-16">
 
-            {/* Hero */}
-            <section className="grid md:grid-cols-2 gap-10 items-start">
-              <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-square">
+            {/* Hero — image + all purchase-decision info in one section */}
+            <section className="grid md:grid-cols-2 gap-8 md:gap-10 items-start">
+              <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-[4/3] md:aspect-square">
                 <PictureImg
                   src={part.images.cover}
                   alt={L(part.name)}
@@ -178,49 +187,74 @@ const PartPage = ({ part }: Props) => {
                   fetchPriority="high"
                 />
               </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+
+              <div className="flex flex-col gap-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent">
                   {L(UI.badge)}
                 </p>
-                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-6 leading-tight">
-                  {L(part.problemStatement)}
-                </h1>
-                <p className="text-2xl font-bold text-accent mb-1">€{part.price}</p>
-                <p className="text-xs text-muted-foreground mb-6 italic">{part.disclaimer}</p>
 
-                <div className="space-y-2">
-                  <Button
-                    onClick={handleBuyNow}
-                    variant="cta"
-                    size="lg"
-                    className="w-full gap-2"
-                    disabled={isCheckingOut}
-                  >
-                    {isCheckingOut ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        {L(UI.sending)}
-                      </>
-                    ) : (
-                      <>
-                        <ShoppingCart className="w-4 h-4" />
-                        {L(UI.buyNow)} — €{part.price}
-                      </>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">
+                  {L(part.name)}
+                </h1>
+
+                <p className="text-sm text-muted-foreground italic leading-relaxed">
+                  {L(part.problemStatement)}
+                </p>
+
+                {/* Trust signals */}
+                <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground border-y border-border py-3">
+                  <span className="flex items-center gap-1.5">
+                    <Box className="w-3.5 h-3.5 shrink-0" />
+                    {part.material}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 shrink-0" />
+                    {L(UI.madeToOrder)}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Truck className="w-3.5 h-3.5 shrink-0" />
+                    {L(UI.shippingCost)}
+                  </span>
+                </div>
+
+                {/* Price + CTA */}
+                <div>
+                  <p className="text-3xl font-bold text-accent mb-0.5">€{part.price}</p>
+                  <p className="text-xs text-muted-foreground italic mb-3">{part.disclaimer}</p>
+                  <div className="space-y-2">
+                    <Button
+                      onClick={handleBuyNow}
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      disabled={isCheckingOut}
+                    >
+                      {isCheckingOut ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          {L(UI.sending)}
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingCart className="w-4 h-4" />
+                          {L(UI.buyNow)} — €{part.price}
+                        </>
+                      )}
+                    </Button>
+                    {checkoutError && (
+                      <p className="text-xs text-destructive">{checkoutError}</p>
                     )}
-                  </Button>
-                  {checkoutError && (
-                    <p className="text-xs text-destructive">{checkoutError}</p>
-                  )}
-                  <p className="text-xs text-muted-foreground text-center">
-                    {L(UI.shippingNote)}
-                  </p>
+                    <p className="text-xs text-muted-foreground text-center">
+                      {L(UI.shippingNote)}
+                    </p>
+                  </div>
                 </div>
               </div>
             </section>
 
             {/* Description */}
             <section>
-              <h2 className="text-2xl font-bold text-foreground mb-3">{L(part.name)}</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-3">{L(UI.aboutProduct)}</h2>
               <p className="text-muted-foreground leading-relaxed text-lg">{L(part.description)}</p>
             </section>
 
@@ -288,20 +322,25 @@ const PartPage = ({ part }: Props) => {
               </section>
             )}
 
-            {/* FAQ */}
+            {/* FAQ — accordion */}
             <section>
-              <h2 className="text-2xl font-bold text-foreground mb-6">{L(UI.faq)}</h2>
-              <dl className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground mb-4">{L(UI.faq)}</h2>
+              <Accordion type="single" collapsible className="border border-border rounded-2xl px-2">
                 {allFaqs.map((faq, i) => (
-                  <div
+                  <AccordionItem
                     key={i}
-                    className="border-b border-border pb-6 last:border-0 last:pb-0"
+                    value={`faq-${i}`}
+                    className="last:border-0"
                   >
-                    <dt className="font-semibold text-foreground mb-2">{L(faq.q)}</dt>
-                    <dd className="text-muted-foreground leading-relaxed">{L(faq.a)}</dd>
-                  </div>
+                    <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline">
+                      {L(faq.q)}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground leading-relaxed">
+                      {L(faq.a)}
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </dl>
+              </Accordion>
             </section>
 
           </div>

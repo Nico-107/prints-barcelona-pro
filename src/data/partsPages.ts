@@ -3,6 +3,7 @@ type I18n = { es: string; en: string; ca: string };
 export interface PartPage {
   slug: string;
   name: I18n;
+  metaTitle: I18n;
   category: "adapter" | "replacement";
   price: number;
   problemStatement: I18n;
@@ -23,6 +24,11 @@ export const partPages: PartPage[] = [
       es: "Adaptador VESA para Monitor",
       en: "VESA Monitor Adapter",
       ca: "Adaptador VESA per a Monitor",
+    },
+    metaTitle: {
+      es: "Adaptador VESA para Monitor — Repuesto Universal para Soporte No Estándar | Dimension3D",
+      en: "VESA Monitor Adapter — Universal Fix for Non-Standard Monitor Mounts | Dimension3D",
+      ca: "Adaptador VESA per a Monitor — Recanvi Universal per a Suport No Estàndard | Dimension3D",
     },
     category: "adapter",
     price: 18,
@@ -106,6 +112,11 @@ export const partPages: PartPage[] = [
       en: "Magnetic Dosing Funnel 58 mm",
       ca: "Embut Dosificador Magnètic 58 mm",
     },
+    metaTitle: {
+      es: "Embudo Dosificador Magnético 58mm — Sin Derrames al Cargar el Portafiltro | Dimension3D",
+      en: "Magnetic Dosing Funnel 58mm — No Spills When Loading Your Portafilter | Dimension3D",
+      ca: "Embut Dosificador Magnètic 58mm — Sense Derrames en Carregar el Portafiltres | Dimension3D",
+    },
     category: "adapter",
     price: 11,
     problemStatement: {
@@ -186,6 +197,11 @@ export const partPages: PartPage[] = [
       en: "Dishwasher Basket Wheel for Bosch (Set of 4)",
       ca: "Roda de Cistell per a Rentavaixelles Bosch (Joc de 4)",
     },
+    metaTitle: {
+      es: "Rueda Cesto Lavavajillas Bosch — Juego de 4 Ruedas de Repuesto Compatible | Dimension3D",
+      en: "Dishwasher Basket Wheel for Bosch — Set of 4 Compatible Replacement Wheels | Dimension3D",
+      ca: "Roda Cistell Rentavaixelles Bosch — Joc de 4 Rodes de Recanvi Compatible | Dimension3D",
+    },
     category: "replacement",
     price: 11,
     problemStatement: {
@@ -254,6 +270,11 @@ export const partPages: PartPage[] = [
       es: "Adaptador de Manguera Gardena a Rosca Estándar",
       en: "Gardena Hose Adapter to Standard Thread",
       ca: "Adaptador de Mànega Gardena a Rosca Estàndard",
+    },
+    metaTitle: {
+      es: "Adaptador Manguera Gardena a Rosca Estándar — Conecta GHT y Sistema Gardena | Dimension3D",
+      en: "Gardena Hose Adapter to Standard Thread — Bridge GHT and Gardena Systems | Dimension3D",
+      ca: "Adaptador Mànega Gardena a Rosca Estàndard — Connecta GHT i Sistema Gardena | Dimension3D",
     },
     category: "adapter",
     price: 9,
