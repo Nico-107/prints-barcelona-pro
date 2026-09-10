@@ -98,7 +98,7 @@ const Catalog = () => {
                 <div className="aspect-square bg-secondary/30 overflow-hidden">
                   <PictureImg
                     src={part.images.cover}
-                    alt={part.name}
+                    alt={part.name[productLang]}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -107,7 +107,7 @@ const Catalog = () => {
                     Pieza a medida
                   </p>
                   <h2 className="font-semibold text-foreground mb-1 leading-tight">
-                    {part.name}
+                    {part.name[productLang]}
                   </h2>
                   <p className="text-sm text-accent font-medium">€{part.price}</p>
                 </div>
