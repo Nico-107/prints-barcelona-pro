@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
 import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
@@ -58,7 +58,6 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
-          <LanguageNavigationSync />
           <CookieConsentBanner />
           <Suspense fallback={PageFallback}>
             <Routes>
