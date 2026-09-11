@@ -363,6 +363,15 @@ const Index = () => {
                     </Link>
                   ))}
                 </div>
+                <p className="text-sm text-center text-foreground/55 mt-6">
+                  {language === "en" ? (
+                    <>Looking for a ready-made part or replacement? <Link to="/catalogo" className="text-accent hover:underline">Browse our parts &amp; accessories catalog</Link>.</>
+                  ) : language === "ca" ? (
+                    <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent hover:underline">Explora el catàleg de peces i repuestos</Link>.</>
+                  ) : (
+                    <>¿Necesitas un repuesto o pieza a medida disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Explora el catálogo de repuestos y piezas</Link>.</>
+                  )}
+                </p>
               </div>
             </section>
           );

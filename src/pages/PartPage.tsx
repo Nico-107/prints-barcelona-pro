@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Box, Clock, Loader2, ShoppingCart, Truck } from "lucide-react";
+import { Box, Clock, Loader2, MapPin, ShoppingCart, Truck } from "lucide-react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -15,6 +16,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
+import { partPages } from "@/data/partsPages";
 import type { PartPage as PartPageData } from "@/data/partsPages";
 
 const SITE_URL = "https://www.dimension3dprints.com";
@@ -34,24 +36,33 @@ const FIXED_FAQ = {
 };
 
 const UI = {
-  badge:         { es: "Pieza a medida",          en: "Custom Part",                        ca: "Peça a mida" },
-  buyNow:        { es: "Comprar ahora",             en: "Buy now",                            ca: "Comprar ara" },
-  sending:       { es: "Redirigiendo...",           en: "Redirecting...",                     ca: "Redirigint..." },
+  badge:         { es: "Pieza a medida",              en: "Custom Part",                          ca: "Peça a mida" },
+  buyNow:        { es: "Comprar ahora",                en: "Buy now",                              ca: "Comprar ara" },
+  sending:       { es: "Redirigiendo...",              en: "Redirecting...",                       ca: "Redirigint..." },
   shippingNote:  { es: "+ €5 de envío (se muestra en el pago)", en: "+ €5 shipping (shown at checkout)", ca: "+ €5 d'enviament (es mostra al pagament)" },
   checkoutErr:   { es: "Error al iniciar el pago. Inténtalo de nuevo.", en: "Payment failed to start. Please try again.", ca: "Error en iniciar el pagament. Torna-ho a intentar." },
-  howMade:       { es: "Cómo se fabrica",          en: "How it's made",                      ca: "Com es fabrica" },
-  material:      { es: "Material",                  en: "Material",                           ca: "Material" },
-  compatible:    { es: "Compatible con",            en: "Compatible with",                    ca: "Compatible amb" },
-  inUse:         { es: "En uso",                    en: "In use",                             ca: "En ús" },
-  dimensions:    { es: "Medidas",                   en: "Dimensions",                         ca: "Mides" },
-  beforeAfter:   { es: "Antes y después",           en: "Before and after",                   ca: "Abans i després" },
-  faq:           { es: "Preguntas frecuentes",      en: "Frequently asked questions",         ca: "Preguntes freqüents" },
-  inUseAlt:      { es: "en uso",                    en: "in use",                             ca: "en ús" },
-  dimensionsAlt: { es: "Medidas de",               en: "Dimensions of",                      ca: "Mides de" },
-  beforeAfterAlt:{ es: "Antes y después —",         en: "Before and after —",                 ca: "Abans i després —" },
-  madeToOrder:   { es: "Impreso bajo demanda",      en: "Made to order",                      ca: "Imprès sota demanda" },
-  shippingCost:  { es: "+ €5 envío",                en: "+ €5 shipping",                      ca: "+ €5 enviament" },
-  aboutProduct:  { es: "Descripción",               en: "Description",                        ca: "Descripció" },
+  howMade:       { es: "Cómo se fabrica",              en: "How it's made",                        ca: "Com es fabrica" },
+  material:      { es: "Material",                     en: "Material",                             ca: "Material" },
+  compatible:    { es: "Compatible con",               en: "Compatible with",                      ca: "Compatible amb" },
+  inUse:         { es: "En uso",                       en: "In use",                               ca: "En ús" },
+  dimensions:    { es: "Medidas",                      en: "Dimensions",                           ca: "Mides" },
+  beforeAfter:   { es: "Antes y después",              en: "Before and after",                     ca: "Abans i després" },
+  faq:           { es: "Preguntas frecuentes",         en: "Frequently asked questions",           ca: "Preguntes freqüents" },
+  inUseAlt:      { es: "en uso",                       en: "in use",                               ca: "en ús" },
+  dimensionsAlt: { es: "Medidas de",                  en: "Dimensions of",                        ca: "Mides de" },
+  beforeAfterAlt:{ es: "Antes y después —",            en: "Before and after —",                   ca: "Abans i després —" },
+  madeToOrder:   { es: "Impreso bajo demanda",         en: "Made to order",                        ca: "Imprès sota demanda" },
+  shippingCost:  { es: "+ €5 envío",                   en: "+ €5 shipping",                        ca: "+ €5 enviament" },
+  aboutProduct:  { es: "Descripción",                  en: "Description",                          ca: "Descripció" },
+  pickupLabel:   { es: "Recoger en Barcelona",          en: "Pick up in Barcelona",                 ca: "Recollida a Barcelona" },
+  pickupFree:    { es: "Gratis",                        en: "Free",                                 ca: "Gratis" },
+  pickupNext:    { es: "Disponible mañana",             en: "Available next day",                   ca: "Disponible demà" },
+  pickupAddr:    { es: "Rambla de Brasil, Barcelona",  en: "Rambla de Brasil, Barcelona",          ca: "Rambla de Brasil, Barcelona" },
+  shippingLabel: { es: "Envío a domicilio",             en: "Home delivery",                        ca: "Enviament a domicili" },
+  shippingZone:  { es: "España peninsular",             en: "Spain (mainland)",                     ca: "Espanya peninsular" },
+  otherParts:    { es: "Otras piezas a medida",         en: "Other custom parts",                   ca: "Altres peces a mida" },
+  breadHome:     { es: "Inicio",                        en: "Home",                                 ca: "Inici" },
+  breadCatalog:  { es: "Catálogo",                      en: "Catalogue",                            ca: "Catàleg" },
 };
 
 interface Props {
@@ -65,7 +76,10 @@ const PartPage = ({ part }: Props) => {
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping">("pickup");
 
+  const totalPrice = fulfillment === "shipping" ? part.price + SHIPPING_FEE_EUROS : part.price;
+  const otherParts = partPages.filter((p) => p.slug !== part.slug);
   const allFaqs = [...part.faqs, FIXED_FAQ];
   const productSlug = part.slug.replace(/^\//, "");
 
@@ -135,6 +149,16 @@ const PartPage = ({ part }: Props) => {
     })),
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: L(UI.breadHome), item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: L(UI.breadCatalog), item: `${SITE_URL}/catalogo` },
+      { "@type": "ListItem", position: 3, name: L(part.name), item: `${SITE_URL}${part.slug}` },
+    ],
+  };
+
   const metaTitle = L(part.metaTitle);
   const metaDescription = L(part.problemStatement);
 
@@ -146,9 +170,9 @@ const PartPage = ({ part }: Props) => {
         body: {
           material: part.material,
           exactPrice: part.price,
-          fulfillment: "shipping",
+          fulfillment,
           productName: part.name.es,
-          shippingRateEuros: SHIPPING_FEE_EUROS,
+          shippingRateEuros: fulfillment === "shipping" ? SHIPPING_FEE_EUROS : 0,
           language: lang,
         },
       });
@@ -170,6 +194,7 @@ const PartPage = ({ part }: Props) => {
         <link rel="canonical" href={`${SITE_URL}${part.slug}`} />
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
       <Header />
       <main className="min-h-screen bg-background pt-20 pb-28 md:pb-20">
@@ -201,7 +226,41 @@ const PartPage = ({ part }: Props) => {
                   {L(part.problemStatement)}
                 </p>
 
-                {/* Trust signals */}
+                {/* Fulfillment choice */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFulfillment("pickup")}
+                    className={`rounded-xl border p-3 text-left transition-all ${
+                      fulfillment === "pickup"
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/40"
+                    }`}
+                  >
+                    <p className="text-xs font-semibold text-foreground leading-snug">
+                      {L(UI.pickupLabel)}
+                    </p>
+                    <p className="text-sm font-bold text-accent">{L(UI.pickupFree)}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{L(UI.pickupNext)}</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFulfillment("shipping")}
+                    className={`rounded-xl border p-3 text-left transition-all ${
+                      fulfillment === "shipping"
+                        ? "border-accent bg-accent/5"
+                        : "border-border hover:border-accent/40"
+                    }`}
+                  >
+                    <p className="text-xs font-semibold text-foreground leading-snug">
+                      {L(UI.shippingLabel)}
+                    </p>
+                    <p className="text-sm font-bold text-accent">+ €{SHIPPING_FEE_EUROS}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{L(UI.shippingZone)}</p>
+                  </button>
+                </div>
+
+                {/* Trust signals — reflect the active fulfillment choice */}
                 <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground border-y border-border py-3">
                   <span className="flex items-center gap-1.5">
                     <Box className="w-3.5 h-3.5 shrink-0" />
@@ -209,17 +268,21 @@ const PartPage = ({ part }: Props) => {
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 shrink-0" />
-                    {L(UI.madeToOrder)}
+                    {fulfillment === "pickup" ? L(UI.pickupNext) : L(UI.madeToOrder)}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <Truck className="w-3.5 h-3.5 shrink-0" />
-                    {L(UI.shippingCost)}
+                    {fulfillment === "pickup" ? (
+                      <MapPin className="w-3.5 h-3.5 shrink-0" />
+                    ) : (
+                      <Truck className="w-3.5 h-3.5 shrink-0" />
+                    )}
+                    {fulfillment === "pickup" ? L(UI.pickupAddr) : L(UI.shippingCost)}
                   </span>
                 </div>
 
-                {/* Price + CTA */}
+                {/* Price + CTA — total updates live */}
                 <div>
-                  <p className="text-3xl font-bold text-accent mb-3">€{part.price}</p>
+                  <p className="text-3xl font-bold text-accent mb-3">€{totalPrice}</p>
                   <div className="space-y-2">
                     <Button
                       onClick={handleBuyNow}
@@ -236,16 +299,18 @@ const PartPage = ({ part }: Props) => {
                       ) : (
                         <>
                           <ShoppingCart className="w-4 h-4" />
-                          {L(UI.buyNow)} — €{part.price}
+                          {L(UI.buyNow)} — €{totalPrice}
                         </>
                       )}
                     </Button>
                     {checkoutError && (
                       <p className="text-xs text-destructive">{checkoutError}</p>
                     )}
-                    <p className="text-xs text-muted-foreground text-center">
-                      {L(UI.shippingNote)}
-                    </p>
+                    {fulfillment === "shipping" && (
+                      <p className="text-xs text-muted-foreground text-center">
+                        {L(UI.shippingNote)}
+                      </p>
+                    )}
                     <p className="text-xs text-muted-foreground italic">{part.disclaimer}</p>
                   </div>
                 </div>
@@ -322,6 +387,34 @@ const PartPage = ({ part }: Props) => {
               </section>
             )}
 
+            {/* Other parts — internal linking so each product page links to the other 3 */}
+            <section>
+              <h2 className="text-xl font-semibold text-foreground mb-4">{L(UI.otherParts)}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {otherParts.map((p) => (
+                  <Link
+                    key={p.slug}
+                    to={p.slug}
+                    className="group rounded-xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-sm transition-all duration-200"
+                  >
+                    <div className="aspect-[4/3] bg-secondary/30 overflow-hidden">
+                      <PictureImg
+                        src={p.images.cover}
+                        alt={L(p.name)}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <p className="font-semibold text-foreground text-sm leading-snug mb-1">
+                        {L(p.name)}
+                      </p>
+                      <p className="text-sm text-accent font-medium">€{p.price}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
             {/* FAQ — accordion */}
             <section>
               <h2 className="text-2xl font-bold text-foreground mb-4">{L(UI.faq)}</h2>
@@ -349,8 +442,10 @@ const PartPage = ({ part }: Props) => {
       {/* Sticky buy bar — mobile only, keeps price+CTA in same viewport as hero image */}
       <div className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur border-t border-border px-4 py-3 flex items-center gap-3">
         <div className="shrink-0">
-          <p className="text-xl font-bold text-accent leading-none">€{part.price}</p>
-          <p className="text-xs text-muted-foreground">{L(UI.shippingCost)}</p>
+          <p className="text-xl font-bold text-accent leading-none">€{totalPrice}</p>
+          <p className="text-xs text-muted-foreground">
+            {fulfillment === "pickup" ? L(UI.pickupFree) : L(UI.shippingCost)}
+          </p>
         </div>
         <Button
           onClick={handleBuyNow}

@@ -20,24 +20,44 @@ const Catalog = () => {
     name: "Catálogo de productos personalizados | Dimension3D",
     description: "Productos personalizados impresos en 3D: jarrón, placa de nombre, placa para mascota, soporte de teléfono y topper de boda.",
     url: `${SITE_URL}/catalogo`,
-    itemListElement: catalogProducts.map((p, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      item: {
-        "@type": "Product",
-        "@id": `${SITE_URL}/catalogo/${p.slug}`,
-        name: p.name[productLang],
-        description: p.description[productLang],
-        image: `${SITE_URL}${p.image}`,
-        url: `${SITE_URL}/catalogo/${p.slug}`,
-        offers: {
-          "@type": "Offer",
-          price: p.priceLow,
-          priceCurrency: "EUR",
-          availability: "https://schema.org/InStock",
+    itemListElement: [
+      ...partPages.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Product",
+          "@id": `${SITE_URL}${p.slug}`,
+          name: p.name[productLang],
+          description: p.description[productLang],
+          image: `${SITE_URL}${p.images.cover}`,
+          url: `${SITE_URL}${p.slug}`,
+          offers: {
+            "@type": "Offer",
+            price: p.price,
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+          },
         },
-      },
-    })),
+      })),
+      ...catalogProducts.map((p, i) => ({
+        "@type": "ListItem",
+        position: partPages.length + i + 1,
+        item: {
+          "@type": "Product",
+          "@id": `${SITE_URL}/catalogo/${p.slug}`,
+          name: p.name[productLang],
+          description: p.description[productLang],
+          image: `${SITE_URL}${p.image}`,
+          url: `${SITE_URL}/catalogo/${p.slug}`,
+          offers: {
+            "@type": "Offer",
+            price: p.priceLow,
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+          },
+        },
+      })),
+    ],
   };
 
   return (
@@ -66,29 +86,6 @@ const Catalog = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {catalogProducts.map((product) => (
-              <Link
-                key={product.slug}
-                to={`/catalogo/${product.slug}`}
-                className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-md transition-all duration-200"
-              >
-                <div className="aspect-square bg-secondary/30 overflow-hidden">
-                  <PictureImg
-                    src={product.coverImages?.[language] ?? product.image}
-                    alt={product.name[productLang]}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-4">
-                  <h2 className="font-semibold text-foreground mb-1 leading-tight">
-                    {product.name[productLang]}
-                  </h2>
-                  <p className="text-sm text-accent font-medium">
-                    Desde €{product.priceLow}
-                  </p>
-                </div>
-              </Link>
-            ))}
             {partPages.map((part) => (
               <Link
                 key={part.slug}
@@ -110,6 +107,29 @@ const Catalog = () => {
                     {part.name[productLang]}
                   </h2>
                   <p className="text-sm text-accent font-medium">€{part.price}</p>
+                </div>
+              </Link>
+            ))}
+            {catalogProducts.map((product) => (
+              <Link
+                key={product.slug}
+                to={`/catalogo/${product.slug}`}
+                className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-md transition-all duration-200"
+              >
+                <div className="aspect-square bg-secondary/30 overflow-hidden">
+                  <PictureImg
+                    src={product.coverImages?.[language] ?? product.image}
+                    alt={product.name[productLang]}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4">
+                  <h2 className="font-semibold text-foreground mb-1 leading-tight">
+                    {product.name[productLang]}
+                  </h2>
+                  <p className="text-sm text-accent font-medium">
+                    Desde €{product.priceLow}
+                  </p>
                 </div>
               </Link>
             ))}
