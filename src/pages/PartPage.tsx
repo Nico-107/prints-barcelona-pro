@@ -136,7 +136,7 @@ const PartPage = ({ part }: Props) => {
   };
 
   const metaTitle = L(part.metaTitle);
-  const metaDescription = `${L(part.problemStatement)} ${part.keywords.slice(0, 2).join(", ")}.`;
+  const metaDescription = L(part.problemStatement);
 
   const handleBuyNow = async () => {
     setIsCheckingOut(true);
@@ -172,7 +172,7 @@ const PartPage = ({ part }: Props) => {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
       <Header />
-      <main className="min-h-screen bg-background pt-20 pb-20">
+      <main className="min-h-screen bg-background pt-20 pb-28 md:pb-20">
         <div className="container px-4">
           <div className="max-w-5xl mx-auto space-y-16">
 
@@ -219,8 +219,7 @@ const PartPage = ({ part }: Props) => {
 
                 {/* Price + CTA */}
                 <div>
-                  <p className="text-3xl font-bold text-accent mb-0.5">€{part.price}</p>
-                  <p className="text-xs text-muted-foreground italic mb-3">{part.disclaimer}</p>
+                  <p className="text-3xl font-bold text-accent mb-3">€{part.price}</p>
                   <div className="space-y-2">
                     <Button
                       onClick={handleBuyNow}
@@ -247,6 +246,7 @@ const PartPage = ({ part }: Props) => {
                     <p className="text-xs text-muted-foreground text-center">
                       {L(UI.shippingNote)}
                     </p>
+                    <p className="text-xs text-muted-foreground italic">{part.disclaimer}</p>
                   </div>
                 </div>
               </div>
@@ -346,6 +346,32 @@ const PartPage = ({ part }: Props) => {
           </div>
         </div>
       </main>
+      {/* Sticky buy bar — mobile only, keeps price+CTA in same viewport as hero image */}
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur border-t border-border px-4 py-3 flex items-center gap-3">
+        <div className="shrink-0">
+          <p className="text-xl font-bold text-accent leading-none">€{part.price}</p>
+          <p className="text-xs text-muted-foreground">{L(UI.shippingCost)}</p>
+        </div>
+        <Button
+          onClick={handleBuyNow}
+          variant="cta"
+          size="lg"
+          className="flex-1 gap-2"
+          disabled={isCheckingOut}
+        >
+          {isCheckingOut ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {L(UI.sending)}
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="w-4 h-4" />
+              {L(UI.buyNow)}
+            </>
+          )}
+        </Button>
+      </div>
       <Footer />
       <WhatsAppFloat />
     </>
