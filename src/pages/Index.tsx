@@ -32,19 +32,19 @@ const HOME_META: Record<string, { title: string; description: string; locale: st
   es: {
     title: `Impresión 3D en ${ACTIVE_CITY.cityName} — Desde 10€, Presupuesto en 1h`,
     description:
-      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 10€, sin pedido mínimo. Recogida local o envío. 4,9/5.`,
+      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 10€, sin pedido mínimo. Recogida local o envío.`,
     locale: "es_ES",
   },
   en: {
     title: `3D Printing ${ACTIVE_CITY.cityName} — From 10€, Quote in Under 1 Hour`,
     description:
-      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From 10€, no minimum order. Local pickup or shipping. 4.9/5.`,
+      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From 10€, no minimum order. Local pickup or shipping.`,
     locale: "en_US",
   },
   ca: {
     title: `Impressió 3D a ${ACTIVE_CITY.cityName} — Des de 10€, Pressupost en 1h`,
     description:
-      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 10€, sense comanda mínima. Recollida local o enviament. 4,9/5.`,
+      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 10€, sense comanda mínima. Recollida local o enviament.`,
     locale: "ca_ES",
   },
 };
