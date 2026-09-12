@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, GraduationCap, Wrench, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, Star, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import Header from "@/components/Header";
@@ -24,7 +24,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
-import { ORGANIZATION_SCHEMA } from "@/seo/entities";
+import { ORGANIZATION_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -105,6 +105,55 @@ const GUIDES_COPY: Record<string, {
     ],
   },
 };
+
+const GOOGLE_REVIEWS_COPY: Record<string, { heading: string; aggregate: string; viewAll: string }> = {
+  es: {
+    heading: "Reseñas reales de Google",
+    aggregate: "4.8 de media en 16 reseñas de Google",
+    viewAll: "Ver todas las reseñas",
+  },
+  en: {
+    heading: "Real Google Reviews",
+    aggregate: "4.8 average across 16 Google reviews",
+    viewAll: "View all reviews",
+  },
+  ca: {
+    heading: "Ressenyes reals de Google",
+    aggregate: "4.8 de mitjana en 16 ressenyes de Google",
+    viewAll: "Veure totes les ressenyes",
+  },
+};
+
+// These are the English machine-translations that Google itself displays on
+// the Business Profile — not a back-translation from the original language.
+// Displaying the same English text for all site languages (ES/EN/CA) until
+// the real original-language text can be collected from the business owner.
+const GOOGLE_REVIEWS_DATA = [
+  {
+    name: "Sara Dospassos",
+    text: "What an amazing place! Mikolaj helped me with an urgent order on a Friday afternoon, and it was ready the very next morning. He not only delivered my pieces with a professional finish, but he even came over to where I was to hand them to me. Absolutely fantastic.",
+  },
+  {
+    name: "Kirill Gromskiy",
+    text: "I'm working for a construction company. We needed a special round shadow gap profile for a wall, but there was no way to buy one because nobody sells it. So we decided to make it with the help of 3D printing. It was fast, affordable, and worked perfectly.",
+  },
+  {
+    name: "Yasser Chyoukha",
+    text: "I had some parts printed for a project, and in addition to the excellent service and constant support, they helped me by doing resized tests so the printed nut would fit perfectly. The price was great, and it really saved me from a tight spot.",
+  },
+  {
+    name: "Filip Copaescu",
+    text: "Amazing! They were able to accurately 3D print this car part in TPU, a flexible material. Great quality and service.",
+  },
+  {
+    name: "Daniel Cáceres Álvarez",
+    text: "Spectacular! I bought two Stranger Things models for my Kinder Joy Funko Pops and they turned out great. Excellent service and quality.",
+  },
+  {
+    name: "Valentino Modestino Lombardi",
+    text: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!",
+  },
+];
 
 const Index = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -196,49 +245,17 @@ const Index = () => {
     },
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "53",
+      ratingValue: "4.8",
+      reviewCount: "16",
       bestRating: "5",
       worstRating: "1",
     },
-    review: [
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Valentino Modestino Lombardi" },
-        reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Kirill Gromskiy" },
-        reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "I'm working for a construction company. We needed a special round shadow gap profile for a wall, but there was no way to buy one because nobody sells it. So we decided to make it with the help of 3D printing. It was fast, affordable, and worked perfectly.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Daniel Cáceres Álvarez" },
-        reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Espectacular, compré dos maquetas de Stranger Things para los Funkos de Kinder Joy y quedaron geniales. Servicio y calidad de 10.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Alex A." },
-        reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Todo lo impreso está tal cual lo pedí. Gran calidad de impresión y persona seria y de confianza. 100% recomendable.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Fco Javier M." },
-        reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Perfecto con las medidas exactas. Muy bien trabajado.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "Jose Antonio A." },
-        reviewRating: { "@type": "Rating", ratingValue: "5" },
-        reviewBody: "Trabajo perfecto. Atención inmejorable. Muy contento.",
-      },
-    ],
+    review: GOOGLE_REVIEWS_DATA.map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.name },
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+      reviewBody: r.text,
+    })),
   };
 
   const serviceSchema = {
@@ -323,6 +340,66 @@ const Index = () => {
         <Materials />
         <WhyChooseUs />
         <Projects />
+
+        {/* ── GOOGLE REVIEWS ── */}
+        {(() => {
+          const copy = GOOGLE_REVIEWS_COPY[language] ?? GOOGLE_REVIEWS_COPY.es;
+          return (
+            <section className="py-14 md:py-16 bg-secondary/30">
+              <div className="container px-4 max-w-5xl mx-auto">
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-2 mb-2">
+                    <span
+                      className="w-5 h-5 rounded-full text-[10px] font-bold inline-flex items-center justify-center flex-shrink-0"
+                      style={{ background: "#4285F4", color: "#fff" }}
+                    >
+                      G
+                    </span>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {GOOGLE_REVIEWS_DATA.map((review) => (
+                    <div
+                      key={review.name}
+                      className="bg-background rounded-xl p-5 border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex gap-0.5">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star key={s} className="w-4 h-4 fill-gold text-gold" />
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "#4285F4" }}>
+                          <span
+                            className="w-3.5 h-3.5 rounded-full text-[8px] font-bold inline-flex items-center justify-center flex-shrink-0"
+                            style={{ background: "#4285F4", color: "#fff" }}
+                          >
+                            G
+                          </span>
+                          Google
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{review.text}"</p>
+                      <span className="font-semibold text-foreground text-sm">{review.name}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-center text-foreground/55 mt-6">
+                  <a
+                    href={GOOGLE_BUSINESS_PROFILE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-accent transition-colors"
+                  >
+                    {copy.aggregate} &rarr;
+                  </a>
+                </p>
+              </div>
+            </section>
+          );
+        })()}
+
         <Reviews />
         <BusinessCTA />
         <PricingInfo />
