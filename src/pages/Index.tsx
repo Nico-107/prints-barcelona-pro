@@ -446,7 +446,7 @@ const Index = () => {
                   ) : language === "ca" ? (
                     <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent hover:underline">Explora el catàleg de peces i repuestos</Link>.</>
                   ) : (
-                    <>¿Necesitas un repuesto o pieza a medida disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Explora el catálogo de repuestos y piezas</Link>.</>
+                    <>¿Necesitas un repuesto o pieza a medida disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Explora el catálogo</Link>. ¿El fabricante ya no lo vende? <Link to="/repuesto-descatalogado" className="text-accent hover:underline">Reproducimos piezas descatalogadas</Link>.</>
                   )}
                 </p>
               </div>

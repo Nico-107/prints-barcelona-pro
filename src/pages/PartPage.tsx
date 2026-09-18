@@ -413,6 +413,18 @@ const PartPage = ({ part }: Props) => {
                   </Link>
                 ))}
               </div>
+              <div className="mt-4">
+                <Link
+                  to="/repuesto-descatalogado"
+                  className="group inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors"
+                >
+                  {lang === "en" ? "Can't find the part you need?" : lang === "ca" ? "No trobes el recanvi que necessites?" : "¿No encuentras el repuesto que necesitas?"}
+                  {" "}
+                  <span className="font-semibold text-accent group-hover:underline">
+                    {lang === "en" ? "We reproduce discontinued parts →" : lang === "ca" ? "Reproduïm peces descatalogades →" : "Reproducimos piezas descatalogadas →"}
+                  </span>
+                </Link>
+              </div>
             </section>
 
             {/* FAQ — accordion */}

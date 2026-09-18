@@ -552,7 +552,28 @@ const BlogRecambiosBcn = () => {
           </div>
         </section>
 
-        <div className="container px-4 py-8 max-w-3xl mx-auto">
+        {/* ── RELATED: discontinued parts page ── */}
+        <div className="container px-4 pb-8 max-w-3xl mx-auto">
+          <div className="rounded-xl border border-border bg-secondary/30 p-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">¿El fabricante ya no lo vende?</p>
+            <Link
+              to="/repuesto-descatalogado"
+              className="group block"
+            >
+              <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
+                Reproducimos repuestos descatalogados — piezas que ya no se fabrican
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Si el fabricante ya no produce la pieza o tarda semanas en servirla, la imprimimos en 3D desde foto o la pieza original. Desde 10€.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
+                Ver servicio <ArrowRight className="w-3 h-3" />
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="container px-4 py-4 max-w-3xl mx-auto">
           <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
             ← Todas las guías
           </Link>

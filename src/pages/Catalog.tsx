@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -85,6 +86,22 @@ const Catalog = () => {
               Elige tu producto, personalízalo a tu gusto y recibe un presupuesto sin compromiso.
             </p>
           </div>
+          {/* Discontinued parts banner */}
+          <div className="max-w-6xl mx-auto mb-8">
+            <Link
+              to="/repuesto-descatalogado"
+              className="group flex items-center justify-between gap-4 rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 hover:border-accent/60 hover:bg-accent/10 transition-colors"
+            >
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">¿No encuentras tu repuesto?</p>
+                <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors">
+                  Reproducimos piezas descatalogadas desde foto o la pieza original — desde 10€
+                </p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-accent flex-shrink-0" />
+            </Link>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {partPages.map((part) => (
               <Link
