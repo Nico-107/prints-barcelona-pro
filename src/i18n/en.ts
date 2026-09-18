@@ -327,6 +327,8 @@ export const enTranslations: Record<string, string> = {
   "calc.walls.8": "8 — maximum",
   "calc.customize.heading": "Customise your print",
   "calc.totalOrder": "Order total",
+  "calc.mode.simple": "Simple",
+  "calc.mode.advanced": "Advanced",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Get your confirmed quote",

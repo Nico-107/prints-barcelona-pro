@@ -326,6 +326,8 @@ export const deTranslations: Record<string, string> = {
   "calc.walls.8": "8 — Maximum",
   "calc.customize.heading": "Druck anpassen",
   "calc.totalOrder": "Bestellsumme",
+  "calc.mode.simple": "Einfach",
+  "calc.mode.advanced": "Erweitert",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Ihr bestätigtes Angebot erhalten",

@@ -326,6 +326,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.walls.8": "8 — maximum",
   "calc.customize.heading": "Pas je print aan",
   "calc.totalOrder": "Besteltotaal",
+  "calc.mode.simple": "Eenvoudig",
+  "calc.mode.advanced": "Geavanceerd",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Ontvang uw bevestigde offerte",

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { esTranslations } from "@/i18n/es";
 import { enTranslations } from "@/i18n/en";
 import { caTranslations } from "@/i18n/ca";
@@ -14,6 +15,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  _syncFromPath: (pathname: string) => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -106,11 +108,37 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
     manualOverride.current = true;
     setLanguageState(lang);
   }, []);
+
+  // Used by LanguageNavigationSync (rendered inside BrowserRouter) to re-sync
+  // language on client-side navigation. setLanguageState and manualOverride are
+  // both stable, so this callback never needs to be recreated.
+  const syncFromPath = useCallback((pathname: string) => {
+    const pageLang = pathLanguage(pathname);
+    if (
+      pageLang === "en" || pageLang === "fr" || pageLang === "de" ||
+      pageLang === "nl" || pageLang === "it" || pageLang === "pt"
+    ) {
+      setLanguageState(pageLang);
+      manualOverride.current = false;
+      return;
+    }
+    if (manualOverride.current) return;
+    const stored = localStorage.getItem("preferred-language");
+    if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
+      setLanguageState(stored as Language);
+      return;
+    }
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith("ca")) setLanguageState("ca");
+    else if (browserLang.startsWith("en")) setLanguageState("en");
+    else setLanguageState("es");
+  }, []);
+
   const t = (key: string): string =>
     translations[language][key] || translations.en[key] || key;
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, _syncFromPath: syncFromPath }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -120,4 +148,23 @@ export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
   if (!context) throw new Error("useLanguage must be used within a LanguageProvider");
   return context;
+};
+
+// Null-renderer — place once inside BrowserRouter (alongside PostHogPageView).
+// Re-syncs the language context whenever the client navigates to a new route,
+// which the mount-only effect in LanguageProvider cannot handle.
+export const LanguageNavigationSync: React.FC = () => {
+  const location = useLocation();
+  const { _syncFromPath } = useLanguage();
+  const isFirstRun = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    _syncFromPath(location.pathname);
+  }, [location.pathname, _syncFromPath]);
+
+  return null;
 };

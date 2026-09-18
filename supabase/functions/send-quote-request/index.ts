@@ -147,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
         to: recipients,
-        subject: `Nueva solicitud de presupuesto — ${safeMaterial} · €${Math.round(priceLow)}–€${Math.round(priceHigh)}`,
+        subject: `[REVISIÓN] Cliente envió archivo — ${safeMaterial} · €${Math.round(priceLow)}–€${Math.round(priceHigh)}`,
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
             <h1 style="color:#0f172a;">Nueva solicitud de presupuesto instantáneo</h1>

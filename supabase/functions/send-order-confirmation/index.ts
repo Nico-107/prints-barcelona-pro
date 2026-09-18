@@ -276,7 +276,7 @@ serve(async (req: Request) => {
 
     const adminResult = await sendEmail(
       [ADMIN_RECIPIENT],
-      `Pedido #${orderNumber} confirmado — cliente: ${clientContact}`,
+      `[COMPRA INSTANTÁNEA] Pedido #${orderNumber} confirmado — cliente: ${clientContact}`,
       adminHtml,
     );
 

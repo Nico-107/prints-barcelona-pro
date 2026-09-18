@@ -180,6 +180,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [urgency, setUrgency] = useState<"standard" | "express" | "urgent">("standard");
   const [multicolour, setMulticolour] = useState(false);
 
+  // Simple / Advanced mode — persisted to localStorage, defaults to Simple
+  const [advancedMode, setAdvancedModeRaw] = useState<boolean>(() => {
+    try { return localStorage.getItem("dim3d-calc-mode") === "advanced"; } catch { return false; }
+  });
+  const setAdvancedMode = (val: boolean) => {
+    try { localStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
+    if (!val) {
+      // Reset hidden fields to sensible defaults so they don't silently affect the price
+      setInfillPct(15);
+      setWallLoops(2);
+      setUrgency("standard");
+      setMulticolour(false);
+    }
+    setAdvancedModeRaw(val);
+  };
+
   // Quote submission state
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
@@ -1065,11 +1081,30 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
 
         {/* Controls: material + infill */}
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mt-5 mb-2">
-          {t("calc.customize.heading")}
-        </p>
+        <div className="flex items-center justify-between mt-5 mb-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            {t("calc.customize.heading")}
+          </p>
+          <div className="flex rounded-full border border-border overflow-hidden text-xs">
+            <button
+              type="button"
+              onClick={() => setAdvancedMode(false)}
+              className={`px-2.5 py-1 transition-colors ${!advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
+            >
+              {t("calc.mode.simple")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setAdvancedMode(true)}
+              className={`px-2.5 py-1 transition-colors border-l border-border ${advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
+            >
+              {t("calc.mode.advanced")}
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 gap-3">
-          <div>
+          <div className={advancedMode ? "" : "col-span-2"}>
             <label htmlFor="calc-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
             <select
               id="calc-material"
@@ -1082,22 +1117,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               ))}
             </select>
           </div>
-          <div>
-            <label htmlFor="calc-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
-            <select
-              id="calc-infill"
-              value={infillPct}
-              onChange={e => setInfillPct(Number(e.target.value))}
-              className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            >
-              {INFILL_OPTIONS.map(o => (
-                <option key={o.value} value={o.value}>{t(o.key)}</option>
-              ))}
-            </select>
-          </div>
+          {advancedMode && (
+            <div>
+              <label htmlFor="calc-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+              <select
+                id="calc-infill"
+                value={infillPct}
+                onChange={e => setInfillPct(Number(e.target.value))}
+                className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                {INFILL_OPTIONS.map(o => (
+                  <option key={o.value} value={o.value}>{t(o.key)}</option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
-        {/* Color preference */}
+        {/* Color preference — visible in both modes */}
         <div className="mt-2">
           <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.color")}</label>
           <input
@@ -1109,52 +1146,57 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           />
         </div>
 
-        {/* Wall loops */}
-        <div className="mt-2">
-          <label htmlFor="calc-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
-          <select
-            id="calc-walls"
-            value={wallLoops}
-            onChange={e => setWallLoops(Number(e.target.value))}
-            className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            <option value={2}>{t("calc.walls.2")}</option>
-            <option value={3}>{t("calc.walls.3")}</option>
-            <option value={4}>{t("calc.walls.4")}</option>
-            <option value={5}>{t("calc.walls.5")}</option>
-            <option value={6}>{t("calc.walls.6")}</option>
-            <option value={7}>{t("calc.walls.7")}</option>
-            <option value={8}>{t("calc.walls.8")}</option>
-          </select>
-        </div>
+        {/* Advanced-only controls */}
+        {advancedMode && (
+          <>
+            {/* Wall loops */}
+            <div className="mt-2">
+              <label htmlFor="calc-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+              <select
+                id="calc-walls"
+                value={wallLoops}
+                onChange={e => setWallLoops(Number(e.target.value))}
+                className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                <option value={2}>{t("calc.walls.2")}</option>
+                <option value={3}>{t("calc.walls.3")}</option>
+                <option value={4}>{t("calc.walls.4")}</option>
+                <option value={5}>{t("calc.walls.5")}</option>
+                <option value={6}>{t("calc.walls.6")}</option>
+                <option value={7}>{t("calc.walls.7")}</option>
+                <option value={8}>{t("calc.walls.8")}</option>
+              </select>
+            </div>
 
-        {/* Urgency */}
-        <div className="mt-2">
-          <label htmlFor="calc-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
-          <select
-            id="calc-urgency"
-            value={urgency}
-            onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
-            className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
-            <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
-            <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
-          </select>
-        </div>
+            {/* Urgency */}
+            <div className="mt-2">
+              <label htmlFor="calc-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+              <select
+                id="calc-urgency"
+                value={urgency}
+                onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
+                className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
+                <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
+                <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
+              </select>
+            </div>
 
-        {/* Multicolour toggle */}
-        <div className="mt-2">
-          <label className="flex items-center gap-2 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={multicolour}
-              onChange={e => setMulticolour(e.target.checked)}
-              className="h-4 w-4 rounded border-input accent-accent"
-            />
-            <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
-          </label>
-        </div>
+            {/* Multicolour toggle */}
+            <div className="mt-2">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={multicolour}
+                  onChange={e => setMulticolour(e.target.checked)}
+                  className="h-4 w-4 rounded border-input accent-accent"
+                />
+                <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
+              </label>
+            </div>
+          </>
+        )}
 
         {/* Top-level error */}
         {error && (
@@ -1429,11 +1471,29 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               ) : (
                 <>
                   {/* Configuration controls — bound to the same state as inline form */}
-                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                    {t("calc.customize.heading")}
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                      {t("calc.customize.heading")}
+                    </p>
+                    <div className="flex rounded-full border border-border overflow-hidden text-xs">
+                      <button
+                        type="button"
+                        onClick={() => setAdvancedMode(false)}
+                        className={`px-2.5 py-1 transition-colors ${!advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
+                      >
+                        {t("calc.mode.simple")}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAdvancedMode(true)}
+                        className={`px-2.5 py-1 transition-colors border-l border-border ${advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
+                      >
+                        {t("calc.mode.advanced")}
+                      </button>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
+                    <div className={advancedMode ? "" : "sm:col-span-2"}>
                       <label htmlFor="modal-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
                       <select
                         id="modal-material"
@@ -1447,52 +1507,58 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         ))}
                       </select>
                     </div>
-                    <div>
-                      <label htmlFor="modal-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
-                      <select
-                        id="modal-infill"
-                        value={infillPct}
-                        onChange={e => setInfillPct(Number(e.target.value))}
-                        disabled={isSubmittingQuote}
-                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      >
-                        {INFILL_OPTIONS.map(o => (
-                          <option key={o.value} value={o.value}>{t(o.key)}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="modal-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
-                      <select
-                        id="modal-walls"
-                        value={wallLoops}
-                        onChange={e => setWallLoops(Number(e.target.value))}
-                        disabled={isSubmittingQuote}
-                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      >
-                        <option value={2}>{t("calc.walls.2")}</option>
-                        <option value={3}>{t("calc.walls.3")}</option>
-                        <option value={4}>{t("calc.walls.4")}</option>
-                        <option value={5}>{t("calc.walls.5")}</option>
-                        <option value={6}>{t("calc.walls.6")}</option>
-                        <option value={7}>{t("calc.walls.7")}</option>
-                        <option value={8}>{t("calc.walls.8")}</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="modal-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
-                      <select
-                        id="modal-urgency"
-                        value={urgency}
-                        onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
-                        disabled={isSubmittingQuote}
-                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      >
-                        <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
-                        <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
-                        <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
-                      </select>
-                    </div>
+                    {advancedMode && (
+                      <div>
+                        <label htmlFor="modal-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+                        <select
+                          id="modal-infill"
+                          value={infillPct}
+                          onChange={e => setInfillPct(Number(e.target.value))}
+                          disabled={isSubmittingQuote}
+                          className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                        >
+                          {INFILL_OPTIONS.map(o => (
+                            <option key={o.value} value={o.value}>{t(o.key)}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    {advancedMode && (
+                      <div>
+                        <label htmlFor="modal-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+                        <select
+                          id="modal-walls"
+                          value={wallLoops}
+                          onChange={e => setWallLoops(Number(e.target.value))}
+                          disabled={isSubmittingQuote}
+                          className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                        >
+                          <option value={2}>{t("calc.walls.2")}</option>
+                          <option value={3}>{t("calc.walls.3")}</option>
+                          <option value={4}>{t("calc.walls.4")}</option>
+                          <option value={5}>{t("calc.walls.5")}</option>
+                          <option value={6}>{t("calc.walls.6")}</option>
+                          <option value={7}>{t("calc.walls.7")}</option>
+                          <option value={8}>{t("calc.walls.8")}</option>
+                        </select>
+                      </div>
+                    )}
+                    {advancedMode && (
+                      <div>
+                        <label htmlFor="modal-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+                        <select
+                          id="modal-urgency"
+                          value={urgency}
+                          onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
+                          disabled={isSubmittingQuote}
+                          className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                        >
+                          <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
+                          <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
+                          <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
+                        </select>
+                      </div>
+                    )}
                     <div>
                       <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.qty")}</label>
                       <div className="flex items-center h-9 rounded-md border border-input bg-background overflow-hidden">
@@ -1517,18 +1583,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         </button>
                       </div>
                     </div>
-                    <div className="flex items-end">
-                      <label className="flex items-center gap-2 h-9 cursor-pointer select-none">
-                        <input
-                          type="checkbox"
-                          checked={multicolour}
-                          onChange={e => setMulticolour(e.target.checked)}
-                          disabled={isSubmittingQuote}
-                          className="h-4 w-4 rounded border-input accent-accent"
-                        />
-                        <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
-                      </label>
-                    </div>
+                    {advancedMode && (
+                      <div className="flex items-end">
+                        <label className="flex items-center gap-2 h-9 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={multicolour}
+                            onChange={e => setMulticolour(e.target.checked)}
+                            disabled={isSubmittingQuote}
+                            className="h-4 w-4 rounded border-input accent-accent"
+                          />
+                          <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
+                        </label>
+                      </div>
+                    )}
                     <div className="sm:col-span-2">
                       <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.color")}</label>
                       <input

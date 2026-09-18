@@ -326,6 +326,8 @@ export const ptTranslations: Record<string, string> = {
   "calc.walls.8": "8 — máximo",
   "calc.customize.heading": "Personalize a sua impressão",
   "calc.totalOrder": "Total do pedido",
+  "calc.mode.simple": "Simples",
+  "calc.mode.advanced": "Avançado",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Obtenha o seu orçamento confirmado",

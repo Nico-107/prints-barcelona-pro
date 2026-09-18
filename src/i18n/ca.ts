@@ -327,6 +327,8 @@ export const caTranslations: Record<string, string> = {
   "calc.walls.8": "8 — màxim",
   "calc.customize.heading": "Personalitza la teva impressió",
   "calc.totalOrder": "Total de la comanda",
+  "calc.mode.simple": "Simple",
+  "calc.mode.advanced": "Avançat",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Obté el teu pressupost confirmat",
