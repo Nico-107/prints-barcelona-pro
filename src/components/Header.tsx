@@ -1,4 +1,4 @@
-import { Menu, X, Star, PackageSearch, ChevronDown, Building2 } from "lucide-react";
+import { Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,9 +19,6 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
-  // Resolve per-language slug map for the current landing page (if any) so
-  // LanguageSelector can navigate to the real translated URL, not just toggle
-  // UI chrome via setLanguage alone.
   const currentLandingPage = PAGES_BY_SLUG[location.pathname];
   const landingTopicSlugs = currentLandingPage
     ? SLUGS_BY_TOPIC[currentLandingPage.topic]
@@ -34,8 +31,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
   const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
-  const forBusinessLabel = isFr ? "Pour les Entreprises" : isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
-  const businessSlug = SLUGS_BY_TOPIC["business"][language === "fr" ? "en" : language] ?? "/3d-printing-for-business-barcelona";
+  const recursosLabel = isCa ? "Recursos" : isEs ? "Recursos" : isFr ? "Ressources" : "Resources";
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -51,13 +47,18 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
     { label: t("nav.howItWorks"), id: "como-funciona" },
   ];
 
+  // Services group (index 0): actual print services only
+  const servicesGroup = SERVICES_MENU[0];
+  // Resources groups (index 1+): materials, guides, for business, etc.
+  const resourcesGroups = SERVICES_MENU.slice(1);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center h-16">
 
-          <Link to="/" className="flex items-center gap-2">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
               <g transform="translate(6,12) scale(0.88)" fill="none">
                 <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
@@ -84,7 +85,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             </span>
           </Link>
 
-          <nav className="hidden xl:flex items-center gap-3">
+          {/* Desktop primary nav — ml-3 gives gap-3 from logo, matching inter-item spacing */}
+          <nav className="hidden xl:flex items-center gap-3 ml-3 mr-auto">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -107,26 +109,19 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
             </Link>
 
+            {/* Servicios — actual print services only */}
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
                 {servicesLabel}
                 <ChevronDown className="w-3.5 h-3.5" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 bg-background z-50">
-                {SERVICES_MENU.map((group, gi) => (
-                  <div key={group.labelEn}>
-                    {gi > 0 && <DropdownMenuSeparator />}
-                    <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
-                      {groupLabel(group)}
-                    </DropdownMenuLabel>
-                    {group.items.map((item) => (
-                      <DropdownMenuItem key={item.slugEn} asChild>
-                        <Link to={slugForLang(item, language as any)} className="cursor-pointer">
-                          {itemLabel(item)}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
+              <DropdownMenuContent align="start" className="w-56 bg-background z-50">
+                {servicesGroup.items.map((item) => (
+                  <DropdownMenuItem key={item.slugEn} asChild>
+                    <Link to={slugForLang(item, language as any)} className="cursor-pointer">
+                      {itemLabel(item)}
+                    </Link>
+                  </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -143,13 +138,34 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button asChild variant="outline" size="sm" className="gap-1.5 border-accent/40 text-accent hover:bg-accent/5 whitespace-nowrap">
-              <Link to={businessSlug}>
-                <Building2 className="w-4 h-4" />
-                {forBusinessLabel}
-              </Link>
-            </Button>
+            {/* Recursos — materials, for business, specialties, guides, for makers */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
+                {recursosLabel}
+                <ChevronDown className="w-3.5 h-3.5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64 bg-background z-50">
+                {resourcesGroups.map((group, gi) => (
+                  <div key={group.labelEn}>
+                    {gi > 0 && <DropdownMenuSeparator />}
+                    <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
+                      {groupLabel(group)}
+                    </DropdownMenuLabel>
+                    {group.items.map((item) => (
+                      <DropdownMenuItem key={item.slugEn} asChild>
+                        <Link to={slugForLang(item, language as any)} className="cursor-pointer">
+                          {itemLabel(item)}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </nav>
 
+          {/* Desktop utility nav */}
+          <div className="hidden xl:flex items-center gap-3">
             <div className="hidden 2xl:flex items-center gap-1.5 text-sm">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
@@ -169,9 +185,10 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             <Button variant="cta" size="sm" onClick={() => scrollToSection("calculator")} className="whitespace-nowrap">
               {t("nav.requestQuote")}
             </Button>
-          </nav>
+          </div>
 
-          <div className="xl:hidden flex items-center gap-3">
+          {/* Mobile controls */}
+          <div className="xl:hidden ml-auto flex items-center gap-3">
             {!hideLanguageSelector && <LanguageSelector landingTopicSlugs={landingTopicSlugs} />}
             <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -213,31 +230,48 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
               </Link>
 
-              {SERVICES_MENU.map((group) => (
-                <div key={group.labelEn} className="pt-2">
-                  <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
-                    {groupLabel(group)}
-                  </p>
-                  {group.items.map((item) => (
-                    <Link
-                      key={item.slugEn}
-                      to={slugForLang(item, language as any)}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="block py-1.5 text-sm text-foreground"
-                    >
-                      {itemLabel(item)}
-                    </Link>
-                  ))}
-                </div>
-              ))}
+              {/* Services section */}
+              <div className="pt-2">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
+                  {servicesLabel}
+                </p>
+                {servicesGroup.items.map((item) => (
+                  <Link
+                    key={item.slugEn}
+                    to={slugForLang(item, language as any)}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block py-1.5 text-sm text-foreground"
+                  >
+                    {itemLabel(item)}
+                  </Link>
+                ))}
+              </div>
 
-              <Button asChild variant="outline" className="mt-3 w-full gap-1.5 border-accent/40 text-accent hover:bg-accent/5">
-                <Link to={businessSlug} onClick={() => setIsMenuOpen(false)}>
-                  <Building2 className="w-4 h-4" />
-                  {forBusinessLabel}
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full">
+              {/* Recursos section */}
+              <div className="pt-2">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
+                  {recursosLabel}
+                </p>
+                {resourcesGroups.map((group) => (
+                  <div key={group.labelEn} className="mb-2">
+                    <p className="text-xs text-muted-foreground/60 py-1 pl-2">
+                      {groupLabel(group)}
+                    </p>
+                    {group.items.map((item) => (
+                      <Link
+                        key={item.slugEn}
+                        to={slugForLang(item, language as any)}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block py-1 pl-2 text-sm text-foreground"
+                      >
+                        {itemLabel(item)}
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              <Button asChild variant="outline" className="mt-3 w-full">
                 <Link to="/track" onClick={() => setIsMenuOpen(false)}>
                   <PackageSearch className="w-4 h-4" /> {t("nav.trackOrder")}
                 </Link>
