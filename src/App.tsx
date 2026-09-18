@@ -38,6 +38,8 @@ const FileChecker = lazy(() => import("./pages/FileChecker"));
 const ReturnPolicy = lazy(() => import("./pages/ReturnPolicy"));
 const PartPage = lazy(() => import("./pages/PartPage"));
 const RepuestoDescatalogado = lazy(() => import("./pages/RepuestoDescatalogado"));
+const SinPedidoMinimo = lazy(() => import("./pages/SinPedidoMinimo"));
+const EmpresasBcn = lazy(() => import("./pages/EmpresasBcn"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -79,7 +81,7 @@ const App = () => (
               <Route path="/admin-orders" element={<AdminOrders />} />
               <Route path="/admin-makers" element={<AdminMakers />} />
               <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
-              <Route path="/impresion-3d-empresas-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/impresion-3d-empresas-barcelona"]} />} />
+              <Route path="/impresion-3d-empresas-barcelona" element={<EmpresasBcn />} />
               <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
               {ALL_PAGES.map((p) => (
                 <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
@@ -100,6 +102,7 @@ const App = () => (
               <Route path="/verificador-archivo-3d" element={<FileChecker />} />
               <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
               <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
+              <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
               <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

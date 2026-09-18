@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, GraduationCap, Star, Wrench, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Building2, GraduationCap, Package, Star, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import Header from "@/components/Header";
@@ -84,6 +84,8 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Sin pedido mínimo, mismo servicio express." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Sin pedido mínimo — desde 1 pieza y 10€", desc: "Una sola pieza al mismo precio por unidad que un lote. Sin importe mínimo." },
+      { slug: "/repuesto-descatalogado", icon: Wrench, title: "Repuesto descatalogado — lo imprimimos en 3D", desc: "¿El fabricante ya no lo vende? Reproducimos desde foto o la pieza original." },
     ],
   },
   en: {
@@ -93,6 +95,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Urgent 3D printing — delivery in 24-48h", desc: "How the express service works and which materials are available." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Replacement parts & broken pieces in 3D", desc: "From photo or broken part to a printed replacement in Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. No minimum order, same express service." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "No minimum order — from 1 part, €10", desc: "Print a single part at the same per-unit price as a larger batch. No minimum." },
     ],
   },
   ca: {
@@ -102,6 +105,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Sense comanda mínima, mateix servei express." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Sense comanda mínima — des d'1 peça i 10€", desc: "Una sola peça al mateix preu per unitat que un lot. Sense import mínim." },
     ],
   },
 };
@@ -418,7 +422,7 @@ const Index = () => {
                 <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-8">
                   {guides.heading}
                 </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {guides.posts.map(({ slug, icon: Icon, title, desc }) => (
                     <Link
                       key={slug}
@@ -446,7 +450,7 @@ const Index = () => {
                   ) : language === "ca" ? (
                     <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent hover:underline">Explora el catàleg de peces i repuestos</Link>.</>
                   ) : (
-                    <>¿Necesitas un repuesto o pieza a medida disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Explora el catálogo</Link>. ¿El fabricante ya no lo vende? <Link to="/repuesto-descatalogado" className="text-accent hover:underline">Reproducimos piezas descatalogadas</Link>.</>
+                    <>¿Repuesto disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Catálogo</Link>. ¿Descatalogado? <Link to="/repuesto-descatalogado" className="text-accent hover:underline">Lo reproducimos</Link>. ¿Eres empresa? <Link to="/impresion-3d-empresas-barcelona" className="text-accent hover:underline">Servicio para empresas</Link>.</>
                   )}
                 </p>
               </div>

@@ -86,19 +86,43 @@ const Catalog = () => {
               Elige tu producto, personalízalo a tu gusto y recibe un presupuesto sin compromiso.
             </p>
           </div>
-          {/* Discontinued parts banner */}
-          <div className="max-w-6xl mx-auto mb-8">
+          {/* Service banners */}
+          <div className="max-w-6xl mx-auto mb-8 grid gap-3 sm:grid-cols-3">
             <Link
               to="/repuesto-descatalogado"
-              className="group flex items-center justify-between gap-4 rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 hover:border-accent/60 hover:bg-accent/10 transition-colors"
+              className="group flex items-center justify-between gap-3 rounded-xl border border-accent/30 bg-accent/5 px-4 py-3.5 hover:border-accent/60 hover:bg-accent/10 transition-colors"
             >
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">¿No encuentras tu repuesto?</p>
-                <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors">
-                  Reproducimos piezas descatalogadas desde foto o la pieza original — desde 10€
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">¿No encuentras el repuesto?</p>
+                <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors leading-snug">
+                  Reproducimos piezas descatalogadas — desde 10€
                 </p>
               </div>
-              <ArrowRight className="w-5 h-5 text-accent flex-shrink-0" />
+              <ArrowRight className="w-4 h-4 text-accent flex-shrink-0" />
+            </Link>
+            <Link
+              to="/impresion-3d-sin-pedido-minimo"
+              className="group flex items-center justify-between gap-3 rounded-xl border border-accent/30 bg-accent/5 px-4 py-3.5 hover:border-accent/60 hover:bg-accent/10 transition-colors"
+            >
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Sin pedido mínimo</p>
+                <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors leading-snug">
+                  Una sola pieza desde 10€ — sin importe mínimo
+                </p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-accent flex-shrink-0" />
+            </Link>
+            <Link
+              to="/impresion-3d-empresas-barcelona"
+              className="group flex items-center justify-between gap-3 rounded-xl border border-accent/30 bg-accent/5 px-4 py-3.5 hover:border-accent/60 hover:bg-accent/10 transition-colors"
+            >
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">¿Eres empresa?</p>
+                <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors leading-snug">
+                  Prototipos y recambios para empresas — NDA disponible
+                </p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-accent flex-shrink-0" />
             </Link>
           </div>
 

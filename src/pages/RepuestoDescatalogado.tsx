@@ -147,12 +147,15 @@ const RepuestoDescatalogado = () => {
               <Package className="w-3.5 h-3.5" />
               Piezas que ya no se venden
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-5">
               Repuesto Descatalogado — Lo Imprimimos en 3D en Barcelona
             </h1>
-            <p className="text-lg text-primary-foreground/75 leading-relaxed">
-              El fabricante ya no lo fabrica. El servicio técnico pide semanas. La pieza cuesta más de lo que vale el aparato. La imprimimos en 3D desde la pieza original o unas fotos. Presupuesto gratis en menos de 1 hora. Desde 10€.
-            </p>
+            {/* ANSWER CAPSULE — opening */}
+            <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
+              <p className="text-primary-foreground/90 leading-relaxed">
+                Dimension3D Barcelona reproduce repuestos descatalogados en impresión 3D desde 10€. Si el fabricante ya no vende la pieza o la sirve en semanas, la reproducimos desde la pieza original, unas fotos o el número de referencia. Entrega en 24–48 horas. Presupuesto gratis en menos de 1 hora por WhatsApp.
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
               {[
                 "Sin STL necesario",
@@ -191,9 +194,15 @@ const RepuestoDescatalogado = () => {
 
             {/* 1. El problema */}
             <article id="el-problema">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 ¿Por qué ya no encuentras el repuesto?
               </h2>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  Los fabricantes dejan de producir repuestos entre 5 y 10 años después de descatalogar un modelo. Pero los aparatos duran más. Una lavadora de 12 años funciona perfectamente salvo por un clip de plástico del cesto. La impresión 3D reproduce esa pieza desde la pieza original (aunque esté rota), fotos con escala, o el número de referencia del fabricante.
+                </p>
+              </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
                   Los fabricantes dejan de producir repuestos normalmente entre 5 y 10 años después de descatalogar un modelo. Pero los aparatos duran más. Resulta que una lavadora de 12 años funciona perfectamente salvo por un clip de plástico del cesto, o que una silla de oficina de alta gama solo necesita una rueda nueva. El servicio técnico oficial no tiene la pieza, el número de referencia ya no aparece en ningún distribuidor y en Amazon solo hay genéricos que no encajan.
@@ -208,9 +217,15 @@ const RepuestoDescatalogado = () => {
 
             {/* 2. Cómo funciona */}
             <article id="como-funciona">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 Cómo reproducimos tu repuesto descatalogado
               </h2>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  Envía fotos de la pieza desde 3 ángulos con referencia de escala por WhatsApp. En menos de 1 hora te decimos si podemos reproducirla y a qué precio. Si la pieza ya existe en Thingiverse o Printables, lo decimos y reducimos el coste. Si no, la modelamos nosotros. La mayoría de piezas están listas en 24–48 horas; recogida en Barcelona o envío por 4,90€.
+                </p>
+              </div>
               <div className="space-y-6">
                 {[
                   {
@@ -251,12 +266,15 @@ const RepuestoDescatalogado = () => {
 
             {/* 3. Qué repuestos */}
             <article id="que-repuestos">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 Qué repuestos descatalogados fabricamos
               </h2>
-              <p className="text-foreground/80 mb-6 leading-relaxed">
-                Si es una pieza plástica con función mecánica o estructural, casi seguro podemos reproducirla. Estos son los tipos más habituales:
-              </p>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  Reproducimos cualquier pieza plástica con geometría definida: clips y retenes de electrodomésticos (10–12€), bisagras y pernos de muebles (10–14€), molduras y embellecedores de vehículos (12–20€), carcasas y tapas de electrónica (10–18€) y utillaje industrial ligero. El material se elige según el uso: PETG para piezas funcionales, ABS/ASA para exteriores, TPU para piezas flexibles.
+                </p>
+              </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {EXAMPLES.map(({ category, color, items }) => (
                   <div key={category} className={`rounded-xl border p-4 ${color}`}>
@@ -359,23 +377,36 @@ const RepuestoDescatalogado = () => {
               </Accordion>
             </article>
 
-            {/* 6. Artículo relacionado */}
-            <div className="rounded-xl border border-border bg-secondary/30 p-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Guía relacionada</p>
-              <Link
-                to="/blog/recambios-piezas-rotas-impresion-3d-barcelona"
-                className="group block"
-              >
-                <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                  Piezas rotas y recambios en 3D Barcelona — De la foto a la pieza en 24h
-                </p>
-                <p className="text-xs text-foreground/55 leading-relaxed">
-                  Guía completa sobre qué piezas se pueden reproducir, qué materiales usar y cómo enviarnos la pieza o la foto.
-                </p>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
-                  Leer guía <ArrowRight className="w-3 h-3" />
-                </span>
-              </Link>
+            {/* 6. Related links */}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-border bg-secondary/30 p-5">
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Guía relacionada</p>
+                <Link to="/blog/recambios-piezas-rotas-impresion-3d-barcelona" className="group block">
+                  <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
+                    Piezas rotas y recambios en 3D Barcelona — De la foto a la pieza en 24h
+                  </p>
+                  <p className="text-xs text-foreground/55 leading-relaxed">
+                    Qué piezas se pueden reproducir, qué materiales usar y cómo enviarnos la pieza.
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
+                    Leer guía <ArrowRight className="w-3 h-3" />
+                  </span>
+                </Link>
+              </div>
+              <div className="rounded-xl border border-border bg-secondary/30 p-5">
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Servicio relacionado</p>
+                <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
+                  <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
+                    Sin pedido mínimo — desde 1 pieza y 10€
+                  </p>
+                  <p className="text-xs text-foreground/55 leading-relaxed">
+                    Imprime una sola pieza sin importe mínimo ni cantidad mínima de pedido.
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
+                    Ver servicio <ArrowRight className="w-3 h-3" />
+                  </span>
+                </Link>
+              </div>
             </div>
 
           </div>

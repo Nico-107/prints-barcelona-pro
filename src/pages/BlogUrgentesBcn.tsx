@@ -65,6 +65,28 @@ const faqSchema = {
   })),
 };
 
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${SITE_URL}/#organization`,
+  name: "Dimension3D",
+  url: SITE_URL,
+  image: `${SITE_URL}/og-image.jpg`,
+  priceRange: "€€",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "16",
+    bestRating: "5",
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Rambla de Brasil",
+    addressLocality: "Barcelona",
+    addressCountry: "ES",
+  },
+};
+
 const BlogUrgentesBcn = () => {
   const endRef = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -97,6 +119,7 @@ const BlogUrgentesBcn = () => {
         <meta name="twitter:description" content={META_DESC} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -130,12 +153,15 @@ const BlogUrgentesBcn = () => {
               <Zap className="w-3.5 h-3.5" />
               Servicio Express
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-5">
               Impresión 3D Urgente en Barcelona — Tu Pieza en 24–48 Horas
             </h1>
-            <p className="text-lg text-primary-foreground/75 leading-relaxed">
-              Cuando necesitas una pieza impresa en 3D hoy o mañana, no puedes esperar semanas ni arriesgarte con un servicio desconocido. Presupuesto en menos de 1 hora, impresión prioritaria y recogida en Barcelona o envío urgente.
-            </p>
+            {/* ANSWER CAPSULE — opening */}
+            <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
+              <p className="text-primary-foreground/90 leading-relaxed">
+                Dimension3D Barcelona ofrece impresión 3D urgente con entrega en 24–48 horas desde 10€. El servicio express no tiene recargo para piezas de hasta 300 gramos. Presupuesto en menos de 1 hora. Materiales disponibles con urgencia: PLA, PETG, ABS, ASA y TPU. Recogida en Barcelona o envío urgente a toda España.
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap gap-4">
               {[
                 { icon: Clock, text: "Presupuesto en &lt;1 hora" },
@@ -157,9 +183,15 @@ const BlogUrgentesBcn = () => {
 
             {/* 1. Casos de uso */}
             <article id="casos-uso">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 ¿Para qué necesitas impresión 3D urgente?
               </h2>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  Los casos más habituales de impresión 3D urgente en Barcelona son: máquina parada por una pieza rota que tarda semanas en pedido estándar, prototipo para una reunión mañana, atrezzo o prop para un evento en menos de 24 horas, y recambio de electrodoméstico descatalogado. En todos, la impresión 3D es la única opción que cabe en el plazo disponible.
+                </p>
+              </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
                   La impresión 3D urgente no es un capricho — en muchos casos es la única solución práctica cuando una pieza falla en el momento menos oportuno o cuando un plazo no da margen para procesos convencionales. Estos son los escenarios más frecuentes que atendemos:
@@ -205,9 +237,15 @@ const BlogUrgentesBcn = () => {
 
             {/* 2. Cómo funciona */}
             <article id="como-funciona">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 ¿Cómo funciona el servicio urgente?
               </h2>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  Manda el archivo STL o una foto por WhatsApp. En menos de 1 hora recibes presupuesto con precio exacto y plazo de entrega confirmado. Con tu confirmación, la pieza entra en cola prioritaria y está lista en 24–48 horas. Recogida gratuita en Barcelona con cita previa o envío urgente a toda España en 24h laborable.
+                </p>
+              </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
                   El proceso es deliberadamente simple. No queremos que pierdas tiempo con formularios complicados cuando lo que necesitas es tu pieza cuanto antes. Así funciona de principio a fin:
@@ -259,9 +297,15 @@ const BlogUrgentesBcn = () => {
 
             {/* 3. Materiales */}
             <article id="materiales">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 ¿Qué materiales están disponibles para impresión urgente?
               </h2>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  PLA, PETG, ABS, ASA y TPU están disponibles para pedidos urgentes en 24–48 horas. PLA es el más rápido (piezas pequeñas en 4–6 horas de impresión), PETG ofrece la mejor relación velocidad/resistencia para recambios funcionales, y ABS/ASA para piezas que soportan calor superior a 70°C. Nylon y materiales con fibra de carbono pueden necesitar 48–72 horas adicionales para pedidos urgentes.
+                </p>
+              </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
                   Todos nuestros materiales están disponibles para pedidos urgentes, aunque algunos son más rápidos de imprimir que otros. Si el tiempo es el factor crítico, te recomendamos el material que da el mejor equilibrio entre velocidad y funcionalidad para tu caso concreto.
@@ -310,9 +354,15 @@ const BlogUrgentesBcn = () => {
 
             {/* 4. Precio */}
             <article id="precio">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 Precio del servicio urgente
               </h2>
+              {/* SECTION CAPSULE */}
+              <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
+                <p className="text-foreground/85 leading-relaxed">
+                  El servicio urgente de Dimension3D Barcelona no tiene recargo automático. El precio mínimo es 10€, igual para urgente que para estándar. Para la mayoría de piezas de hasta 300 gramos, el precio urgente es exactamente el mismo. Solo hay tarifa prioritaria para piezas muy grandes (más de 400 g o más de 20 horas de impresión) o entregas el mismo día antes de las 14h.
+                </p>
+              </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
                   Somos transparentes con los precios: <strong className="text-foreground">el servicio urgente no tiene recargo automático</strong>. Para la mayoría de pedidos de tamaño normal — piezas de hasta 200–300 gramos — el precio es exactamente el mismo que para un pedido estándar, desde 10€.
@@ -490,7 +540,24 @@ const BlogUrgentesBcn = () => {
           </div>
         </section>
 
-        <div className="container px-4 py-8 max-w-3xl mx-auto">
+        <div className="container px-4 pb-8 max-w-3xl mx-auto">
+          <div className="rounded-xl border border-border bg-secondary/30 p-5 mb-6">
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Sin pedido mínimo</p>
+            <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
+              <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
+                ¿Solo necesitas una pieza? Desde 10€ sin pedido mínimo
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Imprime una sola pieza urgente sin necesidad de alcanzar ningún importe mínimo.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
+                Ver servicio <ArrowRight className="w-3 h-3" />
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="container px-4 py-4 max-w-3xl mx-auto">
           <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
             ← Todas las guías
           </Link>
