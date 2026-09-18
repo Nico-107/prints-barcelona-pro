@@ -49,8 +49,10 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
 
   // Services group (index 0): actual print services only
   const servicesGroup = SERVICES_MENU[0];
-  // Resources groups (index 1+): materials, guides, for business, etc.
-  const resourcesGroups = SERVICES_MENU.slice(1);
+  // Resources groups: only Materials and Guides — others live in the footer
+  const resourcesGroups = SERVICES_MENU.filter(
+    (g) => g.labelEn === "Materials" || g.labelEn === "Guides"
+  );
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">

@@ -278,6 +278,18 @@ export const deTranslations: Record<string, string> = {
   "calc.addMore": "Weitere Dateien hinzufügen",
   "calc.maxFiles": "Maximum von 10 Dateien erreicht",
   "calc.material": "Material",
+  "calc.mat.pla.desc": "Qualität, sauberes Finish",
+  "calc.mat.petg.desc": "stabil, Allzweck",
+  "calc.mat.hips.desc": "leicht, Stützmaterial",
+  "calc.mat.abs.desc": "zäh, bearbeitbar",
+  "calc.mat.asa.desc": "Außen, UV-beständig",
+  "calc.mat.tpu.desc": "flexibel, Gummiteile",
+  "calc.mat.nylon.desc": "mechanisch, hohe Festigkeit",
+  "calc.mat.pc.desc": "schlagfest, Hochtemperatur",
+  "calc.mat.pva.desc": "wasserlöslich, Stützmaterial",
+  "calc.mat.pla-cf.desc": "Carbonfaser, steif",
+  "calc.mat.petg-cf.desc": "Carbonfaser, leicht",
+  "calc.mat.nylon-cf.desc": "technisch, ultra-stark",
   "calc.infill": "Füllung",
   "calc.qty": "Menge",
   "calc.infill.5":  "5% — leicht / dekorativ",
@@ -422,6 +434,7 @@ export const deTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Mit uns chatten",
   "whatsapp.message": "Hallo, ich möchte einen 3D-Druckservice bei Dimension3D anfragen.",
+  "whatsapp.float.label": "Fragen? Schreib uns",
 
   // Launch offer banner
   "banner.dismiss": "Schließen",

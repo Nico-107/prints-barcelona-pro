@@ -279,6 +279,18 @@ export const esTranslations: Record<string, string> = {
   "calc.addMore": "Añadir más archivos",
   "calc.maxFiles": "Máximo 10 archivos alcanzado",
   "calc.material": "Material",
+  "calc.mat.pla.desc": "calidad, acabado limpio",
+  "calc.mat.petg.desc": "resistente, uso general",
+  "calc.mat.hips.desc": "ligero, soportes",
+  "calc.mat.abs.desc": "duro, mecanizable",
+  "calc.mat.asa.desc": "exterior, resistente UV",
+  "calc.mat.tpu.desc": "flexible, piezas de goma",
+  "calc.mat.nylon.desc": "mecánico, alta resistencia",
+  "calc.mat.pc.desc": "impactos, alta temperatura",
+  "calc.mat.pva.desc": "soportes solubles en agua",
+  "calc.mat.pla-cf.desc": "fibra de carbono, rígido",
+  "calc.mat.petg-cf.desc": "fibra de carbono, ligero",
+  "calc.mat.nylon-cf.desc": "técnico, ultra-resistente",
   "calc.infill": "Relleno",
   "calc.qty": "Cant.",
   "calc.infill.5":  "5% — ligero / decorativo",
@@ -423,6 +435,7 @@ export const esTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "¿Hablamos?",
   "whatsapp.message": "Hola, me gustaría solicitar un presupuesto para impresión 3D",
+  "whatsapp.float.label": "¿Dudas? Escríbenos",
 
   // Launch offer banner
   "banner.dismiss": "Cerrar",

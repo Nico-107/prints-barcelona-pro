@@ -189,7 +189,7 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
               variant="cta"
               size="xl"
               onClick={handleScrollToUpload}
-              className="shadow-lg"
+              className="shadow-lg px-12 py-5 text-lg h-auto"
             >
               <Upload className="w-5 h-5" />
               {t("hero.cta.getQuote")}

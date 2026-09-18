@@ -278,6 +278,18 @@ export const nlTranslations: Record<string, string> = {
   "calc.addMore": "Meer bestanden toevoegen",
   "calc.maxFiles": "Maximum van 10 bestanden bereikt",
   "calc.material": "Materiaal",
+  "calc.mat.pla.desc": "kwaliteit, schone afwerking",
+  "calc.mat.petg.desc": "sterk, veelzijdig",
+  "calc.mat.hips.desc": "lichtgewicht, ondersteuning",
+  "calc.mat.abs.desc": "sterk, bewerkbaar",
+  "calc.mat.asa.desc": "buiten, UV-bestendig",
+  "calc.mat.tpu.desc": "flexibel, rubberdelen",
+  "calc.mat.nylon.desc": "mechanisch, hoge sterkte",
+  "calc.mat.pc.desc": "slagvast, hoge temperatuur",
+  "calc.mat.pva.desc": "wateroplosbare ondersteuning",
+  "calc.mat.pla-cf.desc": "koolstofvezel, stijf",
+  "calc.mat.petg-cf.desc": "koolstofvezel, lichtgewicht",
+  "calc.mat.nylon-cf.desc": "technisch, ultra-sterk",
   "calc.infill": "Vulling",
   "calc.qty": "Aant.",
   "calc.infill.5":  "5% — licht / decoratief",
@@ -422,6 +434,7 @@ export const nlTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",
   "whatsapp.message": "Hallo, ik wil graag een 3D printservice aanvragen bij Dimension3D.",
+  "whatsapp.float.label": "Vragen? Schrijf ons",
 
   // Launch offer banner
   "banner.dismiss": "Sluiten",

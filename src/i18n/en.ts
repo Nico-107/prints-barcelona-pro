@@ -279,6 +279,18 @@ export const enTranslations: Record<string, string> = {
   "calc.addMore": "Add more files",
   "calc.maxFiles": "Maximum 10 files reached",
   "calc.material": "Material",
+  "calc.mat.pla.desc": "quality, clean finish",
+  "calc.mat.petg.desc": "strong, general purpose",
+  "calc.mat.hips.desc": "lightweight, supports",
+  "calc.mat.abs.desc": "tough, machinable",
+  "calc.mat.asa.desc": "outdoor, UV-resistant",
+  "calc.mat.tpu.desc": "flexible, rubber parts",
+  "calc.mat.nylon.desc": "mechanical, high strength",
+  "calc.mat.pc.desc": "impact, high temperature",
+  "calc.mat.pva.desc": "water-soluble supports",
+  "calc.mat.pla-cf.desc": "carbon fibre, rigid",
+  "calc.mat.petg-cf.desc": "carbon fibre, lightweight",
+  "calc.mat.nylon-cf.desc": "technical, ultra-strong",
   "calc.infill": "Infill",
   "calc.qty": "Qty",
   "calc.infill.5":  "5% — light / decorative",
@@ -423,6 +435,7 @@ export const enTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
   "whatsapp.message": "Hello, I'd like to request a 3D printing service from Dimension3D.",
+  "whatsapp.float.label": "Questions? Chat with us",
 
   // Launch offer banner
   "banner.dismiss": "Dismiss",

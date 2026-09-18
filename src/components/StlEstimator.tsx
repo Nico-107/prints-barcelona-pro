@@ -35,19 +35,19 @@ const SHIPPING_SURCHARGE = 6;
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"] as const;
 
 // ─── Material table ───────────────────────────────────────────────────────────
-const MATERIALS: Record<string, { label: string; descriptor: string; density: number; multiplier: number }> = {
-  PLA:        { label: "PLA",       descriptor: "fácil, prototipos",          density: 1.24, multiplier: 1.0 },
-  PETG:       { label: "PETG",      descriptor: "resistente, uso general",    density: 1.27, multiplier: 1.1 },
-  HIPS:       { label: "HIPS",      descriptor: "ligero, soportes",           density: 1.07, multiplier: 1.2 },
-  ABS:        { label: "ABS",       descriptor: "duro, mecanizable",          density: 1.04, multiplier: 1.3 },
-  ASA:        { label: "ASA",       descriptor: "exterior, resistente UV",    density: 1.07, multiplier: 1.3 },
-  TPU:        { label: "TPU",       descriptor: "flexible, piezas de goma",   density: 1.20, multiplier: 1.3 },
-  Nylon:      { label: "Nylon",     descriptor: "mecánico, alta resistencia", density: 1.14, multiplier: 1.4 },
-  PC:         { label: "PC",        descriptor: "impactos, alta temperatura", density: 1.20, multiplier: 1.5 },
-  PVA:        { label: "PVA",       descriptor: "soportes solubles en agua",  density: 1.23, multiplier: 1.5 },
-  "PLA-CF":   { label: "PLA-CF",   descriptor: "fibra de carbono, rígido",   density: 1.30, multiplier: 1.6 },
-  "PETG-CF":  { label: "PETG-CF",  descriptor: "fibra de carbono, ligero",   density: 1.30, multiplier: 1.6 },
-  "Nylon-CF": { label: "Nylon-CF", descriptor: "técnico, ultra-resistente",  density: 1.20, multiplier: 1.6 },
+const MATERIALS: Record<string, { label: string; descriptorKey: string; density: number; multiplier: number }> = {
+  PLA:        { label: "PLA",       descriptorKey: "calc.mat.pla.desc",      density: 1.24, multiplier: 1.0 },
+  PETG:       { label: "PETG",      descriptorKey: "calc.mat.petg.desc",     density: 1.27, multiplier: 1.1 },
+  HIPS:       { label: "HIPS",      descriptorKey: "calc.mat.hips.desc",     density: 1.07, multiplier: 1.2 },
+  ABS:        { label: "ABS",       descriptorKey: "calc.mat.abs.desc",      density: 1.04, multiplier: 1.3 },
+  ASA:        { label: "ASA",       descriptorKey: "calc.mat.asa.desc",      density: 1.07, multiplier: 1.3 },
+  TPU:        { label: "TPU",       descriptorKey: "calc.mat.tpu.desc",      density: 1.20, multiplier: 1.3 },
+  Nylon:      { label: "Nylon",     descriptorKey: "calc.mat.nylon.desc",    density: 1.14, multiplier: 1.4 },
+  PC:         { label: "PC",        descriptorKey: "calc.mat.pc.desc",       density: 1.20, multiplier: 1.5 },
+  PVA:        { label: "PVA",       descriptorKey: "calc.mat.pva.desc",      density: 1.23, multiplier: 1.5 },
+  "PLA-CF":   { label: "PLA-CF",   descriptorKey: "calc.mat.pla-cf.desc",   density: 1.30, multiplier: 1.6 },
+  "PETG-CF":  { label: "PETG-CF",  descriptorKey: "calc.mat.petg-cf.desc",  density: 1.30, multiplier: 1.6 },
+  "Nylon-CF": { label: "Nylon-CF", descriptorKey: "calc.mat.nylon-cf.desc", density: 1.20, multiplier: 1.6 },
 };
 
 const INFILL_OPTIONS = [
@@ -1113,7 +1113,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             >
               {Object.entries(MATERIALS).map(([k, v]) => (
-                <option key={k} value={k}>{v.label} — {v.descriptor}</option>
+                <option key={k} value={k}>{v.label} — {t(v.descriptorKey)}</option>
               ))}
             </select>
           </div>
@@ -1503,7 +1503,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                       >
                         {Object.entries(MATERIALS).map(([k, v]) => (
-                          <option key={k} value={k}>{v.label} — {v.descriptor}</option>
+                          <option key={k} value={k}>{v.label} — {t(v.descriptorKey)}</option>
                         ))}
                       </select>
                     </div>
