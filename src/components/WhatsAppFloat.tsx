@@ -8,23 +8,21 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const WhatsAppFloat = () => {
   const { t } = useLanguage();
 
-  const handleClick = () => {
-    capture('whatsapp_click', { source: 'float_button' });
-    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
-  };
+  const href = `${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`;
 
   return (
-    <button
-      onClick={handleClick}
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-whatsapp text-primary-foreground shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => capture('whatsapp_click', { source: 'float_button' })}
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-whatsapp text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 px-4 py-3 group"
       aria-label={t("whatsapp.tooltip")}
     >
-      <MessageCircle className="w-7 h-7 group-hover:animate-pulse" />
-      <span className="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-25" />
-      <span className="absolute right-full mr-3 px-3 py-1.5 bg-foreground text-background text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-        {t("whatsapp.tooltip")}
-      </span>
-    </button>
+      <span className="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-20" />
+      <MessageCircle className="w-6 h-6 shrink-0 relative" />
+      <span className="text-sm font-semibold relative">WhatsApp</span>
+    </a>
   );
 };
 

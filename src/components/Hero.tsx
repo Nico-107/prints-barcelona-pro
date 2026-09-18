@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
+import { Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ACTIVE_CITY, whatsappUrl, countryFlag } from "@/config/cities";
+import { ACTIVE_CITY, countryFlag } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 
 const GEO_DELIVERY: Record<string, string> = {
@@ -80,8 +80,6 @@ const GEO_DELIVERY_CA: Record<string, string> = {
   JP: "8–12 dies laborables",
 };
 
-const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
-
 const MOBILE_HINT: Record<string, string> = {
   en: "Upload your file below",
   es: "Sube tu archivo abajo",
@@ -128,12 +126,6 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
       .finally(() => clearTimeout(timer));
     return () => { controller.abort(); clearTimeout(timer); };
   }, [language]);
-
-  const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'hero_cta' });
-    const msg = "Hola, me gustaría solicitar un presupuesto para impresión 3D";
-    window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message") || msg)}`, "_blank");
-  };
 
   const handleScrollToUpload = () => {
     capture('quote_cta_click', { source: 'hero_cta' });
@@ -192,7 +184,7 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
+          <div className="flex justify-center animate-fade-in-delay-2">
             <Button
               variant="cta"
               size="xl"
@@ -201,16 +193,6 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
             >
               <Upload className="w-5 h-5" />
               {t("hero.cta.getQuote")}
-            </Button>
-
-            <Button
-              variant="whatsapp-outline"
-              size="xl"
-              onClick={handleWhatsApp}
-              className="group"
-            >
-              <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-              {t("hero.cta.whatsapp")}
             </Button>
           </div>
 
