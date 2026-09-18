@@ -284,6 +284,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.infill.15": "15% — standaard",
   "calc.infill.30": "30% — stevig",
   "calc.infill.50": "50% — zeer stevig",
+  "calc.infill.80": "80% — maximum (zeer dicht)",
   "calc.analysing": "Analyseren...",
   "calc.result.heading": "Geschatte totaalprijs",
   "calc.result.disclaimer": "Directe schatting — een expert bevestigt uw exacte prijs binnen 1 uur",
@@ -319,6 +320,12 @@ export const nlTranslations: Record<string, string> = {
   "calc.walls.2": "2 — standaard",
   "calc.walls.3": "3 — stevig",
   "calc.walls.4": "4 — extra stevig",
+  "calc.walls.5": "5 — zeer stevig",
+  "calc.walls.6": "6 — structureel",
+  "calc.walls.7": "7 — hoge stijfheid",
+  "calc.walls.8": "8 — maximum",
+  "calc.customize.heading": "Pas je print aan",
+  "calc.totalOrder": "Besteltotaal",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Ontvang uw bevestigde offerte",

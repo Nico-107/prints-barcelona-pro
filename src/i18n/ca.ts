@@ -285,6 +285,7 @@ export const caTranslations: Record<string, string> = {
   "calc.infill.15": "15% — estàndard",
   "calc.infill.30": "30% — resistent",
   "calc.infill.50": "50% — molt resistent",
+  "calc.infill.80": "80% — màxim (molt dens)",
   "calc.analysing": "Analitzant…",
   "calc.result.heading": "Preu estimat del paquet",
   "calc.result.disclaimer": "Estimació instantània — una persona revisarà i confirmarà el teu pressupost exacte en menys d'1 hora",
@@ -320,6 +321,12 @@ export const caTranslations: Record<string, string> = {
   "calc.walls.2": "2 — estàndard",
   "calc.walls.3": "3 — resistent",
   "calc.walls.4": "4 — extra resistent",
+  "calc.walls.5": "5 — molt resistent",
+  "calc.walls.6": "6 — estructural",
+  "calc.walls.7": "7 — alta rigidesa",
+  "calc.walls.8": "8 — màxim",
+  "calc.customize.heading": "Personalitza la teva impressió",
+  "calc.totalOrder": "Total de la comanda",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Obté el teu pressupost confirmat",

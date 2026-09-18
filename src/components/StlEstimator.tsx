@@ -35,19 +35,19 @@ const SHIPPING_SURCHARGE = 6;
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"] as const;
 
 // ─── Material table ───────────────────────────────────────────────────────────
-const MATERIALS: Record<string, { label: string; density: number; multiplier: number }> = {
-  PLA:        { label: "PLA",       density: 1.24, multiplier: 1.0 },
-  PETG:       { label: "PETG",      density: 1.27, multiplier: 1.1 },
-  HIPS:       { label: "HIPS",      density: 1.07, multiplier: 1.2 },
-  ABS:        { label: "ABS",       density: 1.04, multiplier: 1.3 },
-  ASA:        { label: "ASA",       density: 1.07, multiplier: 1.3 },
-  TPU:        { label: "TPU",       density: 1.20, multiplier: 1.3 },
-  Nylon:      { label: "Nylon",     density: 1.14, multiplier: 1.4 },
-  PC:         { label: "PC",        density: 1.20, multiplier: 1.5 },
-  PVA:        { label: "PVA",       density: 1.23, multiplier: 1.5 },
-  "PLA-CF":   { label: "PLA-CF",   density: 1.30, multiplier: 1.6 },
-  "PETG-CF":  { label: "PETG-CF",  density: 1.30, multiplier: 1.6 },
-  "Nylon-CF": { label: "Nylon-CF", density: 1.20, multiplier: 1.6 },
+const MATERIALS: Record<string, { label: string; descriptor: string; density: number; multiplier: number }> = {
+  PLA:        { label: "PLA",       descriptor: "fácil, prototipos",          density: 1.24, multiplier: 1.0 },
+  PETG:       { label: "PETG",      descriptor: "resistente, uso general",    density: 1.27, multiplier: 1.1 },
+  HIPS:       { label: "HIPS",      descriptor: "ligero, soportes",           density: 1.07, multiplier: 1.2 },
+  ABS:        { label: "ABS",       descriptor: "duro, mecanizable",          density: 1.04, multiplier: 1.3 },
+  ASA:        { label: "ASA",       descriptor: "exterior, resistente UV",    density: 1.07, multiplier: 1.3 },
+  TPU:        { label: "TPU",       descriptor: "flexible, piezas de goma",   density: 1.20, multiplier: 1.3 },
+  Nylon:      { label: "Nylon",     descriptor: "mecánico, alta resistencia", density: 1.14, multiplier: 1.4 },
+  PC:         { label: "PC",        descriptor: "impactos, alta temperatura", density: 1.20, multiplier: 1.5 },
+  PVA:        { label: "PVA",       descriptor: "soportes solubles en agua",  density: 1.23, multiplier: 1.5 },
+  "PLA-CF":   { label: "PLA-CF",   descriptor: "fibra de carbono, rígido",   density: 1.30, multiplier: 1.6 },
+  "PETG-CF":  { label: "PETG-CF",  descriptor: "fibra de carbono, ligero",   density: 1.30, multiplier: 1.6 },
+  "Nylon-CF": { label: "Nylon-CF", descriptor: "técnico, ultra-resistente",  density: 1.20, multiplier: 1.6 },
 };
 
 const INFILL_OPTIONS = [
@@ -55,11 +55,16 @@ const INFILL_OPTIONS = [
   { value: 15, key: "calc.infill.15" },
   { value: 30, key: "calc.infill.30" },
   { value: 50, key: "calc.infill.50" },
+  { value: 80, key: "calc.infill.80" },
 ];
 
 // wall factor per loop count — drives material estimate
+// 2–4: measured; 5–8: each 0.4 mm loop adds ~7% shell fraction (2×nozzle×perimeter/area).
 function wallFactor(loops: number): number {
-  return loops === 2 ? 0.14 : loops === 3 ? 0.20 : 0.27;
+  if (loops <= 2) return 0.14;
+  if (loops === 3) return 0.20;
+  if (loops === 4) return 0.27;
+  return Math.min(0.27 + (loops - 4) * 0.07, 0.80);
 }
 
 function stripUploadPrefix(name: string): string {
@@ -1060,7 +1065,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
 
         {/* Controls: material + infill */}
-        <div className="grid grid-cols-2 gap-3 mt-4">
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mt-5 mb-2">
+          {t("calc.customize.heading")}
+        </p>
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="calc-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
             <select
@@ -1070,7 +1078,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             >
               {Object.entries(MATERIALS).map(([k, v]) => (
-                <option key={k} value={k}>{v.label}</option>
+                <option key={k} value={k}>{v.label} — {v.descriptor}</option>
               ))}
             </select>
           </div>
@@ -1113,6 +1121,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             <option value={2}>{t("calc.walls.2")}</option>
             <option value={3}>{t("calc.walls.3")}</option>
             <option value={4}>{t("calc.walls.4")}</option>
+            <option value={5}>{t("calc.walls.5")}</option>
+            <option value={6}>{t("calc.walls.6")}</option>
+            <option value={7}>{t("calc.walls.7")}</option>
+            <option value={8}>{t("calc.walls.8")}</option>
           </select>
         </div>
 
@@ -1175,6 +1187,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 {t("calc.result.heading")}
               </p>
 
+              {validFiles.length > 1 && (
+                <p className="text-sm font-semibold text-accent mb-1">
+                  {t("calc.totalOrder")} ({validFiles.length} {language === "en" ? "parts" : language === "ca" ? "peces" : "piezas"})
+                </p>
+              )}
+
               <div className="flex items-baseline gap-2 mb-3">
                 <span className="text-3xl font-bold text-foreground">
                   {priceDisplay}
@@ -1182,7 +1200,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               </div>
 
               <p className="text-sm text-muted-foreground mb-1">
-                {validFiles.length} file{validFiles.length !== 1 ? "s" : ""} · {bundle.totalUnits} unit{bundle.totalUnits !== 1 ? "s" : ""}
+                {validFiles.length} {validFiles.length !== 1 ? (language === "en" ? "files" : language === "ca" ? "arxius" : "archivos") : (language === "en" ? "file" : language === "ca" ? "arxiu" : "archivo")} · {bundle.totalUnits} {bundle.totalUnits !== 1 ? (language === "en" ? "units" : language === "ca" ? "unitats" : "unidades") : (language === "en" ? "unit" : language === "ca" ? "unitat" : "unidad")}
               </p>
 
               {!adminMode && (
@@ -1382,6 +1400,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <div className="order-1 lg:order-2 px-6 py-4 space-y-4">
                   {/* Price — updates live from computeBundle */}
                   <div>
+                    {validFiles.length > 1 && (
+                      <p className="text-sm font-semibold text-accent mb-0.5">
+                        {t("calc.totalOrder")} ({validFiles.length} {language === "en" ? "parts" : language === "ca" ? "peces" : "piezas"})
+                      </p>
+                    )}
                     <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
                     <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
                   </div>
@@ -1406,6 +1429,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               ) : (
                 <>
                   {/* Configuration controls — bound to the same state as inline form */}
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                    {t("calc.customize.heading")}
+                  </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="modal-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
@@ -1417,7 +1443,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                       >
                         {Object.entries(MATERIALS).map(([k, v]) => (
-                          <option key={k} value={k}>{v.label}</option>
+                          <option key={k} value={k}>{v.label} — {v.descriptor}</option>
                         ))}
                       </select>
                     </div>
@@ -1447,6 +1473,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         <option value={2}>{t("calc.walls.2")}</option>
                         <option value={3}>{t("calc.walls.3")}</option>
                         <option value={4}>{t("calc.walls.4")}</option>
+                        <option value={5}>{t("calc.walls.5")}</option>
+                        <option value={6}>{t("calc.walls.6")}</option>
+                        <option value={7}>{t("calc.walls.7")}</option>
+                        <option value={8}>{t("calc.walls.8")}</option>
                       </select>
                     </div>
                     <div>

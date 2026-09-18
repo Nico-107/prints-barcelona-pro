@@ -284,6 +284,7 @@ export const itTranslations: Record<string, string> = {
   "calc.infill.15": "15% — standard",
   "calc.infill.30": "30% — resistente",
   "calc.infill.50": "50% — molto resistente",
+  "calc.infill.80": "80% — massimo (molto denso)",
   "calc.analysing": "Analisi in corso…",
   "calc.result.heading": "Prezzo stimato del lotto",
   "calc.result.disclaimer": "Stima istantanea — un esperto confermerà il tuo prezzo esatto entro 1 ora",
@@ -319,6 +320,12 @@ export const itTranslations: Record<string, string> = {
   "calc.walls.2": "2 — standard",
   "calc.walls.3": "3 — resistente",
   "calc.walls.4": "4 — extra resistente",
+  "calc.walls.5": "5 — molto resistente",
+  "calc.walls.6": "6 — strutturale",
+  "calc.walls.7": "7 — alta rigidità",
+  "calc.walls.8": "8 — massimo",
+  "calc.customize.heading": "Personalizza la tua stampa",
+  "calc.totalOrder": "Totale ordine",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Ottieni il tuo preventivo confermato",

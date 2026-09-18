@@ -285,6 +285,7 @@ export const enTranslations: Record<string, string> = {
   "calc.infill.15": "15% — standard",
   "calc.infill.30": "30% — strong",
   "calc.infill.50": "50% — very strong",
+  "calc.infill.80": "80% — maximum (very dense)",
   "calc.analysing": "Analysing…",
   "calc.result.heading": "Estimated bundle price",
   "calc.result.disclaimer": "Instant estimate — a human will review and confirm your exact quote within 1 hour",
@@ -320,6 +321,12 @@ export const enTranslations: Record<string, string> = {
   "calc.walls.2": "2 — standard",
   "calc.walls.3": "3 — strong",
   "calc.walls.4": "4 — extra strong",
+  "calc.walls.5": "5 — very strong",
+  "calc.walls.6": "6 — structural",
+  "calc.walls.7": "7 — high rigidity",
+  "calc.walls.8": "8 — maximum",
+  "calc.customize.heading": "Customise your print",
+  "calc.totalOrder": "Order total",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Get your confirmed quote",

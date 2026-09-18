@@ -284,6 +284,7 @@ export const deTranslations: Record<string, string> = {
   "calc.infill.15": "15% — Standard",
   "calc.infill.30": "30% — stabil",
   "calc.infill.50": "50% — sehr stabil",
+  "calc.infill.80": "80% — Maximum (sehr dicht)",
   "calc.analysing": "Analyse läuft…",
   "calc.result.heading": "Geschätzter Gesamtpreis",
   "calc.result.disclaimer": "Sofortschätzung — ein Experte bestätigt Ihren genauen Preis in weniger als 1 Stunde",
@@ -319,6 +320,12 @@ export const deTranslations: Record<string, string> = {
   "calc.walls.2": "2 — Standard",
   "calc.walls.3": "3 — stabil",
   "calc.walls.4": "4 — extra stabil",
+  "calc.walls.5": "5 — sehr stabil",
+  "calc.walls.6": "6 — strukturell",
+  "calc.walls.7": "7 — hohe Steifigkeit",
+  "calc.walls.8": "8 — Maximum",
+  "calc.customize.heading": "Druck anpassen",
+  "calc.totalOrder": "Bestellsumme",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Ihr bestätigtes Angebot erhalten",

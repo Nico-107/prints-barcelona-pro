@@ -284,6 +284,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.infill.15": "15% — padrão",
   "calc.infill.30": "30% — resistente",
   "calc.infill.50": "50% — muito resistente",
+  "calc.infill.80": "80% — máximo (muito denso)",
   "calc.analysing": "A analisar...",
   "calc.result.heading": "Preço estimado do conjunto",
   "calc.result.disclaimer": "Estimativa instantânea — um especialista confirmará o seu preço exato em menos de 1 hora",
@@ -319,6 +320,12 @@ export const ptTranslations: Record<string, string> = {
   "calc.walls.2": "2 — padrão",
   "calc.walls.3": "3 — resistente",
   "calc.walls.4": "4 — extra resistente",
+  "calc.walls.5": "5 — muito resistente",
+  "calc.walls.6": "6 — estrutural",
+  "calc.walls.7": "7 — alta rigidez",
+  "calc.walls.8": "8 — máximo",
+  "calc.customize.heading": "Personalize a sua impressão",
+  "calc.totalOrder": "Total do pedido",
 
   // Quote submission form (inline in calculator)
   "calc.contact.heading": "Obtenha o seu orçamento confirmado",
