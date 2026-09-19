@@ -489,6 +489,28 @@ const BlogPrecioBcn = () => {
           </div>
         </section>
 
+        {/* ── INTERNAL LINKS ── */}
+        <section className="py-12 bg-background">
+          <div className="container px-4 max-w-3xl mx-auto">
+            <h2 className="text-lg font-bold text-foreground mb-5">Otros servicios relacionados</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                { to: "/impresion-3d-sin-pedido-minimo", label: "Sin pedido mínimo", desc: "Una sola pieza al mismo precio por unidad. Desde 10€ sin importe mínimo." },
+                { to: "/repuesto-descatalogado", label: "Repuesto descatalogado", desc: "Reproducimos piezas que el fabricante ya no vende desde foto o la pieza original." },
+              ].map(({ to, label, desc }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="group rounded-xl border border-border bg-secondary/10 px-4 py-4 hover:border-accent/40 transition-colors"
+                >
+                  <p className="font-semibold text-foreground text-sm mb-1 group-hover:text-accent transition-colors">{label}</p>
+                  <p className="text-xs text-foreground/55 leading-relaxed">{desc}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <div className="container px-4 py-8 max-w-3xl mx-auto">
           <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
             ← Todas las guías

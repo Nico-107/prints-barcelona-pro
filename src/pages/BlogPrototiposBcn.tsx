@@ -472,11 +472,12 @@ const BlogPrototiposBcn = () => {
         <section className="py-12 bg-background">
           <div className="container px-4 max-w-3xl mx-auto">
             <h2 className="text-lg font-bold text-foreground mb-5">Otras guías relacionadas</h2>
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 { to: "/blog/precio-impresion-3d-barcelona", label: "Guía de precios 2026", desc: "Tabla de tarifas por tamaño y material con ejemplos reales." },
                 { to: "/blog/impresion-3d-urgente-barcelona", label: "Impresión urgente 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
                 { to: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", label: "Recambios y piezas rotas", desc: "De la foto o pieza rota a un recambio impreso en 3D." },
+                { to: "/impresion-3d-empresas-barcelona", label: "Impresión 3D para empresas", desc: "Prototipos funcionales y recambios de maquinaria en PETG, ABS, ASA y Nylon." },
               ].map(({ to, label, desc }) => (
                 <Link
                   key={to}

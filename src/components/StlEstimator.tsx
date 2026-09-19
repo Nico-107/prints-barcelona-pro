@@ -14,7 +14,7 @@ const StlViewer = lazy(() => import("./StlViewer"));
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — upload limit
 const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
-const MAX_FILES = 10;
+const MAX_FILES = 20;
 
 const SETUP_FEE = 8;        // once per job: file check, slicing, plate prep, packaging, comms
 const RATE_PER_GRAM = 0.22; // material + machine time

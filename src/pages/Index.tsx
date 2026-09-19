@@ -96,6 +96,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Replacement parts & broken pieces in 3D", desc: "From photo or broken part to a printed replacement in Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. No minimum order, same express service." },
       { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "No minimum order — from 1 part, €10", desc: "Print a single part at the same per-unit price as a larger batch. No minimum." },
+      { slug: "/repuesto-descatalogado", icon: Wrench, title: "Discontinued part — we reproduce it in 3D", desc: "Manufacturer no longer sells it? We reproduce it from a photo or the original piece." },
     ],
   },
   ca: {
@@ -106,6 +107,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Sense comanda mínima, mateix servei express." },
       { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Sense comanda mínima — des d'1 peça i 10€", desc: "Una sola peça al mateix preu per unitat que un lot. Sense import mínim." },
+      { slug: "/repuesto-descatalogado", icon: Wrench, title: "Recanvi descatalogat — ho imprimim en 3D", desc: "El fabricant ja no ven la peça? La reproduïm des d'una foto o la peça original." },
     ],
   },
 };
