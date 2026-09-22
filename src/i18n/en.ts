@@ -585,6 +585,11 @@ export const enTranslations: Record<string, string> = {
   "lemon.examples.2.alt": "3D printed VESA monitor adapter made in Barcelona",
   "lemon.examples.3.alt": "3D printed dishwasher wheel replacement made in Barcelona",
   "lemon.cta.quote": "Get a quote",
-  "lemon.cta.whatsapp.label": "Send us a photo on WhatsApp",
+  "lemon.cta.quote.secondary": "I already have a file",
+  "lemon.cta.whatsapp.label": "Send us a photo",
   "lemon.cta.whatsapp.prefill": "Hi, I'm coming from Lemon Printers and I need a quote.",
+  "lemon.trust.reviews": "reviews",
+  "lemon.steps.heading": "How it works",
+  "lemon.hero.headline": "Whatever you need, made in 3D.",
+  "lemon.hero.sub": "Send us a photo — we usually reply within the hour.",
 };
