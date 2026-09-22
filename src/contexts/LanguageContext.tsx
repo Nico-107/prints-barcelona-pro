@@ -82,6 +82,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
       requestAnimationFrame(() => {
         const pageLang = pathLanguage(window.location.pathname);
         if (pageLang === "en" || pageLang === "fr" || pageLang === "de" || pageLang === "nl" || pageLang === "it" || pageLang === "pt") return;
+        // /lemon serves walk-in Barcelona shoppers — force ES regardless of stored
+        // preference or browser locale. The plaque audience is local, not a remote
+        // English visitor whose browser happens to say en.
+        if (window.location.pathname === "/lemon") return;
         if (manualOverride.current) return;
         const stored = localStorage.getItem("preferred-language");
         if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
@@ -119,6 +123,12 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
       pageLang === "nl" || pageLang === "it" || pageLang === "pt"
     ) {
       setLanguageState(pageLang);
+      manualOverride.current = false;
+      return;
+    }
+    // /lemon forces ES on navigation too — see comment on the mount effect above.
+    if (pathname === "/lemon") {
+      setLanguageState("es");
       manualOverride.current = false;
       return;
     }
