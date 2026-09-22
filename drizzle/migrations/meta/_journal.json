@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790100781347,
+      "tag": "0000_add_utm_columns_to_quote_requests_and_orders",
+      "breakpoints": true
+    }
+  ]
+}
