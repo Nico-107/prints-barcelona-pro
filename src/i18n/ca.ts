@@ -569,7 +569,7 @@ export const caTranslations: Record<string, string> = {
   "lemon.hero.title": "El que necessites, fabricat en 3D.",
   "lemon.hero.subtitle": "Un recanvi trencat, un accessori que no es ven, una peça única.",
   "lemon.hero.detail": "Envia una foto o un arxiu — rep el preu en menys d'una hora.",
-  "lemon.partner": "Et recomana Lemon Printers",
+  "lemon.partner": "Recomanat per Lemon Printers",
   "lemon.steps.title": "Tres passos",
   "lemon.steps.1.title": "Envia'ns una foto, un esbós o un arxiu",
   "lemon.steps.1.desc": "No cal que sigui tècnic. Una foto de l'objecte trencat o de l'espai on encaixarà és suficient.",

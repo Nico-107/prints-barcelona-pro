@@ -569,7 +569,7 @@ export const esTranslations: Record<string, string> = {
   "lemon.hero.title": "Lo que necesitas, fabricado en 3D.",
   "lemon.hero.subtitle": "Un repuesto roto, un accesorio que no se vende, una pieza única.",
   "lemon.hero.detail": "Envía una foto o un archivo — recibe precio en menos de una hora.",
-  "lemon.partner": "Te recomienda Lemon Printers",
+  "lemon.partner": "Recomendado por Lemon Printers",
   "lemon.steps.title": "Tres pasos",
   "lemon.steps.1.title": "Envíanos una foto, un boceto o un archivo",
   "lemon.steps.1.desc": "No hace falta que sea técnico. Una foto del objeto roto o del espacio donde encajará es suficiente.",

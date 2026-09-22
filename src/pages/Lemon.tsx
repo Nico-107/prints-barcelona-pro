@@ -24,14 +24,18 @@ import { capture } from "@/lib/analytics";
 import { readAndPersistUTM, getStoredUTM } from "@/lib/utm";
 import { GOOGLE_RATING } from "@/data/rating";
 
-// Switch to true only after Lemon Printers IP clearance is confirmed.
-const SHOW_PARTNER_CREDIT = false;
+// Lemon Printers wordmark credit — permission granted, keep enabled.
+const SHOW_PARTNER_CREDIT = true;
 
 const NAVY = "#0F172A";
 const AMBER = "#E9A23B";
 const GOLD_STAR = "#F5B301";
 const WHATSAPP = "#25D366";
 const SLATE = "#94A3B8";
+// Lemon Printers wordmark colour. Rendered separated from the hero so the two
+// nearby yellows (#F0C860 partner text and #E9A23B brand apex) read as
+// deliberately co-branded, not as one colour rendered inconsistently.
+const LEMON_YELLOW = "#F0C860";
 const DISPLAY_FONT = "'Space Grotesk', 'Inter', sans-serif";
 
 // Faceted Dimension3D crystal mark. Vertex coordinates and facet fills are
@@ -154,6 +158,25 @@ export default function Lemon() {
       <style>{PAGE_STYLES}</style>
 
       <div className="w-full">
+        {/* ── PARTNER CREDIT ─ separated from the hero on purpose: the Lemon
+             yellow (#F0C860) and brand amber (#E9A23B) are close neighbours,
+             so we put a spatial break between them to signal deliberate
+             co-branding rather than one colour rendered inconsistently.
+             Text only, no link, no logo — single-conversion-goal page. */}
+        {SHOW_PARTNER_CREDIT && (
+          <div
+            className="w-full text-center py-3"
+            style={{ backgroundColor: "rgba(240, 200, 96, 0.08)" }}
+          >
+            <p
+              className="text-[13px] font-medium tracking-wide"
+              style={{ color: LEMON_YELLOW }}
+            >
+              {t("lemon.partner")}
+            </p>
+          </div>
+        )}
+
         {/* ── HERO ─ full-bleed navy, phone-width composition on any viewport ──── */}
         <section
           className="relative overflow-hidden min-h-[100svh] flex items-center justify-center px-6 py-16"
@@ -173,12 +196,6 @@ export default function Lemon() {
             <div className="flex justify-center">
               <CrystalMark size={92} />
             </div>
-
-            {SHOW_PARTNER_CREDIT && (
-              <p className="mt-6 text-center text-sm font-medium" style={{ color: SLATE }}>
-                {t("lemon.partner")}
-              </p>
-            )}
 
             <h1
               className="mt-8 text-[40px] leading-[1.05] tracking-tight font-bold text-balance"
