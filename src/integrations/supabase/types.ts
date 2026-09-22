@@ -67,6 +67,9 @@ export type Database = {
           status: string
           stripe_payment_link: string | null
           updated_at: string
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
         }
         Insert: {
           created_at?: string
@@ -87,6 +90,9 @@ export type Database = {
           status?: string
           stripe_payment_link?: string | null
           updated_at?: string
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
         }
         Update: {
           created_at?: string
@@ -107,6 +113,9 @@ export type Database = {
           status?: string
           stripe_payment_link?: string | null
           updated_at?: string
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
         }
         Relationships: []
       }
@@ -202,6 +211,9 @@ export type Database = {
           quantity: number
           status: string
           urgency: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
           wall_loops: number
         }
         Insert: {
@@ -226,6 +238,9 @@ export type Database = {
           quantity: number
           status?: string
           urgency?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
           wall_loops: number
         }
         Update: {
@@ -250,6 +265,9 @@ export type Database = {
           quantity?: number
           status?: string
           urgency?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
           wall_loops?: number
         }
         Relationships: [
