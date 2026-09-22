@@ -585,6 +585,6 @@ export const esTranslations: Record<string, string> = {
   "lemon.examples.2.alt": "Adaptador VESA impreso en 3D en Barcelona",
   "lemon.examples.3.alt": "Rueda de lavavajillas impresa en 3D en Barcelona",
   "lemon.cta.quote": "Pedir presupuesto",
-  "lemon.cta.whatsapp.label": "Escríbenos por WhatsApp",
+  "lemon.cta.whatsapp.label": "Envíanos una foto por WhatsApp",
   "lemon.cta.whatsapp.prefill": "Hola, vengo de Lemon Printers y necesito un presupuesto.",
 };

@@ -144,10 +144,12 @@ export default function Lemon() {
           </section>
 
           {/* ── CTAs ─────────────────────────────────────────────────── */}
-          <section className="px-6 pb-12 max-w-xl mx-auto w-full flex flex-col sm:flex-row gap-3">
+          {/* Mobile: WhatsApp first (flex-col-reverse), desktop: quote first (sm:flex-row) */}
+          <section className="px-6 pb-12 max-w-xl mx-auto w-full flex flex-col-reverse sm:flex-row gap-3">
             <Button
               asChild
               size="lg"
+              variant="outline"
               className="flex-1 text-base h-14 font-semibold"
               onClick={handleQuoteClick}
             >
@@ -159,8 +161,8 @@ export default function Lemon() {
             <Button
               asChild
               size="lg"
-              variant="outline"
-              className="flex-1 text-base h-14 font-semibold border-2"
+              variant="whatsapp"
+              className="flex-1 text-base h-14 font-semibold"
               onClick={handleWhatsAppClick}
             >
               <a href={waUrl} target="_blank" rel="noopener noreferrer">
