@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture } from "@/lib/analytics";
+import { getStoredUTM } from "@/lib/utm";
 import { parseStl } from "@/lib/stlAnalysis";
 
 const StlViewer = lazy(() => import("./StlViewer"));
@@ -622,6 +623,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       // DB write — fresh insert with all contact details. Fire-and-forget.
       // Use anon client so an admin session in localStorage doesn't trigger a 42501 error.
       (async () => {
+        const storedUtm = getStoredUTM();
         const payload = {
           contact_email: contactEmail.trim() || null,
           contact_phone: contactPhone.trim() || null,
@@ -639,6 +641,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_names: uploadedNames,
           status: "pending",
           multicolour,
+          utm_source: storedUtm?.utm_source ?? null,
+          utm_medium: storedUtm?.utm_medium ?? null,
+          utm_content: storedUtm?.utm_content ?? null,
         };
 
         try {
@@ -710,6 +715,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           uploadedNames.push(f.name);
         }
       }
+      const exitUtm = getStoredUTM();
       const { error: insertErr } = await supabaseAnon
         .from("quote_requests")
         .insert({
@@ -730,6 +736,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_names: uploadedNames,
           status: "pending",
           multicolour,
+          utm_source: exitUtm?.utm_source ?? null,
+          utm_medium: exitUtm?.utm_medium ?? null,
+          utm_content: exitUtm?.utm_content ?? null,
         } as any);
       if (insertErr) throw new Error(insertErr.message);
       supabase.functions.invoke("send-quote-request", {

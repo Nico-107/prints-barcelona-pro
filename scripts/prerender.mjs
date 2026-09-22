@@ -41,6 +41,7 @@ const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker
   "/politica-devoluciones",    // Quality Guarantee / Return Policy
   "/repuesto-descatalogado",        // Discontinued parts service page
   "/impresion-3d-sin-pedido-minimo", // No minimum order service page
+  "/lemon",                          // NFC referral landing (noindex — prerendered for shell only)
 ];
 
 let ok = 0;

@@ -40,6 +40,7 @@ const PartPage = lazy(() => import("./pages/PartPage"));
 const RepuestoDescatalogado = lazy(() => import("./pages/RepuestoDescatalogado"));
 const SinPedidoMinimo = lazy(() => import("./pages/SinPedidoMinimo"));
 const EmpresasBcn = lazy(() => import("./pages/EmpresasBcn"));
+const Lemon = lazy(() => import("./pages/Lemon"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -104,6 +105,8 @@ const App = () => (
               <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
               <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
               <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
+              {/* NFC referral landing — noindex, not in sitemap, not linked from nav/footer */}
+              <Route path="/lemon" element={<Lemon />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -114,6 +114,9 @@ interface QuoteRequest {
   file_paths: string[];
   status: string;
   converted_order_id: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_content: string | null;
 }
 
 type Tab = "orders" | "quotes" | "makers" | "calculator" | "estimates" | "links";
@@ -482,6 +485,9 @@ const Admin = () => {
         photos: [],
         payment_method: acceptDraft.paymentMethod,
         payment_status: "pending",
+        utm_source: acceptTarget.utm_source ?? null,
+        utm_medium: acceptTarget.utm_medium ?? null,
+        utm_content: acceptTarget.utm_content ?? null,
       }).select("id, order_number").single();
 
       if (orderErr) throw orderErr;
