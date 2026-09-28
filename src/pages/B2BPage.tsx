@@ -191,7 +191,7 @@ const B2BPage = ({ page }: Props) => {
   };
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'b2b_page' });
+    capture('whatsapp_click', { source: 'b2b_page', location: 'b2b_page', path: window.location.pathname });
     const msg =
       lang === "es"
         ? "Hola, me interesa el servicio de impresión 3D para mi empresa. Me gustaría hablar de un proyecto."

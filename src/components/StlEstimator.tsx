@@ -497,7 +497,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   };
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'calculator' });
+    capture('whatsapp_click', { source: 'calculator', location: 'calculator', path: window.location.pathname });
     const msg =
       language === "ca" ? "Hola, m'agradaria obtenir un pressupost exacte per als meus arxius 3D." :
       language === "es" ? "Hola, me gustaría obtener un presupuesto exacto para mis archivos 3D." :

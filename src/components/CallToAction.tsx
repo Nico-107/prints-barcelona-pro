@@ -16,7 +16,7 @@ const CallToAction = () => {
   };
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'cta_section' });
+    capture('whatsapp_click', { source: 'cta_section', location: 'cta_section', path: window.location.pathname });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

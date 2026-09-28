@@ -79,7 +79,7 @@ const faqSchema = {
 
 const StudentsBcn = () => {
   const handleWhatsApp = () => {
-    capture("whatsapp_click", { source: "students_page" });
+    capture("whatsapp_click", { source: "students_page", location: "students_page", path: window.location.pathname });
     const msg = "Hola, soy estudiante y me gustaría un presupuesto con descuento para mi proyecto.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

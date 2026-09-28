@@ -162,7 +162,7 @@ const InternationalServicePage = () => {
               <Button
                 variant="whatsapp-outline"
                 size="xl"
-                onClick={() => { capture('international_cta_click'); window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'd like a quote for 3D printing. I'm based outside Spain.")}`, "_blank"); }}
+                onClick={() => { capture('whatsapp_click', { location: 'international_hero', path: window.location.pathname }); capture('international_cta_click'); window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'd like a quote for 3D printing. I'm based outside Spain.")}`, "_blank"); }}
                 className="group"
               >
                 <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
@@ -513,6 +513,7 @@ const InternationalServicePage = () => {
               variant="whatsapp-outline"
               size="xl"
               onClick={() => {
+                capture('whatsapp_click', { location: 'international_bottom', path: window.location.pathname });
                 capture('international_cta_click');
                 window.open(
                   `${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'm based outside Spain and I'd like a quote for 3D printing.")}`,

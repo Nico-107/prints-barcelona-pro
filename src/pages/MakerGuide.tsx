@@ -459,7 +459,7 @@ const MakerGuide = () => {
   const c = COPY[language] ?? COPY.en;
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'maker_guide' });
+    capture('whatsapp_click', { source: 'maker_guide', location: 'maker_guide', path: window.location.pathname });
     const msg =
       language === "ca" ? "Hola, m'interessa unir-me a la xarxa de makers de Dimension3D." :
       language === "es" ? "Hola, me interesa unirme a la red de makers de Dimension3D." :

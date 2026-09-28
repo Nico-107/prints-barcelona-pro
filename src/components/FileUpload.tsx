@@ -124,7 +124,7 @@ const FileUpload = () => {
   };
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'file_upload' });
+    capture('whatsapp_click', { source: 'file_upload', location: 'file_upload', path: window.location.pathname });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

@@ -12,6 +12,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { GOOGLE_RATING } from "@/data/rating";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -63,8 +64,8 @@ const localBusinessSchema = {
   priceRange: "€€",
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
-    reviewCount: "16",
+    ratingValue: String(GOOGLE_RATING.value),
+    reviewCount: String(GOOGLE_RATING.count),
     bestRating: "5",
   },
   address: {
@@ -100,7 +101,7 @@ const SinPedidoMinimo = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    capture("whatsapp_click", { source: "sin_pedido_minimo" });
+    capture("whatsapp_click", { source: "sin_pedido_minimo", location: "sin_pedido_minimo", path: window.location.pathname });
     const msg = "Hola, quiero pedir una sola pieza impresa en 3D. No tengo pedido mínimo. ¿Me podéis dar presupuesto?";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

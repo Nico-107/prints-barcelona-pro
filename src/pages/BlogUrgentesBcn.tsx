@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle2, Clock, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock, MessageCircle, Zap } from "lucide-react";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -11,11 +12,13 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { capture } from "@/lib/analytics";
+import { GOOGLE_RATING } from "@/data/rating";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Impresión 3D Urgente en Barcelona — Entrega en 24h | Dimension3D";
-const META_DESC = "¿Necesitas una pieza impresa en 3D con urgencia en Barcelona? Servicio express con entrega en 24-48h. Presupuesto en menos de 1 hora. Recogida en Barcelona o envío urgente.";
+const META_TITLE = "Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa | Dimension3D";
+const META_DESC = "Guía completa sobre impresión 3D urgente en Barcelona: cuándo conviene pedirla, plazos reales por material, precios sin recargo y cómo preparar tu archivo para entrega en 24–48h.";
 const CANONICAL = `${SITE_URL}/blog/impresion-3d-urgente-barcelona`;
 
 const FAQS = [
@@ -44,12 +47,12 @@ const FAQS = [
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Impresión 3D Urgente en Barcelona — Tu Pieza en 24–48 Horas",
+  headline: "Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa",
   description: META_DESC,
   author: { "@type": "Organization", name: "Dimension3D Barcelona" },
   publisher: { "@type": "Organization", name: "Dimension3D Barcelona", url: SITE_URL },
   datePublished: "2026-06-29",
-  dateModified: "2026-06-29",
+  dateModified: "2026-09-28",
   inLanguage: "es",
   url: CANONICAL,
   image: `${SITE_URL}/og-image.jpg`,
@@ -75,8 +78,8 @@ const localBusinessSchema = {
   priceRange: "€€",
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
-    reviewCount: "16",
+    ratingValue: String(GOOGLE_RATING.value),
+    reviewCount: String(GOOGLE_RATING.count),
     bestRating: "5",
   },
   address: {
@@ -154,7 +157,7 @@ const BlogUrgentesBcn = () => {
               Servicio Express
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-5">
-              Impresión 3D Urgente en Barcelona — Tu Pieza en 24–48 Horas
+              Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa
             </h1>
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
@@ -495,6 +498,14 @@ const BlogUrgentesBcn = () => {
                 <p>
                   En ambos casos, te confirmamos el precio exacto y el plazo de entrega antes de que confirmes nada. No hay compromiso hasta que tú digas que sí. El presupuesto es siempre gratuito.
                 </p>
+
+                <div className="mt-6 rounded-xl border border-accent/30 bg-accent/8 px-5 py-4">
+                  <p className="text-sm font-semibold text-foreground mb-1">¿Lo necesitas ya?</p>
+                  <Link to="/impresion-3d-urgente-barcelona" className="inline-flex items-center gap-1 text-accent font-medium hover:underline text-sm">
+                    Encarga tu impresión urgente — entrega en 24–48h
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </article>
 
@@ -510,12 +521,26 @@ const BlogUrgentesBcn = () => {
             <p className="text-accent-foreground/80 mb-8 text-lg">
               Sube tu archivo o usa la calculadora. Sin compromiso, sin sorpresas.
             </p>
-            <Button asChild size="xl" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg gap-2">
-              <Link to="/#calculator">
-                Calcular precio ahora
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="xl" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg gap-2">
+                <Link to="/#calculator">
+                  Calcular precio ahora
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </Button>
+              <Button
+                size="xl"
+                className="gap-2"
+                style={{ backgroundColor: "#25D366", color: "#fff" }}
+                onClick={() => {
+                  capture('whatsapp_click', { location: 'blog_urgentes_cta', path: window.location.pathname });
+                  window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hola, necesito una pieza impresa en 3D con urgencia.")}`, "_blank");
+                }}
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp urgente
+              </Button>
+            </div>
           </div>
         </section>
 

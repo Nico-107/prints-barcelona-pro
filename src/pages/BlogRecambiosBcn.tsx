@@ -83,7 +83,7 @@ const BlogRecambiosBcn = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'blog_recambios' });
+    capture('whatsapp_click', { source: 'blog_recambios', location: 'blog_recambios', path: window.location.pathname });
     const msg = "Hola, tengo una pieza rota y me gustaría saber si podéis reproducirla en 3D. Os mando fotos.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

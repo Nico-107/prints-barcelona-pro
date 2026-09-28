@@ -117,6 +117,7 @@ export default function Lemon() {
     capture("lemon_cta_click", { cta: "quote", utm_content: utmContent });
   };
   const handleWhatsAppClick = () => {
+    capture("whatsapp_click", { location: "lemon", path: window.location.pathname });
     capture("lemon_cta_click", { cta: "whatsapp", utm_content: utmContent });
   };
 

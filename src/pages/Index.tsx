@@ -25,6 +25,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
 import { ORGANIZATION_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
+import { GOOGLE_RATING } from "@/data/rating";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -115,17 +116,17 @@ const GUIDES_COPY: Record<string, {
 const GOOGLE_REVIEWS_COPY: Record<string, { heading: string; aggregate: string; viewAll: string }> = {
   es: {
     heading: "Reseñas reales de Google",
-    aggregate: "4.8 de media en 16 reseñas de Google",
+    aggregate: `4.8 de media en ${GOOGLE_RATING.count} reseñas de Google`,
     viewAll: "Ver todas las reseñas",
   },
   en: {
     heading: "Real Google Reviews",
-    aggregate: "4.8 average across 16 Google reviews",
+    aggregate: `4.8 average across ${GOOGLE_RATING.count} Google reviews`,
     viewAll: "View all reviews",
   },
   ca: {
     heading: "Ressenyes reals de Google",
-    aggregate: "4.8 de mitjana en 16 ressenyes de Google",
+    aggregate: `4.8 de mitjana en ${GOOGLE_RATING.count} ressenyes de Google`,
     viewAll: "Veure totes les ressenyes",
   },
 };
@@ -252,7 +253,7 @@ const Index = () => {
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
-      reviewCount: "16",
+      reviewCount: String(GOOGLE_RATING.count),
       bestRating: "5",
       worstRating: "1",
     },

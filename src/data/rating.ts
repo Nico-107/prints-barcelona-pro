@@ -3,5 +3,5 @@
 // stays in sync automatically.
 export const GOOGLE_RATING = {
   value: 4.8,
-  count: 16,
+  count: 17,
 } as const;

@@ -64,22 +64,41 @@ const LanguageSelector = ({ landingTopicSlugs }: Props) => {
 
   return (
     <div className="flex items-center gap-1 text-sm">
-      {langs.map((l, i) => (
-        <span key={l.code} className="flex items-center gap-1">
-          {i > 0 && <span className="text-muted-foreground/50">|</span>}
-          <button
-            onClick={() => handleChange(l.code)}
-            className={`px-2 py-1 rounded transition-colors ${
-              language === l.code
-                ? "bg-primary text-primary-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-            aria-label={l.aria}
-          >
-            {l.label}
-          </button>
-        </span>
-      ))}
+      {langs.map((l, i) => {
+        const isActive = language === l.code;
+        const className = `px-2 py-1 rounded transition-colors ${
+          isActive
+            ? "bg-primary text-primary-foreground font-medium"
+            : "text-muted-foreground hover:text-foreground"
+        }`;
+        // For CA, render a real <a href> when a target slug is known so
+        // crawlers can follow it to discover Catalan pages.
+        if (l.code === "ca" && !isActive) {
+          const caTarget = landingTopicSlugs?.ca;
+          if (caTarget) {
+            return (
+              <span key={l.code} className="flex items-center gap-1">
+                <span className="text-muted-foreground/50">|</span>
+                <a href={caTarget} className={className} aria-label={l.aria} onClick={(e) => { e.preventDefault(); handleChange(l.code); }}>
+                  {l.label}
+                </a>
+              </span>
+            );
+          }
+        }
+        return (
+          <span key={l.code} className="flex items-center gap-1">
+            {i > 0 && <span className="text-muted-foreground/50">|</span>}
+            <button
+              onClick={() => handleChange(l.code)}
+              className={className}
+              aria-label={l.aria}
+            >
+              {l.label}
+            </button>
+          </span>
+        );
+      })}
     </div>
   );
 };

@@ -300,6 +300,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   variant="whatsapp-outline"
                   size="xl"
                   onClick={() => {
+                    capture("whatsapp_click", { location: "city_hero", path: window.location.pathname });
                     capture("city_cta_click", { city: config.city, type: "whatsapp" });
                     const whatsappHref = config.localPickup
                       ? `https://wa.me/${config.localPickup.whatsappNumber}?text=${encodeURIComponent(config.whatsappMsg)}`
@@ -366,6 +367,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       variant="whatsapp-outline"
                       size="lg"
                       onClick={() => {
+                        capture("whatsapp_click", { location: "city_pickup", path: window.location.pathname });
                         capture("city_cta_click", { city: config.city, type: "local_pickup" });
                         window.open(
                           `https://wa.me/${config.localPickup!.whatsappNumber}?text=${encodeURIComponent(config.localPickup!.whatsappMsg)}`,
@@ -1186,6 +1188,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                 variant="whatsapp-outline"
                 size="xl"
                 onClick={() => {
+                  capture("whatsapp_click", { location: "city_bottom", path: window.location.pathname });
                   capture("city_cta_click", { city: config.city, type: "whatsapp_bottom" });
                   const whatsappHref = config.localPickup
                     ? `https://wa.me/${config.localPickup.whatsappNumber}?text=${encodeURIComponent(config.whatsappMsg)}`

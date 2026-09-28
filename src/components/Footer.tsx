@@ -39,6 +39,7 @@ const Footer = () => {
     { slug: "/3d-printing-delivery-rome", label: isCa ? "Enviament a Roma" : isEs ? "Envío a Roma" : "Delivery to Rome" },
     { slug: "/3d-printing-delivery-lisbon", label: isCa ? "Enviament a Lisboa" : isEs ? "Envío a Lisboa" : "Delivery to Lisbon" },
     { slug: "/3d-printing-delivery-new-york", label: isCa ? "Enviament a Nova York" : isEs ? "Envío a Nueva York" : "Delivery to New York" },
+    { slug: isEs ? "/impresion-3d-sevilla" : "/3d-printing-sevilla", label: isCa ? "Impressió 3D Sevilla" : isEs ? "Impresión 3D Sevilla" : "3D Printing Sevilla" },
   ];
 
   // Popular catalogue products — one inbound each was the /catalogo listing;
@@ -46,13 +47,12 @@ const Footer = () => {
   const catalogueProducts = [
     { slug: "/catalogo/jarron-personalizado", label: isCa ? "Gerra Personalitzada" : isEs ? "Jarrón Personalizado" : "Custom Vase" },
     { slug: "/catalogo/placa-nombre", label: isCa ? "Placa de Nom" : isEs ? "Placa con Nombre" : "Custom Name Plate" },
-    { slug: "/catalogo/placa-mascota", label: isCa ? "Placa per a Mascota" : isEs ? "Placa para Mascota" : "Pet ID Plate" },
     { slug: "/catalogo/soporte-telefono", label: isCa ? "Suport per a Mòbil" : isEs ? "Soporte de Teléfono" : "Phone Stand" },
     { slug: "/catalogo/topper-boda", label: isCa ? "Topper de Casament" : isEs ? "Topper de Boda" : "Wedding Cake Topper" },
   ];
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'footer' });
+    capture('whatsapp_click', { source: 'footer', location: 'footer', path: pathname });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 
@@ -96,6 +96,7 @@ const Footer = () => {
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
               <Link to="/creator" className="text-background/70 text-sm hover:text-background transition-colors">{isCa ? "Sobre el creador" : isEs ? "Sobre el creador" : "About the creator"}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
+              <Link to="/politica-devoluciones" className="text-background/70 text-sm hover:text-background transition-colors">{isCa ? "Política de devolucions" : isEs ? "Política de devoluciones" : "Return Policy"}</Link>
             </div>
           </div>
         </div>
@@ -149,6 +150,30 @@ const Footer = () => {
                   <li>
                     <Link to="/catalogo" className="text-background/70 text-sm hover:text-background transition-colors">
                       {isCa ? "Catàleg" : isEs ? "Catálogo" : "Catalogue"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={isCa ? "/como-ganar-dinero-con-impresora-3d" : isEs ? "/como-ganar-dinero-con-impresora-3d" : "/how-to-make-money-with-a-3d-printer"}
+                      className="text-background/70 text-sm hover:text-background transition-colors"
+                    >
+                      {isCa ? "Guanyar diners amb impressora 3D" : isEs ? "Ganar dinero con impresora 3D" : "Make Money With a 3D Printer"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={isCa ? "/es-rentable-negocio-impresion-3d" : isEs ? "/es-rentable-negocio-impresion-3d" : "/is-3d-printing-business-profitable"}
+                      className="text-background/70 text-sm hover:text-background transition-colors"
+                    >
+                      {isCa ? "És rendible la impressió 3D?" : isEs ? "¿Es rentable la impresión 3D?" : "Is 3D Printing Profitable?"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={isCa ? "/como-conseguir-clientes-impresion-3d" : isEs ? "/como-conseguir-clientes-impresion-3d" : "/how-to-get-3d-printing-customers"}
+                      className="text-background/70 text-sm hover:text-background transition-colors"
+                    >
+                      {isCa ? "Aconseguir clients d'impressió 3D" : isEs ? "Conseguir clientes de impresión 3D" : "Getting 3D Printing Customers"}
                     </Link>
                   </li>
                 </ul>

@@ -1,4 +1,5 @@
 import { SITE_URL } from "./registry";
+import { GOOGLE_RATING } from "@/data/rating";
 
 // Shared brand identity referenced by both Article/HowTo `author` fields on
 // landing pages and by the top-level Organization block on the homepage.
@@ -18,8 +19,8 @@ export const ORGANIZATION_SCHEMA = {
   sameAs: [GOOGLE_BUSINESS_PROFILE_URL, INSTAGRAM_URL],
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
-    reviewCount: "16",
+    ratingValue: String(GOOGLE_RATING.value),
+    reviewCount: String(GOOGLE_RATING.count),
     bestRating: "5",
   },
   review: [
