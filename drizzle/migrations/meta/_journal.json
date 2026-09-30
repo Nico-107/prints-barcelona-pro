@@ -8,6 +8,13 @@
       "when": 1790100781347,
       "tag": "0000_add_utm_columns_to_quote_requests_and_orders",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790780116881,
+      "tag": "0001_add_pieces_columns",
+      "breakpoints": true
     }
   ]
 }
