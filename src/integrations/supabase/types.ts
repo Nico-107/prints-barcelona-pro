@@ -62,6 +62,7 @@ export type Database = {
           payment_status: string
           phone_last3: string | null
           photos: string[]
+          pieces: Json | null
           product_title: string
           shipping_address: Json | null
           status: string
@@ -85,6 +86,7 @@ export type Database = {
           payment_status?: string
           phone_last3?: string | null
           photos?: string[]
+          pieces?: Json | null
           product_title?: string
           shipping_address?: Json | null
           status?: string
@@ -108,6 +110,7 @@ export type Database = {
           payment_status?: string
           phone_last3?: string | null
           photos?: string[]
+          pieces?: Json | null
           product_title?: string
           shipping_address?: Json | null
           status?: string
@@ -206,6 +209,7 @@ export type Database = {
           infill: string
           material: string
           multicolour: boolean | null
+          pieces: Json | null
           product_name: string | null
           product_slug: string | null
           quantity: number
@@ -233,6 +237,7 @@ export type Database = {
           infill: string
           material: string
           multicolour?: boolean | null
+          pieces?: Json | null
           product_name?: string | null
           product_slug?: string | null
           quantity: number
@@ -260,6 +265,7 @@ export type Database = {
           infill?: string
           material?: string
           multicolour?: boolean | null
+          pieces?: Json | null
           product_name?: string | null
           product_slug?: string | null
           quantity?: number
