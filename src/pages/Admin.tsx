@@ -52,7 +52,7 @@ import type { Session } from "@supabase/supabase-js";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface PieceInfo {
+type PieceInfo = {
   name: string;
   quantity: number;
   path?: string | null;
@@ -410,7 +410,7 @@ const Admin = () => {
       .order("created_at", { ascending: false });
     setQuotesLoading(false);
     if (error) { console.error("quote_requests load error:", error); return; }
-    const rows = (data || []) as QuoteRequest[];
+    const rows = (data || []) as unknown as QuoteRequest[];
     setQuoteRequests(rows);
 
     // Fetch signed URLs for all file paths in one batch
