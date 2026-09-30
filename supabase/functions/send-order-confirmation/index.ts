@@ -28,6 +28,7 @@ interface ConfirmationPayload {
   customerName?: string | null;
   paymentMethod?: "stripe" | "bizum" | "transfer" | "cash" | null;
   stripePaymentLink?: string | null;
+  pieces?: { name: string; quantity: number }[] | null;
 }
 
 const sanitize = (s: string): string =>
@@ -198,6 +199,7 @@ serve(async (req: Request) => {
       customerName,
       paymentMethod,
       stripePaymentLink,
+      pieces,
     } = payload;
 
     if (!orderNumber) {
@@ -264,7 +266,26 @@ serve(async (req: Request) => {
         <p style="margin:6px 0;"><strong>Color:</strong> ${safeColor ?? "—"}</p>
         <p style="margin:6px 0;"><strong>Relleno:</strong> ${infill != null ? sanitize(String(infill)) : "—"}</p>
         <p style="margin:6px 0;"><strong>Paredes:</strong> ${wallLoops != null ? sanitize(String(wallLoops)) : "—"}</p>
-        <p style="margin:6px 0;"><strong>Cantidad:</strong> ${quantity ?? 1}</p>
+        ${Array.isArray(pieces) && pieces.length > 0
+          ? `<p style="margin:6px 0;"><strong>Cantidad total:</strong> ${quantity ?? 1}</p>
+             <table style="width:100%;border-collapse:collapse;margin:6px 0 8px 0;font-size:12px;">
+               <thead><tr>
+                 <th style="text-align:left;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;">Pieza</th>
+                 <th style="text-align:right;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;">Cant.</th>
+               </tr></thead>
+               <tbody>
+                 ${pieces.map(p => `<tr>
+                   <td style="padding:3px 6px;border:1px solid #e2e8f0;">${sanitize(p.name)}</td>
+                   <td style="padding:3px 6px;border:1px solid #e2e8f0;text-align:right;">${p.quantity}</td>
+                 </tr>`).join("")}
+                 <tr style="font-weight:bold;border-top:2px solid #cbd5e1;">
+                   <td style="padding:3px 6px;border:1px solid #e2e8f0;">Total</td>
+                   <td style="padding:3px 6px;border:1px solid #e2e8f0;text-align:right;">${pieces.reduce((s: number, p: { quantity: number }) => s + p.quantity, 0)}</td>
+                 </tr>
+               </tbody>
+             </table>`
+          : `<p style="margin:6px 0;"><strong>Cantidad:</strong> ${quantity ?? 1}</p>`
+        }
         <p style="margin:6px 0;"><strong>Entrega:</strong> ${fulfillment ? sanitize(String(fulfillment)) : "—"}</p>
         ${addressHtml}
         <p style="margin:6px 0;"><strong>Precio pagado:</strong> &euro;${price.toFixed(2)}</p>

@@ -26,6 +26,7 @@ interface QuoteRequestPayload {
   language?: string;
   urgency?: string | null;
   sourceCity?: string | null;
+  pieces?: { name: string; quantity: number; path?: string | null }[] | null;
 }
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
@@ -76,7 +77,7 @@ const handler = async (req: Request): Promise<Response> => {
       filePaths, fileNames, contactEmail, contactPhone,
       material, color, infillPct, wallLoops,
       totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
-      urgency, sourceCity,
+      urgency, sourceCity, pieces,
     } = payload;
 
     if (!filePaths?.length) {
@@ -99,12 +100,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Generate a 7-day signed URL for each uploaded file
     const fileLinks: { name: string; url: string }[] = [];
+    const pathToUrl: Record<string, string> = {};
     for (let i = 0; i < filePaths.length; i++) {
       const { data, error } = await supabase.storage
         .from("print-requests")
         .createSignedUrl(filePaths[i], 60 * 60 * 24 * 7);
       if (!error && data?.signedUrl) {
         fileLinks.push({ name: fileNames[i] ?? filePaths[i], url: data.signedUrl });
+        pathToUrl[filePaths[i]] = data.signedUrl;
       } else {
         console.error("Signed URL error for", filePaths[i], error);
       }
@@ -129,6 +132,25 @@ const handler = async (req: Request): Promise<Response> => {
         </a>
       </p>`
     ).join("\n");
+
+    const stlSectionHtml = pieces?.length
+      ? `<div style="background:#ecfdf5;padding:20px;border-radius:8px;margin:20px 0;">
+          <h2 style="color:#065f46;margin-top:0;">Archivos STL — por pieza</h2>
+          ${pieces.map(p => {
+            const url = p.path ? (pathToUrl[p.path] ?? null) : null;
+            const linkHtml = url
+              ? `<a href="${url}" style="display:inline-block;background:#f59e0b;color:#0f172a;padding:6px 14px;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;">⬇ ${sanitize(p.name)}</a>`
+              : `<span style="font-size:13px;font-weight:600;">${sanitize(p.name)}</span>`;
+            return `<p style="margin:8px 0;">${linkHtml} &times; ${p.quantity}</p>`;
+          }).join("\n")}
+          <p style="font-weight:bold;font-size:14px;margin:12px 0 4px 0;">Total: ${pieces.reduce((s, p) => s + p.quantity, 0)} piezas</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:8px;">Los enlaces expiran en 7 días.</p>
+        </div>`
+      : `<div style="background:#ecfdf5;padding:20px;border-radius:8px;margin:20px 0;">
+          <h2 style="color:#065f46;margin-top:0;">Archivos STL (${fileLinks.length})</h2>
+          ${fileLinksHtml || "<p>Sin archivos adjuntos.</p>"}
+          <p style="color:#6b7280;font-size:12px;margin-top:12px;">Los enlaces expiran en 7 días.</p>
+        </div>`;
 
     console.log(`Processing quote request: ${safeMaterial} ${infillPct}% ${wallsLabel} (IP: ${clientIP})`);
 
@@ -172,11 +194,7 @@ const handler = async (req: Request): Promise<Response> => {
               <p><strong>Rango de precio mostrado:</strong> €${Math.round(priceLow)} – €${Math.round(priceHigh)}</p>
             </div>
 
-            <div style="background:#ecfdf5;padding:20px;border-radius:8px;margin:20px 0;">
-              <h2 style="color:#065f46;margin-top:0;">Archivos STL (${fileLinks.length})</h2>
-              ${fileLinksHtml || "<p>Sin archivos adjuntos.</p>"}
-              <p style="color:#6b7280;font-size:12px;margin-top:12px;">Los enlaces expiran en 7 días.</p>
-            </div>
+            ${stlSectionHtml}
 
             <p style="color:#6b7280;font-size:14px;">
               Enviado automáticamente desde la calculadora de precios de Dimension3D.

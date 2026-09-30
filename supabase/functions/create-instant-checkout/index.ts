@@ -55,6 +55,7 @@ serve(async (req: Request) => {
       fulfillment,
       productName,      // optional: human-readable product name (parts pages)
       shippingRateEuros, // optional: add a separate shipping_option line (parts pages)
+      pieces,
     } = body ?? {};
 
     const price = Number(exactPrice);
@@ -82,6 +83,10 @@ serve(async (req: Request) => {
     const paths: string[] = Array.isArray(filePaths) ? filePaths.map(String) : [];
     const qty = Number(quantity) > 0 ? Number(quantity) : 1;
 
+    const piecesStr = Array.isArray(pieces) && pieces.length > 0
+      ? `Pieces: ${pieces.map((p: { name: string; quantity: number }) => `${p.name} x${p.quantity}`).join(", ")}.`
+      : "";
+
     const notes = [
       "Instant checkout (self-service, ≤ €35).",
       contactEmail ? `Email: ${contactEmail}.` : "",
@@ -91,6 +96,7 @@ serve(async (req: Request) => {
       names.length ? `Files: ${names.join(", ")}.` : "",
       paths.length ? `Paths: ${paths.join(", ")}.` : "",
       language ? `Language: ${language}.` : "",
+      piecesStr,
     ].filter(Boolean).join(" ");
 
     const resolvedProductTitle =
@@ -112,6 +118,7 @@ serve(async (req: Request) => {
         payment_method: "stripe",
         payment_status: "pending",
         file_paths: paths,
+        pieces: Array.isArray(pieces) ? pieces : null,
       })
       .select("id, order_number")
       .single();

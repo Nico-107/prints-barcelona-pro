@@ -140,6 +140,23 @@ function computeBundle(
   };
 }
 
+function buildPieces(
+  files: ParsedFile[],
+  byId: Record<string, string>,
+): { name: string; quantity: number; path: string | null }[] {
+  const counts: Record<string, number> = {};
+  for (const f of files) counts[f.name] = (counts[f.name] ?? 0) + 1;
+  const idx: Record<string, number> = {};
+  return files.map(f => {
+    let name = f.name;
+    if (counts[f.name] > 1) {
+      idx[f.name] = (idx[f.name] ?? 0) + 1;
+      name = `${f.name} (${idx[f.name]})`;
+    }
+    return { name, quantity: f.qty, path: byId[f.id] ?? null };
+  });
+}
+
 // ─── Section heading — action-oriented copy per language ──────────────────────
 const UPLOAD_HEADING: Record<string, { action: string; benefit: string }> = {
   en: { action: "Upload your files",            benefit: "get an instant price"        },
@@ -249,7 +266,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const inputRef = useRef<HTMLInputElement>(null);
   const modalBodyRef = useRef<HTMLDivElement>(null);
   const estimateShownRef = useRef(false);
-  const uploadedRef = useRef<{ paths: string[]; names: string[] } | null>(null);
+  const uploadedRef = useRef<{ paths: string[]; names: string[]; byId: Record<string, string> } | null>(null);
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -362,6 +379,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           const uploadTimestamp = Date.now();
           const uploadedPaths: string[] = [];
           const uploadedNames: string[] = [];
+          const uploadedById: Record<string, string> = {};
           try {
             for (const f of validForUpload) {
               const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
@@ -372,9 +390,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               if (!uploadErr) {
                 uploadedPaths.push(path);
                 uploadedNames.push(f.name);
+                uploadedById[f.id] = path;
               }
             }
-            uploadedRef.current = { paths: uploadedPaths, names: uploadedNames };
+            uploadedRef.current = { paths: uploadedPaths, names: uploadedNames, byId: uploadedById };
             setPreUploadDone(true);
           } catch (e) {
             console.error("Pre-estimate upload failed:", e);
@@ -538,6 +557,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsCheckingOut(true);
     setCheckoutError(null);
     try {
+      const instantPieces = buildPieces(validFiles, uploadedRef.current.byId);
+      if (instantPieces.reduce((s, p) => s + p.quantity, 0) !== bundle!.totalUnits) {
+        console.warn(`instant checkout: pieces total !== bundle.totalUnits ${bundle!.totalUnits}`);
+      }
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: {
           material: materialKey,
@@ -552,6 +575,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
           language,
+          pieces: instantPieces,
         },
       });
       if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
@@ -576,17 +600,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const timestamp = Date.now();
       let uploadedPaths: string[];
       let uploadedNames: string[];
+      let uploadedById: Record<string, string>;
 
       if (uploadedRef.current) {
         // Fast path: files were already uploaded at estimate time
         uploadedPaths = uploadedRef.current.paths;
         uploadedNames = uploadedRef.current.names;
+        uploadedById = uploadedRef.current.byId;
       } else {
         // Fallback: upload now (upload failed earlier or ref was reset) — show progress
         setUploadState("uploading");
         slowTimerRef.current = setTimeout(() => setUploadState("slow"), 5000);
         uploadedPaths = [];
         uploadedNames = [];
+        uploadedById = {};
         for (const f of parsedFiles) {
           if (f.parseError || !f.file) continue;
           if (f.sizeBytes > MAX_BYTES) continue; // too large for Supabase storage — price shown, skip upload
@@ -598,9 +625,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           if (uploadErr) throw new Error(uploadErr.message);
           uploadedPaths.push(path);
           uploadedNames.push(f.name);
+          uploadedById[f.id] = path;
         }
         if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
         setUploadState("done");
+      }
+
+      const pieces = buildPieces(validFiles, uploadedById);
+      const piecesTotal = pieces.reduce((s, p) => s + p.quantity, 0);
+      if (piecesTotal !== bundle!.totalUnits) {
+        console.warn(`pieces total ${piecesTotal} !== bundle.totalUnits ${bundle!.totalUnits}`);
       }
 
       // Upload succeeded — show success immediately, nothing below can block the user
@@ -644,6 +678,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           utm_source: storedUtm?.utm_source ?? null,
           utm_medium: storedUtm?.utm_medium ?? null,
           utm_content: storedUtm?.utm_content ?? null,
+          pieces,
         };
 
         try {
@@ -677,6 +712,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           language,
           multicolour,
           sourceCity: refCity ?? null,
+          pieces,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
     } catch (err: any) {
@@ -699,12 +735,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const timestamp = Date.now();
       let uploadedPaths: string[];
       let uploadedNames: string[];
+      let uploadedById: Record<string, string>;
       if (uploadedRef.current) {
         uploadedPaths = uploadedRef.current.paths;
         uploadedNames = uploadedRef.current.names;
+        uploadedById = uploadedRef.current.byId;
       } else {
         uploadedPaths = [];
         uploadedNames = [];
+        uploadedById = {};
         for (const f of parsedFiles) {
           if (f.parseError || !f.file || f.sizeBytes > MAX_BYTES) continue;
           const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
@@ -713,7 +752,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           if (uploadErr) throw new Error(uploadErr.message);
           uploadedPaths.push(path);
           uploadedNames.push(f.name);
+          uploadedById[f.id] = path;
         }
+      }
+      const exitPieces = buildPieces(validFiles, uploadedById);
+      if (bundle && exitPieces.reduce((s, p) => s + p.quantity, 0) !== bundle.totalUnits) {
+        console.warn("exit-intent: pieces total does not match bundle.totalUnits");
       }
       const exitUtm = getStoredUTM();
       const { error: insertErr } = await supabaseAnon
@@ -739,6 +783,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           utm_source: exitUtm?.utm_source ?? null,
           utm_medium: exitUtm?.utm_medium ?? null,
           utm_content: exitUtm?.utm_content ?? null,
+          pieces: exitPieces,
         } as any);
       if (insertErr) throw new Error(insertErr.message);
       supabase.functions.invoke("send-quote-request", {
@@ -760,6 +805,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           language,
           multicolour,
           sourceCity: refCity ?? null,
+          pieces: exitPieces,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
       exitIntentCloseReasonRef.current = "recovered";

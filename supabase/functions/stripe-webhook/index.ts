@@ -79,7 +79,7 @@ serve(async (req: Request) => {
         .from("orders")
         .update(updatePayload)
         .eq("id", orderId)
-        .select("order_number, product_title, notes, file_paths, fulfillment, shipping_address, customer_phone")
+        .select("order_number, product_title, notes, file_paths, fulfillment, shipping_address, customer_phone, pieces")
         .maybeSingle();
 
       if (error) {
@@ -121,6 +121,7 @@ serve(async (req: Request) => {
               customerName: session.customer_details?.name ?? null,
               paymentMethod: "stripe",
               stripePaymentLink: null,
+              pieces: Array.isArray(order?.pieces) ? order.pieces : null,
             },
           },
         );

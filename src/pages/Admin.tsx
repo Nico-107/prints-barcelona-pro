@@ -52,6 +52,12 @@ import type { Session } from "@supabase/supabase-js";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+interface PieceInfo {
+  name: string;
+  quantity: number;
+  path?: string | null;
+}
+
 interface Order {
   id: string;
   order_number: number;
@@ -68,6 +74,7 @@ interface Order {
   stripe_payment_link: string | null;
   payment_status: string;
   file_paths?: string[] | null;
+  pieces?: PieceInfo[] | null;
 }
 
 interface MakerApplication {
@@ -117,6 +124,7 @@ interface QuoteRequest {
   utm_source: string | null;
   utm_medium: string | null;
   utm_content: string | null;
+  pieces?: PieceInfo[] | null;
 }
 
 type Tab = "orders" | "quotes" | "makers" | "calculator" | "estimates" | "links";
@@ -465,6 +473,10 @@ const Admin = () => {
       const effectivePhone = acceptTarget.contact_phone || (acceptDraft.contactPhone.trim() || null);
 
       const phone = effectivePhone?.trim() || "see notes";
+      const acceptPiecesStr = Array.isArray(acceptTarget.pieces) && acceptTarget.pieces.length > 0
+        ? `Pieces: ${acceptTarget.pieces.map(p => `${p.name} x${p.quantity}`).join(", ")}.`
+        : "";
+
       const noteParts = [
         `Accepted from quote request ${acceptTarget.id.slice(0, 8)}.`,
         acceptDraft.customerName ? `Customer: ${acceptDraft.customerName}.` : "",
@@ -473,6 +485,7 @@ const Admin = () => {
         `Material: ${acceptDraft.material}${acceptDraft.color ? ` / ${acceptDraft.color}` : ""}.`,
         `Infill: ${acceptTarget.infill}, ${acceptTarget.wall_loops} walls, qty ${acceptTarget.quantity}.`,
         `Est. ${acceptTarget.estimated_grams.toFixed(1)} g / ${acceptTarget.estimated_hours.toFixed(1)} h.`,
+        acceptPiecesStr,
       ].filter(Boolean).join(" ");
 
       const { data: newOrders, error: orderErr } = await supabase.from("orders").insert({
@@ -488,6 +501,7 @@ const Admin = () => {
         utm_source: acceptTarget.utm_source ?? null,
         utm_medium: acceptTarget.utm_medium ?? null,
         utm_content: acceptTarget.utm_content ?? null,
+        pieces: acceptTarget.pieces ?? null,
       }).select("id, order_number").single();
 
       if (orderErr) throw orderErr;
@@ -526,6 +540,8 @@ const Admin = () => {
           customerName: acceptDraft.customerName || null,
           paymentMethod: acceptDraft.paymentMethod,
           stripePaymentLink,
+          quantity: acceptTarget.quantity,
+          pieces: acceptTarget.pieces ?? null,
         },
         headers: authHeaders,
       }).catch(e => console.error("send-order-confirmation failed:", e));
@@ -810,6 +826,22 @@ const Admin = () => {
                               })}
                             </div>
                           )}
+                          {o.pieces?.length ? (
+                            <table className="w-full text-xs mt-2">
+                              <tbody>
+                                {o.pieces.map((p, i) => (
+                                  <tr key={i} className="border-t border-slate-100">
+                                    <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
+                                    <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                  </tr>
+                                ))}
+                                <tr className="border-t border-slate-300">
+                                  <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+                                  <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          ) : null}
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <button
@@ -905,6 +937,22 @@ const Admin = () => {
                                     })}
                                   </div>
                                 )}
+                                {o.pieces?.length ? (
+                                  <table className="w-full text-xs mt-2">
+                                    <tbody>
+                                      {o.pieces.map((p, i) => (
+                                        <tr key={i} className="border-t border-slate-100">
+                                          <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
+                                          <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                        </tr>
+                                      ))}
+                                      <tr className="border-t border-slate-300">
+                                        <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+                                        <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                ) : null}
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
                                 <button
@@ -1006,6 +1054,24 @@ const Admin = () => {
                       <div className="bg-slate-50 rounded-lg px-3 py-2">
                         <p className="text-xs text-slate-400 mb-0.5">Qty</p>
                         <p className="text-sm font-semibold text-slate-800">{q.quantity} unit{q.quantity !== 1 ? "s" : ""}</p>
+                        {q.pieces?.length ? (
+                          <table className="w-full text-xs mt-1.5">
+                            <tbody>
+                              {q.pieces.map((p, i) => (
+                                <tr key={i} className="border-t border-slate-100">
+                                  <td className="py-0.5 pr-2 text-slate-600 max-w-[110px] truncate">{p.name}</td>
+                                  <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                </tr>
+                              ))}
+                              <tr className="border-t border-slate-300">
+                                <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+                                <td className="py-0.5 font-bold text-slate-900 text-right">{q.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        ) : (
+                          <p className="text-xs text-slate-400 mt-1 italic">Per-piece split not recorded (order placed before this update)</p>
+                        )}
                       </div>
                     </div>
 
