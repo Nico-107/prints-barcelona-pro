@@ -19,6 +19,9 @@ The `capture()` wrapper in `src/lib/analytics.ts` merges these into **every** cl
 | `site_language` | `localStorage["preferred-language"]` |
 | `is_internal` | `true` if `localStorage["dim3d-internal"]=1` or path starts with `/admin` |
 
+Server events do **not** carry these auto-enriched properties. UTM and session context for
+`order_paid` comes from Stripe Session metadata (threaded from the browser at checkout time).
+
 ---
 
 ## Existing events
@@ -86,7 +89,7 @@ Fires when the user taps the WhatsApp button from the calculator.
 ---
 
 ### `quote_submitted` · client
-Fires when the user successfully submits a quote request.  
+Fires when the user successfully submits a quote request (STL estimator flow).  
 **Where:** `src/components/StlEstimator.tsx`  
 **Forwarded to GA4:** yes
 
@@ -97,31 +100,59 @@ Fires when the user successfully submits a quote request.
 | `material` | string | Material key |
 | `urgency` | string | Urgency tier |
 | `file_count` | number | Valid file count |
+| `piece_count` | number | Unique piece types (= file_count in most cases) |
+| `total_units` | number | Sum of all per-file quantities |
 | `estimated_price_low` | number | Low estimate (rounded) |
 | `estimated_price_high` | number | High estimate (rounded) |
+| `value_estimate_mid` | number | Midpoint of range — use as revenue proxy for quote funnel |
+| `currency` | string | Always `"EUR"` |
 | `color` | boolean | Whether a color preference was specified |
 | `multicolour` | boolean | Multicolour option |
 | `customer_ref` | string? | First 16 hex chars of SHA-256(email) — only present when email provided |
+| `quote_id` | string | UUID generated in browser; also used as `quote_requests.id` and forwarded to `quote_received` |
+| `source_page` | string | `window.location.pathname` at submission time |
 
 ---
 
 ### `instant_checkout_initiated` · client
 Fires immediately before redirecting to the Stripe checkout URL.  
-**Where:** `src/components/StlEstimator.tsx`  
+**Where:** `src/components/StlEstimator.tsx` and `src/pages/PartPage.tsx`  
 **Forwarded to GA4:** yes
 
 | Property | Type | Description |
 |---|---|---|
-| `material` | string | Material key |
-| `exact_price` | number | Displayed price (before possible shipping surcharge) |
-| `quantity` | number | Total units |
-| `customer_ref` | string? | SHA-256 ref, only when email provided |
+| `material` | string? | Material key (StlEstimator only; not set for PartPage) |
+| `exact_price` | number? | Displayed print price before shipping (StlEstimator only) |
+| `quantity` | number? | Total units (StlEstimator only) |
+| `customer_ref` | string? | SHA-256 ref, only when email provided (StlEstimator only) |
+| `value` | number | Base product price in EUR |
+| `shipping_fee` | number | Shipping surcharge in EUR (0 for pickup) |
+| `currency` | string | Always `"EUR"` |
+| `fulfillment` | string | `"pickup"` \| `"shipping"` |
+| `product_type` | string | `"stl_estimator"` \| `"part_page"` |
+| `part_slug` | string? | Part slug (PartPage only) |
+| `file_count` | number? | Count of STL files (StlEstimator only) |
+| `total_units` | number | Total units ordered |
 
 ---
 
 ### `instant_checkout_completed` · client
-Fires when the visitor returns from Stripe with `?checkout=success`.  
-**Where:** `src/components/StlEstimator.tsx`
+Fires when the visitor returns from Stripe with `?checkout=success`. Properties come from a
+`sessionStorage` stash written at checkout initiation — they survive the Stripe redirect.  
+**Where:** `src/components/StlEstimator.tsx` (fires for both StlEstimator and PartPage checkouts,
+since both redirect to `/?checkout=success`)
+
+| Property | Type | Description |
+|---|---|---|
+| `value` | number? | Base product price in EUR |
+| `shipping_fee` | number? | Shipping surcharge (0 for pickup) |
+| `currency` | string? | `"EUR"` |
+| `fulfillment` | string? | `"pickup"` \| `"shipping"` |
+| `product_type` | string? | `"stl_estimator"` \| `"part_page"` |
+| `part_slug` | string? | Part slug (PartPage only) |
+| `file_count` | number? | STL file count (StlEstimator only) |
+| `total_units` | number? | Total units |
+| `material` | string? | Material key (StlEstimator only) |
 
 ---
 
@@ -149,7 +180,23 @@ Fires when the user explicitly dismisses the exit-intent dialog.
 
 ---
 
-## New events (Phase A)
+### `order_accepted` · client · admin-only
+Fires when the admin marks a quote as accepted and generates a payment link.
+Always has `is_internal: true` (fired from `/admin` path).  
+**Where:** `src/pages/Admin.tsx`  
+**Note:** This event is NOT in `src/lib/analyticsEvents.ts` (untyped). Covers manual payment methods
+(Bizum, bank transfer, cash) that do not go through Stripe. Complement to `order_paid`.
+
+| Property | Type | Description |
+|---|---|---|
+| `payment_method` | string | `"stripe_link"` \| `"bizum"` \| `"transfer"` \| etc. |
+| `final_price` | number | Agreed price in EUR |
+| `material` | string | Material key |
+| `has_customer_email` | boolean | Whether customer email is on file |
+
+---
+
+## New events — Phase A
 
 ### `part_page_view` · client · **not forwarded to GA4**
 Fires on mount of a part product page.  
@@ -217,6 +264,7 @@ Fires when a customised catalog product request is successfully submitted.
 | `slug` | string | Product slug |
 | `value` | number | Low price point (EUR) |
 | `customer_ref` | string? | SHA-256 ref, only when email provided |
+| `source_page` | string | `window.location.pathname` at submission time |
 
 ---
 
@@ -256,7 +304,7 @@ Fires when an uploaded file cannot be parsed or is rejected.
 ---
 
 ### `submit_error` · client · **not forwarded to GA4**
-Fires when a Supabase database insert fails silently in a fire-and-forget path.  
+Fires when a Supabase database insert fails silently in a fire-and-forget path.
 The control flow is unchanged — the user is not shown an error. This event makes failures visible.  
 **Where:** `src/components/StlEstimator.tsx`
 
@@ -268,18 +316,80 @@ The control flow is unchanged — the user is not shown an error. This event mak
 
 ---
 
-## Server events
+## New events — Phase B
 
-These are sent from Supabase Edge Functions with `distinct_id: "server"`.
+### `order_paid` · server
+Fires from `stripe-webhook` on `checkout.session.completed`.
+Idempotent — PostHog `uuid` is set to the Stripe Session ID, so webhook retries do not
+double-count. Covers **instant Stripe checkouts only** (StlEstimator and PartPage).
+Manual payments (Bizum/transfer) are reflected in `order_accepted` instead.  
+**Where:** `supabase/functions/stripe-webhook/index.ts`
 
-### `"review submitted"` · server
-Fires when a Google review is submitted. Event name contains a space — do not rename.
+| Property | Type | Description |
+|---|---|---|
+| `order_id` | string | Supabase `orders.id` UUID |
+| `order_number` | string | Human-readable order number |
+| `value` | number | Total charged in EUR (amount_total / 100) |
+| `currency` | string | Always `"EUR"` for this store |
+| `fulfillment` | string | `"pickup"` \| `"shipping"` |
+| `product_type` | string | `"stl_estimator"` \| `"part_page"` |
+| `part_slug` | string? | Part slug (part_page orders only) |
+| `utm_source` | string? | First-touch UTM threaded from browser |
+| `utm_medium` | string? | — |
+| `utm_content` | string? | — (identifies Lemon NFC plaques) |
+| `utm_campaign` | string? | — |
+| `customer_ref` | string? | SHA-256 ref threaded from browser |
+| `$session_id` | string? | PostHog session ID threaded from browser |
+
+**distinct_id logic:** uses `ph_distinct_id` from Stripe metadata when available (links to the
+visitor's PostHog profile); falls back to `"anon_<session.id>"` with
+`$process_person_profile: false` (no ghost profile created).
+
+---
+
+### `quote_received` · server
+Fires from `send-quote-request` after the notification email is sent.
+Provides server-side confirmation that a quote request reached the backend.
+Join to `quote_submitted` via `quote_id` to measure client→server delivery reliability.  
+**Where:** `supabase/functions/send-quote-request/index.ts`
+
+| Property | Type | Description |
+|---|---|---|
+| `quote_id` | string? | UUID generated in browser, matches `quote_submitted.quote_id` |
+| `material` | string | Material key |
+| `total_units` | number | Total units |
+| `price_low` | number | Low estimate (rounded) |
+| `price_high` | number | High estimate (rounded) |
+| `source_city` | string? | Delivery city ref (if request came from a city landing page) |
+
+**distinct_id logic:** uses `ph_distinct_id` forwarded from browser when available;
+falls back to `"srv_<16-hex>"` with `$process_person_profile: false`.
+
+---
+
+## Legacy server events
+
+These events predate this tracking overhaul and have been updated to use a fresh
+`"srv_<16-hex>"` distinct_id per call (with `$process_person_profile: false`) instead
+of the old shared `"server"` string.
+
+### `"review received"` · server
+Event name contains a space — do not rename. Fires in `send-review`.  
+Properties: `rating`, `has_order_reference`
+
+### `"review approved"` · server
+Event name contains a space — do not rename. Fires in `approve-review`.  
+Properties: `review_id`
+
+### `"review rejected"` · server
+Event name contains a space — do not rename. Fires in `approve-review`.  
+Properties: `review_id`
+
+### `"print request processed"` · server
+Fires in `send-print-request`. Properties: `is_urgent`
 
 ### `"maker application submitted"` · server
-Fires when a maker application is submitted. Event name contains a space — do not rename.
-
-### `order_accepted` · server
-Fires when an admin marks an order as accepted.
+Fires in `send-maker-application` (unchanged from pre-overhaul). Do not rename.
 
 ---
 
@@ -297,8 +407,8 @@ Source: `src/lib/customerRef.ts`.
 
 ## Internal traffic filtering
 
-Any event with `is_internal: true` comes from the site owner.
-Filter these out in PostHog dashboards with `is_internal = false`.
+Any client event with `is_internal: true` comes from the site owner.
+Filter these out in dashboards with `WHERE properties.is_internal = false OR properties.is_internal IS NULL`.
 
 Set the flag permanently: visit any page with `?internal=1`.  
 Clear it: `?internal=0`.
