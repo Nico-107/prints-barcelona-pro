@@ -2,6 +2,39 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
+const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
+
+// B3: quote_received server-side event, 3s timeout
+async function captureQuoteReceived(
+  distinctId: string,
+  properties: Record<string, unknown>,
+  processPersonProfile: boolean,
+): Promise<void> {
+  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
+  try {
+    await fetch(`${POSTHOG_HOST}/capture/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        api_key: POSTHOG_KEY,
+        event: "quote_received",
+        distinct_id: distinctId,
+        properties: {
+          ...properties,
+          ...(processPersonProfile ? {} : { $process_person_profile: false }),
+        },
+      }),
+      signal: controller.signal,
+    });
+  } catch {
+    // timeout or network error
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -27,6 +60,8 @@ interface QuoteRequestPayload {
   urgency?: string | null;
   sourceCity?: string | null;
   pieces?: { name: string; quantity: number; path?: string | null }[] | null;
+  ph_distinct_id?: string | null;
+  quote_id?: string | null;
 }
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
@@ -77,7 +112,7 @@ const handler = async (req: Request): Promise<Response> => {
       filePaths, fileNames, contactEmail, contactPhone,
       material, color, infillPct, wallLoops,
       totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
-      urgency, sourceCity, pieces,
+      urgency, sourceCity, pieces, ph_distinct_id, quote_id,
     } = payload;
 
     if (!filePaths?.length) {
@@ -215,6 +250,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailData = await emailResponse.json();
     console.log("Quote request email sent:", emailData.id);
+
+    // B3: quote_received — fire-and-forget (3s timeout internal)
+    const phRawId = (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) ? ph_distinct_id.trim() : null;
+    const srvId = phRawId ?? ("srv_" + crypto.randomUUID().replace(/-/g, "").slice(0, 16));
+    captureQuoteReceived(srvId, {
+      quote_id: quote_id ?? null,
+      material,
+      total_units: totalUnits,
+      price_low: Math.round(priceLow),
+      price_high: Math.round(priceHigh),
+      source_city: sourceCity ?? null,
+    }, !!phRawId);
 
     return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       status: 200,

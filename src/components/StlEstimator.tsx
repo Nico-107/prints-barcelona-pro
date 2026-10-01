@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
-import { capture, identifyUser } from "@/lib/analytics";
+import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { parseStl } from "@/lib/stlAnalysis";
@@ -545,8 +545,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const params = new URLSearchParams(window.location.search);
     const co = params.get("checkout");
     if (co === "success") {
+      // B5: read stash set at checkout initiation (survives Stripe redirect in same tab)
+      let stash: Record<string, unknown> = {};
+      try {
+        const raw = sessionStorage.getItem("dim3d-checkout-ctx");
+        if (raw) { stash = JSON.parse(raw); sessionStorage.removeItem("dim3d-checkout-ctx"); }
+      } catch {}
       setCheckoutResult("success");
-      capture('instant_checkout_completed');
+      capture('instant_checkout_completed', stash as {
+        value?: number; shipping_fee?: number; currency?: string;
+        fulfillment?: "pickup" | "shipping"; product_type?: string;
+        part_slug?: string; file_count?: number; total_units?: number; material?: string;
+      });
     } else if (co === "cancelled") {
       setCheckoutResult("cancelled");
       capture('instant_checkout_cancelled');
@@ -569,6 +579,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (instantPieces.reduce((s, p) => s + p.quantity, 0) !== bundle!.totalUnits) {
         console.warn(`instant checkout: pieces total !== bundle.totalUnits ${bundle!.totalUnits}`);
       }
+      // B1: visitor identity for Stripe metadata
+      const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
+      const storedUtm = getStoredUTM();
+      const phId = get_distinct_id();
+      const phSid = get_session_id();
+      const shippingFee = fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0;
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: {
           material: materialKey,
@@ -584,12 +600,43 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contactPhone: contactPhone.trim() || null,
           language,
           pieces: instantPieces,
+          ph_distinct_id: phId ?? null,
+          ph_session_id: phSid ?? null,
+          utm_source: storedUtm?.utm_source ?? null,
+          utm_medium: storedUtm?.utm_medium ?? null,
+          utm_content: storedUtm?.utm_content ?? null,
+          utm_campaign: storedUtm?.utm_campaign ?? null,
+          product_type: "stl_estimator",
+          customer_ref: checkoutRef ?? null,
         },
       });
       if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
-      // A4: pseudonymous customer_ref on checkout initiation
-      const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
-      capture('instant_checkout_initiated', { material: materialKey, exact_price: instantDisplayPrice, quantity: bundle!.totalUnits, customer_ref: checkoutRef });
+      // B5: stash context for instant_checkout_completed on Stripe return
+      try {
+        sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({
+          value: instantDisplayPrice,
+          shipping_fee: shippingFee,
+          currency: "EUR",
+          fulfillment,
+          product_type: "stl_estimator",
+          file_count: validFiles.length,
+          total_units: bundle!.totalUnits,
+          material: materialKey,
+        }));
+      } catch {}
+      capture('instant_checkout_initiated', {
+        material: materialKey,
+        exact_price: instantDisplayPrice,
+        quantity: bundle!.totalUnits,
+        customer_ref: checkoutRef,
+        value: instantDisplayPrice,
+        shipping_fee: shippingFee,
+        currency: "EUR",
+        fulfillment,
+        product_type: "stl_estimator",
+        file_count: validFiles.length,
+        total_units: bundle!.totalUnits,
+      });
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
@@ -652,8 +699,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setIsSubmittedQuote(true);
       setShowManualReview(false);
       setIsSubmittingQuote(false);
-      // A4: pseudonymous customer_ref
+      // A4: pseudonymous customer_ref; B4: stable quote_id for DB row + event join
       const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
+      const quote_id = crypto.randomUUID();
       capture('quote_submitted', {
         has_email: !!contactEmail.trim(),
         has_phone: !!contactPhone.trim(),
@@ -665,6 +713,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         color: !!colorPref.trim(),
         multicolour,
         customer_ref: ref,
+        quote_id,
+        value_estimate_mid: Math.round((bundle!.low + bundle!.high) / 2),
+        currency: "EUR",
+        piece_count: validFiles.length,
+        total_units: bundle!.totalUnits,
+        source_page: window.location.pathname,
       });
       if (ref) identifyUser(ref);
       estimateShownRef.current = false;
@@ -699,7 +753,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         try {
           const { error: insertErr } = await supabaseAnon
             .from("quote_requests")
-            .insert({ id: crypto.randomUUID(), ...payload } as any);
+            .insert({ id: quote_id, ...payload } as any);
           if (insertErr) {
             console.error("quote_requests insert failed:", insertErr);
             capture("submit_error", { stage: "quote", table: "quote_requests", code: insertErr.code ?? "unknown" });
@@ -730,6 +784,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
           sourceCity: refCity ?? null,
           pieces,
+          quote_id,
+          ph_distinct_id: get_distinct_id() ?? null,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
     } catch (err: any) {

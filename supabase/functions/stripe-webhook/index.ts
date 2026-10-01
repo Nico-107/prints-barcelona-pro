@@ -2,6 +2,41 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const STRIPE_WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
+const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
+
+// B2: server-side order_paid — idempotent via Stripe session.id as PostHog uuid, 3s timeout
+async function captureOrderPaid(
+  distinctId: string,
+  properties: Record<string, unknown>,
+  idempotencyKey: string,
+  processPersonProfile: boolean,
+): Promise<void> {
+  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
+  try {
+    await fetch(`${POSTHOG_HOST}/capture/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        api_key: POSTHOG_KEY,
+        event: "order_paid",
+        distinct_id: distinctId,
+        uuid: idempotencyKey,
+        properties: {
+          ...properties,
+          ...(processPersonProfile ? {} : { $process_person_profile: false }),
+        },
+      }),
+      signal: controller.signal,
+    });
+  } catch {
+    // timeout or network error — never blocks order processing
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 async function verifyStripeSignature(body: string, signature: string, secret: string): Promise<boolean> {
   const parts = signature.split(",");
@@ -139,6 +174,30 @@ serve(async (req: Request) => {
         console.log("Marked order #" + orderNumber + " as paid");
       }
     }
+
+    // B2: order_paid — idempotent (Stripe session.id is PostHog event uuid), 3s timeout
+    const meta = session.metadata ?? {};
+    const rawPHId = typeof meta.ph_distinct_id === "string" ? meta.ph_distinct_id.trim() : "";
+    await captureOrderPaid(
+      rawPHId || ("anon_" + session.id),
+      {
+        order_id: meta.order_id ?? null,
+        order_number: meta.order_number ?? null,
+        value: (session.amount_total ?? 0) / 100,
+        currency: (session.currency ?? "eur").toUpperCase(),
+        fulfillment: meta.fulfillment ?? null,
+        product_type: meta.product_type ?? null,
+        part_slug: meta.part_slug ?? null,
+        utm_source: meta.utm_source ?? null,
+        utm_medium: meta.utm_medium ?? null,
+        utm_content: meta.utm_content ?? null,
+        utm_campaign: meta.utm_campaign ?? null,
+        customer_ref: meta.customer_ref ?? null,
+        $session_id: meta.ph_session_id ?? null,
+      },
+      session.id,
+      !!rawPHId,
+    );
   }
 
   return new Response(JSON.stringify({ received: true }), {

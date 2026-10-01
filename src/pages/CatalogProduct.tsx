@@ -113,7 +113,7 @@ const CatalogProduct = () => {
 
       // A6 + A4: catalog_request_submitted with pseudonymous customer ref
       const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
-      capture("catalog_request_submitted", { slug: product.slug, value: product.priceLow, customer_ref: ref });
+      capture("catalog_request_submitted", { slug: product.slug, value: product.priceLow, customer_ref: ref, source_page: window.location.pathname });
       if (ref) identifyUser(ref);
 
       supabaseAnon

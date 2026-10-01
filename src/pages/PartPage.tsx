@@ -18,7 +18,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
 import { partPages } from "@/data/partsPages";
 import type { PartPage as PartPageData } from "@/data/partsPages";
-import { capture } from "@/lib/analytics";
+import { capture, get_distinct_id, get_session_id } from "@/lib/analytics";
+import { getStoredUTM } from "@/lib/utm";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SHIPPING_FEE_EUROS = 5;
@@ -182,17 +183,53 @@ const PartPage = ({ part }: Props) => {
     setIsCheckingOut(true);
     setCheckoutError(null);
     try {
+      // B1: visitor identity for Stripe metadata
+      const storedUtm = getStoredUTM();
+      const phId = get_distinct_id();
+      const phSid = get_session_id();
+      const shippingFee = fulfillment === "shipping" ? SHIPPING_FEE_EUROS : 0;
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: {
           material: part.material,
           exactPrice: part.price,
           fulfillment,
           productName: part.name.es,
-          shippingRateEuros: fulfillment === "shipping" ? SHIPPING_FEE_EUROS : 0,
+          shippingRateEuros: shippingFee,
           language: lang,
+          ph_distinct_id: phId ?? null,
+          ph_session_id: phSid ?? null,
+          utm_source: storedUtm?.utm_source ?? null,
+          utm_medium: storedUtm?.utm_medium ?? null,
+          utm_content: storedUtm?.utm_content ?? null,
+          utm_campaign: storedUtm?.utm_campaign ?? null,
+          product_type: "part_page",
+          part_slug: part.slug,
         },
       });
       if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL");
+      // B5: stash context for instant_checkout_completed on Stripe return
+      try {
+        sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({
+          value: part.price,
+          shipping_fee: shippingFee,
+          currency: "EUR",
+          fulfillment,
+          product_type: "part_page",
+          part_slug: part.slug,
+          total_units: 1,
+          material: part.material,
+        }));
+      } catch {}
+      capture("instant_checkout_initiated", {
+        value: part.price,
+        shipping_fee: shippingFee,
+        currency: "EUR",
+        fulfillment,
+        product_type: "part_page",
+        part_slug: part.slug,
+        total_units: 1,
+        material: part.material,
+      });
       window.location.href = data.checkoutUrl;
     } catch (err: unknown) {
       setIsCheckingOut(false);

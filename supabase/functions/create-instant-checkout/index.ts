@@ -53,9 +53,13 @@ serve(async (req: Request) => {
       material, color, infill, wallLoops, quantity,
       filePaths, fileNames, exactPrice, contactEmail, contactPhone, language,
       fulfillment,
-      productName,      // optional: human-readable product name (parts pages)
+      productName,       // optional: human-readable product name (parts pages)
       shippingRateEuros, // optional: add a separate shipping_option line (parts pages)
       pieces,
+      // B1: visitor identity threaded from client for Stripe metadata
+      ph_distinct_id, ph_session_id,
+      utm_source, utm_medium, utm_content, utm_campaign,
+      product_type, part_slug, customer_ref,
     } = body ?? {};
 
     const price = Number(exactPrice);
@@ -141,6 +145,16 @@ serve(async (req: Request) => {
       "success_url": `${SITE_URL}/?checkout=success`,
       "cancel_url": `${SITE_URL}/?checkout=cancelled`,
     });
+    // B1: visitor identity — added to metadata for server-side order_paid event
+    if (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) params.set("metadata[ph_distinct_id]", ph_distinct_id.trim().slice(0, 500));
+    if (typeof ph_session_id === "string" && ph_session_id.trim()) params.set("metadata[ph_session_id]", ph_session_id.trim().slice(0, 500));
+    if (typeof utm_source === "string" && utm_source.trim()) params.set("metadata[utm_source]", utm_source.trim().slice(0, 100));
+    if (typeof utm_medium === "string" && utm_medium.trim()) params.set("metadata[utm_medium]", utm_medium.trim().slice(0, 100));
+    if (typeof utm_content === "string" && utm_content.trim()) params.set("metadata[utm_content]", utm_content.trim().slice(0, 100));
+    if (typeof utm_campaign === "string" && utm_campaign.trim()) params.set("metadata[utm_campaign]", utm_campaign.trim().slice(0, 100));
+    if (typeof product_type === "string" && product_type.trim()) params.set("metadata[product_type]", product_type.trim().slice(0, 100));
+    if (typeof part_slug === "string" && part_slug.trim()) params.set("metadata[part_slug]", part_slug.trim().slice(0, 200));
+    if (typeof customer_ref === "string" && customer_ref.trim()) params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
     if (fulfillment === "shipping") {
       params.set("shipping_address_collection[allowed_countries][0]", "ES");
       params.set("phone_number_collection[enabled]", "true");

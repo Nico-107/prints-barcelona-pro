@@ -45,6 +45,12 @@ interface QuoteSubmittedProps {
   color?: boolean;
   multicolour?: boolean;
   customer_ref?: string;
+  quote_id?: string;
+  value_estimate_mid?: number;
+  currency?: string;
+  piece_count?: number;
+  total_units?: number;
+  source_page?: string;
 }
 
 interface InstantCheckoutInitiatedProps {
@@ -52,6 +58,26 @@ interface InstantCheckoutInitiatedProps {
   exact_price?: number;
   quantity?: number;
   customer_ref?: string;
+  value?: number;
+  shipping_fee?: number;
+  currency?: string;
+  fulfillment?: "pickup" | "shipping";
+  product_type?: string;
+  part_slug?: string;
+  file_count?: number;
+  total_units?: number;
+}
+
+interface InstantCheckoutCompletedProps {
+  value?: number;
+  shipping_fee?: number;
+  currency?: string;
+  fulfillment?: "pickup" | "shipping";
+  product_type?: string;
+  part_slug?: string;
+  file_count?: number;
+  total_units?: number;
+  material?: string;
 }
 
 // ---- New events (A6) ----
@@ -87,6 +113,7 @@ interface CatalogRequestSubmittedProps {
   slug?: string;
   value?: number;
   customer_ref?: string;
+  source_page?: string;
 }
 
 interface NavClickProps {
@@ -126,7 +153,7 @@ export interface EventMap {
   estimate_abandoned: EstimateAbandonedProps;
   whatsapp_click: WhatsappClickProps;
   quote_submitted: QuoteSubmittedProps;
-  instant_checkout_completed: Record<string, never>;
+  instant_checkout_completed: InstantCheckoutCompletedProps;
   instant_checkout_cancelled: Record<string, never>;
   instant_checkout_initiated: InstantCheckoutInitiatedProps;
   exit_intent_shown: Record<string, never>;
