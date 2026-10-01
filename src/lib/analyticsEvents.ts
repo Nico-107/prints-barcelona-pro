@@ -146,6 +146,24 @@ export interface EventMap {
   // New events — A7
   file_upload_error: FileUploadErrorProps;
   submit_error: SubmitErrorProps;
+
+  // Legacy / page-level events already used across the site
+  quote_cta_click: Record<string, unknown>;
+  "print request submitted": Record<string, unknown>;
+  "banner dismissed": Record<string, unknown>;
+  "review submitted": Record<string, unknown>;
+  order_accepted: Record<string, unknown>;
+  blog_read_75pct: Record<string, unknown>;
+  city_cta_click: Record<string, unknown>;
+  city_page_view: Record<string, unknown>;
+  design_request_submitted: Record<string, unknown>;
+  page_read_75pct: Record<string, unknown>;
+  international_page_view: Record<string, unknown>;
+  international_cta_click: Record<string, unknown>;
+  landing_page_upload_cta_click: Record<string, unknown>;
+  lemon_page_view: Record<string, unknown>;
+  lemon_cta_click: Record<string, unknown>;
+  "maker application submitted": Record<string, unknown>;
 }
 
 export type EventName = keyof EventMap;
