@@ -8,6 +8,7 @@ import PictureImg from "@/components/PictureImg";
 import { catalogProducts } from "@/data/catalogProducts";
 import { partPages } from "@/data/partsPages";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -127,10 +128,11 @@ const Catalog = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {partPages.map((part) => (
+            {partPages.map((part, index) => (
               <Link
                 key={part.slug}
                 to={part.slug}
+                onClick={() => capture("catalog_card_click", { item_type: "part", slug: part.slug, position: index })}
                 className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-md transition-all duration-200"
               >
                 <div className="aspect-square bg-secondary/30 overflow-hidden">
@@ -151,10 +153,11 @@ const Catalog = () => {
                 </div>
               </Link>
             ))}
-            {catalogProducts.map((product) => (
+            {catalogProducts.map((product, index) => (
               <Link
                 key={product.slug}
                 to={`/catalogo/${product.slug}`}
+                onClick={() => capture("catalog_card_click", { item_type: "catalog", slug: product.slug, position: partPages.length + index })}
                 className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-accent/50 hover:shadow-md transition-all duration-200"
               >
                 <div className="aspect-square bg-secondary/30 overflow-hidden">

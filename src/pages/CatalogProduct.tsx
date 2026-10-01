@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { CheckCircle, Loader2, Send } from "lucide-react";
@@ -12,6 +12,8 @@ import { catalogProducts } from "@/data/catalogProducts";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
 import NotFound from "@/pages/NotFound";
+import { capture, identifyUser } from "@/lib/analytics";
+import { customerRef } from "@/lib/customerRef";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 
@@ -26,6 +28,11 @@ const CatalogProduct = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+
+  // A6: catalog_product_view on mount — hook must come before the early return
+  useEffect(() => {
+    if (product) capture("catalog_product_view", { slug: product.slug });
+  }, [product?.slug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!product) return <NotFound />;
 
@@ -103,6 +110,11 @@ const CatalogProduct = () => {
     try {
       setIsSubmitted(true);
       setIsSubmitting(false);
+
+      // A6 + A4: catalog_request_submitted with pseudonymous customer ref
+      const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
+      capture("catalog_request_submitted", { slug: product.slug, value: product.priceLow, customer_ref: ref });
+      if (ref) identifyUser(ref);
 
       supabaseAnon
         .from("quote_requests")

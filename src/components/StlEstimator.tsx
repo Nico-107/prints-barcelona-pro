@@ -6,8 +6,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
-import { capture } from "@/lib/analytics";
+import { capture, identifyUser } from "@/lib/analytics";
 import { getStoredUTM } from "@/lib/utm";
+import { customerRef } from "@/lib/customerRef";
 import { parseStl } from "@/lib/stlAnalysis";
 
 const StlViewer = lazy(() => import("./StlViewer"));
@@ -318,10 +319,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const id = Math.random().toString(36).slice(2, 10);
 
       if (!f.name.toLowerCase().endsWith(".stl")) {
+        const fileExt = f.name.split(".").pop()?.toLowerCase() ?? "unknown";
+        capture("file_upload_error", { reason: "not_stl", file_type: fileExt });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.notStl") });
         continue;
       }
       if (f.size > MAX_ESTIMATE_BYTES) {
+        capture("file_upload_error", { reason: "size_exceeded", file_type: "stl" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.size") });
         continue;
       }
@@ -331,6 +335,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const { volumeMm3, hasHeavyOverhangs } = parseStl(buf);
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: f, hasHeavyOverhangs });
       } catch {
+        capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
       }
     }
@@ -422,7 +427,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               language: capturedLang,
               multicolour: capturedMulticolour,
             }).then(({ error: dbErr }) => {
-              if (dbErr) console.error("price_estimates insert error:", dbErr);
+              if (dbErr) {
+                console.error("price_estimates insert error:", dbErr);
+                capture("submit_error", { stage: "estimate", table: "price_estimates", code: dbErr.code ?? "unknown" });
+              }
             });
             supabase.functions.invoke("send-price-estimate", {
               body: {
@@ -579,7 +587,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         },
       });
       if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
-      capture('instant_checkout_initiated', { material: materialKey, exact_price: instantDisplayPrice, quantity: bundle!.totalUnits });
+      // A4: pseudonymous customer_ref on checkout initiation
+      const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
+      capture('instant_checkout_initiated', { material: materialKey, exact_price: instantDisplayPrice, quantity: bundle!.totalUnits, customer_ref: checkoutRef });
+      if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
       setIsCheckingOut(false);
@@ -641,6 +652,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setIsSubmittedQuote(true);
       setShowManualReview(false);
       setIsSubmittingQuote(false);
+      // A4: pseudonymous customer_ref
+      const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
       capture('quote_submitted', {
         has_email: !!contactEmail.trim(),
         has_phone: !!contactPhone.trim(),
@@ -651,7 +664,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         estimated_price_high: Math.round(bundle!.high),
         color: !!colorPref.trim(),
         multicolour,
+        customer_ref: ref,
       });
+      if (ref) identifyUser(ref);
       estimateShownRef.current = false;
 
       // DB write — fresh insert with all contact details. Fire-and-forget.
@@ -685,8 +700,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           const { error: insertErr } = await supabaseAnon
             .from("quote_requests")
             .insert({ id: crypto.randomUUID(), ...payload } as any);
-          if (insertErr) console.error("quote_requests insert failed:", insertErr);
-          else console.log("quote_requests insert OK");
+          if (insertErr) {
+            console.error("quote_requests insert failed:", insertErr);
+            capture("submit_error", { stage: "quote", table: "quote_requests", code: insertErr.code ?? "unknown" });
+          } else console.log("quote_requests insert OK");
         } catch (e) {
           console.error("quote_requests insert threw:", e);
         }
@@ -785,7 +802,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           utm_content: exitUtm?.utm_content ?? null,
           pieces: exitPieces,
         } as any);
-      if (insertErr) throw new Error(insertErr.message);
+      if (insertErr) {
+        capture("submit_error", { stage: "exit_intent", table: "quote_requests", code: insertErr.code ?? "unknown" });
+        throw new Error(insertErr.message);
+      }
       supabase.functions.invoke("send-quote-request", {
         body: {
           filePaths: uploadedPaths,

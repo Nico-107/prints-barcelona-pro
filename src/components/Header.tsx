@@ -2,6 +2,7 @@ import { Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { capture } from "@/lib/analytics";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -100,12 +101,14 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
             ))}
             <Link
               to="/catalogo"
+              onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
               {isEs ? "Catálogo" : isCa ? "Catàleg" : "Catalogue"}
             </Link>
             <Link
               to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
+              onClick={() => capture("nav_click", { menu: "main", label_key: "custom-design", href: isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part" })}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
               {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
@@ -118,13 +121,20 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 <ChevronDown className="w-3.5 h-3.5" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56 bg-background z-50">
-                {servicesGroup.items.map((item) => (
-                  <DropdownMenuItem key={item.slugEn} asChild>
-                    <Link to={slugForLang(item, language as any)} className="cursor-pointer">
-                      {itemLabel(item)}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
+                {servicesGroup.items.map((item) => {
+                  const href = slugForLang(item, language as any);
+                  return (
+                    <DropdownMenuItem key={item.slugEn} asChild>
+                      <Link
+                        to={href}
+                        onClick={() => capture("nav_click", { menu: "services", label_key: item.slugEn, href })}
+                        className="cursor-pointer"
+                      >
+                        {itemLabel(item)}
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
                   {isEs ? "Herramientas" : isCa ? "Eines" : "Tools"}
@@ -132,6 +142,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 <DropdownMenuItem asChild>
                   <Link
                     to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
+                    onClick={() => capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
                     className="cursor-pointer"
                   >
                     {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
@@ -153,13 +164,20 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                     <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
                       {groupLabel(group)}
                     </DropdownMenuLabel>
-                    {group.items.map((item) => (
-                      <DropdownMenuItem key={item.slugEn} asChild>
-                        <Link to={slugForLang(item, language as any)} className="cursor-pointer">
-                          {itemLabel(item)}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
+                    {group.items.map((item) => {
+                      const href = slugForLang(item, language as any);
+                      return (
+                        <DropdownMenuItem key={item.slugEn} asChild>
+                          <Link
+                            to={href}
+                            onClick={() => capture("nav_click", { menu: "resources", label_key: item.slugEn, href })}
+                            className="cursor-pointer"
+                          >
+                            {itemLabel(item)}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
                   </div>
                 ))}
               </DropdownMenuContent>
@@ -212,21 +230,21 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               ))}
               <Link
                 to="/catalogo"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" }); }}
                 className="text-left py-2 text-foreground font-medium"
               >
                 {isEs ? "Catálogo" : isCa ? "Catàleg" : "Catalogue"}
               </Link>
               <Link
                 to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "custom-design", href: isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part" }); }}
                 className="text-left py-2 text-foreground font-medium"
               >
                 {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
               </Link>
               <Link
                 to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" }); }}
                 className="text-left py-2 text-foreground font-medium"
               >
                 {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
@@ -237,16 +255,19 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
                   {servicesLabel}
                 </p>
-                {servicesGroup.items.map((item) => (
-                  <Link
-                    key={item.slugEn}
-                    to={slugForLang(item, language as any)}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block py-1.5 text-sm text-foreground"
-                  >
-                    {itemLabel(item)}
-                  </Link>
-                ))}
+                {servicesGroup.items.map((item) => {
+                  const href = slugForLang(item, language as any);
+                  return (
+                    <Link
+                      key={item.slugEn}
+                      to={href}
+                      onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: item.slugEn, href }); }}
+                      className="block py-1.5 text-sm text-foreground"
+                    >
+                      {itemLabel(item)}
+                    </Link>
+                  );
+                })}
               </div>
 
               {/* Recursos section */}
@@ -259,16 +280,19 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                     <p className="text-xs text-muted-foreground/60 py-1 pl-2">
                       {groupLabel(group)}
                     </p>
-                    {group.items.map((item) => (
-                      <Link
-                        key={item.slugEn}
-                        to={slugForLang(item, language as any)}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="block py-1 pl-2 text-sm text-foreground"
-                      >
-                        {itemLabel(item)}
-                      </Link>
-                    ))}
+                    {group.items.map((item) => {
+                      const href = slugForLang(item, language as any);
+                      return (
+                        <Link
+                          key={item.slugEn}
+                          to={href}
+                          onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "resources", label_key: item.slugEn, href }); }}
+                          className="block py-1 pl-2 text-sm text-foreground"
+                        >
+                          {itemLabel(item)}
+                        </Link>
+                      );
+                    })}
                   </div>
                 ))}
               </div>

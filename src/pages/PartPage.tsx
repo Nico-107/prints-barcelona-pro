@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Box, Clock, Loader2, MapPin, ShoppingCart, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -18,6 +18,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
 import { partPages } from "@/data/partsPages";
 import type { PartPage as PartPageData } from "@/data/partsPages";
+import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SHIPPING_FEE_EUROS = 5;
@@ -77,6 +78,15 @@ const PartPage = ({ part }: Props) => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [fulfillment, setFulfillment] = useState<"pickup" | "shipping">("pickup");
+
+  // A6: part_page_view on mount
+  useEffect(() => {
+    capture("part_page_view", {
+      part_slug: part.slug,
+      category: part.category,
+      price: part.price,
+    });
+  }, [part.slug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalPrice = fulfillment === "shipping" ? part.price + SHIPPING_FEE_EUROS : part.price;
   const otherParts = partPages.filter((p) => p.slug !== part.slug);
@@ -163,6 +173,12 @@ const PartPage = ({ part }: Props) => {
   const metaDescription = L(part.problemStatement);
 
   const handleBuyNow = async () => {
+    // A6: part_buy_click — fires before the async checkout redirect
+    capture("part_buy_click", {
+      part_slug: part.slug,
+      value: totalPrice,
+      fulfillment,
+    });
     setIsCheckingOut(true);
     setCheckoutError(null);
     try {
@@ -230,7 +246,10 @@ const PartPage = ({ part }: Props) => {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => setFulfillment("pickup")}
+                    onClick={() => {
+                      setFulfillment("pickup");
+                      capture("part_fulfillment_selected", { part_slug: part.slug, fulfillment: "pickup" });
+                    }}
                     className={`rounded-xl border p-3 text-left transition-all ${
                       fulfillment === "pickup"
                         ? "border-accent bg-accent/5"
@@ -245,7 +264,10 @@ const PartPage = ({ part }: Props) => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFulfillment("shipping")}
+                    onClick={() => {
+                      setFulfillment("shipping");
+                      capture("part_fulfillment_selected", { part_slug: part.slug, fulfillment: "shipping" });
+                    }}
                     className={`rounded-xl border p-3 text-left transition-all ${
                       fulfillment === "shipping"
                         ? "border-accent bg-accent/5"

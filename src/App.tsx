@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { capture } from "@/lib/analytics";
+import { capture, updatePageContext } from "@/lib/analytics";
 import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import NotFound from "./pages/NotFound";
@@ -44,11 +44,78 @@ const Lemon = lazy(() => import("./pages/Lemon"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
+// Build slug sets once for O(1) page_type lookups (A2)
+const CITY_SLUGS = new Set(CITY_PAGES.map((p) => p.slug));
+const LANDING_SLUGS = new Set(ALL_PAGES.map((p) => p.slug));
+const PART_SLUGS = new Set(partPages.map((p) => p.slug));
+
+function inferPageType(path: string): string {
+  if (path === "/" || path === "/ca") return "home";
+  if (path === "/catalogo" || path.startsWith("/catalogo/")) return "catalog";
+  if (path === "/lemon") return "lemon";
+  if (path.startsWith("/admin")) return "admin";
+  if (path === "/track") return "tracking";
+  if (path === "/3d-printing-service") return "international";
+  if (path.startsWith("/blog")) return "blog";
+  if (CITY_SLUGS.has(path)) return "city";
+  if (LANDING_SLUGS.has(path)) return "landing";
+  if (PART_SLUGS.has(path)) return "part";
+  return "other";
+}
+
+// Outbound contact link detection (A6)
+function getChannel(href: string): "whatsapp" | "email" | "phone" | null {
+  if (href.includes("wa.me") || href.includes("whatsapp.com")) return "whatsapp";
+  if (href.startsWith("mailto:")) return "email";
+  if (href.startsWith("tel:")) return "phone";
+  return null;
+}
+
+function getElementLocation(target: EventTarget | null): string {
+  if (!target || !(target instanceof Element)) return "unknown";
+  let el: Element | null = target;
+  while (el) {
+    const id = el.id;
+    if (id) return id;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "header") return "header";
+    if (tag === "footer") return "footer";
+    if (tag === "nav") return "nav";
+    if (tag === "main") return "main";
+    if (tag === "section") return (el as HTMLElement).dataset.section ?? "section";
+    el = el.parentElement;
+  }
+  return "page";
+}
+
+// A5: Fire $pageview only on pathname change (not on search-param changes).
+// A2: Update page context before firing so the pageview carries the right page_type.
 function PostHogPageView() {
   const location = useLocation();
   useEffect(() => {
+    updatePageContext({ page_type: inferPageType(location.pathname) });
     capture("$pageview");
-  }, [location.pathname, location.search]);
+  }, [location.pathname]); // intentionally excludes location.search
+  return null;
+}
+
+// A6: Global delegated outbound-contact listener — one listener for the whole app.
+function OutboundContactTracker() {
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const anchor = (e.target as Element | null)?.closest("a");
+      if (!anchor) return;
+      const href = anchor.href ?? anchor.getAttribute("href") ?? "";
+      const channel = getChannel(href);
+      if (!channel) return;
+      capture("outbound_contact_click", {
+        channel,
+        element_location: getElementLocation(anchor),
+      });
+    };
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, []);
   return null;
 }
 
@@ -62,6 +129,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
+          <OutboundContactTracker />
           <CookieConsentBanner />
           <Suspense fallback={PageFallback}>
             <Routes>

@@ -1,0 +1,151 @@
+/**
+ * Typed event catalogue for all PostHog events sent by this site.
+ * Properties listed here are what CALLERS provide — auto-enriched context
+ * (utm_*, page_path, page_type, site_language, is_internal) is added by the
+ * capture() wrapper and is not included in these types.
+ *
+ * Use capture<E extends EventName> to get compile errors for misspelled event
+ * names or property keys.
+ */
+
+// ---- Existing events ----
+
+interface EstimateGeneratedProps {
+  material?: string;
+  infill?: number;
+  urgency?: string;
+  quantity?: number;
+  estimated_grams?: number;
+  price_low?: number;
+  price_high?: number;
+  file_count?: number;
+  multicolour?: boolean;
+}
+
+interface EstimateAbandonedProps {
+  price_low?: number;
+  price_high?: number;
+  material?: string;
+}
+
+interface WhatsappClickProps {
+  source?: string;
+  location?: string;
+  path?: string;
+}
+
+interface QuoteSubmittedProps {
+  has_email?: boolean;
+  has_phone?: boolean;
+  material?: string;
+  urgency?: string;
+  file_count?: number;
+  estimated_price_low?: number;
+  estimated_price_high?: number;
+  color?: boolean;
+  multicolour?: boolean;
+  customer_ref?: string;
+}
+
+interface InstantCheckoutInitiatedProps {
+  material?: string;
+  exact_price?: number;
+  quantity?: number;
+  customer_ref?: string;
+}
+
+// ---- New events (A6) ----
+
+interface PartPageViewProps {
+  part_slug?: string;
+  category?: string;
+  price?: number;
+}
+
+interface PartFulfillmentSelectedProps {
+  part_slug?: string;
+  fulfillment?: "pickup" | "shipping";
+}
+
+interface PartBuyClickProps {
+  part_slug?: string;
+  value?: number;
+  fulfillment?: "pickup" | "shipping";
+}
+
+interface CatalogCardClickProps {
+  item_type?: "part" | "catalog";
+  slug?: string;
+  position?: number;
+}
+
+interface CatalogProductViewProps {
+  slug?: string;
+}
+
+interface CatalogRequestSubmittedProps {
+  slug?: string;
+  value?: number;
+  customer_ref?: string;
+}
+
+interface NavClickProps {
+  menu?: "main" | "services" | "resources";
+  label_key?: string;
+  href?: string;
+}
+
+interface OutboundContactClickProps {
+  channel?: "whatsapp" | "email" | "phone";
+  element_location?: string;
+}
+
+// ---- New events (A7) ----
+
+interface FileUploadErrorProps {
+  reason?: string;
+  file_type?: string;
+}
+
+interface SubmitErrorProps {
+  stage?: string;
+  table?: string;
+  code?: string;
+}
+
+// ---- Master map ----
+
+export interface EventMap {
+  // PostHog built-in
+  $pageview: Record<string, never>;
+
+  // Existing events
+  estimate_generated: EstimateGeneratedProps;
+  estimate_modal_shown: Record<string, never>;
+  estimate_modal_dismissed: Record<string, never>;
+  estimate_abandoned: EstimateAbandonedProps;
+  whatsapp_click: WhatsappClickProps;
+  quote_submitted: QuoteSubmittedProps;
+  instant_checkout_completed: Record<string, never>;
+  instant_checkout_cancelled: Record<string, never>;
+  instant_checkout_initiated: InstantCheckoutInitiatedProps;
+  exit_intent_shown: Record<string, never>;
+  exit_intent_recovered: Record<string, never>;
+  exit_intent_dismissed: Record<string, never>;
+
+  // New events — A6
+  part_page_view: PartPageViewProps;
+  part_fulfillment_selected: PartFulfillmentSelectedProps;
+  part_buy_click: PartBuyClickProps;
+  catalog_card_click: CatalogCardClickProps;
+  catalog_product_view: CatalogProductViewProps;
+  catalog_request_submitted: CatalogRequestSubmittedProps;
+  nav_click: NavClickProps;
+  outbound_contact_click: OutboundContactClickProps;
+
+  // New events — A7
+  file_upload_error: FileUploadErrorProps;
+  submit_error: SubmitErrorProps;
+}
+
+export type EventName = keyof EventMap;

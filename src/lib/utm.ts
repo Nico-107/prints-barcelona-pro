@@ -5,11 +5,12 @@ export interface StoredUTM {
   utm_source: string | null;
   utm_medium: string | null;
   utm_content: string | null;
+  utm_campaign: string | null;
   expires: number;
 }
 
 /**
- * Reads utm_source/medium/content from the URL and writes them to localStorage.
+ * Reads utm_source/medium/content/campaign from the URL and writes them to localStorage.
  * No-ops if: (a) no UTM params are present, or (b) an unexpired attribution already exists.
  * This ensures a returning visitor who types the URL directly keeps their original attribution.
  */
@@ -17,8 +18,9 @@ export function readAndPersistUTM(searchParams: URLSearchParams): void {
   const source = searchParams.get("utm_source");
   const medium = searchParams.get("utm_medium");
   const content = searchParams.get("utm_content");
+  const campaign = searchParams.get("utm_campaign");
 
-  if (!source && !medium && !content) return;
+  if (!source && !medium && !content && !campaign) return;
 
   if (getStoredUTM() !== null) return;
 
@@ -27,6 +29,7 @@ export function readAndPersistUTM(searchParams: URLSearchParams): void {
       utm_source: source,
       utm_medium: medium,
       utm_content: content,
+      utm_campaign: campaign,
       expires: Date.now() + UTM_TTL_MS,
     };
     localStorage.setItem(UTM_KEY, JSON.stringify(payload));
