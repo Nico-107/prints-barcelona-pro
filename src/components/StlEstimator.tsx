@@ -265,6 +265,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   }, [showExitIntent]);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const modalInputRef = useRef<HTMLInputElement>(null);
   const modalBodyRef = useRef<HTMLDivElement>(null);
   const estimateShownRef = useRef(false);
   const uploadedRef = useRef<{ paths: string[]; names: string[]; byId: Record<string, string> } | null>(null);
@@ -1511,7 +1512,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             </DialogHeader>
 
             {/* Scrollable body — single column on mobile, two columns at lg */}
-            <div ref={modalBodyRef} className="flex-1 overflow-y-auto min-h-0">
+            <div
+              ref={modalBodyRef}
+              className="flex-1 overflow-y-auto min-h-0"
+              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+              onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragging(false); }}
+              onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
+            >
               <div className={`flex flex-col ${stepperFile?.file ? "lg:grid lg:grid-cols-[5fr_6fr]" : ""}`}>
 
                 {/* LEFT column at lg: STL viewer + file info.
@@ -1592,6 +1599,38 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       {t("calc.multicolour.note")}
                     </p>
                   )}
+
+              {/* Add more files — hidden input + dashed drop zone, inside the dialog */}
+              <input
+                ref={modalInputRef}
+                type="file"
+                accept=".stl"
+                multiple
+                className="hidden"
+                onChange={handleChange}
+              />
+              {!isSubmittedQuote && (
+                parsedFiles.length < MAX_FILES ? (
+                  <div
+                    onClick={() => {
+                      capture("estimate_add_more_click", { location: "modal" });
+                      modalInputRef.current?.click();
+                    }}
+                    className={`border border-dashed rounded-xl p-3 text-center cursor-pointer transition-all select-none ${
+                      isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
+                    }`}
+                  >
+                    <span className="text-sm text-muted-foreground flex items-center justify-center gap-1.5">
+                      <Plus className="w-4 h-4" />
+                      {t("calc.addMore")} ({parsedFiles.length}/{MAX_FILES})
+                    </span>
+                  </div>
+                ) : (
+                  <div className="border border-border/40 rounded-xl p-3 text-center">
+                    <span className="text-sm text-muted-foreground">{t("calc.maxFiles")}</span>
+                  </div>
+                )
+              )}
 
               {isSubmittedQuote ? (
                 <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">

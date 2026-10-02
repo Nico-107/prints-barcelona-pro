@@ -550,6 +550,8 @@ export const esTranslations: Record<string, string> = {
   "design.success.title": "¡Solicitud recibida!",
   "design.success.desc": "Te responderemos con un presupuesto en menos de 1 hora. Si tienes prisa, escríbenos por WhatsApp.",
   "design.error": "Error al enviar. Por favor, inténtalo de nuevo.",
+  "design.error.wa.link": "Escríbenos por WhatsApp",
+  "design.error.wa.msg": "Hola, os acabo de enviar una solicitud de diseño por la web",
 
   // No-file band on homepage
   "nofile.heading": "¿No tienes archivo 3D?",

@@ -550,6 +550,8 @@ export const enTranslations: Record<string, string> = {
   "design.success.title": "Request received!",
   "design.success.desc": "We'll reply with a quote in under 1 hour. If you're in a hurry, message us on WhatsApp.",
   "design.error": "Something went wrong. Please try again.",
+  "design.error.wa.link": "Message us on WhatsApp",
+  "design.error.wa.msg": "Hi, I just sent a design request through your website",
 
   // No-file band on homepage
   "nofile.heading": "No 3D file?",

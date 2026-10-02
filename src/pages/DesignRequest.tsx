@@ -9,10 +9,12 @@ import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const MAX_FILES = 4;
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const SLUG_ES = "/disena-tu-pieza-3d";
 const SLUG_EN = "/design-your-3d-part";
@@ -34,6 +36,7 @@ const DesignRequest = () => {
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
+  const [emailFailed, setEmailFailed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -64,86 +67,101 @@ const DesignRequest = () => {
       return;
     }
     setFormError(null);
+    setEmailFailed(false);
     setIsSubmitting(true);
 
     try {
-      // Show success straight away — uploads and DB writes happen async.
-      setIsSubmitted(true);
-      setIsSubmitting(false);
+      // 1. Upload photos; count any that fail
+      const uploadedPaths: string[] = [];
+      const uploadedNames: string[] = [];
+      let photosFailed = 0;
+      const timestamp = Date.now();
 
-      const hasPhoto = photos.length > 0;
-      capture("design_request_submitted", { hasPhoto, language });
-
-      // Upload photos and do DB work in background.
-      (async () => {
-        const uploadedPaths: string[] = [];
-        const uploadedNames: string[] = [];
-        const timestamp = Date.now();
-
-        for (const photo of photos) {
-          const sanitized = photo.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-          const path = `${timestamp}-${sanitized}`;
-          const { error: uploadErr } = await supabaseAnon.storage
-            .from("print-requests")
-            .upload(path, photo);
-          if (!uploadErr) {
-            uploadedPaths.push(path);
-            uploadedNames.push(photo.name);
-          }
+      for (const photo of photos) {
+        const sanitized = photo.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+        const path = `${timestamp}-${sanitized}`;
+        const { error: uploadErr } = await supabaseAnon.storage
+          .from("print-requests")
+          .upload(path, photo);
+        if (!uploadErr) {
+          uploadedPaths.push(path);
+          uploadedNames.push(photo.name);
+        } else {
+          photosFailed++;
+          console.error("Photo upload error:", uploadErr);
         }
+      }
 
-        supabaseAnon
-          .from("quote_requests")
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .insert({
-            contact_email: contactEmail.trim() || null,
-            contact_phone: contactPhone.trim() || null,
-            material: "Diseño a medida",
-            infill: "N/A",
-            wall_loops: 0,
-            quantity: 1,
-            estimated_grams: 0,
-            estimated_hours: 0,
-            estimated_price_low: 0,
-            estimated_price_high: 0,
-            file_paths: uploadedPaths,
-            file_names: uploadedNames,
-            status: "pending",
-            product_slug: "design-request",
-            product_name: "Diseño a medida",
-            customization: {
-              description,
-              dimensions: dimensions.trim() || null,
-              quantity: quantity.trim() || null,
-            },
-          } as any)
-          .then(({ error: dbErr }) => {
-            if (dbErr) console.error("quote_requests insert error:", dbErr);
-          });
+      // 2. DB insert — fire-and-forget; admin panel relies on this row
+      supabaseAnon
+        .from("quote_requests")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .insert({
+          contact_email: contactEmail.trim() || null,
+          contact_phone: contactPhone.trim() || null,
+          material: "Diseño a medida",
+          infill: "N/A",
+          wall_loops: 0,
+          quantity: 1,
+          estimated_grams: 0,
+          estimated_hours: 0,
+          estimated_price_low: 0,
+          estimated_price_high: 0,
+          file_paths: uploadedPaths,
+          file_names: uploadedNames,
+          status: "pending",
+          product_slug: "design-request",
+          product_name: "Diseño a medida",
+          customization: {
+            description,
+            dimensions: dimensions.trim() || null,
+            quantity: quantity.trim() || null,
+          },
+        } as any)
+        .then(({ error: dbErr }) => {
+          if (dbErr) console.error("quote_requests insert error:", dbErr);
+        });
 
-        supabase.functions
-          .invoke("send-quote-request", {
-            body: {
-              filePaths: uploadedPaths,
-              fileNames: uploadedNames,
-              contactEmail: contactEmail.trim() || null,
-              contactPhone: contactPhone.trim() || null,
-              material: "Diseño a medida",
-              description,
-              dimensions: dimensions.trim() || null,
-              quantity: quantity.trim() || null,
-              priceLow: 0,
-              priceHigh: 0,
-              language,
-            },
-          }).catch(console.error);
-      })();
-    } catch {
+      // 3. Analytics event
+      capture("design_request_submitted", {
+        hasPhoto: uploadedPaths.length > 0,
+        language,
+      } as any);
+
+      // 4. Call edge function with 20 s timeout
+      const { error: fnErr } = await Promise.race([
+        supabase.functions.invoke("send-quote-request", {
+          body: {
+            requestType: "design",
+            filePaths: uploadedPaths,
+            fileNames: uploadedNames,
+            contactEmail: contactEmail.trim() || null,
+            contactPhone: contactPhone.trim() || null,
+            description,
+            dimensions: dimensions.trim() || null,
+            quantity: quantity.trim() || null,
+            photosFailed,
+            language,
+          },
+        }),
+        new Promise<{ data: null; error: Error }>((resolve) =>
+          setTimeout(() => resolve({ data: null, error: new Error("TIMEOUT") }), 20000)
+        ),
+      ]);
+
+      if (fnErr) throw fnErr;
+
+      setIsSubmitted(true);
+    } catch (err: any) {
+      const code = (err?.message ?? "unknown").slice(0, 40);
+      capture("submit_error", { stage: "design_email", table: "-", code });
+      setEmailFailed(true);
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(false);
-      setFormError(t("design.error"));
     }
   };
+
+  const waErrorHref = `${WHATSAPP_URL}?text=${encodeURIComponent(t("design.error.wa.msg"))}`;
 
   const designBreadcrumbLabel = language === "ca" ? "Disseny a Mida" : language === "en" ? "Custom Design" : "Diseño a Medida";
   const breadcrumbSchema = {
@@ -363,6 +381,20 @@ const DesignRequest = () => {
 
                 {formError && (
                   <p className="text-xs text-destructive">{formError}</p>
+                )}
+
+                {emailFailed && (
+                  <div className="rounded-lg bg-destructive/8 border border-destructive/20 px-4 py-3 space-y-2">
+                    <p className="text-xs text-destructive">{t("design.error")}</p>
+                    <a
+                      href={waErrorHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-accent underline"
+                    >
+                      {t("design.error.wa.link")}
+                    </a>
+                  </div>
                 )}
 
                 <Button

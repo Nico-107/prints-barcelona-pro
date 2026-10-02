@@ -140,6 +140,10 @@ interface SubmitErrorProps {
   code?: string;
 }
 
+interface EstimateAddMoreClickProps {
+  location?: string;
+}
+
 // ---- Master map ----
 
 export interface EventMap {
@@ -173,6 +177,7 @@ export interface EventMap {
   // New events — A7
   file_upload_error: FileUploadErrorProps;
   submit_error: SubmitErrorProps;
+  estimate_add_more_click: EstimateAddMoreClickProps;
 
   // Legacy / page-level events already used across the site
   quote_cta_click: Record<string, unknown>;

@@ -91,6 +91,7 @@ const NO_GTAG = new Set<string>([
   "catalog_product_view",
   "catalog_request_submitted",
   "file_upload_error",
+  "estimate_add_more_click",
 ]);
 
 // ---- Internal dispatch (works with any string event name) ----

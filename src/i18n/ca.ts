@@ -550,6 +550,8 @@ export const caTranslations: Record<string, string> = {
   "design.success.title": "Sol·licitud rebuda!",
   "design.success.desc": "Et respondrem amb un pressupost en menys d'1 hora. Si tens pressa, escriu-nos per WhatsApp.",
   "design.error": "S'ha produït un error. Si us plau, torna-ho a provar.",
+  "design.error.wa.link": "Escriu-nos per WhatsApp",
+  "design.error.wa.msg": "Hola, acabo d'enviar una sol·licitud de disseny per la web",
 
   // No-file band on homepage
   "nofile.heading": "No tens arxiu 3D?",
