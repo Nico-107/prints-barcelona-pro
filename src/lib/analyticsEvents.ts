@@ -129,6 +129,13 @@ interface OutboundContactClickProps {
 
 // ---- New events (A7) ----
 
+interface ExperimentExposureProps {
+  experiment?: string;
+  variant?: string;
+  page_type?: string;
+  forced?: boolean;
+}
+
 interface FileUploadErrorProps {
   reason?: string;
   file_type?: string;
@@ -175,6 +182,7 @@ export interface EventMap {
   outbound_contact_click: OutboundContactClickProps;
 
   // New events — A7
+  experiment_exposure: ExperimentExposureProps;
   file_upload_error: FileUploadErrorProps;
   submit_error: SubmitErrorProps;
   estimate_add_more_click: EstimateAddMoreClickProps;

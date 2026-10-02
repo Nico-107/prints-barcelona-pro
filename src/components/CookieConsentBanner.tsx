@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { upgradeAnalyticsPersistence } from "@/lib/analytics";
+import { migrateExperimentAssignment } from "@/lib/experiments";
 
 const CONSENT_KEY = "cookie-consent";
 
@@ -24,6 +25,7 @@ const CookieConsentBanner = () => {
   const accept = () => {
     localStorage.setItem(CONSENT_KEY, "accepted");
     upgradeAnalyticsPersistence();
+    migrateExperimentAssignment();
     (window as any).gtag?.('consent', 'update', { analytics_storage: 'granted' });
     setConsent("accepted");
   };

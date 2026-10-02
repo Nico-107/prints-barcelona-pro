@@ -1,6 +1,7 @@
 // PostHog instance — registered once by main.tsx (browser only).
 // Null during SSR/prerender; events are queued until registration.
 import { getStoredUTM } from "./utm";
+import { getHeroCTAVariant, isXpForced, migrateExperimentAssignment } from "./experiments";
 import type { EventName, EventMap } from "./analyticsEvents";
 
 type PHInstance = {
@@ -62,12 +63,16 @@ function getSiteLanguage(): string {
 function buildContextProps(): Record<string, unknown> {
   const path = typeof window !== "undefined" ? window.location.pathname : "";
   const utm = getStoredUTM();
+  const xpVariant = getHeroCTAVariant();
+  const xpForced = isXpForced();
   const props: Record<string, unknown> = {
     page_path: path,
     page_type: _pageCtx.page_type,
     site_language: getSiteLanguage(),
     is_internal: getIsInternal(),
+    xp_hero_cta_r1: xpVariant,
   };
+  if (xpForced) props.xp_forced = true;
   if (utm) {
     if (utm.utm_source != null) props.utm_source = utm.utm_source;
     if (utm.utm_medium != null) props.utm_medium = utm.utm_medium;
@@ -92,6 +97,7 @@ const NO_GTAG = new Set<string>([
   "catalog_request_submitted",
   "file_upload_error",
   "estimate_add_more_click",
+  "experiment_exposure",
 ]);
 
 // ---- Internal dispatch (works with any string event name) ----
@@ -173,4 +179,5 @@ export function get_session_id(): string | undefined {
 
 export function upgradeAnalyticsPersistence(): void {
   ph?.set_config({ persistence: "localStorage+cookie" });
+  migrateExperimentAssignment();
 }

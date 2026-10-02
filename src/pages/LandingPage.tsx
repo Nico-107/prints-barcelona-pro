@@ -14,6 +14,7 @@ import type { LandingContent, LandingTopic } from "@/seo/landingPages";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { getHeroCTAVariant, isXpForced, wasExposureFired, markExposureFired } from "@/lib/experiments";
 
 // Topics classed as guides — get TechArticle instead of plain Article, and
 // benefit most from freshness signals since they compete for AI-answer
@@ -50,6 +51,21 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
   const [calcHighlight, setCalcHighlight] = useState(false);
+
+  useEffect(() => {
+    if (!page || page.audience === "maker") return;
+    if (!wasExposureFired()) {
+      const variant = getHeroCTAVariant();
+      capture('experiment_exposure', {
+        experiment: 'hero_cta_r1',
+        variant,
+        page_type: 'landing',
+        forced: isXpForced(),
+      });
+      markExposureFired();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!page) {
     return (
@@ -301,24 +317,25 @@ const LandingPage = ({ page: pageProp }: Props) => {
               <p className="text-lg md:text-xl text-primary-foreground/90 leading-relaxed mb-8">
                 {page.intro}
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                {isMaker ? (
-                  <>
-                    <Button asChild variant="accent" size="lg" className="gap-2">
-                      <Link to="/makers">
-                        <Users className="w-4 h-4" />
-                        {makerJoinLabel}
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" size="lg" className="gap-2">
-                      <Link to="/maker-guide">
-                        <BookOpen className="w-4 h-4" />
-                        {makerHowLabel}
-                      </Link>
-                    </Button>
-                  </>
-                ) : (
-                  <>
+              {isMaker ? (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button asChild variant="accent" size="lg" className="gap-2">
+                    <Link to="/makers">
+                      <Users className="w-4 h-4" />
+                      {makerJoinLabel}
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="gap-2">
+                    <Link to="/maker-guide">
+                      <BookOpen className="w-4 h-4" />
+                      {makerHowLabel}
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  {/* control */}
+                  <div className="flex flex-col sm:flex-row gap-3" data-variant="control">
                     <Button variant="accent" size="lg" className="gap-2" onClick={scrollToCalc}>
                       <Upload className="w-4 h-4" />
                       {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
@@ -327,9 +344,37 @@ const LandingPage = ({ page: pageProp }: Props) => {
                       <MessageCircle className="w-4 h-4" />
                       {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren")}
                     </Button>
-                  </>
-                )}
-              </div>
+                  </div>
+                  {/* photo_first */}
+                  <div className="flex-col gap-3" data-variant="photo_first">
+                    <Button
+                      size="lg"
+                      className="gap-2 bg-[#25D366] hover:bg-[#1ebe5c] text-white border-0"
+                      onClick={() => {
+                        capture('whatsapp_click', { location: 'hero_xp' });
+                        const msg = isDe
+                          ? "Hallo, ich sende euch ein Foto von dem, was ich drucken möchte"
+                          : (isEs || isCa)
+                          ? "Hola, os envío una foto de lo que necesito imprimir"
+                          : "Hi, here's a photo of what I need printed";
+                        window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
+                      }}
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {t("Send us a photo on WhatsApp", "Envíanos una foto por WhatsApp", "Schickt uns ein Foto auf WhatsApp")}
+                    </Button>
+                    <p className="text-sm text-primary-foreground/70">
+                      {t("We'll reply with a price within the hour", "Te decimos el precio en menos de una hora", "Wir antworten mit einem Preis innerhalb einer Stunde")}
+                    </p>
+                    <button
+                      onClick={scrollToCalc}
+                      className="text-sm text-primary-foreground/60 underline underline-offset-2 hover:text-primary-foreground/90"
+                    >
+                      {t("Already have a 3D file? Get an instant price →", "¿Ya tienes el archivo 3D? Calcula el precio →", "Hast du schon eine 3D-Datei? Sofortpreis →")}
+                    </button>
+                  </div>
+                </>
+              )}
 
               {/* Trust badges */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">

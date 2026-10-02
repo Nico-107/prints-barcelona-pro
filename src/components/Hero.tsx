@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
+import { Upload, MapPin, Clock, UserCheck, Zap, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ACTIVE_CITY, countryFlag } from "@/config/cities";
+import { ACTIVE_CITY, countryFlag, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { getHeroCTAVariant, isXpForced, wasExposureFired, markExposureFired } from "@/lib/experiments";
 
 const GEO_DELIVERY: Record<string, string> = {
   FR: "3–4 business days",
@@ -127,6 +128,25 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
     return () => { controller.abort(); clearTimeout(timer); };
   }, [language]);
 
+  useEffect(() => {
+    if (!wasExposureFired()) {
+      const variant = getHeroCTAVariant();
+      capture('experiment_exposure', {
+        experiment: 'hero_cta_r1',
+        variant,
+        page_type: 'home',
+        forced: isXpForced(),
+      });
+      markExposureFired();
+    }
+  }, []);
+
+  const handleWAPhotoFirst = () => {
+    capture('whatsapp_click', { location: 'hero_xp' });
+    const msg = t("hero.xp.photo_first.wa_msg");
+    window.open(`${whatsappUrl(ACTIVE_CITY)}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
   const handleScrollToUpload = () => {
     capture('quote_cta_click', { source: 'hero_cta' });
     if (onScrollToCalc) {
@@ -184,7 +204,8 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
             </div>
           </div>
 
-          <div className="flex justify-center animate-fade-in-delay-2">
+          {/* control variant */}
+          <div className="flex justify-center animate-fade-in-delay-2" data-variant="control">
             <Button
               variant="cta"
               size="xl"
@@ -194,6 +215,25 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
               <Upload className="w-5 h-5" />
               {t("hero.cta.getQuote")}
             </Button>
+          </div>
+
+          {/* photo_first variant */}
+          <div className="flex-col items-center gap-3 animate-fade-in-delay-2" data-variant="photo_first">
+            <Button
+              size="xl"
+              onClick={handleWAPhotoFirst}
+              className="shadow-lg px-12 py-5 text-lg h-auto bg-[#25D366] hover:bg-[#1ebe5c] text-white border-0"
+            >
+              <MessageCircle className="w-5 h-5" />
+              {t("hero.xp.photo_first.primary")}
+            </Button>
+            <p className="mt-2 text-sm text-primary-foreground/70 text-center">{t("hero.xp.photo_first.tagline")}</p>
+            <button
+              onClick={handleScrollToUpload}
+              className="mt-1 text-sm text-primary-foreground/60 underline underline-offset-2 hover:text-primary-foreground/90"
+            >
+              {t("hero.xp.photo_first.link")}
+            </button>
           </div>
 
           {/* Mobile scroll hint — visible only on small screens */}
