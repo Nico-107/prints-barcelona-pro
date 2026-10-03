@@ -99,7 +99,7 @@ const RepuestoDescatalogado = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    capture("whatsapp_click", { source: "repuesto_descatalogado", location: "repuesto_descatalogado", path: window.location.pathname });
+    capture("whatsapp_click", { source: "repuesto_descatalogado", location: "part_page", path: window.location.pathname });
     const msg = "Hola, necesito reproducir un repuesto que ya no se fabrica. Os mando fotos.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

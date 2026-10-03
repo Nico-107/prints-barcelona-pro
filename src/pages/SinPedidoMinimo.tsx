@@ -101,7 +101,7 @@ const SinPedidoMinimo = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    capture("whatsapp_click", { source: "sin_pedido_minimo", location: "sin_pedido_minimo", path: window.location.pathname });
+    capture("whatsapp_click", { source: "sin_pedido_minimo", location: "landing_hero", path: window.location.pathname });
     const msg = "Hola, quiero pedir una sola pieza impresa en 3D. No tengo pedido mínimo. ¿Me podéis dar presupuesto?";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

@@ -11,12 +11,12 @@ const CallToAction = () => {
   const { t } = useLanguage();
 
   const handleScrollToUpload = () => {
-    capture('quote_cta_click', { source: 'cta_section' });
+    capture('quote_cta_click', { location: 'other' });
     document.getElementById("quote")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'cta_section', location: 'cta_section', path: window.location.pathname });
+    capture('whatsapp_click', { source: 'cta_section', location: 'other', path: window.location.pathname });
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(t("whatsapp.message"))}`, "_blank");
   };
 

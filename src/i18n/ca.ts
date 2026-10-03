@@ -70,6 +70,18 @@ export const caTranslations: Record<string, string> = {
   "xp.hero.v4.pill": "Des de 10 € · Sense comanda mínima · Revisat per una persona real",
   "xp.hero.v4.button": "Veure el meu preu — des de 10 €",
   "xp.hero.v4.under": "Sense compte · Sense compromís",
+  // Header button experiment (Test 2)
+  "xp.header.v2": "Veure el meu preu",
+  "xp.header.v3": "Preu a l'instant",
+  "xp.header.v4": "Preus des de 10 €",
+  // Floating WhatsApp label experiment (Test 3)
+  "xp.float.v2": "Envia'ns una foto",
+  "xp.float.v3": "Demana preu per WhatsApp",
+  "xp.float.v4": "Parla amb una persona real",
+  // Calculator title experiment (Test 4)
+  "xp.calc.v2": "Mira el teu preu",
+  "xp.calc.v3": "Puja el teu arxiu 3D i mira el teu preu a l'instant",
+  "xp.calc.v4": "Preu a l'instant — des de 10 €",
   "hero.speedPromise": "Pressupost gratuït · en menys d'1 hora · revisat per una persona real",
   "hero.trust.location": "{city} {flag}",
   "hero.trust.turnaround": "Lliurament en 24–48h",

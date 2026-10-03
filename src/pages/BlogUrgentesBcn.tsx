@@ -533,7 +533,7 @@ const BlogUrgentesBcn = () => {
                 className="gap-2"
                 style={{ backgroundColor: "#25D366", color: "#fff" }}
                 onClick={() => {
-                  capture('whatsapp_click', { location: 'blog_urgentes_cta', path: window.location.pathname });
+                  capture('whatsapp_click', { location: 'other', path: window.location.pathname });
                   window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hola, necesito una pieza impresa en 3D con urgencia.")}`, "_blank");
                 }}
               >

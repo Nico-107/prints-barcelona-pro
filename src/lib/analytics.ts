@@ -127,6 +127,7 @@ const NO_GTAG = new Set<string>([
   "estimate_add_more_click",
   "experiment_exposure",
   "experiment_error",
+  "calculator_seen",
 ]);
 
 // ---- Internal dispatch (works with any string event name) ----

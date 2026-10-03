@@ -70,49 +70,129 @@ Always exclude sessions where `is_internal = true`, `xp_forced = true`, or `xp_<
 
 ## Test 2 — header_btn_r1 (Header Button)
 
-**Status: enabled in Prompt 2**
-
 | Field | Value |
 |---|---|
 | **ID** | `header_btn_r1` |
 | **HTML attribute** | `data-xp-header-btn` |
 | **Dataset property** | `xpHeaderBtn` |
+| **Analytics property** | `xp_header_btn_r1` |
 | **QA param** | `?xp_header=1..4` |
-| **Enabled** | No |
+| **Slot selector** | `[data-xp-slot="header_btn_r1"]` |
+| **Pages in scope** | All pages (Header.tsx) |
+| **Enabled** | Yes |
+| **Start** | 2026-10-03 |
 | **End** | 2026-12-28 |
-| **Languages** | es, en, ca |
+| **Languages** | es, en, ca (fr/de/nl/it/pt get Version 1 copy, no exposure fired) |
+| **Versions** | 4 (25% each) |
+| **Placements** | desktop (always rendered) + mobile (inside hamburger menu) |
+
+### Version copy
+
+| Version | EN | ES | CA |
+|---|---|---|---|
+| 1 (control) | `nav.requestQuote` | `nav.requestQuote` | `nav.requestQuote` |
+| 2 | Get my price | Ver mi precio | Veure el meu preu |
+| 3 | Instant price | Precio al instante | Preu a l'instant |
+| 4 | Prices from €10 | Precios desde 10 € | Preus des de 10 € |
+
+### Events
+
+| Event | When | Key properties |
+|---|---|---|
+| `experiment_exposure` | Once per session: desktop on mount if visible, else mobile when menu opens | `experiment`, `version`, `language`, `page_type: "header"`, `forced`, `visible_ok`, `placement: "desktop"\|"mobile"` |
+| `experiment_error` | When self-check fails | `experiment`, `reason`, `assigned`, `visible` |
+| `quote_cta_click` | Desktop button click | `location: "header"` |
+| `quote_cta_click` | Mobile menu button click | `location: "header_mobile"` |
 
 ---
 
 ## Test 3 — float_label_r1 (WhatsApp Float Label)
-
-**Status: enabled in Prompt 2**
 
 | Field | Value |
 |---|---|
 | **ID** | `float_label_r1` |
 | **HTML attribute** | `data-xp-float-label` |
 | **Dataset property** | `xpFloatLabel` |
+| **Analytics property** | `xp_float_label_r1` |
 | **QA param** | `?xp_float=1..4` |
-| **Enabled** | No |
+| **Slot selector** | `[data-xp-slot="float_label_r1"]` |
+| **Pages in scope** | All pages (WhatsAppFloat.tsx) |
+| **Enabled** | Yes |
+| **Start** | 2026-10-03 |
 | **End** | 2026-12-28 |
-| **Languages** | es, en, ca |
+| **Languages** | es, en, ca (fr/de/nl/it/pt get Version 1 copy, no exposure fired) |
+| **Versions** | 4 (25% each) |
+
+### Version copy
+
+| Version | EN | ES | CA |
+|---|---|---|---|
+| 1 (control) | `whatsapp.float.label` | `whatsapp.float.label` | `whatsapp.float.label` |
+| 2 | Send us a photo | Envíanos una foto | Envia'ns una foto |
+| 3 | Get a price on WhatsApp | Pide precio por WhatsApp | Demana preu per WhatsApp |
+| 4 | Talk to a real person | Habla con una persona real | Parla amb una persona real |
+
+### Events
+
+| Event | When | Key properties |
+|---|---|---|
+| `experiment_exposure` | Once per session on mount (when label is visible) | `experiment`, `version`, `language`, `page_type: "float"`, `forced`, `visible_ok` |
+| `experiment_error` | When self-check fails | `experiment`, `reason`, `assigned`, `visible` |
+| `whatsapp_click` | Float button click (all versions, unchanged) | `source: "float_button"`, `location: "floating"`, `path` |
 
 ---
 
 ## Test 4 — calc_title_r1 (Calculator Title)
-
-**Status: enabled in Prompt 2**
 
 | Field | Value |
 |---|---|
 | **ID** | `calc_title_r1` |
 | **HTML attribute** | `data-xp-calc-title` |
 | **Dataset property** | `xpCalcTitle` |
+| **Analytics property** | `xp_calc_title_r1` |
 | **QA param** | `?xp_calc=1..4` |
-| **Enabled** | No |
+| **Slot selector** | `[data-xp-slot="calc_title_r1"]` |
+| **Pages in scope** | All pages with calculator (StlEstimator.tsx, `id="calculator"`) |
+| **Enabled** | Yes |
+| **Start** | 2026-10-03 |
 | **End** | 2026-12-28 |
-| **Languages** | es, en, ca |
+| **Languages** | es, en, ca (fr/de/nl/it/pt get Version 1 copy, no exposure fired) |
+| **Versions** | 4 (25% each) |
+
+### Version copy
+
+| Version | EN | ES | CA |
+|---|---|---|---|
+| 1 (control) | `calc.title` | `calc.title` | `calc.title` |
+| 2 | See your price | Mira tu precio | Mira el teu preu |
+| 3 | Upload your 3D file and see your price instantly | Sube tu archivo 3D y mira tu precio al instante | Puja el teu arxiu 3D i mira el teu preu a l'instant |
+| 4 | Instant price — from €10 | Precio al instante — desde 10 € | Preu a l'instant — des de 10 € |
+
+### Events
+
+| Event | When | Key properties |
+|---|---|---|
+| `calculator_seen` | Once per session, when `#calculator` section is ≥50% in viewport | `page_type` |
+| `experiment_exposure` | Same moment as `calculator_seen` (title only "seen" then) | `experiment`, `version`, `language`, `page_type`, `forced`, `visible_ok` |
+| `experiment_error` | When self-check fails | `experiment`, `reason`, `assigned`, `visible` |
+
+---
+
+## Location label dictionary (quote_cta_click + whatsapp_click)
+
+| location value | Where |
+|---|---|
+| `hero` | Homepage / landing hero button |
+| `header` | Desktop header CTA button |
+| `header_mobile` | Mobile menu CTA button |
+| `floating` | Fixed WhatsApp float button |
+| `calculator` | Calculator section (incl. file-upload inline WhatsApp link) |
+| `landing_hero` | Landing page, students page, empresas page, sin-pedido-minimo page heroes |
+| `city_hero` | City delivery page hero + local-pickup section |
+| `part_page` | Specific part / repuesto descatalogado page |
+| `footer` | Footer WhatsApp link |
+| `lemon` | /lemon partnership page |
+| `other` | CTA section, blog CTAs, makers page, B2B, international pages |
 
 ---
 

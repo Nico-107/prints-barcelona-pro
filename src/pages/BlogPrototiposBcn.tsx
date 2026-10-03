@@ -83,7 +83,7 @@ const BlogPrototiposBcn = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'blog_prototipos', location: 'blog_prototipos', path: window.location.pathname });
+    capture('whatsapp_click', { source: 'blog_prototipos', location: 'other', path: window.location.pathname });
     const msg = "Hola, necesito prototipos o piezas funcionales en 3D para un proyecto de ingeniería. ¿Podéis ayudarme?";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

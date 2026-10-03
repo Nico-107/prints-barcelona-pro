@@ -136,6 +136,11 @@ interface ExperimentExposureProps {
   page_type?: string;
   forced?: boolean;
   visible_ok?: boolean;
+  placement?: "desktop" | "mobile";
+}
+
+interface CalculatorSeenProps {
+  page_type?: string;
 }
 
 interface ExperimentErrorProps {
@@ -197,6 +202,7 @@ export interface EventMap {
   // New events — A7
   experiment_exposure: ExperimentExposureProps;
   experiment_error: ExperimentErrorProps;
+  calculator_seen: CalculatorSeenProps;
   file_upload_error: FileUploadErrorProps;
   submit_error: SubmitErrorProps;
   estimate_add_more_click: EstimateAddMoreClickProps;

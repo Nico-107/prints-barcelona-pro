@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,8 @@ import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { parseStl } from "@/lib/stlAnalysis";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
+import { useExperiment } from "@/lib/useExperiment";
+import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -188,6 +190,64 @@ interface Props {
 export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
+
+  const { version: calcVersion, active: calcActive, forced: calcForced, langOk: calcLangOk } = useExperiment("calc_title_r1");
+
+  const xpCalcText = (key: string): string =>
+    calcLangOk && calcActive ? t(key) : t("calc.title");
+
+  const fireCalcExposure = useCallback((pageType: string) => {
+    if (!calcActive || !calcLangOk) return;
+    if (wasExposureFired("calc_title_r1")) return;
+    const slots = document.querySelectorAll('[data-xp-slot="calc_title_r1"]');
+    const visible = Array.from(slots).filter(
+      (el) => (el as HTMLElement).offsetParent !== null
+    );
+    let visible_ok = false;
+    if (visible.length === 1 && visible[0].getAttribute("data-xp-v") === String(calcVersion)) {
+      visible_ok = true;
+    } else if (visible.length !== 1) {
+      capture("experiment_error", {
+        experiment: "calc_title_r1",
+        reason: visible.length === 0 ? "no_visible_block" : "visible_mismatch",
+        assigned: calcVersion,
+        visible: visible.length,
+      });
+    }
+    capture("experiment_exposure", {
+      experiment: "calc_title_r1",
+      version: calcVersion,
+      language,
+      page_type: pageType,
+      forced: calcForced,
+      visible_ok,
+    });
+    markExposureFired("calc_title_r1");
+  }, [calcActive, calcLangOk, calcVersion, calcForced, language]);
+
+  // Fire calculator_seen + calc_title experiment exposure when section is ≥50% visible
+  useEffect(() => {
+    if (adminMode) return;
+    const section = document.getElementById("calculator");
+    if (!section) return;
+    let fired = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (fired) return;
+        const entry = entries[0];
+        if (entry.intersectionRatio >= 0.5) {
+          fired = true;
+          observer.disconnect();
+          const pageType = window.location.pathname === "/" || window.location.pathname === "/ca" ? "home" : "page";
+          capture("calculator_seen", { page_type: pageType });
+          fireCalcExposure(pageType);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [adminMode, fireCalcExposure]);
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -2028,9 +2088,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     <section id="calculator" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+          <h2 data-xp-slot="calc_title_r1" data-xp-v="1" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {t("calc.title")}
-          </p>
+          </h2>
+          <div role="heading" aria-level={2} data-xp-slot="calc_title_r1" data-xp-v="2" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+            {xpCalcText("xp.calc.v2")}
+          </div>
+          <div role="heading" aria-level={2} data-xp-slot="calc_title_r1" data-xp-v="3" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+            {xpCalcText("xp.calc.v3")}
+          </div>
+          <div role="heading" aria-level={2} data-xp-slot="calc_title_r1" data-xp-v="4" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+            {xpCalcText("xp.calc.v4")}
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
             {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).action}
             {" "}<span className="text-accent">— {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).benefit}</span>

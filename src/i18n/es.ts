@@ -70,6 +70,18 @@ export const esTranslations: Record<string, string> = {
   "xp.hero.v4.pill": "Desde 10 € · Sin pedido mínimo · Revisado por una persona real",
   "xp.hero.v4.button": "Ver mi precio — desde 10 €",
   "xp.hero.v4.under": "Sin registro · Sin compromiso",
+  // Header button experiment (Test 2)
+  "xp.header.v2": "Ver mi precio",
+  "xp.header.v3": "Precio al instante",
+  "xp.header.v4": "Precios desde 10 €",
+  // Floating WhatsApp label experiment (Test 3)
+  "xp.float.v2": "Envíanos una foto",
+  "xp.float.v3": "Pide precio por WhatsApp",
+  "xp.float.v4": "Habla con una persona real",
+  // Calculator title experiment (Test 4)
+  "xp.calc.v2": "Mira tu precio",
+  "xp.calc.v3": "Sube tu archivo 3D y mira tu precio al instante",
+  "xp.calc.v4": "Precio al instante — desde 10 €",
   "hero.speedPromise": "Presupuesto gratuito · en menos de 1 hora · revisado por una persona real",
   "hero.trust.location": "{city} {flag}",
   "hero.trust.turnaround": "Entrega en 24–48h",

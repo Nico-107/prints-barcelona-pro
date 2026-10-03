@@ -134,7 +134,7 @@ const EmpresasBcn = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    capture("whatsapp_click", { source: "empresas_bcn", location: "empresas_bcn", path: window.location.pathname });
+    capture("whatsapp_click", { source: "empresas_bcn", location: "landing_hero", path: window.location.pathname });
     const msg = "Hola, me interesa el servicio de impresión 3D para mi empresa. Me gustaría hablar de un proyecto.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
   };

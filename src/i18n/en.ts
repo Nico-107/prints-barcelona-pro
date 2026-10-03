@@ -70,6 +70,18 @@ export const enTranslations: Record<string, string> = {
   "xp.hero.v4.pill": "From €10 · No minimum order · Reviewed by a real person",
   "xp.hero.v4.button": "Get my price — from €10",
   "xp.hero.v4.under": "No account · No commitment",
+  // Header button experiment (Test 2)
+  "xp.header.v2": "Get my price",
+  "xp.header.v3": "Instant price",
+  "xp.header.v4": "Prices from €10",
+  // Floating WhatsApp label experiment (Test 3)
+  "xp.float.v2": "Send us a photo",
+  "xp.float.v3": "Get a price on WhatsApp",
+  "xp.float.v4": "Talk to a real person",
+  // Calculator title experiment (Test 4)
+  "xp.calc.v2": "See your price",
+  "xp.calc.v3": "Upload your 3D file and see your price instantly",
+  "xp.calc.v4": "Instant price — from €10",
   "hero.speedPromise": "Free quote · in under 1 hour · reviewed by a real person",
   "hero.trust.location": "Based in {city} {flag}",
   "hero.trust.turnaround": "Fast 24–48h turnaround",

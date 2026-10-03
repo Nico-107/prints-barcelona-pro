@@ -224,7 +224,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
   };
 
   const handleWhatsApp = () => {
-    capture('whatsapp_click', { source: 'landing_page', location: 'landing_page', path: window.location.pathname });
+    capture('whatsapp_click', { source: 'landing_page', location: 'landing_hero', path: window.location.pathname });
     const msg = isDe
       ? `Hallo, ich interessiere mich für: ${page.h1}`
       : isEs || isCa
