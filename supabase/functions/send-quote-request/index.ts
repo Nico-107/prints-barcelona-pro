@@ -267,9 +267,9 @@ const handler = async (req: Request): Promise<Response> => {
       const designEmailData = await designEmailResponse.json();
       console.log("Design request email sent:", designEmailData.id);
 
-      // design_request_received — fire-and-forget (3s timeout internal)
+      // design_request_received — awaited so the event lands before the response
       const srvDesignId = "srv_design_" + crypto.randomUUID().replace(/-/g, "").slice(0, 16);
-      captureDesignRequestReceived(srvDesignId, {
+      await captureDesignRequestReceived(srvDesignId, {
         has_photo: photoLinks.length > 0,
         photo_count: photoLinks.length,
         language: safeLang,
@@ -399,10 +399,10 @@ const handler = async (req: Request): Promise<Response> => {
     const emailData = await emailResponse.json();
     console.log("Quote request email sent:", emailData.id);
 
-    // B3: quote_received — fire-and-forget (3s timeout internal)
+    // B3: quote_received — awaited so the event lands before the response
     const phRawId = (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) ? ph_distinct_id.trim() : null;
     const srvId = phRawId ?? ("srv_" + crypto.randomUUID().replace(/-/g, "").slice(0, 16));
-    captureQuoteReceived(srvId, {
+    await captureQuoteReceived(srvId, {
       quote_id: quote_id ?? null,
       material,
       total_units: totalUnits,
