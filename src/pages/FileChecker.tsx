@@ -1,5 +1,6 @@
 import { useState, useRef, lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 import { Link } from "react-router-dom";
 import { FileBox, X, Loader2, RotateCcw, ArrowRight, BookOpen, ShieldCheck } from "lucide-react";
 import Header from "@/components/Header";
@@ -130,6 +131,7 @@ const FileChecker = () => {
         <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${SLUG_ES}`} />
         <script type="application/ld+json">{JSON.stringify(howToSchema)}</script>
       </Helmet>
+      <SocialMeta title={t("checker.meta.title")} description={t("checker.meta.description")} path={canonicalSlug} />
 
       <Header />
 

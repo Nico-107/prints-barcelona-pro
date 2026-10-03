@@ -14,6 +14,7 @@ import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Prototipos Rápidos y Piezas Funcionales en 3D — Barcelona | Dimension3D";
@@ -54,7 +55,7 @@ const articleSchema = {
   dateModified: "2026-06-30",
   inLanguage: "es",
   url: CANONICAL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
 };
 
 const faqSchema = {
@@ -99,10 +100,10 @@ const BlogPrototiposBcn = () => {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify({

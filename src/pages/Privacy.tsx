@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -37,6 +38,7 @@ const Privacy = () => {
         <meta name="description" content={t("privacy.meta.description")} />
         <meta name="robots" content="noindex" />
       </Helmet>
+      <SocialMeta title={t("privacy.meta.title")} description={t("privacy.meta.description")} path="/privacy" />
 
       <div className="min-h-screen bg-secondary/20">
         <header className="border-b border-border bg-background">

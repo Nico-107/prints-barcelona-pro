@@ -10,10 +10,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
-import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { ACTIVE_CITY, whatsappUrl, PICKUP_ADDRESS } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Impresión 3D para Empresas en Barcelona — Prototipos y Recambios | Dimension3D";
@@ -59,7 +60,7 @@ const localBusinessSchema = {
   "@id": `${SITE_URL}/#organization`,
   name: "Dimension3D",
   url: SITE_URL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
   priceRange: "€€",
   aggregateRating: {
     "@type": "AggregateRating",
@@ -69,7 +70,7 @@ const localBusinessSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rambla de Brasil",
+    streetAddress: PICKUP_ADDRESS.street,
     addressLocality: "Barcelona",
     addressCountry: "ES",
   },
@@ -150,10 +151,10 @@ const EmpresasBcn = () => {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify({
@@ -345,7 +346,7 @@ const EmpresasBcn = () => {
                   { step: "01", title: "Cuéntanos el proyecto por WhatsApp o email", body: "Manda los archivos (STL, STEP, IGES) y describe el uso final, el material preferido y el plazo que necesitas. Para proyectos confidenciales, firmamos NDA antes de recibir los archivos." },
                   { step: "02", title: "Presupuesto detallado en menos de 1 hora", body: "Revisamos los archivos manualmente y te enviamos un presupuesto con precio exacto por pieza (y por lote si aplica), material recomendado, plazo de entrega y cualquier observación técnica relevante." },
                   { step: "03", title: "Guardamos tus archivos para reencargos rápidos", body: "Una vez confirmado el primer pedido, guardamos el archivo y los parámetros de impresión. Los reencargos se preparan en minutos — no necesitas volver a enviar los archivos cada vez." },
-                  { step: "04", title: "Entrega en Barcelona o envío a toda España", body: "Recogida en taller con cita previa en Rambla de Brasil, Barcelona. Envío a domicilio por 4,90€ a toda España peninsular. Para pedidos voluminosos, también enviamos por palet o mensajería especializada." },
+                  { step: "04", title: "Entrega en Barcelona o envío a toda España", body: "Recogida en taller con cita previa en Rambla del Brasil, 53, Barcelona. Envío a domicilio por 4,90€ a toda España peninsular. Para pedidos voluminosos, también enviamos por palet o mensajería especializada." },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">

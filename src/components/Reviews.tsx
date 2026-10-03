@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
+import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
 const staticReviews: { name: string; text: string; rating: number; source?: "google" | "wallapop" }[] = [
   { name: "Valentino Modestino Lombardi", text: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!", rating: 5, source: "google" },
@@ -46,7 +47,7 @@ interface DBReview {
 const INITIAL_VISIBLE_COUNT = 6;
 
 const Reviews = ({ cityName }: { cityName?: string }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const sectionRef = useReveal<HTMLElement>();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,8 +81,6 @@ const Reviews = ({ cityName }: { cityName?: string }) => {
   ];
 
   const visibleReviews = showAll ? allReviews : allReviews.slice(0, INITIAL_VISIBLE_COUNT);
-  const totalReviews = allReviews.length;
-  const averageRating = (allReviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews).toFixed(1);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,8 +138,11 @@ const Reviews = ({ cityName }: { cityName?: string }) => {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">{cityName && cityName !== "Barcelona" ? t("reviews.subtitle.generic") : t("reviews.subtitle")}</p>
           <div className="inline-flex items-center gap-3 bg-card border border-border rounded-full px-6 py-3 card-shadow">
             <GoldStars rating={5} size="w-5 h-5" />
-            <span className="text-foreground font-bold text-lg">{averageRating}</span>
-            <span className="text-muted-foreground">/ 5 · {totalReviews} {t("reviews.verified")}</span>
+            <span className="text-muted-foreground">
+              {t("reviews.googleBadge")
+                .replace("{rating}", formatRating(language))
+                .replace("{count}", String(GOOGLE_RATING.count))}
+            </span>
           </div>
         </div>
 

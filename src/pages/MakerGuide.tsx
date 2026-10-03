@@ -18,6 +18,7 @@ import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 interface GuideFAQ { q: string; a: string; }
@@ -499,7 +500,7 @@ const MakerGuide = () => {
     datePublished: "2026-08-01",
     dateModified: "2026-09-03",
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/maker-guide` },
-    image: `${SITE_URL}/og-image.jpg`,
+    image: SOCIAL_IMAGE_URL,
   };
 
   return (
@@ -517,6 +518,10 @@ const MakerGuide = () => {
         <meta property="og:description" content={c.metaDesc} />
         <meta property="og:url" content={`${SITE_URL}/maker-guide`} />
         <meta property="og:type" content="article" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
+        <meta name="twitter:title" content={c.metaTitle} />
+        <meta name="twitter:description" content={c.metaDesc} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(guideArticleSchema)}</script>

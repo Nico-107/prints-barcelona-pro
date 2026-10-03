@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 
 const Creator = () => {
   return (
@@ -9,6 +10,11 @@ const Creator = () => {
         <meta name="description" content="Mikołaj Szczełkun (Nico) built this platform solo — learn more about him and his other projects." />
         <meta name="robots" content="noindex" />
       </Helmet>
+      <SocialMeta
+        title="About the Builder | Dimension3D"
+        description="Mikołaj Szczełkun (Nico) built this platform solo — learn more about him and his other projects."
+        path="/creator"
+      />
 
       <div className="min-h-screen bg-secondary/20">
         <header className="border-b border-border bg-background">

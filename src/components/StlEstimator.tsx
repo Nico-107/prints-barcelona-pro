@@ -2089,18 +2089,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     <section id="calculator" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-10">
-          <h2 data-xp-slot="calc_title_r1" data-xp-v="1" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+          <p data-xp-slot="calc_title_r1" data-xp-v="1" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {t("calc.title")}
-          </h2>
-          <div role="heading" aria-level={2} data-xp-slot="calc_title_r1" data-xp-v="2" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+          </p>
+          <p data-xp-slot="calc_title_r1" data-xp-v="2" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {xpCalcText("xp.calc.v2")}
-          </div>
-          <div role="heading" aria-level={2} data-xp-slot="calc_title_r1" data-xp-v="3" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+          </p>
+          <p data-xp-slot="calc_title_r1" data-xp-v="3" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {xpCalcText("xp.calc.v3")}
-          </div>
-          <div role="heading" aria-level={2} data-xp-slot="calc_title_r1" data-xp-v="4" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+          </p>
+          <p data-xp-slot="calc_title_r1" data-xp-v="4" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {xpCalcText("xp.calc.v4")}
-          </div>
+          </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
             {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).action}
             {" "}<span className="text-accent">— {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).benefit}</span>

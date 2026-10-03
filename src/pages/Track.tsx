@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import OrderTracker from "@/components/OrderTracker";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const Track = () => {
   const { t } = useLanguage();
@@ -53,6 +54,10 @@ const Track = () => {
         <meta property="og:description" content="Check the live status of your 3D printing order from Dimension3D Barcelona." />
         <meta property="og:url" content={`${SITE_URL}/track`} />
         <meta property="og:type" content="website" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
+        <meta name="twitter:title" content="Track Your Order | Dimension3D Barcelona" />
+        <meta name="twitter:description" content="Check the live status of your 3D printing order from Dimension3D Barcelona." />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       </Helmet>
       <header className="border-b border-border/50 bg-background/80 backdrop-blur-md">
         <div className="container px-4 h-16 flex items-center justify-between">

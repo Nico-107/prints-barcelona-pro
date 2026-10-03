@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 import { Box, Clock, Loader2, MapPin, ShoppingCart, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -59,7 +60,7 @@ const UI = {
   pickupLabel:   { es: "Recoger en Barcelona",          en: "Pick up in Barcelona",                 ca: "Recollida a Barcelona" },
   pickupFree:    { es: "Gratis",                        en: "Free",                                 ca: "Gratis" },
   pickupNext:    { es: "Disponible mañana",             en: "Available next day",                   ca: "Disponible demà" },
-  pickupAddr:    { es: "Rambla de Brasil, Barcelona",  en: "Rambla de Brasil, Barcelona",          ca: "Rambla de Brasil, Barcelona" },
+  pickupAddr:    { es: "Rambla del Brasil, 53, Barcelona",  en: "Rambla del Brasil, 53, Barcelona",          ca: "Rambla del Brasil, 53, Barcelona" },
   shippingLabel: { es: "Envío a domicilio",             en: "Home delivery",                        ca: "Enviament a domicili" },
   shippingZone:  { es: "España peninsular",             en: "Spain (mainland)",                     ca: "Espanya peninsular" },
   otherParts:    { es: "Otras piezas a medida",         en: "Other custom parts",                   ca: "Altres peces a mida" },
@@ -249,6 +250,7 @@ const PartPage = ({ part }: Props) => {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
+      <SocialMeta title={metaTitle} description={metaDescription} path={part.slug} />
       <Header />
       <main className="min-h-screen bg-background pt-20 pb-28 md:pb-20">
         <div className="container px-4">

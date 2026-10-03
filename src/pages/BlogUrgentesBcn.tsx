@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Clock, MessageCircle, Zap } from "lucide-react";
-import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { ACTIVE_CITY, whatsappUrl, PICKUP_ADDRESS } from "@/config/cities";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -15,6 +15,7 @@ import { capture } from "@/lib/analytics";
 import { GOOGLE_RATING } from "@/data/rating";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa | Dimension3D";
@@ -55,7 +56,7 @@ const articleSchema = {
   dateModified: "2026-09-28",
   inLanguage: "es",
   url: CANONICAL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
 };
 
 const faqSchema = {
@@ -74,7 +75,7 @@ const localBusinessSchema = {
   "@id": `${SITE_URL}/#organization`,
   name: "Dimension3D",
   url: SITE_URL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
   priceRange: "€€",
   aggregateRating: {
     "@type": "AggregateRating",
@@ -84,7 +85,7 @@ const localBusinessSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rambla de Brasil",
+    streetAddress: PICKUP_ADDRESS.street,
     addressLocality: "Barcelona",
     addressCountry: "ES",
   },
@@ -116,10 +117,10 @@ const BlogUrgentesBcn = () => {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>

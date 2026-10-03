@@ -13,7 +13,7 @@ import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { StlEstimator } from "@/components/StlEstimator";
-import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
+import { PAGES_BY_SLUG, SITE_URL, SOCIAL_IMAGE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent } from "@/seo/landingPages";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -217,7 +217,10 @@ const B2BPage = ({ page }: Props) => {
         <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={lang === "ca" ? "ca_ES" : lang === "es" ? "es_ES" : "en_US"} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
+        <meta name="twitter:title" content={page.metaTitle} />
+        <meta name="twitter:description" content={page.metaDescription} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>

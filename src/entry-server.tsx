@@ -32,6 +32,9 @@ import Creator from "./pages/Creator";
 import FileChecker from "./pages/FileChecker";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import PartPage from "./pages/PartPage";
+import RepuestoDescatalogado from "./pages/RepuestoDescatalogado";
+import SinPedidoMinimo from "./pages/SinPedidoMinimo";
+import Lemon from "./pages/Lemon";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import { partPages } from "@/data/partsPages";
@@ -117,6 +120,9 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/verificador-archivo-3d" element={<FileChecker />} />
                 <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
                 <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
+                <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
+                <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
+                <Route path="/lemon" element={<Lemon />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </StaticRouter>

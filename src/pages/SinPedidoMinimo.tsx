@@ -10,11 +10,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
-import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { ACTIVE_CITY, whatsappUrl, PICKUP_ADDRESS } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { GOOGLE_RATING } from "@/data/rating";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Impresión 3D Sin Pedido Mínimo Barcelona — Desde 1 Pieza y 10€ | Dimension3D";
@@ -60,7 +61,7 @@ const localBusinessSchema = {
   "@id": `${SITE_URL}/#organization`,
   name: "Dimension3D",
   url: SITE_URL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
   priceRange: "€€",
   aggregateRating: {
     "@type": "AggregateRating",
@@ -70,7 +71,7 @@ const localBusinessSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rambla de Brasil",
+    streetAddress: PICKUP_ADDRESS.street,
     addressLocality: "Barcelona",
     addressCountry: "ES",
   },
@@ -117,10 +118,10 @@ const SinPedidoMinimo = () => {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify({
@@ -330,7 +331,7 @@ const SinPedidoMinimo = () => {
                   { step: "01", title: "Envía el archivo o una foto", body: "Por WhatsApp o el formulario web. Si tienes el STL, el presupuesto es inmediato. Si solo tienes la pieza o unas fotos, lo revisamos y te respondemos en menos de 1 hora." },
                   { step: "02", title: "Recibe el presupuesto en menos de 1 hora", body: "Precio exacto, material recomendado y plazo de entrega. Sin sorpresas ni cargos ocultos. El presupuesto es siempre gratuito." },
                   { step: "03", title: "Confirma y arrancamos", body: "Con tu confirmación, la pieza entra en producción. Para pedidos urgentes, empezamos en horas, no días." },
-                  { step: "04", title: "Recoge o recibe en 24–48 horas", body: "Recogida sin coste en Rambla de Brasil, Barcelona, con cita previa. Envío a toda España peninsular por 4,90€." },
+                  { step: "04", title: "Recoge o recibe en 24–48 horas", body: "Recogida sin coste en Rambla del Brasil, 53, Barcelona, con cita previa. Envío a toda España peninsular por 4,90€." },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">

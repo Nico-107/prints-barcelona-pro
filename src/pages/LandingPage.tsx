@@ -9,7 +9,7 @@ import Reviews from "@/components/Reviews";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { PAGES_BY_SLUG, SITE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
+import { PAGES_BY_SLUG, SITE_URL, SOCIAL_IMAGE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent, LandingTopic } from "@/seo/landingPages";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
@@ -194,7 +194,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
     datePublished,
     dateModified,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    image: `${SITE_URL}/og-image.jpg`,
+    image: SOCIAL_IMAGE_URL,
   };
 
   const howToSchema = page.howToSteps && page.howToSteps.length > 0
@@ -250,11 +250,10 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={isDe ? "de_DE" : isCa ? "ca_ES" : isEs ? "es_ES" : "en_US"} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={page.metaTitle} />
         <meta name="twitter:description" content={page.metaDescription} />
-        <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>

@@ -15,9 +15,16 @@ export interface City {
   geoPlacename: string;    // City name for geo.placename meta tag, e.g. "Barcelona"
   addressLocality: string; // City name for schema.org PostalAddress
   areaServed: string;      // City name for schema.org areaServed
-  streetAddress: string;   // Street portion of the address, e.g. "Rambla de Brasil 53"
+  streetAddress: string;   // Street portion of the address, e.g. "Rambla del Brasil, 53"
   launchOffer: LaunchOffer;
 }
+
+export const PICKUP_ADDRESS = {
+  street: "Rambla del Brasil, 53",
+  postalCode: "08028",
+  city: "Barcelona",
+  full: "Rambla del Brasil, 53, 08028 Barcelona",
+} as const;
 
 export const CITIES: Record<string, City> = {
   barcelona: {
@@ -32,7 +39,7 @@ export const CITIES: Record<string, City> = {
     geoPlacename: "Barcelona",
     addressLocality: "Barcelona",
     areaServed: "Barcelona",
-    streetAddress: "Rambla de Brasil 53",
+    streetAddress: PICKUP_ADDRESS.street,
     launchOffer: { enabled: false, text: "" },
   },
   madrid: {

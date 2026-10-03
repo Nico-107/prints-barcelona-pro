@@ -198,6 +198,8 @@ export const esTranslations: Record<string, string> = {
   "reviews.subtitle.generic": "Opiniones reales de clientes de Dimension3D",
   "reviews.based": "basado en",
   "reviews.verified": "reseñas verificadas",
+  "reviews.googleBadge": "{rating}/5 · {count} reseñas en Google",
+  "reviews.writeOnGoogle": "Escribe tu reseña en Google",
   "reviews.showMore": "Ver más reseñas",
   "reviews.showLess": "Ver menos",
   "reviews.verifiedBadge": "Verificada",

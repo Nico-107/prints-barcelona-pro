@@ -10,11 +10,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
-import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { ACTIVE_CITY, whatsappUrl, PICKUP_ADDRESS } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { GOOGLE_RATING } from "@/data/rating";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Repuesto Descatalogado en Barcelona — Reproducción 3D de Piezas que Ya No Se Venden | Dimension3D";
@@ -60,7 +61,7 @@ const localBusinessSchema = {
   "@id": `${SITE_URL}/#organization`,
   name: "Dimension3D",
   url: SITE_URL,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
   priceRange: "€€",
   aggregateRating: {
     "@type": "AggregateRating",
@@ -70,7 +71,7 @@ const localBusinessSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rambla de Brasil",
+    streetAddress: PICKUP_ADDRESS.street,
     addressLocality: "Barcelona",
     addressCountry: "ES",
   },
@@ -115,10 +116,10 @@ const RepuestoDescatalogado = () => {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify({
@@ -247,7 +248,7 @@ const RepuestoDescatalogado = () => {
                   {
                     step: "04",
                     title: "Recoges o enviamos a toda España",
-                    body: "Recogida sin coste en nuestro taller de Rambla de Brasil, Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 4,90€.",
+                    body: "Recogida sin coste en nuestro taller de Rambla del Brasil, 53, Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 4,90€.",
                   },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">

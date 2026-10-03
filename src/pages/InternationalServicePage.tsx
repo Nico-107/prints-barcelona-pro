@@ -13,6 +13,7 @@ import { capture } from "@/lib/analytics";
 const StlEstimator = lazy(() => import("@/components/StlEstimator").then(m => ({ default: m.StlEstimator })));
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const PAGE_URL = `${SITE_URL}/3d-printing-service`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -61,7 +62,7 @@ const articleSchema = {
   datePublished: "2026-08-01",
   dateModified: "2026-09-03",
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
 };
 
 const faqSchema = {
@@ -110,14 +111,13 @@ const InternationalServicePage = () => {
       <meta property="og:url" content={PAGE_URL} />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="en_US" />
-      <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="og:image" content={SOCIAL_IMAGE_URL} />
       <meta name="twitter:title" content="Professional 3D Printing Service — Fast Delivery Across Europe | Dimension3D" />
       <meta
         name="twitter:description"
         content="Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €10."
       />
-      <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
+      <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>

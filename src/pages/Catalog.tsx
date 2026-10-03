@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import SocialMeta from "@/components/SocialMeta";
 import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -73,6 +74,11 @@ const Catalog = () => {
         <link rel="canonical" href={`${SITE_URL}/catalogo`} />
         <script type="application/ld+json">{JSON.stringify(itemListSchema)}</script>
       </Helmet>
+      <SocialMeta
+        title="Catálogo de productos personalizados | Dimension3D"
+        description="Explora nuestro catálogo de productos personalizados impresos en 3D: jarrón acanalado, placa de nombre, placa para mascota y topper de boda. Solicita presupuesto sin compromiso."
+        path="/catalogo"
+      />
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">
         <div className="container px-4">

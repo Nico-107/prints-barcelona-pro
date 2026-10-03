@@ -170,6 +170,8 @@ export const deTranslations: Record<string, string> = {
   "reviews.subtitle": "Echtes Feedback von Kunden, mit denen wir gearbeitet haben",
   "reviews.based": "basierend auf",
   "reviews.verified": "verifizierten Bewertungen",
+  "reviews.googleBadge": "{rating}/5 · {count} Google-Bewertungen",
+  "reviews.writeOnGoogle": "Bewertung auf Google schreiben",
   "reviews.showMore": "Mehr Bewertungen anzeigen",
   "reviews.showLess": "Weniger anzeigen",
   "reviews.verifiedBadge": "Verifiziert",

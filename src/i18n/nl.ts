@@ -170,6 +170,8 @@ export const nlTranslations: Record<string, string> = {
   "reviews.subtitle": "Echte feedback van klanten waarmee we hebben samengewerkt",
   "reviews.based": "gebaseerd op",
   "reviews.verified": "geverifieerde beoordelingen",
+  "reviews.googleBadge": "{rating}/5 · {count} Google-beoordelingen",
+  "reviews.writeOnGoogle": "Schrijf uw beoordeling op Google",
   "reviews.showMore": "Meer beoordelingen tonen",
   "reviews.showLess": "Minder tonen",
   "reviews.verifiedBadge": "Geverifieerd",

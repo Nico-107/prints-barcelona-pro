@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 import { CheckCircle, Image, Loader2, Send, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -12,6 +13,7 @@ import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const MAX_FILES = 4;
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
@@ -183,7 +185,7 @@ const DesignRequest = () => {
     datePublished: "2026-08-01",
     dateModified: "2026-09-03",
     mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${canonicalSlug}` },
-    image: `${SITE_URL}/og-image.jpg`,
+    image: SOCIAL_IMAGE_URL,
   };
 
   return (
@@ -200,6 +202,7 @@ const DesignRequest = () => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(designArticleSchema)}</script>
       </Helmet>
+      <SocialMeta title={t("design.meta.title")} description={t("design.meta.description")} path={canonicalSlug} />
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">
         <div className="container px-4 max-w-2xl">

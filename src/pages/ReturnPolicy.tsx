@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import SocialMeta from "@/components/SocialMeta";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -17,6 +18,7 @@ const ReturnPolicy = () => {
         <meta name="description" content={t("returns.meta.description")} />
         <link rel="canonical" href={`${SITE_URL}/politica-devoluciones`} />
       </Helmet>
+      <SocialMeta title={t("returns.meta.title")} description={t("returns.meta.description")} path="/politica-devoluciones" />
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">
         <div className="container px-4 max-w-2xl mx-auto">

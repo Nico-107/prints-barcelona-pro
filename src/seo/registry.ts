@@ -23,6 +23,8 @@ export const SLUGS_BY_TOPIC: Record<LandingTopic, TopicSlugMap> = ALL_PAGES.redu
 );
 
 export const SITE_URL = "https://www.dimension3dprints.com";
+export const SOCIAL_IMAGE_PATH = "/og/share-default.png";
+export const SOCIAL_IMAGE_URL = `${SITE_URL}${SOCIAL_IMAGE_PATH}`;
 
 // Grouped menu — items have all 3 language slugs. The Header picks the right
 // one based on the active language.
@@ -137,10 +139,10 @@ export const SERVICES_MENU: MenuGroup[] = [
     items: [
       staticItem("/impresion-3d-sin-pedido-minimo", "No Minimum Order", "Sin Pedido Mínimo", "Sense Comanda Mínima"),
       staticItem("/repuesto-descatalogado", "Discontinued Parts", "Repuesto Descatalogado", "Recanvi Descatalogat"),
-      staticItem("/catalogo/adaptador-vesa-monitor", "VESA Monitor Adapter", "Adaptador VESA Monitor", "Adaptador VESA Monitor"),
-      staticItem("/catalogo/embudo-dosificador-cafe-58mm", "Coffee Dosing Funnel", "Embudo Café 58mm", "Embut Cafè 58mm"),
-      staticItem("/catalogo/rueda-cesto-lavavajillas-bosch", "Dishwasher Basket Wheel", "Rueda Lavavajillas Bosch", "Roda Rentaplats Bosch"),
-      staticItem("/catalogo/adaptador-manguera-gardena", "Gardena Hose Adapter", "Adaptador Manguera Gardena", "Adaptador Mànega Gardena"),
+      staticItem("/adaptador-vesa-monitor", "VESA Monitor Adapter", "Adaptador VESA Monitor", "Adaptador VESA Monitor"),
+      staticItem("/embudo-dosificador-cafe-58mm", "Coffee Dosing Funnel", "Embudo Café 58mm", "Embut Cafè 58mm"),
+      staticItem("/rueda-cesto-lavavajillas-bosch", "Dishwasher Basket Wheel", "Rueda Lavavajillas Bosch", "Roda Rentaplats Bosch"),
+      staticItem("/adaptador-manguera-gardena", "Gardena Hose Adapter", "Adaptador Manguera Gardena", "Adaptador Mànega Gardena"),
     ],
   },
 ];

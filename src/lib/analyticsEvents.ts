@@ -154,6 +154,10 @@ interface QuoteCtaClickProps {
   location?: string;
 }
 
+interface GoogleReviewClickProps {
+  location?: string;
+}
+
 interface FileUploadErrorProps {
   reason?: string;
   file_type?: string;
@@ -206,6 +210,8 @@ export interface EventMap {
   file_upload_error: FileUploadErrorProps;
   submit_error: SubmitErrorProps;
   estimate_add_more_click: EstimateAddMoreClickProps;
+
+  google_review_click: GoogleReviewClickProps;
 
   // Legacy / page-level events already used across the site
   quote_cta_click: QuoteCtaClickProps;

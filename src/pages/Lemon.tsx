@@ -28,6 +28,8 @@ import { GOOGLE_RATING } from "@/data/rating";
 const SHOW_PARTNER_CREDIT = true;
 
 const NAVY = "#0F172A";
+const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const AMBER = "#E9A23B";
 const GOLD_STAR = "#F5B301";
 const WHATSAPP = "#25D366";
@@ -152,7 +154,12 @@ export default function Lemon() {
         <meta name="description" content={t("lemon.meta.desc")} />
         <meta property="og:title" content={t("lemon.meta.title")} />
         <meta property="og:description" content={t("lemon.meta.desc")} />
+        <meta property="og:url" content={`${SITE_URL}/lemon`} />
         <meta property="og:locale" content="es_ES" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
+        <meta name="twitter:title" content={t("lemon.meta.title")} />
+        <meta name="twitter:description" content={t("lemon.meta.desc")} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <meta name="theme-color" content={NAVY} />
       </Helmet>
 

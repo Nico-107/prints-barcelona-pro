@@ -14,6 +14,7 @@ import { capture } from "@/lib/analytics";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Impresión 3D para Estudiantes en Barcelona — 20% Descuento | Dimension3D";
@@ -64,7 +65,7 @@ const articleSchema = {
   inLanguage: "es",
   url: CANONICAL,
   mainEntityOfPage: { "@type": "WebPage", "@id": CANONICAL },
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
 };
 
 const faqSchema = {
@@ -95,10 +96,10 @@ const StudentsBcn = () => {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={CANONICAL} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESC} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>

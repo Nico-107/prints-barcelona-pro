@@ -8,6 +8,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const POSTS = [
   {
@@ -78,7 +79,7 @@ const blogArticleSchema = {
   datePublished: "2026-08-01",
   dateModified: "2026-09-03",
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/blog` },
-  image: `${SITE_URL}/og-image.jpg`,
+  image: SOCIAL_IMAGE_URL,
 };
 
 const Blog = () => {
@@ -93,7 +94,10 @@ const Blog = () => {
         <meta property="og:description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
         <meta property="og:url" content={`${SITE_URL}/blog`} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
+        <meta name="twitter:title" content="Guías de Impresión 3D Barcelona | Dimension3D" />
+        <meta name="twitter:description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(blogArticleSchema)}</script>
       </Helmet>

@@ -12,7 +12,6 @@ import Materials from "@/components/Materials";
 import StlEstimator from "@/components/StlEstimator";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ExpressPrinting from "@/components/ExpressPrinting";
-import Reviews from "@/components/Reviews";
 import BusinessCTA from "@/components/BusinessCTA";
 import Projects from "@/components/Projects";
 import PricingInfo from "@/components/PricingInfo";
@@ -26,8 +25,10 @@ import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
 import { ORGANIZATION_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
 import { GOOGLE_RATING } from "@/data/rating";
+import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const HOME_META: Record<string, { title: string; description: string; locale: string }> = {
   es: {
@@ -226,7 +227,7 @@ const Index = () => {
     },
     description: meta.description,
     priceRange: "€€",
-    image: `${SITE_URL}/og-image.jpg`,
+    image: SOCIAL_IMAGE_URL,
     areaServed: [
       { "@type": "City", name: ACTIVE_CITY.areaServed },
       { "@type": "Country", name: ACTIVE_CITY.countryName },
@@ -306,11 +307,10 @@ const Index = () => {
         <meta property="og:url" content={isCa ? `${SITE_URL}/ca/` : `${SITE_URL}/`} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={meta.locale} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
-        <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
@@ -402,12 +402,27 @@ const Index = () => {
                     {copy.aggregate} &rarr;
                   </a>
                 </p>
+                <div className="text-center mt-4">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    onClick={() => capture("google_review_click", { location: "home_reviews" })}
+                  >
+                    <a
+                      href={GOOGLE_BUSINESS_PROFILE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t("reviews.writeOnGoogle")}
+                    </a>
+                  </Button>
+                </div>
               </div>
             </section>
           );
         })()}
 
-        <Reviews />
         <BusinessCTA />
         <PricingInfo />
         <ServiceInfo />

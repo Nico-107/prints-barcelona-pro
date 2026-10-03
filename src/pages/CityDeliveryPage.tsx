@@ -14,6 +14,7 @@ import type { CityPageConfig } from "@/data/cityDeliveryPages";
 const StlEstimator = lazy(() => import("@/components/StlEstimator"));
 
 const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const EN_SHARED_FAQS = [
@@ -143,7 +144,7 @@ const CityDeliveryPage = ({ config }: Props) => {
       url: SITE_URL,
       logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.svg` },
     },
-    image: `${SITE_URL}/og-image.jpg`,
+    image: SOCIAL_IMAGE_URL,
   };
 
   const faqSchema = {
@@ -233,11 +234,10 @@ const CityDeliveryPage = ({ config }: Props) => {
         <meta property="og:url" content={PAGE_URL} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content={config.locale} />
-        <meta property="og:image" content={`${SITE_URL}/og-image.jpg`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content={config.metaTitle} />
         <meta name="twitter:description" content={config.metaDescription} />
-        <meta name="twitter:image" content={`${SITE_URL}/og-image.jpg`} />
+        <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>

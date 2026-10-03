@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 import { CheckCircle, Loader2, Send } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -168,6 +169,7 @@ const CatalogProduct = () => {
         <link rel="canonical" href={`${SITE_URL}/catalogo/${slug}`} />
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
       </Helmet>
+      <SocialMeta title={`${productName} | Dimension3D`} description={productDescription} path={`/catalogo/${product.slug}`} />
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">
         <div className="container px-4">
