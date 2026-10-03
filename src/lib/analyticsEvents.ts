@@ -131,9 +131,22 @@ interface OutboundContactClickProps {
 
 interface ExperimentExposureProps {
   experiment?: string;
-  variant?: string;
+  version?: number;
+  language?: string;
   page_type?: string;
   forced?: boolean;
+  visible_ok?: boolean;
+}
+
+interface ExperimentErrorProps {
+  experiment?: string;
+  reason?: "visible_mismatch" | "no_visible_block";
+  assigned?: number;
+  visible?: number;
+}
+
+interface QuoteCtaClickProps {
+  location?: string;
 }
 
 interface FileUploadErrorProps {
@@ -183,12 +196,13 @@ export interface EventMap {
 
   // New events — A7
   experiment_exposure: ExperimentExposureProps;
+  experiment_error: ExperimentErrorProps;
   file_upload_error: FileUploadErrorProps;
   submit_error: SubmitErrorProps;
   estimate_add_more_click: EstimateAddMoreClickProps;
 
   // Legacy / page-level events already used across the site
-  quote_cta_click: Record<string, unknown>;
+  quote_cta_click: QuoteCtaClickProps;
   "print request submitted": Record<string, unknown>;
   "banner dismissed": Record<string, unknown>;
   "review submitted": Record<string, unknown>;

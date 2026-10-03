@@ -21,10 +21,6 @@
       gtag('config', 'G-S4ZRNY6M30');
     </script>
 
-    <!-- A/B experiment anti-flicker -->
-    <style>[data-variant="photo_first"]{display:none}html[data-xp-hero-cta-r1="photo_first"] [data-variant="control"]{display:none}html[data-xp-hero-cta-r1="photo_first"] [data-variant="photo_first"]{display:flex}</style>
-    <script>(function(){var KEY='dim3d-xp-hero_cta_r1',FK=KEY+'_forced';try{var p=new URLSearchParams(location.search),qa=p.get('xp_hero');if(qa==='control'||qa==='photo_first'){sessionStorage.setItem(FK,qa);document.documentElement.dataset.xpHeroCtaR1=qa;return;}var sf=sessionStorage.getItem(FK);if(sf==='control'||sf==='photo_first'){document.documentElement.dataset.xpHeroCtaR1=sf;return;}var ok=localStorage.getItem('cookie-consent')==='accepted',st=ok?localStorage:sessionStorage;var sv=st.getItem(KEY);if(sv==='control'||sv==='photo_first'){document.documentElement.dataset.xpHeroCtaR1=sv;return;}var v=Math.random()<0.5?'control':'photo_first';st.setItem(KEY,v);document.documentElement.dataset.xpHeroCtaR1=v;}catch(e){document.documentElement.dataset.xpHeroCtaR1='control';}})()</script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="geo.region" content="__GEO_REGION__" />
     <meta name="geo.placename" content="__CITY_NAME__" />

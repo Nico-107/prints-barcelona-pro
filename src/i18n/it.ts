@@ -8,7 +8,7 @@ export const itTranslations: Record<string, string> = {
   "nav.reviews": "Recensioni",
   "nav.uploadFile": "Carica file",
   "nav.requestQuote": "Preventivo gratuito",
-  "nav.headerRating": "4,9/5 recensioni clienti",
+  "nav.headerRating": "{rating}/5 su Google",
   "nav.trackOrder": "Traccia il tuo ordine",
 
   // Track page
@@ -306,7 +306,7 @@ export const itTranslations: Record<string, string> = {
   "calc.modal.title": "Quasi fatto — un altro passo",
   "calc.modal.subtitle": "Inserisci la tua email o telefono e confermiamo il prezzo esatto — di solito entro 1 ora.",
   "calc.modal.close": "Lo compilo qui sotto",
-  "calc.modal.trust": "4,9/5 da 22 recensioni · Nessun account · Nessun spam",
+  "calc.modal.trust": "{rating}/5 da {count} recensioni Google · Nessun account · Nessun spam",
   "calc.modal.dragHint": "Trascina per ruotare",
   "calc.modal.moreFiles": "e altri {count} file",
   "calc.result.detail": "{grams}g · ~{hours}h di stampa",

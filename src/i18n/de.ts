@@ -8,7 +8,7 @@ export const deTranslations: Record<string, string> = {
   "nav.reviews": "Kundenbewertungen",
   "nav.uploadFile": "Datei hochladen",
   "nav.requestQuote": "Kostenloses Angebot",
-  "nav.headerRating": "4,9/5 Kundenbewertungen",
+  "nav.headerRating": "{rating}/5 auf Google",
   "nav.trackOrder": "Bestellung verfolgen",
 
   // Track page
@@ -306,7 +306,7 @@ export const deTranslations: Record<string, string> = {
   "calc.modal.title": "Fast geschafft — noch ein Schritt",
   "calc.modal.subtitle": "Geben Sie Ihre E-Mail oder Telefonnummer ein und wir bestätigen den genauen Preis — normalerweise innerhalb von 1 Stunde.",
   "calc.modal.close": "Ich fülle es unten aus",
-  "calc.modal.trust": "4,9/5 aus 22 Bewertungen · Kein Konto nötig · Kein Spam",
+  "calc.modal.trust": "{rating}/5 aus {count} Google-Bewertungen · Kein Konto nötig · Kein Spam",
   "calc.modal.dragHint": "Ziehen zum Drehen",
   "calc.modal.moreFiles": "und {count} weitere Dateien",
   "calc.result.detail": "{grams}g · ~{hours}h Druckzeit",

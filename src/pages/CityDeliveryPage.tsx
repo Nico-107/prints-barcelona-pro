@@ -9,7 +9,6 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
-import { getHeroCTAVariant, isXpForced, wasExposureFired, markExposureFired } from "@/lib/experiments";
 import type { CityPageConfig } from "@/data/cityDeliveryPages";
 
 const StlEstimator = lazy(() => import("@/components/StlEstimator"));
@@ -204,18 +203,6 @@ const CityDeliveryPage = ({ config }: Props) => {
     return () => clearTimeout(timer);
   }, [config.city, config.slug]);
 
-  useEffect(() => {
-    if (!wasExposureFired()) {
-      const variant = getHeroCTAVariant();
-      capture('experiment_exposure', {
-        experiment: 'hero_cta_r1',
-        variant,
-        page_type: 'city',
-        forced: isXpForced(),
-      });
-      markExposureFired();
-    }
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -301,8 +288,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                 {isNative && config.nativeSection ? config.nativeSection.body : config.heroSubtitle}
               </p>
 
-              {/* control */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10" data-variant="control">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalculator}>
                   {isES
                     ? `Presupuesto con entrega en ${config.city}`
@@ -327,37 +313,6 @@ const CityDeliveryPage = ({ config }: Props) => {
                   <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
                   {isES ? "WhatsApp" : isFR ? "Nous écrire sur WhatsApp" : "Message Us on WhatsApp"}
                 </Button>
-              </div>
-
-              {/* photo_first */}
-              <div className="flex-col items-center gap-3 mb-10" data-variant="photo_first">
-                <Button
-                  size="xl"
-                  className="shadow-lg bg-[#25D366] hover:bg-[#1ebe5c] text-white border-0"
-                  onClick={() => {
-                    capture("whatsapp_click", { location: "hero_xp" });
-                    capture("city_cta_click", { city: config.city, type: "whatsapp_xp" });
-                    const photoMsg = isES
-                      ? "Hola, os envío una foto de lo que necesito imprimir"
-                      : "Hi, here's a photo of what I need printed";
-                    const href = config.localPickup
-                      ? `https://wa.me/${config.localPickup.whatsappNumber}?text=${encodeURIComponent(photoMsg)}`
-                      : `${WHATSAPP_URL}?text=${encodeURIComponent(photoMsg)}`;
-                    window.open(href, "_blank");
-                  }}
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  {isES ? "Envíanos una foto por WhatsApp" : "Send us a photo on WhatsApp"}
-                </Button>
-                <p className="mt-2 text-sm text-primary-foreground/70 text-center">
-                  {isES ? "Te decimos el precio en menos de una hora" : "We'll reply with a price within the hour"}
-                </p>
-                <button
-                  onClick={scrollToCalculator}
-                  className="mt-1 text-sm text-primary-foreground/60 underline underline-offset-2 hover:text-primary-foreground/90"
-                >
-                  {isES ? "¿Ya tienes el archivo 3D? Calcula el precio →" : "Already have a 3D file? Get an instant price →"}
-                </button>
               </div>
 
               <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">

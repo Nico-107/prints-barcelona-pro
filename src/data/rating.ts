@@ -5,3 +5,9 @@ export const GOOGLE_RATING = {
   value: 4.8,
   count: 17,
 } as const;
+
+/** Returns the rating formatted for the given language's decimal convention. */
+export function formatRating(language: string): string {
+  const s = GOOGLE_RATING.value.toFixed(1);
+  return language === "en" ? s : s.replace(".", ",");
+}

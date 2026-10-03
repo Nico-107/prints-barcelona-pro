@@ -1,7 +1,8 @@
 // PostHog instance — registered once by main.tsx (browser only).
 // Null during SSR/prerender; events are queued until registration.
 import { getStoredUTM } from "./utm";
-import { getHeroCTAVariant, isXpForced, migrateExperimentAssignment } from "./experiments";
+import { migrateExperimentAssignment, isAnyForced } from "./experiments";
+import { EXPERIMENTS, type ExperimentId } from "./experimentsConfig";
 import type { EventName, EventMap } from "./analyticsEvents";
 
 type PHInstance = {
@@ -60,19 +61,46 @@ function getSiteLanguage(): string {
   }
 }
 
+function getExperimentProps(language: string): Record<string, unknown> {
+  const props: Record<string, unknown> = {};
+  if (typeof window === "undefined") return props;
+
+  const now = new Date();
+  let anyForced = false;
+
+  (Object.entries(EXPERIMENTS) as [ExperimentId, (typeof EXPERIMENTS)[ExperimentId]][]).forEach(([id, exp]) => {
+    if (!exp.enabled) return;
+    if (now >= new Date(exp.endsOn + "T00:00:00Z")) return;
+
+    const langOk = (exp.langs as readonly string[]).includes(language);
+    if (!langOk) {
+      props[`xp_${id}`] = "n/a";
+      return;
+    }
+
+    const raw = document.documentElement.dataset[exp.attr];
+    const v = raw ? parseInt(raw, 10) : 1;
+    props[`xp_${id}`] = v;
+
+    if (isAnyForced()) anyForced = true;
+  });
+
+  if (anyForced) props.xp_forced = true;
+  return props;
+}
+
 function buildContextProps(): Record<string, unknown> {
   const path = typeof window !== "undefined" ? window.location.pathname : "";
   const utm = getStoredUTM();
-  const xpVariant = getHeroCTAVariant();
-  const xpForced = isXpForced();
+  const language = getSiteLanguage();
+  const xpProps = getExperimentProps(language);
   const props: Record<string, unknown> = {
     page_path: path,
     page_type: _pageCtx.page_type,
-    site_language: getSiteLanguage(),
+    site_language: language,
     is_internal: getIsInternal(),
-    xp_hero_cta_r1: xpVariant,
+    ...xpProps,
   };
-  if (xpForced) props.xp_forced = true;
   if (utm) {
     if (utm.utm_source != null) props.utm_source = utm.utm_source;
     if (utm.utm_medium != null) props.utm_medium = utm.utm_medium;
@@ -98,6 +126,7 @@ const NO_GTAG = new Set<string>([
   "file_upload_error",
   "estimate_add_more_click",
   "experiment_exposure",
+  "experiment_error",
 ]);
 
 // ---- Internal dispatch (works with any string event name) ----

@@ -8,7 +8,7 @@ export const nlTranslations: Record<string, string> = {
   "nav.reviews": "Beoordelingen",
   "nav.uploadFile": "Bestand uploaden",
   "nav.requestQuote": "Gratis offerte",
-  "nav.headerRating": "4,9/5 klantbeoordelingen",
+  "nav.headerRating": "{rating}/5 op Google",
   "nav.trackOrder": "Bestelling volgen",
 
   // Track page
@@ -306,7 +306,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.modal.title": "Bijna klaar — nog één stap",
   "calc.modal.subtitle": "Voer uw e-mail of telefoonnummer in en wij bevestigen de exacte prijs — doorgaans binnen 1 uur.",
   "calc.modal.close": "Ik vul het hieronder in",
-  "calc.modal.trust": "4,9/5 uit 22 beoordelingen · Geen account nodig · Geen spam",
+  "calc.modal.trust": "{rating}/5 uit {count} Google-beoordelingen · Geen account nodig · Geen spam",
   "calc.modal.dragHint": "Slepen om te roteren",
   "calc.modal.moreFiles": "en nog {count} bestanden",
   "calc.result.detail": "{grams}g · ~{hours}u printtijd",

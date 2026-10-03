@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, MapPin, Clock, UserCheck, Zap, MessageCircle } from "lucide-react";
+import { Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ACTIVE_CITY, countryFlag, whatsappUrl } from "@/config/cities";
+import { ACTIVE_CITY, countryFlag } from "@/config/cities";
 import { capture } from "@/lib/analytics";
-import { getHeroCTAVariant, isXpForced, wasExposureFired, markExposureFired } from "@/lib/experiments";
+import { useExperiment } from "@/lib/useExperiment";
+import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 
 const GEO_DELIVERY: Record<string, string> = {
   FR: "3–4 business days",
@@ -91,10 +92,17 @@ interface HeroProps {
   onScrollToCalc?: () => void;
 }
 
+const XP_LANGS = ["es", "en", "ca"];
+
 const Hero = ({ onScrollToCalc }: HeroProps) => {
   const { t, language } = useLanguage();
   const [geoSubtitle, setGeoSubtitle] = useState<string | null>(null);
   const geoDataRef = useRef<{ code: string; place: string } | null>(null);
+  const { version, active, forced, langOk } = useExperiment("hero_pkg_r1");
+
+  // Returns xp text for supported languages, control text otherwise
+  const xpText = (key: string, fallbackKey: string): string =>
+    XP_LANGS.includes(language) ? t(key) : t(fallbackKey);
 
   useEffect(() => {
     const buildSubtitle = (code: string, place: string) => {
@@ -106,7 +114,6 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
       return `We deliver to ${place} in ${days}. Upload your file for an instant quote.`;
     };
 
-    // Language changed and we already have geo data — recompute without fetching
     if (geoDataRef.current) {
       setGeoSubtitle(buildSubtitle(geoDataRef.current.code, geoDataRef.current.place));
       return;
@@ -128,31 +135,48 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
     return () => { controller.abort(); clearTimeout(timer); };
   }, [language]);
 
+  // Exposure event + self-check (B6, B7)
   useEffect(() => {
-    if (!wasExposureFired()) {
-      const variant = getHeroCTAVariant();
-      capture('experiment_exposure', {
-        experiment: 'hero_cta_r1',
-        variant,
-        page_type: 'home',
-        forced: isXpForced(),
-      });
-      markExposureFired();
-    }
-  }, []);
+    if (!active || !langOk) return;
+    if (wasExposureFired("hero_pkg_r1")) return;
 
-  const handleWAPhotoFirst = () => {
-    capture('whatsapp_click', { location: 'hero_xp' });
-    const msg = t("hero.xp.photo_first.wa_msg");
-    window.open(`${whatsappUrl(ACTIVE_CITY)}?text=${encodeURIComponent(msg)}`, "_blank");
-  };
+    const slots = document.querySelectorAll('[data-xp-slot="hero_pkg_r1"]');
+    const visible = Array.from(slots).filter(
+      (el) => (el as HTMLElement).offsetParent !== null
+    );
+
+    let visible_ok = false;
+    if (visible.length === 1 && visible[0].getAttribute("data-xp-v") === String(version)) {
+      visible_ok = true;
+    } else {
+      const reason = visible.length === 0 ? "no_visible_block" : "visible_mismatch";
+      capture("experiment_error", {
+        experiment: "hero_pkg_r1",
+        reason,
+        assigned: version,
+        visible: visible.length,
+      });
+      if (reason === "no_visible_block") {
+        document.documentElement.dataset.xpHeroPkg = "1";
+      }
+    }
+
+    capture("experiment_exposure", {
+      experiment: "hero_pkg_r1",
+      version,
+      language,
+      page_type: "home",
+      forced,
+      visible_ok,
+    });
+    markExposureFired("hero_pkg_r1");
+  }, [active, langOk, version, forced, language]);
 
   const handleScrollToUpload = () => {
-    capture('quote_cta_click', { source: 'hero_cta' });
+    capture("quote_cta_click", { location: "hero" });
     if (onScrollToCalc) {
       onScrollToCalc();
     } else {
-      // Fallback if used outside Index
       const el = document.getElementById("calculator");
       if (el) {
         const top = el.getBoundingClientRect().top + window.scrollY - 80;
@@ -172,6 +196,10 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
     { icon: UserCheck, text: t("hero.trust.expert") },
   ];
 
+  const pillClass = "inline-flex items-center gap-2 bg-cta/10 border border-cta/30 text-cta rounded-full px-5 py-2 text-sm font-semibold";
+  const headingClass = "text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight";
+  const subtitleClass = "text-lg md:text-xl text-primary-foreground/90 mb-6 animate-fade-in-delay max-w-2xl mx-auto";
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden hero-gradient">
       <div className="absolute inset-0 opacity-[0.03]">
@@ -189,51 +217,121 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
             Dimension3D {ACTIVE_CITY.cityName}
           </p>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight">
-            {t("hero.title")}
-          </h1>
-
-          <p className="text-lg md:text-xl text-primary-foreground/90 mb-6 animate-fade-in-delay max-w-2xl mx-auto">
-            {geoSubtitle ?? t("hero.subtitle")}
-          </p>
-
-          <div className="flex justify-center mb-8 animate-fade-in-delay">
-            <div className="inline-flex items-center gap-2 bg-cta/10 border border-cta/30 text-cta rounded-full px-5 py-2 text-sm font-semibold">
-              <Zap className="w-4 h-4 flex-shrink-0" />
-              {t("hero.speedPromise")}
+          {/* Version 1 — control (must be first in DOM; uses real h1) */}
+          <div data-xp-slot="hero_pkg_r1" data-xp-v="1">
+            <h1 className={headingClass}>
+              {t("hero.title")}
+            </h1>
+            <p className={subtitleClass}>
+              {geoSubtitle ?? t("hero.subtitle")}
+            </p>
+            <div className="flex justify-center mb-8 animate-fade-in-delay">
+              <div className={pillClass}>
+                <Zap className="w-4 h-4 flex-shrink-0" />
+                {t("hero.speedPromise")}
+              </div>
+            </div>
+            <div className="flex justify-center animate-fade-in-delay-2">
+              <Button
+                variant="cta"
+                size="xl"
+                onClick={handleScrollToUpload}
+                className="shadow-lg px-12 py-5 text-lg h-auto"
+              >
+                <Upload className="w-5 h-5" />
+                {t("hero.cta.getQuote")}
+              </Button>
             </div>
           </div>
 
-          {/* control variant */}
-          <div className="flex justify-center animate-fade-in-delay-2" data-variant="control">
-            <Button
-              variant="cta"
-              size="xl"
-              onClick={handleScrollToUpload}
-              className="shadow-lg px-12 py-5 text-lg h-auto"
-            >
-              <Upload className="w-5 h-5" />
-              {t("hero.cta.getQuote")}
-            </Button>
+          {/* Version 2 */}
+          <div data-xp-slot="hero_pkg_r1" data-xp-v="2">
+            <div role="heading" aria-level={1} className={headingClass}>
+              {xpText("xp.hero.v2.title", "hero.title")}
+            </div>
+            <p className={subtitleClass}>
+              {xpText("xp.hero.v2.subtitle", "hero.subtitle")}
+            </p>
+            <div className="flex justify-center mb-8 animate-fade-in-delay">
+              <div className={pillClass}>
+                <Zap className="w-4 h-4 flex-shrink-0" />
+                {xpText("xp.hero.v2.pill", "hero.speedPromise")}
+              </div>
+            </div>
+            <div className="flex justify-center animate-fade-in-delay-2">
+              <Button
+                variant="cta"
+                size="xl"
+                onClick={handleScrollToUpload}
+                className="shadow-lg px-12 py-5 text-lg h-auto whitespace-normal text-center"
+              >
+                <Upload className="w-5 h-5 flex-shrink-0" />
+                {xpText("xp.hero.v2.button", "hero.cta.getQuote")}
+              </Button>
+            </div>
+            <p className="mt-3 text-sm text-primary-foreground/60 animate-fade-in-delay-2">
+              {xpText("xp.hero.v2.under", "hero.speedPromise")}
+            </p>
           </div>
 
-          {/* photo_first variant */}
-          <div className="flex-col items-center gap-3 animate-fade-in-delay-2" data-variant="photo_first">
-            <Button
-              size="xl"
-              onClick={handleWAPhotoFirst}
-              className="shadow-lg px-12 py-5 text-lg h-auto bg-[#25D366] hover:bg-[#1ebe5c] text-white border-0"
-            >
-              <MessageCircle className="w-5 h-5" />
-              {t("hero.xp.photo_first.primary")}
-            </Button>
-            <p className="mt-2 text-sm text-primary-foreground/70 text-center">{t("hero.xp.photo_first.tagline")}</p>
-            <button
-              onClick={handleScrollToUpload}
-              className="mt-1 text-sm text-primary-foreground/60 underline underline-offset-2 hover:text-primary-foreground/90"
-            >
-              {t("hero.xp.photo_first.link")}
-            </button>
+          {/* Version 3 */}
+          <div data-xp-slot="hero_pkg_r1" data-xp-v="3">
+            <div role="heading" aria-level={1} className={headingClass}>
+              {xpText("xp.hero.v3.title", "hero.title")}
+            </div>
+            <p className={subtitleClass}>
+              {xpText("xp.hero.v3.subtitle", "hero.subtitle")}
+            </p>
+            <div className="flex justify-center mb-8 animate-fade-in-delay">
+              <div className={pillClass}>
+                <Zap className="w-4 h-4 flex-shrink-0" />
+                {xpText("xp.hero.v3.pill", "hero.speedPromise")}
+              </div>
+            </div>
+            <div className="flex justify-center animate-fade-in-delay-2">
+              <Button
+                variant="cta"
+                size="xl"
+                onClick={handleScrollToUpload}
+                className="shadow-lg px-12 py-5 text-lg h-auto whitespace-normal text-center"
+              >
+                <Upload className="w-5 h-5 flex-shrink-0" />
+                {xpText("xp.hero.v3.button", "hero.cta.getQuote")}
+              </Button>
+            </div>
+            <p className="mt-3 text-sm text-primary-foreground/60 animate-fade-in-delay-2">
+              {xpText("xp.hero.v3.under", "hero.speedPromise")}
+            </p>
+          </div>
+
+          {/* Version 4 */}
+          <div data-xp-slot="hero_pkg_r1" data-xp-v="4">
+            <div role="heading" aria-level={1} className={headingClass}>
+              {xpText("xp.hero.v4.title", "hero.title")}
+            </div>
+            <p className={subtitleClass}>
+              {xpText("xp.hero.v4.subtitle", "hero.subtitle")}
+            </p>
+            <div className="flex justify-center mb-8 animate-fade-in-delay">
+              <div className={pillClass}>
+                <Zap className="w-4 h-4 flex-shrink-0" />
+                {xpText("xp.hero.v4.pill", "hero.speedPromise")}
+              </div>
+            </div>
+            <div className="flex justify-center animate-fade-in-delay-2">
+              <Button
+                variant="cta"
+                size="xl"
+                onClick={handleScrollToUpload}
+                className="shadow-lg px-12 py-5 text-lg h-auto whitespace-normal text-center"
+              >
+                <Upload className="w-5 h-5 flex-shrink-0" />
+                {xpText("xp.hero.v4.button", "hero.cta.getQuote")}
+              </Button>
+            </div>
+            <p className="mt-3 text-sm text-primary-foreground/60 animate-fade-in-delay-2">
+              {xpText("xp.hero.v4.under", "hero.speedPromise")}
+            </p>
           </div>
 
           {/* Mobile scroll hint — visible only on small screens */}

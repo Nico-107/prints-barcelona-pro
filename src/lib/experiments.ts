@@ -1,94 +1,135 @@
 /**
- * Client-side A/B experiment assignment.
+ * Client-side A/B experiment assignment engine.
  *
- * Assignment is random 50/50 on first need and stored consent-aware:
+ * Assignment uses crypto.getRandomValues for uniform distribution across
+ * all versions. Stored consent-aware:
  *   - before consent  → sessionStorage only
  *   - after consent   → localStorage (30-day persistence)
  *
  * Call migrateExperimentAssignment() when consent is granted.
- * QA override: ?xp_hero=control|photo_first  (persists for the session,
- * marks xp_forced:true on all events).
+ * QA override: ?xp_hero=1..4 etc. (persists for session, marks xp_forced:true)
  *
- * The anti-flicker inline script in index.html replicates the assignment
- * logic and sets document.documentElement.dataset.xpHeroCtaR1 before paint.
+ * The anti-flicker script in index.html (generated from config at build time)
+ * replicates this logic and sets document.documentElement.dataset[attr]
+ * before React mounts. The React app reads from the dataset — it never
+ * re-rolls an assignment already made by the head script.
  */
 
-export type HeroCTAVariant = "control" | "photo_first";
+import { EXPERIMENTS, type ExperimentId } from "./experimentsConfig";
 
-const KEY = "dim3d-xp-hero_cta_r1";
-const FORCED_KEY = KEY + "_forced";
-const EXPOSURE_KEY = "dim3d-xp-exp-hero_cta_r1";
+const STORAGE_PREFIX = "dim3d-xp-";
+const FORCED_SUFFIX = "_forced";
+const EXPOSURE_SUFFIX = "_exp";
 
-// Kill switch — set to false to put everyone in control.
-const ENABLED = true;
+export function isExperimentActive(id: ExperimentId): boolean {
+  const exp = EXPERIMENTS[id];
+  return exp.enabled && new Date() < new Date(exp.endsOn + "T00:00:00Z");
+}
 
-let _cached: HeroCTAVariant | null = null;
-let _forced = false;
-
-export function getHeroCTAVariant(): HeroCTAVariant {
-  if (!ENABLED) return "control";
-  if (typeof window === "undefined") return "control"; // SSR
-  if (_cached !== null) return _cached;
-
-  // QA override via URL param or existing session override
+function assignVersion(versions: number): number {
   try {
-    const params = new URLSearchParams(location.search);
-    const qa = params.get("xp_hero");
-    if (qa === "control" || qa === "photo_first") {
-      try { sessionStorage.setItem(FORCED_KEY, qa); } catch { /* ignore */ }
-      _forced = true;
-      _cached = qa;
-      return qa;
-    }
-    const sf = sessionStorage.getItem(FORCED_KEY) as HeroCTAVariant | null;
-    if (sf === "control" || sf === "photo_first") {
-      _forced = true;
-      _cached = sf;
-      return sf;
-    }
-  } catch { /* storage unavailable */ }
-
-  // Consent-aware persistent assignment
-  try {
-    const consented = localStorage.getItem("cookie-consent") === "accepted";
-    const store = consented ? localStorage : sessionStorage;
-    const stored = store.getItem(KEY) as HeroCTAVariant | null;
-    if (stored === "control" || stored === "photo_first") {
-      _cached = stored;
-      return stored;
-    }
-    const variant: HeroCTAVariant = Math.random() < 0.5 ? "control" : "photo_first";
-    store.setItem(KEY, variant);
-    _cached = variant;
-    return variant;
+    const arr = new Uint32Array(1);
+    crypto.getRandomValues(arr);
+    return (arr[0] % versions) + 1;
   } catch {
-    // Storage unavailable — assign per page load (not persisted)
-    const variant: HeroCTAVariant = Math.random() < 0.5 ? "control" : "photo_first";
-    _cached = variant;
-    return variant;
+    return Math.floor(Math.random() * versions) + 1;
   }
 }
 
-export function isXpForced(): boolean {
-  return _forced;
+/**
+ * Returns the assigned version for an experiment.
+ * Reads from document.documentElement.dataset[attr] first (set by head script);
+ * falls back to storage, then assigns if needed.
+ */
+export function getAssignment(id: ExperimentId): number {
+  if (typeof window === "undefined") return 1;
+  const exp = EXPERIMENTS[id];
+
+  // Head script is the source of truth
+  const raw = document.documentElement.dataset[exp.attr];
+  if (raw) {
+    const v = parseInt(raw, 10);
+    if (v >= 1 && v <= exp.versions) return v;
+  }
+
+  if (!isExperimentActive(id)) return 1;
+
+  const key = STORAGE_PREFIX + id;
+  const forcedKey = key + FORCED_SUFFIX;
+
+  // QA override
+  try {
+    const params = new URLSearchParams(location.search);
+    const qa = params.get(exp.qa);
+    const qv = qa ? parseInt(qa, 10) : 0;
+    if (qv >= 1 && qv <= exp.versions) {
+      try { sessionStorage.setItem(forcedKey, String(qv)); } catch { /* ignore */ }
+      return qv;
+    }
+    const sf = sessionStorage.getItem(forcedKey);
+    const sfv = sf ? parseInt(sf, 10) : 0;
+    if (sfv >= 1 && sfv <= exp.versions) return sfv;
+  } catch { /* storage unavailable */ }
+
+  // Consent-aware persistent storage
+  try {
+    const consented = localStorage.getItem("cookie-consent") === "accepted";
+    const store = consented ? localStorage : sessionStorage;
+    const stored = store.getItem(key);
+    const sv = stored ? parseInt(stored, 10) : 0;
+    if (sv >= 1 && sv <= exp.versions) return sv;
+    const version = assignVersion(exp.versions);
+    try { store.setItem(key, String(version)); } catch { /* ignore */ }
+    return version;
+  } catch {
+    return assignVersion(exp.versions);
+  }
 }
 
-/** Move session assignment to localStorage after the user accepts cookies. */
-export function migrateExperimentAssignment(): void {
+export function isForcedForExperiment(id: ExperimentId): boolean {
+  if (typeof window === "undefined") return false;
+  const exp = EXPERIMENTS[id];
   try {
-    const session = sessionStorage.getItem(KEY);
-    if (session === "control" || session === "photo_first") {
-      localStorage.setItem(KEY, session);
+    const params = new URLSearchParams(location.search);
+    const qa = params.get(exp.qa);
+    if (qa) {
+      const qv = parseInt(qa, 10);
+      if (qv >= 1 && qv <= exp.versions) return true;
+    }
+    const sf = sessionStorage.getItem(STORAGE_PREFIX + id + FORCED_SUFFIX);
+    if (sf) {
+      const sfv = parseInt(sf, 10);
+      if (sfv >= 1 && sfv <= exp.versions) return true;
     }
   } catch { /* ignore */ }
+  return false;
 }
 
-/** Returns true if the exposure event has already been fired this session. */
-export function wasExposureFired(): boolean {
-  try { return !!sessionStorage.getItem(EXPOSURE_KEY); } catch { return false; }
+export function isAnyForced(): boolean {
+  if (typeof window === "undefined") return false;
+  return (Object.keys(EXPERIMENTS) as ExperimentId[]).some(isForcedForExperiment);
 }
 
-/** Mark the exposure as fired for this session. */
-export function markExposureFired(): void {
-  try { sessionStorage.setItem(EXPOSURE_KEY, "1"); } catch { /* ignore */ }
+export function wasExposureFired(id: ExperimentId): boolean {
+  try { return !!sessionStorage.getItem(STORAGE_PREFIX + id + EXPOSURE_SUFFIX); } catch { return false; }
+}
+
+export function markExposureFired(id: ExperimentId): void {
+  try { sessionStorage.setItem(STORAGE_PREFIX + id + EXPOSURE_SUFFIX, "1"); } catch { /* ignore */ }
+}
+
+/** Move all session assignments to localStorage after the user accepts cookies. */
+export function migrateExperimentAssignment(): void {
+  try {
+    (Object.keys(EXPERIMENTS) as ExperimentId[]).forEach((id) => {
+      const key = STORAGE_PREFIX + id;
+      const session = sessionStorage.getItem(key);
+      if (session) {
+        const sv = parseInt(session, 10);
+        if (sv >= 1 && sv <= EXPERIMENTS[id].versions) {
+          localStorage.setItem(key, session);
+        }
+      }
+    });
+  } catch { /* ignore */ }
 }

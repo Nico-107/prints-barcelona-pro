@@ -10,6 +10,7 @@ import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/an
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { parseStl } from "@/lib/stlAnalysis";
+import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -1932,7 +1933,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
                       }
                     </Button>
-                    <p className="text-xs text-center text-muted-foreground">{t("calc.modal.trust")}</p>
+                    <p className="text-xs text-center text-muted-foreground">
+                      {t("calc.modal.trust")
+                        .replace("{rating}", formatRating(language))
+                        .replace("{count}", String(GOOGLE_RATING.count))}
+                    </p>
                     <Button
                       variant="whatsapp-outline"
                       size="sm"

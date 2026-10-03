@@ -1,7 +1,9 @@
 # hero_cta_r1 — Hero CTA Experiment Round 1
 
+STATUS: STOPPED 2026-10-02 by owner decision. Inconclusive (fewer than 10 sessions); never use this data.
+
 **Start date:** 2026-10-02  
-**Status:** Running
+**Status:** STOPPED
 
 ## Hypothesis
 

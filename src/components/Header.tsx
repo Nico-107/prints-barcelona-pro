@@ -14,6 +14,7 @@ import {
 import LanguageSelector from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
+import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
 const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boolean }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -192,7 +193,11 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                   <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
                 ))}
               </div>
-              <span className="text-muted-foreground font-medium whitespace-nowrap">{t("nav.headerRating")}</span>
+              <span className="text-muted-foreground font-medium whitespace-nowrap">
+                {t("nav.headerRating")
+                  .replace("{rating}", formatRating(language))
+                  .replace("{count}", String(GOOGLE_RATING.count))}
+              </span>
             </div>
 
             {!hideLanguageSelector && <LanguageSelector landingTopicSlugs={landingTopicSlugs} />}
