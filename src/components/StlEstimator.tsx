@@ -193,8 +193,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const { version: calcVersion, active: calcActive, forced: calcForced, langOk: calcLangOk } = useExperiment("calc_title_r1");
 
+  // Text depends only on language — same on server and first client render.
   const xpCalcText = (key: string): string =>
-    calcLangOk && calcActive ? t(key) : t("calc.title");
+    ["es", "en", "ca"].includes(language) ? t(key) : t("calc.title");
 
   const fireCalcExposure = useCallback((pageType: string) => {
     if (!calcActive || !calcLangOk) return;

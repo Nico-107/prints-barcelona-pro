@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { EXPERIMENTS, type ExperimentId } from "./experimentsConfig";
 import { getAssignment, isExperimentActive, isForcedForExperiment } from "./experiments";
@@ -10,32 +10,25 @@ export interface ExperimentState {
   langOk: boolean;
 }
 
-/**
- * Returns experiment state for the given experiment id.
- * SSR-safe: returns version 1 / active false on the server.
- * Reads assignment from document.documentElement.dataset[attr] first
- * (set by the head anti-flicker script) and never re-rolls.
- */
+// Always start here — identical on server and on the first client render.
+// Real values are applied in a useEffect after hydration, which avoids the
+// mismatch that occurs when useState() initialises differently in the browser.
+const SSR_DEFAULTS: ExperimentState = { version: 1, active: false, forced: false, langOk: false };
+
 export function useExperiment(id: ExperimentId): ExperimentState {
   const { language } = useLanguage();
   const exp = EXPERIMENTS[id];
 
-  const [state, setState] = useState<ExperimentState>(() => {
-    if (typeof window === "undefined") {
-      return { version: 1, active: false, forced: false, langOk: false };
-    }
+  const [state, setState] = useState<ExperimentState>(SSR_DEFAULTS);
+
+  // Compute real assignment after mount so the initial render matches SSR.
+  useEffect(() => {
     const active = isExperimentActive(id);
     const version = getAssignment(id);
     const forced = isForcedForExperiment(id);
     const langOk = (exp.langs as readonly string[]).includes(language);
-    return { version, active, forced, langOk };
-  });
-
-  // Recompute langOk when language changes (user switches language)
-  useEffect(() => {
-    const langOk = (exp.langs as readonly string[]).includes(language);
-    setState((prev) => prev.langOk !== langOk ? { ...prev, langOk } : prev);
-  }, [language, exp.langs]);
+    setState({ version, active, forced, langOk });
+  }, [id, language, exp.langs]);
 
   return state;
 }

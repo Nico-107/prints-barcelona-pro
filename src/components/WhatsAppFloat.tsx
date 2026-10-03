@@ -7,14 +7,16 @@ import { useExperiment } from "@/lib/useExperiment";
 import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
+const XP_LANGS = ["es", "en", "ca"];
 
 const WhatsAppFloat = () => {
   const { t, language } = useLanguage();
   const { version, active, forced, langOk } = useExperiment("float_label_r1");
   const labelRef = useRef<HTMLSpanElement>(null);
 
+  // Text depends only on language — same on server and first client render.
   const xpText = (key: string): string =>
-    langOk && active ? t(key) : t("whatsapp.float.label");
+    XP_LANGS.includes(language) ? t(key) : t("whatsapp.float.label");
 
   useEffect(() => {
     if (!active || !langOk) return;

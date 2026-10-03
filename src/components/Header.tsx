@@ -18,6 +18,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
+const XP_LANGS = ["es", "en", "ca"];
+
 const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boolean }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
@@ -30,9 +32,10 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   const { version: hdrVersion, active: hdrActive, forced: hdrForced, langOk: hdrLangOk } = useExperiment("header_btn_r1");
   const desktopSlotRef = useRef<HTMLButtonElement>(null);
 
-  // Returns experiment text for supported languages, control text otherwise
+  // Text depends only on language — same on server and first client render.
+  // Never on active/langOk/version (those are post-hydration state).
   const xpHeaderText = (key: string): string =>
-    hdrLangOk && hdrActive ? t(key) : t("nav.requestQuote");
+    XP_LANGS.includes(language) ? t(key) : t("nav.requestQuote");
 
   // Fire exposure once. Desktop: on mount if visible. Mobile: when menu opens.
   const fireHeaderExposure = (placement: "desktop" | "mobile") => {
