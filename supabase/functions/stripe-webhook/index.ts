@@ -124,10 +124,34 @@ serve(async (req: Request) => {
 
         // Same customer confirmation email path used for paid orders
         const notes = order?.notes ?? "";
-        const materialMatch = /Material: ([^\s/.]+)/.exec(notes);
-        const colorMatch = /Material: [^\s/.]+ \/ ([^.]+)\./.exec(notes);
-        const infillMatch = /Infill: ([^,]+),/.exec(notes);
-        const wallsMatch = /,\s*(\S+) walls/.exec(notes);
+        const orderPieces: Array<Record<string, unknown>> | null =
+          Array.isArray(order?.pieces) ? order!.pieces : null;
+        const isV2Pieces = orderPieces != null && orderPieces.some((p) => typeof p.material === "string");
+
+        let material: string;
+        let color: string | null;
+        let infill: string | null;
+        let wallLoops: string | null;
+
+        if (isV2Pieces) {
+          const mats = [...new Set(orderPieces!.map((p) => String(p.material ?? "")))];
+          const infills = [...new Set(orderPieces!.map((p) => String(p.infill ?? "")))];
+          const walls = [...new Set(orderPieces!.map((p) => String(p.wallLoops ?? "")))];
+          material = mats.length === 1 ? mats[0] : `Mixed (${mats.join(", ")})`;
+          color = null;
+          infill = infills.length === 1 ? infills[0] : "mixed";
+          wallLoops = walls.length === 1 ? walls[0] : "mixed";
+        } else {
+          const materialMatch = /Material: ([^\s/.]+)/.exec(notes);
+          const colorMatch = /Material: [^\s/.]+ \/ ([^.]+)\./.exec(notes);
+          const infillMatch = /Infill: ([^,]+),/.exec(notes);
+          const wallsMatch = /,\s*(\S+) walls/.exec(notes);
+          material = materialMatch?.[1] ?? "PLA";
+          color = colorMatch?.[1]?.trim() ?? null;
+          infill = infillMatch?.[1]?.trim() ?? null;
+          wallLoops = wallsMatch?.[1] ?? null;
+        }
+
         const qtyMatch = /qty (\d+)/.exec(notes);
         const filesMatch = /Files: ([^.]+)\./.exec(notes);
         const filePaths: string[] = Array.isArray(order?.file_paths) ? order!.file_paths : [];
@@ -143,10 +167,10 @@ serve(async (req: Request) => {
               customerPhone: stripePhone ?? order?.customer_phone ?? null,
               orderNumber: order?.order_number,
               finalPrice: (session.amount_total ?? 0) / 100,
-              material: materialMatch?.[1] ?? "PLA",
-              color: colorMatch?.[1]?.trim() ?? null,
-              infill: infillMatch?.[1]?.trim() ?? null,
-              wallLoops: wallsMatch?.[1] ?? null,
+              material,
+              color,
+              infill,
+              wallLoops,
               quantity: qtyMatch ? Number(qtyMatch[1]) : null,
               fulfillment: order?.fulfillment ?? null,
               shippingAddress: shipping ?? order?.shipping_address ?? null,
@@ -156,7 +180,7 @@ serve(async (req: Request) => {
               customerName: session.customer_details?.name ?? null,
               paymentMethod: "stripe",
               stripePaymentLink: null,
-              pieces: Array.isArray(order?.pieces) ? order.pieces : null,
+              pieces: orderPieces,
             },
           },
         );
@@ -178,6 +202,13 @@ serve(async (req: Request) => {
     // B2: order_paid — idempotent (Stripe session.id is PostHog event uuid), 3s timeout
     const meta = session.metadata ?? {};
     const rawPHId = typeof meta.ph_distinct_id === "string" ? meta.ph_distinct_id.trim() : "";
+
+    // v2-specific additive properties (safe to add — undefined on legacy orders)
+    const pricingVersion = meta.pricing_version ? Number(meta.pricing_version) : null;
+    const partCount = meta.part_count ? Number(meta.part_count) : null;
+    const materialsStr = typeof meta.materials === "string" ? meta.materials : null;
+    const isMixed = materialsStr ? materialsStr.includes(",") : null;
+
     await captureOrderPaid(
       rawPHId || ("anon_" + session.id),
       {
@@ -194,6 +225,10 @@ serve(async (req: Request) => {
         utm_campaign: meta.utm_campaign ?? null,
         customer_ref: meta.customer_ref ?? null,
         $session_id: meta.ph_session_id ?? null,
+        ...(pricingVersion != null ? { pricing_version: pricingVersion } : {}),
+        ...(partCount != null ? { part_count: partCount } : {}),
+        ...(materialsStr != null ? { materials: materialsStr } : {}),
+        ...(isMixed != null ? { is_mixed: isMixed } : {}),
       },
       session.id,
       !!rawPHId,

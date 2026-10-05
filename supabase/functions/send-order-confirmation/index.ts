@@ -10,6 +10,16 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+interface ConfirmationPiece {
+  name: string;
+  quantity: number;
+  material?: string | null;
+  color?: string | null;
+  infill?: number | null;
+  wallLoops?: number | null;
+  costCents?: number | null;
+}
+
 interface ConfirmationPayload {
   customerEmail?: string | null;
   customerPhone?: string | null;
@@ -28,7 +38,7 @@ interface ConfirmationPayload {
   customerName?: string | null;
   paymentMethod?: "stripe" | "bizum" | "transfer" | "cash" | null;
   stripePaymentLink?: string | null;
-  pieces?: { name: string; quantity: number }[] | null;
+  pieces?: ConfirmationPiece[] | null;
 }
 
 const sanitize = (s: string): string =>
@@ -267,23 +277,36 @@ serve(async (req: Request) => {
         <p style="margin:6px 0;"><strong>Relleno:</strong> ${infill != null ? sanitize(String(infill)) : "—"}</p>
         <p style="margin:6px 0;"><strong>Paredes:</strong> ${wallLoops != null ? sanitize(String(wallLoops)) : "—"}</p>
         ${Array.isArray(pieces) && pieces.length > 0
-          ? `<p style="margin:6px 0;"><strong>Cantidad total:</strong> ${quantity ?? 1}</p>
+          ? (() => {
+              const hasPerPart = pieces.some((p: ConfirmationPiece) => p.material);
+              const hasCost    = pieces.some((p: ConfirmationPiece) => p.costCents != null);
+              const thStyle    = "text-align:left;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;";
+              const tdStyle    = "padding:3px 6px;border:1px solid #e2e8f0;";
+              const tdR        = "padding:3px 6px;border:1px solid #e2e8f0;text-align:right;";
+              return `<p style="margin:6px 0;"><strong>Cantidad total:</strong> ${quantity ?? 1}</p>
              <table style="width:100%;border-collapse:collapse;margin:6px 0 8px 0;font-size:12px;">
                <thead><tr>
-                 <th style="text-align:left;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;">Pieza</th>
-                 <th style="text-align:right;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;">Cant.</th>
+                 <th style="${thStyle}">Pieza</th>
+                 <th style="${thStyle}text-align:right;">Cant.</th>
+                 ${hasPerPart ? `<th style="${thStyle}">Material</th><th style="${thStyle}">Relleno</th><th style="${thStyle}">Paredes</th><th style="${thStyle}">Color</th>` : ""}
+                 ${hasCost ? `<th style="${thStyle}text-align:right;">Importe</th>` : ""}
                </tr></thead>
                <tbody>
-                 ${pieces.map(p => `<tr>
-                   <td style="padding:3px 6px;border:1px solid #e2e8f0;">${sanitize(p.name)}</td>
-                   <td style="padding:3px 6px;border:1px solid #e2e8f0;text-align:right;">${p.quantity}</td>
+                 ${pieces.map((p: ConfirmationPiece) => `<tr>
+                   <td style="${tdStyle}">${sanitize(p.name)}</td>
+                   <td style="${tdR}">${p.quantity}</td>
+                   ${hasPerPart ? `<td style="${tdStyle}">${p.material ? sanitize(p.material) : "—"}</td><td style="${tdStyle}">${p.infill != null ? sanitize(String(p.infill)) + "%" : "—"}</td><td style="${tdStyle}">${p.wallLoops != null ? sanitize(String(p.wallLoops)) : "—"}</td><td style="${tdStyle}">${p.color ? sanitize(p.color) : "—"}</td>` : ""}
+                   ${hasCost ? `<td style="${tdR}">${p.costCents != null ? "€" + (p.costCents / 100).toFixed(2) : "—"}</td>` : ""}
                  </tr>`).join("")}
                  <tr style="font-weight:bold;border-top:2px solid #cbd5e1;">
-                   <td style="padding:3px 6px;border:1px solid #e2e8f0;">Total</td>
-                   <td style="padding:3px 6px;border:1px solid #e2e8f0;text-align:right;">${pieces.reduce((s: number, p: { quantity: number }) => s + p.quantity, 0)}</td>
+                   <td style="${tdStyle}">Total</td>
+                   <td style="${tdR}">${pieces.reduce((s: number, p: ConfirmationPiece) => s + p.quantity, 0)}</td>
+                   ${hasPerPart ? `<td colspan="4" style="${tdStyle}"></td>` : ""}
+                   ${hasCost ? `<td style="${tdR}"></td>` : ""}
                  </tr>
                </tbody>
-             </table>`
+             </table>`;
+            })()
           : `<p style="margin:6px 0;"><strong>Cantidad:</strong> ${quantity ?? 1}</p>`
         }
         <p style="margin:6px 0;"><strong>Entrega:</strong> ${fulfillment ? sanitize(String(fulfillment)) : "—"}</p>

@@ -69,6 +69,18 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+interface PieceSpec {
+  name: string;
+  quantity: number;
+  path?: string | null;
+  material?: string | null;
+  color?: string | null;
+  infill?: number | null;
+  wallLoops?: number | null;
+  multicolour?: boolean | null;
+  gramsPerUnit?: number | null;
+}
+
 interface QuoteRequestPayload {
   filePaths?: string[];
   fileNames?: string[];
@@ -86,7 +98,7 @@ interface QuoteRequestPayload {
   language?: string;
   urgency?: string | null;
   sourceCity?: string | null;
-  pieces?: { name: string; quantity: number; path?: string | null }[] | null;
+  pieces?: PieceSpec[] | null;
   ph_distinct_id?: string | null;
   quote_id?: string | null;
   // Design-request fields
@@ -322,6 +334,8 @@ const handler = async (req: Request): Promise<Response> => {
       </p>`
     ).join("\n");
 
+    const KNOWN_QUOTE_MATERIALS = new Set(["PLA","PETG","HIPS","ABS","ASA","TPU","Nylon","PC","PVA","PLA-CF","PETG-CF","Nylon-CF"]);
+
     const stlSectionHtml = pieces?.length
       ? `<div style="background:#ecfdf5;padding:20px;border-radius:8px;margin:20px 0;">
           <h2 style="color:#065f46;margin-top:0;">Archivos STL — por pieza</h2>
@@ -330,7 +344,15 @@ const handler = async (req: Request): Promise<Response> => {
             const linkHtml = url
               ? `<a href="${url}" style="display:inline-block;background:#f59e0b;color:#0f172a;padding:6px 14px;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;">⬇ ${sanitize(p.name)}</a>`
               : `<span style="font-size:13px;font-weight:600;">${sanitize(p.name)}</span>`;
-            return `<p style="margin:8px 0;">${linkHtml} &times; ${p.quantity}</p>`;
+            const specParts: string[] = [];
+            if (p.material && KNOWN_QUOTE_MATERIALS.has(p.material)) specParts.push(sanitize(p.material));
+            if (p.infill != null) specParts.push(`${sanitize(String(p.infill))}% relleno`);
+            if (p.wallLoops != null) specParts.push(`${sanitize(String(p.wallLoops))} paredes`);
+            if (p.color) specParts.push(sanitize(p.color.trim()));
+            const specLine = specParts.length > 0
+              ? `<br><span style="font-size:12px;color:#6b7280;">${specParts.join(" · ")}</span>`
+              : "";
+            return `<p style="margin:8px 0;">${linkHtml} &times; ${p.quantity}${specLine}</p>`;
           }).join("\n")}
           <p style="font-weight:bold;font-size:14px;margin:12px 0 4px 0;">Total: ${pieces.reduce((s, p) => s + p.quantity, 0)} piezas</p>
           <p style="color:#6b7280;font-size:12px;margin-top:8px;">Los enlaces expiran en 7 días.</p>
@@ -367,10 +389,12 @@ const handler = async (req: Request): Promise<Response> => {
             <div style="background:#fffbeb;padding:20px;border-radius:8px;margin:20px 0;">
               <h2 style="color:#92400e;margin-top:0;">Detalles del presupuesto</h2>
               <p style="font-size:16px;"><strong>Urgencia / Urgency:</strong> ${safeUrgency}</p>
-              <p><strong>Material:</strong> ${safeMaterial}</p>
+              ${pieces?.some(p => p.material && KNOWN_QUOTE_MATERIALS.has(p.material))
+                ? `<p><strong>Especificaciones:</strong> por pieza (ver arriba)</p>`
+                : `<p><strong>Material:</strong> ${safeMaterial}</p>
               ${safeColor ? `<p><strong>Color:</strong> ${safeColor}</p>` : ""}
               <p><strong>Relleno:</strong> ${infillPct ?? 0}%</p>
-              <p><strong>Perímetros:</strong> ${wallsLabel}</p>
+              <p><strong>Perímetros:</strong> ${wallsLabel}</p>`}
               <p><strong>Peso estimado:</strong> ${Number(totalGrams ?? 0).toFixed(1)} g</p>
               <p><strong>Tiempo estimado:</strong> ${Number(totalHours ?? 0).toFixed(1)} h</p>
               <p><strong>Unidades totales:</strong> ${totalUnits ?? 0}</p>

@@ -56,6 +56,13 @@ type PieceInfo = {
   name: string;
   quantity: number;
   path?: string | null;
+  material?: string | null;
+  color?: string | null;
+  infill?: number | null;
+  wallLoops?: number | null;
+  multicolour?: boolean | null;
+  costCents?: number | null;
+  gramsPerUnit?: number | null;
 }
 
 interface Order {
@@ -188,11 +195,20 @@ function parseInstantNotes(notes: string): Record<string, string> | null {
   const fields: Record<string, string> = {};
   const mat = notes.match(/Material:\s*([^.]+)/);
   if (mat) fields["Material"] = mat[1].trim();
-  const inf = notes.match(/Infill:\s*(\d+),\s*(\d+)\s*walls?,\s*qty\s*(\d+)/);
-  if (inf) { fields["Infill"] = inf[1] + "%"; fields["Walls"] = inf[2]; fields["Qty"] = inf[3]; }
+  // Tolerates numeric infill/walls OR the word "mixed" (v2 mixed orders)
+  const inf = notes.match(/Infill:\s*(\w+),\s*(\w+)\s*walls?,\s*qty\s*(\d+)/);
+  if (inf) {
+    fields["Infill"] = inf[1] === "mixed" ? "mixed" : inf[1] + "%";
+    fields["Walls"] = inf[2];
+    fields["Qty"] = inf[3];
+  }
   const price = notes.match(/Total price:\s*(€[\d.]+)/);
   if (price) fields["Price"] = price[1];
   return Object.keys(fields).length > 0 ? fields : null;
+}
+
+function hasPerPartSpecs(pieces: PieceInfo[] | null | undefined): boolean {
+  return !!(pieces?.some(p => p.material));
 }
 
 // ─── Nav config ───────────────────────────────────────────────────────────────
@@ -437,9 +453,16 @@ const Admin = () => {
   const openAccept = (q: QuoteRequest) => {
     setAcceptTarget(q);
     const mid = ((q.estimated_price_low + q.estimated_price_high) / 2).toFixed(2);
+    const perPart = hasPerPartSpecs(q.pieces);
+    const derivedMaterial = perPart
+      ? (() => {
+          const mats = [...new Set((q.pieces ?? []).map(p => p.material).filter(Boolean))] as string[];
+          return mats.length === 1 ? mats[0] : `Mixed (${mats.slice(0, 4).join(", ")}${mats.length > 4 ? ` +${mats.length - 4}` : ""})`;
+        })()
+      : q.material;
     setAcceptDraft({
       price: mid,
-      material: q.material,
+      material: derivedMaterial,
       color: q.color ?? "",
       deliveryDate: "",
       customerName: "",
@@ -473,23 +496,54 @@ const Admin = () => {
       const effectivePhone = acceptTarget.contact_phone || (acceptDraft.contactPhone.trim() || null);
 
       const phone = effectivePhone?.trim() || "see notes";
-      const acceptPiecesStr = Array.isArray(acceptTarget.pieces) && acceptTarget.pieces.length > 0
-        ? `Pieces: ${acceptTarget.pieces.map(p => `${p.name} x${p.quantity}`).join(", ")}.`
-        : "";
 
-      const noteParts = [
-        `Accepted from quote request ${acceptTarget.id.slice(0, 8)}.`,
-        acceptDraft.customerName ? `Customer: ${acceptDraft.customerName}.` : "",
-        effectiveEmail ? `Email: ${effectiveEmail}.` : "",
-        `Confirmed price: €${priceNum.toFixed(2)}.`,
-        `Material: ${acceptDraft.material}${acceptDraft.color ? ` / ${acceptDraft.color}` : ""}.`,
-        `Infill: ${acceptTarget.infill}, ${acceptTarget.wall_loops} walls, qty ${acceptTarget.quantity}.`,
-        `Est. ${acceptTarget.estimated_grams.toFixed(1)} g / ${acceptTarget.estimated_hours.toFixed(1)} h.`,
-        acceptPiecesStr,
-      ].filter(Boolean).join(" ");
+      const perPart = hasPerPartSpecs(acceptTarget.pieces);
+      let noteParts: string;
+      let productTitle: string;
+
+      if (perPart && acceptTarget.pieces?.length) {
+        // Mixed per-part order
+        const mats = [...new Set(acceptTarget.pieces.map(p => p.material).filter(Boolean))] as string[];
+        const matsLabel = mats.join(", ");
+        const totalQty = acceptTarget.pieces.reduce((s, p) => s + p.quantity, 0);
+        const partsSummary = acceptTarget.pieces
+          .map(p => {
+            const spec = `[${p.material ?? "?"} ${p.infill ?? "?"}% ${p.wallLoops ?? "?"}w${p.color ? ` ${p.color}` : ""}]`;
+            return `${p.name} x${p.quantity} ${spec}`;
+          })
+          .join("; ");
+        productTitle = mats.length === 1
+          ? `3D Print — ${mats[0]}${acceptDraft.color ? ` (${acceptDraft.color})` : ""}`
+          : `3D Print — Mixed (${matsLabel})`;
+        noteParts = [
+          `Accepted from quote request ${acceptTarget.id.slice(0, 8)}.`,
+          acceptDraft.customerName ? `Customer: ${acceptDraft.customerName}.` : "",
+          effectiveEmail ? `Email: ${effectiveEmail}.` : "",
+          `Confirmed price: €${priceNum.toFixed(2)}.`,
+          `Material: Mixed (${matsLabel}).`,
+          `Infill: mixed, mixed walls, qty ${totalQty}.`,
+          `Est. ${acceptTarget.estimated_grams.toFixed(1)} g / ${acceptTarget.estimated_hours.toFixed(1)} h.`,
+          `Parts: ${partsSummary}.`,
+        ].filter(Boolean).join(" ");
+      } else {
+        productTitle = `3D Print — ${acceptDraft.material}${acceptDraft.color ? ` (${acceptDraft.color})` : ""}`;
+        const piecesStr = Array.isArray(acceptTarget.pieces) && acceptTarget.pieces.length > 0
+          ? `Pieces: ${acceptTarget.pieces.map(p => `${p.name} x${p.quantity}`).join(", ")}.`
+          : "";
+        noteParts = [
+          `Accepted from quote request ${acceptTarget.id.slice(0, 8)}.`,
+          acceptDraft.customerName ? `Customer: ${acceptDraft.customerName}.` : "",
+          effectiveEmail ? `Email: ${effectiveEmail}.` : "",
+          `Confirmed price: €${priceNum.toFixed(2)}.`,
+          `Material: ${acceptDraft.material}${acceptDraft.color ? ` / ${acceptDraft.color}` : ""}.`,
+          `Infill: ${acceptTarget.infill}, ${acceptTarget.wall_loops} walls, qty ${acceptTarget.quantity}.`,
+          `Est. ${acceptTarget.estimated_grams.toFixed(1)} g / ${acceptTarget.estimated_hours.toFixed(1)} h.`,
+          piecesStr,
+        ].filter(Boolean).join(" ");
+      }
 
       const { data: newOrders, error: orderErr } = await supabase.from("orders").insert({
-        product_title: `3D Print — ${acceptDraft.material}${acceptDraft.color ? ` (${acceptDraft.color})` : ""}`,
+        product_title: productTitle,
         customer_phone: phone,
         status: "quote_approved",
         eta: acceptDraft.deliveryDate ? new Date(acceptDraft.deliveryDate).toISOString() : null,
@@ -827,20 +881,49 @@ const Admin = () => {
                             </div>
                           )}
                           {o.pieces?.length ? (
-                            <table className="w-full text-xs mt-2">
-                              <tbody>
-                                {o.pieces.map((p, i) => (
-                                  <tr key={i} className="border-t border-slate-100">
-                                    <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
-                                    <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                            hasPerPartSpecs(o.pieces) ? (
+                              <table className="w-full text-xs mt-2 border-collapse">
+                                <thead>
+                                  <tr className="border-b border-slate-200 text-slate-400">
+                                    <th className="py-0.5 pr-2 text-left font-medium">Pieza</th>
+                                    <th className="py-0.5 pr-2 text-right font-medium">×</th>
+                                    <th className="py-0.5 pr-2 text-left font-medium">Material</th>
+                                    <th className="py-0.5 pr-2 text-right font-medium">%</th>
+                                    <th className="py-0.5 pr-2 text-right font-medium">W</th>
+                                    <th className="py-0.5 pr-2 text-left font-medium">Color</th>
+                                    {o.pieces.some(p => p.costCents != null) && <th className="py-0.5 text-right font-medium">€</th>}
                                   </tr>
-                                ))}
-                                <tr className="border-t border-slate-300">
-                                  <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
-                                  <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
-                                </tr>
-                              </tbody>
-                            </table>
+                                </thead>
+                                <tbody>
+                                  {o.pieces.map((p, i) => (
+                                    <tr key={i} className="border-t border-slate-100">
+                                      <td className="py-0.5 pr-2 text-slate-600 max-w-[120px] truncate">{p.name}</td>
+                                      <td className="py-0.5 pr-2 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                      <td className="py-0.5 pr-2 text-slate-700">{p.material ?? "—"}</td>
+                                      <td className="py-0.5 pr-2 text-slate-600 text-right">{p.infill != null ? p.infill : "—"}</td>
+                                      <td className="py-0.5 pr-2 text-slate-600 text-right">{p.wallLoops != null ? p.wallLoops : "—"}</td>
+                                      <td className="py-0.5 pr-2 text-slate-500 max-w-[80px] truncate">{p.color ?? "—"}</td>
+                                      {o.pieces!.some(p => p.costCents != null) && <td className="py-0.5 text-slate-700 text-right">{p.costCents != null ? `€${(p.costCents/100).toFixed(2)}` : "—"}</td>}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            ) : (
+                              <table className="w-full text-xs mt-2">
+                                <tbody>
+                                  {o.pieces.map((p, i) => (
+                                    <tr key={i} className="border-t border-slate-100">
+                                      <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
+                                      <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                    </tr>
+                                  ))}
+                                  <tr className="border-t border-slate-300">
+                                    <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+                                    <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            )
                           ) : null}
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
@@ -938,20 +1021,47 @@ const Admin = () => {
                                   </div>
                                 )}
                                 {o.pieces?.length ? (
-                                  <table className="w-full text-xs mt-2">
-                                    <tbody>
-                                      {o.pieces.map((p, i) => (
-                                        <tr key={i} className="border-t border-slate-100">
-                                          <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
-                                          <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                  hasPerPartSpecs(o.pieces) ? (
+                                    <table className="w-full text-xs mt-2 border-collapse">
+                                      <thead>
+                                        <tr className="border-b border-slate-200 text-slate-400">
+                                          <th className="py-0.5 pr-2 text-left font-medium">Pieza</th>
+                                          <th className="py-0.5 pr-2 text-right font-medium">×</th>
+                                          <th className="py-0.5 pr-2 text-left font-medium">Material</th>
+                                          <th className="py-0.5 pr-2 text-right font-medium">%</th>
+                                          <th className="py-0.5 pr-2 text-right font-medium">W</th>
+                                          <th className="py-0.5 text-left font-medium">Color</th>
                                         </tr>
-                                      ))}
-                                      <tr className="border-t border-slate-300">
-                                        <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
-                                        <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                                      </thead>
+                                      <tbody>
+                                        {o.pieces.map((p, i) => (
+                                          <tr key={i} className="border-t border-slate-100">
+                                            <td className="py-0.5 pr-2 text-slate-600 max-w-[120px] truncate">{p.name}</td>
+                                            <td className="py-0.5 pr-2 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                            <td className="py-0.5 pr-2 text-slate-700">{p.material ?? "—"}</td>
+                                            <td className="py-0.5 pr-2 text-slate-600 text-right">{p.infill != null ? p.infill : "—"}</td>
+                                            <td className="py-0.5 pr-2 text-slate-600 text-right">{p.wallLoops != null ? p.wallLoops : "—"}</td>
+                                            <td className="py-0.5 text-slate-500 max-w-[80px] truncate">{p.color ?? "—"}</td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  ) : (
+                                    <table className="w-full text-xs mt-2">
+                                      <tbody>
+                                        {o.pieces.map((p, i) => (
+                                          <tr key={i} className="border-t border-slate-100">
+                                            <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
+                                            <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                          </tr>
+                                        ))}
+                                        <tr className="border-t border-slate-300">
+                                          <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+                                          <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  )
                                 ) : null}
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
@@ -1055,20 +1165,45 @@ const Admin = () => {
                         <p className="text-xs text-slate-400 mb-0.5">Qty</p>
                         <p className="text-sm font-semibold text-slate-800">{q.quantity} unit{q.quantity !== 1 ? "s" : ""}</p>
                         {q.pieces?.length ? (
-                          <table className="w-full text-xs mt-1.5">
-                            <tbody>
-                              {q.pieces.map((p, i) => (
-                                <tr key={i} className="border-t border-slate-100">
-                                  <td className="py-0.5 pr-2 text-slate-600 max-w-[110px] truncate">{p.name}</td>
-                                  <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                          hasPerPartSpecs(q.pieces) ? (
+                            <table className="w-full text-xs mt-1.5 border-collapse">
+                              <thead>
+                                <tr className="border-b border-slate-200 text-slate-400">
+                                  <th className="py-0.5 pr-1 text-left font-medium">Pieza</th>
+                                  <th className="py-0.5 pr-1 text-right font-medium">×</th>
+                                  <th className="py-0.5 pr-1 text-left font-medium">Mat.</th>
+                                  <th className="py-0.5 pr-1 text-right font-medium">%</th>
+                                  <th className="py-0.5 text-right font-medium">W</th>
                                 </tr>
-                              ))}
-                              <tr className="border-t border-slate-300">
-                                <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
-                                <td className="py-0.5 font-bold text-slate-900 text-right">{q.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                {q.pieces.map((p, i) => (
+                                  <tr key={i} className="border-t border-slate-100">
+                                    <td className="py-0.5 pr-1 text-slate-600 max-w-[90px] truncate">{p.name}</td>
+                                    <td className="py-0.5 pr-1 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                    <td className="py-0.5 pr-1 text-slate-700">{p.material ?? "—"}</td>
+                                    <td className="py-0.5 pr-1 text-slate-600 text-right">{p.infill != null ? p.infill : "—"}</td>
+                                    <td className="py-0.5 text-slate-600 text-right">{p.wallLoops != null ? p.wallLoops : "—"}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <table className="w-full text-xs mt-1.5">
+                              <tbody>
+                                {q.pieces.map((p, i) => (
+                                  <tr key={i} className="border-t border-slate-100">
+                                    <td className="py-0.5 pr-2 text-slate-600 max-w-[110px] truncate">{p.name}</td>
+                                    <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+                                  </tr>
+                                ))}
+                                <tr className="border-t border-slate-300">
+                                  <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+                                  <td className="py-0.5 font-bold text-slate-900 text-right">{q.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          )
                         ) : (
                           <p className="text-xs text-slate-400 mt-1 italic">Per-piece split not recorded (order placed before this update)</p>
                         )}
