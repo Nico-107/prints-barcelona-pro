@@ -77,8 +77,12 @@ interface PieceSpec {
   color?: string | null;
   infill?: number | null;
   wallLoops?: number | null;
+  quality?: string | null;
+  supports?: boolean | null;
+  orientationName?: string | null;
   multicolour?: boolean | null;
   gramsPerUnit?: number | null;
+  est?: { gramsPerUnit?: number; hours?: number; supportCm3?: number } | null;
 }
 
 interface QuoteRequestPayload {
@@ -95,6 +99,7 @@ interface QuoteRequestPayload {
   totalUnits?: number;
   priceLow?: number;
   priceHigh?: number;
+  priceExact?: number;
   language?: string;
   urgency?: string | null;
   sourceCity?: string | null;
@@ -156,7 +161,7 @@ const handler = async (req: Request): Promise<Response> => {
     const {
       filePaths, fileNames, contactEmail, contactPhone,
       material, color, infillPct, wallLoops,
-      totalGrams, totalHours, totalUnits, priceLow, priceHigh, language,
+      totalGrams, totalHours, totalUnits, priceLow, priceHigh, priceExact, language,
       urgency, sourceCity, pieces, ph_distinct_id, quote_id,
       requestType, description, dimensions, quantity, photosFailed,
     } = payload;
@@ -348,6 +353,10 @@ const handler = async (req: Request): Promise<Response> => {
             if (p.material && KNOWN_QUOTE_MATERIALS.has(p.material)) specParts.push(sanitize(p.material));
             if (p.infill != null) specParts.push(`${sanitize(String(p.infill))}% relleno`);
             if (p.wallLoops != null) specParts.push(`${sanitize(String(p.wallLoops))} paredes`);
+            if (p.quality) specParts.push(sanitize(p.quality));
+            if (p.supports != null) specParts.push(p.supports ? "con soportes" : "sin soportes");
+            if (p.orientationName) specParts.push(sanitize(p.orientationName));
+            if (p.est?.gramsPerUnit != null) specParts.push(`${Number(p.est.gramsPerUnit).toFixed(1)} g`);
             if (p.color) specParts.push(sanitize(p.color.trim()));
             const specLine = specParts.length > 0
               ? `<br><span style="font-size:12px;color:#6b7280;">${specParts.join(" · ")}</span>`
@@ -374,7 +383,7 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
         to: recipients,
-        subject: `[REVISIÓN] Cliente envió archivo — ${safeMaterial} · €${Math.round(priceLow ?? 0)}–€${Math.round(priceHigh ?? 0)}`,
+        subject: `[REVISIÓN] Cliente envió archivo — ${safeMaterial} · ${priceExact != null ? `€${Number(priceExact).toFixed(2)}` : `€${Math.round(priceLow ?? 0)}–€${Math.round(priceHigh ?? 0)}`}`,
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
             <h1 style="color:#0f172a;">Nueva solicitud de presupuesto instantáneo</h1>
@@ -399,6 +408,7 @@ const handler = async (req: Request): Promise<Response> => {
               <p><strong>Tiempo estimado:</strong> ${Number(totalHours ?? 0).toFixed(1)} h</p>
               <p><strong>Unidades totales:</strong> ${totalUnits ?? 0}</p>
               <p><strong>Rango de precio mostrado:</strong> €${Math.round(priceLow ?? 0)} – €${Math.round(priceHigh ?? 0)}</p>
+              ${priceExact != null ? `<p style="font-size:16px;font-weight:bold;color:#065f46;"><strong>Precio calculado: EUR ${Number(priceExact).toFixed(2)}</strong></p>` : ""}
             </div>
 
             ${stlSectionHtml}

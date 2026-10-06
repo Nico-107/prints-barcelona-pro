@@ -23,7 +23,7 @@ import { capture, get_distinct_id, get_session_id } from "@/lib/analytics";
 import { getStoredUTM } from "@/lib/utm";
 
 const SITE_URL = "https://www.dimension3dprints.com";
-const SHIPPING_FEE_EUROS = 5;
+const SHIPPING_FEE_EUROS = 5.9;
 
 const FIXED_FAQ = {
   q: {

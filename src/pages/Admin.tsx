@@ -669,6 +669,27 @@ const Admin = () => {
     }
   };
 
+  const exportEstimatesCsv = () => {
+    const header = "date,file_name,material,infill_pct,quantity,grams,est_hours,price_low,price_high";
+    const rows = estimates.map(e => [
+      new Date(e.created_at).toISOString(),
+      `"${(e.file_name ?? "").replace(/"/g, '""')}"`,
+      e.material,
+      e.infill_pct,
+      e.quantity,
+      Number(e.grams).toFixed(2),
+      Number(e.est_hours).toFixed(2),
+      Number(e.price_low).toFixed(2),
+      Number(e.price_high).toFixed(2),
+    ].join(","));
+    const csv = [header, ...rows].join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.download = `price_estimates_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
   // ── Auth screens ─────────────────────────────────────────────────────────────
 
   if (authChecked && session && !isAdmin) {
@@ -1142,9 +1163,13 @@ const Admin = () => {
                       </div>
                       <div className="text-right shrink-0">
                         <div className="text-2xl font-bold text-slate-900">
-                          €{Math.round(q.estimated_price_low)}–{Math.round(q.estimated_price_high)}
+                          {q.estimated_price_low === q.estimated_price_high
+                            ? `€${Number(q.estimated_price_low).toFixed(2)}`
+                            : `€${Math.round(q.estimated_price_low)}–${Math.round(q.estimated_price_high)}`}
                         </div>
-                        <div className="text-xs text-slate-400">estimated range</div>
+                        <div className="text-xs text-slate-400">
+                          {q.estimated_price_low === q.estimated_price_high ? "exact price" : "estimated range"}
+                        </div>
                       </div>
                     </div>
 
@@ -1333,9 +1358,17 @@ const Admin = () => {
         {/* ── Price Estimates tab ────────────────────────────────────────────── */}
         {activeTab === "estimates" && (
           <>
-            <div className="mb-6">
-              <h2 className="text-base font-semibold text-slate-900">Price Estimate Log</h2>
-              <p className="text-sm text-slate-500">Last 100 calculator uses</p>
+            <div className="mb-6 flex items-center justify-between gap-4 flex-wrap">
+              <div>
+                <h2 className="text-base font-semibold text-slate-900">Price Estimate Log</h2>
+                <p className="text-sm text-slate-500">Last 100 calculator uses</p>
+              </div>
+              {estimates.length > 0 && (
+                <Button variant="outline" size="sm" className="gap-1.5" onClick={exportEstimatesCsv}>
+                  <Download className="w-3.5 h-3.5" />
+                  Download CSV
+                </Button>
+              )}
             </div>
             {estimatesLoading ? (
               <div className="flex items-center justify-center py-16 text-slate-400">
@@ -1375,7 +1408,11 @@ const Admin = () => {
                           <td className="px-4 py-3 text-slate-600">{e.quantity}</td>
                           <td className="px-4 py-3 text-slate-600">{Number(e.grams).toFixed(1)} g</td>
                           <td className="px-4 py-3 text-slate-600">{Number(e.est_hours).toFixed(1)} h</td>
-                          <td className="px-4 py-3 font-semibold text-slate-800">€{Number(e.price_low).toFixed(0)}–{Number(e.price_high).toFixed(0)}</td>
+                          <td className="px-4 py-3 font-semibold text-slate-800">
+                            {e.price_low === e.price_high
+                              ? `€${Number(e.price_low).toFixed(2)}`
+                              : `€${Number(e.price_low).toFixed(0)}–€${Number(e.price_high).toFixed(0)}`}
+                          </td>
                           <td className="px-4 py-3">
                             {e.file_paths && e.file_paths.length > 0 ? (
                               <div className="flex flex-wrap gap-1.5">
@@ -1523,7 +1560,7 @@ const Admin = () => {
           {acceptTarget && (
             <div className="space-y-4 py-1">
               <div className="bg-slate-50 rounded-lg p-3 text-xs text-slate-500 space-y-0.5">
-                <p>Estimate: €{Math.round(acceptTarget.estimated_price_low)}–{Math.round(acceptTarget.estimated_price_high)} · {acceptTarget.material} · {acceptTarget.infill} · qty {acceptTarget.quantity}</p>
+                <p>Estimate: {acceptTarget.estimated_price_low === acceptTarget.estimated_price_high ? `€${Number(acceptTarget.estimated_price_low).toFixed(2)}` : `€${Math.round(acceptTarget.estimated_price_low)}–€${Math.round(acceptTarget.estimated_price_high)}`} · {acceptTarget.material} · {acceptTarget.infill} · qty {acceptTarget.quantity}</p>
                 {acceptTarget.contact_email && <p>Will send confirmation email to <strong>{acceptTarget.contact_email}</strong></p>}
               </div>
 

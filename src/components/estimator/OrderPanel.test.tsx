@@ -7,8 +7,10 @@ import React from "react";
 import { OrderPanel } from "./OrderPanel";
 import { PartRow } from "./PartRow";
 import { DefaultSettings } from "./DefaultSettings";
-import { computeBundleV2 } from "@/lib/pricing";
+import { computeBundleV3 } from "@/lib/estimate";
 import type { ParsedFile, PartDefaults, MaterialOption } from "@/lib/pricing";
+import { analyzeTriangles } from "@/lib/estimator/core";
+import { boxMesh } from "@/lib/estimator/fixtures";
 
 const MATERIAL_OPTIONS: MaterialOption[] = [
   { key: "PLA",  label: "PLA",  descriptorKey: "calc.mat.pla.desc"  },
@@ -69,17 +71,22 @@ const BASE_PROPS = {
   adminMode: false,
 };
 
+const _a40 = analyzeTriangles(boxMesh(40, 40, 40));
+const _a30 = analyzeTriangles(boxMesh(30, 30, 30));
+const _a50 = analyzeTriangles(boxMesh(50, 50, 50));
+const _a35 = analyzeTriangles(boxMesh(35, 35, 35));
+
 // E1 files
 const E1_FILES: ParsedFile[] = [
-  { id: "a", name: "soporte.stl", sizeBytes: 1000, volumeMm3: 30000, qty: 2, settings: { material: "PETG", infill: 50, wallLoops: 3 } },
-  { id: "b", name: "tapa.stl",    sizeBytes: 1000, volumeMm3: 15000, qty: 1, settings: { material: "TPU",  infill: 20, wallLoops: 2 } },
-  { id: "c", name: "eje.stl",     sizeBytes: 1000, volumeMm3: 40000, qty: 4, settings: { material: "PLA",  infill: 20, wallLoops: 2 } },
+  { id: "a", name: "soporte.stl", sizeBytes: 1000, volumeMm3: _a40.volumeMm3, qty: 2, analysis: _a40, settings: { material: "PETG", infill: 50, wallLoops: 3 } },
+  { id: "b", name: "tapa.stl",    sizeBytes: 1000, volumeMm3: _a30.volumeMm3, qty: 1, analysis: _a30, settings: { material: "TPU",  infill: 20, wallLoops: 2 } },
+  { id: "c", name: "eje.stl",     sizeBytes: 1000, volumeMm3: _a50.volumeMm3, qty: 4, analysis: _a50, settings: { material: "PLA",  infill: 20, wallLoops: 2 } },
 ];
 
 // One customized, one default
 const MIXED_FILES: ParsedFile[] = [
-  { id: "x", name: "custom.stl", sizeBytes: 500, volumeMm3: 20000, qty: 1, settings: { material: "PETG", infill: 30 } },
-  { id: "y", name: "default.stl", sizeBytes: 500, volumeMm3: 20000, qty: 1 },
+  { id: "x", name: "custom.stl",  sizeBytes: 500, volumeMm3: _a35.volumeMm3, qty: 1, analysis: _a35, settings: { material: "PETG", infill: 30 } },
+  { id: "y", name: "default.stl", sizeBytes: 500, volumeMm3: _a35.volumeMm3, qty: 1, analysis: _a35 },
 ];
 
 function renderHydrate(element: React.ReactElement): { errors: string[] } {
@@ -136,7 +143,7 @@ describe("Hydration: OrderPanel — empty cart", () => {
 describe("Hydration: OrderPanel — E1 three-part order", () => {
   it("no recoverable errors or hydration mismatches", () => {
     const validFiles = E1_FILES;
-    const bundle = computeBundleV2(validFiles, DEFAULTS, "standard");
+    const bundle = computeBundleV3(validFiles, DEFAULTS, "standard");
     expect(bundle).not.toBeNull();
 
     const { errors } = renderHydrate(
@@ -159,7 +166,7 @@ describe("Hydration: OrderPanel — E1 three-part order", () => {
 describe("Hydration: OrderPanel — one customized, one default", () => {
   it("no recoverable errors or hydration mismatches", () => {
     const validFiles = MIXED_FILES;
-    const bundle = computeBundleV2(validFiles, DEFAULTS, "standard");
+    const bundle = computeBundleV3(validFiles, DEFAULTS, "standard");
     expect(bundle).not.toBeNull();
 
     const { errors } = renderHydrate(

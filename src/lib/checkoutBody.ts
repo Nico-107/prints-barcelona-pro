@@ -1,25 +1,29 @@
-import type { ParsedFile, PartDefaults, BundleEstimateV2 } from "./pricing";
+import type { ParsedFile, PartDefaults } from "./pricing";
 import { effectivePartSettings } from "./pricing";
+import type { BundleEstimateV3 } from "./estimate";
 import { summarizeParts } from "./summarizeParts";
 
-export interface CheckoutPiece {
+export interface CheckoutPieceV3 {
   name: string;
   quantity: number;
   path: string | null;
   material: string;
   infill: number;
   wallLoops: number;
+  quality: string;
+  supports: boolean;
+  orientation: 'auto' | number;
   color: string | null;
-  volumeMm3: number;
   multicolour: boolean;
 }
 
 export interface CheckoutBody {
-  pricingVersion: 2;
+  pricingVersion: 3;
   urgency: string;
   fulfillment: "pickup" | "shipping";
   exactPrice: number;
-  pieces: CheckoutPiece[];
+  pieces: CheckoutPieceV3[];
+  // Legacy summary fields (server ignores, notes/analytics use them)
   material: string;
   color: string | null;
   infill: number | null;
@@ -43,7 +47,7 @@ export interface CheckoutBody {
 export interface BuildCheckoutBodyParams {
   validFiles: ParsedFile[];
   defaults: PartDefaults;
-  bundle: BundleEstimateV2;
+  bundle: BundleEstimateV3;
   urgency: string;
   fulfillment: "pickup" | "shipping";
   uploaded: { paths: string[]; names: string[]; byId: Record<string, string> };
@@ -61,8 +65,12 @@ export interface BuildCheckoutBodyParams {
 }
 
 export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
-  const pieces: CheckoutPiece[] = p.validFiles.map(f => {
+  const pieces: CheckoutPieceV3[] = p.validFiles.map((f, i) => {
     const eff = effectivePartSettings(f, p.defaults);
+    const estimate = p.bundle.estimates[i];
+    const chosenOrientation: 'auto' | number = estimate
+      ? estimate.orientation
+      : eff.orientation;
     return {
       name: f.name,
       quantity: f.qty,
@@ -70,19 +78,26 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
       material: eff.material,
       infill: eff.infill,
       wallLoops: eff.wallLoops,
+      quality: eff.quality,
+      supports: eff.supports,
+      orientation: chosenOrientation,
       color: eff.color || null,
-      volumeMm3: f.volumeMm3,
       multicolour: eff.multicolour,
     };
   });
 
-  const summary = summarizeParts(pieces);
+  const summary = summarizeParts(pieces.map(pc => ({
+    material: pc.material,
+    infill: pc.infill,
+    wallLoops: pc.wallLoops,
+    multicolour: pc.multicolour,
+  })));
 
   return {
-    pricingVersion: 2,
+    pricingVersion: 3,
     urgency: p.urgency,
     fulfillment: p.fulfillment,
-    exactPrice: p.bundle.orderResult.chargedPrintCents / 100,
+    exactPrice: p.bundle.order.totalCents / 100,
     pieces,
     material: summary.material,
     color: p.colorPref.trim() || null,

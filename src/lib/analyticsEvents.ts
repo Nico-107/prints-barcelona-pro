@@ -20,6 +20,10 @@ interface EstimateGeneratedProps {
   price_high?: number;
   file_count?: number;
   multicolour?: boolean;
+  pricing_version?: number;
+  estimated_hours?: number;
+  support_cm3?: number;
+  orientation_saving_eur?: number;
 }
 
 interface EstimateAbandonedProps {
@@ -70,6 +74,8 @@ interface InstantCheckoutInitiatedProps {
   total_units?: number;
   is_mixed?: boolean;
   materials_count?: number;
+  pricing_version?: number;
+  quality?: string;
 }
 
 interface InstantCheckoutCompletedProps {

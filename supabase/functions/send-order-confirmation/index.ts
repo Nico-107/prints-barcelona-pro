@@ -17,7 +17,11 @@ interface ConfirmationPiece {
   color?: string | null;
   infill?: number | null;
   wallLoops?: number | null;
+  quality?: string | null;
+  supports?: boolean | null;
+  orientation?: string | number | null;
   costCents?: number | null;
+  est?: { gramsPerUnit?: number; hours?: number } | null;
 }
 
 interface ConfirmationPayload {
@@ -280,28 +284,34 @@ serve(async (req: Request) => {
           ? (() => {
               const hasPerPart = pieces.some((p: ConfirmationPiece) => p.material);
               const hasCost    = pieces.some((p: ConfirmationPiece) => p.costCents != null);
+              const hasEst     = pieces.some((p: ConfirmationPiece) => p.est != null);
               const thStyle    = "text-align:left;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;";
               const tdStyle    = "padding:3px 6px;border:1px solid #e2e8f0;";
               const tdR        = "padding:3px 6px;border:1px solid #e2e8f0;text-align:right;";
+              const perPartCols = hasPerPart ? 6 : 0;
+              const estCols     = hasEst ? 3 : 0;
               return `<p style="margin:6px 0;"><strong>Cantidad total:</strong> ${quantity ?? 1}</p>
              <table style="width:100%;border-collapse:collapse;margin:6px 0 8px 0;font-size:12px;">
                <thead><tr>
                  <th style="${thStyle}">Pieza</th>
                  <th style="${thStyle}text-align:right;">Cant.</th>
-                 ${hasPerPart ? `<th style="${thStyle}">Material</th><th style="${thStyle}">Relleno</th><th style="${thStyle}">Paredes</th><th style="${thStyle}">Color</th>` : ""}
+                 ${hasPerPart ? `<th style="${thStyle}">Material</th><th style="${thStyle}">Relleno</th><th style="${thStyle}">Paredes</th><th style="${thStyle}">Color</th><th style="${thStyle}">Calidad</th><th style="${thStyle}">Soportes</th>` : ""}
+                 ${hasEst ? `<th style="${thStyle}text-align:right;">g/u</th><th style="${thStyle}text-align:right;">h</th><th style="${thStyle}">Orient.</th>` : ""}
                  ${hasCost ? `<th style="${thStyle}text-align:right;">Importe</th>` : ""}
                </tr></thead>
                <tbody>
                  ${pieces.map((p: ConfirmationPiece) => `<tr>
                    <td style="${tdStyle}">${sanitize(p.name)}</td>
                    <td style="${tdR}">${p.quantity}</td>
-                   ${hasPerPart ? `<td style="${tdStyle}">${p.material ? sanitize(p.material) : "—"}</td><td style="${tdStyle}">${p.infill != null ? sanitize(String(p.infill)) + "%" : "—"}</td><td style="${tdStyle}">${p.wallLoops != null ? sanitize(String(p.wallLoops)) : "—"}</td><td style="${tdStyle}">${p.color ? sanitize(p.color) : "—"}</td>` : ""}
+                   ${hasPerPart ? `<td style="${tdStyle}">${p.material ? sanitize(p.material) : "—"}</td><td style="${tdStyle}">${p.infill != null ? sanitize(String(p.infill)) + "%" : "—"}</td><td style="${tdStyle}">${p.wallLoops != null ? sanitize(String(p.wallLoops)) : "—"}</td><td style="${tdStyle}">${p.color ? sanitize(p.color) : "—"}</td><td style="${tdStyle}">${p.quality ? sanitize(p.quality) : "—"}</td><td style="${tdStyle}">${p.supports != null ? (p.supports ? "sí" : "no") : "—"}</td>` : ""}
+                   ${hasEst ? `<td style="${tdR}">${p.est?.gramsPerUnit != null ? Number(p.est.gramsPerUnit).toFixed(1) : "—"}</td><td style="${tdR}">${p.est?.hours != null ? Number(p.est.hours).toFixed(2) : "—"}</td><td style="${tdStyle}">${p.orientation != null ? sanitize(String(p.orientation)) : "—"}</td>` : ""}
                    ${hasCost ? `<td style="${tdR}">${p.costCents != null ? "€" + (p.costCents / 100).toFixed(2) : "—"}</td>` : ""}
                  </tr>`).join("")}
                  <tr style="font-weight:bold;border-top:2px solid #cbd5e1;">
                    <td style="${tdStyle}">Total</td>
                    <td style="${tdR}">${pieces.reduce((s: number, p: ConfirmationPiece) => s + p.quantity, 0)}</td>
-                   ${hasPerPart ? `<td colspan="4" style="${tdStyle}"></td>` : ""}
+                   ${hasPerPart ? `<td colspan="${perPartCols}" style="${tdStyle}"></td>` : ""}
+                   ${hasEst ? `<td colspan="${estCols}" style="${tdStyle}"></td>` : ""}
                    ${hasCost ? `<td style="${tdR}"></td>` : ""}
                  </tr>
                </tbody>

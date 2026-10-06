@@ -1,19 +1,20 @@
 import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { ParsedFile, PartSettings, PartDefaults, MaterialOption, BundleEstimateV2 } from "@/lib/pricing";
-import { effectivePartSettings, isPartCustomized, INSTANT_MATERIALS } from "@/lib/pricing";
+import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
+import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
+import type { BundleEstimateV3 } from "@/lib/estimate";
+import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"];
-const SHIPPING_SURCHARGE = 6;
 
 interface OrderPanelProps {
   // Parts
   parsedFiles: ParsedFile[];
   validFiles: ParsedFile[];
-  bundle: BundleEstimateV2 | null;
+  bundle: BundleEstimateV3 | null;
   defaults: PartDefaults;
 
   // Part interactions
@@ -123,10 +124,10 @@ export function OrderPanel({
     return FAST_PICKUP_MATERIALS.includes(mat);
   });
 
-  // Check if every valid part's effective material is in INSTANT_MATERIALS
+  // Check if every valid part's effective material is instant-buy eligible (via EST.materials)
   const instantEligibleMaterials = validFiles.every(f => {
     const mat = effectivePartSettings(f, defaults).material;
-    return INSTANT_MATERIALS.includes(mat);
+    return !!EST.materials[mat]?.instant;
   });
 
   // Check if any part has multicolour
@@ -138,7 +139,7 @@ export function OrderPanel({
 
   // Effective instant display price
   const chargedPrint = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
-  const shippingFee = fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0;
+  const shippingFee = fulfillment === "shipping" ? EST.shippingCents / 100 : 0;
   const instantTotalPrice = instantBuyEligible ? chargedPrint + shippingFee : null;
 
   const disabled = isCheckingOut || isSubmittingQuote;
@@ -214,7 +215,7 @@ export function OrderPanel({
           {fulfillment === "shipping" && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.shipping")}</span>
-              <span>+€{SHIPPING_SURCHARGE.toFixed(2)}</span>
+              <span>+€{(EST.shippingCents / 100).toFixed(2)}</span>
             </div>
           )}
           <div className="flex justify-between font-semibold border-t border-border pt-1 mt-1">
@@ -284,7 +285,7 @@ export function OrderPanel({
               }`}
             >
               {t("calc.instantBuy.fulfillment.shipping")}
-              <span className="text-muted-foreground text-xs ml-1">+€{SHIPPING_SURCHARGE.toFixed(2)}</span>
+              <span className="text-muted-foreground text-xs ml-1">+€{(EST.shippingCents / 100).toFixed(2)}</span>
             </button>
 
             {fulfillmentAttempted && fulfillment === null && (

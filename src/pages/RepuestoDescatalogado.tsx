@@ -225,7 +225,7 @@ const RepuestoDescatalogado = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Envía fotos de la pieza desde 3 ángulos con referencia de escala por WhatsApp. En menos de 1 hora te decimos si podemos reproducirla y a qué precio. Si la pieza ya existe en Thingiverse o Printables, lo decimos y reducimos el coste. Si no, la modelamos nosotros. La mayoría de piezas están listas en 24–48 horas; recogida en Barcelona o envío por 4,90€.
+                  Envía fotos de la pieza desde 3 ángulos con referencia de escala por WhatsApp. En menos de 1 hora te decimos si podemos reproducirla y a qué precio. Si la pieza ya existe en Thingiverse o Printables, lo decimos y reducimos el coste. Si no, la modelamos nosotros. La mayoría de piezas están listas en 24–48 horas; recogida en Barcelona o envío por 5,90€.
                 </p>
               </div>
               <div className="space-y-6">
@@ -248,7 +248,7 @@ const RepuestoDescatalogado = () => {
                   {
                     step: "04",
                     title: "Recoges o enviamos a toda España",
-                    body: "Recogida sin coste en nuestro taller de Rambla del Brasil, 53, Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 4,90€.",
+                    body: "Recogida sin coste en nuestro taller de Rambla del Brasil, 53, Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 5,90€.",
                   },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">

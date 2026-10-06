@@ -181,12 +181,17 @@ export function buildStripeLineItems(
 
 // ─── Per-part settings ────────────────────────────────────────────────────────
 
+import type { MeshAnalysis, QualityKey } from "./estimator/core";
+
 export interface PartSettings {
   material?: string;
   color?: string;
   infill?: number;
   wallLoops?: number;
   multicolour?: boolean;
+  quality?: QualityKey;
+  supports?: boolean;
+  orientation?: 'auto' | number;
 }
 
 export interface PartDefaults {
@@ -195,6 +200,9 @@ export interface PartDefaults {
   infill: number;
   wallLoops: number;
   multicolour: boolean;
+  quality?: QualityKey;
+  supports?: boolean;
+  orientation?: 'auto' | number;
 }
 
 export interface ParsedFileForPricing {
@@ -204,6 +212,7 @@ export interface ParsedFileForPricing {
   parseError?: string;
   hasHeavyOverhangs?: boolean;
   settings?: PartSettings;
+  analysis?: MeshAnalysis;
 }
 
 export interface ParsedFile extends ParsedFileForPricing {
@@ -228,6 +237,9 @@ export function effectivePartSettings(
     infill: part.settings?.infill ?? defaults.infill,
     wallLoops: part.settings?.wallLoops ?? defaults.wallLoops,
     multicolour: part.settings?.multicolour ?? defaults.multicolour,
+    quality: part.settings?.quality ?? defaults.quality ?? 'standard',
+    supports: part.settings?.supports ?? defaults.supports ?? true,
+    orientation: part.settings?.orientation ?? defaults.orientation ?? 'auto',
   };
 }
 
@@ -239,7 +251,10 @@ export function isPartCustomized(part: ParsedFileForPricing): boolean {
     s.color !== undefined ||
     s.infill !== undefined ||
     s.wallLoops !== undefined ||
-    s.multicolour !== undefined
+    s.multicolour !== undefined ||
+    s.quality !== undefined ||
+    s.supports !== undefined ||
+    s.orientation !== undefined
   );
 }
 

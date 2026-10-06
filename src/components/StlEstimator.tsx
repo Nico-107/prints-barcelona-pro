@@ -9,12 +9,15 @@ import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
-import { parseStl } from "@/lib/stlAnalysis";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { useExperiment } from "@/lib/useExperiment";
 import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
-import { MATERIALS, INSTANT_MATERIALS, effectivePartSettings, computeBundleV2, wallFactor } from "@/lib/pricing";
+import { effectivePartSettings } from "@/lib/pricing";
+import { computeBundleV3 } from "@/lib/estimate";
+import type { BundleEstimateV3 } from "@/lib/estimate";
+import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
+import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
@@ -28,12 +31,7 @@ const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — 
 const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
 const MAX_FILES = 20;
 
-const RATE_PER_GRAM = 0.22; // kept for price_estimates analytics
-const MIN_PRICE = 10;
-const RANGE_LOW_FLOOR = 10;
-const RANGE_HIGH_FLOOR = 20;
-
-const SHIPPING_SURCHARGE = 6;
+const V3_VERIFY_MAX_BYTES = 30 * 1024 * 1024;
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"] as const;
 
 // Material UI labels — density/multiplier come from @/lib/pricing MATERIALS
@@ -243,24 +241,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour };
+  const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
-  const bundle = computeBundleV2(parsedFiles, defaults, urgency);
+  const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
 
   const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
-  const instantEligibleMaterials = validFiles.length > 0 && validFiles.every(
-    f => (INSTANT_MATERIALS as readonly string[]).includes(effectivePartSettings(f, defaults).material)
-  );
-  const instantBuyEligible =
-    !adminMode &&
-    !anyMulticolour &&
-    instantEligibleMaterials &&
-    bundle !== null &&
-    bundle.orderResult.eligible;
+  const filesWithinVerifyLimit = validFiles.every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES) &&
+    validFiles.reduce((s, f) => s + f.sizeBytes, 0) <= 60 * 1024 * 1024;
+  const instantBuyEligible = instantBuyAllowed({
+    adminMode,
+    anyMulticolour,
+    eligible: bundle?.orderResult.eligible ?? false,
+    filesWithinVerifyLimit,
+    flagReady: CHECKOUT_V3_READY,
+  });
   const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
   const instantTotalPrice = instantBuyEligible
-    ? chargedPrice + (fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0)
+    ? chargedPrice + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0)
     : null;
 
   const processFiles = async (newFiles: File[]) => {
@@ -302,12 +300,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
       try {
         const buf = await f.arrayBuffer();
-        const { volumeMm3, hasHeavyOverhangs } = parseStl(buf);
-        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: f, hasHeavyOverhangs });
+        const analysis = analyzeTriangles(stlToTriangles(buf));
+        const volumeMm3 = analysis.volumeMm3;
+        if (analysis.triangles === 0 || volumeMm3 === 0) {
+          capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
+        } else {
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: f, analysis });
+        }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
       }
+      await new Promise(r => setTimeout(r, 0));
     }
 
     const nextFiles = [...parsedFiles, ...results];
@@ -316,8 +321,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setParsingHasLargeFile(false);
 
     if (!adminMode) {
-      const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour };
-      const nextBundle = computeBundleV2(nextFiles, nextDefaults, urgency);
+      const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
+      const nextBundle = computeBundleV3(nextFiles, nextDefaults, urgency);
       if (nextBundle) {
         estimateShownRef.current = true;
         capture('estimate_generated', {
@@ -330,6 +335,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           price_high: Math.round(nextBundle.high),
           file_count: nextFiles.filter(f => !f.parseError).length,
           multicolour,
+          pricing_version: 3,
+          estimated_hours: nextBundle.totalHours,
+          support_cm3: nextBundle.estimates.reduce((s, e) => s + e.supportCm3, 0),
+          orientation_saving_eur: nextBundle.savedByOrientationEur,
         });
 
         // Open confirmation modal once per estimate on all screen sizes
@@ -341,14 +350,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         // Upload files early (fire-and-forget) so submission is near-instant
         const validForUpload = nextFiles.filter(f => !f.parseError && f.file && f.sizeBytes <= MAX_BYTES);
-        const matObj = MATERIALS[materialKey]; // MATERIALS from @/lib/pricing — has density/multiplier
-        const wfVal = wallFactor(wallLoops);
-        const effFill = wfVal + (infillPct / 100) * (1 - wfVal);
-        const capturedInfill = infillPct;
         const capturedLang = language;
-        const capturedWallLoops = wallLoops;
-        const capturedUrgency = urgency;
         const capturedMulticolour = multicolour;
+        const capturedDefaults: PartDefaults = { ...nextDefaults };
 
         (async () => {
           const uploadTimestamp = Date.now();
@@ -377,20 +381,26 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           }
 
           // Insert price_estimates per valid file (with paths if upload succeeded)
-          for (const f of nextFiles.filter(f2 => !f2.parseError)) {
-            const volCm3 = f.volumeMm3 / 1000;
-            const gr = volCm3 * matObj.density * effFill;
-            const hrs = gr / 28;
-            const unitPrice = Math.max(RATE_PER_GRAM * gr * matObj.multiplier, MIN_PRICE);
+          for (const f of nextFiles.filter(f2 => !f2.parseError && f2.analysis)) {
+            const eff = effectivePartSettings(f, capturedDefaults);
+            const { estimatePart: ep, priceOrder: po } = await import("@/lib/estimator/core");
+            const estimate = ep(f.analysis!, {
+              material: eff.material, infillPct: eff.infill, wallLoops: eff.wallLoops,
+              quality: eff.quality, supports: eff.supports, orientation: eff.orientation,
+            });
+            const singleOrder = po([{ name: f.name, quantity: f.qty, material: eff.material, estimate }], "standard");
+            const exactPrice = singleOrder.totalCents / 100;
+            const gr = estimate.grams;
+            const hrs = estimate.timeSec / 3600;
             const estimateRow: TablesInsert<"price_estimates"> = {
-              volume_cm3: volCm3,
-              material: materialKey,
-              infill_pct: capturedInfill,
+              volume_cm3: f.volumeMm3 / 1000,
+              material: eff.material,
+              infill_pct: eff.infill,
               quantity: f.qty,
               grams: gr,
               est_hours: hrs,
-              price_low: Math.max(unitPrice * 0.85, RANGE_LOW_FLOOR),
-              price_high: Math.max(unitPrice * 1.15, RANGE_HIGH_FLOOR),
+              price_low: exactPrice,
+              price_high: exactPrice,
               file_name: f.name,
               file_paths: uploadedPaths,
               file_names: uploadedNames,
@@ -406,15 +416,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             supabase.functions.invoke("send-price-estimate", {
               body: {
                 fileName: f.name,
-                material: materialKey,
-                infillPct: capturedInfill,
+                material: eff.material,
+                infillPct: eff.infill,
                 quantity: f.qty,
-                volumeCm3: volCm3,
+                volumeCm3: f.volumeMm3 / 1000,
                 grams: gr,
                 estHours: hrs,
-                priceLow: Math.max(unitPrice * 0.85, RANGE_LOW_FLOOR),
-                priceHigh: Math.max(unitPrice * 1.15, RANGE_HIGH_FLOOR),
-                exactPrice: unitPrice,
+                priceLow: exactPrice,
+                priceHigh: exactPrice,
+                exactPrice,
                 filePaths: uploadedPaths,
                 language: capturedLang,
                 sourceCity: refCity ?? null,
@@ -449,8 +459,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const afterRemoval = parsedFiles.filter(f => f.id !== id && !f.parseError);
       if (afterRemoval.length === 0) {
         capture('estimate_abandoned', {
-          price_low: Math.round(bundle.low),
-          price_high: Math.round(bundle.high),
+          price_low: Math.round(bundle.total),
+          price_high: Math.round(bundle.total),
           material: materialKey,
         });
       }
@@ -569,7 +579,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : null;
       const storedUtm = getStoredUTM();
-      const shippingFee = fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0;
+      const shippingFee = fulfillment === "shipping" ? EST.shippingCents / 100 : 0;
       const checkoutBodyPayload = buildCheckoutBody({
         validFiles,
         defaults,
@@ -605,6 +615,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           material: checkoutBodyPayload.material,
         }));
       } catch {}
+      const qualityVals = validFiles.map(f => effectivePartSettings(f, defaults).quality);
+      const uniformQuality = qualityVals.every(q => q === qualityVals[0]) ? qualityVals[0] : "mixed";
       capture('instant_checkout_initiated', {
         material: uniqueMats.length === 1 ? uniqueMats[0] : "MIXED",
         exact_price: chargedPrice,
@@ -619,6 +631,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         total_units: bundle!.totalUnits,
         is_mixed: uniqueMats.length > 1,
         materials_count: uniqueMats.length,
+        pricing_version: 3,
+        quality: uniformQuality,
       });
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
@@ -704,13 +718,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
         urgency,
         file_count: validFiles.length,
-        estimated_price_low: Math.round(bundle!.low),
-        estimated_price_high: Math.round(bundle!.high),
+        estimated_price_low: Math.round(bundle!.total),
+        estimated_price_high: Math.round(bundle!.total),
         color: !!colorPref.trim(),
         multicolour: anyMulticolour,
         customer_ref: ref,
         quote_id,
-        value_estimate_mid: Math.round((bundle!.low + bundle!.high) / 2),
+        value_estimate_mid: Math.round(bundle!.total),
         currency: "EUR",
         piece_count: validFiles.length,
         total_units: bundle!.totalUnits,
@@ -737,8 +751,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           quantity: bundle!.totalUnits,
           estimated_grams: bundle!.totalGrams,
           estimated_hours: bundle!.totalHours,
-          estimated_price_low: bundle!.low,
-          estimated_price_high: bundle!.high,
+          estimated_price_low: parseFloat(bundle!.total.toFixed(2)),
+          estimated_price_high: parseFloat(bundle!.total.toFixed(2)),
           file_paths: uploadedPaths,
           file_names: uploadedNames,
           status: "pending",
@@ -777,8 +791,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           totalGrams: bundle!.totalGrams,
           totalHours: bundle!.totalHours,
           totalUnits: bundle!.totalUnits,
-          priceLow: bundle!.low,
-          priceHigh: bundle!.high,
+          priceLow: bundle!.total,
+          priceHigh: bundle!.total,
+          priceExact: bundle!.total,
           language,
           multicolour: quoteSummary.multicolour,
           sourceCity: refCity ?? null,
@@ -857,8 +872,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         quantity: bundle?.totalUnits ?? 1,
         estimated_grams: bundle?.totalGrams ?? 0,
         estimated_hours: bundle?.totalHours ?? 0,
-        estimated_price_low: bundle?.low ?? 0,
-        estimated_price_high: bundle?.high ?? 0,
+        estimated_price_low: bundle ? parseFloat(bundle.total.toFixed(2)) : 0,
+        estimated_price_high: bundle ? parseFloat(bundle.total.toFixed(2)) : 0,
         file_paths: uploadedPaths,
         file_names: uploadedNames,
         status: "pending",
@@ -889,8 +904,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           totalGrams: bundle?.totalGrams ?? 0,
           totalHours: bundle?.totalHours ?? 0,
           totalUnits: bundle?.totalUnits ?? 1,
-          priceLow: bundle?.low ?? 0,
-          priceHigh: bundle?.high ?? 0,
+          priceLow: bundle?.total ?? 0,
+          priceHigh: bundle?.total ?? 0,
+          priceExact: bundle?.total ?? 0,
           language,
           multicolour: exitSummary.multicolour,
           sourceCity: refCity ?? null,
@@ -915,13 +931,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     onDrop: handleDrop,
   };
 
-  // Price display — multicolour shows "from €X", instant-buy shows exact, normal shows "~€X–Y"
+  // Price display — multicolour shows "from €X", instant-buy shows exact, normal shows "€X" (exact v3 price)
   const priceDisplay = bundle
     ? anyMulticolour
-      ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}+`
+      ? `${t("calc.multicolour.from")} €${bundle.total.toFixed(0)}+`
       : instantBuyEligible && instantTotalPrice !== null
         ? `€${instantTotalPrice.toFixed(2)}`
-        : `~€${bundle.low.toFixed(0)}–${bundle.high.toFixed(0)}`
+        : `€${bundle.total.toFixed(2)}`
     : "";
 
   const viewableFiles = validFiles.filter(f => !!f.file);

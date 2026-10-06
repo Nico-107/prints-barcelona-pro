@@ -346,7 +346,7 @@ const EmpresasBcn = () => {
                   { step: "01", title: "Cuéntanos el proyecto por WhatsApp o email", body: "Manda los archivos (STL, STEP, IGES) y describe el uso final, el material preferido y el plazo que necesitas. Para proyectos confidenciales, firmamos NDA antes de recibir los archivos." },
                   { step: "02", title: "Presupuesto detallado en menos de 1 hora", body: "Revisamos los archivos manualmente y te enviamos un presupuesto con precio exacto por pieza (y por lote si aplica), material recomendado, plazo de entrega y cualquier observación técnica relevante." },
                   { step: "03", title: "Guardamos tus archivos para reencargos rápidos", body: "Una vez confirmado el primer pedido, guardamos el archivo y los parámetros de impresión. Los reencargos se preparan en minutos — no necesitas volver a enviar los archivos cada vez." },
-                  { step: "04", title: "Entrega en Barcelona o envío a toda España", body: "Recogida en taller con cita previa en Rambla del Brasil, 53, Barcelona. Envío a domicilio por 4,90€ a toda España peninsular. Para pedidos voluminosos, también enviamos por palet o mensajería especializada." },
+                  { step: "04", title: "Entrega en Barcelona o envío a toda España", body: "Recogida en taller con cita previa en Rambla del Brasil, 53, Barcelona. Envío a domicilio por 5,90€ a toda España peninsular. Para pedidos voluminosos, también enviamos por palet o mensajería especializada." },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
