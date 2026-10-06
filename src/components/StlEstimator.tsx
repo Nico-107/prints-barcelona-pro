@@ -15,6 +15,9 @@ import { useExperiment } from "@/lib/useExperiment";
 import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { MATERIALS, INSTANT_MATERIALS, effectivePartSettings, computeBundleV2, wallFactor } from "@/lib/pricing";
+import { buildCheckoutBody } from "@/lib/checkoutBody";
+import { summarizeParts } from "@/lib/summarizeParts";
+import type { TablesInsert, Json } from "@/integrations/supabase/types";
 import { OrderPanel } from "./estimator/OrderPanel";
 import { DefaultSettings } from "./estimator/DefaultSettings";
 
@@ -379,7 +382,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             const gr = volCm3 * matObj.density * effFill;
             const hrs = gr / 28;
             const unitPrice = Math.max(RATE_PER_GRAM * gr * matObj.multiplier, MIN_PRICE);
-            supabaseAnon.from("price_estimates").insert({
+            const estimateRow: TablesInsert<"price_estimates"> = {
               volume_cm3: volCm3,
               material: materialKey,
               infill_pct: capturedInfill,
@@ -393,7 +396,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               file_names: uploadedNames,
               language: capturedLang,
               multicolour: capturedMulticolour,
-            }).then(({ error: dbErr }) => {
+            };
+            supabaseAnon.from("price_estimates").insert(estimateRow).then(({ error: dbErr }) => {
               if (dbErr) {
                 console.error("price_estimates insert error:", dbErr);
                 capture("submit_error", { stage: "estimate", table: "price_estimates", code: dbErr.code ?? "unknown" });
@@ -562,50 +566,31 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsCheckingOut(true);
     setCheckoutError(null);
     try {
-      const instantPieces = validFiles.map(f => {
-        const eff = effectivePartSettings(f, defaults);
-        return {
-          name: f.name,
-          quantity: f.qty,
-          path: uploadedRef.current!.byId[f.id] ?? null,
-          material: eff.material,
-          infill: eff.infill,
-          wallLoops: eff.wallLoops,
-          color: eff.color || null,
-          volumeMm3: f.volumeMm3,
-        };
-      });
       const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
-      const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
+      const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : null;
       const storedUtm = getStoredUTM();
-      const phId = get_distinct_id();
-      const phSid = get_session_id();
       const shippingFee = fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0;
+      const checkoutBodyPayload = buildCheckoutBody({
+        validFiles,
+        defaults,
+        bundle: bundle!,
+        urgency,
+        fulfillment: fulfillment!,
+        uploaded: uploadedRef.current!,
+        contactEmail,
+        contactPhone,
+        colorPref,
+        language,
+        phId: get_distinct_id() ?? null,
+        phSid: get_session_id() ?? null,
+        utmSource: storedUtm?.utm_source ?? null,
+        utmMedium: storedUtm?.utm_medium ?? null,
+        utmContent: storedUtm?.utm_content ?? null,
+        utmCampaign: storedUtm?.utm_campaign ?? null,
+        checkoutRef,
+      });
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
-        body: {
-          pricingVersion: 2,
-          material: uniqueMats.length === 1 ? uniqueMats[0] : "MIXED",
-          color: colorPref.trim() || null,
-          infill: infillPct,
-          wallLoops,
-          quantity: bundle!.totalUnits,
-          filePaths: uploadedRef.current.paths,
-          fileNames: uploadedRef.current.names,
-          exactPrice: bundle!.orderResult.chargedPrintCents / 100,
-          fulfillment,
-          contactEmail: contactEmail.trim() || null,
-          contactPhone: contactPhone.trim() || null,
-          language,
-          pieces: instantPieces,
-          ph_distinct_id: phId ?? null,
-          ph_session_id: phSid ?? null,
-          utm_source: storedUtm?.utm_source ?? null,
-          utm_medium: storedUtm?.utm_medium ?? null,
-          utm_content: storedUtm?.utm_content ?? null,
-          utm_campaign: storedUtm?.utm_campaign ?? null,
-          product_type: "stl_estimator",
-          customer_ref: checkoutRef ?? null,
-        },
+        body: checkoutBodyPayload,
       });
       if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
       try {
@@ -617,7 +602,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           product_type: "stl_estimator",
           file_count: validFiles.length,
           total_units: bundle!.totalUnits,
-          material: uniqueMats.length === 1 ? uniqueMats[0] : "MIXED",
+          material: checkoutBodyPayload.material,
         }));
       } catch {}
       capture('instant_checkout_initiated', {
@@ -701,6 +686,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         };
       });
       const uniqueMatsQ = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
+      const quoteSummary = summarizeParts(validFiles.map(f => {
+        const eff = effectivePartSettings(f, defaults);
+        return { material: eff.material, infill: eff.infill, wallLoops: eff.wallLoops, multicolour: eff.multicolour };
+      }));
 
       // Upload succeeded — show success immediately, nothing below can block the user
       setIsSubmittedQuote(true);
@@ -736,13 +725,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       // Use anon client so an admin session in localStorage doesn't trigger a 42501 error.
       (async () => {
         const storedUtm = getStoredUTM();
-        const payload = {
+        const insertPayload: TablesInsert<"quote_requests"> = {
+          id: quote_id,
           contact_email: contactEmail.trim() || null,
           contact_phone: contactPhone.trim() || null,
           color: colorPref.trim() || null,
-          material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
-          infill: `${infillPct}%`,
-          wall_loops: wallLoops,
+          material: quoteSummary.material,
+          infill: quoteSummary.infill,
+          wall_loops: quoteSummary.wallLoops,
           urgency,
           quantity: bundle!.totalUnits,
           estimated_grams: bundle!.totalGrams,
@@ -752,18 +742,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_paths: uploadedPaths,
           file_names: uploadedNames,
           status: "pending",
-          multicolour: anyMulticolour,
+          multicolour: quoteSummary.multicolour,
           utm_source: storedUtm?.utm_source ?? null,
           utm_medium: storedUtm?.utm_medium ?? null,
           utm_content: storedUtm?.utm_content ?? null,
-          pieces,
-          pricingVersion: 2,
+          pieces: pieces as Json,
         };
 
         try {
           const { error: insertErr } = await supabaseAnon
             .from("quote_requests")
-            .insert({ id: quote_id, ...payload } as any);
+            .insert(insertPayload);
           if (insertErr) {
             console.error("quote_requests insert failed:", insertErr);
             capture("submit_error", { stage: "quote", table: "quote_requests", code: insertErr.code ?? "unknown" });
@@ -780,18 +769,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fileNames: uploadedNames,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
-          material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
+          material: quoteSummary.material,
           color: colorPref.trim() || null,
           urgency,
-          infillPct,
-          wallLoops,
+          infillPct: quoteSummary.infillNum,
+          wallLoops: quoteSummary.wallLoops,
           totalGrams: bundle!.totalGrams,
           totalHours: bundle!.totalHours,
           totalUnits: bundle!.totalUnits,
           priceLow: bundle!.low,
           priceHigh: bundle!.high,
           language,
-          multicolour: anyMulticolour,
+          multicolour: quoteSummary.multicolour,
           sourceCity: refCity ?? null,
           pieces,
           quote_id,
@@ -851,34 +840,37 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           volumeMm3: f.volumeMm3,
         };
       });
-      const exitUniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
+      const exitSummary = summarizeParts(validFiles.map(f => {
+        const eff = effectivePartSettings(f, defaults);
+        return { material: eff.material, infill: eff.infill, wallLoops: eff.wallLoops, multicolour: eff.multicolour };
+      }));
       const exitUtm = getStoredUTM();
+      const exitInsertPayload: TablesInsert<"quote_requests"> = {
+        id: crypto.randomUUID(),
+        contact_email: contactEmail.trim() || null,
+        contact_phone: contactPhone.trim() || null,
+        color: colorPref.trim() || null,
+        material: exitSummary.material,
+        infill: exitSummary.infill,
+        wall_loops: exitSummary.wallLoops,
+        urgency,
+        quantity: bundle?.totalUnits ?? 1,
+        estimated_grams: bundle?.totalGrams ?? 0,
+        estimated_hours: bundle?.totalHours ?? 0,
+        estimated_price_low: bundle?.low ?? 0,
+        estimated_price_high: bundle?.high ?? 0,
+        file_paths: uploadedPaths,
+        file_names: uploadedNames,
+        status: "pending",
+        multicolour: exitSummary.multicolour,
+        utm_source: exitUtm?.utm_source ?? null,
+        utm_medium: exitUtm?.utm_medium ?? null,
+        utm_content: exitUtm?.utm_content ?? null,
+        pieces: exitPieces as Json,
+      };
       const { error: insertErr } = await supabaseAnon
         .from("quote_requests")
-        .insert({
-          id: crypto.randomUUID(),
-          contact_email: contactEmail.trim() || null,
-          contact_phone: contactPhone.trim() || null,
-          color: colorPref.trim() || null,
-          material: exitUniqueMats.length === 1 ? exitUniqueMats[0] : "MIXED",
-          infill: `${infillPct}%`,
-          wall_loops: wallLoops,
-          urgency,
-          quantity: bundle?.totalUnits ?? 1,
-          estimated_grams: bundle?.totalGrams ?? 0,
-          estimated_hours: bundle?.totalHours ?? 0,
-          estimated_price_low: bundle?.low ?? 0,
-          estimated_price_high: bundle?.high ?? 0,
-          file_paths: uploadedPaths,
-          file_names: uploadedNames,
-          status: "pending",
-          multicolour: anyMulticolour,
-          utm_source: exitUtm?.utm_source ?? null,
-          utm_medium: exitUtm?.utm_medium ?? null,
-          utm_content: exitUtm?.utm_content ?? null,
-          pieces: exitPieces,
-          pricingVersion: 2,
-        } as any);
+        .insert(exitInsertPayload);
       if (insertErr) {
         capture("submit_error", { stage: "exit_intent", table: "quote_requests", code: insertErr.code ?? "unknown" });
         throw new Error(insertErr.message);
@@ -889,18 +881,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fileNames: uploadedNames,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
-          material: exitUniqueMats.length === 1 ? exitUniqueMats[0] : "MIXED",
+          material: exitSummary.material,
           color: colorPref.trim() || null,
           urgency,
-          infillPct,
-          wallLoops,
+          infillPct: exitSummary.infillNum,
+          wallLoops: exitSummary.wallLoops,
           totalGrams: bundle?.totalGrams ?? 0,
           totalHours: bundle?.totalHours ?? 0,
           totalUnits: bundle?.totalUnits ?? 1,
           priceLow: bundle?.low ?? 0,
           priceHigh: bundle?.high ?? 0,
           language,
-          multicolour: anyMulticolour,
+          multicolour: exitSummary.multicolour,
           sourceCity: refCity ?? null,
           pieces: exitPieces,
         },

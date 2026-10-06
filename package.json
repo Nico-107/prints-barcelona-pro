@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "prebuild": "node scripts/check-pricing-sync.mjs && node scripts/check-rating-strings.mjs && node scripts/check-i18n-new-keys.mjs",
     "test": "vitest run",
-    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/check-xp-ssr-text.mjs && node scripts/check-social-meta.mjs && node scripts/check-internal-links.mjs",
+    "build": "npm run typecheck && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/check-xp-ssr-text.mjs && node scripts/check-social-meta.mjs && node scripts/check-internal-links.mjs",
     "build:client": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
