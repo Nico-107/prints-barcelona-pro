@@ -51,6 +51,8 @@ interface QuoteSubmittedProps {
   piece_count?: number;
   total_units?: number;
   source_page?: string;
+  is_mixed?: boolean;
+  materials_count?: number;
 }
 
 interface InstantCheckoutInitiatedProps {
@@ -66,6 +68,8 @@ interface InstantCheckoutInitiatedProps {
   part_slug?: string;
   file_count?: number;
   total_units?: number;
+  is_mixed?: boolean;
+  materials_count?: number;
 }
 
 interface InstantCheckoutCompletedProps {
@@ -173,6 +177,21 @@ interface EstimateAddMoreClickProps {
   location?: string;
 }
 
+// ---- New events (Prompt 3 — per-part cart) ----
+
+interface PartSettingsChangedProps {
+  field?: "material" | "color" | "infill" | "walls" | "multicolour" | "qty";
+  material?: string;
+}
+
+interface ApplyToAllClickProps {
+  // no extra fields
+}
+
+interface PartResetClickProps {
+  // no extra fields
+}
+
 // ---- Master map ----
 
 export interface EventMap {
@@ -212,6 +231,11 @@ export interface EventMap {
   estimate_add_more_click: EstimateAddMoreClickProps;
 
   google_review_click: GoogleReviewClickProps;
+
+  // New events — Prompt 3 (per-part cart)
+  part_settings_changed: PartSettingsChangedProps;
+  apply_to_all_click: ApplyToAllClickProps;
+  part_reset_click: PartResetClickProps;
 
   // Legacy / page-level events already used across the site
   quote_cta_click: QuoteCtaClickProps;

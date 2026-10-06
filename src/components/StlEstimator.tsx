@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { FileBox, X, MessageCircle, Loader2, RefreshCw, Calculator, Plus, Send, CheckCircle, AlertTriangle, CreditCard } from "lucide-react";
+import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,6 +13,10 @@ import { parseStl } from "@/lib/stlAnalysis";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { useExperiment } from "@/lib/useExperiment";
 import { wasExposureFired, markExposureFired } from "@/lib/experiments";
+import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
+import { MATERIALS, INSTANT_MATERIALS, effectivePartSettings, computeBundleV2, wallFactor } from "@/lib/pricing";
+import { OrderPanel } from "./estimator/OrderPanel";
+import { DefaultSettings } from "./estimator/DefaultSettings";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -21,144 +25,36 @@ const MAX_BYTES = 50 * 1024 * 1024;          // Supabase Free plan hard cap — 
 const MAX_ESTIMATE_BYTES = 250 * 1024 * 1024; // client-side parse limit only
 const MAX_FILES = 20;
 
-const SETUP_FEE = 8;        // once per job: file check, slicing, plate prep, packaging, comms
-const RATE_PER_GRAM = 0.22; // material + machine time
-const MIN_PRICE = 10;       // absolute floor
-const RANGE_LOW_FLOOR = 10; // displayed range low never shown below this
-const RANGE_HIGH_FLOOR = 20;// displayed range high never shown below this
+const RATE_PER_GRAM = 0.22; // kept for price_estimates analytics
+const MIN_PRICE = 10;
+const RANGE_LOW_FLOOR = 10;
+const RANGE_HIGH_FLOOR = 20;
 
-const URGENCY_TIERS = [
-  { key: "standard", multiplier: 1.0 },
-  { key: "express",  multiplier: 1.25 },
-  { key: "urgent",   multiplier: 1.6  },
-] as const;
-
-const INSTANT_BUY_SAFE = ["PLA", "PETG", "ABS", "TPU"] as const;
-const INSTANT_BUY_MAX = 52.5;
-const INSTANT_BUY_DISPLAY_CAP = 50;
 const SHIPPING_SURCHARGE = 6;
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"] as const;
 
-// ─── Material table ───────────────────────────────────────────────────────────
-const MATERIALS: Record<string, { label: string; descriptorKey: string; density: number; multiplier: number }> = {
-  PLA:        { label: "PLA",       descriptorKey: "calc.mat.pla.desc",      density: 1.24, multiplier: 1.0 },
-  PETG:       { label: "PETG",      descriptorKey: "calc.mat.petg.desc",     density: 1.27, multiplier: 1.1 },
-  HIPS:       { label: "HIPS",      descriptorKey: "calc.mat.hips.desc",     density: 1.07, multiplier: 1.2 },
-  ABS:        { label: "ABS",       descriptorKey: "calc.mat.abs.desc",      density: 1.04, multiplier: 1.3 },
-  ASA:        { label: "ASA",       descriptorKey: "calc.mat.asa.desc",      density: 1.07, multiplier: 1.3 },
-  TPU:        { label: "TPU",       descriptorKey: "calc.mat.tpu.desc",      density: 1.20, multiplier: 1.3 },
-  Nylon:      { label: "Nylon",     descriptorKey: "calc.mat.nylon.desc",    density: 1.14, multiplier: 1.4 },
-  PC:         { label: "PC",        descriptorKey: "calc.mat.pc.desc",       density: 1.20, multiplier: 1.5 },
-  PVA:        { label: "PVA",       descriptorKey: "calc.mat.pva.desc",      density: 1.23, multiplier: 1.5 },
-  "PLA-CF":   { label: "PLA-CF",   descriptorKey: "calc.mat.pla-cf.desc",   density: 1.30, multiplier: 1.6 },
-  "PETG-CF":  { label: "PETG-CF",  descriptorKey: "calc.mat.petg-cf.desc",  density: 1.30, multiplier: 1.6 },
-  "Nylon-CF": { label: "Nylon-CF", descriptorKey: "calc.mat.nylon-cf.desc", density: 1.20, multiplier: 1.6 },
+// Material UI labels — density/multiplier come from @/lib/pricing MATERIALS
+const MATERIAL_UI: Record<string, { label: string; descriptorKey: string }> = {
+  PLA:        { label: "PLA",       descriptorKey: "calc.mat.pla.desc"      },
+  PETG:       { label: "PETG",      descriptorKey: "calc.mat.petg.desc"     },
+  HIPS:       { label: "HIPS",      descriptorKey: "calc.mat.hips.desc"     },
+  ABS:        { label: "ABS",       descriptorKey: "calc.mat.abs.desc"      },
+  ASA:        { label: "ASA",       descriptorKey: "calc.mat.asa.desc"      },
+  TPU:        { label: "TPU",       descriptorKey: "calc.mat.tpu.desc"      },
+  Nylon:      { label: "Nylon",     descriptorKey: "calc.mat.nylon.desc"    },
+  PC:         { label: "PC",        descriptorKey: "calc.mat.pc.desc"       },
+  PVA:        { label: "PVA",       descriptorKey: "calc.mat.pva.desc"      },
+  "PLA-CF":   { label: "PLA-CF",   descriptorKey: "calc.mat.pla-cf.desc"   },
+  "PETG-CF":  { label: "PETG-CF",  descriptorKey: "calc.mat.petg-cf.desc"  },
+  "Nylon-CF": { label: "Nylon-CF", descriptorKey: "calc.mat.nylon-cf.desc" },
 };
 
-const INFILL_OPTIONS = [
-  { value: 5,  key: "calc.infill.5" },
-  { value: 15, key: "calc.infill.15" },
-  { value: 30, key: "calc.infill.30" },
-  { value: 50, key: "calc.infill.50" },
-  { value: 80, key: "calc.infill.80" },
-];
-
-// wall factor per loop count — drives material estimate
-// 2–4: measured; 5–8: each 0.4 mm loop adds ~7% shell fraction (2×nozzle×perimeter/area).
-function wallFactor(loops: number): number {
-  if (loops <= 2) return 0.14;
-  if (loops === 3) return 0.20;
-  if (loops === 4) return 0.27;
-  return Math.min(0.27 + (loops - 4) * 0.07, 0.80);
-}
+const materialOptions: MaterialOption[] = Object.entries(MATERIAL_UI).map(
+  ([key, { label, descriptorKey }]) => ({ key, label, descriptorKey })
+);
 
 function stripUploadPrefix(name: string): string {
   return name.replace(/^\d+-/, "");
-}
-
-// ─── STL parser — shared with FileChecker via src/lib/stlAnalysis.ts ─────────
-// parseStl is imported above; StlParseResult type lives in stlAnalysis.ts.
-
-// ─── Bundle pricing ───────────────────────────────────────────────────────────
-
-interface ParsedFile {
-  id: string;
-  name: string;
-  sizeBytes: number;
-  volumeMm3: number;
-  qty: number;
-  file?: File;        // original File object for upload; undefined on parse error
-  parseError?: string;
-  hasHeavyOverhangs?: boolean;
-}
-
-interface BundleEstimate {
-  totalGrams: number;
-  totalHours: number;
-  totalUnits: number;
-  bundlePrice: number;
-  total: number;
-  low: number;
-  high: number;
-  supportHeavy: boolean;
-}
-
-function applyMargin(rawPrice: number): number {
-  return Math.max(rawPrice, MIN_PRICE);
-}
-
-function computeBundle(
-  files: ParsedFile[],
-  materialKey: string,
-  infillPct: number,
-  wallLoops: number,
-  urgencyMultiplier: number = 1.0,
-  multicolour: boolean = false,
-): BundleEstimate | null {
-  const mat = MATERIALS[materialKey];
-  const wf = wallFactor(wallLoops);
-  const effectiveFill = wf + (infillPct / 100) * (1 - wf);
-
-  let totalGrams = 0;
-  let totalUnits = 0;
-  for (const f of files) {
-    if (f.parseError) continue;
-    const gramsPerUnit = (f.volumeMm3 / 1000) * mat.density * effectiveFill;
-    totalGrams += gramsPerUnit * f.qty;
-    totalUnits += f.qty;
-  }
-  if (totalUnits === 0) return null;
-
-  const totalHours = totalGrams / 28;
-  const bundleRaw = SETUP_FEE + totalGrams * RATE_PER_GRAM * mat.multiplier;
-  const bundlePrice = applyMargin(bundleRaw) * urgencyMultiplier;
-  const total = bundlePrice;
-
-  const supportHeavy = files.some(f => !f.parseError && f.hasHeavyOverhangs);
-
-  return {
-    totalGrams, totalHours, totalUnits, bundlePrice, total,
-    low:  Math.max(total * 0.85, RANGE_LOW_FLOOR),
-    high: Math.max(total * 1.15, RANGE_HIGH_FLOOR),
-    supportHeavy,
-  };
-}
-
-function buildPieces(
-  files: ParsedFile[],
-  byId: Record<string, string>,
-): { name: string; quantity: number; path: string | null }[] {
-  const counts: Record<string, number> = {};
-  for (const f of files) counts[f.name] = (counts[f.name] ?? 0) + 1;
-  const idx: Record<string, number> = {};
-  return files.map(f => {
-    let name = f.name;
-    if (counts[f.name] > 1) {
-      idx[f.name] = (idx[f.name] ?? 0) + 1;
-      name = `${f.name} (${idx[f.name]})`;
-    }
-    return { name, quantity: f.qty, path: byId[f.id] ?? null };
-  });
 }
 
 // ─── Section heading — action-oriented copy per language ──────────────────────
@@ -261,18 +157,27 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [urgency, setUrgency] = useState<"standard" | "express" | "urgent">("standard");
   const [multicolour, setMulticolour] = useState(false);
 
-  // Simple / Advanced mode — persisted to localStorage, defaults to Simple
-  const [advancedMode, setAdvancedModeRaw] = useState<boolean>(() => {
-    try { return localStorage.getItem("dim3d-calc-mode") === "advanced"; } catch { return false; }
-  });
+  // Simple / Advanced mode — persisted to localStorage, defaults to Simple.
+  // Must start false on server to avoid hydration mismatch; synced from localStorage in useEffect.
+  const [advancedMode, setAdvancedModeRaw] = useState<boolean>(false);
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("dim3d-calc-mode") === "advanced") setAdvancedModeRaw(true);
+    } catch { /* unavailable */ }
+  }, []);
   const setAdvancedMode = (val: boolean) => {
     try { localStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
     if (!val) {
-      // Reset hidden fields to sensible defaults so they don't silently affect the price
+      // Reset global defaults + clear per-part infill/walls/multicolour overrides (keep material/color)
       setInfillPct(15);
       setWallLoops(2);
       setUrgency("standard");
       setMulticolour(false);
+      setParsedFiles(prev => prev.map(f => {
+        if (!f.settings) return f;
+        const { infill: _i, wallLoops: _w, multicolour: _m, ...rest } = f.settings;
+        return { ...f, settings: Object.keys(rest).length > 0 ? rest : undefined };
+      }));
     }
     setAdvancedModeRaw(val);
   };
@@ -312,6 +217,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
+  const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
   const [exitIntentSubmitting, setExitIntentSubmitting] = useState(false);
   const [exitIntentSubmitted, setExitIntentSubmitted] = useState(false);
   const [exitIntentError, setExitIntentError] = useState<string | null>(null);
@@ -334,26 +240,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const mat = MATERIALS[materialKey];
-  const wf = wallFactor(wallLoops);
-  const effectiveFill = wf + (infillPct / 100) * (1 - wf);
-  const urgencyMultiplier = URGENCY_TIERS.find(t => t.key === urgency)?.multiplier ?? 1.0;
+  const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour };
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
-  const bundle = validFiles.length > 0 ? computeBundle(parsedFiles, materialKey, infillPct, wallLoops, urgencyMultiplier, multicolour) : null;
+  const bundle = computeBundleV2(parsedFiles, defaults, urgency);
 
-  const bundleExactPrice = bundle?.total ?? 0;
+  const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
+  const instantEligibleMaterials = validFiles.length > 0 && validFiles.every(
+    f => (INSTANT_MATERIALS as readonly string[]).includes(effectivePartSettings(f, defaults).material)
+  );
   const instantBuyEligible =
     !adminMode &&
-    !multicolour &&
-    (INSTANT_BUY_SAFE as readonly string[]).includes(materialKey) &&
+    !anyMulticolour &&
+    instantEligibleMaterials &&
     bundle !== null &&
-    bundleExactPrice <= INSTANT_BUY_MAX;
-  const instantDisplayPrice = instantBuyEligible
-    ? (bundleExactPrice <= INSTANT_BUY_DISPLAY_CAP ? bundleExactPrice : INSTANT_BUY_DISPLAY_CAP)
-    : null;
-  const instantTotalPrice = instantDisplayPrice !== null
-    ? instantDisplayPrice + (fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0)
+    bundle.orderResult.eligible;
+  const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
+  const instantTotalPrice = instantBuyEligible
+    ? chargedPrice + (fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0)
     : null;
 
   const processFiles = async (newFiles: File[]) => {
@@ -409,8 +313,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setParsingHasLargeFile(false);
 
     if (!adminMode) {
-      const urgMult = URGENCY_TIERS.find(t => t.key === urgency)?.multiplier ?? 1.0;
-      const nextBundle = computeBundle(nextFiles, materialKey, infillPct, wallLoops, urgMult, multicolour);
+      const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour };
+      const nextBundle = computeBundleV2(nextFiles, nextDefaults, urgency);
       if (nextBundle) {
         estimateShownRef.current = true;
         capture('estimate_generated', {
@@ -434,7 +338,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         // Upload files early (fire-and-forget) so submission is near-instant
         const validForUpload = nextFiles.filter(f => !f.parseError && f.file && f.sizeBytes <= MAX_BYTES);
-        const matObj = MATERIALS[materialKey];
+        const matObj = MATERIALS[materialKey]; // MATERIALS from @/lib/pricing — has density/multiplier
         const wfVal = wallFactor(wallLoops);
         const effFill = wfVal + (infillPct / 100) * (1 - wfVal);
         const capturedInfill = infillPct;
@@ -577,6 +481,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setQuoteError(null);
     setMobileModalOpen(false);
     setSelectedFileIndex(0);
+    setExpandedPartId(null);
     setPreUploadDone(false);
     setIsCheckingOut(false);
     setCheckoutError(null);
@@ -593,6 +498,25 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       language === "es" ? "Hola, me gustaría obtener un presupuesto exacto para mis archivos 3D." :
       "Hi, I'd like to get an exact quote for my 3D prints.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  // Per-part settings handlers
+  const handlePartSettingsChange = (id: string, settings: PartSettings) => {
+    setParsedFiles(prev => prev.map(f => f.id === id ? { ...f, settings } : f));
+  };
+  const handleResetPartSettings = (id: string) => {
+    setParsedFiles(prev => prev.map(f => f.id === id ? { ...f, settings: undefined } : f));
+  };
+  const handleApplyToAll = (id: string) => {
+    const src = parsedFiles.find(f => f.id === id);
+    if (!src) return;
+    const eff = effectivePartSettings(src, defaults);
+    setMaterialKey(eff.material);
+    setColorPref(eff.color);
+    setInfillPct(eff.infill);
+    setWallLoops(eff.wallLoops);
+    setMulticolour(eff.multicolour);
+    setParsedFiles(prev => prev.map(f => f.id !== id ? { ...f, settings: undefined } : f));
   };
 
   // Reset manual-review and fulfillment choices whenever eligibility drivers change
@@ -631,18 +555,27 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setFulfillmentAttempted(true);
       return;
     }
-    if (!uploadedRef.current || instantDisplayPrice === null || instantTotalPrice === null) {
+    if (!uploadedRef.current || instantTotalPrice === null) {
       setCheckoutError("Files are still uploading. Please wait a moment and try again.");
       return;
     }
     setIsCheckingOut(true);
     setCheckoutError(null);
     try {
-      const instantPieces = buildPieces(validFiles, uploadedRef.current.byId);
-      if (instantPieces.reduce((s, p) => s + p.quantity, 0) !== bundle!.totalUnits) {
-        console.warn(`instant checkout: pieces total !== bundle.totalUnits ${bundle!.totalUnits}`);
-      }
-      // B1: visitor identity for Stripe metadata
+      const instantPieces = validFiles.map(f => {
+        const eff = effectivePartSettings(f, defaults);
+        return {
+          name: f.name,
+          quantity: f.qty,
+          path: uploadedRef.current!.byId[f.id] ?? null,
+          material: eff.material,
+          infill: eff.infill,
+          wallLoops: eff.wallLoops,
+          color: eff.color || null,
+          volumeMm3: f.volumeMm3,
+        };
+      });
+      const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
       const storedUtm = getStoredUTM();
       const phId = get_distinct_id();
@@ -650,14 +583,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const shippingFee = fulfillment === "shipping" ? SHIPPING_SURCHARGE : 0;
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: {
-          material: materialKey,
+          pricingVersion: 2,
+          material: uniqueMats.length === 1 ? uniqueMats[0] : "MIXED",
           color: colorPref.trim() || null,
           infill: infillPct,
           wallLoops,
           quantity: bundle!.totalUnits,
           filePaths: uploadedRef.current.paths,
           fileNames: uploadedRef.current.names,
-          exactPrice: instantTotalPrice,
+          exactPrice: bundle!.orderResult.chargedPrintCents / 100,
           fulfillment,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
@@ -674,31 +608,32 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         },
       });
       if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
-      // B5: stash context for instant_checkout_completed on Stripe return
       try {
         sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({
-          value: instantDisplayPrice,
+          value: chargedPrice,
           shipping_fee: shippingFee,
           currency: "EUR",
           fulfillment,
           product_type: "stl_estimator",
           file_count: validFiles.length,
           total_units: bundle!.totalUnits,
-          material: materialKey,
+          material: uniqueMats.length === 1 ? uniqueMats[0] : "MIXED",
         }));
       } catch {}
       capture('instant_checkout_initiated', {
-        material: materialKey,
-        exact_price: instantDisplayPrice,
+        material: uniqueMats.length === 1 ? uniqueMats[0] : "MIXED",
+        exact_price: chargedPrice,
         quantity: bundle!.totalUnits,
         customer_ref: checkoutRef,
-        value: instantDisplayPrice,
+        value: chargedPrice,
         shipping_fee: shippingFee,
         currency: "EUR",
         fulfillment,
         product_type: "stl_estimator",
         file_count: validFiles.length,
         total_units: bundle!.totalUnits,
+        is_mixed: uniqueMats.length > 1,
+        materials_count: uniqueMats.length,
       });
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
@@ -752,11 +687,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         setUploadState("done");
       }
 
-      const pieces = buildPieces(validFiles, uploadedById);
-      const piecesTotal = pieces.reduce((s, p) => s + p.quantity, 0);
-      if (piecesTotal !== bundle!.totalUnits) {
-        console.warn(`pieces total ${piecesTotal} !== bundle.totalUnits ${bundle!.totalUnits}`);
-      }
+      const pieces = validFiles.map(f => {
+        const eff = effectivePartSettings(f, defaults);
+        return {
+          name: f.name,
+          quantity: f.qty,
+          path: uploadedById[f.id] ?? null,
+          material: eff.material,
+          infill: eff.infill,
+          wallLoops: eff.wallLoops,
+          color: eff.color || null,
+          volumeMm3: f.volumeMm3,
+        };
+      });
+      const uniqueMatsQ = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
 
       // Upload succeeded — show success immediately, nothing below can block the user
       setIsSubmittedQuote(true);
@@ -768,19 +712,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       capture('quote_submitted', {
         has_email: !!contactEmail.trim(),
         has_phone: !!contactPhone.trim(),
-        material: materialKey,
+        material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
         urgency,
         file_count: validFiles.length,
         estimated_price_low: Math.round(bundle!.low),
         estimated_price_high: Math.round(bundle!.high),
         color: !!colorPref.trim(),
-        multicolour,
+        multicolour: anyMulticolour,
         customer_ref: ref,
         quote_id,
         value_estimate_mid: Math.round((bundle!.low + bundle!.high) / 2),
         currency: "EUR",
         piece_count: validFiles.length,
         total_units: bundle!.totalUnits,
+        is_mixed: uniqueMatsQ.length > 1,
+        materials_count: uniqueMatsQ.length,
         source_page: window.location.pathname,
       });
       if (ref) identifyUser(ref);
@@ -794,7 +740,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contact_email: contactEmail.trim() || null,
           contact_phone: contactPhone.trim() || null,
           color: colorPref.trim() || null,
-          material: materialKey,
+          material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
           infill: `${infillPct}%`,
           wall_loops: wallLoops,
           urgency,
@@ -806,11 +752,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_paths: uploadedPaths,
           file_names: uploadedNames,
           status: "pending",
-          multicolour,
+          multicolour: anyMulticolour,
           utm_source: storedUtm?.utm_source ?? null,
           utm_medium: storedUtm?.utm_medium ?? null,
           utm_content: storedUtm?.utm_content ?? null,
           pieces,
+          pricingVersion: 2,
         };
 
         try {
@@ -833,7 +780,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fileNames: uploadedNames,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
-          material: materialKey,
+          material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
           color: colorPref.trim() || null,
           urgency,
           infillPct,
@@ -844,7 +791,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           priceLow: bundle!.low,
           priceHigh: bundle!.high,
           language,
-          multicolour,
+          multicolour: anyMulticolour,
           sourceCity: refCity ?? null,
           pieces,
           quote_id,
@@ -891,10 +838,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           uploadedById[f.id] = path;
         }
       }
-      const exitPieces = buildPieces(validFiles, uploadedById);
-      if (bundle && exitPieces.reduce((s, p) => s + p.quantity, 0) !== bundle.totalUnits) {
-        console.warn("exit-intent: pieces total does not match bundle.totalUnits");
-      }
+      const exitPieces = validFiles.map(f => {
+        const eff = effectivePartSettings(f, defaults);
+        return {
+          name: f.name,
+          quantity: f.qty,
+          path: uploadedById[f.id] ?? null,
+          material: eff.material,
+          infill: eff.infill,
+          wallLoops: eff.wallLoops,
+          color: eff.color || null,
+          volumeMm3: f.volumeMm3,
+        };
+      });
+      const exitUniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const exitUtm = getStoredUTM();
       const { error: insertErr } = await supabaseAnon
         .from("quote_requests")
@@ -903,7 +860,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contact_email: contactEmail.trim() || null,
           contact_phone: contactPhone.trim() || null,
           color: colorPref.trim() || null,
-          material: materialKey,
+          material: exitUniqueMats.length === 1 ? exitUniqueMats[0] : "MIXED",
           infill: `${infillPct}%`,
           wall_loops: wallLoops,
           urgency,
@@ -915,11 +872,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_paths: uploadedPaths,
           file_names: uploadedNames,
           status: "pending",
-          multicolour,
+          multicolour: anyMulticolour,
           utm_source: exitUtm?.utm_source ?? null,
           utm_medium: exitUtm?.utm_medium ?? null,
           utm_content: exitUtm?.utm_content ?? null,
           pieces: exitPieces,
+          pricingVersion: 2,
         } as any);
       if (insertErr) {
         capture("submit_error", { stage: "exit_intent", table: "quote_requests", code: insertErr.code ?? "unknown" });
@@ -931,7 +889,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fileNames: uploadedNames,
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
-          material: materialKey,
+          material: exitUniqueMats.length === 1 ? exitUniqueMats[0] : "MIXED",
           color: colorPref.trim() || null,
           urgency,
           infillPct,
@@ -942,7 +900,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           priceLow: bundle?.low ?? 0,
           priceHigh: bundle?.high ?? 0,
           language,
-          multicolour,
+          multicolour: anyMulticolour,
           sourceCity: refCity ?? null,
           pieces: exitPieces,
         },
@@ -967,7 +925,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   // Price display — multicolour shows "from €X", instant-buy shows exact, normal shows "~€X–Y"
   const priceDisplay = bundle
-    ? multicolour
+    ? anyMulticolour
       ? `${t("calc.multicolour.from")} €${bundle.low.toFixed(0)}+`
       : instantBuyEligible && instantTotalPrice !== null
         ? `€${instantTotalPrice.toFixed(2)}`
@@ -998,139 +956,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     `${wallLoops} wall${wallLoops !== 1 ? "s" : ""}`,
     `${bundle.totalUnits} unit${bundle.totalUnits !== 1 ? "s" : ""}`,
     `${t(`calc.urgency.${urgency}.label`)} ${t(`calc.urgency.${urgency}.time`)}`,
-    ...(multicolour ? [t("calc.multicolour.label")] : []),
+    ...(anyMulticolour ? [t("calc.multicolour.label")] : []),
   ].join(" · ") : "";
-
-  // Shared contact form content — used in inline block
-  const contactFormContent = (
-    <div className="space-y-2">
-      <input
-        type="email"
-        value={contactEmail}
-        onChange={e => setContactEmail(e.target.value)}
-        placeholder={t("calc.contact.email")}
-        disabled={isSubmittingQuote || isCheckingOut}
-        className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-      />
-      <input
-        type="tel"
-        value={contactPhone}
-        onChange={e => setContactPhone(e.target.value)}
-        placeholder={t("calc.contact.phone")}
-        disabled={isSubmittingQuote || isCheckingOut}
-        className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-      />
-      {quoteError && (
-        <p className="text-xs text-destructive">{quoteError}</p>
-      )}
-      {checkoutError && instantBuyEligible && !showManualReview && (
-        <p className="text-xs text-destructive">{checkoutError}</p>
-      )}
-      {oversizedFiles.length > 0 && (
-        <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-          {t("calc.notice.tooLargeToUpload")}
-        </p>
-      )}
-      {instantBuyEligible && !showManualReview ? (
-        <>
-          {/* Fulfillment choice — required before payment */}
-          <div>
-            <p className="text-xs font-medium text-muted-foreground mb-1.5">
-              {t("calc.instantBuy.fulfillment.pickup").replace("{city}", pickupCity)} / {t("calc.instantBuy.fulfillment.shipping")}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {(["pickup", "shipping"] as const).map(opt => (
-                <button
-                  key={opt}
-                  type="button"
-                  onClick={() => { setFulfillment(opt); setFulfillmentAttempted(false); }}
-                  disabled={isCheckingOut}
-                  className={`h-10 rounded-md border text-sm font-medium transition-colors disabled:opacity-60 ${
-                    fulfillment === opt
-                      ? "border-accent bg-accent text-accent-foreground"
-                      : "border-input bg-background text-foreground hover:border-accent/60 hover:bg-accent/5"
-                  }`}
-                >
-                  {t(`calc.instantBuy.fulfillment.${opt}` as any).replace("{city}", pickupCity)}
-                </button>
-              ))}
-            </div>
-            {fulfillmentAttempted && fulfillment === null && (
-              <p className="text-xs text-destructive mt-1">{t("calc.instantBuy.fulfillment.required")}</p>
-            )}
-            {fulfillment === "pickup" && (FAST_PICKUP_MATERIALS as readonly string[]).includes(materialKey) && (
-              <p className="text-xs text-muted-foreground mt-1.5">{t("calc.instantBuy.fulfillment.fastPickup").replace("{city}", pickupCity)}</p>
-            )}
-          </div>
-          {fulfillment === "shipping" && instantDisplayPrice !== null && (
-            <div className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-sm space-y-0.5">
-              <div className="flex justify-between text-muted-foreground">
-                <span>{t("calc.instantBuy.shipping.print")}</span>
-                <span>€{instantDisplayPrice.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-muted-foreground">
-                <span>{t("calc.instantBuy.shipping.surcharge")}</span>
-                <span>+ €{SHIPPING_SURCHARGE.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between font-semibold border-t border-border pt-0.5 mt-0.5">
-                <span>{t("calc.instantBuy.shipping.total")}</span>
-                <span>€{instantTotalPrice?.toFixed(2)}</span>
-              </div>
-            </div>
-          )}
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              variant="cta"
-              size="lg"
-              className="w-full gap-2"
-              onClick={handleInstantBuy}
-              disabled={isCheckingOut || !preUploadDone}
-            >
-              {isCheckingOut
-                ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
-              }
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
-              onClick={() => setShowManualReview(true)}
-              disabled={isCheckingOut}
-            >
-              <Send className="w-4 h-4 shrink-0" />
-              {t("calc.instantBuy.manualReview")}
-            </Button>
-          </div>
-        </>
-      ) : (
-        <>
-          <Button
-            variant="cta"
-            size="lg"
-            className="w-full gap-2"
-            onClick={submitQuote}
-            disabled={isSubmittingQuote}
-          >
-            {isSubmittingQuote
-              ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-              : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
-            }
-          </Button>
-          <Button
-            variant="whatsapp-outline"
-            size="sm"
-            className="w-full gap-2"
-            onClick={handleWhatsApp}
-            disabled={isSubmittingQuote}
-          >
-            <MessageCircle className="w-4 h-4" />
-            {t("calc.result.whatsapp")}
-          </Button>
-        </>
-      )}
-    </div>
-  );
 
   const inner = (
     <div className={adminMode ? "" : "max-w-xl mx-auto"}>
@@ -1149,89 +976,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           onChange={handleChange}
         />
 
-        {/* File list */}
-        {parsedFiles.length > 0 && (
-          <div className="mb-4">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                  {parsedFiles.length}/{MAX_FILES} files
-                </span>
-                {parsedFiles.length >= 2 && (
-                  <button
-                    onClick={reset}
-                    className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
-                  >
-                    · {language === "ca" ? "Netejar tot" : language === "es" ? "Limpiar todo" : "Clear all"}
-                  </button>
-                )}
-              </div>
-              <button
-                onClick={reset}
-                className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
-              >
-                <RefreshCw className="w-3 h-3" /> {t("calc.reset")}
-              </button>
-            </div>
-            <div className="space-y-2">
-              {parsedFiles.map(f => {
-                const gramsPerUnit = !f.parseError ? (f.volumeMm3 / 1000) * mat.density * effectiveFill : 0;
-                return (
-                  <div
-                    key={f.id}
-                    className={`rounded-xl px-4 py-3 ${
-                      f.parseError
-                        ? "bg-destructive/8 border border-destructive/20"
-                        : "bg-accent/8 border border-accent/25"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <FileBox className={`w-4 h-4 flex-shrink-0 ${f.parseError ? "text-destructive" : "text-accent"}`} />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{stripUploadPrefix(f.name)}</p>
-                        {f.parseError ? (
-                          <p className="text-xs text-destructive">{f.parseError}</p>
-                        ) : (
-                          <p className="text-xs text-muted-foreground">
-                            {(f.sizeBytes / 1024 / 1024).toFixed(2)} MB
-                            {adminMode && gramsPerUnit > 0 && ` · ${gramsPerUnit.toFixed(1)} g/unit`}
-                          </p>
-                        )}
-                      </div>
-                      {!f.parseError && (
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <label className="text-xs text-muted-foreground">{t("calc.qty")}</label>
-                          <input
-                            type="number"
-                            min={1}
-                            max={999}
-                            value={f.qty}
-                            onChange={e => updateQty(f.id, Number(e.target.value))}
-                            className="w-14 h-7 rounded border border-input bg-background px-2 text-sm text-center focus:outline-none focus:ring-1 focus:ring-ring"
-                          />
-                        </div>
-                      )}
-                      <button
-                        onClick={() => removeFile(f.id)}
-                        className="p-1 rounded-full hover:bg-destructive/10 transition-colors shrink-0"
-                        aria-label="Remove file"
-                      >
-                        <X className="w-4 h-4 text-muted-foreground" />
-                      </button>
-                    </div>
-                    {!f.parseError && f.file && (
-                      <Suspense fallback={<div style={{ width: 240, height: 240, background: "#f0f0f0", borderRadius: 8, marginTop: 8 }} />}>
-                        <StlViewer file={f.file} />
-                      </Suspense>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Drop zone */}
+        {/* Drop zone / add-more */}
         {parsedFiles.length === 0 ? (
           <>
             <div
@@ -1274,123 +1019,28 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </div>
         )}
 
-        {/* Controls: material + infill */}
-        <div className="flex items-center justify-between mt-5 mb-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            {t("calc.customize.heading")}
-          </p>
-          <div className="flex rounded-full border border-border overflow-hidden text-xs">
-            <button
-              type="button"
-              onClick={() => setAdvancedMode(false)}
-              className={`px-2.5 py-1 transition-colors ${!advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
-            >
-              {t("calc.mode.simple")}
-            </button>
-            <button
-              type="button"
-              onClick={() => setAdvancedMode(true)}
-              className={`px-2.5 py-1 transition-colors border-l border-border ${advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
-            >
-              {t("calc.mode.advanced")}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className={advancedMode ? "" : "col-span-2"}>
-            <label htmlFor="calc-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
-            <select
-              id="calc-material"
-              value={materialKey}
-              onChange={e => setMaterialKey(e.target.value)}
-              className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            >
-              {Object.entries(MATERIALS).map(([k, v]) => (
-                <option key={k} value={k}>{v.label} — {t(v.descriptorKey)}</option>
-              ))}
-            </select>
-          </div>
-          {advancedMode && (
-            <div>
-              <label htmlFor="calc-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
-              <select
-                id="calc-infill"
-                value={infillPct}
-                onChange={e => setInfillPct(Number(e.target.value))}
-                className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                {INFILL_OPTIONS.map(o => (
-                  <option key={o.value} value={o.value}>{t(o.key)}</option>
-                ))}
-              </select>
-            </div>
-          )}
-        </div>
-
-        {/* Color preference — visible in both modes */}
-        <div className="mt-2">
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.color")}</label>
-          <input
-            type="text"
-            value={colorPref}
-            onChange={e => setColorPref(e.target.value)}
-            placeholder={t("calc.color.placeholder")}
-            className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+        {/* Default settings */}
+        <div className="mt-4">
+          <DefaultSettings
+            materialKey={materialKey}
+            colorPref={colorPref}
+            infillPct={infillPct}
+            wallLoops={wallLoops}
+            multicolour={multicolour}
+            urgency={urgency}
+            advancedMode={advancedMode}
+            disabled={isCheckingOut || isSubmittingQuote}
+            t={t}
+            materialOptions={materialOptions}
+            onMaterialChange={setMaterialKey}
+            onColorChange={setColorPref}
+            onInfillChange={setInfillPct}
+            onWallLoopsChange={setWallLoops}
+            onMulticolourChange={setMulticolour}
+            onUrgencyChange={setUrgency}
+            onAdvancedModeChange={setAdvancedMode}
           />
         </div>
-
-        {/* Advanced-only controls */}
-        {advancedMode && (
-          <>
-            {/* Wall loops */}
-            <div className="mt-2">
-              <label htmlFor="calc-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
-              <select
-                id="calc-walls"
-                value={wallLoops}
-                onChange={e => setWallLoops(Number(e.target.value))}
-                className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value={2}>{t("calc.walls.2")}</option>
-                <option value={3}>{t("calc.walls.3")}</option>
-                <option value={4}>{t("calc.walls.4")}</option>
-                <option value={5}>{t("calc.walls.5")}</option>
-                <option value={6}>{t("calc.walls.6")}</option>
-                <option value={7}>{t("calc.walls.7")}</option>
-                <option value={8}>{t("calc.walls.8")}</option>
-              </select>
-            </div>
-
-            {/* Urgency */}
-            <div className="mt-2">
-              <label htmlFor="calc-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
-              <select
-                id="calc-urgency"
-                value={urgency}
-                onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
-                className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
-                <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
-                <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
-              </select>
-            </div>
-
-            {/* Multicolour toggle */}
-            <div className="mt-2">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={multicolour}
-                  onChange={e => setMulticolour(e.target.checked)}
-                  className="h-4 w-4 rounded border-input accent-accent"
-                />
-                <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
-              </label>
-            </div>
-          </>
-        )}
 
         {/* Top-level error */}
         {error && (
@@ -1446,16 +1096,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       ? t("calc.instantBuy.confirmation")
                       : t("calc.result.disclaimer")}
                   </p>
-                  {bundle.supportHeavy && (
-                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-                      {t("calc.overhang.note")}
-                    </p>
-                  )}
-                  {multicolour && (
-                    <p className="text-xs text-accent mt-2 bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
-                      {t("calc.multicolour.note")}
-                    </p>
-                  )}
                   <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">
                     ¿Eres estudiante? Menciona tu universidad al confirmar tu presupuesto y obtén un 20% de descuento.
                   </p>
@@ -1469,8 +1109,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <>
                     {validFiles.length > 1 && (
                       <div className="mt-3 mb-3 space-y-0.5 border-t border-border pt-3">
-                        {validFiles.map(f => {
-                          const gpu = (f.volumeMm3 / 1000) * mat.density * effectiveFill;
+                        {validFiles.map((f, i) => {
+                          const gpu = bundle.orderResult.parts[i]?.gramsPerUnit ?? 0;
                           return (
                             <div key={f.id} className="flex justify-between text-xs text-muted-foreground">
                               <span className="truncate max-w-[60%]">{f.name}</span>
@@ -1497,7 +1137,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               })()}
             </div>
 
-            {/* Quote submission form — consumer only */}
+            {/* OrderPanel — consumer only */}
             {!adminMode && (
               isSubmittedQuote ? (
                 <div className="mt-4 rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-5 text-center">
@@ -1506,37 +1146,50 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
                 </div>
               ) : (
-                <>
-                  <div className="mt-4 rounded-xl border border-accent/30 bg-accent/5 p-5">
-                    <p className="text-lg font-semibold text-foreground mb-1">{t("calc.contact.heading")}</p>
-                    <p className="text-sm text-muted-foreground mb-3">{t("calc.contact.reassure")}</p>
-                    {contactFormContent}
-                    {hasSubmitted && uploadState !== "idle" && (
-                      <div className="flex items-center gap-1.5 mt-3 text-xs">
-                        {(uploadState === "uploading" || uploadState === "slow") && (
-                          <>
-                            <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
-                            <span className="text-muted-foreground">
-                              {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
-                            </span>
-                          </>
-                        )}
-                        {uploadState === "done" && (
-                          <>
-                            <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
-                            <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
-                          </>
-                        )}
-                        {uploadState === "failed" && (
-                          <>
-                            <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                            <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </>
+                <div className="mt-4">
+                  <OrderPanel
+                    parsedFiles={parsedFiles}
+                    validFiles={validFiles}
+                    bundle={bundle}
+                    defaults={defaults}
+                    selectedFileIndex={selectedFileIndex}
+                    expandedPartId={expandedPartId}
+                    onSelectPart={setSelectedFileIndex}
+                    onExpandPart={setExpandedPartId}
+                    onQtyChange={updateQty}
+                    onRemove={removeFile}
+                    onPartSettingsChange={handlePartSettingsChange}
+                    onResetPartSettings={handleResetPartSettings}
+                    onApplyToAll={handleApplyToAll}
+                    fulfillment={fulfillment}
+                    fulfillmentAttempted={fulfillmentAttempted}
+                    onFulfillmentChange={(v) => { setFulfillment(v); setFulfillmentAttempted(false); }}
+                    pickupCity={pickupCity}
+                    contactEmail={contactEmail}
+                    contactPhone={contactPhone}
+                    quoteError={quoteError}
+                    checkoutError={checkoutError}
+                    oversizedFiles={oversizedFiles}
+                    onContactEmailChange={setContactEmail}
+                    onContactPhoneChange={setContactPhone}
+                    advancedMode={advancedMode}
+                    instantBuyEligible={instantBuyEligible}
+                    isCheckingOut={isCheckingOut}
+                    preUploadDone={preUploadDone}
+                    isSubmittingQuote={isSubmittingQuote}
+                    showManualReview={showManualReview}
+                    hasSubmitted={hasSubmitted}
+                    uploadState={uploadState}
+                    onInstantBuy={handleInstantBuy}
+                    onManualReview={() => setShowManualReview(true)}
+                    onSubmitQuote={submitQuote}
+                    onWhatsApp={handleWhatsApp}
+                    language={language}
+                    t={t}
+                    materialOptions={materialOptions}
+                    adminMode={adminMode}
+                  />
+                </div>
               )
             )}
           </div>
@@ -1651,17 +1304,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
                   </div>
 
-                  {bundle.supportHeavy && (
-                    <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-                      {t("calc.overhang.note")}
-                    </p>
-                  )}
-                  {multicolour && (
-                    <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
-                      {t("calc.multicolour.note")}
-                    </p>
-                  )}
-
               {/* Add more files — hidden input + dashed drop zone, inside the dialog */}
               <input
                 ref={modalInputRef}
@@ -1694,6 +1336,26 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 )
               )}
 
+              <DefaultSettings
+                materialKey={materialKey}
+                colorPref={colorPref}
+                infillPct={infillPct}
+                wallLoops={wallLoops}
+                multicolour={multicolour}
+                urgency={urgency}
+                advancedMode={advancedMode}
+                disabled={isCheckingOut || isSubmittingQuote}
+                t={t}
+                materialOptions={materialOptions}
+                onMaterialChange={setMaterialKey}
+                onColorChange={setColorPref}
+                onInfillChange={setInfillPct}
+                onWallLoopsChange={setWallLoops}
+                onMulticolourChange={setMulticolour}
+                onUrgencyChange={setUrgency}
+                onAdvancedModeChange={setAdvancedMode}
+              />
+
               {isSubmittedQuote ? (
                 <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
                   <CheckCircle className="w-7 h-7 text-whatsapp mx-auto mb-2" />
@@ -1701,375 +1363,66 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
                 </div>
               ) : (
-                <>
-                  {/* Configuration controls — bound to the same state as inline form */}
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                      {t("calc.customize.heading")}
-                    </p>
-                    <div className="flex rounded-full border border-border overflow-hidden text-xs">
-                      <button
-                        type="button"
-                        onClick={() => setAdvancedMode(false)}
-                        className={`px-2.5 py-1 transition-colors ${!advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
-                      >
-                        {t("calc.mode.simple")}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setAdvancedMode(true)}
-                        className={`px-2.5 py-1 transition-colors border-l border-border ${advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
-                      >
-                        {t("calc.mode.advanced")}
-                      </button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className={advancedMode ? "" : "sm:col-span-2"}>
-                      <label htmlFor="modal-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
-                      <select
-                        id="modal-material"
-                        value={materialKey}
-                        onChange={e => setMaterialKey(e.target.value)}
-                        disabled={isSubmittingQuote}
-                        className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      >
-                        {Object.entries(MATERIALS).map(([k, v]) => (
-                          <option key={k} value={k}>{v.label} — {t(v.descriptorKey)}</option>
-                        ))}
-                      </select>
-                    </div>
-                    {advancedMode && (
-                      <div>
-                        <label htmlFor="modal-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
-                        <select
-                          id="modal-infill"
-                          value={infillPct}
-                          onChange={e => setInfillPct(Number(e.target.value))}
-                          disabled={isSubmittingQuote}
-                          className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                        >
-                          {INFILL_OPTIONS.map(o => (
-                            <option key={o.value} value={o.value}>{t(o.key)}</option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-                    {advancedMode && (
-                      <div>
-                        <label htmlFor="modal-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
-                        <select
-                          id="modal-walls"
-                          value={wallLoops}
-                          onChange={e => setWallLoops(Number(e.target.value))}
-                          disabled={isSubmittingQuote}
-                          className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                        >
-                          <option value={2}>{t("calc.walls.2")}</option>
-                          <option value={3}>{t("calc.walls.3")}</option>
-                          <option value={4}>{t("calc.walls.4")}</option>
-                          <option value={5}>{t("calc.walls.5")}</option>
-                          <option value={6}>{t("calc.walls.6")}</option>
-                          <option value={7}>{t("calc.walls.7")}</option>
-                          <option value={8}>{t("calc.walls.8")}</option>
-                        </select>
-                      </div>
-                    )}
-                    {advancedMode && (
-                      <div>
-                        <label htmlFor="modal-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
-                        <select
-                          id="modal-urgency"
-                          value={urgency}
-                          onChange={e => setUrgency(e.target.value as "standard" | "express" | "urgent")}
-                          disabled={isSubmittingQuote}
-                          className="w-full h-9 rounded-md border border-input bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                        >
-                          <option value="standard">{t("calc.urgency.standard.label")} — {t("calc.urgency.standard.time")}</option>
-                          <option value="express">{t("calc.urgency.express.label")} +25% — {t("calc.urgency.express.time")}</option>
-                          <option value="urgent">{t("calc.urgency.urgent.label")} +60% — {t("calc.urgency.urgent.time")}</option>
-                        </select>
-                      </div>
-                    )}
-                    <div>
-                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.qty")}</label>
-                      <div className="flex items-center h-9 rounded-md border border-input bg-background overflow-hidden">
-                        <button
-                          type="button"
-                          onClick={() => stepperFile && updateQty(stepperFile.id, stepperValue - 1)}
-                          disabled={!stepperFile || stepperValue <= 1 || isSubmittingQuote}
-                          className="w-9 h-full flex items-center justify-center text-lg text-foreground hover:bg-muted/40 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
-                          aria-label="Decrease quantity"
-                        >
-                          −
-                        </button>
-                        <span className="flex-1 text-center text-sm font-medium tabular-nums">{stepperValue}</span>
-                        <button
-                          type="button"
-                          onClick={() => stepperFile && updateQty(stepperFile.id, stepperValue + 1)}
-                          disabled={!stepperFile || isSubmittingQuote}
-                          className="w-9 h-full flex items-center justify-center text-lg text-foreground hover:bg-muted/40 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
-                          aria-label="Increase quantity"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    {advancedMode && (
-                      <div className="flex items-end">
-                        <label className="flex items-center gap-2 h-9 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
-                            checked={multicolour}
-                            onChange={e => setMulticolour(e.target.checked)}
-                            disabled={isSubmittingQuote}
-                            className="h-4 w-4 rounded border-input accent-accent"
-                          />
-                          <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
-                        </label>
-                      </div>
-                    )}
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.color")}</label>
-                      <input
-                        type="text"
-                        value={colorPref}
-                        onChange={e => setColorPref(e.target.value)}
-                        placeholder={t("calc.color.placeholder")}
-                        disabled={isSubmittingQuote}
-                        className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Contact inputs — buttons live in the sticky footer */}
-                  <div className="space-y-2">
-                    <input
-                      type="email"
-                      value={contactEmail}
-                      onChange={e => setContactEmail(e.target.value)}
-                      placeholder={t("calc.contact.email")}
-                      disabled={isSubmittingQuote}
-                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                    />
-                    <input
-                      type="tel"
-                      value={contactPhone}
-                      onChange={e => setContactPhone(e.target.value)}
-                      placeholder={t("calc.contact.phone")}
-                      disabled={isSubmittingQuote}
-                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                    />
-                    {quoteError && (
-                      <p className="text-xs text-destructive">{quoteError}</p>
-                    )}
-                    {oversizedFiles.length > 0 && (
-                      <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-                        {t("calc.notice.tooLargeToUpload")}
-                      </p>
-                    )}
-                  </div>
-
-                  {hasSubmitted && uploadState !== "idle" && (
-                    <div className="flex items-center gap-1.5 text-xs">
-                      {(uploadState === "uploading" || uploadState === "slow") && (
-                        <>
-                          <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
-                          <span className="text-muted-foreground">
-                            {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
-                          </span>
-                        </>
-                      )}
-                      {uploadState === "done" && (
-                        <>
-                          <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
-                          <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
-                        </>
-                      )}
-                      {uploadState === "failed" && (
-                        <>
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                          <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </>
+                <OrderPanel
+                  parsedFiles={parsedFiles}
+                  validFiles={validFiles}
+                  bundle={bundle}
+                  defaults={defaults}
+                  selectedFileIndex={selectedFileIndex}
+                  expandedPartId={expandedPartId}
+                  onSelectPart={setSelectedFileIndex}
+                  onExpandPart={setExpandedPartId}
+                  onQtyChange={updateQty}
+                  onRemove={removeFile}
+                  onPartSettingsChange={handlePartSettingsChange}
+                  onResetPartSettings={handleResetPartSettings}
+                  onApplyToAll={handleApplyToAll}
+                  fulfillment={fulfillment}
+                  fulfillmentAttempted={fulfillmentAttempted}
+                  onFulfillmentChange={(v) => { setFulfillment(v); setFulfillmentAttempted(false); }}
+                  pickupCity={pickupCity}
+                  contactEmail={contactEmail}
+                  contactPhone={contactPhone}
+                  quoteError={quoteError}
+                  checkoutError={checkoutError}
+                  oversizedFiles={oversizedFiles}
+                  onContactEmailChange={setContactEmail}
+                  onContactPhoneChange={setContactPhone}
+                  advancedMode={advancedMode}
+                  instantBuyEligible={instantBuyEligible}
+                  isCheckingOut={isCheckingOut}
+                  preUploadDone={preUploadDone}
+                  isSubmittingQuote={isSubmittingQuote}
+                  showManualReview={showManualReview}
+                  hasSubmitted={hasSubmitted}
+                  uploadState={uploadState}
+                  onInstantBuy={handleInstantBuy}
+                  onManualReview={() => setShowManualReview(true)}
+                  onSubmitQuote={submitQuote}
+                  onWhatsApp={handleWhatsApp}
+                  language={language}
+                  t={t}
+                  materialOptions={materialOptions}
+                  adminMode={adminMode}
+                />
               )}
                 </div>{/* end right col */}
               </div>{/* end grid container */}
             </div>{/* end scrollable body */}
 
-            {/* Sticky footer — primary CTA is always visible */}
-            {!isSubmittedQuote && (
-              <div className="shrink-0 border-t border-border bg-background px-6 py-4 space-y-2">
-                {instantBuyEligible && !showManualReview ? (
-                  <>
-                    <p className="text-xs text-center text-muted-foreground italic">
-                      {t("calc.instantBuy.confirmation")}
-                    </p>
-                    {/* Fulfillment choice */}
-                    <div>
-                      <div className="grid grid-cols-2 gap-2">
-                        {(["pickup", "shipping"] as const).map(opt => (
-                          <button
-                            key={opt}
-                            type="button"
-                            onClick={() => { setFulfillment(opt); setFulfillmentAttempted(false); }}
-                            disabled={isCheckingOut}
-                            className={`h-10 rounded-md border text-sm font-medium transition-colors disabled:opacity-60 ${
-                              fulfillment === opt
-                                ? "border-accent bg-accent text-accent-foreground"
-                                : "border-input bg-background text-foreground hover:border-accent/60 hover:bg-accent/5"
-                            }`}
-                          >
-                            {t(`calc.instantBuy.fulfillment.${opt}` as any).replace("{city}", pickupCity)}
-                          </button>
-                        ))}
-                      </div>
-                      {fulfillmentAttempted && fulfillment === null && (
-                        <p className="text-xs text-destructive mt-1 text-center">{t("calc.instantBuy.fulfillment.required")}</p>
-                      )}
-                      {fulfillment === "pickup" && (FAST_PICKUP_MATERIALS as readonly string[]).includes(materialKey) && (
-                        <p className="text-xs text-muted-foreground mt-1.5 text-center">{t("calc.instantBuy.fulfillment.fastPickup").replace("{city}", pickupCity)}</p>
-                      )}
-                    </div>
-                    {checkoutError && (
-                      <p className="text-xs text-center text-destructive">{checkoutError}</p>
-                    )}
-                    {fulfillment === "shipping" && instantDisplayPrice !== null && (
-                      <div className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-sm space-y-0.5">
-                        <div className="flex justify-between text-muted-foreground">
-                          <span>{t("calc.instantBuy.shipping.print")}</span>
-                          <span>€{instantDisplayPrice.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between text-muted-foreground">
-                          <span>{t("calc.instantBuy.shipping.surcharge")}</span>
-                          <span>+ €{SHIPPING_SURCHARGE.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between font-semibold border-t border-border pt-0.5 mt-0.5">
-                          <span>{t("calc.instantBuy.shipping.total")}</span>
-                          <span>€{instantTotalPrice?.toFixed(2)}</span>
-                        </div>
-                      </div>
-                    )}
-                    <Button
-                      variant="cta"
-                      size="lg"
-                      className="w-full gap-2"
-                      onClick={handleInstantBuy}
-                      disabled={isCheckingOut || !preUploadDone}
-                    >
-                      {isCheckingOut
-                        ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                        : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
-                      }
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
-                      onClick={() => setShowManualReview(true)}
-                      disabled={isCheckingOut}
-                    >
-                      <Send className="w-4 h-4 shrink-0" />
-                      {t("calc.instantBuy.manualReview")}
-                    </Button>
-                    <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
-                      <X className="w-4 h-4" />
-                      {t("calc.modal.close")}
-                    </DialogClose>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      variant="cta"
-                      size="lg"
-                      className="w-full gap-2"
-                      onClick={submitQuote}
-                      disabled={isSubmittingQuote}
-                    >
-                      {isSubmittingQuote
-                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                        : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
-                      }
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground">
-                      {t("calc.modal.trust")
-                        .replace("{rating}", formatRating(language))
-                        .replace("{count}", String(GOOGLE_RATING.count))}
-                    </p>
-                    <Button
-                      variant="whatsapp-outline"
-                      size="sm"
-                      className="w-full gap-2"
-                      onClick={handleWhatsApp}
-                      disabled={isSubmittingQuote}
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      {t("calc.result.whatsapp")}
-                    </Button>
-                    <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
-                      <X className="w-4 h-4" />
-                      {t("calc.modal.close")}
-                    </DialogClose>
-                  </>
-                )}
-              </div>
-            )}
+            {/* Sticky footer — close only; actions live in the scrollable OrderPanel */}
+            <div className="shrink-0 border-t border-border bg-background px-6 py-4">
+              <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
+                <X className="w-4 h-4" />
+                {t("calc.modal.close")}
+              </DialogClose>
+            </div>
           </DialogContent>
         </Dialog>
         );
       })()}
 
-      {/* Manual review Dialog — interrupting popup when user clicks "Solicitar revisión" */}
-      {!adminMode && (
-        <Dialog open={showManualReview} onOpenChange={(open) => { if (!open) setShowManualReview(false); }}>
-          <DialogContent className="sm:max-w-sm p-8 gap-0">
-            <DialogHeader className="mb-4">
-              <DialogTitle className="text-lg font-bold text-foreground">
-                {language === "es" ? "Solicitar revisión de equipo"
-                  : language === "ca" ? "Sol·licitar revisió d'equip"
-                  : "Request team review"}
-              </DialogTitle>
-            </DialogHeader>
-            <div className="mb-4 rounded-lg bg-accent/10 border border-accent/30 px-4 py-3">
-              <p className="text-sm font-medium text-accent">
-                {language === "es"
-                  ? "¡Perfecto! Solo necesitamos tu email o WhatsApp para enviar tu archivo a nuestro equipo para revisión."
-                  : language === "ca"
-                  ? "Perfecte! Només necessitem el teu email o WhatsApp per enviar el teu arxiu al nostre equip per revisar-lo."
-                  : "Perfect! We just need your email or WhatsApp to send your file to our team for review."}
-              </p>
-            </div>
-            {contactFormContent}
-            {hasSubmitted && uploadState !== "idle" && (
-              <div className="flex items-center gap-1.5 mt-3 text-xs">
-                {(uploadState === "uploading" || uploadState === "slow") && (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
-                    <span className="text-muted-foreground">
-                      {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
-                    </span>
-                  </>
-                )}
-                {uploadState === "done" && (
-                  <>
-                    <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
-                    <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
-                  </>
-                )}
-                {uploadState === "failed" && (
-                  <>
-                    <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                    <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
-                  </>
-                )}
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
-      )}
+
     </div>
   );
 
