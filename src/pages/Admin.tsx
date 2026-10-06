@@ -49,6 +49,8 @@ import { StlEstimator } from "@/components/StlEstimator";
 import { toast } from "@/hooks/use-toast";
 import { ORDER_STATUSES, type OrderStatus } from "@/lib/orderStatus";
 import type { Session } from "@supabase/supabase-js";
+import type { TablesUpdate, Json } from "@/integrations/supabase/types";
+import { buildCalibrationCsv } from "@/lib/calibrationCsv";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -60,9 +62,15 @@ type PieceInfo = {
   color?: string | null;
   infill?: number | null;
   wallLoops?: number | null;
+  quality?: string | null;
+  supports?: boolean | null;
+  orientation?: string | number | null;
   multicolour?: boolean | null;
   costCents?: number | null;
   gramsPerUnit?: number | null;
+  hoursPerUnit?: number | null;
+  actualGrams?: number | null;
+  actualHours?: number | null;
 }
 
 interface Order {
@@ -209,6 +217,117 @@ function parseInstantNotes(notes: string): Record<string, string> | null {
 
 function hasPerPartSpecs(pieces: PieceInfo[] | null | undefined): boolean {
   return !!(pieces?.some(p => p.material));
+}
+
+function OrderPiecesTable({
+  order,
+  onSave,
+}: {
+  order: Order;
+  onSave: (order: Order, idx: number, field: "actualGrams" | "actualHours", val: string) => void;
+}) {
+  const pieces = order.pieces;
+  if (!pieces?.length) return null;
+  if (!hasPerPartSpecs(pieces)) {
+    return (
+      <table className="w-full text-xs mt-2">
+        <tbody>
+          {pieces.map((p, i) => (
+            <tr key={i} className="border-t border-slate-100">
+              <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
+              <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
+            </tr>
+          ))}
+          <tr className="border-t border-slate-300">
+            <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
+            <td className="py-0.5 font-bold text-slate-900 text-right">{pieces.reduce((s, p) => s + p.quantity, 0)}</td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+  const hasCost = pieces.some(p => p.costCents != null);
+  const hasPred = pieces.some(p => p.gramsPerUnit != null);
+  return (
+    <table className="w-full text-xs mt-2 border-collapse">
+      <thead>
+        <tr className="border-b border-slate-200 text-slate-400">
+          <th className="py-0.5 pr-2 text-left font-medium">Pieza</th>
+          <th className="py-0.5 pr-2 text-right font-medium">×</th>
+          <th className="py-0.5 pr-2 text-left font-medium">Material</th>
+          <th className="py-0.5 pr-2 text-right font-medium">%</th>
+          <th className="py-0.5 pr-2 text-right font-medium">W</th>
+          <th className="py-0.5 pr-2 text-left font-medium">Color</th>
+          {hasCost && <th className="py-0.5 pr-2 text-right font-medium">€</th>}
+          {hasPred && <>
+            <th className="py-0.5 pr-1 text-right font-medium text-slate-300">Pred.g</th>
+            <th className="py-0.5 pr-1 text-right font-medium">Act.g</th>
+            <th className="py-0.5 pr-1 text-right font-medium text-slate-300">Pred.h</th>
+            <th className="py-0.5 text-right font-medium">Act.h</th>
+          </>}
+        </tr>
+      </thead>
+      <tbody>
+        {pieces.map((p, i) => {
+          const diffG = p.gramsPerUnit != null && p.actualGrams != null
+            ? ((p.actualGrams - p.gramsPerUnit) / p.gramsPerUnit * 100) : null;
+          const diffH = p.hoursPerUnit != null && p.actualHours != null
+            ? ((p.actualHours - p.hoursPerUnit) / p.hoursPerUnit * 100) : null;
+          return (
+            <tr key={i} className="border-t border-slate-100">
+              <td className="py-0.5 pr-2 text-slate-600 max-w-[120px] truncate">{p.name}</td>
+              <td className="py-0.5 pr-2 font-medium text-slate-800 text-right">{p.quantity}</td>
+              <td className="py-0.5 pr-2 text-slate-700">{p.material ?? "—"}</td>
+              <td className="py-0.5 pr-2 text-slate-600 text-right">{p.infill != null ? p.infill : "—"}</td>
+              <td className="py-0.5 pr-2 text-slate-600 text-right">{p.wallLoops != null ? p.wallLoops : "—"}</td>
+              <td className="py-0.5 pr-2 text-slate-500 max-w-[80px] truncate">{p.color ?? "—"}</td>
+              {hasCost && <td className="py-0.5 pr-2 text-slate-700 text-right">{p.costCents != null ? `€${(p.costCents/100).toFixed(2)}` : "—"}</td>}
+              {hasPred && p.gramsPerUnit != null ? (
+                <>
+                  <td className="py-0.5 pr-1 text-slate-400 text-right">{Number(p.gramsPerUnit).toFixed(1)}</td>
+                  <td className="py-0.5 pr-1 text-right">
+                    <span className="flex items-center justify-end gap-0.5">
+                      <input
+                        key={`g-${p.actualGrams ?? ""}`}
+                        type="number" step="0.1" min="0"
+                        defaultValue={p.actualGrams ?? ""}
+                        placeholder="—"
+                        className="w-12 text-right border border-slate-200 rounded px-0.5 py-0 text-xs bg-white"
+                        onBlur={e => onSave(order, i, "actualGrams", e.currentTarget.value)}
+                      />
+                      {diffG != null && (
+                        <span className={`text-[10px] ${Math.abs(diffG) > 10 ? "text-red-500" : "text-green-600"}`}>
+                          {diffG > 0 ? "+" : ""}{diffG.toFixed(1)}%
+                        </span>
+                      )}
+                    </span>
+                  </td>
+                  <td className="py-0.5 pr-1 text-slate-400 text-right">{p.hoursPerUnit != null ? Number(p.hoursPerUnit).toFixed(2) : "—"}</td>
+                  <td className="py-0.5 text-right">
+                    <span className="flex items-center justify-end gap-0.5">
+                      <input
+                        key={`h-${p.actualHours ?? ""}`}
+                        type="number" step="0.01" min="0"
+                        defaultValue={p.actualHours ?? ""}
+                        placeholder="—"
+                        className="w-12 text-right border border-slate-200 rounded px-0.5 py-0 text-xs bg-white"
+                        onBlur={e => onSave(order, i, "actualHours", e.currentTarget.value)}
+                      />
+                      {diffH != null && (
+                        <span className={`text-[10px] ${Math.abs(diffH) > 20 ? "text-red-500" : "text-green-600"}`}>
+                          {diffH > 0 ? "+" : ""}{diffH.toFixed(1)}%
+                        </span>
+                      )}
+                    </span>
+                  </td>
+                </>
+              ) : hasPred ? <><td /><td /><td /><td /></> : null}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
 }
 
 // ─── Nav config ───────────────────────────────────────────────────────────────
@@ -669,6 +788,30 @@ const Admin = () => {
     }
   };
 
+  const saveActualPiece = async (order: Order, pieceIdx: number, field: "actualGrams" | "actualHours", rawValue: string) => {
+    const numVal = rawValue.trim() === "" ? null : parseFloat(rawValue);
+    if (rawValue.trim() !== "" && (numVal === null || isNaN(numVal))) return;
+    const newPieces: PieceInfo[] = (order.pieces ?? []).map((p, i) =>
+      i === pieceIdx ? { ...p, [field]: numVal } : p
+    );
+    const update: TablesUpdate<"orders"> = { pieces: newPieces as unknown as Json };
+    const { error } = await supabase.from("orders").update(update).eq("id", order.id);
+    if (error) { toast({ title: "Save failed", description: error.message, variant: "destructive" }); return; }
+    setOrders(prev => prev.map(o => o.id === order.id ? { ...o, pieces: newPieces } : o));
+  };
+
+  const downloadCalibrationCsv = () => {
+    const csv = buildCalibrationCsv(orders.map(o => ({
+      order_number: o.order_number,
+      pieces: o.pieces ?? null,
+    })));
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.download = `calibration_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
   const exportEstimatesCsv = () => {
     const header = "date,file_name,material,infill_pct,quantity,grams,est_hours,price_low,price_high";
     const rows = estimates.map(e => [
@@ -805,6 +948,12 @@ const Admin = () => {
               <Button onClick={openNew} className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold h-10">
                 <Plus className="w-4 h-4 mr-1" /> New Order
               </Button>
+              {orders.some(o => o.pieces?.some(p => p.gramsPerUnit != null)) && (
+                <Button variant="outline" size="sm" className="gap-1.5 h-10" onClick={downloadCalibrationCsv}>
+                  <Download className="w-3.5 h-3.5" />
+                  Calibration CSV
+                </Button>
+              )}
             </div>
 
             {ordersLoading ? (
@@ -901,51 +1050,7 @@ const Admin = () => {
                               })}
                             </div>
                           )}
-                          {o.pieces?.length ? (
-                            hasPerPartSpecs(o.pieces) ? (
-                              <table className="w-full text-xs mt-2 border-collapse">
-                                <thead>
-                                  <tr className="border-b border-slate-200 text-slate-400">
-                                    <th className="py-0.5 pr-2 text-left font-medium">Pieza</th>
-                                    <th className="py-0.5 pr-2 text-right font-medium">×</th>
-                                    <th className="py-0.5 pr-2 text-left font-medium">Material</th>
-                                    <th className="py-0.5 pr-2 text-right font-medium">%</th>
-                                    <th className="py-0.5 pr-2 text-right font-medium">W</th>
-                                    <th className="py-0.5 pr-2 text-left font-medium">Color</th>
-                                    {o.pieces.some(p => p.costCents != null) && <th className="py-0.5 text-right font-medium">€</th>}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {o.pieces.map((p, i) => (
-                                    <tr key={i} className="border-t border-slate-100">
-                                      <td className="py-0.5 pr-2 text-slate-600 max-w-[120px] truncate">{p.name}</td>
-                                      <td className="py-0.5 pr-2 font-medium text-slate-800 text-right">{p.quantity}</td>
-                                      <td className="py-0.5 pr-2 text-slate-700">{p.material ?? "—"}</td>
-                                      <td className="py-0.5 pr-2 text-slate-600 text-right">{p.infill != null ? p.infill : "—"}</td>
-                                      <td className="py-0.5 pr-2 text-slate-600 text-right">{p.wallLoops != null ? p.wallLoops : "—"}</td>
-                                      <td className="py-0.5 pr-2 text-slate-500 max-w-[80px] truncate">{p.color ?? "—"}</td>
-                                      {o.pieces!.some(p => p.costCents != null) && <td className="py-0.5 text-slate-700 text-right">{p.costCents != null ? `€${(p.costCents/100).toFixed(2)}` : "—"}</td>}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            ) : (
-                              <table className="w-full text-xs mt-2">
-                                <tbody>
-                                  {o.pieces.map((p, i) => (
-                                    <tr key={i} className="border-t border-slate-100">
-                                      <td className="py-0.5 pr-2 text-slate-600 max-w-[150px] truncate">{p.name}</td>
-                                      <td className="py-0.5 font-medium text-slate-800 text-right">{p.quantity}</td>
-                                    </tr>
-                                  ))}
-                                  <tr className="border-t border-slate-300">
-                                    <td className="py-0.5 pr-2 font-bold text-slate-700">Total</td>
-                                    <td className="py-0.5 font-bold text-slate-900 text-right">{o.pieces.reduce((s, p) => s + p.quantity, 0)}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            )
-                          ) : null}
+                          <OrderPiecesTable order={o} onSave={saveActualPiece} />
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <button

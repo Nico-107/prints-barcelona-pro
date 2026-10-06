@@ -573,18 +573,32 @@ serve(async (req: Request) => {
 
       // Server re-measures each STL from storage (never trust client geometry)
       const analyses: MeshAnalysis[] = [];
-      for (const piece of val.pieces) {
-        const { data: fileData, error: dlErr } = await supabaseV3.storage
-          .from("stl-files")
+      let totalBytes = 0;
+      const MAX_FILE_BYTES = 30 * 1024 * 1024;
+      const MAX_TOTAL_BYTES = 60 * 1024 * 1024;
+      for (let pi = 0; pi < val.pieces.length; pi++) {
+        const piece = val.pieces[pi];
+        const { data: fileBlob, error: dlErr } = await supabaseV3.storage
+          .from("print-requests")
           .download(piece.path);
-        if (dlErr || !fileData) {
-          console.error("STL download failed:", piece.path, dlErr);
-          return json({ error: "FILE_DOWNLOAD_FAILED" }, 500);
+        if (dlErr || !fileBlob) {
+          console.error(`STL download failed for piece ${pi}:`, dlErr?.message);
+          return json({ error: "FILE_NOT_FOUND" }, 400);
         }
-        const buf = await fileData.arrayBuffer();
+        if (fileBlob.size > MAX_FILE_BYTES) {
+          return json({ error: "FILE_TOO_LARGE_FOR_INSTANT" }, 400);
+        }
+        totalBytes += fileBlob.size;
+        if (totalBytes > MAX_TOTAL_BYTES) {
+          return json({ error: "FILE_TOO_LARGE_FOR_INSTANT" }, 400);
+        }
+        const buf = await fileBlob.arrayBuffer();
         const tri = stlToTriangles(buf);
-        if (tri.length === 0) return json({ error: "INVALID_STL" }, 400);
-        analyses.push(analyzeTriangles(tri));
+        const analysis = analyzeTriangles(tri);
+        if (tri.length === 0 || !Number.isFinite(analysis.volumeMm3) || analysis.volumeMm3 <= 0) {
+          return json({ error: "INVALID_FILE" }, 400);
+        }
+        analyses.push(analysis);
       }
 
       const evalResult = evaluateV3(body, analyses);
@@ -605,6 +619,7 @@ serve(async (req: Request) => {
         color: p.color ?? null,
         multicolour: false,
         gramsPerUnit: priced.order.parts[i].grams,
+        hoursPerUnit: parseFloat((priced.order.parts[i].timeSec / 3600).toFixed(4)),
         costCents: priced.order.parts[i].costCents,
       }));
 
