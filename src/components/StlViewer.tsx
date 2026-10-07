@@ -13,35 +13,29 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Mark hydration complete — separate from scene init, mirrors GlobeMap.tsx
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Build Three.js scene once after hydration
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isMounted) return;
 
     let canceled = false;
-    // Holds teardown; set early so an unmount during async init still cleans up
     let cleanupFn: (() => void) | undefined;
 
     const init = async () => {
       try {
-        // ── Dynamic import — NEVER at module top level ────────────────
         const THREE = await import("three");
         if (canceled || !containerRef.current) return;
 
         const cont = containerRef.current;
-        const W = size;
-        const H = size;
+        const W = cont.clientWidth || size;
+        const H = cont.clientHeight || size;
 
-        // ── Read file ─────────────────────────────────────────────────
         const buffer = await file.arrayBuffer();
         if (canceled) return;
 
-        // ── Parse STL vertices — same binary logic as StlEstimator.tsx ─
         let positions: Float32Array;
 
         const isBinary = (() => {
@@ -56,7 +50,7 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
           const triCount = dv.getUint32(80, true);
           const raw = new Float32Array(triCount * 9);
           for (let i = 0; i < triCount; i++) {
-            const base = 84 + i * 50 + 12; // skip 80-byte header + 4-byte count + 12-byte normal
+            const base = 84 + i * 50 + 12;
             raw[i * 9 + 0] = dv.getFloat32(base,      true);
             raw[i * 9 + 1] = dv.getFloat32(base +  4, true);
             raw[i * 9 + 2] = dv.getFloat32(base +  8, true);
@@ -98,39 +92,35 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
 
         if (canceled) return;
 
-        // ── Scene ─────────────────────────────────────────────────────
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf0f0f0);
 
-        // ── Camera ────────────────────────────────────────────────────
         const camera = new THREE.PerspectiveCamera(45, W / H, 0.01, 1_000_000);
 
-        // ── Renderer ──────────────────────────────────────────────────
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(W, H);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         cont.appendChild(renderer.domElement);
         const canvas = renderer.domElement;
+        canvas.style.display = "block";
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
         canvas.style.cursor = "grab";
         canvas.style.borderRadius = "8px";
 
-        // Minimal early cleanup — extended after full init
         cleanupFn = () => {
           renderer.dispose();
           if (cont.contains(canvas)) cont.removeChild(canvas);
         };
 
-        // ── Lights ────────────────────────────────────────────────────
         scene.add(new THREE.AmbientLight(0xffffff, 0.6));
         const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
         dirLight.position.set(1, 2, 3);
         scene.add(dirLight);
 
-        // ── Geometry — same BufferAttribute pattern as GlobeMap's landGeo ─
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
-        // Auto-center and position camera to frame the model
         geometry.computeBoundingBox();
         const box = geometry.boundingBox!;
         const center = new THREE.Vector3();
@@ -149,7 +139,6 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
 
         geometry.computeVertexNormals();
 
-        // ── Mesh — neutral light-gray ─────────────────────────────────
         const material = new THREE.MeshStandardMaterial({ color: 0xd0d0d0 });
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
@@ -157,14 +146,25 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
         setIsLoading(false);
         onReady?.();
 
-        // ── Interaction state ─────────────────────────────────────────
+        // ResizeObserver — keep renderer in sync with container size
+        const ro = new ResizeObserver(() => {
+          if (!containerRef.current) return;
+          const w = containerRef.current.clientWidth;
+          const h = containerRef.current.clientHeight;
+          if (w > 0 && h > 0) {
+            renderer.setSize(w, h);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+          }
+        });
+        ro.observe(cont);
+
         let isDragging = false;
         let prevMouseX = 0;
         let prevMouseY = 0;
         let touchPrevX = 0;
         let touchPrevY = 0;
 
-        // ── Mouse handlers — mirrors GlobeMap.tsx's pattern ───────────
         const onMouseDown = (e: MouseEvent) => {
           isDragging = true;
           prevMouseX = e.clientX;
@@ -187,7 +187,6 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
           canvas.style.cursor = "grab";
         };
 
-        // ── Touch handlers — mirrors GlobeMap.tsx's pattern ──────────
         const onTouchStart = (e: TouchEvent) => {
           if (e.touches.length !== 1) return;
           isDragging = true;
@@ -210,7 +209,6 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
           isDragging = false;
         };
 
-        // Attach events — mousemove/mouseup on window so dragging off-canvas works
         canvas.addEventListener("mousedown",  onMouseDown);
         window.addEventListener("mousemove",  onMouseMove);
         window.addEventListener("mouseup",    onMouseUp);
@@ -218,7 +216,6 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
         canvas.addEventListener("touchmove",  onTouchMove,  { passive: false });
         canvas.addEventListener("touchend",   onTouchEnd,   { passive: true });
 
-        // ── Animation loop ─────────────────────────────────────────────
         let frameId: number;
         const animate = () => {
           frameId = requestAnimationFrame(animate);
@@ -229,15 +226,17 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
         };
         animate();
 
-        // ── Full cleanup — mirrors GlobeMap.tsx's cleanup block ───────
         cleanupFn = () => {
           cancelAnimationFrame(frameId);
+          ro.disconnect();
           canvas.removeEventListener("mousedown",  onMouseDown);
           window.removeEventListener("mousemove",  onMouseMove);
           window.removeEventListener("mouseup",    onMouseUp);
           canvas.removeEventListener("touchstart", onTouchStart);
           canvas.removeEventListener("touchmove",  onTouchMove);
           canvas.removeEventListener("touchend",   onTouchEnd);
+          geometry.dispose();
+          material.dispose();
           renderer.dispose();
           if (cont.contains(canvas)) cont.removeChild(canvas);
         };
@@ -258,19 +257,15 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
     };
   }, [isMounted, file, size]);
 
-  // Placeholder while not yet mounted (SSR / pre-hydration)
   if (!isMounted) {
-    return <div style={{ width: size, height: size, background: "#f0f0f0", borderRadius: 8 }} />;
+    return <div style={{ width: "100%", height: "100%", background: "#f0f0f0", borderRadius: 8 }} />;
   }
 
-  // On error, render nothing — never crash the parent component
   if (hasError) return null;
 
   return (
-    <div style={{ position: "relative", width: size, height: size, marginTop: 8 }}>
-      {/* Canvas is appended here by the Three.js renderer */}
-      <div ref={containerRef} style={{ width: size, height: size, borderRadius: 8, overflow: "hidden" }} />
-      {/* Loading placeholder overlays container until canvas is ready */}
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <div ref={containerRef} style={{ width: "100%", height: "100%", borderRadius: 8, overflow: "hidden" }} />
       {isLoading && (
         <div
           style={{

@@ -14,6 +14,7 @@ import { useExperiment } from "@/lib/useExperiment";
 import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { effectivePartSettings } from "@/lib/pricing";
+import type { Scope } from "./estimator/PartScopeBar";
 import { computeBundleV3 } from "@/lib/estimate";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
@@ -237,6 +238,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
+  const [scope, setScope] = useState<Scope>("all");
+  const [replacedCount, setReplacedCount] = useState<number | null>(null);
+  const replacedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [exitIntentSubmitting, setExitIntentSubmitting] = useState(false);
   const [exitIntentSubmitted, setExitIntentSubmitted] = useState(false);
   const [exitIntentError, setExitIntentError] = useState<string | null>(null);
@@ -261,8 +265,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError);
-  const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
+  const costByFileId: Record<string, number> = {};
   const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
+  if (bundle) {
+    validFiles.forEach((f, i) => { costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0; });
+  }
+  const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
 
   const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
   const filesWithinVerifyLimit = validFiles.every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES) &&
@@ -486,6 +494,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     estimateShownRef.current = false;
     modalShownRef.current = false;
     setParsedFiles(prev => prev.filter(f => f.id !== id));
+    if (scope === id) setScope("all");
   };
 
   const reset = () => {
@@ -527,6 +536,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setShowManualReview(false);
     setFulfillment(null);
     setFulfillmentAttempted(false);
+    setScope("all");
+    setReplacedCount(null);
   };
 
   const handleWhatsApp = () => {
@@ -555,6 +566,30 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setWallLoops(eff.wallLoops);
     setMulticolour(eff.multicolour);
     setParsedFiles(prev => prev.map(f => f.id !== id ? { ...f, settings: undefined } : f));
+    setScope("all");
+  };
+
+  const clearFieldFromAllParts = (field: keyof PartSettings): number => {
+    const count = parsedFiles.filter(f => f.settings != null && field in f.settings).length;
+    setParsedFiles(prev => prev.map(f => {
+      if (!f.settings || !(field in f.settings)) return f;
+      const { [field]: _removed, ...rest } = f.settings as Record<string, unknown>;
+      return { ...f, settings: Object.keys(rest).length > 0 ? rest as PartSettings : undefined };
+    }));
+    if (count > 0) {
+      if (replacedTimerRef.current) clearTimeout(replacedTimerRef.current);
+      setReplacedCount(count);
+      replacedTimerRef.current = setTimeout(() => setReplacedCount(null), 3000);
+    }
+    return count;
+  };
+
+  const handleScopeChange = (newScope: Scope) => {
+    setScope(newScope);
+    if (newScope !== "all") {
+      const idx = viewableFiles.findIndex(f => f.id === newScope);
+      if (idx >= 0) setSelectedFileIndex(idx);
+    }
   };
 
   // Reset manual-review and fulfillment choices whenever eligibility drivers change
@@ -1218,82 +1253,128 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       {!adminMode && bundle && (() => {
         const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
 
+        const sharedOrderPanelProps = {
+          parsedFiles,
+          validFiles,
+          bundle,
+          defaults,
+          selectedFileIndex,
+          expandedPartId,
+          onSelectPart: setSelectedFileIndex,
+          onExpandPart: setExpandedPartId,
+          onQtyChange: updateQty,
+          onRemove: removeFile,
+          onPartSettingsChange: handlePartSettingsChange,
+          onResetPartSettings: handleResetPartSettings,
+          onApplyToAll: handleApplyToAll,
+          fulfillment,
+          fulfillmentAttempted,
+          onFulfillmentChange: (v: "pickup" | "shipping") => { setFulfillment(v); setFulfillmentAttempted(false); },
+          pickupCity,
+          contactEmail,
+          contactPhone,
+          contactTouched,
+          quoteError,
+          checkoutError,
+          oversizedFiles,
+          onContactEmailChange: setContactEmail,
+          onContactPhoneChange: setContactPhone,
+          advancedMode,
+          instantBuyEligible,
+          isCheckingOut,
+          preUploadDone,
+          isSubmittingQuote,
+          showManualReview,
+          hasSubmitted,
+          uploadState,
+          onInstantBuy: handleInstantBuy,
+          onManualReview: handleManualReview,
+          onSubmitQuote: submitQuote,
+          onWhatsApp: handleWhatsApp,
+          language,
+          t,
+          materialOptions,
+          adminMode,
+          anyMulticolour,
+          instantTotalPrice,
+        } as const;
+
         const leftSlot = (
           <div
-            className="p-4 space-y-3"
+            className="p-3 space-y-2"
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragging(false); }}
             onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
           >
+            {/* Viewer — fixed height, fills its container */}
             {stepperFile?.file && viewerStateInModal !== "failed" && (
-              <div>
-                <div className="rounded-xl border border-border bg-muted/20 overflow-hidden w-full aspect-square">
-                  <Suspense fallback={<div className="w-full aspect-square bg-muted/20 animate-pulse" />}>
-                    <StlViewer
-                      key={`${stepperFile.id}-dialog`}
-                      file={stepperFile.file}
-                      size={280}
-                      onReady={() => setViewerStateInModal("ready")}
-                      onError={() => setViewerStateInModal("failed")}
-                    />
-                  </Suspense>
-                </div>
+              <div className="relative w-full rounded-xl border border-border bg-muted/20 overflow-hidden" style={{ height: "clamp(190px, 30dvh, 300px)" }}>
+                <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
+                  <StlViewer
+                    key={`${stepperFile.id}-dialog`}
+                    file={stepperFile.file}
+                    onReady={() => setViewerStateInModal("ready")}
+                    onError={() => setViewerStateInModal("failed")}
+                  />
+                </Suspense>
                 {viewerStateInModal === "ready" && (
-                  <p className="text-xs text-center text-muted-foreground mt-1">{t("calc.modal.dragHint")}</p>
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none">
+                    <span className="text-[11px] text-muted-foreground bg-background/75 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap">
+                      {t("calc.modal.dragHint")}
+                    </span>
+                  </div>
                 )}
               </div>
             )}
+
+            {/* File name */}
             {stepperFile && (
-              <p className="text-xs text-muted-foreground text-center truncate">
+              <p className="text-xs text-muted-foreground truncate text-center">
                 {stripUploadPrefix(stepperFile.name)}
               </p>
             )}
-            {viewableFiles.length > 1 && (
-              <div className="flex flex-wrap gap-1 justify-center">
-                {viewableFiles.map((f, i) => (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => setSelectedFileIndex(i)}
-                    className={`px-2 py-0.5 rounded-full text-xs border transition-colors max-w-[120px] truncate ${
-                      i === selectedFileIndex
-                        ? "border-accent bg-accent text-accent-foreground"
-                        : "border-border bg-background text-muted-foreground hover:border-accent/60 hover:bg-accent/5"
-                    }`}
-                    title={stripUploadPrefix(f.name)}
-                  >
-                    {language === "es" ? `Pieza ${i + 1}` : language === "ca" ? `Peça ${i + 1}` : `Part ${i + 1}`}
-                  </button>
-                ))}
-              </div>
-            )}
-            <input
-              ref={modalInputRef}
-              type="file"
-              accept=".stl"
-              multiple
-              className="hidden"
-              onChange={handleChange}
-            />
-            {!isSubmittedQuote && (
-              parsedFiles.length < MAX_FILES ? (
-                <div
+
+            {/* Part chips + add-more in a single compact row */}
+            <div className="flex flex-wrap gap-1 items-center">
+              {viewableFiles.map((f, i) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedFileIndex(i);
+                    if (advancedMode) handleScopeChange(f.id);
+                  }}
+                  className={`px-2 py-0.5 rounded-full text-xs border transition-colors max-w-[100px] truncate ${
+                    i === selectedFileIndex
+                      ? "border-accent bg-accent text-accent-foreground"
+                      : "border-border bg-background text-muted-foreground hover:border-accent/60 hover:bg-accent/5"
+                  }`}
+                  title={stripUploadPrefix(f.name)}
+                >
+                  {t("calc.scope.part").replace("{n}", String(i + 1))}
+                </button>
+              ))}
+              <input
+                ref={modalInputRef}
+                type="file"
+                accept=".stl"
+                multiple
+                className="hidden"
+                onChange={handleChange}
+              />
+              {!isSubmittedQuote && parsedFiles.length < MAX_FILES && (
+                <button
+                  type="button"
                   onClick={() => { capture("estimate_add_more_click", { location: "dialog" }); modalInputRef.current?.click(); }}
-                  className={`border border-dashed rounded-xl p-3 text-center cursor-pointer transition-all select-none ${
+                  className={`flex items-center gap-1 border border-dashed rounded-full px-2 py-0.5 text-xs text-muted-foreground transition-all ${
                     isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
                   }`}
                 >
-                  <span className="text-sm text-muted-foreground flex items-center justify-center gap-1.5">
-                    <Plus className="w-4 h-4" />
-                    {t("calc.addMore")} ({parsedFiles.length}/{MAX_FILES})
-                  </span>
-                </div>
-              ) : (
-                <div className="border border-border/40 rounded-xl p-3 text-center">
-                  <span className="text-sm text-muted-foreground">{t("calc.maxFiles")}</span>
-                </div>
-              )
-            )}
+                  <Plus className="w-3 h-3" />
+                  {t("calc.addMore").split(" ").slice(0, 2).join(" ")} ({parsedFiles.length}/{MAX_FILES})
+                </button>
+              )}
+            </div>
           </div>
         );
 
@@ -1336,52 +1417,29 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               disabled={isCheckingOut || isSubmittingQuote}
               t={t}
               language={language}
-            />
-            <OrderPanel
-              parsedFiles={parsedFiles}
-              validFiles={validFiles}
-              bundle={bundle}
-              defaults={defaults}
-              hideParts={true}
-              selectedFileIndex={selectedFileIndex}
-              expandedPartId={expandedPartId}
-              onSelectPart={setSelectedFileIndex}
-              onExpandPart={setExpandedPartId}
-              onQtyChange={updateQty}
-              onRemove={removeFile}
+              scope={scope}
+              onScopeChange={handleScopeChange}
+              costByFileId={costByFileId}
               onPartSettingsChange={handlePartSettingsChange}
               onResetPartSettings={handleResetPartSettings}
               onApplyToAll={handleApplyToAll}
-              fulfillment={fulfillment}
-              fulfillmentAttempted={fulfillmentAttempted}
-              onFulfillmentChange={(v) => { setFulfillment(v); setFulfillmentAttempted(false); }}
-              pickupCity={pickupCity}
-              contactEmail={contactEmail}
-              contactPhone={contactPhone}
-              contactTouched={contactTouched}
-              quoteError={quoteError}
-              checkoutError={checkoutError}
-              oversizedFiles={oversizedFiles}
-              onContactEmailChange={setContactEmail}
-              onContactPhoneChange={setContactPhone}
-              advancedMode={advancedMode}
-              instantBuyEligible={instantBuyEligible}
-              isCheckingOut={isCheckingOut}
-              preUploadDone={preUploadDone}
-              isSubmittingQuote={isSubmittingQuote}
-              showManualReview={showManualReview}
-              hasSubmitted={hasSubmitted}
-              uploadState={uploadState}
-              onInstantBuy={handleInstantBuy}
-              onManualReview={handleManualReview}
-              onSubmitQuote={submitQuote}
-              onWhatsApp={handleWhatsApp}
-              language={language}
-              t={t}
-              materialOptions={materialOptions}
-              adminMode={adminMode}
+              onClearFieldFromAllParts={clearFieldFromAllParts}
+              replacedCount={replacedCount}
+            />
+            <OrderPanel
+              {...sharedOrderPanelProps}
+              hideParts={true}
+              section="form"
             />
           </div>
+        );
+
+        const actionSlot = isSubmittedQuote ? null : (
+          <OrderPanel
+            {...sharedOrderPanelProps}
+            hideParts={true}
+            section="actions"
+          />
         );
 
         return (
@@ -1400,6 +1458,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             closeLabel={t("calc.checkout.close")}
             leftSlot={leftSlot}
             rightSlot={rightSlot}
+            actionSlot={actionSlot}
           />
         );
       })()}

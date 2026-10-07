@@ -1,13 +1,14 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderToString } from "react-dom/server";
-import { hydrateRoot } from "react-dom/client";
+import { hydrateRoot, createRoot } from "react-dom/client";
 import { act } from "react-dom/test-utils";
 import React from "react";
 import { OrderPanel } from "./OrderPanel";
 import { PartRow } from "./PartRow";
 import { DefaultSettings } from "./DefaultSettings";
 import { computeBundleV3 } from "@/lib/estimate";
+import { PriceBreakdown } from "./PriceBreakdown";
 import type { ParsedFile, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { analyzeTriangles } from "@/lib/estimator/core";
 import { boxMesh } from "@/lib/estimator/fixtures";
@@ -213,6 +214,153 @@ describe("Hydration: DefaultSettings", () => {
       e.includes("Hydration") || e.includes("did not match") || e.includes("recoverable")
     );
     expect(hydrationErrors).toHaveLength(0);
+  });
+});
+
+// ─── section='actions' / section='form' tests ────────────────────────────────
+
+function mountPanel(element: React.ReactElement): HTMLDivElement {
+  const container = document.createElement("div");
+  document.body.appendChild(container);
+  act(() => { createRoot(container).render(element); });
+  return container;
+}
+
+describe("OrderPanel section prop", () => {
+  const validFiles = E1_FILES;
+  const bundle = computeBundleV3(E1_FILES, DEFAULTS, "standard")!;
+
+  it("section='actions' renders primary button and NOT contact fields", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={false}
+        section="actions"
+      />
+    );
+    const html = container.innerHTML;
+    // Primary button (Send quote) should be present
+    expect(html).toContain("calc.contact.submit");
+    // Contact fields (email/phone inputs) should NOT be in actions section
+    expect(container.querySelector('input[type="email"]')).toBeNull();
+    expect(container.querySelector('input[type="tel"]')).toBeNull();
+  });
+
+  it("section='actions' with instantBuyEligible renders Buy Now button", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={true}
+        fulfillment="pickup"
+        section="actions"
+        instantTotalPrice={12.50}
+      />
+    );
+    const html = container.innerHTML;
+    expect(html).toContain("calc.instantBuy.buyNow");
+    expect(container.querySelector('input[type="email"]')).toBeNull();
+  });
+
+  it("section='form' renders contact fields and NOT the primary action button", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={false}
+        fulfillment="pickup"
+        section="form"
+      />
+    );
+    const html = container.innerHTML;
+    // Contact fields present
+    expect(html).toContain("calc.contact.email");
+    // Action buttons NOT present
+    expect(html).not.toContain("calc.contact.submit");
+    expect(html).not.toContain("calc.instantBuy.buyNow");
+  });
+
+  it("default (section='all') renders both contact fields and primary button", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={false}
+        fulfillment="pickup"
+      />
+    );
+    const html = container.innerHTML;
+    expect(html).toContain("calc.contact.email");
+    expect(html).toContain("calc.contact.submit");
+  });
+});
+
+// ─── calc.why.minNote component test (T5 from spec) ──────────────────────────
+
+describe("PriceBreakdown: calc.why.minNote visibility", () => {
+  it("shows calc.why.minNote for a small order at the €10 minimum", () => {
+    // Small order: a box(5,5,5) costs well under €10 — baseCents hits the minimum
+    const smallAnalysis = analyzeTriangles(boxMesh(5, 5, 5));
+    const smallFile: ParsedFile = { id: "s", name: "s.stl", sizeBytes: 100, volumeMm3: smallAnalysis.volumeMm3, qty: 1, analysis: smallAnalysis };
+    const bundle = computeBundleV3([smallFile], DEFAULTS, "standard")!;
+    expect(bundle.order.baseCents).toBeLessThanOrEqual(1000);
+
+    const container = mountPanel(
+      <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} />
+    );
+    // Expand the accordion to reveal the breakdown details
+    const expandBtn = container.querySelector("button[aria-expanded]") as HTMLButtonElement;
+    act(() => { expandBtn.click(); });
+    expect(container.innerHTML).toContain("calc.why.minNote");
+    expect(container.innerHTML).not.toContain("calc.summary.setup");
+  });
+
+  it("does not show calc.why.minNote for an order well above €10", () => {
+    // Large order: box(100,100,100) costs well above €10
+    const bigAnalysis = analyzeTriangles(boxMesh(100, 100, 100));
+    const bigFile: ParsedFile = { id: "b", name: "b.stl", sizeBytes: 100, volumeMm3: bigAnalysis.volumeMm3, qty: 1, analysis: bigAnalysis };
+    const bundle = computeBundleV3([bigFile], DEFAULTS, "standard")!;
+    expect(bundle.order.baseCents).toBeGreaterThan(1000);
+
+    const container = mountPanel(
+      <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} />
+    );
+    expect(container.innerHTML).not.toContain("calc.why.minNote");
+    expect(container.innerHTML).not.toContain("calc.summary.setup");
+  });
+});
+
+// ─── Price unchanged after polish (CHANGE 5 must not affect price) ───────────
+
+describe("computeBundleV3 price invariant after polish", () => {
+  it("single-part box(40) at PLA standard = €10.00 (minimum)", () => {
+    const a = analyzeTriangles(boxMesh(40, 40, 40));
+    const f: ParsedFile = { id: "x", name: "x.stl", sizeBytes: 100, volumeMm3: a.volumeMm3, qty: 1, analysis: a };
+    const bundle = computeBundleV3([f], DEFAULTS, "standard")!;
+    expect(bundle.order.totalCents).toBe(1000);
+  });
+
+  it("three-part order T4 total = €93.50", () => {
+    const mkFile2 = (id: string, gSz: number, mat: string, qty: number): ParsedFile => {
+      const a = analyzeTriangles(boxMesh(gSz, gSz, gSz));
+      return { id, name: `${id}.stl`, sizeBytes: 100, volumeMm3: a.volumeMm3, qty, analysis: a, settings: { material: mat } };
+    };
+    const files: ParsedFile[] = [
+      mkFile2("a", 100, "PLA",  1),
+      mkFile2("b",  50, "PETG", 2),
+      mkFile2("c",  30, "PLA",  1),
+    ];
+    const bundle = computeBundleV3(files, { ...DEFAULTS, material: "PLA" }, "standard")!;
+    expect(bundle.order.totalCents).toBe(9350);
   });
 });
 

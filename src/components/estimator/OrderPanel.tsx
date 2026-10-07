@@ -69,6 +69,13 @@ interface OrderPanelProps {
   materialOptions: MaterialOption[];
 
   adminMode: boolean;
+
+  /** Which section to render. Default 'all' preserves the original full layout. */
+  section?: 'all' | 'form' | 'actions';
+
+  /** When section='actions', show quote-only reason when applicable */
+  anyMulticolour?: boolean;
+  instantTotalPrice?: number | null;
 }
 
 export function OrderPanel({
@@ -114,8 +121,10 @@ export function OrderPanel({
   t,
   materialOptions,
   adminMode,
+  section = 'all',
+  anyMulticolour = false,
+  instantTotalPrice: instantTotalPriceProp,
 }: OrderPanelProps) {
-  // Build a map from validFile id → costCents from the bundle's orderResult
   const costByFileId: Record<string, number> = {};
   if (bundle) {
     validFiles.forEach((f, i) => {
@@ -124,37 +133,170 @@ export function OrderPanel({
     });
   }
 
-  // Check if every valid part's effective material is in FAST_PICKUP_MATERIALS
   const allFastPickup = validFiles.every(f => {
     const mat = effectivePartSettings(f, defaults).material;
     return FAST_PICKUP_MATERIALS.includes(mat);
   });
 
-  // Check if every valid part's effective material is instant-buy eligible (via EST.materials)
   const instantEligibleMaterials = validFiles.every(f => {
     const mat = effectivePartSettings(f, defaults).material;
     return !!EST.materials[mat]?.instant;
   });
 
-  // Check if any part has multicolour
-  const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
+  const anyMulticolourLocal = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
+  const effectiveAnyMulticolour = anyMulticolour || anyMulticolourLocal;
 
-  // Unique materials for display
   const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
   const isMixedMaterials = uniqueMats.length > 1;
 
-  // Effective instant display price
   const chargedPrint = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
   const shippingFee = fulfillment === "shipping" ? EST.shippingCents / 100 : 0;
-  const instantTotalPrice = instantBuyEligible ? chargedPrint + shippingFee : null;
+  const instantTotalPrice = instantTotalPriceProp !== undefined
+    ? instantTotalPriceProp
+    : (instantBuyEligible ? chargedPrint + shippingFee : null);
 
   const disabled = isCheckingOut || isSubmittingQuote;
 
   if (parsedFiles.length === 0 || !bundle) return null;
 
+  // ── 'actions' section only ─────────────────────────────────────────────────
+  if (section === 'actions') {
+    const showQuoteOnlyWhy = !adminMode && !instantBuyEligible &&
+      (bundle.orderResult.chargedPrintCents > EST.instantMaxCents || effectiveAnyMulticolour);
+
+    return (
+      <div className="space-y-2">
+        {/* Big total line */}
+        <div className="flex justify-between items-baseline text-sm font-semibold">
+          <span>{t("calc.summary.total")}</span>
+          <span>
+            €{instantBuyEligible && instantTotalPrice !== null
+              ? instantTotalPrice.toFixed(2)
+              : bundle.total.toFixed(2)}
+            {fulfillment !== "shipping" && instantBuyEligible && (
+              <span className="text-xs font-normal text-muted-foreground ml-1">{t("calc.instantBuy.fulfillment.shipping").toLowerCase().includes("ship") ? "" : ""}</span>
+            )}
+          </span>
+        </div>
+
+        {/* Quote-only reason */}
+        {showQuoteOnlyWhy && (
+          <p className="text-xs text-muted-foreground">{t("calc.actions.quoteOnlyWhy")}</p>
+        )}
+
+        {/* Checkout error */}
+        {checkoutError && instantBuyEligible && !showManualReview && (
+          <p className="text-xs text-destructive">{checkoutError}</p>
+        )}
+        {quoteError && <p className="text-xs text-destructive">{quoteError}</p>}
+
+        {!adminMode && (
+          <div className="space-y-2">
+            {instantBuyEligible && !showManualReview ? (
+              <>
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="w-full gap-2"
+                  onClick={onInstantBuy}
+                  disabled={isCheckingOut || !preUploadDone}
+                >
+                  {isCheckingOut
+                    ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
+                    : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
+                  }
+                </Button>
+                <div>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                    onClick={onManualReview}
+                    disabled={isCheckingOut}
+                  >
+                    <Send className="w-4 h-4 shrink-0" />
+                    {t("calc.instantBuy.manualReview")}
+                  </Button>
+                  <p className="text-xs text-center text-muted-foreground mt-1">
+                    {t("calc.instantBuy.reviewHint")}
+                  </p>
+                </div>
+                <Button
+                  variant="whatsapp-outline"
+                  size="sm"
+                  className="w-full gap-2"
+                  onClick={onWhatsApp}
+                  disabled={isCheckingOut}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  {t("calc.result.whatsapp")}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="cta"
+                  size="lg"
+                  className="w-full gap-2"
+                  onClick={onSubmitQuote}
+                  disabled={isSubmittingQuote}
+                >
+                  {isSubmittingQuote
+                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                    : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
+                  }
+                </Button>
+                <Button
+                  variant="whatsapp-outline"
+                  size="sm"
+                  className="w-full gap-2"
+                  onClick={onWhatsApp}
+                  disabled={isSubmittingQuote}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  {t("calc.result.whatsapp")}
+                </Button>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Upload status */}
+        {hasSubmitted && uploadState !== "idle" && (
+          <div className="flex items-center gap-1.5 text-xs">
+            {(uploadState === "uploading" || uploadState === "slow") && (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground shrink-0" />
+                <span className="text-muted-foreground">
+                  {uploadState === "slow" ? t("calc.upload.status.slow") : t("calc.upload.status.uploading")}
+                </span>
+              </>
+            )}
+            {uploadState === "done" && (
+              <>
+                <CheckCircle className="w-3.5 h-3.5 text-whatsapp shrink-0" />
+                <span className="text-muted-foreground">{t("calc.upload.status.done")}</span>
+              </>
+            )}
+            {uploadState === "failed" && (
+              <>
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span className="text-muted-foreground">{t("calc.upload.status.failed")}</span>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── 'form' + 'all' ─────────────────────────────────────────────────────────
+  const renderForm = section === 'all' || section === 'form';
+  const renderActions = section === 'all';
+
   return (
     <div className="space-y-4">
-      {/* Parts list — hidden in dialog right column (left column shows them there) */}
+      {/* Parts list */}
       {!hideParts && (
         <>
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -200,10 +342,9 @@ export function OrderPanel({
         </>
       )}
 
-      {/* Order summary (C4) */}
-      {bundle && (
+      {/* Order summary */}
+      {renderForm && bundle && (
         <div className="rounded-lg border border-border bg-muted/20 px-3 py-2 space-y-1 text-sm">
-          {/* Part lines are shown in the rows above; here we show order-level lines */}
           {bundle.orderResult.setupCents > 0 && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.setup")}</span>
@@ -239,35 +380,32 @@ export function OrderPanel({
         </div>
       )}
 
-      {/* Why this price? collapsible */}
-      {bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} />}
+      {/* Why this price? */}
+      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} />}
 
-      {/* Mixed materials note (C7) */}
-      {!instantEligibleMaterials && !anyMulticolour && (
+      {/* Notes */}
+      {renderForm && !instantEligibleMaterials && !effectiveAnyMulticolour && (
         <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
           {t("calc.mixed.note")}
         </p>
       )}
 
-      {/* Overhang note */}
-      {bundle.supportHeavy && (
+      {renderForm && bundle.supportHeavy && (
         <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
           {t("calc.overhang.note")}
         </p>
       )}
 
-      {/* Multicolour note */}
-      {anyMulticolour && (
+      {renderForm && effectiveAnyMulticolour && (
         <p className="text-xs text-accent bg-accent/8 border border-accent/25 rounded-lg px-3 py-2">
           {t("calc.multicolour.note")}
         </p>
       )}
 
-      {!adminMode && (
+      {renderForm && !adminMode && (
         <>
-          {/* Fulfillment (C5) */}
+          {/* Fulfillment */}
           <div className="space-y-2">
-            {/* Pickup option */}
             <button
               type="button"
               onClick={() => { onFulfillmentChange("pickup"); }}
@@ -286,7 +424,6 @@ export function OrderPanel({
               </span>
             </button>
 
-            {/* Shipping option */}
             <button
               type="button"
               onClick={() => { onFulfillmentChange("shipping"); }}
@@ -312,7 +449,7 @@ export function OrderPanel({
             )}
           </div>
 
-          {/* Contact inputs */}
+          {/* Contact fields */}
           <ContactFields
             email={contactEmail}
             phone={contactPhone}
@@ -331,8 +468,12 @@ export function OrderPanel({
               {t("calc.notice.tooLargeToUpload")}
             </p>
           )}
+        </>
+      )}
 
-          {/* Buttons (C6) */}
+      {/* Actions (only in 'all' mode) */}
+      {renderActions && !adminMode && (
+        <>
           <div className="space-y-2">
             {instantBuyEligible && !showManualReview ? (
               <>
@@ -402,7 +543,6 @@ export function OrderPanel({
             )}
           </div>
 
-          {/* Upload status */}
           {hasSubmitted && uploadState !== "idle" && (
             <div className="flex items-center gap-1.5 text-xs">
               {(uploadState === "uploading" || uploadState === "slow") && (

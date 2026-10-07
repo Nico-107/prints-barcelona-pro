@@ -37,6 +37,10 @@ The pricing rates reproduce the prices the owner really charged on 21 completed 
 - Not validated: infill above 50%, more than 4 walls, layer heights outside the 4 measured presets, multi-colour (purge waste).
 - Orientation search uses only the 6 axis-aligned orientations. Supports assume tree supports at a 30 deg threshold.
 
+## Local development
+
+The **Buy Now** button only appears when `VITE_CHECKOUT_V3=1` is set (in `.env.local`). Production has it enabled. Do not change the gating logic in `src/lib/instantBuy.ts` or the `VITE_CHECKOUT_V3` env var — this is intentional.
+
 ## How to recalibrate
 Record the REAL grams and hours of finished jobs (Admin, Prompt 2: "Actual results"), export the calibration CSV, and refit the
 constants in `EST` (plastic: 3 numbers, time: 5 numbers, support: 2 numbers). Keep the accuracy gate green.
