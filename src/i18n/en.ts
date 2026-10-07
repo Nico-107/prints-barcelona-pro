@@ -708,6 +708,7 @@ export const enTranslations: Record<string, string> = {
   "calc.why.time": "Print time: {hours} h",
   "calc.why.supports": "of which supports: {grams} g",
   "calc.why.note": "No hidden fees. This is the final price; shipping is a flat €5.90.",
+  "calc.why.minNote": "This order is small — the €10 minimum applies.",
   "calc.validate.contactTitle": "Add an email or phone",
   "calc.validate.contact": "Add an email or a phone number so we can reply.",
   "calc.validate.email": "That email doesn't look right.",

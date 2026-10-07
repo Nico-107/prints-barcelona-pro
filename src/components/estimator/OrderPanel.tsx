@@ -204,10 +204,12 @@ export function OrderPanel({
       {bundle && (
         <div className="rounded-lg border border-border bg-muted/20 px-3 py-2 space-y-1 text-sm">
           {/* Part lines are shown in the rows above; here we show order-level lines */}
-          <div className="flex justify-between text-muted-foreground">
-            <span>{t("calc.summary.setup")}</span>
-            <span>€{(bundle.orderResult.setupCents / 100).toFixed(2)}</span>
-          </div>
+          {bundle.orderResult.setupCents > 0 && (
+            <div className="flex justify-between text-muted-foreground">
+              <span>{t("calc.summary.setup")}</span>
+              <span>€{(bundle.orderResult.setupCents / 100).toFixed(2)}</span>
+            </div>
+          )}
           {bundle.orderResult.minAdjCents > 0 && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.minAdjust")}</span>

@@ -708,6 +708,7 @@ export const caTranslations: Record<string, string> = {
   "calc.why.time": "Temps d'impressió: {hours} h",
   "calc.why.supports": "dels quals suports: {grams} g",
   "calc.why.note": "Sense costos ocults. Aquest és el preu final; l'enviament és una tarifa fixa de 5,90 €.",
+  "calc.why.minNote": "Aquesta comanda és petita — s'aplica el mínim de 10 €.",
   "calc.validate.contactTitle": "Afegeix un email o telèfon",
   "calc.validate.contact": "Afegeix un email o un telèfon per poder respondre't.",
   "calc.validate.email": "Aquest email no sembla correcte.",

@@ -54,6 +54,9 @@ export function PriceBreakdown({ bundle, fulfillment, t }: PriceBreakdownProps) 
               <span>+€{(bundle.orderResult.minAdjCents / 100).toFixed(2)}</span>
             </div>
           )}
+          {bundle.order.baseCents <= EST.minimumEur * 100 && (
+            <p className="text-xs text-muted-foreground/70 italic">{t("calc.why.minNote")}</p>
+          )}
           {bundle.orderResult.expressCents > 0 && (
             <div className="flex justify-between">
               <span>{t("calc.summary.express")}</span>

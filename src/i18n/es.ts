@@ -708,6 +708,7 @@ export const esTranslations: Record<string, string> = {
   "calc.why.time": "Tiempo de impresión: {hours} h",
   "calc.why.supports": "de los cuales soportes: {grams} g",
   "calc.why.note": "Sin costes ocultos. Este es el precio final; el envío es una tarifa fija de 5,90 €.",
+  "calc.why.minNote": "Este pedido es pequeño — se aplica el mínimo de 10 €.",
   "calc.validate.contactTitle": "Añade un email o teléfono",
   "calc.validate.contact": "Añade un email o un teléfono para poder responderte.",
   "calc.validate.email": "Ese email no parece correcto.",

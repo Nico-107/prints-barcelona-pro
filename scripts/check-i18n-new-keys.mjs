@@ -88,6 +88,7 @@ const REQUIRED_KEYS = [
   "calc.why.time",
   "calc.why.supports",
   "calc.why.note",
+  "calc.why.minNote",
   "calc.validate.contactTitle",
   "calc.validate.contact",
   "calc.validate.email",

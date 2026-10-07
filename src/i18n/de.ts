@@ -610,6 +610,7 @@ export const deTranslations: Record<string, string> = {
   "calc.why.time": "Druckzeit: {hours} h",
   "calc.why.supports": "davon Stützen: {grams} g",
   "calc.why.note": "Keine versteckten Kosten. Das ist der Endpreis; Versand pauschal 5,90 €.",
+  "calc.why.minNote": "Diese Bestellung ist klein — es gilt das Mindestbestellwert von 10 €.",
   "calc.validate.contactTitle": "E-Mail oder Telefon angeben",
   "calc.validate.contact": "Gib eine E-Mail oder Telefonnummer an, damit wir antworten können.",
   "calc.validate.email": "Diese E-Mail sieht nicht korrekt aus.",

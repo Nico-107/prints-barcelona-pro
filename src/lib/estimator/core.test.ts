@@ -47,34 +47,34 @@ describe("geometry features (analytic)", () => {
 describe("estimates and prices (golden values from the validated reference implementation)", () => {
   const box = boxMesh(40, 40, 40);
   it("box 40 in each material: grams, time and price", () => {
-    let r = single(box, S('PLA')); near(r.e.plasticCm3, 15.217, 0.002); near(r.e.grams, 18.869, 0.002); near(r.e.timeSec, 5466.6, 0.002); expect(r.p.totalCents).toBe(1578);
-    r = single(box, S('ABS'));   near(r.e.grams, 15.825, 0.002); near(r.e.timeSec, 5840.7, 0.002); expect(r.p.totalCents).toBe(1852);
-    r = single(box, S('TPU'));   near(r.e.grams, 18.260, 0.002); near(r.e.timeSec, 6822.7, 0.002); expect(r.p.totalCents).toBe(2027);
-    r = single(box, S('Nylon')); near(r.e.grams, 17.347, 0.002); near(r.e.timeSec, 5466.6, 0.002); expect(r.p.totalCents).toBe(1878);
+    let r = single(box, S('PLA')); near(r.e.plasticCm3, 15.217, 0.002); near(r.e.grams, 18.869, 0.002); near(r.e.timeSec, 5466.6, 0.002); expect(r.p.totalCents).toBe(1000);
+    r = single(box, S('ABS'));   near(r.e.grams, 15.825, 0.002); near(r.e.timeSec, 5840.7, 0.002); expect(r.p.totalCents).toBe(1157);
+    r = single(box, S('TPU'));   near(r.e.grams, 18.260, 0.002); near(r.e.timeSec, 6822.7, 0.002); expect(r.p.totalCents).toBe(1350);
+    r = single(box, S('Nylon')); near(r.e.grams, 17.347, 0.002); near(r.e.timeSec, 5466.6, 0.002); expect(r.p.totalCents).toBe(1186);
     expect(r.p.instantEligible).toBe(true);
   });
   it("quality and strength change time, not plastic", () => {
-    let r = single(box, S('PETG', 0, 'ultra')); near(r.e.timeSec, 11031.3, 0.002); expect(r.p.totalCents).toBe(2416);
-    r = single(box, S('PLA', 0, 'fast')); near(r.e.timeSec, 5045.8, 0.002); expect(r.p.totalCents).toBe(1525);
-    r = single(box, S('PLA', 0, 'standard', true, 30, 3)); near(r.e.plasticCm3, 24.652, 0.002); near(r.e.timeSec, 10516.4, 0.002); expect(r.p.totalCents).toBe(2267);
+    let r = single(box, S('PETG', 0, 'ultra')); near(r.e.timeSec, 11031.3, 0.002); expect(r.p.totalCents).toBe(1778);
+    r = single(box, S('PLA', 0, 'fast')); near(r.e.timeSec, 5045.8, 0.002); expect(r.p.totalCents).toBe(1000);
+    r = single(box, S('PLA', 0, 'standard', true, 30, 3)); near(r.e.plasticCm3, 24.652, 0.002); near(r.e.timeSec, 10516.4, 0.002); expect(r.p.totalCents).toBe(1614);
   });
   it("orientation: flange-up T-beam needs supports; auto flips it and saves money", () => {
     const tb = tBeamMesh();
-    let r = single(tb, S('PLA', 0)); near(r.e.supportCm3, 9.768, 0.002); near(r.e.grams, 28.547, 0.002); near(r.e.timeSec, 11137.2, 0.002); expect(r.p.totalCents).toBe(2326);
-    r = single(tb, S('PLA', 1)); expect(r.e.supportCm3).toBe(0); near(r.e.grams, 16.434, 0.002); near(r.e.timeSec, 3489.8, 0.002); expect(r.p.totalCents).toBe(1318);
-    r = single(tb, S('PLA', 'auto')); expect(r.e.orientation).toBe(1); expect(r.p.totalCents).toBe(1318);
-    r = single(tb, S('PLA', 0, 'standard', false)); expect(r.e.supportCm3).toBe(0); expect(r.p.totalCents).toBe(1318);   // customer promises no supports
+    let r = single(tb, S('PLA', 0)); near(r.e.supportCm3, 9.768, 0.002); near(r.e.grams, 28.547, 0.002); near(r.e.timeSec, 11137.2, 0.002); expect(r.p.totalCents).toBe(1678);
+    r = single(tb, S('PLA', 1)); expect(r.e.supportCm3).toBe(0); near(r.e.grams, 16.434, 0.002); near(r.e.timeSec, 3489.8, 0.002); expect(r.p.totalCents).toBe(1000);
+    r = single(tb, S('PLA', 'auto')); expect(r.e.orientation).toBe(1); expect(r.p.totalCents).toBe(1000);
+    r = single(tb, S('PLA', 0, 'standard', false)); expect(r.e.supportCm3).toBe(0); expect(r.p.totalCents).toBe(1000);   // customer promises no supports
   });
   it("tube, minimum price, express/urgent, long-job tiers, plates", () => {
-    let r = single(prismMesh(15, 60, 96, 13), S('PLA')); near(r.e.grams, 11.247, 0.002); expect(r.p.totalCents).toBe(1245);
-    r = single(boxMesh(15, 15, 15), S('PLA')); expect(r.p.totalCents).toBe(1000); expect(r.p.minAdjCents).toBe(37);
+    let r = single(prismMesh(15, 60, 96, 13), S('PLA')); near(r.e.grams, 11.247, 0.002); expect(r.p.totalCents).toBe(1000);
+    r = single(boxMesh(15, 15, 15), S('PLA')); expect(r.p.totalCents).toBe(1000); expect(r.p.minAdjCents).toBe(0);
     const blk = boxMesh(100, 100, 20);
-    r = single(blk, S('PLA'), 1, 'express'); expect(r.p.totalCents).toBe(3249); expect(r.p.expressCents).toBe(650);
-    r = single(blk, S('PLA'), 1, 'urgent');  expect(r.p.totalCents).toBe(4159); expect(r.p.expressCents).toBe(1560);
-    r = single(blk, S('PLA'), 4); expect(r.p.totalCents).toBe(6396); expect(r.p.plates).toBe(2); near(r.p.orderHours, 13.472, 0.002);
+    r = single(blk, S('PLA'), 1, 'express'); expect(r.p.totalCents).toBe(2474); expect(r.p.expressCents).toBe(495);
+    r = single(blk, S('PLA'), 1, 'urgent');  expect(r.p.totalCents).toBe(3167); expect(r.p.expressCents).toBe(1188);
+    r = single(blk, S('PLA'), 4); expect(r.p.totalCents).toBe(6155); expect(r.p.plates).toBe(2); near(r.p.orderHours, 13.472, 0.002);
   });
   it("limits: over EUR100 and oversize are not instant-buyable", () => {
-    let r = single(boxMesh(150, 150, 80), S('PLA')); expect(r.p.instantEligible).toBe(false); expect(r.p.reasons).toContain('over-limit'); expect(r.p.totalCents).toBe(11386);
+    let r = single(boxMesh(150, 150, 80), S('PLA')); expect(r.p.instantEligible).toBe(false); expect(r.p.reasons).toContain('over-limit'); expect(r.p.totalCents).toBe(11645);
     r = single(boxMesh(300, 50, 50), S('PLA')); expect(r.p.instantEligible).toBe(false); expect(r.p.reasons.some(x => x.startsWith('oversize'))).toBe(true);
     expect(single(boxMesh(10, 10, 10), S('HIPS')).p.instantEligible).toBe(false);
   });
@@ -86,8 +86,8 @@ describe("estimates and prices (golden values from the validated reference imple
       { name: 'cyl50x100', quantity: 4, material: 'ASA', estimate: estimatePart(C, S('ASA', 'auto')) },
     ];
     const std = priceOrder(parts, 'standard'), exp = priceOrder(parts, 'express');
-    expect(std.totalCents).toBe(9607); expect(std.parts.map(x => x.costCents)).toEqual([1116, 335, 7356]); expect(std.setupCents).toBe(800);
-    expect(exp.totalCents).toBe(12009); expect(exp.expressCents).toBe(2402); expect(exp.plates).toBe(1);
+    expect(std.totalCents).toBe(9688); expect(std.parts.map(x => x.costCents)).toEqual([1228, 369, 8091]); expect(std.setupCents).toBe(0);
+    expect(exp.totalCents).toBe(12110); expect(exp.expressCents).toBe(2422); expect(exp.plates).toBe(1);
     for (const o of [std, exp]) expect(o.setupCents + o.minAdjCents + o.expressCents + o.parts.reduce((s, x) => s + x.costCents, 0)).toBe(o.totalCents);
     expect(exp.instantEligible).toBe(false); expect(exp.reasons).toContain('over-limit');
   });
@@ -101,11 +101,63 @@ describe("estimates and prices (golden values from the validated reference imple
       const o = priceOrder(parts, us[Math.floor(rnd() * 3)]);
       expect(o.setupCents + o.minAdjCents + o.expressCents + o.parts.reduce((s, x) => s + x.costCents, 0)).toBe(o.totalCents);
       expect(o.parts.every(x => x.costCents >= 0)).toBe(true); expect(o.totalCents).toBeGreaterThanOrEqual(1000);
+      expect(o.setupCents).toBe(0); expect(o.minAdjCents).toBe(0);
     }
   });
   it("calibration constants are the agreed business decisions", () => {
-    expect(EST.setupEur).toBe(8); expect(EST.minimumEur).toBe(10); expect(EST.plasticEurPerG).toBe(0.05);
-    expect(EST.timeTiers.map(t => t.eurPerH)).toEqual([4.5, 3.5, 2.5]); expect(EST.instantMaxCents).toBe(10000); expect(EST.shippingCents).toBe(590);
+    expect(EST.setupEur).toBe(0); expect(EST.minimumEur).toBe(10); expect(EST.plasticEurPerG).toBe(0.055);
+    expect(EST.timeTiers.map(t => t.eurPerH)).toEqual([4.95, 3.85, 2.75]); expect(EST.instantMaxCents).toBe(10000); expect(EST.shippingCents).toBe(590);
     for (const m of ['PLA', 'PETG', 'ABS', 'ASA', 'TPU', 'Nylon']) expect(EST.materials[m].instant).toBe(true);
+  });
+});
+
+describe("minimum distribution (T1-T4): EUR 10 minimum folded into part lines, never a separate line", () => {
+  const mkPart = (grams: number, timeSec: number): import('./core').PartEstimate => ({
+    orientation: 0, orientationName: 'z-up',
+    plasticCm3: 0, supportCm3: 0, grams,
+    timeSec, fixedSec: 0,
+    sizeXMm: 20, sizeYMm: 20, heightMm: 20, fitsPlate: true,
+  });
+
+  it("T1: single tiny part hits minimum — residual folded into part, no separate min line", () => {
+    const r = priceOrder([{ name: 'T1', quantity: 1, material: 'PLA', estimate: mkPart(10, 3600) }], 'standard');
+    expect(r.totalCents).toBe(1000);
+    expect(r.setupCents).toBe(0);
+    expect(r.minAdjCents).toBe(0);
+    expect(r.parts[0].costCents).toBe(1000);
+  });
+
+  it("T2: two parts below minimum — residual split proportionally into part lines", () => {
+    const r = priceOrder([
+      { name: 'A', quantity: 1, material: 'PLA', estimate: mkPart(10, 3600) },
+      { name: 'B', quantity: 1, material: 'PLA', estimate: mkPart(20, 1800) },
+    ], 'standard');
+    expect(r.totalCents).toBe(1000);
+    expect(r.minAdjCents).toBe(0);
+    expect(r.setupCents).toBe(0);
+    expect(r.parts[0].costCents + r.parts[1].costCents).toBe(1000);
+    near(r.orderHours, 1.5, 0.001);
+  });
+
+  it("T3: single part at minimum + express — express is a separate cents delta on top", () => {
+    const r = priceOrder([{ name: 'T3', quantity: 1, material: 'PLA', estimate: mkPart(10, 3600) }], 'express');
+    expect(r.totalCents).toBe(1250);
+    expect(r.expressCents).toBe(250);
+    expect(r.minAdjCents).toBe(0);
+    expect(r.setupCents).toBe(0);
+  });
+
+  it("T4: three-part order well above minimum — lines add up, setup is 0", () => {
+    const r = priceOrder([
+      { name: 'A', quantity: 1, material: 'PLA',  estimate: mkPart(100, 7200) },
+      { name: 'B', quantity: 2, material: 'PETG', estimate: mkPart(50,  3600) },
+      { name: 'C', quantity: 1, material: 'PLA',  estimate: mkPart(30,  1800) },
+    ], 'standard');
+    expect(r.totalCents).toBe(3474);
+    expect(r.setupCents).toBe(0);
+    expect(r.minAdjCents).toBe(0);
+    expect(r.parts.map(x => x.costCents)).toEqual([1467, 1613, 394]);
+    near(r.orderHours, 4.5, 0.001);
+    expect(r.setupCents + r.minAdjCents + r.expressCents + r.parts.reduce((s, x) => s + x.costCents, 0)).toBe(r.totalCents);
   });
 });

@@ -28,7 +28,10 @@ describe("optionDeltas", () => {
   });
 
   it("fast quality costs less than standard (negative delta)", () => {
-    const d = qualityDelta([FILE], DEFAULTS, "standard", "fast");
+    // Use a larger part well above the €10 minimum so the delta is real, not floored
+    const bigAnalysis = analyzeTriangles(boxMesh(100, 80, 60));
+    const bigFile: ParsedFile = { id: "big", name: "big.stl", sizeBytes: 1000, volumeMm3: bigAnalysis.volumeMm3, qty: 1, analysis: bigAnalysis };
+    const d = qualityDelta([bigFile], DEFAULTS, "standard", "fast");
     expect(d.deltaEur).toBeLessThan(0);
     expect(d.formatted).toMatch(/^−€/);
   });

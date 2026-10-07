@@ -14,14 +14,15 @@ describe("checkout v3 contract (the SAME code runs in the edge function)", () =>
   it("accepts a valid order, charges exactly the computed total, and Stripe lines add up", () => {
     const b = priced(); const r = evaluateV3(b, ANALYSES); expect(r.ok).toBe(true);
     const v = r.value!;
-    expect(v.priced.order.totalCents).toBe(3657); expect(v.shippingCents).toBe(0); expect(v.chargeCents).toBe(3657);
+    expect(v.priced.order.totalCents).toBe(3142); expect(v.shippingCents).toBe(0); expect(v.chargeCents).toBe(3142);
     const lines = stripeLinesV3(v.priced, v.body.pieces, "es");
-    expect(lines.reduce((s, l) => s + l.cents, 0)).toBe(v.priced.order.totalCents); expect(lines.at(-1)?.name).toBe("Preparación del pedido");
+    expect(lines.reduce((s, l) => s + l.cents, 0)).toBe(v.priced.order.totalCents);
     expect(lines.every(l => l.name.length <= 120 && l.cents > 0)).toBe(true);
+    expect(lines.some(l => l.name === "Preparación del pedido")).toBe(false);
   });
   it("shipping is EUR 5.90 and sits outside the print total", () => {
     const b = priced(); b.fulfillment = "shipping"; const r = evaluateV3(b, ANALYSES);
-    expect(r.ok).toBe(true); expect(r.value!.shippingCents).toBe(590); expect(r.value!.chargeCents).toBe(3657 + 590);
+    expect(r.ok).toBe(true); expect(r.value!.shippingCents).toBe(590); expect(r.value!.chargeCents).toBe(3142 + 590);
   });
   it("rejects every kind of bad request with the right code", () => {
     expect(reject(b => { delete b.urgency; })).toBe("INVALID_URGENCY");              // the bug that once broke checkout

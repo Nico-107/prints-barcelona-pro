@@ -14,8 +14,8 @@ export const EST = {
   overhangNz: 0.85, bedContactMm: 0.4,
   timeCoef: [790.4113, 71.3533, 284.6187, 699.0554, 2.5218] as readonly number[],
   // ---- pricing (EUR) ----
-  setupEur: 8, minimumEur: 10, plasticEurPerG: 0.05,
-  timeTiers: [ { upToH: 3, eurPerH: 4.5 }, { upToH: 8, eurPerH: 3.5 }, { upToH: Infinity, eurPerH: 2.5 } ] as readonly { upToH: number; eurPerH: number }[],
+  setupEur: 0, minimumEur: 10, plasticEurPerG: 0.055,
+  timeTiers: [ { upToH: 3, eurPerH: 4.95 }, { upToH: 8, eurPerH: 3.85 }, { upToH: Infinity, eurPerH: 2.75 } ] as readonly { upToH: number; eurPerH: number }[],
   instantMaxCents: 10000, shippingCents: 590,
   // ---- printer ----
   plate: { x: 256, y: 256, z: 261, packAreaMm2: 37000, gapMm: 4 },
@@ -196,7 +196,7 @@ export interface OrderPrice {
 }
 const rnd = (x: number) => Math.floor(x + 0.5);
 
-/** Price an order (all parts) — setup once, long-job time tiers on the ORDER's print hours, one line per part. */
+/** Price an order (all parts) — no setup fee; EUR 10 minimum is folded into the part lines, long-job time tiers on the ORDER's print hours, one line per part. */
 export function priceOrder(parts: OrderPartInput[], urgency: string): OrderPrice {
   const reasons: string[] = [];
   const up = EST.urgency[urgency] ?? 1;
@@ -222,9 +222,17 @@ export function priceOrder(parts: OrderPartInput[], urgency: string): OrderPrice
   const setupCents = rnd(EST.setupEur * 100);
   const partCents = raw.map(r => rnd(r * 100));
   const residual = baseCents - (setupCents + partCents.reduce((a, b) => a + b, 0));
-  let minAdjCents = 0;
-  if (rawTotal < EST.minimumEur) minAdjCents = residual;
-  else if (partCents.length) { let bi = 0; partCents.forEach((c, i) => { if (c > partCents[bi]) bi = i; }); partCents[bi] += residual; }
+  const minAdjCents = 0;   // the EUR 10 minimum is folded INTO the part lines (never a separate line / fee)
+  if (partCents.length) {
+    const bi = partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0);
+    if (rawTotal < EST.minimumEur && residual > 0) {
+      const sum = partCents.reduce((a, b) => a + b, 0);
+      let given = 0;
+      const share = partCents.map(c => { const g = sum > 0 ? Math.floor(residual * c / sum) : Math.floor(residual / partCents.length); given += g; return g; });
+      share.forEach((g, i) => { partCents[i] += g; });
+      partCents[bi] += residual - given;
+    } else partCents[bi] += residual;
+  }
   const expressCents = totalCents - baseCents;
   let instantEligible = totalCents <= EST.instantMaxCents;
   if (!instantEligible) reasons.push('over-limit');

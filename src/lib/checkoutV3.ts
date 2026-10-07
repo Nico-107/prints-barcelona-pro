@@ -80,7 +80,7 @@ export function stripeLinesV3(priced: V3Priced, pieces: V3Piece[], language: str
     const p = pieces[i];
     lines.push({ name: `${p.name} — ${p.material}, ${p.infill}% ${L.fill}, ×${p.quantity}`.slice(0, 120), cents: pl.costCents });
   });
-  lines.push({ name: L.setup, cents: priced.order.setupCents });
+  if (priced.order.setupCents > 0) lines.push({ name: L.setup, cents: priced.order.setupCents });
   if (priced.order.minAdjCents > 0) lines.push({ name: L.min, cents: priced.order.minAdjCents });
   if (priced.order.expressCents > 0) lines.push({ name: L.exp, cents: priced.order.expressCents });
   return lines;

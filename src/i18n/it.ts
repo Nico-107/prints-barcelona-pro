@@ -610,6 +610,7 @@ export const itTranslations: Record<string, string> = {
   "calc.why.time": "Tempo di stampa: {hours} h",
   "calc.why.supports": "di cui supporti: {grams} g",
   "calc.why.note": "Nessun costo nascosto. Questo è il prezzo finale; spedizione forfettaria di €5,90.",
+  "calc.why.minNote": "Questo ordine è piccolo — si applica il minimo di 10 €.",
   "calc.validate.contactTitle": "Aggiungi un'e-mail o un telefono",
   "calc.validate.contact": "Aggiungi un'e-mail o un numero di telefono per poter risponderti.",
   "calc.validate.email": "Questa e-mail non sembra corretta.",

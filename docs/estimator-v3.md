@@ -4,9 +4,10 @@
 `analyzeTriangles()` reads an STL once and returns, for each of the 6 axis-aligned print orientations: surface split (up / down / side),
 height, footprint, and the projected area of faces that would need support. `estimatePart()` turns that into plastic cm3, support cm3,
 grams and print time (seconds); `estimatePart(..., orientation: 'auto')` picks the cheapest orientation that fits the plate.
-`priceOrder()` prices a whole order: EUR 8 setup once, EUR 0.05 per gram x material factor, print time charged in tiers on the ORDER's
-total hours (first 3 h EUR 4.50/h, 3-8 h EUR 3.50/h, beyond 8 h EUR 2.50/h) x material factor, EUR 10 minimum, urgency multiplier on
-the total (express x1.25, urgent x1.6), one line per part, lines always add up to the total. Instant buy up to EUR 100.
+`priceOrder()` prices a whole order: no setup fee, EUR 0.055 per gram x material factor, print time charged in tiers on the ORDER's
+total hours (first 3 h EUR 4.95/h, 3-8 h EUR 3.85/h, beyond 8 h EUR 2.75/h) x material factor, EUR 10 minimum folded into part lines
+(never shown as a separate line), urgency multiplier on the total (express x1.25, urgent x1.6), one line per part, lines always add up
+to the total. Instant buy up to EUR 100. Updated 2026-10-07.
 
 ## The model (all constants live in `EST` in core.ts — one place)
 - shell volume = side area x walls x 0.4425 mm + up area x 1.0 mm + down area x 0.6 mm (capped at the part volume)

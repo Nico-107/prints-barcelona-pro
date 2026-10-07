@@ -610,6 +610,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.why.time": "Printtijd: {hours} h",
   "calc.why.supports": "waarvan supports: {grams} g",
   "calc.why.note": "Geen verborgen kosten. Dit is de definitieve prijs; verzending vlaktarief €5,90.",
+  "calc.why.minNote": "Deze bestelling is klein — het minimum van €10 is van toepassing.",
   "calc.validate.contactTitle": "Voeg een e-mail of telefoonnummer toe",
   "calc.validate.contact": "Voeg een e-mail of telefoonnummer toe zodat we kunnen antwoorden.",
   "calc.validate.email": "Dit e-mailadres ziet er niet correct uit.",
