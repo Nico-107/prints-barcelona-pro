@@ -17,12 +17,17 @@ import { effectivePartSettings } from "@/lib/pricing";
 import { computeBundleV3 } from "@/lib/estimate";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
+import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
+import { checkContact, isValidEmail } from "@/lib/contactValidation";
+import type { UseCase } from "@/lib/materialGuide";
 import { OrderPanel } from "./estimator/OrderPanel";
 import { DefaultSettings } from "./estimator/DefaultSettings";
+import { CheckoutDialog } from "./estimator/CheckoutDialog";
+import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -157,6 +162,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [wallLoops, setWallLoops] = useState(2);
   const [urgency, setUrgency] = useState<"standard" | "express" | "urgent">("standard");
   const [multicolour, setMulticolour] = useState(false);
+  // Advanced-only global defaults
+  const [quality, setQuality] = useState<QualityKey>("standard");
+  const [supports, setSupports] = useState<boolean>(true);
+  const [orientation, setOrientation] = useState<'auto' | number>("auto");
+  // Notes textarea (Simple + Advanced)
+  const [notesText, setNotesText] = useState("");
+  // "What is it for?" chips
+  const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
+  // Contact validation: touched flag triggers red-border display in ContactFields
+  const [contactTouched, setContactTouched] = useState(false);
 
   // Simple / Advanced mode — persisted to localStorage, defaults to Simple.
   // Must start false on server to avoid hydration mismatch; synced from localStorage in useEffect.
@@ -169,14 +184,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const setAdvancedMode = (val: boolean) => {
     try { localStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
     if (!val) {
-      // Reset global defaults + clear per-part infill/walls/multicolour overrides (keep material/color)
+      // Reset global defaults + clear per-part advanced overrides (keep material/color)
       setInfillPct(15);
       setWallLoops(2);
       setUrgency("standard");
       setMulticolour(false);
+      setQuality("standard");
+      setSupports(true);
+      setOrientation("auto");
       setParsedFiles(prev => prev.map(f => {
         if (!f.settings) return f;
-        const { infill: _i, wallLoops: _w, multicolour: _m, ...rest } = f.settings;
+        const { infill: _i, wallLoops: _w, multicolour: _m, quality: _q, supports: _s, orientation: _o, ...rest } = f.settings;
         return { ...f, settings: Object.keys(rest).length > 0 ? rest : undefined };
       }));
     }
@@ -241,7 +259,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
+  const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError);
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
   const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
@@ -490,6 +508,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setContactEmail("");
     setContactPhone("");
     setColorPref("");
+    setNotesText("");
+    setActiveUseCase(null);
+    setContactTouched(false);
+    setQuality("standard");
+    setSupports(true);
+    setOrientation("auto");
     setIsSubmittingQuote(false);
     setIsSubmittedQuote(false);
     setQuoteError(null);
@@ -569,6 +593,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setFulfillmentAttempted(true);
       return;
     }
+    // If an email was typed but is invalid, show the error (phone is not required for Stripe)
+    if (contactEmail.trim() && !isValidEmail(contactEmail)) {
+      setContactTouched(true);
+      return;
+    }
     if (!uploadedRef.current || instantTotalPrice === null) {
       setCheckoutError("Files are still uploading. Please wait a moment and try again.");
       return;
@@ -642,9 +671,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
+  const handleManualReview = () => {
+    const cc = checkContact(contactEmail, contactPhone);
+    setContactTouched(true);
+    if (!cc.ok) {
+      capture('review_blocked_missing_contact', { code: cc.code });
+      return;
+    }
+    setShowManualReview(true);
+  };
+
   const submitQuote = async () => {
-    if (!contactEmail.trim() && !contactPhone.trim()) {
-      setQuoteError(t("calc.contact.atLeastOne"));
+    const cc = checkContact(contactEmail, contactPhone);
+    if (!cc.ok) {
+      setContactTouched(true);
+      capture('review_blocked_missing_contact', { code: cc.code });
       return;
     }
     setHasSubmitted(true);
@@ -705,6 +746,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         return { material: eff.material, infill: eff.infill, wallLoops: eff.wallLoops, multicolour: eff.multicolour };
       }));
 
+      // Combine color preference + notes into existing color field (payload shape unchanged)
+      const colorWithNotes = [colorPref.trim(), notesText.trim()].filter(Boolean).join(' | Notes: ') || null;
+
       // Upload succeeded — show success immediately, nothing below can block the user
       setIsSubmittedQuote(true);
       setShowManualReview(false);
@@ -743,7 +787,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           id: quote_id,
           contact_email: contactEmail.trim() || null,
           contact_phone: contactPhone.trim() || null,
-          color: colorPref.trim() || null,
+          color: colorWithNotes,
           material: quoteSummary.material,
           infill: quoteSummary.infill,
           wall_loops: quoteSummary.wallLoops,
@@ -784,7 +828,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contactEmail: contactEmail.trim() || null,
           contactPhone: contactPhone.trim() || null,
           material: quoteSummary.material,
-          color: colorPref.trim() || null,
+          color: colorWithNotes,
           urgency,
           infillPct: quoteSummary.infillNum,
           wallLoops: quoteSummary.wallLoops,
@@ -1145,7 +1189,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               })()}
             </div>
 
-            {/* OrderPanel — consumer only */}
+            {/* Consumer: success message or "Continue to checkout" button */}
             {!adminMode && (
               isSubmittedQuote ? (
                 <div className="mt-4 rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-5 text-center">
@@ -1155,48 +1199,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
               ) : (
                 <div className="mt-4">
-                  <OrderPanel
-                    parsedFiles={parsedFiles}
-                    validFiles={validFiles}
-                    bundle={bundle}
-                    defaults={defaults}
-                    selectedFileIndex={selectedFileIndex}
-                    expandedPartId={expandedPartId}
-                    onSelectPart={setSelectedFileIndex}
-                    onExpandPart={setExpandedPartId}
-                    onQtyChange={updateQty}
-                    onRemove={removeFile}
-                    onPartSettingsChange={handlePartSettingsChange}
-                    onResetPartSettings={handleResetPartSettings}
-                    onApplyToAll={handleApplyToAll}
-                    fulfillment={fulfillment}
-                    fulfillmentAttempted={fulfillmentAttempted}
-                    onFulfillmentChange={(v) => { setFulfillment(v); setFulfillmentAttempted(false); }}
-                    pickupCity={pickupCity}
-                    contactEmail={contactEmail}
-                    contactPhone={contactPhone}
-                    quoteError={quoteError}
-                    checkoutError={checkoutError}
-                    oversizedFiles={oversizedFiles}
-                    onContactEmailChange={setContactEmail}
-                    onContactPhoneChange={setContactPhone}
-                    advancedMode={advancedMode}
-                    instantBuyEligible={instantBuyEligible}
-                    isCheckingOut={isCheckingOut}
-                    preUploadDone={preUploadDone}
-                    isSubmittingQuote={isSubmittingQuote}
-                    showManualReview={showManualReview}
-                    hasSubmitted={hasSubmitted}
-                    uploadState={uploadState}
-                    onInstantBuy={handleInstantBuy}
-                    onManualReview={() => setShowManualReview(true)}
-                    onSubmitQuote={submitQuote}
-                    onWhatsApp={handleWhatsApp}
-                    language={language}
-                    t={t}
-                    materialOptions={materialOptions}
-                    adminMode={adminMode}
-                  />
+                  <Button
+                    variant="cta"
+                    size="lg"
+                    className="w-full"
+                    onClick={() => { capture('checkout_reopened', {}); setMobileModalOpen(true); }}
+                  >
+                    {t("calc.checkout.reopen")}
+                  </Button>
                 </div>
               )
             )}
@@ -1207,226 +1217,190 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
       {!adminMode && bundle && (() => {
         const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
-        const stepperValue = stepperFile?.qty ?? 1;
-        const viewerSize = shortViewport ? 180 : 240;
 
-        return (
-        <Dialog open={mobileModalOpen} onOpenChange={(open) => {
-          if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
-          if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview) {
-            if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
-            exitIntentTimerRef.current = setTimeout(() => setShowExitIntent(true), 500);
-          }
-          setMobileModalOpen(open);
-          if (open) setViewerStateInModal("loading");
-        }}>
-          <DialogContent
-            className={`sm:max-w-md lg:max-w-3xl max-h-[85vh] p-0 gap-0 flex flex-col overflow-hidden
-              [&>button]:!h-11 [&>button]:!w-11 [&>button]:!top-2 [&>button]:!right-2
-              [&>button]:!flex [&>button]:!items-center [&>button]:!justify-center
-              [&>button]:!rounded-full [&>button>svg]:!h-5 [&>button>svg]:!w-5`}
+        const leftSlot = (
+          <div
+            className="p-4 space-y-3"
+            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+            onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragging(false); }}
+            onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
           >
-            {/* Header — subtitle stays here; title carries progress framing */}
-            <DialogHeader className="px-6 pt-6 pb-4 border-b border-border shrink-0 text-left">
-              <DialogTitle className="text-lg font-bold text-foreground pr-12">
-                {t("calc.modal.title")}
-              </DialogTitle>
-              <p className="text-sm text-muted-foreground">{t("calc.modal.subtitle")}</p>
-            </DialogHeader>
-
-            {/* Scrollable body — single column on mobile, two columns at lg */}
-            <div
-              ref={modalBodyRef}
-              className="flex-1 overflow-y-auto min-h-0"
-              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-              onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragging(false); }}
-              onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
-            >
-              <div className={`flex flex-col ${stepperFile?.file ? "lg:grid lg:grid-cols-[5fr_6fr]" : ""}`}>
-
-                {/* LEFT column at lg: STL viewer + file info.
-                    On mobile this renders AFTER the right column (order-2), so price stays at top. */}
-                {stepperFile?.file && (
-                  <div className="order-2 lg:order-1 flex flex-col items-center px-6 pb-4 lg:py-4 lg:border-r lg:border-border gap-1">
-                    {/* STL viewer — centered, square, ~240px (180px on short viewports).
-                        When the viewer errors, the whole viewer box is hidden so no empty frame appears. */}
-                    {viewerStateInModal !== "failed" && (
-                      <>
-                        <div
-                          className="rounded-xl border border-border bg-muted/20 overflow-hidden"
-                          style={{ width: viewerSize, height: viewerSize }}
-                        >
-                          <Suspense fallback={<div style={{ width: viewerSize, height: viewerSize }} className="bg-muted/20 animate-pulse" />}>
-                            <StlViewer
-                              key={`${stepperFile.id}-${viewerSize}`}
-                              file={stepperFile.file}
-                              size={viewerSize}
-                              onReady={() => setViewerStateInModal("ready")}
-                              onError={() => setViewerStateInModal("failed")}
-                            />
-                          </Suspense>
-                        </div>
-                        {viewerStateInModal === "ready" && (
-                          <p className="text-xs text-center text-muted-foreground mt-1">
-                            {t("calc.modal.dragHint")}
-                          </p>
-                        )}
-                      </>
-                    )}
-                    <p className="text-xs text-muted-foreground mt-1 text-center max-w-full truncate">
-                      {stripUploadPrefix(stepperFile.name)}
-                    </p>
-                    {viewableFiles.length > 1 && (
-                      <div className="flex flex-wrap gap-1 mt-1 justify-center">
-                        {viewableFiles.map((f, i) => (
-                          <button
-                            key={f.id}
-                            type="button"
-                            onClick={() => setSelectedFileIndex(i)}
-                            className={`px-2 py-0.5 rounded-full text-xs border transition-colors max-w-[100px] truncate ${
-                              i === selectedFileIndex
-                                ? "border-accent bg-accent text-accent-foreground"
-                                : "border-border bg-background text-muted-foreground hover:border-accent/60 hover:bg-accent/5"
-                            }`}
-                            title={stripUploadPrefix(f.name)}
-                          >
-                            {language === "es" ? `Pieza ${i + 1}` : language === "ca" ? `Peça ${i + 1}` : `Part ${i + 1}`}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+            {stepperFile?.file && viewerStateInModal !== "failed" && (
+              <div>
+                <div className="rounded-xl border border-border bg-muted/20 overflow-hidden w-full aspect-square">
+                  <Suspense fallback={<div className="w-full aspect-square bg-muted/20 animate-pulse" />}>
+                    <StlViewer
+                      key={`${stepperFile.id}-dialog`}
+                      file={stepperFile.file}
+                      size={280}
+                      onReady={() => setViewerStateInModal("ready")}
+                      onError={() => setViewerStateInModal("failed")}
+                    />
+                  </Suspense>
+                </div>
+                {viewerStateInModal === "ready" && (
+                  <p className="text-xs text-center text-muted-foreground mt-1">{t("calc.modal.dragHint")}</p>
                 )}
-
-                {/* RIGHT column at lg: price + config + contact.
-                    On mobile this is order-1, so it renders first (price at top). */}
-                <div className="order-1 lg:order-2 px-6 py-4 space-y-4">
-                  {/* Price — updates live from computeBundle */}
-                  <div>
-                    {validFiles.length > 1 && (
-                      <p className="text-sm font-semibold text-accent mb-0.5">
-                        {t("calc.totalOrder")} ({validFiles.length} {language === "en" ? "parts" : language === "ca" ? "peces" : "piezas"})
-                      </p>
-                    )}
-                    <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
-                    <p className="text-sm text-muted-foreground mt-0.5">{specLine}</p>
-                  </div>
-
-              {/* Add more files — hidden input + dashed drop zone, inside the dialog */}
-              <input
-                ref={modalInputRef}
-                type="file"
-                accept=".stl"
-                multiple
-                className="hidden"
-                onChange={handleChange}
-              />
-              {!isSubmittedQuote && (
-                parsedFiles.length < MAX_FILES ? (
-                  <div
-                    onClick={() => {
-                      capture("estimate_add_more_click", { location: "modal" });
-                      modalInputRef.current?.click();
-                    }}
-                    className={`border border-dashed rounded-xl p-3 text-center cursor-pointer transition-all select-none ${
-                      isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
+              </div>
+            )}
+            {stepperFile && (
+              <p className="text-xs text-muted-foreground text-center truncate">
+                {stripUploadPrefix(stepperFile.name)}
+              </p>
+            )}
+            {viewableFiles.length > 1 && (
+              <div className="flex flex-wrap gap-1 justify-center">
+                {viewableFiles.map((f, i) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setSelectedFileIndex(i)}
+                    className={`px-2 py-0.5 rounded-full text-xs border transition-colors max-w-[120px] truncate ${
+                      i === selectedFileIndex
+                        ? "border-accent bg-accent text-accent-foreground"
+                        : "border-border bg-background text-muted-foreground hover:border-accent/60 hover:bg-accent/5"
                     }`}
+                    title={stripUploadPrefix(f.name)}
                   >
-                    <span className="text-sm text-muted-foreground flex items-center justify-center gap-1.5">
-                      <Plus className="w-4 h-4" />
-                      {t("calc.addMore")} ({parsedFiles.length}/{MAX_FILES})
-                    </span>
-                  </div>
-                ) : (
-                  <div className="border border-border/40 rounded-xl p-3 text-center">
-                    <span className="text-sm text-muted-foreground">{t("calc.maxFiles")}</span>
-                  </div>
-                )
-              )}
-
-              <DefaultSettings
-                materialKey={materialKey}
-                colorPref={colorPref}
-                infillPct={infillPct}
-                wallLoops={wallLoops}
-                multicolour={multicolour}
-                urgency={urgency}
-                advancedMode={advancedMode}
-                disabled={isCheckingOut || isSubmittingQuote}
-                t={t}
-                materialOptions={materialOptions}
-                onMaterialChange={setMaterialKey}
-                onColorChange={setColorPref}
-                onInfillChange={setInfillPct}
-                onWallLoopsChange={setWallLoops}
-                onMulticolourChange={setMulticolour}
-                onUrgencyChange={setUrgency}
-                onAdvancedModeChange={setAdvancedMode}
-              />
-
-              {isSubmittedQuote ? (
-                <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-4 text-center">
-                  <CheckCircle className="w-7 h-7 text-whatsapp mx-auto mb-2" />
-                  <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
+                    {language === "es" ? `Pieza ${i + 1}` : language === "ca" ? `Peça ${i + 1}` : `Part ${i + 1}`}
+                  </button>
+                ))}
+              </div>
+            )}
+            <input
+              ref={modalInputRef}
+              type="file"
+              accept=".stl"
+              multiple
+              className="hidden"
+              onChange={handleChange}
+            />
+            {!isSubmittedQuote && (
+              parsedFiles.length < MAX_FILES ? (
+                <div
+                  onClick={() => { capture("estimate_add_more_click", { location: "dialog" }); modalInputRef.current?.click(); }}
+                  className={`border border-dashed rounded-xl p-3 text-center cursor-pointer transition-all select-none ${
+                    isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
+                  }`}
+                >
+                  <span className="text-sm text-muted-foreground flex items-center justify-center gap-1.5">
+                    <Plus className="w-4 h-4" />
+                    {t("calc.addMore")} ({parsedFiles.length}/{MAX_FILES})
+                  </span>
                 </div>
               ) : (
-                <OrderPanel
-                  parsedFiles={parsedFiles}
-                  validFiles={validFiles}
-                  bundle={bundle}
-                  defaults={defaults}
-                  selectedFileIndex={selectedFileIndex}
-                  expandedPartId={expandedPartId}
-                  onSelectPart={setSelectedFileIndex}
-                  onExpandPart={setExpandedPartId}
-                  onQtyChange={updateQty}
-                  onRemove={removeFile}
-                  onPartSettingsChange={handlePartSettingsChange}
-                  onResetPartSettings={handleResetPartSettings}
-                  onApplyToAll={handleApplyToAll}
-                  fulfillment={fulfillment}
-                  fulfillmentAttempted={fulfillmentAttempted}
-                  onFulfillmentChange={(v) => { setFulfillment(v); setFulfillmentAttempted(false); }}
-                  pickupCity={pickupCity}
-                  contactEmail={contactEmail}
-                  contactPhone={contactPhone}
-                  quoteError={quoteError}
-                  checkoutError={checkoutError}
-                  oversizedFiles={oversizedFiles}
-                  onContactEmailChange={setContactEmail}
-                  onContactPhoneChange={setContactPhone}
-                  advancedMode={advancedMode}
-                  instantBuyEligible={instantBuyEligible}
-                  isCheckingOut={isCheckingOut}
-                  preUploadDone={preUploadDone}
-                  isSubmittingQuote={isSubmittingQuote}
-                  showManualReview={showManualReview}
-                  hasSubmitted={hasSubmitted}
-                  uploadState={uploadState}
-                  onInstantBuy={handleInstantBuy}
-                  onManualReview={() => setShowManualReview(true)}
-                  onSubmitQuote={submitQuote}
-                  onWhatsApp={handleWhatsApp}
-                  language={language}
-                  t={t}
-                  materialOptions={materialOptions}
-                  adminMode={adminMode}
-                />
-              )}
-                </div>{/* end right col */}
-              </div>{/* end grid container */}
-            </div>{/* end scrollable body */}
+                <div className="border border-border/40 rounded-xl p-3 text-center">
+                  <span className="text-sm text-muted-foreground">{t("calc.maxFiles")}</span>
+                </div>
+              )
+            )}
+          </div>
+        );
 
-            {/* Sticky footer — close only; actions live in the scrollable OrderPanel */}
-            <div className="shrink-0 border-t border-border bg-background px-6 py-4">
-              <DialogClose className="w-full h-11 flex items-center justify-center gap-2 rounded-lg border border-border text-sm text-muted-foreground hover:bg-muted/30 transition-colors">
-                <X className="w-4 h-4" />
-                {t("calc.modal.close")}
-              </DialogClose>
-            </div>
-          </DialogContent>
-        </Dialog>
+        const rightSlot = isSubmittedQuote ? (
+          <div className="rounded-xl bg-whatsapp/10 border border-whatsapp/25 p-5 text-center">
+            <CheckCircle className="w-8 h-8 text-whatsapp mx-auto mb-2" />
+            <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <CheckoutConfigurator
+              parsedFiles={parsedFiles}
+              validFiles={validFiles}
+              bundle={bundle}
+              defaults={defaults}
+              advancedMode={advancedMode}
+              onAdvancedModeChange={setAdvancedMode}
+              materialKey={materialKey}
+              onMaterialChange={setMaterialKey}
+              activeUseCase={activeUseCase}
+              onUseCaseChange={setActiveUseCase}
+              colorPref={colorPref}
+              onColorChange={setColorPref}
+              notesText={notesText}
+              onNotesChange={setNotesText}
+              quality={quality}
+              onQualityChange={setQuality}
+              infillPct={infillPct}
+              wallLoops={wallLoops}
+              onInfillChange={setInfillPct}
+              onWallLoopsChange={setWallLoops}
+              supports={supports}
+              onSupportsChange={setSupports}
+              orientation={orientation}
+              onOrientationChange={setOrientation}
+              urgency={urgency}
+              onUrgencyChange={setUrgency}
+              materialOptions={materialOptions}
+              disabled={isCheckingOut || isSubmittingQuote}
+              t={t}
+              language={language}
+            />
+            <OrderPanel
+              parsedFiles={parsedFiles}
+              validFiles={validFiles}
+              bundle={bundle}
+              defaults={defaults}
+              hideParts={true}
+              selectedFileIndex={selectedFileIndex}
+              expandedPartId={expandedPartId}
+              onSelectPart={setSelectedFileIndex}
+              onExpandPart={setExpandedPartId}
+              onQtyChange={updateQty}
+              onRemove={removeFile}
+              onPartSettingsChange={handlePartSettingsChange}
+              onResetPartSettings={handleResetPartSettings}
+              onApplyToAll={handleApplyToAll}
+              fulfillment={fulfillment}
+              fulfillmentAttempted={fulfillmentAttempted}
+              onFulfillmentChange={(v) => { setFulfillment(v); setFulfillmentAttempted(false); }}
+              pickupCity={pickupCity}
+              contactEmail={contactEmail}
+              contactPhone={contactPhone}
+              contactTouched={contactTouched}
+              quoteError={quoteError}
+              checkoutError={checkoutError}
+              oversizedFiles={oversizedFiles}
+              onContactEmailChange={setContactEmail}
+              onContactPhoneChange={setContactPhone}
+              advancedMode={advancedMode}
+              instantBuyEligible={instantBuyEligible}
+              isCheckingOut={isCheckingOut}
+              preUploadDone={preUploadDone}
+              isSubmittingQuote={isSubmittingQuote}
+              showManualReview={showManualReview}
+              hasSubmitted={hasSubmitted}
+              uploadState={uploadState}
+              onInstantBuy={handleInstantBuy}
+              onManualReview={handleManualReview}
+              onSubmitQuote={submitQuote}
+              onWhatsApp={handleWhatsApp}
+              language={language}
+              t={t}
+              materialOptions={materialOptions}
+              adminMode={adminMode}
+            />
+          </div>
+        );
+
+        return (
+          <CheckoutDialog
+            open={mobileModalOpen}
+            onOpenChange={(open) => {
+              if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
+              if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview) {
+                if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
+                exitIntentTimerRef.current = setTimeout(() => setShowExitIntent(true), 500);
+              }
+              setMobileModalOpen(open);
+              if (open) setViewerStateInModal("loading");
+            }}
+            title={t("calc.checkout.title")}
+            closeLabel={t("calc.checkout.close")}
+            leftSlot={leftSlot}
+            rightSlot={rightSlot}
+          />
         );
       })()}
 

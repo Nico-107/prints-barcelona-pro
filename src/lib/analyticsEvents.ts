@@ -243,6 +243,13 @@ export interface EventMap {
   apply_to_all_click: ApplyToAllClickProps;
   part_reset_click: PartResetClickProps;
 
+  // New events — Checkout redesign (Prompt 3 phase 2)
+  config_mode_changed: { mode: 'simple' | 'advanced' };
+  use_case_chosen: { use_case: string; material: string | null };
+  option_chosen: { group: 'quality' | 'strength' | 'supports' | 'orientation' | 'material' | 'colour'; value: string };
+  review_blocked_missing_contact: { code: string };
+  checkout_reopened: Record<string, never>;
+
   // Legacy / page-level events already used across the site
   quote_cta_click: QuoteCtaClickProps;
   "print request submitted": Record<string, unknown>;

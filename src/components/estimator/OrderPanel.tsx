@@ -6,6 +6,8 @@ import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
+import { ContactFields } from "./ContactFields";
+import { PriceBreakdown } from "./PriceBreakdown";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"];
@@ -37,6 +39,7 @@ interface OrderPanelProps {
   // Contact form
   contactEmail: string;
   contactPhone: string;
+  contactTouched: boolean;
   quoteError: string | null;
   checkoutError: string | null;
   oversizedFiles: ParsedFile[];
@@ -44,6 +47,7 @@ interface OrderPanelProps {
   onContactPhoneChange: (v: string) => void;
 
   // State
+  hideParts?: boolean;
   advancedMode: boolean;
   instantBuyEligible: boolean;
   isCheckingOut: boolean;
@@ -87,11 +91,13 @@ export function OrderPanel({
   pickupCity,
   contactEmail,
   contactPhone,
+  contactTouched,
   quoteError,
   checkoutError,
   oversizedFiles,
   onContactEmailChange,
   onContactPhoneChange,
+  hideParts = false,
   advancedMode,
   instantBuyEligible,
   isCheckingOut,
@@ -148,49 +154,51 @@ export function OrderPanel({
 
   return (
     <div className="space-y-4">
-      {/* Parts list title */}
-      <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {t("calc.parts.title").replace("{count}", String(parsedFiles.length))}
-      </p>
+      {/* Parts list — hidden in dialog right column (left column shows them there) */}
+      {!hideParts && (
+        <>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            {t("calc.parts.title").replace("{count}", String(parsedFiles.length))}
+          </p>
+          <div className="space-y-2">
+            {parsedFiles.map(f => {
+              const vIdx = validFiles.indexOf(f);
+              const eff = effectivePartSettings(f, defaults);
+              const customized = isPartCustomized(f);
+              const viewableIdx = validFiles.filter(v => !!v.file).indexOf(f);
 
-      {/* Part rows */}
-      <div className="space-y-2">
-        {parsedFiles.map(f => {
-          const vIdx = validFiles.indexOf(f);
-          const eff = effectivePartSettings(f, defaults);
-          const customized = isPartCustomized(f);
-          const viewableIdx = validFiles.filter(v => !!v.file).indexOf(f);
-
-          return (
-            <PartRow
-              key={f.id}
-              part={f}
-              effectiveMaterial={eff.material}
-              effectiveColor={eff.color}
-              effectiveInfill={eff.infill}
-              effectiveWallLoops={eff.wallLoops}
-              costCents={costByFileId[f.id] ?? 0}
-              isSelected={viewableIdx !== -1 && viewableIdx === selectedFileIndex}
-              isCustomized={customized}
-              isExpanded={expandedPartId === f.id}
-              advancedMode={advancedMode}
-              disabled={disabled}
-              t={t}
-              language={language}
-              materialOptions={materialOptions}
-              onSelect={() => {
-                if (viewableIdx !== -1) onSelectPart(viewableIdx);
-              }}
-              onQtyChange={qty => onQtyChange(f.id, qty)}
-              onRemove={() => onRemove(f.id)}
-              onToggleExpand={() => onExpandPart(expandedPartId === f.id ? null : f.id)}
-              onSettingsChange={s => onPartSettingsChange(f.id, s)}
-              onResetSettings={() => onResetPartSettings(f.id)}
-              onApplyToAll={() => onApplyToAll(f.id)}
-            />
-          );
-        })}
-      </div>
+              return (
+                <PartRow
+                  key={f.id}
+                  part={f}
+                  effectiveMaterial={eff.material}
+                  effectiveColor={eff.color}
+                  effectiveInfill={eff.infill}
+                  effectiveWallLoops={eff.wallLoops}
+                  costCents={costByFileId[f.id] ?? 0}
+                  isSelected={viewableIdx !== -1 && viewableIdx === selectedFileIndex}
+                  isCustomized={customized}
+                  isExpanded={expandedPartId === f.id}
+                  advancedMode={advancedMode}
+                  disabled={disabled}
+                  t={t}
+                  language={language}
+                  materialOptions={materialOptions}
+                  onSelect={() => {
+                    if (viewableIdx !== -1) onSelectPart(viewableIdx);
+                  }}
+                  onQtyChange={qty => onQtyChange(f.id, qty)}
+                  onRemove={() => onRemove(f.id)}
+                  onToggleExpand={() => onExpandPart(expandedPartId === f.id ? null : f.id)}
+                  onSettingsChange={s => onPartSettingsChange(f.id, s)}
+                  onResetSettings={() => onResetPartSettings(f.id)}
+                  onApplyToAll={() => onApplyToAll(f.id)}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {/* Order summary (C4) */}
       {bundle && (
@@ -228,6 +236,9 @@ export function OrderPanel({
           </div>
         </div>
       )}
+
+      {/* Why this price? collapsible */}
+      {bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} />}
 
       {/* Mixed materials note (C7) */}
       {!instantEligibleMaterials && !anyMulticolour && (
@@ -300,33 +311,24 @@ export function OrderPanel({
           </div>
 
           {/* Contact inputs */}
-          <div className="space-y-2">
-            <input
-              type="email"
-              value={contactEmail}
-              onChange={e => onContactEmailChange(e.target.value)}
-              placeholder={t("calc.contact.email")}
-              disabled={disabled}
-              className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-            />
-            <input
-              type="tel"
-              value={contactPhone}
-              onChange={e => onContactPhoneChange(e.target.value)}
-              placeholder={t("calc.contact.phone")}
-              disabled={disabled}
-              className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-            />
-            {quoteError && <p className="text-xs text-destructive">{quoteError}</p>}
-            {checkoutError && instantBuyEligible && !showManualReview && (
-              <p className="text-xs text-destructive">{checkoutError}</p>
-            )}
-            {oversizedFiles.length > 0 && (
-              <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
-                {t("calc.notice.tooLargeToUpload")}
-              </p>
-            )}
-          </div>
+          <ContactFields
+            email={contactEmail}
+            phone={contactPhone}
+            touched={contactTouched}
+            disabled={disabled}
+            t={t}
+            onEmailChange={onContactEmailChange}
+            onPhoneChange={onContactPhoneChange}
+          />
+          {quoteError && <p className="text-xs text-destructive">{quoteError}</p>}
+          {checkoutError && instantBuyEligible && !showManualReview && (
+            <p className="text-xs text-destructive">{checkoutError}</p>
+          )}
+          {oversizedFiles.length > 0 && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+              {t("calc.notice.tooLargeToUpload")}
+            </p>
+          )}
 
           {/* Buttons (C6) */}
           <div className="space-y-2">

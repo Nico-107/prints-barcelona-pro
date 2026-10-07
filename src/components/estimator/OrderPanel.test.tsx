@@ -48,6 +48,7 @@ const BASE_PROPS = {
   pickupCity: "Barcelona",
   contactEmail: "",
   contactPhone: "",
+  contactTouched: false,
   quoteError: null,
   checkoutError: null,
   oversizedFiles: [],
