@@ -46,37 +46,39 @@ export function ContactFields({
     t("calc.validate.contact");
 
   return (
-    <div ref={containerRef} className="space-y-2">
-      <input
-        ref={emailRef}
-        id="contact-email"
-        type="email"
-        value={email}
-        onChange={e => onEmailChange(e.target.value)}
-        placeholder={t("calc.contact.email")}
-        disabled={disabled}
-        aria-invalid={emailInvalid}
-        aria-describedby={showError ? "contact-error" : undefined}
-        className={`w-full h-11 rounded-md border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 ${
-          emailInvalid ? "border-destructive ring-1 ring-destructive/50" : "border-input"
-        }`}
-      />
-      <input
-        ref={phoneRef}
-        id="contact-phone"
-        type="tel"
-        value={phone}
-        onChange={e => onPhoneChange(e.target.value)}
-        placeholder={t("calc.contact.phone")}
-        disabled={disabled}
-        aria-invalid={phoneInvalid}
-        aria-describedby={showError ? "contact-error" : undefined}
-        className={`w-full h-11 rounded-md border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 ${
-          phoneInvalid ? "border-destructive ring-1 ring-destructive/50" : "border-input"
-        }`}
-      />
+    <div ref={containerRef}>
+      <div className="grid sm:grid-cols-2 gap-3">
+        <input
+          ref={emailRef}
+          id="contact-email"
+          type="email"
+          value={email}
+          onChange={e => onEmailChange(e.target.value)}
+          placeholder={t("calc.contact.email")}
+          disabled={disabled}
+          aria-invalid={emailInvalid}
+          aria-describedby={showError ? "contact-error" : undefined}
+          className={`w-full h-11 rounded-md border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 ${
+            emailInvalid ? "border-destructive ring-1 ring-destructive/50" : "border-input"
+          }`}
+        />
+        <input
+          ref={phoneRef}
+          id="contact-phone"
+          type="tel"
+          value={phone}
+          onChange={e => onPhoneChange(e.target.value)}
+          placeholder={t("calc.contact.phone")}
+          disabled={disabled}
+          aria-invalid={phoneInvalid}
+          aria-describedby={showError ? "contact-error" : undefined}
+          className={`w-full h-11 rounded-md border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 ${
+            phoneInvalid ? "border-destructive ring-1 ring-destructive/50" : "border-input"
+          }`}
+        />
+      </div>
       {showError && (
-        <p id="contact-error" role="alert" className="text-xs text-destructive font-medium">
+        <p id="contact-error" role="alert" className="text-xs text-destructive font-medium mt-2">
           {errorMsg}
         </p>
       )}

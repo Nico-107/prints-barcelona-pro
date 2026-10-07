@@ -163,20 +163,26 @@ export function OrderPanel({
   if (section === 'actions') {
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible &&
       (bundle.orderResult.chargedPrintCents > EST.instantMaxCents || effectiveAnyMulticolour);
+    const displayPrice = instantBuyEligible && instantTotalPrice !== null
+      ? instantTotalPrice.toFixed(2)
+      : bundle.total.toFixed(2);
 
     return (
-      <div className="space-y-2">
-        {/* Big total line */}
-        <div className="flex justify-between items-baseline text-sm font-semibold">
-          <span>{t("calc.summary.total")}</span>
-          <span>
-            €{instantBuyEligible && instantTotalPrice !== null
-              ? instantTotalPrice.toFixed(2)
-              : bundle.total.toFixed(2)}
-            {fulfillment !== "shipping" && instantBuyEligible && (
-              <span className="text-xs font-normal text-muted-foreground ml-1">{t("calc.instantBuy.fulfillment.shipping").toLowerCase().includes("ship") ? "" : ""}</span>
-            )}
-          </span>
+      <div className="space-y-3">
+        {/* Total + shipping sub-line */}
+        <div>
+          <div className="flex justify-between items-baseline">
+            <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
+            <span className="text-xl font-bold">€{displayPrice}</span>
+          </div>
+          {fulfillment === "shipping" && (
+            <p className="text-xs text-muted-foreground text-right">
+              {t("calc.summary.shipping")} +€{(EST.shippingCents / 100).toFixed(2)}
+            </p>
+          )}
+          {fulfillment === "pickup" && (
+            <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
+          )}
         </div>
 
         {/* Quote-only reason */}
@@ -184,7 +190,7 @@ export function OrderPanel({
           <p className="text-xs text-muted-foreground">{t("calc.actions.quoteOnlyWhy")}</p>
         )}
 
-        {/* Checkout error */}
+        {/* Errors */}
         {checkoutError && instantBuyEligible && !showManualReview && (
           <p className="text-xs text-destructive">{checkoutError}</p>
         )}
@@ -194,6 +200,7 @@ export function OrderPanel({
           <div className="space-y-2">
             {instantBuyEligible && !showManualReview ? (
               <>
+                {/* Primary: Buy Now */}
                 <Button
                   variant="cta"
                   size="lg"
@@ -206,34 +213,34 @@ export function OrderPanel({
                     : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
                   }
                 </Button>
-                <div>
+                {/* Secondary row: Review + WhatsApp side by side */}
+                <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                    size="sm"
+                    className="w-full gap-1.5 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
                     onClick={onManualReview}
                     disabled={isCheckingOut}
                   >
-                    <Send className="w-4 h-4 shrink-0" />
-                    {t("calc.instantBuy.manualReview")}
+                    <Send className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{t("calc.instantBuy.manualReview")}</span>
                   </Button>
-                  <p className="text-xs text-center text-muted-foreground mt-1">
-                    {t("calc.instantBuy.reviewHint")}
-                  </p>
+                  <Button
+                    variant="whatsapp-outline"
+                    size="sm"
+                    className="w-full gap-1.5 text-xs"
+                    onClick={onWhatsApp}
+                    disabled={isCheckingOut}
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{t("calc.result.whatsapp")}</span>
+                  </Button>
                 </div>
-                <Button
-                  variant="whatsapp-outline"
-                  size="sm"
-                  className="w-full gap-2"
-                  onClick={onWhatsApp}
-                  disabled={isCheckingOut}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  {t("calc.result.whatsapp")}
-                </Button>
+                <p className="text-xs text-center text-muted-foreground">{t("calc.instantBuy.reviewHint")}</p>
               </>
             ) : (
               <>
+                {/* Primary: Send quote */}
                 <Button
                   variant="cta"
                   size="lg"
@@ -246,6 +253,7 @@ export function OrderPanel({
                     : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
                   }
                 </Button>
+                {/* Secondary: WhatsApp */}
                 <Button
                   variant="whatsapp-outline"
                   size="sm"

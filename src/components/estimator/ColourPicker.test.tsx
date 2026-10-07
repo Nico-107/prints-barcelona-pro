@@ -80,3 +80,65 @@ describe("ColourPicker", () => {
     expect(onChange).toHaveBeenCalledWith("dark teal");
   });
 });
+
+// ─── FIX 1: customMode state behaviour ───────────────────────────────────────
+
+describe("ColourPicker customMode", () => {
+  it("clicking Custom with value='' enters custom mode without calling onChange", () => {
+    const onChange = vi.fn();
+    const container = mount(<ColourPicker value="" onChange={onChange} t={t} />);
+    const customBtn = container.querySelector('[aria-label="calc.color.name.Custom"]') as HTMLButtonElement;
+    act(() => { customBtn.click(); });
+    expect(customBtn.getAttribute("aria-checked")).toBe("true");
+    const anyBtn = container.querySelector('[aria-label="calc.color.name.any"]') as HTMLButtonElement;
+    expect(anyBtn.getAttribute("aria-checked")).toBe("false");
+    expect(container.querySelector("input[type=text]")).not.toBeNull();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("typing in custom input after entering custom mode calls onChange with typed text", () => {
+    const onChange = vi.fn();
+    const container = mount(<ColourPicker value="" onChange={onChange} t={t} />);
+    const customBtn = container.querySelector('[aria-label="calc.color.name.Custom"]') as HTMLButtonElement;
+    act(() => { customBtn.click(); });
+    const input = container.querySelector("input[type=text]") as HTMLInputElement;
+    act(() => {
+      const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!;
+      nativeSetter.call(input, "dark teal");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    expect(onChange).toHaveBeenCalledWith("dark teal");
+    // Custom swatch stays selected
+    expect(customBtn.getAttribute("aria-checked")).toBe("true");
+  });
+
+  it("clicking Grey from custom mode calls onChange('Grey') and hides the input", () => {
+    const onChange = vi.fn();
+    const container = mount(<ColourPicker value="my custom" onChange={onChange} t={t} />);
+    // Verify we start in custom mode
+    expect(container.querySelector("input[type=text]")).not.toBeNull();
+    const greyBtn = container.querySelector('[aria-label="calc.color.name.Grey"]') as HTMLButtonElement;
+    act(() => { greyBtn.click(); });
+    expect(onChange).toHaveBeenCalledWith("Grey");
+    expect(container.querySelector("input[type=text]")).toBeNull();
+  });
+
+  it("value='dark teal' passed in renders Custom selected with text prefilled", () => {
+    const container = mount(<ColourPicker value="dark teal" onChange={() => {}} t={t} />);
+    const customBtn = container.querySelector('[aria-label="calc.color.name.Custom"]') as HTMLButtonElement;
+    expect(customBtn.getAttribute("aria-checked")).toBe("true");
+    const input = container.querySelector("input[type=text]") as HTMLInputElement | null;
+    expect(input).not.toBeNull();
+    expect(input!.value).toBe("dark teal");
+  });
+
+  it("clicking Any while in custom mode turns off custom mode", () => {
+    const onChange = vi.fn();
+    const container = mount(<ColourPicker value="my custom" onChange={onChange} t={t} />);
+    // Start in custom mode
+    const anyBtn = container.querySelector('[aria-label="calc.color.name.any"]') as HTMLButtonElement;
+    act(() => { anyBtn.click(); });
+    expect(onChange).toHaveBeenCalledWith("");
+    expect(container.querySelector("input[type=text]")).toBeNull();
+  });
+});

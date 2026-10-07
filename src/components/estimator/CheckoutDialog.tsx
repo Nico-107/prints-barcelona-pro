@@ -33,10 +33,10 @@ export function CheckoutDialog({ open, onOpenChange, title, closeLabel, leftSlot
         <DialogTitle className="sr-only">{title}</DialogTitle>
 
         <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-x-hidden">
-          {/* LEFT column — desktop only: viewer/chips scrolling top + pinned actionSlot */}
+          {/* LEFT column — desktop only: viewer/parts flex-col + pinned actionSlot */}
           <div className="hidden lg:flex lg:flex-col lg:w-[45%] shrink-0 border-r border-border">
-            {/* Scrollable top: viewer + chips */}
-            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+            {/* Content: viewer + parts list + add-files, grows to fill space */}
+            <div className="flex-1 min-h-0 flex flex-col">
               {leftSlot}
             </div>
             {/* Pinned actions at bottom of left column */}

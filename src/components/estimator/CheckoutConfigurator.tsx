@@ -313,10 +313,11 @@ export function CheckoutConfigurator({
         )}
       </div>
 
-      {/* Colour picker */}
+      {/* Colour picker — key resets internal customMode state on scope change */}
       <div>
         <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.color.title")}</p>
         <ColourPicker
+          key={scope}
           value={effColor}
           onChange={handleColorChange}
           disabled={disabled}

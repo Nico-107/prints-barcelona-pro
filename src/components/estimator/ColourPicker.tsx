@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // owner: edit/remove colours here
 export const COLOUR_OPTIONS: { key: string; hex: string }[] = [
@@ -19,6 +19,9 @@ export const COLOUR_OPTIONS: { key: string; hex: string }[] = [
   { key: "Transparent", hex: "transparent" },
 ];
 
+const NAMED_KEYS = COLOUR_OPTIONS.map(o => o.key);
+const isExternalCustom = (v: string) => v !== "" && !NAMED_KEYS.includes(v);
+
 interface ColourPickerProps {
   value: string;
   onChange: (v: string) => void;
@@ -27,13 +30,28 @@ interface ColourPickerProps {
 }
 
 export function ColourPicker({ value, onChange, disabled = false, t }: ColourPickerProps) {
-  const namedKeys = COLOUR_OPTIONS.map(o => o.key);
-  const isNamed = namedKeys.includes(value) || value === "";
-  const isCustom = !isNamed;
-  const [customText, setCustomText] = useState(isCustom ? value : "");
+  const [customMode, setCustomMode] = useState(() => isExternalCustom(value));
+  const [customText, setCustomText] = useState(() => isExternalCustom(value) ? value : "");
+
+  // Sync when value prop changes externally (e.g. scope switch, "Reset to defaults")
+  useEffect(() => {
+    if (isExternalCustom(value)) {
+      setCustomMode(true);
+      setCustomText(value);
+    } else {
+      setCustomMode(false);
+      // keep customText so it's ready if user clicks Custom again
+    }
+  }, [value]);
 
   const handleSwatch = (key: string) => {
+    setCustomMode(false);
     onChange(key);
+  };
+
+  const handleCustomClick = () => {
+    setCustomMode(true);
+    // Do NOT call onChange — leave the stored value unchanged
   };
 
   const handleCustomInput = (v: string) => {
@@ -48,32 +66,34 @@ export function ColourPicker({ value, onChange, disabled = false, t }: ColourPic
       <div
         role="radiogroup"
         aria-label={t("calc.color.title")}
-        className="flex flex-wrap gap-2"
+        className="grid grid-cols-4 min-[420px]:grid-cols-5 sm:grid-cols-6 gap-x-2 gap-y-3"
       >
         {/* Any colour — dashed neutral circle */}
-        <div className="flex flex-col items-center gap-0.5" style={{ minWidth: 44, minHeight: 44 }}>
+        <div className="min-w-0 flex flex-col items-center gap-1">
           <button
             type="button"
             role="radio"
-            aria-checked={value === ""}
+            aria-checked={!customMode && value === ""}
             aria-label={t("calc.color.name.any")}
             onClick={() => handleSwatch("")}
             disabled={disabled}
             style={{ width: SWATCH_SIZE, height: SWATCH_SIZE }}
             className={`rounded-full border-2 border-dashed flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 ${
-              value === "" ? "border-accent ring-2 ring-accent ring-offset-1" : "border-border hover:border-accent/60"
+              !customMode && value === "" ? "border-accent ring-2 ring-accent ring-offset-1" : "border-border hover:border-accent/60"
             }`}
           >
-            {value === "" && <span className="w-2 h-2 rounded-full bg-accent" />}
+            {!customMode && value === "" && <span className="w-2 h-2 rounded-full bg-accent" />}
           </button>
-          <span className="text-[11px] text-muted-foreground text-center leading-tight max-w-[48px]">{t("calc.color.name.any")}</span>
+          <span className="w-full text-center text-[11px] text-muted-foreground leading-tight break-words">{t("calc.color.name.any")}</span>
         </div>
 
         {/* Named colour swatches */}
         {COLOUR_OPTIONS.map(opt => {
-          const selected = value === opt.key;
+          const selected = !customMode && value === opt.key;
+          const swatchStyle: React.CSSProperties = { width: SWATCH_SIZE, height: SWATCH_SIZE };
+          if (opt.key !== "Transparent") swatchStyle.backgroundColor = opt.hex;
           return (
-            <div key={opt.key} className="flex flex-col items-center gap-0.5" style={{ minWidth: 44, minHeight: 44 }}>
+            <div key={opt.key} className="min-w-0 flex flex-col items-center gap-1">
               <button
                 type="button"
                 role="radio"
@@ -81,11 +101,10 @@ export function ColourPicker({ value, onChange, disabled = false, t }: ColourPic
                 aria-label={t(`calc.color.name.${opt.key}`)}
                 onClick={() => handleSwatch(opt.key)}
                 disabled={disabled}
-                style={{ width: SWATCH_SIZE, height: SWATCH_SIZE }}
+                style={swatchStyle}
                 className={`rounded-full border-2 flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 ${
                   selected ? "ring-2 ring-accent ring-offset-1 border-accent" : "border-border hover:border-accent/60"
                 } ${opt.key === "Transparent" ? "bg-[repeating-conic-gradient(#ccc_0%_25%,#fff_0%_50%)] bg-[length:12px_12px]" : ""}`}
-                {...(opt.key !== "Transparent" ? { style: { width: SWATCH_SIZE, height: SWATCH_SIZE, backgroundColor: opt.hex } } : { style: { width: SWATCH_SIZE, height: SWATCH_SIZE } })}
               >
                 {selected && opt.key !== "Transparent" && (
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="drop-shadow-sm">
@@ -98,37 +117,37 @@ export function ColourPicker({ value, onChange, disabled = false, t }: ColourPic
                   </svg>
                 )}
               </button>
-              <span className="text-[11px] text-muted-foreground text-center leading-tight max-w-[48px]">{t(`calc.color.name.${opt.key}`)}</span>
+              <span className="w-full text-center text-[11px] text-muted-foreground leading-tight break-words">{t(`calc.color.name.${opt.key}`)}</span>
             </div>
           );
         })}
 
         {/* Custom colour */}
-        <div className="flex flex-col items-center gap-0.5" style={{ minWidth: 44, minHeight: 44 }}>
+        <div className="min-w-0 flex flex-col items-center gap-1">
           <button
             type="button"
             role="radio"
-            aria-checked={isCustom}
+            aria-checked={customMode}
             aria-label={t("calc.color.name.Custom")}
-            onClick={() => { onChange(customText); }}
+            onClick={handleCustomClick}
             disabled={disabled}
             style={{ width: SWATCH_SIZE, height: SWATCH_SIZE }}
             className={`rounded-full border-2 flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 bg-gradient-to-br from-red-400 via-blue-400 to-green-400 ${
-              isCustom ? "ring-2 ring-accent ring-offset-1 border-accent" : "border-border hover:border-accent/60"
+              customMode ? "ring-2 ring-accent ring-offset-1 border-accent" : "border-border hover:border-accent/60"
             }`}
           >
-            {isCustom && (
+            {customMode && (
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="drop-shadow-sm">
                 <path d="M2 7L5.5 10.5L12 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             )}
           </button>
-          <span className="text-[11px] text-muted-foreground text-center leading-tight max-w-[48px]">{t("calc.color.name.Custom")}</span>
+          <span className="w-full text-center text-[11px] text-muted-foreground leading-tight break-words">{t("calc.color.name.Custom")}</span>
         </div>
       </div>
 
-      {/* Custom colour text input — visible when Custom is selected */}
-      {isCustom && (
+      {/* Custom colour text input — visible when customMode */}
+      {customMode && (
         <input
           type="text"
           value={customText}

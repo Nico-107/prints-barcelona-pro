@@ -29,6 +29,7 @@ import { OrderPanel } from "./estimator/OrderPanel";
 import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
+import { PartSummaryList } from "./estimator/PartSummaryList";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -1301,14 +1302,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         const leftSlot = (
           <div
-            className="p-3 space-y-2"
+            className="flex flex-col flex-1 min-h-0 p-4 gap-3"
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragging(false); }}
             onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
           >
-            {/* Viewer — fixed height, fills its container */}
+            {/* Viewer — absorbs spare height, capped at 340px */}
             {stepperFile?.file && viewerStateInModal !== "failed" && (
-              <div className="relative w-full rounded-xl border border-border bg-muted/20 overflow-hidden" style={{ height: "clamp(190px, 30dvh, 300px)" }}>
+              <div className="relative flex-1 min-h-[200px] max-h-[340px] rounded-xl border border-border bg-muted/20 overflow-hidden">
                 <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
                   <StlViewer
                     key={`${stepperFile.id}-dialog`}
@@ -1327,54 +1328,44 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               </div>
             )}
 
-            {/* File name */}
-            {stepperFile && (
-              <p className="text-xs text-muted-foreground truncate text-center">
-                {stripUploadPrefix(stepperFile.name)}
-              </p>
-            )}
+            {/* Parts list — qty steppers + remove + price + select */}
+            <PartSummaryList
+              parsedFiles={parsedFiles}
+              viewableFiles={viewableFiles}
+              defaults={defaults}
+              selectedFileIndex={selectedFileIndex}
+              costByFileId={costByFileId}
+              disabled={isCheckingOut || isSubmittingQuote}
+              t={t}
+              onSelect={(idx, id) => {
+                setSelectedFileIndex(idx);
+                if (advancedMode) handleScopeChange(id);
+              }}
+              onQtyChange={updateQty}
+              onRemove={removeFile}
+            />
 
-            {/* Part chips + add-more in a single compact row */}
-            <div className="flex flex-wrap gap-1 items-center">
-              {viewableFiles.map((f, i) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedFileIndex(i);
-                    if (advancedMode) handleScopeChange(f.id);
-                  }}
-                  className={`px-2 py-0.5 rounded-full text-xs border transition-colors max-w-[100px] truncate ${
-                    i === selectedFileIndex
-                      ? "border-accent bg-accent text-accent-foreground"
-                      : "border-border bg-background text-muted-foreground hover:border-accent/60 hover:bg-accent/5"
-                  }`}
-                  title={stripUploadPrefix(f.name)}
-                >
-                  {t("calc.scope.part").replace("{n}", String(i + 1))}
-                </button>
-              ))}
-              <input
-                ref={modalInputRef}
-                type="file"
-                accept=".stl"
-                multiple
-                className="hidden"
-                onChange={handleChange}
-              />
-              {!isSubmittedQuote && parsedFiles.length < MAX_FILES && (
-                <button
-                  type="button"
-                  onClick={() => { capture("estimate_add_more_click", { location: "dialog" }); modalInputRef.current?.click(); }}
-                  className={`flex items-center gap-1 border border-dashed rounded-full px-2 py-0.5 text-xs text-muted-foreground transition-all ${
-                    isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
-                  }`}
-                >
-                  <Plus className="w-3 h-3" />
-                  {t("calc.addMore").split(" ").slice(0, 2).join(" ")} ({parsedFiles.length}/{MAX_FILES})
-                </button>
-              )}
-            </div>
+            {/* Add files button */}
+            <input
+              ref={modalInputRef}
+              type="file"
+              accept=".stl"
+              multiple
+              className="hidden"
+              onChange={handleChange}
+            />
+            {!isSubmittedQuote && parsedFiles.length < MAX_FILES && (
+              <button
+                type="button"
+                onClick={() => { capture("estimate_add_more_click", { location: "dialog" }); modalInputRef.current?.click(); }}
+                className={`shrink-0 flex items-center justify-center gap-1.5 h-10 w-full rounded-xl border border-dashed text-sm text-muted-foreground transition-all ${
+                  isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
+                }`}
+              >
+                <Plus className="w-4 h-4" />
+                {t("calc.addMore")} ({parsedFiles.length}/{MAX_FILES})
+              </button>
+            )}
           </div>
         );
 
