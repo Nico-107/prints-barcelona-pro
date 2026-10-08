@@ -32,6 +32,9 @@ const files = await collectHtmlFiles(DIST);
 for (const file of files.sort()) {
   const html = await readFile(file, "utf8");
   const rel = file.replace(DIST, "");
+
+  // 404.html is noindex; social meta not required
+  if (rel === "/404.html") continue;
   const violations = [];
 
   // Check each required OG tag appears exactly once

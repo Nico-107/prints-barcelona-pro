@@ -237,6 +237,14 @@ const BlogUrgentesBcn = () => {
               </div>
             </article>
 
+            {/* COMPACT CTA — top */}
+            <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
+              <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo STL? Calcula el precio en segundos, con entrega en 24–48 h.</p>
+              <Button asChild size="sm" className="shrink-0 gap-1.5">
+                <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+              </Button>
+            </div>
+
             <div className="border-b border-border/40" />
 
             {/* 2. Cómo funciona */}
@@ -580,6 +588,16 @@ const BlogUrgentesBcn = () => {
                 Ver servicio <ArrowRight className="w-3 h-3" />
               </span>
             </Link>
+          </div>
+        </div>
+
+        {/* COMPACT CTA — bottom */}
+        <div className="container px-4 pb-4 max-w-3xl mx-auto">
+          <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+            <p className="text-sm text-foreground/80 flex-1">Calcula el precio exacto de tu pieza en segundos — entrega en 24–48 h en Barcelona.</p>
+            <Button asChild size="sm" className="shrink-0 gap-1.5">
+              <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+            </Button>
           </div>
         </div>
 

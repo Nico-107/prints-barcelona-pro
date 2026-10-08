@@ -1,10 +1,14 @@
 {
   "redirects": [
     { "source": "/impresion-3d-madrid", "destination": "/madrid", "permanent": true },
-    { "source": "/impresion-3d-con-entrega-a-madrid", "destination": "/madrid", "permanent": true }
+    { "source": "/impresion-3d-con-entrega-a-madrid", "destination": "/madrid", "permanent": true },
+    { "source": "/catalogo/placa-mascota", "destination": "/catalogo/placa-nombre", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin-orders", "destination": "/index.html" },
+    { "source": "/admin-makers", "destination": "/index.html" },
+    { "source": "/catalogo/:slug*", "destination": "/index.html" }
   ],
   "headers": [
     {

@@ -47,6 +47,7 @@ const Track = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       <Helmet>
+        <meta name="robots" content="noindex" />
         <title>Track Your Order | Dimension3D Barcelona</title>
         <meta name="description" content="Check the live status of your 3D printing order from Dimension3D Barcelona. Enter your order number and phone digits to see updates." />
         <link rel="canonical" href={`${SITE_URL}/track`} />

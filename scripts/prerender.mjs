@@ -95,5 +95,31 @@ for (const route of routes) {
   }
 }
 
+// Generate dist/404.html: render the NotFound component via a dummy path so
+// Vercel serves it (with HTTP 404) for any unmatched URL once the catch-all
+// rewrite is removed.
+try {
+  const { html, helmetContext } = render("/____404____");
+  const { helmet } = helmetContext;
+  const headTags = [
+    helmet.title?.toString() ?? "",
+    helmet.priority?.toString() ?? "",
+    helmet.meta?.toString() ?? "",
+    helmet.link?.toString() ?? "",
+    helmet.script?.toString() ?? "",
+  ].map((s) => s.trim()).filter(Boolean).join("\n    ");
+  const htmlAttrs = helmet.htmlAttributes?.toString() ?? "";
+  let output = template
+    .replace("<!--app-html-->", html)
+    .replace("<!--app-head-->", headTags)
+    .replace('<div id="root"', '<div id="root" data-prerendered="/404"');
+  if (htmlAttrs) output = output.replace('<html lang="es">', `<html ${htmlAttrs}>`);
+  writeFileSync(resolve(root, "dist/404.html"), output, "utf-8");
+  console.log("  ✓  dist/404.html");
+} catch (err) {
+  console.error(`  ✗  dist/404.html: ${err.message}`);
+  fail++;
+}
+
 console.log(`\nPrerender complete: ${ok} succeeded, ${fail} failed.`);
 if (fail > 0) process.exit(1);
