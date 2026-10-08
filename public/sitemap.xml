@@ -613,11 +613,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.dimension3dprints.com/catalogo/placa-mascota</loc>
-    <lastmod>2026-08-10</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://www.dimension3dprints.com/catalogo/topper-boda</loc>
     <lastmod>2026-08-10</lastmod>
     <priority>0.8</priority>
@@ -871,6 +866,28 @@
   <url>
     <loc>https://www.dimension3dprints.com/impresion-3d-sin-pedido-minimo</loc>
     <lastmod>2026-09-18</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- SPARE PARTS PAGES -->
+  <url>
+    <loc>https://www.dimension3dprints.com/adaptador-vesa-monitor</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/embudo-dosificador-cafe-58mm</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/rueda-cesto-lavavajillas-bosch</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/adaptador-manguera-gardena</loc>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.8</priority>
   </url>
 
