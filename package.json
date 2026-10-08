@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "prebuild": "node scripts/check-pricing-sync.mjs && node scripts/check-rating-strings.mjs && node scripts/check-i18n-new-keys.mjs && node scripts/check-estimator-sync.mjs && node scripts/check-shipping-price.mjs && node scripts/check-no-bad-bucket.mjs",
+    "prebuild": "node scripts/check-pricing-sync.mjs && node scripts/check-rating-strings.mjs && node scripts/check-i18n-new-keys.mjs && node scripts/check-estimator-sync.mjs && node scripts/check-shipping-price.mjs && node scripts/check-no-bad-bucket.mjs && node scripts/check-ship-countries.mjs",
     "test": "vitest run",
     "build": "npm run typecheck && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/check-sitemap.mjs && node scripts/check-route-coverage.mjs && node scripts/check-xp-ssr-text.mjs && node scripts/check-social-meta.mjs && node scripts/check-internal-links.mjs",
     "indexnow": "node scripts/indexnow.mjs",

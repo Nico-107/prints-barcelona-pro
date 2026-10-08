@@ -134,6 +134,10 @@ const REQUIRED_KEYS = [
   "calc.scope.wholeOrder",
   "calc.scope.someCustom",
   "calc.scope.makeSame",
+  // Change 1 — colour preview / multicolour viewer caption
+  "calc.viewer.multicolourCaption",
+  // Change 3d — city pages for non-SHIP_COUNTRIES
+  "city.instantCheckout.comingSoon",
 ];
 
 const LANGUAGES = ["es", "en", "ca", "de", "fr", "it", "nl", "pt"];

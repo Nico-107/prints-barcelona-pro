@@ -310,6 +310,8 @@ export const frTranslations: Record<string, string> = {
   "calc.modal.close": "Je le remplis ci-dessous",
   "calc.modal.trust": "{rating}/5 sur {count} avis Google · Pas de compte requis · Pas de spam",
   "calc.modal.dragHint": "Faites glisser pour tourner",
+  "calc.viewer.multicolourCaption": "Multicolore : couleurs choisies avec vous",
+  "city.instantCheckout.comingSoon": "Le paiement instantané pour ce pays arrive bientôt — demandez un devis.",
   "calc.modal.moreFiles": "et {count} autres fichiers",
   "calc.result.detail": "{grams}g · ~{hours}h d'impression",
   "calc.result.qty": "{discount}% de remise volume appliquée",

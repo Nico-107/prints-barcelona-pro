@@ -1248,6 +1248,175 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             )}
           </div>
         )}
+
+        {/* Admin full-calculator view — same slots as customer (viewer + config + debug) */}
+        {adminMode && bundle && !parsing && (() => {
+          const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
+          const eff = stepperFile ? effectivePartSettings(stepperFile, defaults) : null;
+          const isMulti = eff?.multicolour ?? false;
+          const viewerColour = isMulti ? undefined : (eff?.color || undefined);
+          const filamentCost = bundle.totalGrams * 0.015;
+          const profit = bundle.total - filamentCost;
+          const up = urgency === "express" ? (bundle.orderResult.expressCents / Math.max(bundle.orderResult.chargedPrintCents - bundle.orderResult.expressCents, 1)) : (urgency === "urgent" ? 1.5 : 1);
+          const rawTotal = bundle.orderResult.chargedPrintCents / 100;
+          const minWasApplied = bundle.orderResult.minAdjCents > 0 || rawTotal <= 10;
+          const instantEligReason = bundle.order.reasons.join(", ");
+          const notEligReasons: string[] = [];
+          if (anyMulticolour) notEligReasons.push("multicolour");
+          if (!bundle.order.instantEligible) notEligReasons.push(...bundle.order.reasons);
+          if (!filesWithinVerifyLimit) notEligReasons.push("file-size-limit");
+          if (!CHECKOUT_V3_READY) notEligReasons.push("feature-flag-off");
+
+          const copyQuote = () => {
+            const parts = validFiles.map((f, i) => {
+              const e = effectivePartSettings(f, defaults);
+              const cost = (bundle.orderResult.parts[i]?.costCents ?? 0) / 100;
+              return `• ${f.name} — ${e.material}${e.color ? `, ${e.color}` : ""} × ${f.qty} → €${cost.toFixed(2)}`;
+            }).join("\n");
+            const deliveryDays = urgency === "urgent" ? "24–48h" : urgency === "express" ? "48–72h" : "2–5 días laborables";
+            const text = [
+              "📋 Presupuesto Dimension3D",
+              "",
+              parts,
+              "",
+              `Total: €${bundle.total.toFixed(2)} (+ €5,90 envío si aplica)`,
+              `Entrega estimada: ${deliveryDays}`,
+              "",
+              "Este precio se confirma antes de cualquier cobro.",
+            ].join("\n");
+            navigator.clipboard.writeText(text).catch(() => {});
+          };
+
+          return (
+            <div className="mt-6 space-y-4">
+              {/* Viewer */}
+              {stepperFile?.file && (
+                <div className="rounded-xl border border-border bg-muted/20 overflow-hidden" style={{ height: 280 }}>
+                  <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
+                    <StlViewer
+                      key={`${stepperFile.id}-admin`}
+                      file={stepperFile.file}
+                      colour={viewerColour}
+                    />
+                  </Suspense>
+                </div>
+              )}
+
+              {/* Parts list */}
+              <PartSummaryList
+                parsedFiles={parsedFiles}
+                viewableFiles={viewableFiles}
+                defaults={defaults}
+                selectedFileIndex={selectedFileIndex}
+                costByFileId={costByFileId}
+                disabled={false}
+                t={t}
+                onSelect={(idx) => setSelectedFileIndex(idx)}
+                onQtyChange={updateQty}
+                onRemove={removeFile}
+              />
+
+              {/* Full configurator */}
+              <CheckoutConfigurator
+                parsedFiles={parsedFiles}
+                validFiles={validFiles}
+                bundle={bundle}
+                defaults={defaults}
+                advancedMode={advancedMode}
+                onAdvancedModeChange={setAdvancedMode}
+                materialKey={materialKey}
+                onMaterialChange={setMaterialKey}
+                activeUseCase={activeUseCase}
+                onUseCaseChange={setActiveUseCase}
+                colorPref={colorPref}
+                onColorChange={setColorPref}
+                notesText={notesText}
+                onNotesChange={setNotesText}
+                quality={quality}
+                onQualityChange={setQuality}
+                infillPct={infillPct}
+                wallLoops={wallLoops}
+                onInfillChange={setInfillPct}
+                onWallLoopsChange={setWallLoops}
+                supports={supports}
+                onSupportsChange={setSupports}
+                orientation={orientation}
+                onOrientationChange={setOrientation}
+                urgency={urgency}
+                onUrgencyChange={setUrgency}
+                materialOptions={materialOptions}
+                disabled={false}
+                t={t}
+                language={language}
+                scope={scope}
+                onScopeChange={handleScopeChange}
+                costByFileId={costByFileId}
+                onPartSettingsChange={handlePartSettingsChange}
+                onResetPartSettings={handleResetPartSettings}
+                onApplyToAll={handleApplyToAll}
+                onClearFieldFromAllParts={clearFieldFromAllParts}
+                replacedCount={replacedCount}
+              />
+
+              {/* Admin debug box */}
+              <div className="rounded-xl border border-border bg-slate-50 dark:bg-slate-900/40 p-4 text-xs space-y-2">
+                <p className="font-semibold text-foreground text-sm mb-2">Admin pricing detail</p>
+                {validFiles.length > 1 && (
+                  <div className="space-y-0.5 border-b border-border pb-2 mb-2">
+                    {validFiles.map((f, i) => {
+                      const gpu = bundle.orderResult.parts[i]?.gramsPerUnit ?? 0;
+                      const cost = (bundle.orderResult.parts[i]?.costCents ?? 0) / 100;
+                      return (
+                        <div key={f.id} className="flex justify-between text-muted-foreground">
+                          <span className="truncate max-w-[55%]">{f.name}</span>
+                          <span>{gpu.toFixed(1)} g/u × {f.qty} = {(gpu * f.qty).toFixed(1)} g · €{cost.toFixed(2)}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                  <span className="text-muted-foreground">{t("calc.admin.weight")}</span>
+                  <span className="font-medium">{bundle.totalGrams.toFixed(1)} g</span>
+                  <span className="text-muted-foreground">{t("calc.admin.hours")}</span>
+                  <span className="font-medium">{bundle.totalHours.toFixed(1)} h</span>
+                  <span className="text-muted-foreground">{t("calc.admin.filamentCost")}</span>
+                  <span className="font-medium">€{filamentCost.toFixed(2)}</span>
+                  <span className="text-muted-foreground">Price before min. fold</span>
+                  <span className="font-medium">€{(bundle.orderResult.chargedPrintCents / 100).toFixed(2)}</span>
+                  <span className="text-muted-foreground">Min. applied (€10)</span>
+                  <span className={`font-medium ${minWasApplied ? "text-amber-600" : "text-muted-foreground"}`}>
+                    {minWasApplied ? "Yes" : "No"}
+                  </span>
+                  <span className="text-muted-foreground">Urgency mult.</span>
+                  <span className="font-medium">{urgency === "standard" ? "1×" : urgency === "express" ? "1.25×" : "1.5×"} ({urgency})</span>
+                  <span className="text-muted-foreground">Shipping</span>
+                  <span className="font-medium text-muted-foreground">not included (€5.90 if shipped)</span>
+                  <span className="text-muted-foreground">{t("calc.admin.profit")}</span>
+                  <span className={`font-semibold ${profit >= 0 ? "text-green-600" : "text-destructive"}`}>
+                    €{profit.toFixed(2)}
+                  </span>
+                  <span className="text-muted-foreground">Instant-buy eligible</span>
+                  <span className={`font-medium ${instantBuyEligible ? "text-green-600" : "text-amber-600"}`}>
+                    {instantBuyEligible
+                      ? "Yes"
+                      : `No — ${notEligReasons.length > 0 ? notEligReasons.join(", ") : (instantEligReason || "see reasons")}` }
+                  </span>
+                </div>
+              </div>
+
+              {/* Copy quote button */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full"
+                onClick={copyQuote}
+              >
+                Copy quote for customer (ES)
+              </Button>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
@@ -1308,25 +1477,32 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
           >
             {/* Viewer — absorbs spare height, capped at 340px */}
-            {stepperFile?.file && viewerStateInModal !== "failed" && (
-              <div className="relative flex-1 min-h-[200px] max-h-[340px] rounded-xl border border-border bg-muted/20 overflow-hidden">
-                <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
-                  <StlViewer
-                    key={`${stepperFile.id}-dialog`}
-                    file={stepperFile.file}
-                    onReady={() => setViewerStateInModal("ready")}
-                    onError={() => setViewerStateInModal("failed")}
-                  />
-                </Suspense>
-                {viewerStateInModal === "ready" && (
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none">
-                    <span className="text-[11px] text-muted-foreground bg-background/75 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap">
-                      {t("calc.modal.dragHint")}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
+            {stepperFile?.file && viewerStateInModal !== "failed" && (() => {
+              const eff = effectivePartSettings(stepperFile, defaults);
+              const isMulti = eff.multicolour;
+              // When multicolour is active, show neutral grey in the viewer
+              const viewerColour = isMulti ? undefined : (eff.color || undefined);
+              return (
+                <div className="relative flex-1 min-h-[200px] max-h-[340px] rounded-xl border border-border bg-muted/20 overflow-hidden">
+                  <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
+                    <StlViewer
+                      key={`${stepperFile.id}-dialog`}
+                      file={stepperFile.file}
+                      colour={viewerColour}
+                      onReady={() => setViewerStateInModal("ready")}
+                      onError={() => setViewerStateInModal("failed")}
+                    />
+                  </Suspense>
+                  {viewerStateInModal === "ready" && (
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none">
+                      <span className="text-[11px] text-muted-foreground bg-background/75 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap">
+                        {isMulti ? t("calc.viewer.multicolourCaption") : t("calc.modal.dragHint")}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Parts list — qty steppers + remove + price + select */}
             <PartSummaryList

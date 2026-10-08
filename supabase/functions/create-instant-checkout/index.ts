@@ -4,6 +4,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 const STRIPE_SECRET_KEY = Deno.env.get("STRIPE_SECRET_KEY");
 const SITE_URL = "https://dimension3dprints.com";
 
+// owner: edit here; flat 590 shipping loses money to far countries (RO about 14 EUR real cost)
+const SHIP_COUNTRIES = ["ES","PT","FR","DE","IT","NL","BE","LU","AT","IE","PL","DK","SE","FI"] as const;
+
 // Anon-callable: same permissive CORS pattern as send-quote-request (no auth required)
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -709,7 +712,7 @@ serve(async (req: Request) => {
       if (typeof customer_ref === "string" && customer_ref.trim()) v3Params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
 
       if (vBody.fulfillment === "shipping") {
-        v3Params.set("shipping_address_collection[allowed_countries][0]", "ES");
+        SHIP_COUNTRIES.forEach((c, i) => v3Params.set(`shipping_address_collection[allowed_countries][${i}]`, c));
         v3Params.set("phone_number_collection[enabled]", "true");
         const isEs3 = v3LangStr.toLowerCase().startsWith("es");
         const isCa3 = v3LangStr.toLowerCase().startsWith("ca");
@@ -982,7 +985,7 @@ serve(async (req: Request) => {
       if (typeof customer_ref === "string" && customer_ref.trim()) params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
 
       if (fulfillment === "shipping") {
-        params.set("shipping_address_collection[allowed_countries][0]", "ES");
+        SHIP_COUNTRIES.forEach((c, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, c));
         params.set("phone_number_collection[enabled]", "true");
         const isEs2 = langStr.toLowerCase().startsWith("es");
         const isCa2 = langStr.toLowerCase().startsWith("ca");
@@ -1126,7 +1129,7 @@ serve(async (req: Request) => {
     if (typeof part_slug === "string" && part_slug.trim()) params.set("metadata[part_slug]", part_slug.trim().slice(0, 200));
     if (typeof customer_ref === "string" && customer_ref.trim()) params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
     if (fulfillment === "shipping") {
-      params.set("shipping_address_collection[allowed_countries][0]", "ES");
+      SHIP_COUNTRIES.forEach((c, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, c));
       params.set("phone_number_collection[enabled]", "true");
     }
     const shippingCents =

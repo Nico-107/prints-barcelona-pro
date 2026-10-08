@@ -1,17 +1,28 @@
 import { useEffect, useRef, useState } from "react";
+import { colourToPreview } from "./estimator/colourMap";
 
 interface StlViewerProps {
   file: File;
   size?: number;
   onError?: () => void;
   onReady?: () => void;
+  /** Optional colour value — named key, hex string, or free-text colour word */
+  colour?: string;
 }
 
-export default function StlViewer({ file, size = 240, onError, onReady }: StlViewerProps) {
+export default function StlViewer({ file, size = 240, onError, onReady, colour }: StlViewerProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const materialRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rendererRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const sceneRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cameraRef = useRef<any>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -113,10 +124,17 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
           if (cont.contains(canvas)) cont.removeChild(canvas);
         };
 
+        // Store renderer/scene/camera in refs so the colour effect can reach them
+        rendererRef.current = renderer;
+        sceneRef.current = scene;
+        cameraRef.current = camera;
+
         scene.add(new THREE.AmbientLight(0xffffff, 0.6));
         const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
         dirLight.position.set(1, 2, 3);
         scene.add(dirLight);
+        // Soft hemisphere light so dark colours don't look flat
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 0.4));
 
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -140,6 +158,8 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
         geometry.computeVertexNormals();
 
         const material = new THREE.MeshStandardMaterial({ color: 0xd0d0d0 });
+        // Store material in ref for the colour effect
+        materialRef.current = material;
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
 
@@ -239,6 +259,10 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
           material.dispose();
           renderer.dispose();
           if (cont.contains(canvas)) cont.removeChild(canvas);
+          materialRef.current = null;
+          rendererRef.current = null;
+          sceneRef.current = null;
+          cameraRef.current = null;
         };
       } catch {
         if (!canceled) {
@@ -256,6 +280,28 @@ export default function StlViewer({ file, size = 240, onError, onReady }: StlVie
       cleanupFn?.();
     };
   }, [isMounted, file, size]);
+
+  // Separate effect: update material colour whenever `colour` prop changes
+  // Does NOT reload the file — runs independently of the geometry effect.
+  useEffect(() => {
+    const mat = materialRef.current;
+    const renderer = rendererRef.current;
+    const scene = sceneRef.current;
+    const camera = cameraRef.current;
+    if (!mat || !renderer || !scene || !camera) return;
+
+    // Lazy import THREE only to get Color
+    import("three").then((THREE) => {
+      const preview = colourToPreview(colour);
+      mat.color.set(preview.hex);
+      mat.opacity = preview.opacity;
+      mat.transparent = preview.opacity < 1;
+      mat.metalness = preview.metalness;
+      mat.roughness = preview.roughness;
+      mat.needsUpdate = true;
+      renderer.render(scene, camera);
+    }).catch(() => { /* ignore */ });
+  }, [colour]);
 
   if (!isMounted) {
     return <div style={{ width: "100%", height: "100%", background: "#f0f0f0", borderRadius: 8 }} />;

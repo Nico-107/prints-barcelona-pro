@@ -310,6 +310,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.modal.close": "Ik vul het hieronder in",
   "calc.modal.trust": "{rating}/5 uit {count} Google-beoordelingen · Geen account nodig · Geen spam",
   "calc.modal.dragHint": "Slepen om te roteren",
+  "calc.viewer.multicolourCaption": "Meerkleurig: kleuren samen met u gekozen",
+  "city.instantCheckout.comingSoon": "Directe afrekening voor dit land komt eraan — vraag een offerte aan.",
   "calc.modal.moreFiles": "en nog {count} bestanden",
   "calc.result.detail": "{grams}g · ~{hours}u printtijd",
   "calc.result.qty": "{discount}% volumekorting toegepast",
