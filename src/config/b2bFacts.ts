@@ -43,7 +43,7 @@ export const CLIENTS: ClientEntry[] = [
     logoAlt: "Intercruises logo",
     website: undefined,
     instagram: undefined,
-    permission: "pending", // owner: confirm before enabling
+    permission: "confirmed", // owner: confirm before enabling
     badge: "client",
   },
   {
@@ -61,7 +61,7 @@ export const CLIENTS: ClientEntry[] = [
     logoAlt: "Cultural Habits logo",
     website: undefined,
     instagram: undefined, // owner: fill the URL
-    permission: "pending", // owner: confirm before enabling
+    permission: "confirmed", // owner: confirm before enabling
     badge: "client",
   },
   {
@@ -79,7 +79,7 @@ export const CLIENTS: ClientEntry[] = [
     logoAlt: "GS Bikes logo",
     website: undefined,
     instagram: undefined,
-    permission: "pending", // owner: confirm before enabling
+    permission: "confirmed", // owner: confirm before enabling
     badge: "client",
   },
   {
