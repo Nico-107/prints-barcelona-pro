@@ -1288,7 +1288,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "Por qué el FDM es práctico para tiradas cortas",
-        body: "El FDM es adecuado para producción en tirada corta porque no hay coste de utillaje: el mismo archivo que imprime una unidad imprime cincuenta, con un coste unitario que escala con material y tiempo de máquina en lugar de coste de molde amortizado. Esto significa que puedes comenzar una tirada de diez piezas, validarlas en uso y repetir el pedido con parámetros modificados sin penalización económica.\n\nEl límite práctico de un solo lote en nuestra Bambu Lab X1C es de unas 50–80 piezas pequeñas por placa, según la geometría. Las piezas más grandes o lotes de geometría mixta requieren varias placas y se programan en sesiones consecutivas. Presupuestamos el coste unitario por tramo de cantidad para que puedas ver exactamente dónde cambia la economía."
+        body: "El FDM es adecuado para producción en tirada corta porque no hay coste de utillaje: el mismo archivo que imprime una unidad imprime cincuenta, con un coste unitario que escala con material y tiempo de máquina en lugar de coste de molde amortizado. Esto significa que puedes comenzar una tirada de diez piezas, validarlas en uso y repetir el pedido con parámetros modificados sin penalización económica.\n\nEl límite práctico de un solo lote en nuestra Bambu Lab X2D es de unas 50–80 piezas pequeñas por placa, según la geometría. Las piezas más grandes o lotes de geometría mixta requieren varias placas y se programan en sesiones consecutivas. Presupuestamos el coste unitario por tramo de cantidad para que puedas ver exactamente dónde cambia la economía."
       },
       {
         heading: "Materiales para lotes de producción",

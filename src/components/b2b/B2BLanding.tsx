@@ -159,7 +159,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     processSteps: [
       { title: "Envía tu STL, STEP o dibujo", body: "Sube el archivo al calculador o envíalo por WhatsApp. Aceptamos STL, STEP, IGES, OBJ y 3MF. Si solo tienes un dibujo o una foto de la pieza rota, también podemos trabajar con eso." },
       { title: "Presupuesto en 1 hora (o precio instantáneo)", body: "Las piezas con precio automático te dan un precio al instante. Para piezas más complejas, revisamos el archivo manualmente y respondemos en menos de 1 hora en horario laboral." },
-      { title: "Impresión y control de calidad", body: "Imprimimos en nuestra Bambu Lab X1C con cámara cerrada y cámara climatizada. Cada pieza se revisa antes de salir del taller." },
+      { title: "Impresión y control de calidad", body: "Imprimimos en nuestra Bambu Lab X2D con cámara cerrada y cámara climatizada. Cada pieza se revisa antes de salir del taller." },
       { title: "Entrega en Barcelona o envío", body: "Recogida en taller con cita previa. Envío a domicilio desde €5,90 a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
     ],
     faqs: [
@@ -238,7 +238,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     processSteps: [
       { title: "Send your STL, STEP or drawing", body: "Upload the file to the calculator or send it via WhatsApp. We accept STL, STEP, IGES, OBJ and 3MF. If you only have a drawing or a photo of the broken part, we can work with that too." },
       { title: "Quote in 1 hour (or instant price)", body: "Parts with automatic pricing get an instant price. For more complex parts, we review the file manually and reply within 1 hour during business hours." },
-      { title: "Print & quality check", body: "We print on our Bambu Lab X1C with enclosed, heated chamber. Every part is checked before leaving the workshop." },
+      { title: "Print & quality check", body: "We print on our Bambu Lab X2D with enclosed, heated chamber. Every part is checked before leaving the workshop." },
       { title: "Delivery in Barcelona or shipping", body: "Local pickup by appointment in Barcelona. Shipping from €5.90 to Spain and the EU. Most orders ready in 2–5 business days; urgent in 24–48 h (surcharge applies)." },
     ],
     faqs: [
@@ -317,7 +317,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     processSteps: [
       { title: "Envia el teu STL, STEP o plànol", body: "Puja l'arxiu a la calculadora o envia'l per WhatsApp. Acceptem STL, STEP, IGES, OBJ i 3MF. Si només tens un plànol o una foto de la peça trencada, també podem treballar-hi." },
       { title: "Pressupost en 1 hora (o preu instantani)", body: "Les peces amb preu automàtic obtenen un preu al moment. Per a peces més complexes, revisem l'arxiu manualment i responem en menys d'1 hora en horari laboral." },
-      { title: "Impressió i control de qualitat", body: "Imprimim a la nostra Bambu Lab X1C amb cambra tancada i climatitzada. Cada peça es revisa abans de sortir del taller." },
+      { title: "Impressió i control de qualitat", body: "Imprimim a la nostra Bambu Lab X2D amb cambra tancada i climatitzada. Cada peça es revisa abans de sortir del taller." },
       { title: "Lliurament a Barcelona o enviament", body: "Recollida al taller amb cita prèvia a Barcelona. Enviament des de 5,90€ a Espanya i la UE. La majoria de comandes llestes en 2–5 dies laborables; urgent en 24–48 h (amb recàrrec)." },
     ],
     faqs: [

@@ -219,8 +219,8 @@ export const STATS = {
 
 // --------------- CAPABILITIES -----------------
 export const CAPABILITIES = {
-  printers: "Bambu Lab X1C (enclosed, heated chamber)",
-  // owner: fill the real X1C build volume; hide the line while null
+  printers: "Bambu Lab X2D (enclosed, heated chamber)",
+  // owner: fill the real X2D build volume; hide the line while null
   maxPartMm: { x: null as number | null, y: null as number | null, z: null as number | null },
   oversized: "Parts larger than the build plate are split and bonded, or produced through our partner network on request.",
   batchRange: "from 1 to several hundred units",

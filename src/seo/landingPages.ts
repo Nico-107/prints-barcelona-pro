@@ -1391,7 +1391,7 @@ export const PAGES_EN: LandingContent[] = [
     sections: [
       {
         heading: "What makes short-run FDM practical",
-        body: "FDM is well-suited to short-run production because there is no tooling cost — the same file that prints one unit prints fifty, at a per-unit cost that scales with material and machine time rather than amortised mould cost. This means you can start a run of ten parts, validate them in use, and reorder with changed parameters without financial penalty.\n\nThe practical ceiling for a single-session batch on our Bambu Lab X1C is around 50–80 small parts per plate, depending on geometry. Larger parts or mixed-geometry batches take multiple plates and are scheduled over consecutive sessions. We quote per-unit cost by quantity tier so you can see exactly where the economics change."
+        body: "FDM is well-suited to short-run production because there is no tooling cost — the same file that prints one unit prints fifty, at a per-unit cost that scales with material and machine time rather than amortised mould cost. This means you can start a run of ten parts, validate them in use, and reorder with changed parameters without financial penalty.\n\nThe practical ceiling for a single-session batch on our Bambu Lab X2D is around 50–80 small parts per plate, depending on geometry. Larger parts or mixed-geometry batches take multiple plates and are scheduled over consecutive sessions. We quote per-unit cost by quantity tier so you can see exactly where the economics change."
       },
       {
         heading: "Materials for production batches",
