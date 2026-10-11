@@ -24,3 +24,6 @@ dist-ssr
 *.sln
 *.sw?
 .env.local
+
+.claude/worktrees/
+supabase/.temp/
