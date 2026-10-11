@@ -212,8 +212,19 @@ export const FOUNDER = {
 
 // --------------- STATS -----------------
 export const STATS = {
+  totalOrders: "250+" as string | null,
+  totalOrdersPeriod: {
+    es: "en los últimos 2 años",
+    en: "in the last 2 years",
+    ca: "en els últims 2 anys",
+  },
   ordersPerMonth: "30+" as string | null,
   responseTime: "1 h" as string | null,
+  leadTimeDays: "2–5" as string | null, // business days (short form for proof bar)
+  minOrderEur: 10 as number | null,
+  companiesServed: null as string | null, // owner: fill when you have the real number
+  partsPrinted: null as string | null,    // owner: fill when you have the real number
+  rating: null as string | null,          // owner: use GOOGLE_RATING from site config for real number
   repeatCustomers: null as string | null, // owner: set when you have a defensible figure
 };
 

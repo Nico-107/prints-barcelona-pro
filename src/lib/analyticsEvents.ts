@@ -271,6 +271,7 @@ export interface EventMap {
   b2b_cta_whatsapp_click: Record<string, unknown>;
   b2b_free_prototype_click: Record<string, unknown>;
   b2b_cta_homepage_click: Record<string, unknown>;
+  b2b_sticky_cta_click: Record<string, unknown>;
 }
 
 export type EventName = keyof EventMap;

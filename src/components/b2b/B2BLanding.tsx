@@ -3,13 +3,13 @@
 // in the CONTENT object below. b2bFacts drives facts blocks.
 // Hydration rule: nothing that reads Date/Math.random/window at render time.
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
   Building2, MessageCircle, ArrowRight, CheckCircle2, Clock,
-  Shield, FileText, Package, RefreshCw, Zap, Layers,
-  Wrench, Tag, ChevronRight, Box, Factory,
+  Package, RefreshCw, Upload, Layers,
+  Wrench, Tag, ChevronRight, Box, Factory, FileCheck, Users, Receipt,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
-import PictureImg from "@/components/PictureImg";
 import { StlEstimator } from "@/components/StlEstimator";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -30,6 +29,8 @@ import {
 } from "@/config/b2bFacts";
 import { EST, priceOrder } from "@/lib/estimator/core";
 import type { OrderPartInput, PartEstimate } from "@/lib/estimator/core";
+import { cn } from "@/lib/utils";
+import HeroVisual from "./HeroVisual";
 
 export type B2BLang = "es" | "en" | "ca";
 
@@ -37,9 +38,9 @@ export type B2BLang = "es" | "en" | "ca";
 // Batch price table — computed at module level (deterministic, no hydration
 // mismatch). Reference part: 50 g, 0.8 h print time, fits a standard plate.
 // ---------------------------------------------------------------------------
-const REF_SIZE_MM = 80; // mm per side (fits many on one plate)
+const REF_SIZE_MM = 80;
 export const BATCH_REF_PART: Omit<PartEstimate, "orientation" | "orientationName"> = {
-  plasticCm3: 50 / 1.27, // PETG density
+  plasticCm3: 50 / 1.27,
   supportCm3: 0,
   grams: 50,
   timeSec: 0.8 * 3600,
@@ -70,6 +71,25 @@ export const BATCH_TABLE: BatchRow[] = BATCH_MATERIALS.map((mat) => ({
   prices: BATCH_QUANTITIES.map((q) => batchUnitPriceCents(mat, q)),
 }));
 
+// Unit price for 50 units of ASA — pre-computed for HeroVisual
+export const ASA_50_UNIT_CENTS: number = (() => {
+  const row = BATCH_TABLE.find((r) => r.material === "ASA");
+  const qi = BATCH_QUANTITIES.indexOf(50 as typeof BATCH_QUANTITIES[number]);
+  return row ? row.prices[qi] : 0;
+})();
+
+// Confirmed logos: permission confirmed + canName + has logo file
+const CONFIRMED_LOGOS = CLIENTS.filter(
+  (c) => c.permission === "confirmed" && c.canName && c.logoSrc
+);
+const SHOW_LOGO_ROW = CONFIRMED_LOGOS.length >= 3;
+
+// Named confirmed clients first, anonymous after (for the descriptor cards)
+const ORDERED_CLIENTS = [
+  ...CLIENTS.filter((c) => c.canName && c.permission === "confirmed"),
+  ...CLIENTS.filter((c) => !(c.canName && c.permission === "confirmed")),
+];
+
 // ---------------------------------------------------------------------------
 // Per-language copy
 // ---------------------------------------------------------------------------
@@ -82,10 +102,29 @@ interface B2BCopy {
   h1: string;
   heroPromise: string;
   heroSub: string;
-  ctaQuote: string;
+  ctaPrimary: string;
   ctaWhatsApp: string;
+  ctaSubline: string;
   heroSampleLine: string;
   trustItems: string[];
+  // logos section (Change 1)
+  logosHeading: string;
+  logosSubline: string;
+  // hero visual (Change 2)
+  heroVisualAriaTitle: string;
+  heroVisualAriaDesc: string;
+  heroVisualExampleLabel: string;
+  heroVisualStatusLabel: string;
+  heroVisualStepLabels: [string, string, string, string];
+  heroVisualDataLabels: { price: string; delivery: string; quote: string; note: string };
+  heroVisualOrderLabel: string;
+  // proof bar (Change 4)
+  proofBarOrdersLabel: string;
+  proofBarQuoteLabel: string;
+  proofBarDeliveryLabel: string;
+  proofBarMinOrderLabel: string;
+  proofBarMonthlyLine: string;
+  // existing
   sectionProof: string;
   sectionProofAnon: string;
   sectionFreeSample: string;
@@ -97,6 +136,9 @@ interface B2BCopy {
   sectionMaterials: string;
   sectionProcess: string;
   sectionCalculator: string;
+  // how we work strip (Change 5)
+  howWeWorkTitle: string;
+  howWeWorkItems: [string, string, string];
   sectionFaq: string;
   sectionCta: string;
   ctaFinalLine: string;
@@ -121,22 +163,35 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     metaTitle: "Impresión 3D para Empresas en Barcelona — Presupuesto en 1 h | Dimension3D",
     metaDesc: "Impresión 3D para empresas en Barcelona: piezas funcionales, prototipos, recambios y tiradas cortas. Desde €10, sin tarifa de configuración. Presupuesto en 1 hora. Factura para empresas. NDA disponible.",
     h1: "Impresión 3D para Empresas en Barcelona",
-    heroPromise: "Piezas de producción listas en 2–5 días, presupuesto en 1 hora.",
-    heroSub: "Sin tarifa de configuración. Pedido mínimo 10€. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
-    ctaQuote: "Precio instantáneo",
-    ctaWhatsApp: "Habla con nosotros",
+    heroPromise: "Más de 250 pedidos completados. Piezas listas en 2–5 días, presupuesto en 1 hora.",
+    heroSub: "Sin tarifa de configuración. Pedido mínimo 10 €. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
+    ctaPrimary: "Sube tu archivo y ve el precio",
+    ctaWhatsApp: "Escríbenos por WhatsApp",
+    ctaSubline: "Sin cuenta. Presupuesto en menos de 1 hora.",
     heroSampleLine: "Primera pieza de muestra gratis para empresas con proyecto real.",
     trustItems: [
-      "Presupuesto en 1 h",
-      "2–5 días laborables",
       "NDA disponible",
       "Factura para empresas",
       "Soporte ES · CA · EN · DE · PL",
     ],
+    logosHeading: "Empresas de Barcelona que ya han producido con nosotros",
+    logosSubline: "Intercruises, Cultural Habits, GS Bikes y nuestro socio de impresión local Lemon Printers.",
+    heroVisualAriaTitle: "Ejemplo de pedido de impresión 3D para empresas — Dimension3D Barcelona",
+    heroVisualAriaDesc: "Visualización de ejemplo de un pedido de impresión 3D para empresas: placa con 24 piezas, proceso de producción y precio indicativo.",
+    heroVisualExampleLabel: "Ejemplo",
+    heroVisualStatusLabel: "En producción",
+    heroVisualStepLabels: ["Archivo", "Presupuesto 1h", "Impresión", "Entrega"],
+    heroVisualDataLabels: { price: "Precio/ud (50 pcs, ASA)", delivery: "Plazo de entrega", quote: "Tiempo de presupuesto", note: "Indicativo, pieza de 50 g" },
+    heroVisualOrderLabel: "PEDIDO / ORDER · SAMPLE",
+    proofBarOrdersLabel: "pedidos completados",
+    proofBarQuoteLabel: "tiempo de presupuesto",
+    proofBarDeliveryLabel: "entrega estándar",
+    proofBarMinOrderLabel: "pedido mínimo",
+    proofBarMonthlyLine: "30+ pedidos al mes actualmente",
     sectionProof: "Empresas con las que trabajamos",
     sectionProofAnon: "Proyectos recientes para empresas de Barcelona, un municipio y talleres locales de impresión.",
     sectionFreeSample: "Prototipo gratis para empresas",
-    freeSampleCta: "Solicita tu prototipo gratis",
+    freeSampleCta: "Pide tu prototipo gratis",
     sectionWhatWeMake: "Qué fabricamos para empresas",
     sectionScale: "De un prototipo a cientos de unidades",
     sectionBatchTable: "Precio de referencia por unidad (pieza de 50 g, PETG / ASA)",
@@ -144,6 +199,12 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     sectionMaterials: "Materiales disponibles",
     sectionProcess: "Cómo funciona",
     sectionCalculator: "Precio instantáneo",
+    howWeWorkTitle: "Cómo trabajamos con empresas",
+    howWeWorkItems: [
+      "Cola de producción prioritaria para pedidos de empresa",
+      "Archivos y parámetros guardados para reencargos inmediatos",
+      "Factura para empresas en todos los pedidos",
+    ],
     sectionFaq: "Preguntas frecuentes sobre impresión 3D para empresas",
     sectionCta: "Envíanos tu archivo o tu plano.",
     ctaFinalLine: "Primer presupuesto en menos de 1 hora.",
@@ -200,18 +261,31 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     metaTitle: "3D Printing for Business in Barcelona — Quote in 1 h | Dimension3D",
     metaDesc: "3D printing for companies in Barcelona: functional parts, prototypes, replacement parts and short production runs. From €10, no setup fee. Quote in 1 hour. Invoice for companies. NDA available.",
     h1: "3D Printing for Business in Barcelona",
-    heroPromise: "Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
+    heroPromise: "250+ orders completed. Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
     heroSub: "No setup fee. €10 minimum order. Invoice for companies. NDA available. Support in ES · CA · EN · DE · PL.",
-    ctaQuote: "Get an instant quote",
-    ctaWhatsApp: "Talk to us on WhatsApp",
+    ctaPrimary: "Upload your file, see your price",
+    ctaWhatsApp: "Message us on WhatsApp",
+    ctaSubline: "No account needed. Quote within 1 hour.",
     heroSampleLine: "Free prototype part for companies with a real project.",
     trustItems: [
-      "Quote in 1 h",
-      "2–5 business days",
       "NDA available",
       "Invoice for companies",
       "Support ES · CA · EN · DE · PL",
     ],
+    logosHeading: "Barcelona companies that have already produced with us",
+    logosSubline: "Intercruises, Cultural Habits, GS Bikes and our print-shop partner Lemon Printers.",
+    heroVisualAriaTitle: "Example 3D print business order — Dimension3D Barcelona",
+    heroVisualAriaDesc: "Illustration of an example 3D printing business order: a print plate with 24 parts, production progress and indicative pricing.",
+    heroVisualExampleLabel: "Example",
+    heroVisualStatusLabel: "In production",
+    heroVisualStepLabels: ["File", "Quote 1 h", "Print", "Delivery"],
+    heroVisualDataLabels: { price: "Unit price (50 pcs, ASA)", delivery: "Lead time", quote: "Quote time", note: "Indicative, 50 g part" },
+    heroVisualOrderLabel: "ORDER / PEDIDO · SAMPLE",
+    proofBarOrdersLabel: "completed orders",
+    proofBarQuoteLabel: "quote time",
+    proofBarDeliveryLabel: "standard delivery",
+    proofBarMinOrderLabel: "minimum order",
+    proofBarMonthlyLine: "30+ orders a month at the moment",
     sectionProof: "Companies we work with",
     sectionProofAnon: "Recent projects for Barcelona companies, a municipality and local print shops.",
     sectionFreeSample: "Free prototype for companies",
@@ -223,6 +297,12 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     sectionMaterials: "Materials available",
     sectionProcess: "How it works",
     sectionCalculator: "Instant price",
+    howWeWorkTitle: "How we work with companies",
+    howWeWorkItems: [
+      "Priority production queue for business clients",
+      "Files and parameters saved for instant repeat orders",
+      "Invoice issued for all business orders",
+    ],
     sectionFaq: "Frequently asked questions about 3D printing for business",
     sectionCta: "Send us your file or your drawing.",
     ctaFinalLine: "First quote within 1 hour.",
@@ -279,22 +359,35 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     metaTitle: "Impressió 3D per a Empreses a Barcelona — Pressupost en 1 h | Dimension3D",
     metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis i tirades curtes. Des de €10, sense tarifa de configuració. Pressupost en 1 hora. Factura per a empreses. NDA disponible.",
     h1: "Impressió 3D per a Empreses a Barcelona",
-    heroPromise: "Peces de producció llestes en 2–5 dies, pressupost en 1 hora.",
-    heroSub: "Sense tarifa de configuració. Comanda mínima 10€. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
-    ctaQuote: "Preu instantani",
-    ctaWhatsApp: "Parla amb nosaltres",
+    heroPromise: "Més de 250 comandes completades. Peces llestes en 2–5 dies, pressupost en 1 hora.",
+    heroSub: "Sense tarifa de configuració. Comanda mínima 10 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
+    ctaPrimary: "Puja el teu arxiu i veu el preu",
+    ctaWhatsApp: "Escriu-nos per WhatsApp",
+    ctaSubline: "Sense compte. Pressupost en menys d'1 hora.",
     heroSampleLine: "Primera peça de mostra gratuïta per a empreses amb projecte real.",
     trustItems: [
-      "Pressupost en 1 h",
-      "2–5 dies laborables",
       "NDA disponible",
       "Factura per a empreses",
       "Suport ES · CA · EN · DE · PL",
     ],
+    logosHeading: "Empreses de Barcelona que ja han produït amb nosaltres",
+    logosSubline: "Intercruises, Cultural Habits, GS Bikes i el nostre soci d'impressió local Lemon Printers.",
+    heroVisualAriaTitle: "Exemple de comanda d'impressió 3D per a empreses — Dimension3D Barcelona",
+    heroVisualAriaDesc: "Il·lustració d'exemple d'una comanda d'impressió 3D per a empreses: placa amb 24 peces, procés de producció i preu indicatiu.",
+    heroVisualExampleLabel: "Exemple",
+    heroVisualStatusLabel: "En producció",
+    heroVisualStepLabels: ["Arxiu", "Pressupost 1h", "Impressió", "Lliurament"],
+    heroVisualDataLabels: { price: "Preu/u (50 pcs, ASA)", delivery: "Termini de lliurament", quote: "Temps de pressupost", note: "Indicatiu, peça de 50 g" },
+    heroVisualOrderLabel: "COMANDA / ORDER · SAMPLE",
+    proofBarOrdersLabel: "comandes completades",
+    proofBarQuoteLabel: "temps de pressupost",
+    proofBarDeliveryLabel: "lliurament estàndard",
+    proofBarMinOrderLabel: "comanda mínima",
+    proofBarMonthlyLine: "30+ comandes al mes ara",
     sectionProof: "Empreses amb les quals treballem",
     sectionProofAnon: "Projectes recents per a empreses de Barcelona, un municipi i tallers locals d'impressió.",
     sectionFreeSample: "Prototip gratuït per a empreses",
-    freeSampleCta: "Sol·licita el teu prototip gratuït",
+    freeSampleCta: "Demana el teu prototip gratis",
     sectionWhatWeMake: "Què fabriquem per a empreses",
     sectionScale: "D'un prototip a centenars d'unitats",
     sectionBatchTable: "Preu de referència per unitat (peça de 50 g, PETG / ASA)",
@@ -302,6 +395,12 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     sectionMaterials: "Materials disponibles",
     sectionProcess: "Com funciona",
     sectionCalculator: "Preu instantani",
+    howWeWorkTitle: "Com treballem amb empreses",
+    howWeWorkItems: [
+      "Cua de producció prioritària per a comandes d'empresa",
+      "Arxius i paràmetres guardats per a recomandes immediates",
+      "Factura per a empreses en totes les comandes",
+    ],
     sectionFaq: "Preguntes freqüents sobre impressió 3D per a empreses",
     sectionCta: "Envia'ns el teu arxiu o el teu plànol.",
     ctaFinalLine: "Primer pressupost en menys d'1 hora.",
@@ -349,7 +448,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { label: "Lemon Printers — soci local", href: "/lemon" },
     ],
     whatsAppMsg: "Hola, m'interessa el servei d'impressió 3D per a la meva empresa. M'agradaria parlar d'un projecte.",
-    whatsAppSampleMsg: "Hola, voldria sol·licitar el prototip de mostra gratuït per a la meva empresa. Tenim un projecte real en marxa.",
+    whatsAppSampleMsg: "Hola, voldria sol·licitar el prototip de mostra gratuït per a la meva empresa. Tenim un projecte real en marcha.",
   },
 };
 
@@ -363,16 +462,12 @@ interface Props {
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-// Confirmed logos only (file exists + permission confirmed)
-const CONFIRMED_LOGOS = CLIENTS.filter(
-  (c) => c.permission === "confirmed" && c.canName && c.logoSrc
-);
-const SHOW_LOGO_ROW = CONFIRMED_LOGOS.length >= 3;
-
 const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
   const c = CONTENT[lang];
   const endRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
+  // 75% page read tracking
   useEffect(() => {
     const el = endRef.current;
     if (!el) return;
@@ -387,6 +482,36 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
     );
     observer.observe(el);
     return () => observer.disconnect();
+  }, [lang]);
+
+  // Sticky CTA bar — visible after hero scrolls out, hidden when calc is in view
+  const [heroInView, setHeroInView] = useState(true);
+  const [calcInView, setCalcInView] = useState(false);
+  const stickyBarVisible = !heroInView && !calcInView;
+
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    if (!heroEl) return;
+
+    const heroObs = new IntersectionObserver(
+      ([e]) => setHeroInView(e.isIntersecting),
+      { threshold: 0 }
+    );
+    heroObs.observe(heroEl);
+
+    const calcEl = document.getElementById("calculator");
+    const calcObs = calcEl
+      ? new IntersectionObserver(
+          ([e]) => setCalcInView(e.isIntersecting),
+          { threshold: 0 }
+        )
+      : null;
+    if (calcEl && calcObs) calcObs.observe(calcEl);
+
+    return () => {
+      heroObs.disconnect();
+      calcObs?.disconnect();
+    };
   }, [lang]);
 
   const topicSlugs = SLUGS_BY_TOPIC["business"] ?? {};
@@ -493,9 +618,9 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       <main className="pt-16">
 
         {/* ── 1. HERO ── */}
-        <section className="hero-gradient py-16 md:py-24">
+        <section ref={heroRef} className="hero-gradient py-14 md:py-20">
           <div className="container px-4 max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>
                 <nav aria-label="breadcrumb" className="flex items-center gap-2 text-xs text-primary-foreground/50 mb-4">
                   <Link to="/" className="hover:text-primary-foreground/80 transition-colors">{c.breadcrumbHome}</Link>
@@ -506,95 +631,185 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                   <Building2 className="w-3 h-3" aria-hidden="true" />
                   {c.breadcrumbBusiness}
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground leading-tight mb-4">
+                <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-4">
                   {c.h1}
                 </h1>
-                <p className="text-lg text-primary-foreground/90 font-medium mb-2">
+                <p className="text-base md:text-lg text-primary-foreground/90 font-medium mb-2">
                   {c.heroPromise}
                 </p>
-                <p className="text-sm text-primary-foreground/70 mb-2">
+                <p className="text-sm text-primary-foreground/70 mb-6">
                   {c.heroSub}
                 </p>
-                <p className="text-sm text-primary-foreground/60 mb-6 italic">
-                  {c.heroSampleLine}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Button onClick={scrollToCalc} variant="cta" size="lg" className="gap-2">
-                    <Zap className="w-4 h-4" aria-hidden="true" />
-                    {c.ctaQuote}
+                <div className="flex flex-wrap gap-3 mb-3">
+                  <Button
+                    onClick={scrollToCalc}
+                    variant="cta"
+                    className="gap-2 min-h-[52px] px-7 text-base font-semibold"
+                  >
+                    <Upload className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                    {c.ctaPrimary}
+                    <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                   </Button>
                   <Button
                     onClick={() => handleWhatsApp(c.whatsAppMsg)}
-                    variant="hero-outline"
-                    size="lg"
-                    className="gap-2"
+                    variant="whatsapp"
+                    className="gap-2 min-h-[52px] px-7 text-base font-semibold"
                   >
                     <MessageCircle className="w-4 h-4" aria-hidden="true" />
                     {c.ctaWhatsApp}
                   </Button>
                 </div>
+                <p className="text-sm text-primary-foreground/50">{c.ctaSubline}</p>
               </div>
-              <div className="hidden md:block">
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-primary-foreground/10">
-                  <PictureImg
-                    src="/projects/intake-manifold.jpg"
-                    alt={lang === "es" ? "Piezas técnicas impresas en 3D para empresas — Dimension3D Barcelona" : lang === "ca" ? "Peces tècniques impreses en 3D per a empreses — Dimension3D Barcelona" : "Technical 3D printed parts for business — Dimension3D Barcelona"}
-                    width={800}
-                    height={600}
-                    loading="eager"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+
+              {/* Hero visual — stacks below buttons on mobile, right column on desktop */}
+              <div className="flex items-center justify-center mt-6 md:mt-0">
+                <HeroVisual
+                  lang={lang}
+                  unitPrice50ASACents={ASA_50_UNIT_CENTS}
+                  ariaTitle={c.heroVisualAriaTitle}
+                  ariaDesc={c.heroVisualAriaDesc}
+                  exampleLabel={c.heroVisualExampleLabel}
+                  statusLabel={c.heroVisualStatusLabel}
+                  stepLabels={c.heroVisualStepLabels}
+                  dataLabels={c.heroVisualDataLabels}
+                  orderLabel={c.heroVisualOrderLabel}
+                  className="w-full max-w-[480px] md:max-w-none"
+                />
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── 2. TRUST BAR ── */}
-        <section className="bg-secondary/30 border-y border-border/40 py-3">
-          <div className="container px-4">
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-              {c.trustItems.map((item) => (
-                <span key={item} className="flex items-center gap-1.5 text-sm text-foreground/75">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-accent flex-shrink-0" aria-hidden="true" />
-                  {item}
-                </span>
-              ))}
+        {/* ── 2. PROOF BAR (replaces thin trust bar) ── */}
+        <section className="bg-secondary/20 border-y border-border/40 py-8 md:py-10">
+          <div className="container px-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+              {STATS.totalOrders && (
+                <div className="text-center">
+                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
+                    {STATS.totalOrders}
+                  </p>
+                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarOrdersLabel}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{STATS.totalOrdersPeriod[lang]}</p>
+                </div>
+              )}
+              {STATS.responseTime && (
+                <div className="text-center">
+                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
+                    {STATS.responseTime}
+                  </p>
+                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarQuoteLabel}</p>
+                </div>
+              )}
+              {STATS.leadTimeDays && (
+                <div className="text-center">
+                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
+                    {STATS.leadTimeDays}
+                    <span className="text-2xl font-semibold ml-1">
+                      {lang === "es" ? "días" : lang === "ca" ? "dies" : "days"}
+                    </span>
+                  </p>
+                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarDeliveryLabel}</p>
+                </div>
+              )}
+              {STATS.minOrderEur !== null && (
+                <div className="text-center">
+                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
+                    {lang === "en" ? `€${STATS.minOrderEur}` : `${STATS.minOrderEur} €`}
+                  </p>
+                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarMinOrderLabel}</p>
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              {STATS.ordersPerMonth && (
+                <p className="text-sm text-foreground/70 font-medium">{c.proofBarMonthlyLine}</p>
+              )}
+              <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+                {c.trustItems.map((item) => (
+                  <span key={item} className="flex items-center gap-1.5 text-sm text-foreground/60">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-accent/70 flex-shrink-0" aria-hidden="true" />
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* ── 3. PROOF ── */}
-        <section className="py-16 container px-4 max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-foreground mb-6 text-center">{c.sectionProof}</h2>
+        <section className="py-14 md:py-20 container px-4 max-w-4xl mx-auto">
           {SHOW_LOGO_ROW ? (
-            <div className="flex flex-wrap items-center justify-center gap-8 mb-8">
-              {CONFIRMED_LOGOS.map((client) => (
-                <a
-                  key={client.key}
-                  href={client.website ?? "#"}
-                  rel="noopener noreferrer"
-                  target={client.website?.startsWith("http") ? "_blank" : undefined}
-                  className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all focus:outline-none focus:ring-2 focus:ring-accent rounded"
-                  aria-label={client.logoAlt}
-                >
-                  <img
-                    src={client.logoSrc!}
-                    alt={client.logoAlt}
-                    height={32}
-                    style={{ maxHeight: 32, maxWidth: 120, objectFit: "contain" }}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </a>
-              ))}
-            </div>
+            <>
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
+                {c.logosHeading}
+              </h2>
+              <p className="text-sm text-muted-foreground text-center mb-8">{c.logosSubline}</p>
+
+              {/* Logo tiles: full colour, fixed size, clear proof */}
+              <div className="flex flex-wrap justify-center gap-4 mb-10">
+                {CONFIRMED_LOGOS.map((client) => {
+                  const isSquare = client.key === "lemon-printers" || client.key === "cultural-habits";
+                  const hasLink = !!(client.website || client.instagram);
+                  const href = client.website ?? client.instagram;
+                  const isExternal = href?.startsWith("http");
+                  const badgeLabel = client.badge === "partner"
+                    ? (lang === "es" ? "Socio" : lang === "ca" ? "Soci" : "Partner")
+                    : (lang === "es" ? "Cliente" : lang === "ca" ? "Client" : "Client");
+
+                  const tileInner = (
+                    <div className="bg-white border border-border rounded-lg flex items-center justify-center w-[136px] h-[68px] md:w-[168px] md:h-[80px]">
+                      <img
+                        src={client.logoSrc!}
+                        alt={client.logoAlt}
+                        style={{
+                          maxHeight: isSquare ? 56 : 48,
+                          maxWidth: isSquare ? 56 : 148,
+                          objectFit: "contain",
+                          width: "auto",
+                          height: "auto",
+                        }}
+                        loading="lazy"
+                        decoding="async"
+                        width={isSquare ? 56 : 148}
+                        height={isSquare ? 56 : 48}
+                      />
+                    </div>
+                  );
+
+                  return (
+                    <div key={client.key} className="flex flex-col items-center gap-1.5">
+                      {hasLink ? (
+                        <a
+                          href={href}
+                          rel="noopener noreferrer"
+                          target={isExternal ? "_blank" : undefined}
+                          aria-label={client.logoAlt}
+                          className="block rounded-lg transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                        >
+                          {tileInner}
+                        </a>
+                      ) : (
+                        tileInner
+                      )}
+                      <span className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
+                        {badgeLabel}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           ) : (
-            <p className="text-center text-muted-foreground mb-8">{c.sectionProofAnon}</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
+              {c.sectionProof}
+            </h2>
           )}
-          {/* Descriptor cards */}
+
+          {/* Descriptor cards — named clients first, anonymous after */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {CLIENTS.filter((cl) => cl.summary !== null).slice(0, 6).map((client) => (
+            {ORDERED_CLIENTS.filter((cl) => cl.summary !== null).slice(0, 6).map((client) => (
               <div
                 key={client.key}
                 className="rounded-xl border border-border bg-card p-4"
@@ -624,7 +839,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 3b. FREE SAMPLE ── */}
         {FREE_SAMPLE.enabled && (
-          <section className="container px-4 max-w-3xl mx-auto mb-16">
+          <section className="container px-4 max-w-3xl mx-auto mb-14 md:mb-20">
             <div className="rounded-xl border border-accent/30 bg-accent/5 p-6">
               <div className="flex items-start gap-3 mb-3">
                 <Tag className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" aria-hidden="true" />
@@ -635,9 +850,8 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               </p>
               <Button
                 onClick={handleSampleWhatsApp}
-                variant="outline"
-                size="sm"
-                className="gap-2 border-accent/50 text-accent hover:bg-accent/10"
+                variant="cta"
+                className="gap-2 min-h-[52px] px-7 text-base font-semibold"
               >
                 <MessageCircle className="w-4 h-4" aria-hidden="true" />
                 {c.freeSampleCta}
@@ -647,7 +861,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         )}
 
         {/* ── 4. WHAT WE MAKE ── */}
-        <section className="bg-secondary/20 py-16 md:py-20">
+        <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4 max-w-5xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
               {c.sectionWhatWeMake}
@@ -679,7 +893,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         </section>
 
         {/* ── 5. SCALE + BATCH TABLE ── */}
-        <section className="py-16 md:py-20 container px-4 max-w-4xl mx-auto">
+        <section className="py-14 md:py-20 container px-4 max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 text-center">
             {c.sectionScale}
           </h2>
@@ -691,17 +905,23 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               : "Per-unit price falls when multiple identical parts are printed together — plates pack efficiently and machine time is amortised. We keep the validated file so repeat orders are instant. For parts larger than the build plate, we split and bond them, or produce them through our partner network."}
           </p>
 
-          {/* Batch price table */}
+          {/* Batch price table — tabular nums, sticky first column, 50-unit column highlighted */}
           <div className="rounded-xl border border-border overflow-x-auto mb-4">
             <table className="w-full text-sm">
               <caption className="sr-only">{c.sectionBatchTable}</caption>
               <thead>
                 <tr className="bg-secondary/30 border-b border-border">
-                  <th className="px-4 py-3 text-left font-semibold text-foreground">
+                  <th className="sticky left-0 bg-secondary/30 px-4 py-3 text-left font-semibold text-foreground z-10 whitespace-nowrap">
                     {lang === "es" ? "Material" : "Material"}
                   </th>
-                  {BATCH_QUANTITIES.map((q) => (
-                    <th key={q} className="px-4 py-3 text-center font-semibold text-foreground">
+                  {BATCH_QUANTITIES.map((q, qi) => (
+                    <th
+                      key={q}
+                      className={cn(
+                        "px-4 py-3 text-right font-semibold text-foreground whitespace-nowrap",
+                        qi === 2 && "bg-accent/10 text-accent"
+                      )}
+                    >
                       ×{q}
                     </th>
                   ))}
@@ -710,9 +930,22 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               <tbody>
                 {BATCH_TABLE.map((row, ri) => (
                   <tr key={row.material} className={ri % 2 === 0 ? "bg-card" : "bg-secondary/10"}>
-                    <td className="px-4 py-3 font-medium text-foreground">{row.material}</td>
+                    <td
+                      className={cn(
+                        "sticky left-0 px-4 py-3 font-medium text-foreground z-10 whitespace-nowrap",
+                        ri % 2 === 0 ? "bg-card" : "bg-secondary/10"
+                      )}
+                    >
+                      {row.material}
+                    </td>
                     {row.prices.map((cents, qi) => (
-                      <td key={qi} className="px-4 py-3 text-center text-foreground/80">
+                      <td
+                        key={qi}
+                        className={cn(
+                          "px-4 py-3 text-right tabular-nums text-foreground/80",
+                          qi === 2 && "bg-accent/5 font-semibold text-accent"
+                        )}
+                      >
                         {(cents / 100).toFixed(2)} €
                       </td>
                     ))}
@@ -722,28 +955,6 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
             </table>
           </div>
           <p className="text-xs text-muted-foreground text-center">{c.batchTableLabel}</p>
-
-          {/* Stats row */}
-          {(STATS.ordersPerMonth || STATS.responseTime) && (
-            <div className="mt-10 flex flex-wrap justify-center gap-8">
-              {STATS.ordersPerMonth && (
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-accent">{STATS.ordersPerMonth}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {lang === "es" ? "Pedidos al mes" : lang === "ca" ? "Comandes al mes" : "Orders/month"}
-                  </p>
-                </div>
-              )}
-              {STATS.responseTime && (
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-accent">{STATS.responseTime}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {lang === "es" ? "Tiempo de respuesta" : lang === "ca" ? "Temps de resposta" : "Response time"}
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
         </section>
 
         {/* ── 6. MATERIALS STRIP ── */}
@@ -775,7 +986,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         </section>
 
         {/* ── 7. PROCESS ── */}
-        <section className="py-16 md:py-20 container px-4 max-w-3xl mx-auto">
+        <section className="py-14 md:py-20 container px-4 max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
             {c.sectionProcess}
           </h2>
@@ -797,8 +1008,31 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         {/* ── 8. CALCULATOR ── */}
         <StlEstimator />
 
+        {/* ── 8b. HOW WE WORK WITH COMPANIES ── */}
+        <section className="py-14 md:py-20 bg-secondary/20 border-y border-border/40">
+          <div className="container px-4 max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+              {c.howWeWorkTitle}
+            </h2>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {c.howWeWorkItems.map((item, i) => {
+                const icons = [Users, FileCheck, Receipt];
+                const Icon = icons[i] ?? FileCheck;
+                return (
+                  <div key={i} className="rounded-xl border border-border bg-card p-5 flex gap-4 items-start">
+                    <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-accent" aria-hidden="true" />
+                    </div>
+                    <p className="text-sm text-foreground/80 leading-relaxed">{item}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
         {/* ── 9. FAQ ── */}
-        <section className="py-16 md:py-20 container px-4 max-w-3xl mx-auto">
+        <section className="py-14 md:py-20 container px-4 max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
             {c.sectionFaq}
           </h2>
@@ -827,9 +1061,9 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               <img
                 src={FOUNDER.photoSrc}
                 alt={FOUNDER.name}
-                width={72}
-                height={72}
-                className="rounded-full object-cover flex-shrink-0"
+                width={96}
+                height={96}
+                className="rounded-full object-cover flex-shrink-0 w-24 h-24"
                 loading="lazy"
                 decoding="async"
               />
@@ -863,7 +1097,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         {/* ── 10. FINAL CTA ── */}
         <section
           ref={endRef as React.RefObject<HTMLElement>}
-          className="py-16 md:py-20 bg-foreground text-background"
+          className="py-14 md:py-20 bg-foreground text-background"
         >
           <div className="container px-4 max-w-2xl text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-background mb-2">
@@ -872,15 +1106,19 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
             <p className="text-accent font-semibold mb-1">{c.ctaFinalLine}</p>
             <p className="text-background/60 text-sm mb-8">{c.ctaFinalSub}</p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Button onClick={scrollToCalc} variant="cta" size="lg" className="gap-2">
-                <Zap className="w-4 h-4" aria-hidden="true" />
-                {c.ctaQuote}
+              <Button
+                onClick={scrollToCalc}
+                variant="cta"
+                className="gap-2 min-h-[52px] px-7 text-base font-semibold"
+              >
+                <Upload className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                {c.ctaPrimary}
+                <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
               </Button>
               <Button
                 onClick={() => handleWhatsApp(c.whatsAppMsg)}
-                variant="outline"
-                size="lg"
-                className="gap-2 border-background/30 text-background hover:bg-background/10"
+                variant="whatsapp"
+                className="gap-2 min-h-[52px] px-7 text-base font-semibold"
               >
                 <MessageCircle className="w-4 h-4" aria-hidden="true" />
                 {c.ctaWhatsApp}
@@ -907,7 +1145,40 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       </main>
 
       <Footer />
-      <WhatsAppFloat />
+      {!stickyBarVisible && <WhatsAppFloat />}
+
+      {/* ── Sticky bottom CTA bar (B2B pages only, after hero scrolls out) ── */}
+      {stickyBarVisible && (
+        <div
+          className="fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur-sm border-t border-border flex gap-2 px-3 pt-3"
+          style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
+          role="toolbar"
+          aria-label={lang === "es" ? "Acciones rápidas" : lang === "ca" ? "Accions ràpides" : "Quick actions"}
+        >
+          <Button
+            onClick={() => {
+              capture("b2b_sticky_cta_click", { which: "calculator", lang });
+              scrollToCalc();
+            }}
+            variant="cta"
+            className="flex-1 gap-2 min-h-[52px] text-base font-semibold"
+          >
+            <Upload className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+            {c.ctaPrimary}
+          </Button>
+          <Button
+            onClick={() => {
+              capture("b2b_sticky_cta_click", { which: "whatsapp", lang });
+              handleWhatsApp(c.whatsAppMsg);
+            }}
+            variant="whatsapp"
+            className="flex-1 gap-2 min-h-[52px] text-base font-semibold"
+          >
+            <MessageCircle className="w-4 h-4" aria-hidden="true" />
+            {c.ctaWhatsApp}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

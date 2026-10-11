@@ -4,6 +4,7 @@ import {
   BATCH_REF_PART,
   BATCH_QUANTITIES,
   BATCH_MATERIALS,
+  ASA_50_UNIT_CENTS,
   BatchRow,
 } from "./B2BLanding";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -52,5 +53,16 @@ describe("BATCH_TABLE", () => {
     for (const row of BATCH_TABLE as BatchRow[]) {
       expect(row.prices[0]).toBeGreaterThanOrEqual(EST.minimumEur * 100);
     }
+  });
+
+  it("HeroVisual unit price (ASA_50_UNIT_CENTS) matches the batch table helper for 50 units ASA", () => {
+    // ASA_50_UNIT_CENTS is the value passed to HeroVisual as unitPrice50ASACents
+    const expectedCents = refUnitPriceCents("ASA", 50);
+    expect(ASA_50_UNIT_CENTS).toBe(expectedCents);
+
+    // Sanity: value is a positive number and formats correctly
+    expect(ASA_50_UNIT_CENTS).toBeGreaterThan(0);
+    const formatted = `€${(ASA_50_UNIT_CENTS / 100).toFixed(2)}`;
+    expect(formatted).toMatch(/^€\d+\.\d{2}$/);
   });
 });
