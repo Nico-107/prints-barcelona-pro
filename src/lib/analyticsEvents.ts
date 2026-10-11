@@ -267,6 +267,10 @@ export interface EventMap {
   lemon_page_view: Record<string, unknown>;
   lemon_cta_click: Record<string, unknown>;
   "maker application submitted": Record<string, unknown>;
+  b2b_cta_primary_click: Record<string, unknown>;
+  b2b_cta_whatsapp_click: Record<string, unknown>;
+  b2b_free_prototype_click: Record<string, unknown>;
+  b2b_cta_homepage_click: Record<string, unknown>;
 }
 
 export type EventName = keyof EventMap;

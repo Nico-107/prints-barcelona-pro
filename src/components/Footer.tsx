@@ -88,8 +88,8 @@ const Footer = () => {
           <div className="text-center md:text-right">
             <span className="font-medium text-sm block mb-3">{t("footer.quickLinks")}</span>
             <div className="flex flex-col gap-1.5">
-              <Link to="/" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.home")}</Link>
               <Link to={businessSlug} className="text-background/70 text-sm hover:text-background transition-colors">{forBusinessLabel}</Link>
+              <Link to="/" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.home")}</Link>
               <Link to="/makers" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.becomeMaker")}</Link>
               <Link to="/maker-guide" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.makerGuide")}</Link>
               <Link to="/3d-printing-service" className="text-background/70 text-sm hover:text-background transition-colors">International service</Link>

@@ -57,7 +57,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Piezas 3D a Medida Barcelona — STL/STEP o Foto, Presupuesto en 1h | Dimension3D",
-    metaDescription: "Piezas 3D a medida en Barcelona desde tu STL, STEP o foto. Recambios funcionales, soportes, clips de coche y prototipos. Presupuesto profesional en menos de 1 hora. Sin pedido mínimo.",
+    metaDescription: "Piezas 3D a medida en Barcelona desde tu STL, STEP o foto. Recambios funcionales, soportes, clips de coche y prototipos. Presupuesto profesional en menos de 1 hora. Desde 10€.",
     h1: "Piezas 3D a Medida en Barcelona — De Archivo a Pieza en 24–48h",
     intro: "¿Necesitas una pieza que no encuentras en ninguna tienda? Eso es justamente lo que hacemos. Dimension3D fabrica piezas 3D personalizadas en Barcelona para hogares, talleres, conductores y makers — desde un solo clip roto hasta pequeñas tiradas de soportes a medida.",
     sections: [
@@ -122,13 +122,13 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Del prototipo a la pequeña serie",
-        body: "Una vez validado el prototipo, podemos escalar a tiradas de baja producción (típicamente 5–200 unidades según el tamaño) sin que tengas que cambiar de proveedor. Esa continuidad importa cuando intentas lanzar un producto, no solo imprimirlo."
+        body: "Una vez validado el prototipo, podemos escalar a tiradas de baja producción (desde una unidad hasta varios cientos, según el tamaño) sin que tengas que cambiar de proveedor. Esa continuidad importa cuando intentas lanzar un producto, no solo imprimirlo."
       }
     ],
     faqs: [
       { q: "¿Qué formatos de archivo 3D aceptáis?", a: "STL, OBJ, 3MF y STEP. También podemos trabajar con exportaciones nativas de tu CAD — pregúntanos." },
       { q: "¿Firmáis NDA para prototipos confidenciales?", a: "Sí. Firmamos NDA habitualmente con startups de hardware y departamentos de I+D." },
-      { q: "¿Hacéis pequeñas tiradas de producción tras el prototipo?", a: "Sí, producimos tiradas de 5–200 unidades una vez validado el diseño." },
+      { q: "¿Hacéis pequeñas tiradas de producción tras el prototipo?", a: "Sí, producimos tiradas desde unidades individuales hasta varios cientos una vez validado el diseño." },
       { q: "¿Cuánto se tarda en una iteración?", a: "La mayoría de iteraciones de prototipo están listas en 24–72 horas según tamaño y material." },
       { q: "¿Es mejor la FDM que la resina para mi prototipo?", a: "Para prototipos funcionales que hay que manipular, probar o someter a esfuerzo, la FDM suele ser mejor — produce piezas más resistentes en una gama de materiales más amplia. La resina tiene mayor detalle superficial pero es más frágil. Te asesoramos según lo que el prototipo tiene que demostrar." },
       { q: "¿Qué pasa si detectáis un problema en mi archivo durante la revisión?", a: "Lo indicamos en el presupuesto antes de empezar — problemas de espesor de pared, voladizos sin soporte, orientación que afectaría a la resistencia. Tú decides si revisar el archivo o continuar con nuestras recomendaciones." }
@@ -488,7 +488,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "Qué producimos para clientes empresa",
-        body: "Nuestros clientes empresa nos usan para una amplia gama de aplicaciones técnicas e industriales:\n\n• Utillaje, jigs, fixtures y herramientas de fin de brazo para líneas de producción.\n• Prototipos funcionales para validación y presentaciones a clientes.\n• Carcasas y cajas para electrónica y PCBs.\n• Piezas de repuesto y componentes de desgaste para maquinaria.\n• Tiradas cortas de producción de 5 a 200 piezas idénticas.\n• Soportes de montaje, guías de cable y hardware para rack.\n\nTrabajamos en PETG, ABS/ASA, Nylon y Nylon-CF para aplicaciones estructurales, y en PLA o PETG para piezas funcionales de baja carga. Si tu aplicación requiere un material o tolerancia específicos, dínoslo desde el principio."
+        body: "Nuestros clientes empresa nos usan para una amplia gama de aplicaciones técnicas e industriales:\n\n• Utillaje, jigs, fixtures y herramientas de fin de brazo para líneas de producción.\n• Prototipos funcionales para validación y presentaciones a clientes.\n• Carcasas y cajas para electrónica y PCBs.\n• Piezas de repuesto y componentes de desgaste para maquinaria.\n• Tiradas cortas de producción, desde unas pocas hasta varios cientos de piezas idénticas.\n• Soportes de montaje, guías de cable y hardware para rack.\n\nTrabajamos en PETG, ABS/ASA, Nylon y Nylon-CF para aplicaciones estructurales, y en PLA o PETG para piezas funcionales de baja carga. Si tu aplicación requiere un material o tolerancia específicos, dínoslo desde el principio."
       },
       {
         heading: "STL, STEP e IGES aceptados — presupuesto profesional en 1 hora",
@@ -496,7 +496,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Tiradas cortas y pedidos repetidos",
-        body: "Una vez que la pieza está validada, podemos gestionar pedidos repetidos sin volver a presupuestar desde cero. Conservamos el archivo laminado y los parámetros de impresión. Para cantidades de 5–200 piezas, el coste unitario baja con el volumen — pide precio por tramos al solicitar presupuesto.\n\nTambién podemos entregar en tu taller u oficina de Barcelona por mensajería, o enviar a cualquier dirección de la España peninsular con seguimiento."
+        body: "Una vez que la pieza está validada, podemos gestionar pedidos repetidos sin volver a presupuestar desde cero. Conservamos el archivo laminado y los parámetros de impresión. El coste unitario baja con el volumen — pide precio por tramos al solicitar presupuesto.\n\nTambién podemos entregar en tu taller u oficina de Barcelona por mensajería, o enviar a cualquier dirección de la España peninsular con seguimiento."
       },
       {
         heading: "Confidencialidad y NDA",
@@ -506,7 +506,7 @@ export const PAGES_ES: LandingContent[] = [
     faqs: [
       { q: "¿Firmáis NDA para proyectos de empresa?", a: "Sí. Firmamos NDA para cualquier cliente que lo solicite. Nunca compartimos archivos ni detalles de proyectos de clientes." },
       { q: "¿Qué formatos de archivo aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones nativas de SolidWorks, Fusion 360, Onshape y la mayoría de herramientas funcionan directamente." },
-      { q: "¿Podéis suministrar 50 o 100 piezas idénticas?", a: "Sí. Realizamos tiradas cortas de producción de 5 a 200 unidades. El precio unitario baja con la cantidad — pide presupuesto por tramos." },
+      { q: "¿Podéis suministrar 50 o 100 piezas idénticas?", a: "Sí. Realizamos tiradas desde una unidad hasta varios cientos. El precio unitario baja con la cantidad — pide presupuesto por tramos." },
       { q: "¿Qué tolerancias podéis mantener?", a: "La precisión FDM típica es ±0,2 mm. Para características de tolerancia más ajustada ajustamos parámetros y podemos post-procesar superficies críticas. Indícanos el requisito desde el principio." },
       { q: "¿Emitís facturas completas con IVA para pedidos de empresa?", a: "Sí. Emitimos facturas completas con IVA para todos los clientes empresa. Facilítanos el nombre de tu empresa y el CIF/NIF al hacer el pedido." },
       { q: "¿Cuál es el plazo típico para una tirada de 50–100 piezas?", a: "Para la mayoría de piezas de tamaño estándar, entre 5 y 10 días laborables según el tamaño y el material. Para necesidades urgentes de tirada, contáctanos para hablar de planificación prioritaria — te diremos con honestidad qué es alcanzable." }
@@ -549,14 +549,14 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Del prototipo a la tirada corta de producción",
-        body: "Una vez que el diseño está cerrado, podemos pasar sin fisuras a tiradas cortas de producción (5–200 unidades) sin cambiar de proveedor ni renegociar condiciones. Conservamos los parámetros de impresión validados y podemos programar una tirada con poco margen de preaviso."
+        body: "Una vez que el diseño está cerrado, podemos pasar sin fisuras a tiradas cortas de producción sin cambiar de proveedor ni renegociar condiciones. Conservamos los parámetros de impresión validados y podemos programar una tirada con poco margen de preaviso."
       }
     ],
     faqs: [
       { q: "¿Cuánto tarda una iteración de prototipado?", a: "Normalmente entre 24 y 72 horas desde el envío del archivo hasta la pieza en mano, según tamaño, material y cola actual." },
       { q: "¿Qué formatos CAD aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones de SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD y la mayoría de herramientas funcionan sin conversión." },
       { q: "¿Detectáis problemas de diseño antes de imprimir?", a: "Sí. Revisamos cada archivo manualmente y señalamos problemas de espesor de pared, soportes o material antes de imprimir." },
-      { q: "¿Podéis hacer una tirada pequeña de producción tras el prototipo?", a: "Sí. Pasamos del prototipo a la tirada corta (5–200 unidades) sin cambiar de proveedor ni re-establecer condiciones." },
+      { q: "¿Podéis hacer una tirada pequeña de producción tras el prototipo?", a: "Sí. Pasamos del prototipo a la tirada corta sin cambiar de proveedor ni re-establecer condiciones. Pide presupuesto por tramos para cualquier cantidad." },
       { q: "¿En qué se diferencia esto de vuestro servicio estándar de prototipos?", a: "El prototipado rápido está configurado específicamente para ciclos de iteración múltiple rápidos. Guardamos tu proyecto entre iteraciones, aceptamos archivos de revisión directamente por WhatsApp y priorizamos el plazo de 24–72h sin volver a presupuestar desde cero cada vez." },
       { q: "¿Puedo hacer varias revisiones de diseño en la misma semana?", a: "Sí — ese es todo el punto. Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Los iteradores frecuentes comparten archivos directamente por WhatsApp y los entregamos sin demora administrativa." }
     ],
@@ -598,7 +598,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "De una pieza a una tirada corta",
-        body: "Sin pedido mínimo. Imprimimos piezas funcionales individuales con la misma facilidad que un lote de 50. Para pedidos repetidos, conservamos el archivo y los parámetros para que los reencargos se gestionen en minutos. Para cantidades de 5–200, pide precio por tramos — el coste unitario baja con el volumen."
+        body: "Pedido mínimo de 10€, sin tarifa de configuración. Imprimimos piezas funcionales individuales con la misma facilidad que un lote de 50. Para pedidos repetidos, conservamos el archivo y los parámetros para que los reencargos se gestionen en minutos. Pide precio por tramos para cualquier cantidad — el coste unitario baja con el volumen."
       }
     ],
     faqs: [
@@ -831,7 +831,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Mejor para empresas y prototipos funcionales",
-        body: "Para equipos de ingeniería, departamentos de I+D y pequeños fabricantes las prioridades vuelven a cambiar:\n\n• Un conocimiento práctico de la diferencia real entre materiales — cuándo el Nylon-CF marca la diferencia frente a cuándo el PETG haría el mismo trabajo por una fracción del precio.\n• Compromisos de tolerancia realistas respaldados por medición, no por marketing.\n• Capacidad de repetir una pieza validada bajo demanda con calidad consistente.\n• Facturación estándar con IVA y, cuando aplique, firma de NDA como práctica habitual.\n• Disposición a pasar del prototipo a la tirada corta de producción con el mismo proveedor, sin re-presupuestar desde cero.\n\nPara proyectos empresariales, nuestra página dedicada a clientes empresa entra en más detalle: ver Impresión 3D para Empresas en Barcelona. La precisión FDM típica es de ±0,2 mm en la mayoría de dimensiones; las características de mayor precisión se presupuestan individualmente. La producción de tirada corta de 5–200 piezas es parte habitual de lo que hacemos."
+        body: "Para equipos de ingeniería, departamentos de I+D y pequeños fabricantes las prioridades vuelven a cambiar:\n\n• Un conocimiento práctico de la diferencia real entre materiales — cuándo el Nylon-CF marca la diferencia frente a cuándo el PETG haría el mismo trabajo por una fracción del precio.\n• Compromisos de tolerancia realistas respaldados por medición, no por marketing.\n• Capacidad de repetir una pieza validada bajo demanda con calidad consistente.\n• Facturación estándar con IVA y, cuando aplique, firma de NDA como práctica habitual.\n• Disposición a pasar del prototipo a la tirada corta de producción con el mismo proveedor, sin re-presupuestar desde cero.\n\nPara proyectos empresariales, nuestra página dedicada a clientes empresa entra en más detalle: ver Impresión 3D para Empresas en Barcelona. La precisión FDM típica es de ±0,2 mm en la mayoría de dimensiones; las características de mayor precisión se presupuestan individualmente. La producción en tirada corta es parte habitual de lo que hacemos."
       },
       {
         heading: "Mejor para decoración, regalos y miniaturas",
@@ -1272,5 +1272,52 @@ export const PAGES_ES: LandingContent[] = [
     schemaServiceName: "Comparativa de Tecnologías de Impresión 3D",
     datePublished: "2026-09-03",
     dateModified: "2026-09-03",
+  },
+
+  // ----- TIRADAS CORTAS -----
+  {
+    slug: "/tiradas-cortas-impresion-3d-barcelona",
+    topic: "short-run",
+    altSlug: "/short-run-3d-printing-barcelona",
+    lang: "es",
+    category: "use-case",
+    metaTitle: "Tiradas Cortas de Impresión 3D en Barcelona — Sin Pedido Mínimo de Piezas | Dimension3D",
+    metaDescription: "Producción en tirada corta de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas. Pedido mínimo de 10€, sin tarifa de configuración, factura incluida.",
+    h1: "Tiradas Cortas de Impresión 3D en Barcelona — Producción en Lote Sin Configuración",
+    intro: "La producción en tirada corta se sitúa entre un prototipo único y una fabricación en serie: necesitas más de una pieza, pero no miles. En Dimension3D gestionamos lotes desde una sola unidad hasta varios cientos de piezas idénticas con el mismo plazo y calidad de material que un pedido de prototipo. Pedido mínimo de 10€, sin tarifa de configuración, factura incluida para pedidos de empresa.",
+    sections: [
+      {
+        heading: "Por qué el FDM es práctico para tiradas cortas",
+        body: "El FDM es adecuado para producción en tirada corta porque no hay coste de utillaje: el mismo archivo que imprime una unidad imprime cincuenta, con un coste unitario que escala con material y tiempo de máquina en lugar de coste de molde amortizado. Esto significa que puedes comenzar una tirada de diez piezas, validarlas en uso y repetir el pedido con parámetros modificados sin penalización económica.\n\nEl límite práctico de un solo lote en nuestra Bambu Lab X1C es de unas 50–80 piezas pequeñas por placa, según la geometría. Las piezas más grandes o lotes de geometría mixta requieren varias placas y se programan en sesiones consecutivas. Presupuestamos el coste unitario por tramo de cantidad para que puedas ver exactamente dónde cambia la economía."
+      },
+      {
+        heading: "Materiales para lotes de producción",
+        body: "Para la mayoría de la producción en tirada corta recomendamos PETG o ASA como base. Ambos son más duraderos que el PLA en condiciones reales, se adaptan a entornos exteriores o de calor, y están disponibles en varios colores. El PLA es adecuado para lotes de uso puramente interior y no estructural. Para lotes de grado técnico bajo carga mecánica o a temperaturas elevadas, Nylon PA12 o Nylon-CF son la opción correcta.\n\nEl coste por unidad de un lote pequeño en PLA puede ser de 1–3€ según el tamaño; el PETG y el ASA son un 10–30% más caros por gramo. Las variantes de Nylon y CF llevan un precio base más alto. Todos los presupuestos incluyen un desglose claro del coste unitario por tramo de cantidad."
+      },
+      {
+        heading: "Del prototipo al lote: mismo proveedor",
+        body: "Un flujo de trabajo habitual: prototipar una o dos piezas, validar el ajuste y la función, luego pedir el lote completo con el mismo archivo y parámetros. Guardamos los ajustes de impresión validados para que los pedidos repetidos se gestionen en minutos. Para pedidos recurrentes (reposiciones semanales o mensuales), podemos configurar un acuerdo de pedido repetido con plazos consistentes.\n\nLos clientes empresariales reciben factura en cada pedido. Los NDAs se firman bajo petición como estándar para cualquier proyecto B2B. Para una visión completa de nuestra oferta para empresas, consulta la página de impresión 3D para empresas."
+      },
+    ],
+    faqs: [
+      { q: "¿Cuál es el pedido mínimo para una tirada?", a: "10€ por pedido, sin tarifa de configuración. No hay un número mínimo de piezas: si una pieza cuesta 10€, ese es un pedido válido. Si necesitas 100 piezas de 0,50€ cada una, el mínimo de 10€ se aplica una sola vez por pedido." },
+      { q: "¿Cuánto tarda una tirada corta?", a: "Depende del volumen total. Una tirada de 10–20 piezas pequeñas generalmente se completa en el plazo estándar (2–5 días laborables). Tiradas más grandes de 50–200 piezas se programan en múltiples sesiones y tardan 3–7 días laborables según la cola. Los niveles express y urgente están disponibles para tiradas pequeñas." },
+      { q: "¿Podéis dividir una tirada en diferentes colores o materiales?", a: "Sí. Cada cambio de material o color requiere un pequeño paso de configuración, que se refleja en un pequeño coste adicional. Para tiradas mixtas, solicita un presupuesto con la división especificada y confirmaremos viabilidad y coste antes de comprometernos." },
+      { q: "¿Proporcionáis facturas para pedidos de empresa?", a: "Sí. Cada pedido recibe factura. Para pedidos B2B con requisitos de facturación específicos (referencia de proyecto, centro de coste, número de pedido), indícalo al pedir y lo gestionamos." },
+      { q: "¿Qué tolerancias puedo esperar en las piezas del lote?", a: "±0,2 mm en la mayoría de dimensiones a la altura de capa estándar de 0,2 mm. Todas las piezas de un lote usan parámetros idénticos, por lo que la consistencia entre piezas es alta. Para superficies de acoplamiento o ajustes por apriete, prototipa y mide antes de pedir el lote completo." },
+      { q: "¿Guardáis mis archivos para pedidos repetidos?", a: "Sí. Guardamos los archivos de impresión validados para clientes con pedidos repetidos. Los reencargos se gestionan en minutos. Para pedidos recurrentes (cadencia semanal o mensual), podemos configurar un slot de prioridad." },
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
+    related: [
+      { label: "Impresión 3D para Empresas Barcelona", slug: "/impresion-3d-empresas-barcelona" },
+      { label: "Prototipado Rápido Barcelona", slug: "/prototipado-rapido-barcelona" },
+      { label: "Comparativa de Materiales", slug: "/comparativa-materiales-impresion-3d" },
+      { label: "Piezas Funcionales Barcelona", slug: "/piezas-funcionales-barcelona" },
+      { label: "Precios Transparentes", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Short-Run Production (EN)", slug: "/short-run-3d-printing-barcelona" },
+    ],
+    schemaServiceName: "Tiradas Cortas de Impresión 3D Barcelona",
+    datePublished: "2026-10-11",
+    dateModified: "2026-10-11",
   },
 ];

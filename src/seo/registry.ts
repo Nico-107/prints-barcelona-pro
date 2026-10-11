@@ -107,6 +107,7 @@ export const SERVICES_MENU: MenuGroup[] = [
     items: [
       item("business", "3D Printing for Business", "Impresión 3D para Empresas", "Impressió 3D per a Empreses"),
       item("rapid-prototyping", "Rapid Prototyping", "Prototipado Rápido", "Prototipatge Ràpid"),
+      item("short-run", "Short-Run Production", "Tiradas Cortas", "Tirades Curtes"),
       item("functional-parts", "Functional Parts", "Piezas Funcionales", "Peces Funcionals"),
     ],
   },

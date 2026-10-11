@@ -29,7 +29,8 @@ export type LandingTopic =
   | "maker-customers"
   | "materials-comparison"
   | "turnaround-comparison"
-  | "technology-comparison";
+  | "technology-comparison"
+  | "short-run";
 
 export interface LandingFAQ {
   q: string;
@@ -130,7 +131,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "How the process works",
-        body: "1. Send us your file or describe what you need on the quote form or via WhatsApp.\n2. We reply with a transparent price, recommended material and timing.\n3. You approve, we print, we test, you receive.\n\nNo subscription, no minimum order, no surprise fees. You only pay for the part you approved."
+        body: "1. Send us your file or describe what you need on the quote form or via WhatsApp.\n2. We reply with a transparent price, recommended material and timing.\n3. You approve, we print, we test, you receive.\n\nNo subscription, €10 minimum, no setup fee. You only pay for the part you approved."
       }
     ],
     faqs: [
@@ -159,7 +160,7 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     metaTitle: "Custom 3D Printed Parts Barcelona — STL/STEP or Photo, Quote in 1h | Dimension3D",
-    metaDescription: "Custom 3D printed parts in Barcelona from your STL, STEP or photo. Functional replacements, brackets, automotive clips and prototypes. Professional quote in under 1 hour. No minimum order.",
+    metaDescription: "Custom 3D printed parts in Barcelona from your STL, STEP or photo. Functional replacements, brackets, automotive clips and prototypes. Professional quote in under 1 hour. From €10.",
     h1: "Custom 3D Printed Parts in Barcelona — From File to Part in 24–48h",
     intro: "Need a part that doesn't exist on any shelf? That's exactly what we do. Dimension3D produces custom 3D printed parts in Barcelona for households, workshops, drivers and makers — from a single broken clip to small batches of bespoke brackets.",
     sections: [
@@ -173,7 +174,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "One-off parts and small batches",
-        body: "There's no minimum order. We're equally happy printing a single replacement bracket as we are running a small batch of identical pieces for a workshop, a dental clinic, an architecture studio or a local store. For repeat customers we keep the file on record so reorders are instant."
+        body: "The minimum order is €10, with no setup fee. We're equally happy printing a single replacement bracket as we are running a small batch of identical pieces for a workshop, a dental clinic, an architecture studio or a local store. For repeat customers we keep the file on record so reorders are instant."
       },
       {
         heading: "Built to actually last",
@@ -224,13 +225,13 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "From single prototypes to small production runs",
-        body: "Once a prototype is validated, we can scale into low-volume production runs (typically 5 to 200 units depending on size) without you having to switch supplier. That continuity matters when you're trying to ship a product, not just print one."
+        body: "Once a prototype is validated, we can scale into low-volume production runs (from 1 unit to several hundred, depending on size) without you having to switch supplier. That continuity matters when you're trying to ship a product, not just print one."
       }
     ],
     faqs: [
       { q: "Which 3D file formats do you accept?", a: "STL, OBJ, 3MF and STEP. We can also work from native CAD exports — just ask." },
       { q: "Do you sign NDAs for confidential prototypes?", a: "Yes. We regularly sign NDAs for hardware startups and R&D departments." },
-      { q: "Can you do small production runs after the prototype?", a: "Yes. We routinely produce 5–200 unit batches once a design is validated." },
+      { q: "Can you do small production runs after the prototype?", a: "Yes. We routinely produce batches of several units to several hundred once a design is validated." },
       { q: "How fast is one iteration?", a: "Most prototype iterations are ready within 24–72 hours depending on size and material." },
       { q: "Is FDM better than resin for my prototype?", a: "For functional prototypes that need to be handled, tested or stressed, FDM is usually better — it produces stronger, tougher parts across a wider material range. Resin has higher surface detail but is more brittle. We'll advise based on what your prototype needs to prove." },
       { q: "What happens if you find a problem in my file during review?", a: "We flag it in the quote before starting — wall-thickness issues, unsupported overhangs, orientation problems that would affect strength. You decide whether to revise the file or proceed as-is with our recommendations." }
@@ -586,11 +587,11 @@ export const PAGES_EN: LandingContent[] = [
     metaTitle: "3D Printing for Business in Barcelona — Technical Parts & Short Runs | Dimension3D",
     metaDescription: "Professional 3D printing for companies and engineers in Barcelona. Send your STL/STEP file — quote in 1 hour. Functional and technical parts, jigs, fixtures, short production runs. NDA available.",
     h1: "3D Printing for Business in Barcelona",
-    intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. No account, no tender, no minimum volume.",
+    intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. €10 minimum order, no setup fee.",
     sections: [
       {
         heading: "What we produce for business customers",
-        body: "Our business customers use us for a wide range of industrial and technical applications:\n\n• Jigs, fixtures and end-of-arm tooling for production lines.\n• Functional prototypes for validation and client presentations.\n• Enclosures and housings for electronics and PCBs.\n• Replacement machine parts and wear components.\n• Short-run production of 5 to 200 identical parts.\n• Custom mounting brackets, cable management and rack hardware.\n\nWe work in PETG, ABS/ASA, Nylon and Nylon-CF for structural applications, and in PLA or PETG for low-stress functional parts. If your application calls for a specific material or tolerance, tell us upfront and we'll advise on feasibility."
+        body: "Our business customers use us for a wide range of industrial and technical applications:\n\n• Jigs, fixtures and end-of-arm tooling for production lines.\n• Functional prototypes for validation and client presentations.\n• Enclosures and housings for electronics and PCBs.\n• Replacement machine parts and wear components.\n• Short production runs, from a handful to several hundred identical parts.\n• Custom mounting brackets, cable management and rack hardware.\n\nWe work in PETG, ABS/ASA, Nylon and Nylon-CF for structural applications, and in PLA or PETG for low-stress functional parts. If your application calls for a specific material or tolerance, tell us upfront and we'll advise on feasibility."
       },
       {
         heading: "STL, STEP and IGES accepted — professional quote in 1 hour",
@@ -598,7 +599,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Short production runs and repeat orders",
-        body: "Once a part is validated, we can run repeat orders without re-quoting from scratch. We keep the sliced file and print parameters on record. For quantities of 5–200 parts, per-unit cost drops as volume grows — ask for a tiered price when you request the quote.\n\nWe can also deliver to your workshop or office in Barcelona by courier, or ship to any address in mainland Spain with tracking."
+        body: "Once a part is validated, we can run repeat orders without re-quoting from scratch. We keep the sliced file and print parameters on record. Per-unit cost drops as volume grows — ask for a tiered price when you request the quote.\n\nWe can also deliver to your workshop or office in Barcelona by courier, or ship to any address in mainland Spain with tracking."
       },
       {
         heading: "Confidentiality and NDAs",
@@ -608,7 +609,7 @@ export const PAGES_EN: LandingContent[] = [
     faqs: [
       { q: "Do you sign NDAs for business projects?", a: "Yes. NDA signing is standard for any client who requests it. We never share client files or project details." },
       { q: "What file formats do you accept?", a: "STL, STEP, IGES, OBJ and 3MF. Native CAD exports from SolidWorks, Fusion 360, Onshape and most other tools work fine." },
-      { q: "Can you supply 50 or 100 identical parts?", a: "Yes. We run short production batches from 5 to 200 units. Per-unit price drops with quantity — ask for a tiered quote." },
+      { q: "Can you supply 50 or 100 identical parts?", a: "Yes. We run short production batches from a single unit to several hundred. Per-unit price drops with quantity — ask for a tiered quote." },
       { q: "What tolerances can you hold?", a: "Typical FDM accuracy is ±0.2 mm. For tighter-tolerance features we adjust parameters and can post-process critical surfaces. Tell us the requirement upfront." },
       { q: "Do you issue full VAT invoices for business orders?", a: "Yes. We issue complete VAT invoices for all business customers. Provide your company name and CIF/VAT number when placing the order." },
       { q: "What is the typical lead time for a batch of 50–100 parts?", a: "For most standard-sized parts, 5–10 business days depending on part size and material. For urgent batch requirements, contact us to discuss priority scheduling — we'll be honest about what's achievable." }
@@ -647,18 +648,18 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Iterations without friction",
-        body: "Each revised file goes through the same same-day review and 24–72h production cycle. There's no subscription, no minimum order per iteration, and no administrative back-and-forth — you upload, we review, we quote, you approve, we print. For clients who iterate frequently, we keep your project on file and can accept revision uploads via WhatsApp directly."
+        body: "Each revised file goes through the same same-day review and 24–72h production cycle. There's no subscription, no per-iteration minimum (the €10 order minimum applies once per order), and no administrative back-and-forth — you upload, we review, we quote, you approve, we print. For clients who iterate frequently, we keep your project on file and can accept revision uploads via WhatsApp directly."
       },
       {
         heading: "From prototype to small production run",
-        body: "Once your design is locked, we can transition seamlessly into short-run production (5–200 units) without changing supplier or renegotiating terms. We keep the validated print parameters and can schedule a batch run at short notice."
+        body: "Once your design is locked, we can transition seamlessly into short-run production without changing supplier or renegotiating terms. We keep the validated print parameters and can schedule a batch run at short notice."
       }
     ],
     faqs: [
       { q: "How fast is one prototyping iteration?", a: "Typically 24–72 hours from file submission to part in hand, depending on size, material and current queue." },
       { q: "Which CAD formats do you accept?", a: "STL, STEP, IGES, OBJ and 3MF. Exports from SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD and most other tools work without conversion." },
       { q: "Do you flag design problems before printing?", a: "Yes. We review every file manually and flag wall-thickness issues, support problems or material mismatches in the quote before we start printing." },
-      { q: "Can you run a small production batch after the prototype?", a: "Yes. We transition from prototype to short-run production (5–200 units) without changing supplier or re-establishing terms." },
+      { q: "Can you run a small production batch after the prototype?", a: "Yes. We transition from prototype to short-run production without changing supplier or re-establishing terms. Ask for a tiered quote at any quantity." },
       { q: "What distinguishes this from your standard prototype printing service?", a: "Rapid prototyping is specifically set up for fast multi-iteration cycles. We keep your project on file between iterations, accept revision uploads directly via WhatsApp, and prioritise turnaround within the 24–72h window without re-quoting from scratch each time." },
       { q: "Can I run multiple design revisions in the same week?", a: "Yes — that's the whole point. Each revised file goes through the same same-day review and 24–72h production cycle. Frequent iterators share files directly via WhatsApp and we turn them around without administrative delay." }
     ],
@@ -700,7 +701,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "From one part to a short run",
-        body: "There is no minimum order. We print single functional parts as readily as a batch of 50. For repeat orders, we keep the file and parameters on record so reorders take minutes to set up. For quantities of 5–200, ask for a tiered price — per-unit cost drops as volume grows."
+        body: "The minimum order is €10, with no setup fee. We print single functional parts as readily as a batch of 50. For repeat orders, we keep the file and parameters on record so reorders take minutes to set up. Ask for a tiered price — per-unit cost drops as volume grows."
       }
     ],
     faqs: [
@@ -933,7 +934,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Best for business and functional prototypes",
-        body: "For engineering teams, R&D departments and small manufacturers, the priorities shift again:\n\n• A working knowledge of the practical difference between materials — when Nylon-CF matters versus when PETG would do the same job for a fraction of the price.\n• Realistic tolerance commitments backed by measurement, not marketing.\n• The ability to repeat a validated part on demand at consistent quality.\n• Standard VAT invoicing and, where required, NDAs signed as a matter of course.\n• Willingness to progress from prototype to short-run production with the same supplier, without re-quoting from scratch.\n\nFor business projects, our dedicated page for business customers goes into more detail: see 3D Printing for Business Barcelona. Typical FDM accuracy is ±0.2 mm across most dimensions; tighter features are quoted individually. Short-run production of 5–200 parts is a routine part of what we do."
+        body: "For engineering teams, R&D departments and small manufacturers, the priorities shift again:\n\n• A working knowledge of the practical difference between materials — when Nylon-CF matters versus when PETG would do the same job for a fraction of the price.\n• Realistic tolerance commitments backed by measurement, not marketing.\n• The ability to repeat a validated part on demand at consistent quality.\n• Standard VAT invoicing and, where required, NDAs signed as a matter of course.\n• Willingness to progress from prototype to short-run production with the same supplier, without re-quoting from scratch.\n\nFor business projects, our dedicated page for business customers goes into more detail: see 3D Printing for Business Barcelona. Typical FDM accuracy is ±0.2 mm across most dimensions; tighter features are quoted individually. Short production runs are a routine part of what we do."
       },
       {
         heading: "Best for decoration, gifts and miniatures",
@@ -1360,7 +1361,7 @@ export const PAGES_EN: LandingContent[] = [
       { q: "What is the layer line visibility like on FDM parts?", a: "Layer lines are visible on bare FDM parts — this is an inherent property of the process, not a quality issue. At a standard 0.2 mm layer height, lines are noticeable at close inspection. At 0.1 mm (fine mode), they are much subtler. Post-processing (sanding with progressively finer grit, then priming) can produce a nearly smooth surface. If the part is functional rather than display-facing, layer lines are irrelevant to performance." },
       { q: "Is FDM printing strong enough for functional, load-bearing parts?", a: "Yes, for the large majority of functional applications. At standard infill (20–25%), FDM parts handle everyday loads reliably. For higher-demand applications, infill can be increased, wall count raised, or a higher-performance material selected (PETG, ABS, Nylon, or CF variants). The one structural caveat is Z-axis anisotropy — parts are somewhat weaker in the vertical print direction than in XY. For most parts this is manageable with orientation; for parts that must be isotropic in all directions, SLS/MJF is the better technology." },
       { q: "Why do you not offer resin or SLS printing?", a: "We focus on FDM because it covers the wide majority of practical 3D printing applications better than any single alternative — at lower cost, with a broader material range, and at larger build volumes. Offering SLA and SLS would require separate equipment, expertise, and supply chains, and would dilute focus rather than improve the result for most customers. We prefer to do one technology well and be honest when another is the right answer." },
-      { q: "Which technology is most cost-effective for small production runs?", a: "FDM is almost always the most cost-effective for small-to-medium runs of functional parts. The per-part cost is low, there is no minimum order, and iterating on design between prints costs only material and machine time. SLS/MJF becomes competitive at higher volumes where the per-part cost drops due to full-bed utilisation. SLA is relatively expensive per part and is mainly justified by surface quality requirements, not volume economics." },
+      { q: "Which technology is most cost-effective for small production runs?", a: "FDM is almost always the most cost-effective for small-to-medium runs of functional parts. The per-part cost is low, the minimum order is €10 with no setup fee, and iterating on design between prints costs only material and machine time. SLS/MJF becomes competitive at higher volumes where the per-part cost drops due to full-bed utilisation. SLA is relatively expensive per part and is mainly justified by surface quality requirements, not volume economics." },
     ],
     galleryImages: pick("purple-detail.jpg", "purple-figures.jpg", "intake-manifold.jpg", "curved-parts.jpg", "lion-king-figures.jpg", "stranger-things-diorama.jpg"),
     related: [
@@ -1374,5 +1375,56 @@ export const PAGES_EN: LandingContent[] = [
     schemaServiceName: "3D Printing Technology Comparison",
     datePublished: "2026-09-03",
     dateModified: "2026-09-03",
+  },
+
+  // ----- SHORT-RUN PRODUCTION -----
+  {
+    slug: "/short-run-3d-printing-barcelona",
+    topic: "short-run",
+    altSlug: "/tiradas-cortas-impresion-3d-barcelona",
+    lang: "en",
+    category: "use-case",
+    metaTitle: "Short-Run 3D Printing Barcelona — Small-Batch Production, No Setup Fee | Dimension3D",
+    metaDescription: "Short-run 3D printing in Barcelona from 1 to several hundred identical parts. €10 minimum, no setup fee, invoice provided. FDM in PLA, PETG, ASA, Nylon and CF variants.",
+    h1: "Short-Run 3D Printing Barcelona — Batch Production Without a Minimum",
+    intro: "Short-run production sits between a one-off prototype and a full manufacturing run: you need more than one part, but not thousands. At Dimension3D we handle batches from a single unit to several hundred identical parts with the same lead time and material quality as a prototype order. €10 minimum order, no setup fee, invoice provided for business orders.",
+    sections: [
+      {
+        heading: "What makes short-run FDM practical",
+        body: "FDM is well-suited to short-run production because there is no tooling cost — the same file that prints one unit prints fifty, at a per-unit cost that scales with material and machine time rather than amortised mould cost. This means you can start a run of ten parts, validate them in use, and reorder with changed parameters without financial penalty.\n\nThe practical ceiling for a single-session batch on our Bambu Lab X1C is around 50–80 small parts per plate, depending on geometry. Larger parts or mixed-geometry batches take multiple plates and are scheduled over consecutive sessions. We quote per-unit cost by quantity tier so you can see exactly where the economics change."
+      },
+      {
+        heading: "Materials for production batches",
+        body: "For most short-run production we recommend PETG or ASA as the baseline. Both are more durable than PLA in real-world conditions, handle outdoor or near-heat environments, and are available in a range of colours. PLA is appropriate for batches with purely indoor, non-structural use. For engineering-grade batches under mechanical load or at elevated temperatures, Nylon PA12 or Nylon-CF are the correct choice.\n\nThe per-unit cost for a small batch in PLA might be €1–3 per part depending on size; PETG and ASA are 10–30% more expensive per gram. Nylon and CF variants carry a higher base price. All quotes include a clear per-unit cost breakdown by quantity tier."
+      },
+      {
+        heading: "From prototype to batch — same supplier",
+        body: "A common workflow: prototype one or two parts, validate fit and function, then order the full batch with the same file and parameters. We keep your validated print settings so reorders are handled in minutes. For recurring orders — weekly or monthly restocks — we can set up a repeat order arrangement with consistent lead times.\n\nBusiness customers receive an invoice on each order. NDAs are signed on request as standard for any B2B project. For a dedicated overview of our business offering, see the 3D printing for business page."
+      },
+      {
+        heading: "Batch pricing: how it works",
+        body: "Short-run pricing is calculated part-by-part from material weight and machine time. We do not charge a setup fee or a per-order admin fee — the €10 minimum applies once per order regardless of quantity. For batches above roughly 20 units of the same part, unit economics typically improve because packing density increases and machine time per part decreases. We always provide a tiered quote showing per-unit cost at 1, 10, 50, and 100 units so you can make an informed decision about batch size."
+      },
+    ],
+    faqs: [
+      { q: "What is your minimum order for a batch run?", a: "€10 per order, with no setup fee. There is no minimum number of parts — if one part costs €10, that is a valid order. If you need 100 parts that each cost €0.50, the €10 minimum still applies once per order." },
+      { q: "How long does a short-run batch take?", a: "Depends on total volume. A batch of 10–20 small parts typically completes within standard lead time (2–5 business days). Larger batches of 50–200 parts are scheduled over multiple sessions and take 3–7 business days depending on queue. Express and urgent tiers are available for smaller batches." },
+      { q: "Can you split a batch across different colours or materials?", a: "Yes. Each material or colour change requires a brief setup step, which is reflected in a small per-change cost. For mixed-material batches, request a quote with the split specified — we will confirm feasibility and cost before committing." },
+      { q: "Do you provide invoices for business orders?", a: "Yes. Every order receives an invoice. For B2B batch orders with specific invoicing requirements (project reference, cost centre, purchase order number), mention this when ordering and we will accommodate it." },
+      { q: "What tolerances can I expect for batch parts?", a: "±0.2 mm on most dimensions at standard 0.2 mm layer height. All parts in a batch use identical parameters, so part-to-part consistency is high. For mating surfaces or press-fit assemblies, prototype and measure before ordering the full batch — this is standard practice for any precise short-run production." },
+      { q: "Can you store my files for repeat orders?", a: "Yes. We store validated print files for customers with repeat orders. Reorders are handled in minutes rather than requiring a full re-quote. For recurring orders (weekly or monthly cadence), we can set up a priority slot arrangement." },
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
+    related: [
+      { label: "3D Printing for Business Barcelona", slug: "/3d-printing-for-business-barcelona" },
+      { label: "Rapid Prototyping Barcelona", slug: "/rapid-prototyping-barcelona" },
+      { label: "Materials Comparison Table", slug: "/3d-printing-materials-comparison" },
+      { label: "Functional Parts Barcelona", slug: "/functional-parts-barcelona" },
+      { label: "Transparent Pricing", slug: "/3d-printing-price-barcelona" },
+      { label: "Tiradas Cortas (ES)", slug: "/tiradas-cortas-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Short-Run 3D Printing Barcelona",
+    datePublished: "2026-10-11",
+    dateModified: "2026-10-11",
   },
 ];

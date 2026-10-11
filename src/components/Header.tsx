@@ -159,6 +159,19 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 {item.label}
               </button>
             ))}
+            {/* For Business — top-level segment entry with subtle accent */}
+            {(() => {
+              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
+              return (
+                <Link
+                  to={businessHref}
+                  onClick={() => capture("nav_click", { menu: "main", label_key: "business", href: businessHref })}
+                  className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors whitespace-nowrap border border-accent/30 hover:border-accent/60 rounded-full px-3 py-1"
+                >
+                  {isEs ? "Para empresas" : isCa ? "Per a empreses" : "For business"}
+                </Link>
+              );
+            })()}
             <Link
               to="/catalogo"
               onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
@@ -292,6 +305,19 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
         {isMenuOpen && (
           <nav className="xl:hidden py-4 border-t border-border/50 max-h-[80vh] overflow-y-auto">
             <div className="flex flex-col gap-2">
+              {/* For Business — top of mobile menu */}
+              {(() => {
+                const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
+                return (
+                  <Link
+                    to={businessHref}
+                    onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "business", href: businessHref }); }}
+                    className="py-2.5 px-3 rounded-lg bg-accent/10 text-accent font-semibold text-sm"
+                  >
+                    {isEs ? "Para empresas" : isCa ? "Per a empreses" : "For business"}
+                  </Link>
+                );
+              })()}
               {navItems.map((item) => (
                 <button
                   key={item.id}

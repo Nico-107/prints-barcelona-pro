@@ -30,6 +30,15 @@ const TRACKED = [
   "/3d-printing-materials-comparison",
   "/3d-printing-turnaround-comparison",
   "/mit-3d-drucker-geld-verdienen",
+  // B2B hub pages
+  "/3d-printing-for-business-barcelona",
+  "/impresion-3d-empresas-barcelona",
+  "/ca/impressio-3d-empreses-barcelona",
+  // Materials hub
+  "/ca/comparativa-materials-impressio-3d",
+  // Short-run spoke
+  "/short-run-3d-printing-barcelona",
+  "/tiradas-cortas-impresion-3d-barcelona",
 ];
 
 function discoverRoutes(distDir) {

@@ -122,13 +122,13 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Del prototip a la petita sèrie",
-        body: "Un cop validat el prototip, podem escalar a tirades de baixa producció (típicament 5–200 unitats segons la mida) sense que hagis de canviar de proveïdor. Aquesta continuïtat importa quan intentes llançar un producte, no només imprimir-lo."
+        body: "Un cop validat el prototip, podem escalar a tirades de baixa producció (des d'una unitat fins a diversos centenars, segons la mida) sense que hagis de canviar de proveïdor. Aquesta continuïtat importa quan intentes llançar un producte, no només imprimir-lo."
       }
     ],
     faqs: [
       { q: "Quins formats d'arxiu 3D accepteu?", a: "STL, OBJ, 3MF i STEP. També podem treballar amb exportacions natives del teu CAD — pregunta'ns." },
       { q: "Signeu NDA per a prototips confidencials?", a: "Sí. Signem NDA habitualment amb startups de hardware i departaments d'R+D." },
-      { q: "Feu petites tirades de producció després del prototip?", a: "Sí, produïm tirades de 5–200 unitats un cop validat el disseny." },
+      { q: "Feu petites tirades de producció després del prototip?", a: "Sí, produïm tirades des d'unitats individuals fins a diversos centenars un cop validat el disseny." },
       { q: "Quant es triga en una iteració?", a: "La majoria d'iteracions de prototip estan llestes en 24–72 hores segons mida i material." },
       { q: "És millor la FDM que la resina per al meu prototip?", a: "Per a prototips funcionals que cal manipular, provar o sotmetre a esforç, la FDM sol ser millor — produeix peces més resistents en una gamma de materials més àmplia. La resina té major detall superficial però és més fràgil. T'assessorem segons el que el teu prototip ha de demostrar." },
       { q: "Què passa si trobeu un problema al meu arxiu durant la revisió?", a: "Ho indiquem al pressupost abans de començar — problemes de gruix de paret, voladissos sense suport, orientació que afectaria la resistència. Tu decideixes si revisar l'arxiu o continuar amb les nostres recomanacions." }
@@ -488,7 +488,7 @@ export const PAGES_CA: LandingContent[] = [
     sections: [
       {
         heading: "Què produïm per a clients empresa",
-        body: "Els nostres clients empresa ens fan servir per a una àmplia gamma d'aplicacions tècniques i industrials:\n\n• Utillatge, jigs, fixtures i eines de fi de braç per a línies de producció.\n• Prototips funcionals per a validació i presentacions a clients.\n• Carcasses i caixes per a electrònica i PCBs.\n• Peces de recanvi i components de desgast per a maquinària.\n• Tirades curtes de producció de 5 a 200 peces idèntiques.\n• Suports de muntatge, guies de cable i maquinari per a rack.\n\nTreballem en PETG, ABS/ASA, Nylon i Nylon-CF per a aplicacions estructurals, i en PLA o PETG per a peces funcionals de baixa càrrega. Si la teva aplicació requereix un material o tolerància específics, digues-ho des del principi."
+        body: "Els nostres clients empresa ens fan servir per a una àmplia gamma d'aplicacions tècniques i industrials:\n\n• Utillatge, jigs, fixtures i eines de fi de braç per a línies de producció.\n• Prototips funcionals per a validació i presentacions a clients.\n• Carcasses i caixes per a electrònica i PCBs.\n• Peces de recanvi i components de desgast per a maquinària.\n• Tirades curtes de producció, des d'unes poques fins a diversos centenars de peces idèntiques.\n• Suports de muntatge, guies de cable i maquinari per a rack.\n\nTreballem en PETG, ABS/ASA, Nylon i Nylon-CF per a aplicacions estructurals, i en PLA o PETG per a peces funcionals de baixa càrrega. Si la teva aplicació requereix un material o tolerància específics, digues-ho des del principi."
       },
       {
         heading: "STL, STEP i IGES acceptats — pressupost professional en 1 hora",
@@ -496,7 +496,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Tirades curtes i comandes repetides",
-        body: "Un cop la peça és validada, podem gestionar comandes repetides sense tornar a pressupostar des de zero. Conservem l'arxiu laminat i els paràmetres d'impressió. Per a quantitats de 5–200 peces, el cost unitari baixa amb el volum — demana preu per trams en sol·licitar el pressupost.\n\nTambé podem lliurar al teu taller o oficina de Barcelona per missatgeria, o enviar a qualsevol adreça de l'Espanya peninsular amb seguiment."
+        body: "Un cop la peça és validada, podem gestionar comandes repetides sense tornar a pressupostar des de zero. Conservem l'arxiu laminat i els paràmetres d'impressió. El cost unitari baixa amb el volum — demana preu per trams en sol·licitar el pressupost.\n\nTambé podem lliurar al teu taller o oficina de Barcelona per missatgeria, o enviar a qualsevol adreça de l'Espanya peninsular amb seguiment."
       },
       {
         heading: "Confidencialitat i NDA",
@@ -506,7 +506,7 @@ export const PAGES_CA: LandingContent[] = [
     faqs: [
       { q: "Signeu NDA per a projectes d'empresa?", a: "Sí. Signem NDA per a qualsevol client que ho sol·liciti. Mai compartim arxius ni detalls de projectes de clients." },
       { q: "Quins formats d'arxiu accepteu?", a: "STL, STEP, IGES, OBJ i 3MF. Exportacions natives de SolidWorks, Fusion 360, Onshape i la majoria d'eines funcionen directament." },
-      { q: "Podeu subministrar 50 o 100 peces idèntiques?", a: "Sí. Fem tirades curtes de producció de 5 a 200 unitats. El preu unitari baixa amb la quantitat — demana pressupost per trams." },
+      { q: "Podeu subministrar 50 o 100 peces idèntiques?", a: "Sí. Fem tirades des d'una unitat fins a diversos centenars. El preu unitari baixa amb la quantitat — demana pressupost per trams." },
       { q: "Quines toleràncies podeu mantenir?", a: "La precisió FDM típica és ±0,2 mm. Per a característiques de tolerància més ajustada ajustem paràmetres i podem post-processar superfícies crítiques. Indica'ns el requisit des del principi." },
       { q: "Emeteu factures completes amb IVA per a comandes d'empresa?", a: "Sí. Emetem factures completes amb IVA per a tots els clients empresa. Facilita'ns el nom de la teva empresa i el CIF/NIF en fer la comanda." },
       { q: "Quin és el termini típic per a una tirada de 50–100 peces?", a: "Per a la majoria de peces de mida estàndard, entre 5 i 10 dies laborables segons la mida i el material. Per a necessitats urgents de tirada, contacta'ns per parlar de planificació prioritària — et direm amb honestedat què és assolible." }
@@ -549,14 +549,14 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Del prototip a la tirada curta de producció",
-        body: "Un cop el disseny és tancat, podem passar sense costures a tirades curtes de producció (5–200 unitats) sense canviar de proveïdor ni renegociar condicions. Conservem els paràmetres d'impressió validats i podem programar una tirada amb poc marge de preavís."
+        body: "Un cop el disseny és tancat, podem passar sense costures a tirades curtes de producció sense canviar de proveïdor ni renegociar condicions. Conservem els paràmetres d'impressió validats i podem programar una tirada amb poc marge de preavís."
       }
     ],
     faqs: [
       { q: "Quant tarda una iteració de prototipatge?", a: "Normalment entre 24 i 72 hores des de l'enviament de l'arxiu fins a la peça en mà, segons mida, material i cua actual." },
       { q: "Quins formats CAD accepteu?", a: "STL, STEP, IGES, OBJ i 3MF. Exportacions de SolidWorks, Fusion 360, Onshape, Rhino, FreeCAD i la majoria d'eines funcionen sense conversió." },
       { q: "Detecteu problemes de disseny abans d'imprimir?", a: "Sí. Revisem cada arxiu manualment i assenyalem problemes de gruix de paret, suports o material abans d'imprimir." },
-      { q: "Podeu fer una tirada petita de producció després del prototip?", a: "Sí. Passem del prototip a la tirada curta (5–200 unitats) sense canviar de proveïdor ni re-establir condicions." },
+      { q: "Podeu fer una tirada petita de producció després del prototip?", a: "Sí. Passem del prototip a la tirada curta sense canviar de proveïdor ni re-establir condicions. Demana pressupost per trams per a qualsevol quantitat." },
       { q: "En què es diferencia això del vostre servei estàndard de prototips?", a: "El prototipatge ràpid està configurat específicament per a cicles d'iteració múltiple ràpids. Guardem el teu projecte entre iteracions, acceptem arxius de revisió directament per WhatsApp i prioritzem el termini de 24–72h sense tornar a pressupostar des de zero cada vegada." },
       { q: "Puc fer diverses revisions de disseny en la mateixa setmana?", a: "Sí — és tot el punt. Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Els iteradors freqüents comparteixen arxius directament per WhatsApp i els lliurem sense demora administrativa." }
     ],
@@ -598,7 +598,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "D'una peça a una tirada curta",
-        body: "Sense comanda mínima. Imprimim peces funcionals individuals amb la mateixa facilitat que un lot de 50. Per a comandes repetides, conservem l'arxiu i els paràmetres per tal que les recomandes es gestionen en minuts. Per a quantitats de 5–200, demana preu per trams — el cost unitari baixa amb el volum."
+        body: "Comanda mínima de 10€, sense tarifa de configuració. Imprimim peces funcionals individuals amb la mateixa facilitat que un lot de 50. Per a comandes repetides, conservem l'arxiu i els paràmetres per tal que les recomandes es gestionen en minuts. Demana preu per trams — el cost unitari baixa amb el volum."
       }
     ],
     faqs: [
@@ -619,5 +619,67 @@ export const PAGES_CA: LandingContent[] = [
       { label: "Piezas Funcionales (ES)", slug: "/piezas-funcionales-barcelona" }
     ],
     schemaServiceName: "Peces Funcionals 3D Barcelona"
-  }
+  },
+
+  // ----- COMPARATIVA DE MATERIALS -----
+  {
+    slug: "/ca/comparativa-materials-impressio-3d",
+    topic: "materials-comparison",
+    altSlug: "/3d-printing-materials-comparison",
+    lang: "ca",
+    category: "use-case",
+    metaTitle: "Comparativa de Materials per a Impressió 3D: PLA, PETG, ASA, Nylon, CF | Dimension3D",
+    metaDescription: "Comparativa costat a costat dels materials FDM que treballem: PLA, PETG, ABS, ASA, TPU, Nylon i variants de fibra de carbono. Cost, resistència, tolerància tèrmica i millor ús en una taula.",
+    h1: "Comparativa de Materials per a Impressió 3D — Quin Material és l'Adequat per a la teva Peça?",
+    intro: "Triar el material equivocat costa diners dues vegades: una quan reps la peça que falla, i una altra quan la reimprimeixes. Aquesta pàgina posa tots els materials FDM que oferim costat a costat perquè puguis fer la comparació una vegada i demanar amb confiança. Tots els materials llistats a continuació estan en estoc i s'imprimeixen internament.",
+    comparisonTable: {
+      headers: ["Material", "Cost", "Resistència a la tracció", "Resistència tèrmica", "Flexibilitat", "Ús a l'exterior", "Imprimibilitat", "Ús típic"],
+      rows: [
+        ["PLA",       "Baix",       "Mitjana",               "Baixa (~55 °C)",        "Rígid",     "Baixa",             "Alta",       "Decoració, regals, prototips, models d'exposició"],
+        ["PETG",      "Baix-Mitjà", "Mitjana-Alta",          "Mitjana (~75 °C)",      "Lleugera",  "Mitjana-Alta",      "Mitjana-Alta","Peces funcionals, carcasses, fixacions d'exterior"],
+        ["ABS",       "Mitjà",      "Alta",                  "Alta (~100 °C)",         "Rígid",     "Mitjana",           "Mitjana*",   "Peces d'enginyeria, carcasses exposades a calor"],
+        ["ASA",       "Mitjà",      "Alta",                  "Alta (~100 °C)",         "Rígid",     "Alta (estable UV)", "Mitjana*",   "Peces estructurals exposades a l'exterior, fixacions"],
+        ["TPU",       "Mitjà",      "Mitjana",               "Mitjana (~70 °C)",       "Molt Alta", "Mitjana",           "Mitjana-Baixa","Juntes, mànecs, connectors flexibles, fundes"],
+        ["Nylon PA12","Mitjà-Alt",  "Molt Alta",             "Alta (~110 °C)",         "Baixa-Mitjana","Mitjana",        "Mitjana†",   "Peces de càrrega, resistents al desgast, enginyeria"],
+        ["PLA-CF",    "Alt",        "Alta (molt rígid)",     "Baixa (~55 °C)",         "Molt Baixa","Baixa",             "Mitjana",    "Suports rígids lleugers, utillatge"],
+        ["PETG-CF",   "Alt",        "Alta (molt rígid)",     "Mitjana (~75 °C)",       "Molt Baixa","Mitjana-Alta",      "Mitjana",    "Estructural rígid amb certa exposició exterior"],
+        ["Nylon-CF",  "Alt",        "Molt Alta (rígid)",     "Alta (~110 °C)",          "Molt Baixa","Mitjana",          "Mitjana†",   "Màxima rigidesa i resistència sota calor"],
+      ],
+      caption: "* ABS i ASA requereixen carcassa tancada i calefactada. † Nylon cal assecar-lo prèviament. El cost és relatiu per gram. La resistència tèrmica és la temperatura de deflexió pràctica de la peça impresa.",
+    },
+    sections: [
+      {
+        heading: "El parell quotidià: PLA i PETG",
+        body: "El PLA és el punt de partida per defecte: el material més barat, el més fàcil d'imprimir, dimensionalment precís i fiable per a la gran majoria d'aplicacions d'interior. El seu punt feble real és la resistència tèrmica — qualsevol peça exposada al sol a l'estiu barceloní o dins d'un cotxe aparcat no hauria de ser de PLA.\n\nEl PETG és un graó per sobre en gairebé totes les dimensions pràctiques: lleugerament més car, una mica més exigent d'imprimir, però significativament més resistent a l'exterior, lleugerament flexible sota càrrega sense trencar-se, i tolera temperatures de fins a uns 75 °C. El patró habitual: prototip en PLA, reimprimir en PETG per a la peça final que viurà a l'exterior o prop d'una font de calor."
+      },
+      {
+        heading: "ABS, ASA i materials d'alta temperatura",
+        body: "L'ABS i l'ASA ocupen la mateixa franja de cost i tots dos gestionen temperatures de fins a uns 100 °C, però solucionen problemes diferents. L'ABS és el termoplàstic d'enginyeria clàssic — alta resistència, alt impacte. L'ASA afegeix una propietat crítica que l'ABS no té: estabilitat UV. A l'exterior de Barcelona, una peça d'ABS groga i s'embrittleix en mesos; una peça d'ASA no. Per a qualsevol aplicació estructural d'exterior, l'ASA és quasi sempre la millor opció.\n\nTots dos materials requereixen una carcassa calefactada per a una impressió fiable. Sense ella, el diferencial de temperatura causat per l'aire ambient provoca que la peça es deformi i delaminï."
+      },
+      {
+        heading: "Nylon i materials reforçats amb fibra de carboni",
+        body: "El Nylon PA12 ofereix la millor combinació de resistència a la tracció, resistència a l'impacte i tolerància tèrmica de qualsevol material no-CF que tenim en estoc. Els variants de fibra de carboni (PLA-CF, PETG-CF, Nylon-CF) barregen fibres curtes de carboni al material base. El resultat és una rigidesa notablement incrementada — la compensació és menor ductilitat: les peces CF resisteixen la deformació però són més fràgils sota càrrega d'impacte sobtada.\n\nEls filaments CF desgasten les broquetes de llautó estàndard més ràpidament — un cost que absorbim en el preu per gram, per això les variants CF es situen a la part alta de la nostra gamma de preus."
+      },
+    ],
+    faqs: [
+      { q: "Quin material és el més barat per a impressió 3D?", a: "El PLA és el material de menor cost per gram. Com que el cost de la peça escala principalment amb el pes del material i el temps d'impressió, una peça en PLA serà quasi sempre la versió més assequible de qualsevol disseny. El PETG és el següent, seguit d'ABS/ASA i TPU, amb Nylon i variants de fibra de carboni a la part superior." },
+      { q: "Puc usar PLA per a peces d'exterior o en ambient càlid?", a: "El PLA s'estova a uns 55 °C — una temperatura que s'assoleix rutinàriament dins d'un cotxe aparcat a Barcelona a l'estiu. Per a aplicacions d'exterior, el PETG (fins a ~75 °C, bona tolerància UV) és el mínim que recomanem. L'ASA és millor per a qualsevol cosa estructural o exposada al sol permanentment." },
+      { q: "Quin és el material més resistent que oferiu?", a: "Per resistència a la tracció, el Nylon-CF imprimeix les peces més resistents de la nostra gamma. Per resistència a l'impacte (tenacitat sota càrrega sobtada), el Nylon PA12 estàndard funciona millor — la fibra de carboni que fa rígids els filaments CF també redueix la ductilitat." },
+      { q: "Afecta la selecció de material el temps d'entrega?", a: "Lleugerament. El PLA i el PETG són els més ràpids de processar. L'ABS i l'ASA necessiten calefacció de la carcassa. Els graus de Nylon s'han d'assecar prèviament a la impressió, cosa que afegeix unes hores. Per a feines urgents, indica el termini en demanar per poder confirmar la disponibilitat." },
+      { q: "Teniu en compte el color en la selecció del material?", a: "Sí. Els colors disponibles varien per material — el PLA té la gamma de colors més àmplia, mentre que els materials tècnics com el Nylon o les variants CF sovint només estan disponibles en negre o natural. Si el color és important, especifica'l al pressupost i et confirmem la disponibilitat." },
+      { q: "Necessito una peça per a una empresa — quin material recomaneu?", a: "Depèn de l'aplicació. Per a prototips o peces d'interior sense requisits tèrmics: PLA o PETG. Per a peces estructurals o d'exterior: PETG o ASA. Per a enginyeria exigent o aplicacions de càrrega alta: Nylon PA12 o Nylon-CF. Si teniu un projecte empresarial, descriviu la càrrega, temperatura i entorn i us recomanem el material específic amb el raonament explícit." },
+    ],
+    galleryImages: pick("intake-manifold.jpg", "custom-brackets.jpg", "red-adapter.jpg", "black-intake.jpg", "curved-parts.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Impressió 3D per a Empreses", slug: "/ca/impressio-3d-empreses-barcelona" },
+      { label: "Guia de Selecció de Materials (ES)", slug: "/guia-materiales-impresion-3d" },
+      { label: "Impressió PETG Barcelona", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Impressió PETG Barcelona", slug: "/ca/impressio-petg-barcelona" },
+      { label: "Prototipatge Ràpid", slug: "/ca/prototipatge-rapid-barcelona" },
+      { label: "Materials Comparison (EN)", slug: "/3d-printing-materials-comparison" },
+    ],
+    schemaServiceName: "Comparativa de Materials per a Impressió 3D",
+    datePublished: "2026-10-01",
+    dateModified: "2026-10-11",
+  },
 ];

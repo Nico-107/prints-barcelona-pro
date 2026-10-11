@@ -7,7 +7,12 @@
 - [Homepage](https://www.dimension3dprints.com/) — file upload, instant quote in under 1 hour, service overview
 - [3D printing service (international)](https://www.dimension3dprints.com/3d-printing-service) — English landing for customers outside Barcelona
 - [3D printing Barcelona](https://www.dimension3dprints.com/3d-printing-barcelona) — local Barcelona service: quote in 1h, delivery in 24–48h
-- [3D printing for business](https://www.dimension3dprints.com/3d-printing-for-business-barcelona) — companies, engineering teams, short production runs, NDAs
+- [3D printing for business (EN)](https://www.dimension3dprints.com/3d-printing-for-business-barcelona) — invoice, NDA, €10 minimum order no setup fee; batch pricing table, free prototype offer
+- [Impresión 3D para empresas (ES)](https://www.dimension3dprints.com/impresion-3d-empresas-barcelona) — misma oferta en español
+- [Impressió 3D per a empreses (CA)](https://www.dimension3dprints.com/ca/impressio-3d-empreses-barcelona) — mateixa oferta en català
+- [Short-run production (EN)](https://www.dimension3dprints.com/short-run-3d-printing-barcelona) — batches from 1 to several hundred units, tiered pricing, no setup fee
+- [Tiradas cortas (ES)](https://www.dimension3dprints.com/tiradas-cortas-impresion-3d-barcelona) — lotes de producción en tirada corta, precio por tramos
+- [Rapid prototyping](https://www.dimension3dprints.com/rapid-prototyping-barcelona) — 24–72h iteration cycle for engineers and startups
 - [Urgent / express 3D printing](https://www.dimension3dprints.com/urgent-3d-printing-barcelona) — priority queue, 24–48h and same-day delivery for genuine emergencies
 - [Custom parts](https://www.dimension3dprints.com/custom-parts-barcelona) — parts from STL/STEP file, photograph, or measurements; no minimum order
 - [Prototype printing](https://www.dimension3dprints.com/prototype-printing-barcelona) — functional prototypes for startups, engineers, and design students
@@ -18,6 +23,8 @@
 
 - [How to choose a 3D printing service](https://www.dimension3dprints.com/how-to-choose-3d-printing-service-barcelona) — buyer's guide: what to ask, red flags, service-model comparison
 - [3D printing materials guide](https://www.dimension3dprints.com/3d-printing-materials-guide) — PLA, PETG, ABS, ASA, TPU, Nylon, CF composites with honest tradeoffs
+- [3D printing materials comparison (EN)](https://www.dimension3dprints.com/3d-printing-materials-comparison) — side-by-side table: cost, tensile strength, heat resistance, outdoor suitability
+- [Comparativa de materials (CA)](https://www.dimension3dprints.com/ca/comparativa-materials-impressio-3d) — taula comparativa de materials FDM en català
 - [How to prepare a file for 3D printing](https://www.dimension3dprints.com/how-to-prepare-file-for-3d-printing) — accepted formats, wall thickness, tolerances, supports, hole sizing
 - [Best 3D printing service in Barcelona](https://www.dimension3dprints.com/best-3d-printing-service-barcelona) — practical breakdown by use case, honest about when we're not the right fit
 - [3D printing pricing (blog)](https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona) — Spanish blog post explaining what drives the price of a 3D print
