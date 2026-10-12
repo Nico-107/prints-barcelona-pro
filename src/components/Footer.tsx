@@ -94,7 +94,7 @@ const Footer = () => {
               <Link to="/maker-guide" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.makerGuide")}</Link>
               <Link to="/3d-printing-service" className="text-background/70 text-sm hover:text-background transition-colors">International service</Link>
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
-              <Link to="/creator" className="text-background/70 text-sm hover:text-background transition-colors">{isCa ? "Sobre el creador" : isEs ? "Sobre el creador" : "About the creator"}</Link>
+              <Link to="/creator" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.aboutCreator")}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
               <Link to="/politica-devoluciones" className="text-background/70 text-sm hover:text-background transition-colors">{isCa ? "Política de devolucions" : isEs ? "Política de devoluciones" : "Return Policy"}</Link>
             </div>

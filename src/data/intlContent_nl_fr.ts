@@ -14,7 +14,11 @@ export const nlHub: IntlHubContent = {
   h1: "3D Printen Laten Maken — Bestel Online, Geleverd in Nederland",
   promise: "Offerte binnen 1 uur op werkdagen (Spaanse tijd). Geen opstartkosten. Verzending € 5,90. Minimumbestelling € 10.",
   howItWorks: `Hoe werkt het? Je stuurt je 3D-bestand op — STL, OBJ, 3MF of STEP — via het formulier of WhatsApp. Op werkdagen reageren we in de regel binnen 1 uur met een exacte prijs. Bij bestellingen tot € 100 kun je ook meteen een automatische prijsindicatie krijgen. Keur je de offerte goed, dan gaan we aan de slag in ons atelier in Barcelona. Je pakket gaat dezelfde dag of de volgende werkdag op de bus en komt in de regel binnen 3–5 werkdagen in Nederland aan. Alles speelt zich af binnen de EU — geen douaneformaliteiten, geen extra heffingen.`,
-  whatWePrint: `Wat kun je laten printen? De toepassingen zijn breed: reserveonderdelen voor apparaten of machines die niet meer leverbaar zijn, functionele prototypes voor product­ontwikkeling, behuizingen en adapters voor elektronica, technische brackets voor industrie of hobbyprojecten, maquettes en schaalmodellen, en decoratieve of persoonlijke objecten. FDM-printen is bijzonder geschikt voor onderdelen die mechanisch belast worden, buiten gebruikt worden of warmtebestendig moeten zijn. Twijfel je of jouw idee printbaar is? Stuur een foto of beschrijving via WhatsApp — we denken gratis mee.`,
+  whatWePrint: `Wat kun je laten printen? De toepassingen zijn breed: reserveonderdelen voor apparaten of machines die niet meer leverbaar zijn, functionele prototypes voor productontwikkeling, behuizingen en adapters voor elektronica, technische brackets voor industrie of hobbyprojecten, maquettes en schaalmodellen, en decoratieve of persoonlijke objecten. FDM-printen is bijzonder geschikt voor onderdelen die mechanisch belast worden, buiten gebruikt worden of warmtebestendig moeten zijn.
+
+In Nederland zijn de meest voorkomende toepassingen: vervangende wieltjes voor vaatwassers, adapters voor Gardena-bewateringssystemen, VESA-adapters voor niet-standaard monitorbeugels, houders en clips voor home-office installaties, en prototypes voor hardwarestartups in Amsterdam of Eindhoven. We printen ook voor de maakindustrie — denk aan jiggs, mallen en positioneringshulpstukken voor productielijnen.
+
+Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp — we denken gratis mee en geven je een indicatie van de haalbaarheid voordat je iets hoeft te betalen.`,
   materialsText: `We printen in PLA, PETG, ABS, ASA, TPU (flexibel), Nylon (PA12/PA6) en koolstofvezel-composieten. PLA is de meest toegankelijke keuze: scherp geprijsd, mooie afwerking en geschikt voor de meeste binnenhuistoepassingen. PETG biedt extra sterkte en vochtbestendigheid — ideaal voor functionele onderdelen. ABS en ASA zijn warmtebestendig tot circa 90–100 °C en bestand tegen UV; perfect voor auto-onderdelen of buitenapplicaties. Nylon wordt gekozen als maximale sterkte en slijtvastheid vereist zijn. Onze Bambu Lab X2D heeft een gesloten, verwarmde kamer — dat garandeert stabiele printcondities voor alle materialen, ook voor de technisch veeleisende soorten.`,
   fileFormatsText: `We accepteren STL, OBJ, 3MF en STEP. Directe exports vanuit Fusion 360, SolidWorks, Onshape, FreeCAD en de meeste andere CAD-pakketten werken zonder conversie. Heb je alleen een tekening, foto of kapot onderdeel? Stuur het op — we bespreken de opties.`,
   faqs: [
@@ -49,6 +53,18 @@ export const nlHub: IntlHubContent = {
     {
       q: "Is er een opstartkosten of bestandscontrolekosten?",
       a: "Nee. Er zijn geen opstartkosten en geen kosten voor het nalopen van je bestand. Je betaalt alleen voor het printen zelf en de verzending.",
+    },
+    {
+      q: "Kan ik onderdelen in kleine series bestellen?",
+      a: "Ja. We produceren zowel losse stuks als series van 10, 50 of meer exemplaren. Bij grotere aantallen daalt de stukprijs aanzienlijk. Neem contact op voor een maatwerkofferte.",
+    },
+    {
+      q: "Wat is het verschil tussen ABS en ASA voor buitenapplicaties?",
+      a: "Beide materialen zijn hittebestendig tot ca. 90–100 °C. ASA is echter UV-stabiel en verkleurt niet in de zon — de betere keuze voor onderdelen die permanent buiten worden gebruikt, zoals houders, sensoren of auto-accessoires. ABS heeft de voorkeur als nabewerking met aceton of verspanende bewerking gepland is.",
+    },
+    {
+      q: "Zijn FDM-prints geschikt voor contact met voedsel?",
+      a: "Nee — FDM-prints worden niet aanbevolen voor direct contact met voedsel. De laagstructuur van het FDM-proces creëert microporieën waar bacteriën zich kunnen nestelen. Voor toepassingen met voedselcontact raden we afgewerkte of anders gefabriceerde alternatieven aan.",
     },
   ],
   whatsappMsg: "Hallo, ik wil graag een 3D-print laten maken via Dimension3D.",
@@ -509,6 +525,18 @@ export const frHub: IntlHubContent = {
     {
       q: "Y a-t-il des frais de mise en route ou de vérification de fichier ?",
       a: "Non. Pas de frais de mise en route, pas de frais de contrôle. Vous ne payez que l'impression et l'expédition.",
+    },
+    {
+      q: "Puis-je commander des pièces en petite série ?",
+      a: "Oui. Nous fabriquons aussi bien des pièces unitaires que des séries de 10, 50 ou 100 exemplaires. Plus la quantité est élevée, plus le coût unitaire diminue. Contactez-nous pour un devis personnalisé.",
+    },
+    {
+      q: "Quelle est la qualité de surface obtenue avec l'impression FDM ?",
+      a: "L'impression FDM produit des surfaces avec des stries de couche visibles, plus ou moins prononcées selon la hauteur de couche choisie (0,1 mm à 0,3 mm). Pour des surfaces plus lisses, nous recommandons une hauteur de couche fine (0,1 ou 0,15 mm). Pour les pièces fonctionnelles où l'aspect n'est pas prioritaire, une hauteur standard de 0,2 mm est généralement suffisante.",
+    },
+    {
+      q: "Les impressions FDM sont-elles adaptées au contact alimentaire ?",
+      a: "Non — les impressions FDM ne sont pas recommandées pour un contact direct avec les aliments. La structure en couches du procédé FDM crée des micropores où les bactéries peuvent se loger. Pour les applications en contact avec des aliments, nous recommandons des alternatives finies ou fabriquées différemment.",
     },
   ],
   whatsappMsg: "Bonjour, je souhaite faire imprimer une pièce en 3D via Dimension3D.",

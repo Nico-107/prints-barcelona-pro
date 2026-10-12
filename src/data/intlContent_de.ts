@@ -19,13 +19,13 @@ export const DE_HUB: IntlHubContent = {
 
   h1: "3D-Druck Service – online bestellen, nach Deutschland geliefert",
 
-  promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein verbindliches Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 10 €.`,
+  promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 10 €.`,
 
   howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 100 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 5,90 €, egal wie viele Teile Sie bestellen.`,
 
-  whatWePrint: `Als 3D-Druck Dienstleister drucken wir für ein breites Spektrum an Anwendungen: Funktionsprototypen und Iterationsmodelle für Produktentwickler und Ingenieure, Ersatzteile für Maschinen, Haushaltsgeräte oder Oldtimer – gerade wenn Originalteile nicht mehr lieferbar sind. Wir fertigen Gehäuse und Halterungen für Elektronikprojekte, Steuergeräte und Embedded-Systeme, Kleinserien für Messen und Produktlaunches sowie maßgefertigte Einsätze für industrielle Vorrichtungen und Haltevorrichtungen im Automotive-Umfeld. Auch im Maker- und Hobbybereich sind wir gefragt: Brettspiel-Erweiterungen, Cosplay-Requisiten, Modellbau-Zubehör und personalisierte Geschenke werden regelmäßig bei uns 3D-drucken gelassen. Kurz gesagt: Wenn Sie eine Datei haben – oder auch nur ein Foto oder eine Skizze –, finden wir einen Weg, Ihr Teil umzusetzen.`,
+  whatWePrint: `Als 3D-Druck Dienstleister drucken wir für ein breites Spektrum an Anwendungen: Funktionsprototypen und Iterationsmodelle für Produktentwickler und Ingenieure, Ersatzteile für Maschinen, Haushaltsgeräte oder Oldtimer – gerade wenn Originalteile nicht mehr lieferbar sind. Wir fertigen Gehäuse und Halterungen für Elektronikprojekte, Steuergeräte und Embedded-Systeme, Kleinserien für Messen und Produktlaunches sowie maßgefertigte Einsätze für industrielle Vorrichtungen und Haltevorrichtungen im Automotive-Umfeld. Auch im Maker- und Hobbybereich sind wir gefragt: Brettspiel-Erweiterungen, Cosplay-Requisiten, Modellbau-Zubehör und personalisierte Geschenke werden regelmäßig bei uns gedruckt. Kurz gesagt: Wenn Sie eine Datei haben – oder auch nur ein Foto oder eine Skizze –, finden wir einen Weg, Ihr Teil umzusetzen.`,
 
-  materialsText: `Unser Materialportfolio deckt die gängigsten FDM-Werkstoffe ab. PLA eignet sich für Prototypen, Sichtmodelle und Dekorationsobjekte – es ist günstig, maßhaltig und leicht zu verarbeiten. PETG kombiniert gute Zähigkeit mit Lebensmittelkontakteignung (ungefärbt) und ist die erste Wahl für mechanisch belastete Teile im Innenbereich. ABS und ASA bieten höhere Temperaturbeständigkeit und UV-Stabilität (ASA) für den Außeneinsatz. TPU ermöglicht flexible, stoßdämpfende Teile wie Dichtungen, Griffe und Schutzhüllen. Nylon überzeugt durch Zähigkeit und Abriebfestigkeit, ideal für Zahnräder, Lager und Clips. Polycarbonat (PC) hält hohen Temperaturen stand und ist schlagzäh – geeignet für anspruchsvolle technische Bauteile. Für maximale Steifigkeit bei geringem Gewicht bieten wir kohlefaserverstärkte Composites an. Wenn Sie unsicher sind, welches Material für Ihre Anwendung passt, beraten wir Sie gerne.`,
+  materialsText: `Unser Materialportfolio deckt die gängigsten FDM-Werkstoffe ab. PLA eignet sich für Prototypen, Sichtmodelle und Dekorationsobjekte – es ist günstig, maßhaltig und leicht zu verarbeiten. PETG kombiniert gute Zähigkeit mit hervorragender chemischer Beständigkeit und ist die erste Wahl für mechanisch belastete Teile im Innenbereich. ABS und ASA bieten höhere Temperaturbeständigkeit und UV-Stabilität (ASA) für den Außeneinsatz. TPU ermöglicht flexible, stoßdämpfende Teile wie Dichtungen, Griffe und Schutzhüllen. Nylon überzeugt durch Zähigkeit und Abriebfestigkeit, ideal für Zahnräder, Lager und Clips. Polycarbonat (PC) hält hohen Temperaturen stand und ist schlagzäh – geeignet für anspruchsvolle technische Bauteile. Für maximale Steifigkeit bei geringem Gewicht bieten wir kohlefaserverstärkte Composites an. Wenn Sie unsicher sind, welches Material für Ihre Anwendung passt, beraten wir Sie gerne.`,
 
   fileFormatsText: `Wir akzeptieren STL, STEP, OBJ und 3MF. STEP-Dateien sind bevorzugt, wenn Maßhaltigkeit besonders wichtig ist, da sie exakte Geometrien ohne Triangulierungsfehler übertragen. Sie haben noch keine CAD-Datei? Schicken Sie uns einfach ein Foto oder eine Skizze per WhatsApp – wir schauen gemeinsam, was möglich ist.`,
 
@@ -61,6 +61,18 @@ export const DE_HUB: IntlHubContent = {
     {
       q: "Was ist der Unterschied zwischen PLA und PETG für technische Teile?",
       a: "PLA ist günstig und maßhaltig, aber empfindlich gegenüber Wärme (ab ca. 60 °C) und UV-Strahlung. PETG ist zäher, feuchtigkeitsbeständiger und verträgt etwas höhere Temperaturen. Für mechanisch belastete oder im Freien eingesetzte Teile empfehlen wir PETG, ABS oder ASA.",
+    },
+    {
+      q: "Kann ich auch Kleinserien bestellen?",
+      a: "Ja. Wir fertigen sowohl Einzelstücke als auch Serien von 10, 50 oder mehr Teilen. Bei größeren Mengen sinkt der Stückpreis deutlich. Kontaktieren Sie uns für ein maßgeschneidertes Angebot – die Skalierung ist eine unserer Stärken.",
+    },
+    {
+      q: "Was ist der Unterschied zwischen ABS und ASA für Außenanwendungen?",
+      a: "Beide Materialien sind wärmebeständig bis ca. 90–100 °C. ASA ist jedoch UV-stabil und vergilbt nicht im Sonnenlicht – damit ist es die bessere Wahl für Teile, die dauerhaft im Freien eingesetzt werden, etwa Halterungen, Sensoren oder Kfz-Zubehör. ABS wird bevorzugt, wenn Aceton-Glättung oder spanende Nachbearbeitung geplant ist.",
+    },
+    {
+      q: "Wie kann ich ein Teil bestellen, wenn ich keine CAD-Datei habe?",
+      a: "Schicken Sie uns ein Foto des Teils mit den wichtigsten Maßen per WhatsApp. Wir prüfen, ob wir das Teil modellieren oder aus einem ähnlichen Modell ableiten können. Für eine schnelle Machbarkeitsprüfung ist das oft der einfachste Einstieg.",
     },
   ],
 
@@ -593,11 +605,11 @@ Haben Sie keine CAD-Datei? Kein Problem – schicken Sie uns ein Foto, eine Hand
         heading: "PETG – Zäh, chemisch beständig, vielseitig",
         body: `**Polyethylenterephthalat Glykol (PETG)** kombiniert die einfache Verarbeitung von PLA mit der besseren mechanischen Leistung von ABS. Es ist das meistempfohlene Material für funktionale Teile.
 
-**Stärken**: Zäh (weniger spröde als PLA), gute chemische Beständigkeit, feuchtigkeitsbeständig, höhere Wärmeformbeständigkeit als PLA (bis ca. 70–80 °C), lebensmittelkontaktgeeignet (ungefärbt, bei sauberer Verarbeitung).
+**Stärken**: Zäh (weniger spröde als PLA), gute chemische Beständigkeit, feuchtigkeitsbeständig, höhere Wärmeformbeständigkeit als PLA (bis ca. 70–80 °C).
 
 **Schwächen**: Leicht anfällig für Kratzer, etwas weicher als ABS, nicht UV-stabil (vergilbt bei Daueraussetzung).
 
-**Ideal für**: Mechanische Teile, Halterungen, Behälter, Gehäuse für Elektronikkomponenten, Teile im Feuchtraum, Wasserleitungskomponenten (nicht druckführend), Lebensmittelkontaktbehälter (ungefärbt). PETG ist die erste Wahl für technische Teile, wenn keine extremen Temperaturanforderungen bestehen.`,
+**Ideal für**: Mechanische Teile, Halterungen, Behälter, Gehäuse für Elektronikkomponenten, Teile im Feuchtraum, Wasserleitungskomponenten (nicht druckführend). PETG ist die erste Wahl für technische Teile, wenn keine extremen Temperaturanforderungen bestehen.`,
       },
       {
         heading: "ABS und ASA – Für Wärme und Außeneinsatz",
@@ -670,8 +682,8 @@ Wenn Sie sich bei der Materialwahl unsicher sind, schreiben Sie uns – wir bera
         a: "ASA ist die erste Wahl für Outdoor-Anwendungen: UV-stabil, witterungsbeständig und ähnlich mechanisch leistungsfähig wie ABS.",
       },
       {
-        q: "Kann ich mit PETG Lebensmittel in Kontakt bringen?",
-        a: "Ungefärbtes PETG gilt unter bestimmten Bedingungen als lebensmittelkontaktgeeignet, aber FDM-Drucke haben eine raue Oberfläche mit Mikroporen, in denen sich Bakterien ansiedeln können. Für den direkten, dauerhaften Lebensmittelkontakt empfehlen wir eine zusätzliche Beschichtung oder alternative Fertigungsverfahren.",
+        q: "Sind FDM-Drucke für den Lebensmittelkontakt geeignet?",
+        a: "Nein – FDM-Drucke werden für den direkten Lebensmittelkontakt nicht empfohlen. Die Schichtstruktur des FDM-Verfahrens erzeugt Mikroporen, in denen sich Bakterien ansiedeln können. Für Anwendungen mit Lebensmittelkontakt empfehlen wir beschichtete oder anderweitig gefertigte Alternativen.",
       },
       {
         q: "Was ist der Unterschied zwischen Nylon und PETG für Zahnräder?",

@@ -102,6 +102,11 @@ const InternationalServicePage = () => {
       <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
       <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/ca/`} />
       <link rel="alternate" hrefLang="en" href={PAGE_URL} />
+      <link rel="alternate" hrefLang="de" href={`${SITE_URL}/de/3d-druck-service`} />
+      <link rel="alternate" hrefLang="nl" href={`${SITE_URL}/nl/3d-printen-laten-maken`} />
+      <link rel="alternate" hrefLang="fr" href={`${SITE_URL}/fr/impression-3d-en-ligne`} />
+      <link rel="alternate" hrefLang="it" href={`${SITE_URL}/it/stampa-3d-online`} />
+      <link rel="alternate" hrefLang="pt" href={`${SITE_URL}/pt/impressao-3d-online`} />
       <link rel="alternate" hrefLang="x-default" href={PAGE_URL} />
       <meta property="og:title" content="Professional 3D Printing Service — Fast Delivery Across Europe | Dimension3D" />
       <meta

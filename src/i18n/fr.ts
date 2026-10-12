@@ -271,6 +271,7 @@ export const frTranslations: Record<string, string> = {
   "footer.nav.home": "Accueil",
   "footer.nav.privacy": "Politique de confidentialité",
   "footer.nav.makerGuide": "Guide Maker",
+  "footer.nav.aboutCreator": "À propos du créateur",
 
   // STL Price Calculator
   "calc.title": "Obtenez un prix instantané",

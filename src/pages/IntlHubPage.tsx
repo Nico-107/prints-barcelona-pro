@@ -152,6 +152,14 @@ const IntlHubPage = ({ content }: Props) => {
         <title>{content.metaTitle}</title>
         <meta name="description" content={content.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />
+        {/* Full reciprocal hreflang cluster — all 5 hubs + English hub, x-default = EN */}
+        <link rel="alternate" hrefLang="de" href={`${SITE_URL}/de/3d-druck-service`} />
+        <link rel="alternate" hrefLang="nl" href={`${SITE_URL}/nl/3d-printen-laten-maken`} />
+        <link rel="alternate" hrefLang="fr" href={`${SITE_URL}/fr/impression-3d-en-ligne`} />
+        <link rel="alternate" hrefLang="it" href={`${SITE_URL}/it/stampa-3d-online`} />
+        <link rel="alternate" hrefLang="pt" href={`${SITE_URL}/pt/impressao-3d-online`} />
+        <link rel="alternate" hrefLang="en" href={`${SITE_URL}/3d-printing-service`} />
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/3d-printing-service`} />
         <meta property="og:title" content={content.metaTitle} />
         <meta property="og:description" content={content.metaDescription} />
         <meta property="og:url" content={PAGE_URL} />

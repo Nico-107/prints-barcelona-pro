@@ -299,6 +299,7 @@ export const caTranslations: Record<string, string> = {
   "footer.nav.home": "Inici",
   "footer.nav.privacy": "Política de privacitat",
   "footer.nav.makerGuide": "Guia del Maker",
+  "footer.nav.aboutCreator": "Sobre el creador",
 
   // STL Price Calculator
   "calc.title": "Obtén un preu instantani",

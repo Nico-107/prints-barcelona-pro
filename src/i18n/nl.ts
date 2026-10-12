@@ -271,6 +271,7 @@ export const nlTranslations: Record<string, string> = {
   "footer.nav.home": "Startpagina",
   "footer.nav.privacy": "Privacybeleid",
   "footer.nav.makerGuide": "Maker Gids",
+  "footer.nav.aboutCreator": "Over de maker",
 
   // STL Price Calculator
   "calc.title": "Ontvang een directe prijs",

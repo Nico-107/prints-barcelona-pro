@@ -27,11 +27,16 @@
   <!-- INTERNATIONAL ENGLISH LANDING -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-service</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/"/>
     <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
   </url>
 
@@ -945,34 +950,59 @@
     <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/nl/3d-printen-laten-maken</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/fr/impression-3d-en-ligne</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/it/stampa-3d-online</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/pt/impressao-3d-online</loc>
     <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
     <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-service"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
   </url>
 

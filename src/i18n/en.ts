@@ -299,6 +299,7 @@ export const enTranslations: Record<string, string> = {
   "footer.nav.home": "Home",
   "footer.nav.privacy": "Privacy Policy",
   "footer.nav.makerGuide": "Maker Guide",
+  "footer.nav.aboutCreator": "About the creator",
 
   // STL Price Calculator
   "calc.title": "Get an Instant Price",
