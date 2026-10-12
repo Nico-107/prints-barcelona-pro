@@ -495,6 +495,30 @@ const InternationalServicePage = () => {
         </div>
       </section>
 
+      {/* Native-language hubs */}
+      <section className="container px-4 py-10">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-lg font-bold text-foreground mb-4">Browse in your language</h2>
+          <div className="flex flex-wrap gap-3">
+            {[
+              { href: "/de/3d-druck-service", label: "🇩🇪 3D-Druck Service (DE)" },
+              { href: "/nl/3d-printen-laten-maken", label: "🇳🇱 3D printen laten maken (NL)" },
+              { href: "/fr/impression-3d-en-ligne", label: "🇫🇷 Impression 3D en ligne (FR)" },
+              { href: "/it/stampa-3d-online", label: "🇮🇹 Stampa 3D online (IT)" },
+              { href: "/pt/impressao-3d-online", label: "🇵🇹 Impressão 3D online (PT)" },
+            ].map(({ href, label }) => (
+              <Link
+                key={href}
+                to={href}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-4 py-1.5 text-sm font-medium text-foreground hover:border-accent/50 hover:text-accent transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="container px-4 py-16 md:py-20">
         <div className="max-w-2xl mx-auto text-center">

@@ -38,9 +38,14 @@ import Lemon from "./pages/Lemon";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import { partPages } from "@/data/partsPages";
+import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS, ALL_INTL_SLUGS } from "@/data/intlRegistry";
+import IntlHubPage from "./pages/IntlHubPage";
+import IntlCityPage from "./pages/IntlCityPage";
+import IntlGuidePage from "./pages/IntlGuidePage";
+import IntlPartPage from "./pages/IntlPartPage";
 import type { Language } from "@/contexts/LanguageContext";
 
-export { ALL_PAGES, CITY_PAGES, partPages };
+export { ALL_PAGES, CITY_PAGES, partPages, ALL_INTL_SLUGS };
 
 type HelmetServerContext = {
   helmet?: HelmetServerState | null;
@@ -49,6 +54,11 @@ type HelmetServerContext = {
 // Mirror of pathLanguage() in LanguageContext.tsx — must stay in sync.
 function urlLanguage(path: string): Language {
   if (path.startsWith("/ca/") || path === "/ca") return "ca";
+  if (path.startsWith("/de/")) return "de";
+  if (path.startsWith("/nl/")) return "nl";
+  if (path.startsWith("/fr/")) return "fr";
+  if (path.startsWith("/it/")) return "it";
+  if (path.startsWith("/pt/")) return "pt";
   if (path === "/3d-printing-delivery-paris") return "fr";
   if (path === "/3d-printing-delivery-berlin") return "de";
   if (path === "/3d-printing-delivery-amsterdam") return "nl";
@@ -123,6 +133,18 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
                 <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
                 <Route path="/lemon" element={<Lemon />} />
+                {INTL_HUBS.map((c) => (
+                  <Route key={c.slug} path={c.slug} element={<IntlHubPage content={c} />} />
+                ))}
+                {INTL_CITIES.map((c) => (
+                  <Route key={c.slug} path={c.slug} element={<IntlCityPage content={c} />} />
+                ))}
+                {INTL_GUIDES.map((c) => (
+                  <Route key={c.slug} path={c.slug} element={<IntlGuidePage content={c} />} />
+                ))}
+                {INTL_PARTS.map((c) => (
+                  <Route key={c.slug} path={c.slug} element={<IntlPartPage content={c} />} />
+                ))}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </StaticRouter>

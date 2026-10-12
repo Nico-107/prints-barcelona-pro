@@ -96,6 +96,9 @@ interface PartPageViewProps {
   part_slug?: string;
   category?: string;
   price?: number;
+  lang?: string;
+  countryCode?: string;
+  slug?: string;
 }
 
 interface PartFulfillmentSelectedProps {
@@ -272,6 +275,11 @@ export interface EventMap {
   b2b_free_prototype_click: Record<string, unknown>;
   b2b_cta_homepage_click: Record<string, unknown>;
   b2b_sticky_cta_click: Record<string, unknown>;
+
+  // Intl native pages
+  hub_cta_click: Record<string, unknown>;
+  guide_cta_click: Record<string, unknown>;
+  guide_page_view: Record<string, unknown>;
 }
 
 export type EventName = keyof EventMap;

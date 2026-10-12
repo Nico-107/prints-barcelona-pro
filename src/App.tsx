@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import { partPages } from "@/data/partsPages";
+import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS } from "@/data/intlRegistry";
 
 const Track = lazy(() => import("./pages/Track"));
 const Admin = lazy(() => import("./pages/Admin"));
@@ -41,6 +42,10 @@ const RepuestoDescatalogado = lazy(() => import("./pages/RepuestoDescatalogado")
 const SinPedidoMinimo = lazy(() => import("./pages/SinPedidoMinimo"));
 const EmpresasBcn = lazy(() => import("./pages/EmpresasBcn"));
 const Lemon = lazy(() => import("./pages/Lemon"));
+const IntlHubPage = lazy(() => import("./pages/IntlHubPage"));
+const IntlCityPage = lazy(() => import("./pages/IntlCityPage"));
+const IntlGuidePage = lazy(() => import("./pages/IntlGuidePage"));
+const IntlPartPage = lazy(() => import("./pages/IntlPartPage"));
 
 const PageFallback = <div className="min-h-screen bg-background" />;
 
@@ -48,6 +53,10 @@ const PageFallback = <div className="min-h-screen bg-background" />;
 const CITY_SLUGS = new Set(CITY_PAGES.map((p) => p.slug));
 const LANDING_SLUGS = new Set(ALL_PAGES.map((p) => p.slug));
 const PART_SLUGS = new Set(partPages.map((p) => p.slug));
+const INTL_HUB_SLUGS = new Set(INTL_HUBS.map((p) => p.slug));
+const INTL_CITY_SLUGS = new Set(INTL_CITIES.map((p) => p.slug));
+const INTL_GUIDE_SLUGS = new Set(INTL_GUIDES.map((p) => p.slug));
+const INTL_PART_SLUGS = new Set(INTL_PARTS.map((p) => p.slug));
 
 function inferPageType(path: string): string {
   if (path === "/" || path === "/ca") return "home";
@@ -60,6 +69,10 @@ function inferPageType(path: string): string {
   if (CITY_SLUGS.has(path)) return "city";
   if (LANDING_SLUGS.has(path)) return "landing";
   if (PART_SLUGS.has(path)) return "part";
+  if (INTL_HUB_SLUGS.has(path)) return "intl_hub";
+  if (INTL_CITY_SLUGS.has(path)) return "intl_city";
+  if (INTL_GUIDE_SLUGS.has(path)) return "intl_guide";
+  if (INTL_PART_SLUGS.has(path)) return "intl_part";
   return "other";
 }
 
@@ -173,6 +186,18 @@ const App = () => (
               <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
               <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
               <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
+              {INTL_HUBS.map((c) => (
+                <Route key={c.slug} path={c.slug} element={<IntlHubPage content={c} />} />
+              ))}
+              {INTL_CITIES.map((c) => (
+                <Route key={c.slug} path={c.slug} element={<IntlCityPage content={c} />} />
+              ))}
+              {INTL_GUIDES.map((c) => (
+                <Route key={c.slug} path={c.slug} element={<IntlGuidePage content={c} />} />
+              ))}
+              {INTL_PARTS.map((c) => (
+                <Route key={c.slug} path={c.slug} element={<IntlPartPage content={c} />} />
+              ))}
               {/* NFC referral landing — noindex, not in sitemap, not linked from nav/footer */}
               <Route path="/lemon" element={<Lemon />} />
               <Route path="*" element={<NotFound />} />

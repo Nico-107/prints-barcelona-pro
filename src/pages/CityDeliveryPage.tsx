@@ -243,6 +243,20 @@ const CityDeliveryPage = ({ config }: Props) => {
             href={config.lang === "es" ? PAGE_URL : `${SITE_URL}${config.altSlug}`}
           />
         )}
+        {/* hreflang for native-language intl page pairing (e.g. EN ↔ DE/FR/IT/NL/PT) */}
+        {config.nativeSection?.nativeUrl && (
+          <link rel="alternate" hrefLang="en" href={PAGE_URL} />
+        )}
+        {config.nativeSection?.nativeUrl && (
+          <link
+            rel="alternate"
+            hrefLang={config.nativeSection.lang}
+            href={`${SITE_URL}${config.nativeSection.nativeUrl}`}
+          />
+        )}
+        {config.nativeSection?.nativeUrl && (
+          <link rel="alternate" hrefLang="x-default" href={PAGE_URL} />
+        )}
         <meta property="og:title" content={config.metaTitle} />
         <meta property="og:description" content={config.metaDescription} />
         <meta property="og:url" content={PAGE_URL} />

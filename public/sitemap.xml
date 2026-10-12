@@ -442,8 +442,11 @@
   <!-- CITY DELIVERY PAGES (EN) -->
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-paris</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-paris"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-paris"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-paris"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-london</loc>
@@ -452,28 +455,43 @@
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-amsterdam</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-amsterdam"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-amsterdam"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-amsterdam"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-berlin</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-berlin"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-berlin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-berlin"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-milan</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-milan"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-milano"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-milan"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-rome</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-rome"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-roma"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-rome"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-lisbon</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-lisbon"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-lisboa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-lisbon"/>
   </url>
   <url>
     <loc>https://www.dimension3dprints.com/3d-printing-delivery-new-york</loc>
@@ -918,6 +936,346 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/short-run-3d-printing-barcelona"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/tiradas-cortas-impresion-3d-barcelona"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/short-run-3d-printing-barcelona"/>
+  </url>
+
+
+  <!-- INTL HUBS -->
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-service</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-service"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-printen-laten-maken</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/impression-3d-en-ligne</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-en-ligne"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/stampa-3d-online</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/impressao-3d-online</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-online"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-service"/>
+  </url>
+
+  <!-- INTL CITY PAGES (DE) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-berlin</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-berlin"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-berlin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-berlin"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-muenchen</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-muenchen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/de/3d-druck-muenchen"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-hamburg</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-hamburg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/de/3d-druck-hamburg"/>
+  </url>
+
+  <!-- INTL CITY PAGES (NL) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-printen-amsterdam</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-amsterdam"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-amsterdam"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-amsterdam"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-printen-rotterdam</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-rotterdam"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/nl/3d-printen-rotterdam"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-printen-eindhoven</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-eindhoven"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/nl/3d-printen-eindhoven"/>
+  </url>
+
+  <!-- INTL CITY PAGES (FR) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/impression-3d-toulouse</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-toulouse"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/fr/impression-3d-toulouse"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/impression-3d-montpellier</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-montpellier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/fr/impression-3d-montpellier"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/impression-3d-lyon</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-lyon"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/fr/impression-3d-lyon"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/impression-3d-paris</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/impression-3d-paris"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-paris"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-paris"/>
+  </url>
+
+  <!-- INTL CITY PAGES (IT) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/it/stampa-3d-milano</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-milano"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-milan"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-milan"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/stampa-3d-torino</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-torino"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/it/stampa-3d-torino"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/stampa-3d-roma</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/stampa-3d-roma"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-rome"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-rome"/>
+  </url>
+
+  <!-- INTL CITY PAGES (PT) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/impressao-3d-lisboa</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-lisboa"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-printing-delivery-lisbon"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-delivery-lisbon"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/impressao-3d-porto</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/impressao-3d-porto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pt/impressao-3d-porto"/>
+  </url>
+
+  <!-- INTL GUIDES (DE) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-kosten</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-kosten"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/de/3d-druck-kosten"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-datei-vorbereiten</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-datei-vorbereiten"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/de/3d-druck-datei-vorbereiten"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-druck-materialien</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-druck-materialien"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/de/3d-druck-materialien"/>
+  </url>
+
+  <!-- INTL GUIDES (NL) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-printen-kosten</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printen-kosten"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/nl/3d-printen-kosten"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-printbestand-voorbereiden</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-printbestand-voorbereiden"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/nl/3d-printbestand-voorbereiden"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-print-materialen</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-print-materialen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/nl/3d-print-materialen"/>
+  </url>
+
+  <!-- INTL GUIDES (FR) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/prix-impression-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/prix-impression-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/fr/prix-impression-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/preparer-fichier-impression-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/preparer-fichier-impression-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/fr/preparer-fichier-impression-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/materiaux-impression-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/materiaux-impression-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/fr/materiaux-impression-3d"/>
+  </url>
+
+  <!-- INTL GUIDES (IT) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/it/prezzi-stampa-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/prezzi-stampa-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/it/prezzi-stampa-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/preparare-file-stampa-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/preparare-file-stampa-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/it/preparare-file-stampa-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/materiali-stampa-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/materiali-stampa-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/it/materiali-stampa-3d"/>
+  </url>
+
+  <!-- INTL GUIDES (PT) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/preco-impressao-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/preco-impressao-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pt/preco-impressao-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/preparar-ficheiro-impressao-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/preparar-ficheiro-impressao-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pt/preparar-ficheiro-impressao-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/materiais-impressao-3d</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/materiais-impressao-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/pt/materiais-impressao-3d"/>
+  </url>
+
+  <!-- INTL PART PAGES -->
+  <url>
+    <loc>https://www.dimension3dprints.com/de/vesa-monitor-adapter</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/vesa-monitor-adapter"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/bosch-geschirrspuelkorb-rad</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/bosch-geschirrspuelkorb-rad"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/rueda-cesto-lavavajillas-bosch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/rueda-cesto-lavavajillas-bosch"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/gardena-schlauch-adapter</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/gardena-schlauch-adapter"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/adaptador-manguera-gardena"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/adaptador-manguera-gardena"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/adaptateur-vesa-moniteur</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/adaptateur-vesa-moniteur"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/roue-panier-lave-vaisselle-bosch</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/roue-panier-lave-vaisselle-bosch"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/rueda-cesto-lavavajillas-bosch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/rueda-cesto-lavavajillas-bosch"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/adattatore-vesa-monitor</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/adattatore-vesa-monitor"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/imbuto-dosatore-caffe-58mm</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/imbuto-dosatore-caffe-58mm"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/embudo-dosificador-cafe-58mm"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/embudo-dosificador-cafe-58mm"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/vesa-monitor-adapter</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/vesa-monitor-adapter"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/adaptador-vesa-monitor"/>
   </url>
 
 </urlset>

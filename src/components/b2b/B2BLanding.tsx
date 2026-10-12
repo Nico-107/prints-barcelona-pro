@@ -1094,6 +1094,22 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
           </div>
         </section>
 
+        {/* ── International hubs ── */}
+        <section className="container px-4 max-w-3xl mx-auto pb-6">
+          <p className="text-xs text-muted-foreground">
+            {c.lang === "es" ? "También disponible en:" : "Also available in:"}{" "}
+            <Link to="/de/3d-druck-service" className="hover:text-accent transition-colors">🇩🇪 DE</Link>
+            {" · "}
+            <Link to="/nl/3d-printen-laten-maken" className="hover:text-accent transition-colors">🇳🇱 NL</Link>
+            {" · "}
+            <Link to="/fr/impression-3d-en-ligne" className="hover:text-accent transition-colors">🇫🇷 FR</Link>
+            {" · "}
+            <Link to="/it/stampa-3d-online" className="hover:text-accent transition-colors">🇮🇹 IT</Link>
+            {" · "}
+            <Link to="/pt/impressao-3d-online" className="hover:text-accent transition-colors">🇵🇹 PT</Link>
+          </p>
+        </section>
+
         {/* ── 10. FINAL CTA ── */}
         <section
           ref={endRef as React.RefObject<HTMLElement>}

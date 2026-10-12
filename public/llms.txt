@@ -69,3 +69,49 @@
 - [Delivery to Rome](https://www.dimension3dprints.com/3d-printing-delivery-rome) — cross-border delivery from Barcelona to Rome
 - [Delivery to Lisbon](https://www.dimension3dprints.com/3d-printing-delivery-lisbon) — cross-border delivery from Barcelona to Lisbon
 - [Delivery to New York](https://www.dimension3dprints.com/3d-printing-delivery-new-york) — international delivery from Barcelona to New York
+
+## International Native Pages
+
+- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ
+- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub
+- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub
+- [Stampa 3D online (IT)](https://www.dimension3dprints.com/it/stampa-3d-online) — Italian hub
+- [Impressão 3D online (PT)](https://www.dimension3dprints.com/pt/impressao-3d-online) — Portuguese hub
+- [3D-Druck Berlin (DE)](https://www.dimension3dprints.com/de/3d-druck-berlin) — Berlin city page in German
+- [3D-Druck München (DE)](https://www.dimension3dprints.com/de/3d-druck-muenchen) — Munich city page in German
+- [3D-Druck Hamburg (DE)](https://www.dimension3dprints.com/de/3d-druck-hamburg) — Hamburg city page in German
+- [3D printen Amsterdam (NL)](https://www.dimension3dprints.com/nl/3d-printen-amsterdam) — Amsterdam city page in Dutch
+- [3D printen Rotterdam (NL)](https://www.dimension3dprints.com/nl/3d-printen-rotterdam) — Rotterdam city page in Dutch
+- [3D printen Eindhoven (NL)](https://www.dimension3dprints.com/nl/3d-printen-eindhoven) — Eindhoven city page in Dutch
+- [Impression 3D Toulouse (FR)](https://www.dimension3dprints.com/fr/impression-3d-toulouse) — Toulouse city page in French
+- [Impression 3D Montpellier (FR)](https://www.dimension3dprints.com/fr/impression-3d-montpellier) — Montpellier city page in French
+- [Impression 3D Lyon (FR)](https://www.dimension3dprints.com/fr/impression-3d-lyon) — Lyon city page in French
+- [Impression 3D Paris (FR)](https://www.dimension3dprints.com/fr/impression-3d-paris) — Paris city page in French
+- [Stampa 3D Milano (IT)](https://www.dimension3dprints.com/it/stampa-3d-milano) — Milan city page in Italian
+- [Stampa 3D Torino (IT)](https://www.dimension3dprints.com/it/stampa-3d-torino) — Turin city page in Italian
+- [Stampa 3D Roma (IT)](https://www.dimension3dprints.com/it/stampa-3d-roma) — Rome city page in Italian
+- [Impressão 3D Lisboa (PT)](https://www.dimension3dprints.com/pt/impressao-3d-lisboa) — Lisbon city page in Portuguese
+- [Impressão 3D Porto (PT)](https://www.dimension3dprints.com/pt/impressao-3d-porto) — Porto city page in Portuguese
+- [3D-Druck Kosten (DE)](https://www.dimension3dprints.com/de/3d-druck-kosten) — German pricing guide with worked examples
+- [3D-Druck Datei vorbereiten (DE)](https://www.dimension3dprints.com/de/3d-druck-datei-vorbereiten) — German file prep guide
+- [3D-Druck Materialien (DE)](https://www.dimension3dprints.com/de/3d-druck-materialien) — German materials guide
+- [3D printen kosten (NL)](https://www.dimension3dprints.com/nl/3d-printen-kosten) — Dutch pricing guide
+- [3D printbestand voorbereiden (NL)](https://www.dimension3dprints.com/nl/3d-printbestand-voorbereiden) — Dutch file prep guide
+- [3D print materialen (NL)](https://www.dimension3dprints.com/nl/3d-print-materialen) — Dutch materials guide
+- [Prix impression 3D (FR)](https://www.dimension3dprints.com/fr/prix-impression-3d) — French pricing guide
+- [Préparer fichier impression 3D (FR)](https://www.dimension3dprints.com/fr/preparer-fichier-impression-3d) — French file prep guide
+- [Matériaux impression 3D (FR)](https://www.dimension3dprints.com/fr/materiaux-impression-3d) — French materials guide
+- [Prezzi stampa 3D (IT)](https://www.dimension3dprints.com/it/prezzi-stampa-3d) — Italian pricing guide
+- [Preparare file stampa 3D (IT)](https://www.dimension3dprints.com/it/preparare-file-stampa-3d) — Italian file prep guide
+- [Materiali stampa 3D (IT)](https://www.dimension3dprints.com/it/materiali-stampa-3d) — Italian materials guide
+- [Preço impressão 3D (PT)](https://www.dimension3dprints.com/pt/preco-impressao-3d) — Portuguese pricing guide
+- [Preparar ficheiro impressão 3D (PT)](https://www.dimension3dprints.com/pt/preparar-ficheiro-impressao-3d) — Portuguese file prep guide
+- [Materiais impressão 3D (PT)](https://www.dimension3dprints.com/pt/materiais-impressao-3d) — Portuguese materials guide
+- [VESA adapter DE](https://www.dimension3dprints.com/de/vesa-monitor-adapter) — German version of VESA monitor adapter part page
+- [Bosch dishwasher wheel DE](https://www.dimension3dprints.com/de/bosch-geschirrspuelkorb-rad) — German version of Bosch dishwasher wheel
+- [Gardena hose adapter DE](https://www.dimension3dprints.com/de/gardena-schlauch-adapter) — German version of Gardena hose adapter
+- [VESA adapter FR](https://www.dimension3dprints.com/fr/adaptateur-vesa-moniteur) — French version of VESA monitor adapter
+- [Bosch dishwasher wheel FR](https://www.dimension3dprints.com/fr/roue-panier-lave-vaisselle-bosch) — French version of Bosch dishwasher wheel
+- [VESA adapter IT](https://www.dimension3dprints.com/it/adattatore-vesa-monitor) — Italian version of VESA monitor adapter
+- [Coffee dosing funnel IT](https://www.dimension3dprints.com/it/imbuto-dosatore-caffe-58mm) — Italian version of coffee dosing funnel
+- [VESA adapter NL](https://www.dimension3dprints.com/nl/vesa-monitor-adapter) — Dutch version of VESA monitor adapter

@@ -216,6 +216,44 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Countries we ship to — links 5 native-language hubs; spec §2f */}
+        <div className="mb-10 pb-10 border-b border-background/10">
+          <p className="font-medium text-sm mb-3">
+            {isCa
+              ? "Països als quals enviem"
+              : isEs
+              ? "Países a los que enviamos"
+              : "Countries we ship to"}
+          </p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
+            <li>
+              <Link to="/de/3d-druck-service" className="text-background/70 text-sm hover:text-background transition-colors">
+                🇩🇪 3D-Druck Service
+              </Link>
+            </li>
+            <li>
+              <Link to="/nl/3d-printen-laten-maken" className="text-background/70 text-sm hover:text-background transition-colors">
+                🇳🇱 3D printen laten maken
+              </Link>
+            </li>
+            <li>
+              <Link to="/fr/impression-3d-en-ligne" className="text-background/70 text-sm hover:text-background transition-colors">
+                🇫🇷 Impression 3D en ligne
+              </Link>
+            </li>
+            <li>
+              <Link to="/it/stampa-3d-online" className="text-background/70 text-sm hover:text-background transition-colors">
+                🇮🇹 Stampa 3D online
+              </Link>
+            </li>
+            <li>
+              <Link to="/pt/impressao-3d-online" className="text-background/70 text-sm hover:text-background transition-colors">
+                🇵🇹 Impressão 3D online
+              </Link>
+            </li>
+          </ul>
+        </div>
+
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2.5 mb-2">
