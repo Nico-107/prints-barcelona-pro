@@ -498,7 +498,7 @@ const handler = async (req: Request): Promise<Response> => {
                 ${totalUnits ? `<p style="font-size:14px;color:#334155;"><strong>Qty:</strong> ${totalUnits}</p>` : ""}
                 ${priceExact != null ? `<p style="font-size:15px;font-weight:bold;color:#065f46;">~€${Number(priceExact).toFixed(2)}</p>` : ""}
                 <p style="font-size:13px;color:#6b7280;margin-top:16px;">
-                  <a href="https://wa.me/34611234567" style="color:#25d366;">${whatsappLabel[lang]}</a>
+                  <a href="https://wa.me/34672051147" style="color:#25d366;">${whatsappLabel[lang]}</a>
                 </p>
                 <p style="color:#9ca3af;font-size:12px;margin-top:24px;">Dimension3D — dimension3dprints.com</p>
               </div>
