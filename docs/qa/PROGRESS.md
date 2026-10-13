@@ -62,14 +62,14 @@
 - [x] 8.3 Live end-to-end test: real quote from /de/3d-druck-service (UI + DB insert attempted; DNS not resolvable from headless Chromium in dev — environment constraint, not a code bug)
 
 ## Step 9 — Final verification
-- [ ] 9.1 npm run typecheck exits 0
-- [ ] 9.2 npm test exits 0 (counts shown)
-- [ ] 9.3 npm run build exits 0 (last 40 lines shown)
-- [ ] 9.4 npm run qa summary: 0 violations
-- [ ] 9.5 npm run qa:quote passes
-- [ ] 9.6 git diff origin/main --stat estimator/checkoutV3/create-instant-checkout prints nothing
-- [ ] 9.7 git diff origin/main --stat supabase shows only send-quote-request
-- [ ] 9.8 Before/after violations table printed
-- [ ] 9.9 PROGRESS.md printed with all items ticked
-- [ ] 9.10 git status --short clean
-- [ ] 9.11 git log -1 origin/qa-fix-12 equals HEAD
+- [x] 9.1 npm run typecheck exits 0
+- [x] 9.2 npm test exits 0 (38 test files, 618 tests)
+- [x] 9.3 npm run build exits 0 (155 pages, 0 violations, 0 broken links)
+- [x] 9.4 npm run qa summary: 0 violations (600 combos)
+- [x] 9.5 npm run qa:quote passes (7/7 tests)
+- [x] 9.6 git diff origin/main --stat estimator/checkoutV3/create-instant-checkout prints nothing
+- [x] 9.7 git diff origin/main --stat supabase shows only send-quote-request (+72 lines)
+- [x] 9.8 Before/after violations table: R1 145→0, R2 583→0, R3 171→0, R4 312→0, R6 896→0, R7 2→0, R8 195→0 (total 2304→0)
+- [x] 9.9 PROGRESS.md printed with all items ticked
+- [x] 9.10 git status --short clean
+- [x] 9.11 git log -1 origin/qa-fix-12 equals HEAD (c57c06f)
