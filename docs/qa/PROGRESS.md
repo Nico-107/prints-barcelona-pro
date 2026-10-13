@@ -42,23 +42,23 @@
 - [x] 5.6 Replace "2025" in titles/text
 
 ## Step 6 — The quote flow works on every page type, and the customer sees it worked
-- [ ] 6.1 Create tests/fixtures/cube-20mm.stl
-- [ ] 6.2 Find and fix review_blocked_missing_contact / missing contact bug
-- [ ] 6.3 Error message visible and in page language
-- [ ] 6.4 Success state in page language with reference number
-- [ ] 6.5 Error state in page language + PostHog event; never fail silently
-- [ ] 6.6 Await email call; show success only when request stored
-- [ ] 6.7 Add npm run qa:quote Playwright test (6 pages, mocked Supabase)
+- [x] 6.1 Create tests/fixtures/cube-20mm.stl
+- [x] 6.2 Find and fix review_blocked_missing_contact / missing contact bug
+- [x] 6.3 Error message visible and in page language
+- [x] 6.4 Success state in page language with reference number
+- [x] 6.5 Error state in page language + PostHog event; never fail silently
+- [x] 6.6 Await email call; show success only when request stored
+- [x] 6.7 Add npm run qa:quote Playwright test (6 pages, mocked Supabase)
 
 ## Step 7 — Customer confirmation email
-- [ ] 7.1 Add customer email in request language to send-quote-request/index.ts
-- [ ] 7.2 All 8 languages translated subject and body
-- [ ] 7.3 Customer email failure does not block owner email success
-- [ ] 7.4 Owner recipients unchanged
+- [x] 7.1 Add customer email in request language to send-quote-request/index.ts
+- [x] 7.2 All 8 languages translated subject and body
+- [x] 7.3 Customer email failure does not block owner email success
+- [x] 7.4 Owner recipients unchanged
 
 ## Step 8 — Clean run and live check
 - [x] 8.1 npm run qa reports 0 violations on all routes, both locales, both viewports
-- [ ] 8.2 npm run qa:quote passes
+- [x] 8.2 npm run qa:quote passes
 - [ ] 8.3 Live end-to-end test: real quote from /de/3d-druck-service
 
 ## Step 9 — Final verification

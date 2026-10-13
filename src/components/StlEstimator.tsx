@@ -210,6 +210,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
   const [isSubmittedQuote, setIsSubmittedQuote] = useState(false);
   const [quoteError, setQuoteError] = useState<string | null>(null);
+  const [quoteRef, setQuoteRef] = useState<string | null>(null);
 
   // Mobile modal
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
@@ -527,6 +528,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsSubmittingQuote(false);
     setIsSubmittedQuote(false);
     setQuoteError(null);
+    setQuoteRef(null);
     setMobileModalOpen(false);
     setSelectedFileIndex(0);
     setExpandedPartId(null);
@@ -715,6 +717,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       return;
     }
     setShowManualReview(true);
+    submitQuote();
   };
 
   const submitQuote = async () => {
@@ -785,10 +788,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       // Combine color preference + notes into existing color field (payload shape unchanged)
       const colorWithNotes = [colorPref.trim(), notesText.trim()].filter(Boolean).join(' | Notes: ') || null;
 
-      // Upload succeeded — show success immediately, nothing below can block the user
-      setIsSubmittedQuote(true);
-      setShowManualReview(false);
-      setIsSubmittingQuote(false);
       // A4: pseudonymous customer_ref; B4: stable quote_id for DB row + event join
       const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
       const quote_id = crypto.randomUUID();
@@ -815,73 +814,83 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (ref) identifyUser(ref);
       estimateShownRef.current = false;
 
-      // DB write — fresh insert with all contact details. Fire-and-forget.
+      // DB write — await so success is only shown when the request is stored.
       // Use anon client so an admin session in localStorage doesn't trigger a 42501 error.
-      (async () => {
-        const storedUtm = getStoredUTM();
-        const insertPayload: TablesInsert<"quote_requests"> = {
-          id: quote_id,
-          contact_email: contactEmail.trim() || null,
-          contact_phone: contactPhone.trim() || null,
-          color: colorWithNotes,
-          material: quoteSummary.material,
-          infill: quoteSummary.infill,
-          wall_loops: quoteSummary.wallLoops,
-          urgency,
-          quantity: bundle!.totalUnits,
-          estimated_grams: bundle!.totalGrams,
-          estimated_hours: bundle!.totalHours,
-          estimated_price_low: parseFloat(bundle!.total.toFixed(2)),
-          estimated_price_high: parseFloat(bundle!.total.toFixed(2)),
-          file_paths: uploadedPaths,
-          file_names: uploadedNames,
-          status: "pending",
-          multicolour: quoteSummary.multicolour,
-          utm_source: storedUtm?.utm_source ?? null,
-          utm_medium: storedUtm?.utm_medium ?? null,
-          utm_content: storedUtm?.utm_content ?? null,
-          pieces: pieces as Json,
-        };
+      const storedUtm = getStoredUTM();
+      const insertPayload: TablesInsert<"quote_requests"> = {
+        id: quote_id,
+        contact_email: contactEmail.trim() || null,
+        contact_phone: contactPhone.trim() || null,
+        color: colorWithNotes,
+        material: quoteSummary.material,
+        infill: quoteSummary.infill,
+        wall_loops: quoteSummary.wallLoops,
+        urgency,
+        quantity: bundle!.totalUnits,
+        estimated_grams: bundle!.totalGrams,
+        estimated_hours: bundle!.totalHours,
+        estimated_price_low: parseFloat(bundle!.total.toFixed(2)),
+        estimated_price_high: parseFloat(bundle!.total.toFixed(2)),
+        file_paths: uploadedPaths,
+        file_names: uploadedNames,
+        status: "pending",
+        multicolour: quoteSummary.multicolour,
+        utm_source: storedUtm?.utm_source ?? null,
+        utm_medium: storedUtm?.utm_medium ?? null,
+        utm_content: storedUtm?.utm_content ?? null,
+        pieces: pieces as Json,
+      };
 
-        try {
-          const { error: insertErr } = await supabaseAnon
-            .from("quote_requests")
-            .insert(insertPayload);
-          if (insertErr) {
-            console.error("quote_requests insert failed:", insertErr);
-            capture("submit_error", { stage: "quote", table: "quote_requests", code: insertErr.code ?? "unknown" });
-          } else console.log("quote_requests insert OK");
-        } catch (e) {
-          console.error("quote_requests insert threw:", e);
-        }
-      })();
+      const { error: insertErr } = await supabaseAnon
+        .from("quote_requests")
+        .insert(insertPayload);
+      if (insertErr) {
+        console.error("quote_requests insert failed:", insertErr);
+        capture("submit_error", { stage: "quote", table: "quote_requests", code: insertErr.code ?? "unknown" });
+        setQuoteError(t("calc.contact.uploadError"));
+        setIsSubmittingQuote(false);
+        return;
+      }
 
-      // Email — fire-and-forget
-      supabase.functions.invoke("send-quote-request", {
-        body: {
-          filePaths: uploadedPaths,
-          fileNames: uploadedNames,
-          contactEmail: contactEmail.trim() || null,
-          contactPhone: contactPhone.trim() || null,
-          material: quoteSummary.material,
-          color: colorWithNotes,
-          urgency,
-          infillPct: quoteSummary.infillNum,
-          wallLoops: quoteSummary.wallLoops,
-          totalGrams: bundle!.totalGrams,
-          totalHours: bundle!.totalHours,
-          totalUnits: bundle!.totalUnits,
-          priceLow: bundle!.total,
-          priceHigh: bundle!.total,
-          priceExact: bundle!.total,
-          language,
-          multicolour: quoteSummary.multicolour,
-          sourceCity: refCity ?? null,
-          pieces,
-          quote_id,
-          ph_distinct_id: get_distinct_id() ?? null,
-        },
-      }).catch(e => console.error("send-quote-request failed:", e));
+      // Email — await with 8 s timeout; failure captured but does not block success
+      const emailBody = {
+        filePaths: uploadedPaths,
+        fileNames: uploadedNames,
+        contactEmail: contactEmail.trim() || null,
+        contactPhone: contactPhone.trim() || null,
+        material: quoteSummary.material,
+        color: colorWithNotes,
+        urgency,
+        infillPct: quoteSummary.infillNum,
+        wallLoops: quoteSummary.wallLoops,
+        totalGrams: bundle!.totalGrams,
+        totalHours: bundle!.totalHours,
+        totalUnits: bundle!.totalUnits,
+        priceLow: bundle!.total,
+        priceHigh: bundle!.total,
+        priceExact: bundle!.total,
+        language,
+        multicolour: quoteSummary.multicolour,
+        sourceCity: refCity ?? null,
+        pieces,
+        quote_id,
+        ph_distinct_id: get_distinct_id() ?? null,
+      };
+      try {
+        await Promise.race([
+          supabase.functions.invoke("send-quote-request", { body: emailBody }),
+          new Promise<never>((_, rej) => setTimeout(() => rej(new Error("email_timeout")), 8000)),
+        ]);
+      } catch (emailErr: any) {
+        console.error("send-quote-request failed:", emailErr);
+        capture("submit_error", { stage: "quote", table: "send_quote_request", code: emailErr?.message ?? "email_failed" });
+      }
+
+      // Request stored — show success with reference
+      setQuoteRef(quote_id.slice(0, 8).toUpperCase());
+      setIsSubmittedQuote(true);
+      setShowManualReview(false);
+      setIsSubmittingQuote(false);
     } catch (err: any) {
       if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
       setUploadState("failed");
@@ -1232,6 +1241,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <CheckCircle className="w-8 h-8 text-whatsapp mx-auto mb-2" />
                   <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
                   <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
+                  {quoteRef && (
+                    <p className="text-xs text-muted-foreground mt-2 font-mono">{t("calc.contact.success.ref").replace("{ref}", quoteRef)}</p>
+                  )}
                 </div>
               ) : (
                 <div className="mt-4">
@@ -1550,6 +1562,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             <CheckCircle className="w-8 h-8 text-whatsapp mx-auto mb-2" />
             <p className="font-semibold text-foreground">{t("calc.contact.success.title")}</p>
             <p className="text-sm text-muted-foreground mt-1">{t("calc.contact.success.desc")}</p>
+            {quoteRef && (
+              <p className="text-xs text-muted-foreground mt-2 font-mono">{t("calc.contact.success.ref").replace("{ref}", quoteRef)}</p>
+            )}
           </div>
         ) : (
           <div className="space-y-6">

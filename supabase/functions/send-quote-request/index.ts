@@ -445,6 +445,78 @@ const handler = async (req: Request): Promise<Response> => {
       source_city: sourceCity ?? null,
     }, !!phRawId);
 
+    // Customer confirmation email — sent if email present; failure does not block success
+    if (safeEmail) {
+      const refDisplay = quote_id ? quote_id.slice(0, 8).toUpperCase() : null;
+      const fileList = (fileNames?.length ? fileNames : filePaths ?? [])
+        .map(n => `<li style="margin:4px 0;">${sanitize(n)}</li>`).join("\n");
+      const customerSubjects: Record<string, string> = {
+        es: "Hemos recibido tu solicitud de impresión 3D",
+        ca: "Hem rebut la teva sol·licitud d'impressió 3D",
+        en: "We received your 3D printing request",
+        de: "Wir haben Ihre 3D-Druckanfrage erhalten",
+        fr: "Nous avons reçu votre demande d'impression 3D",
+        it: "Abbiamo ricevuto la tua richiesta di stampa 3D",
+        nl: "Wij hebben uw 3D-printaanvraag ontvangen",
+        pt: "Recebemos o seu pedido de impressão 3D",
+      };
+      const customerIntros: Record<string, string> = {
+        es: "Hemos recibido tu solicitud de presupuesto. Te confirmaremos el precio exacto en menos de 1 hora en días laborables.",
+        ca: "Hem rebut la teva sol·licitud de pressupost. Et confirmarem el preu exacte en menys d'1 hora en dies laborables.",
+        en: "We received your quote request. We'll confirm the exact price within 1 hour on business days.",
+        de: "Wir haben Ihre Angebotsanfrage erhalten. Wir bestätigen den genauen Preis innerhalb von 1 Stunde an Werktagen.",
+        fr: "Nous avons reçu votre demande de devis. Nous vous confirmerons le prix exact en moins d'1 heure les jours ouvrés.",
+        it: "Abbiamo ricevuto la tua richiesta di preventivo. Confermeremo il prezzo esatto entro 1 ora nei giorni lavorativi.",
+        nl: "Wij hebben uw offerteaanvraag ontvangen. Wij bevestigen de exacte prijs binnen 1 uur op werkdagen.",
+        pt: "Recebemos o seu pedido de orçamento. Confirmaremos o preço exato em menos de 1 hora nos dias úteis.",
+      };
+      const customerRefLabels: Record<string, string> = {
+        es: "Referencia", ca: "Referència", en: "Reference",
+        de: "Referenz", fr: "Référence", it: "Riferimento", nl: "Referentie", pt: "Referência",
+      };
+      const whatsappLabel: Record<string, string> = {
+        es: "Escríbenos por WhatsApp", ca: "Escriu-nos per WhatsApp", en: "Message us on WhatsApp",
+        de: "Schreiben Sie uns auf WhatsApp", fr: "Écrivez-nous sur WhatsApp",
+        it: "Scrivici su WhatsApp", nl: "Stuur ons een bericht op WhatsApp", pt: "Escreva-nos no WhatsApp",
+      };
+      const lang = safeLang in customerSubjects ? safeLang : "en";
+      try {
+        const custResp = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from: "Dimension3D <noreply@dimension3dprints.com>",
+            to: [safeEmail],
+            subject: customerSubjects[lang],
+            html: `
+              <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+                <h1 style="color:#0f172a;">${customerSubjects[lang]}</h1>
+                <p style="font-size:15px;color:#334155;">${customerIntros[lang]}</p>
+                ${refDisplay ? `<p style="font-size:13px;color:#6b7280;">${customerRefLabels[lang]}: <strong>${refDisplay}</strong></p>` : ""}
+                ${fileList ? `<div style="background:#f1f5f9;padding:16px;border-radius:8px;margin:16px 0;"><ul style="margin:0;padding-left:20px;">${fileList}</ul></div>` : ""}
+                ${safeMaterial ? `<p style="font-size:14px;color:#334155;"><strong>Material:</strong> ${safeMaterial}</p>` : ""}
+                ${totalUnits ? `<p style="font-size:14px;color:#334155;"><strong>Qty:</strong> ${totalUnits}</p>` : ""}
+                ${priceExact != null ? `<p style="font-size:15px;font-weight:bold;color:#065f46;">~€${Number(priceExact).toFixed(2)}</p>` : ""}
+                <p style="font-size:13px;color:#6b7280;margin-top:16px;">
+                  <a href="https://wa.me/34611234567" style="color:#25d366;">${whatsappLabel[lang]}</a>
+                </p>
+                <p style="color:#9ca3af;font-size:12px;margin-top:24px;">Dimension3D — dimension3dprints.com</p>
+              </div>
+            `,
+          }),
+        });
+        if (!custResp.ok) {
+          const t = await custResp.text();
+          console.error("Customer email failed:", custResp.status, t);
+        } else {
+          const custData = await custResp.json();
+          console.log("Customer confirmation email sent:", custData.id);
+        }
+      } catch (custErr) {
+        console.error("Customer email error:", custErr);
+      }
+    }
+
     return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
