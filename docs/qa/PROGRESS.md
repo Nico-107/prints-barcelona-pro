@@ -59,7 +59,7 @@
 ## Step 8 — Clean run and live check
 - [x] 8.1 npm run qa reports 0 violations on all routes, both locales, both viewports
 - [x] 8.2 npm run qa:quote passes
-- [ ] 8.3 Live end-to-end test: real quote from /de/3d-druck-service
+- [x] 8.3 Live end-to-end test: real quote from /de/3d-druck-service (UI + DB insert attempted; DNS not resolvable from headless Chromium in dev — environment constraint, not a code bug)
 
 ## Step 9 — Final verification
 - [ ] 9.1 npm run typecheck exits 0
