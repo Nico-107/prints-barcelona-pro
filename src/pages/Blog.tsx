@@ -87,15 +87,15 @@ const Blog = () => {
     <div className="min-h-screen bg-background">
       <Helmet>
         <html lang="es" />
-        <title>Guías de Impresión 3D Barcelona | Dimension3D</title>
+        <title>Guías de Impresión 3D Barcelona</title>
         <meta name="description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
         <link rel="canonical" href={`${SITE_URL}/blog`} />
-        <meta property="og:title" content="Guías de Impresión 3D Barcelona | Dimension3D" />
+        <meta property="og:title" content="Guías de Impresión 3D Barcelona" />
         <meta property="og:description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
         <meta property="og:url" content={`${SITE_URL}/blog`} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={SOCIAL_IMAGE_URL} />
-        <meta name="twitter:title" content="Guías de Impresión 3D Barcelona | Dimension3D" />
+        <meta name="twitter:title" content="Guías de Impresión 3D Barcelona" />
         <meta name="twitter:description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>

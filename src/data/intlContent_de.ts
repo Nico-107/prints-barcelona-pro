@@ -11,9 +11,9 @@ export const DE_HUB: IntlHubContent = {
   locale: "de-DE",
   countryCode: "DE",
 
-  metaTitle: "3D-Druck Service aus Barcelona | Dimension3D",
+  metaTitle: "3D-Druck Service aus Barcelona",
   metaDescription:
-    "Professioneller FDM 3D-Druck aus Barcelona – Angebot in 1 Stunde, Lieferung nach Deutschland in der Regel 3–5 Werktage. PLA, PETG, ABS, ASA, TPU, Nylon, PC. Ab Mindestbestellwert 10 €.",
+    "Professioneller FDM 3D-Druck aus Barcelona – Angebot in 1 Stunde, Lieferung nach Deutschland in der Regel 3–5 Werktage. PLA, PETG, ABS, ASA, TPU, Nylon, PC.",
 
   eyebrow: "3D-Druck Service aus Barcelona · Lieferung nach Deutschland",
 
@@ -111,7 +111,7 @@ export const DE_CITIES: IntlCityContent[] = [
     city: "Berlin",
     altSlug: "/3d-printing-delivery-berlin",
 
-    metaTitle: "3D-Druck mit Lieferung nach Berlin | Dimension3D",
+    metaTitle: "3D-Druck mit Lieferung nach Berlin",
     metaDescription:
       "FDM 3D-Druck aus Barcelona, geliefert nach Berlin in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
 
@@ -185,7 +185,7 @@ Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher
     city: "München",
     altSlug: "/3d-printing-delivery-munich",
 
-    metaTitle: "3D-Druck mit Lieferung nach München | Dimension3D",
+    metaTitle: "3D-Druck mit Lieferung nach München",
     metaDescription:
       "FDM 3D-Druck aus Barcelona, geliefert nach München in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
 
@@ -257,7 +257,7 @@ Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung f�
     city: "Hamburg",
     altSlug: "/3d-printing-delivery-hamburg",
 
-    metaTitle: "3D-Druck mit Lieferung nach Hamburg | Dimension3D",
+    metaTitle: "3D-Druck mit Lieferung nach Hamburg",
     metaDescription:
       "FDM 3D-Druck aus Barcelona, geliefert nach Hamburg in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
 
@@ -333,7 +333,7 @@ export const DE_GUIDES: IntlGuideContent[] = [
     locale: "de-DE",
     topic: "price",
 
-    metaTitle: "3D-Druck Kosten: Was kostet ein 3D-Druck? | Dimension3D",
+    metaTitle: "3D-Druck Kosten: Was kostet ein 3D-Druck?",
     metaDescription:
       "3D-Druck Kosten erklärt: Material, Druckzeit, Nachbearbeitung. Drei Rechenbeispiele mit echten Zahlen. Angebot in 1 Stunde bei Dimension3D ab 10 €.",
 
@@ -472,7 +472,7 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
     locale: "de-DE",
     topic: "file-prep",
 
-    metaTitle: "3D-Druck Datei vorbereiten: STL, STEP & Co. | Dimension3D",
+    metaTitle: "3D-Druck Datei vorbereiten: STL, STEP & Co.",
     metaDescription:
       "Wie Sie Ihre 3D-Druck Datei richtig vorbereiten: Formate, Wandstärken, Toleranzen, Überhänge und häufige Fehler. Für FDM-Druck mit Dimension3D.",
 

@@ -9,7 +9,7 @@ const NotFound = () => {
       <Helmet>
         <html lang="es" />
         <meta name="robots" content="noindex,follow" />
-        <title>404 — Página no encontrada | Dimension3D Barcelona</title>
+        <title>404 — Página no encontrada Barcelona</title>
         <meta name="description" content="La página que buscas no existe. Vuelve al inicio o usa la calculadora para obtener un presupuesto de impresión 3D." />
       </Helmet>
       <Header />

@@ -8,11 +8,13 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 import Index from "./pages/Index";
 import Track from "./pages/Track";
 import LandingPage from "./pages/LandingPage";
 import B2BPage from "./pages/B2BPage";
+import EmpresasBcn from "./pages/EmpresasBcn";
 import Makers from "./pages/Makers";
 import MakerGuide from "./pages/MakerGuide";
 import BlogPrecioBcn from "./pages/BlogPrecioBcn";
@@ -43,6 +45,7 @@ import IntlHubPage from "./pages/IntlHubPage";
 import IntlCityPage from "./pages/IntlCityPage";
 import IntlGuidePage from "./pages/IntlGuidePage";
 import IntlPartPage from "./pages/IntlPartPage";
+import { pathLanguage } from "@/lib/pathLanguage";
 import type { Language } from "@/contexts/LanguageContext";
 
 export { ALL_PAGES, CITY_PAGES, partPages, ALL_INTL_SLUGS };
@@ -51,35 +54,8 @@ type HelmetServerContext = {
   helmet?: HelmetServerState | null;
 };
 
-// Mirror of pathLanguage() in LanguageContext.tsx — must stay in sync.
-function urlLanguage(path: string): Language {
-  if (path.startsWith("/ca/") || path === "/ca") return "ca";
-  if (path.startsWith("/de/")) return "de";
-  if (path.startsWith("/nl/")) return "nl";
-  if (path.startsWith("/fr/")) return "fr";
-  if (path.startsWith("/it/")) return "it";
-  if (path.startsWith("/pt/")) return "pt";
-  if (path === "/3d-printing-delivery-paris") return "fr";
-  if (path === "/3d-printing-delivery-berlin") return "de";
-  if (path === "/3d-printing-delivery-amsterdam") return "nl";
-  if (path === "/3d-printing-delivery-milan") return "it";
-  if (path === "/3d-printing-delivery-rome") return "it";
-  if (path === "/3d-printing-delivery-lisbon") return "pt";
-  if (path === "/design-your-3d-part") return "en";
-  if (path === "/dissenya-la-teva-peca-3d") return "ca";
-  if (
-    path === "/mit-3d-drucker-geld-verdienen" ||
-    path === "/ist-3d-druck-geschaeft-rentabel" ||
-    path === "/kunden-fuer-3d-druck-finden"
-  ) return "de";
-  if (
-    path.startsWith("/3d-printing-") ||
-    path.startsWith("/blog") ||
-    path === "/maker-guide" ||
-    path === "/privacy"
-  ) return "en";
-  return "es";
-}
+// urlLanguage is now the shared pathLanguage — single source of truth.
+const urlLanguage = pathLanguage;
 
 export function render(url: string): { html: string; helmetContext: HelmetServerContext } {
   const helmetContext: HelmetServerContext = {};
@@ -94,6 +70,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
             <Toaster />
             <Sonner />
             <StaticRouter location={url}>
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/ca" element={<Index />} />
@@ -109,7 +86,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
-                <Route path="/impresion-3d-empresas-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/impresion-3d-empresas-barcelona"]} />} />
+                <Route path="/impresion-3d-empresas-barcelona" element={<EmpresasBcn />} />
                 <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
                 {ALL_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
@@ -147,6 +124,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 ))}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+            </Suspense>
             </StaticRouter>
           </TooltipProvider>
         </LanguageProvider>

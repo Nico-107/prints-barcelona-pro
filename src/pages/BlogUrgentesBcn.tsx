@@ -18,8 +18,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa | Dimension3D";
-const META_DESC = "Guía completa sobre impresión 3D urgente en Barcelona: cuándo conviene pedirla, plazos reales por material, precios sin recargo y cómo preparar tu archivo para entrega en 24–48h.";
+const META_TITLE = "Impresión 3D Urgente en Barcelona — Guía";
+const META_DESC = "Guía de impresión 3D urgente en Barcelona: cuándo pedirla, plazos reales por material, precios sin recargo. Entrega en 24–48h.";
 const CANONICAL = `${SITE_URL}/blog/impresion-3d-urgente-barcelona`;
 
 const FAQS = [

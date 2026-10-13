@@ -406,7 +406,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 
   // File Checker
-  "checker.meta.title": "Is Jouw 3D-Bestand Printklaar? Gratis STL-Checker | Dimension3D",
+  "checker.meta.title": "Is Jouw 3D-Bestand Printklaar? Gratis STL-Checker",
   "checker.meta.description": "Gratis STL-checker in de browser. Afmetingen, geschat PLA-gewicht en beoordeling van overhangen in seconden — zonder aanmelding, geen upload naar server.",
   "checker.badge": "Gratis tool · Zonder aanmelding",
   "checker.heading": "Is jouw 3D-bestand printklaar?",
@@ -445,7 +445,7 @@ export const nlTranslations: Record<string, string> = {
   "banner.dismiss": "Sluiten",
 
   // Makers page
-  "makers.meta.title": "Word lid van ons Maker Netwerk | Dimension3D",
+  "makers.meta.title": "Word lid van ons Maker Netwerk",
   "makers.meta.description": "Heeft u een 3D-printer? Word partner van Dimension3D, print echte bestellingen en verdien geld met uw machine.",
   "makers.hero.title": "Heeft u een 3D-printer? Word lid van ons maker netwerk",
   "makers.hero.subtitle": "Word partner van Dimension3D, ontvang printklare bestellingen en verdien geld met uw machine.",
@@ -505,7 +505,7 @@ export const nlTranslations: Record<string, string> = {
   "b2bhome.cta": "Zakelijke diensten verkennen",
 
   // Privacy page
-  "privacy.meta.title": "Privacybeleid | Dimension3D",
+  "privacy.meta.title": "Privacybeleid",
   "privacy.meta.description": "Hoe Dimension3D anonieme analysegegevens verzamelt en cookies gebruikt.",
   "privacy.back": "← Terug naar startpagina",
   "privacy.title": "Privacybeleid",
@@ -524,7 +524,7 @@ export const nlTranslations: Record<string, string> = {
   "privacy.consent.change": "Voorkeur wijzigen",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Kwaliteitsgarantie | Dimension3D",
+  "returns.meta.title": "Kwaliteitsgarantie",
   "returns.meta.description": "Als je print met een defect aankomt of niet overeenkomt met de offerte, laat het ons binnen 7 dagen weten en we lossen het kosteloos op.",
   "returns.back": "← Terug naar home",
   "returns.title": "Kwaliteitsgarantie",
@@ -712,7 +712,7 @@ export const nlTranslations: Record<string, string> = {
   "xp.hero.v3.title": "Maatwerk 3D printen in Barcelona — Prototypes, reserveonderdelen en unieke stukken",
   "xp.hero.v3.subtitle": "Upload een 3D-bestand voor een directe prijs of stuur een foto. Een echt persoon beoordeelt elke bestelling en reageert binnen 1 uur.",
   "xp.hero.v3.pill": "Gratis offerte · Geen minimum · PLA, PETG, ABS, TPU · 24–48 u",
-  "xp.hero.v3.button": "Mijn prijs berekenen — direct met een 3D-bestand",
+  "xp.hero.v3.button": "Mijn prijs berekenen — direct",
   "xp.hero.v3.under": "Upload een STL-bestand · Geen account · Geen verplichting · Een echt persoon beoordeelt elke bestelling",
   "xp.hero.v4.title": "3D printen in Barcelona — Vanaf € 10, geen minimum",
   "xp.hero.v4.subtitle": "Stuur een bestand of foto en krijg je prijs in minder dan 1 uur.",
@@ -730,8 +730,8 @@ export const nlTranslations: Record<string, string> = {
   "xp.calc.v4": "Directe prijs — vanaf € 10",
 
   // Lemon referral page
-  "lemon.meta.title": "3D Printen in Barcelona — Maatwerk op Aanvraag | Dimension3D",
-  "lemon.meta.desc": "We maken elk onderdeel of accessoire in 3D in Barcelona. Stuur een foto, krijg een prijs binnen een uur, haal het op of laat het bezorgen. Vanaf € 10, geen minimum.",
+  "lemon.meta.title": "3D Printen in Barcelona — Maatwerk op Aanvraag",
+  "lemon.meta.desc": "We maken elk onderdeel of accessoire in 3D in Barcelona. Stuur een foto, krijg een prijs binnen een uur, afhalen of laten bezorgen. Vanaf €10, geen minimum.",
   "lemon.hero.title": "Alles wat je nodig hebt, gemaakt in 3D.",
   "lemon.hero.subtitle": "Een kapot onderdeel, een onvindbaar accessoire, een eenmalig stuk.",
   "lemon.hero.detail": "Stuur een foto of een bestand — krijg een prijs binnen een uur.",
@@ -759,4 +759,22 @@ export const nlTranslations: Record<string, string> = {
   "lemon.hero.headline": "Alles wat je nodig hebt, gemaakt in 3D.",
   "lemon.hero.sub": "Stuur ons een foto van wat je nodig hebt — we reageren meestal binnen een uur.",
   "lemon.location": "Werkplaats in Sants, Barcelona · afhalen of bezorging door heel Europa",
+  "nav.forBusiness": "Voor bedrijven",
+  "nav.catalog": "Catalogus",
+  "nav.customDesign": "Maatwerk ontwerp",
+  "nav.resources": "Bronnen",
+  "nav.tools": "Hulpmiddelen",
+  "nav.fileChecker": "Bestand controleren",
+  "nav.returnPolicy": "Retourbeleid",
+  "nav.guides": "Handleidingen",
+  "hub.ctaButton": "Bestand uploaden en prijs zien",
+  "hub.whatsappBtn": "WhatsApp schrijven",
+  "footer.specialties": "Specialiteiten",
+  "footer.popular": "Populair",
+  "footer.cities": "Steden & Bezorging",
+  "footer.countries": "Landen waar we naartoe leveren",
+  "footer.popularProducts": "Populaire producten",
+  "footer.returnPolicy": "Retourbeleid",
+  "footer.forBusiness": "Voor bedrijven",
+  "footer.guides": "Handleidingen",
 };

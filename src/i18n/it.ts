@@ -406,7 +406,7 @@ export const itTranslations: Record<string, string> = {
   "calc.dropzone.noFile.cta": "Lo progettiamo da una foto o un'idea",
 
   // File Checker
-  "checker.meta.title": "Il Tuo File 3D È Pronto per la Stampa? Verifica STL Gratuita | Dimension3D",
+  "checker.meta.title": "Il Tuo File 3D È Pronto per la Stampa? Verifica STL Gratuita",
   "checker.meta.description": "Verifica STL gratuita nel browser. Dimensioni, peso PLA stimato e valutazione degli aggetti in pochi secondi — senza registrazione, senza upload al server.",
   "checker.badge": "Strumento gratuito · Senza registrazione",
   "checker.heading": "Il tuo file 3D è pronto per la stampa?",
@@ -445,7 +445,7 @@ export const itTranslations: Record<string, string> = {
   "banner.dismiss": "Chiudi",
 
   // Makers page
-  "makers.meta.title": "Unisciti alla nostra rete di Maker | Dimension3D",
+  "makers.meta.title": "Unisciti alla nostra rete di Maker",
   "makers.meta.description": "Hai una stampante 3D? Diventa partner di Dimension3D, stampa ordini reali e guadagna con la tua macchina.",
   "makers.hero.title": "Hai una stampante 3D? Unisciti alla nostra rete di maker",
   "makers.hero.subtitle": "Diventa partner di Dimension3D, ricevi ordini pronti da stampare e guadagna con la tua macchina.",
@@ -505,7 +505,7 @@ export const itTranslations: Record<string, string> = {
   "b2bhome.cta": "Scopri i servizi per aziende",
 
   // Privacy page
-  "privacy.meta.title": "Informativa sulla privacy | Dimension3D",
+  "privacy.meta.title": "Informativa sulla privacy",
   "privacy.meta.description": "Come Dimension3D raccoglie dati analitici anonimi e utilizza i cookie.",
   "privacy.back": "← Torna alla home",
   "privacy.title": "Informativa sulla privacy",
@@ -524,7 +524,7 @@ export const itTranslations: Record<string, string> = {
   "privacy.consent.change": "Cambia preferenza",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Garanzia di Qualità | Dimension3D",
+  "returns.meta.title": "Garanzia di Qualità",
   "returns.meta.description": "Se la tua stampa arriva con un difetto o non corrisponde al preventivo, contattaci entro 7 giorni e risolveremo il problema senza costi.",
   "returns.back": "← Torna alla home",
   "returns.title": "Garanzia di Qualità",
@@ -712,7 +712,7 @@ export const itTranslations: Record<string, string> = {
   "xp.hero.v3.title": "Stampa 3D personalizzata a Barcellona — Prototipi, ricambi e pezzi unici",
   "xp.hero.v3.subtitle": "Carica un file 3D per un prezzo istantaneo o invia una foto. Una persona reale esamina ogni ordine e risponde in meno di 1 ora.",
   "xp.hero.v3.pill": "Preventivo gratuito · Senza minimo · PLA, PETG, ABS, TPU · 24–48 h",
-  "xp.hero.v3.button": "Calcola il mio prezzo — istantaneo con un file 3D",
+  "xp.hero.v3.button": "Calcola il mio prezzo — istantaneo",
   "xp.hero.v3.under": "Carica un file STL · Senza account · Senza impegno · Una persona reale esamina ogni ordine",
   "xp.hero.v4.title": "Stampa 3D a Barcellona — Da 10 €, senza minimo",
   "xp.hero.v4.subtitle": "Invia un file o una foto e ottieni il tuo prezzo in meno di 1 ora.",
@@ -730,7 +730,7 @@ export const itTranslations: Record<string, string> = {
   "xp.calc.v4": "Prezzo istantaneo — da 10 €",
 
   // Lemon referral page
-  "lemon.meta.title": "Stampa 3D a Barcellona — Pezzi personalizzati su richiesta | Dimension3D",
+  "lemon.meta.title": "Stampa 3D a Barcellona — Pezzi personalizzati su richiesta",
   "lemon.meta.desc": "Realizziamo qualsiasi pezzo o accessorio in 3D a Barcellona. Invia una foto, ottieni un prezzo entro un'ora, ritiralo o fallo consegnare. Da 10 €, senza minimo.",
   "lemon.hero.title": "Tutto ciò di cui hai bisogno, fatto in 3D.",
   "lemon.hero.subtitle": "Un pezzo rotto, un accessorio introvabile, un pezzo unico.",
@@ -759,4 +759,22 @@ export const itTranslations: Record<string, string> = {
   "lemon.hero.headline": "Tutto ciò di cui hai bisogno, fatto in 3D.",
   "lemon.hero.sub": "Inviaci una foto di ciò di cui hai bisogno — di solito rispondiamo entro un'ora.",
   "lemon.location": "Laboratorio a Sants, Barcellona · ritiro o spedizione in tutta Europa",
+  "nav.forBusiness": "Per le aziende",
+  "nav.catalog": "Catalogo",
+  "nav.customDesign": "Design su misura",
+  "nav.resources": "Risorse",
+  "nav.tools": "Strumenti",
+  "nav.fileChecker": "Controlla il file",
+  "nav.returnPolicy": "Politica di reso",
+  "nav.guides": "Guide",
+  "hub.ctaButton": "Carica file e vedi il prezzo",
+  "hub.whatsappBtn": "Scrivi su WhatsApp",
+  "footer.specialties": "Specialità",
+  "footer.popular": "Popolare",
+  "footer.cities": "Città & Consegna",
+  "footer.countries": "Paesi dove consegniamo",
+  "footer.popularProducts": "Prodotti popolari",
+  "footer.returnPolicy": "Politica di reso",
+  "footer.forBusiness": "Per le aziende",
+  "footer.guides": "Guide",
 };

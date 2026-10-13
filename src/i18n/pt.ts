@@ -406,7 +406,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.dropzone.noFile.cta": "Criamo-lo a partir de uma foto ou ideia",
 
   // File Checker
-  "checker.meta.title": "O Seu Ficheiro 3D Está Pronto para Imprimir? Verificador STL Gratuito | Dimension3D",
+  "checker.meta.title": "Verificador STL Gratuito — Ficheiro 3D Pronto?",
   "checker.meta.description": "Verificador STL gratuito no navegador. Dimensões, peso estimado em PLA e avaliação de balanços em segundos — sem registo, sem envio para servidor.",
   "checker.badge": "Ferramenta gratuita · Sem registo",
   "checker.heading": "O seu ficheiro 3D está pronto para imprimir?",
@@ -445,7 +445,7 @@ export const ptTranslations: Record<string, string> = {
   "banner.dismiss": "Fechar",
 
   // Makers page
-  "makers.meta.title": "Junte-se à nossa rede de Makers | Dimension3D",
+  "makers.meta.title": "Junte-se à nossa rede de Makers",
   "makers.meta.description": "Tem uma impressora 3D? Torne-se parceiro da Dimension3D, imprima encomendas reais e ganhe dinheiro com a sua máquina.",
   "makers.hero.title": "Tem uma impressora 3D? Junte-se à nossa rede de makers",
   "makers.hero.subtitle": "Torne-se parceiro da Dimension3D, receba encomendas prontas a imprimir e ganhe dinheiro com a sua máquina.",
@@ -505,7 +505,7 @@ export const ptTranslations: Record<string, string> = {
   "b2bhome.cta": "Explorar serviços para empresas",
 
   // Privacy page
-  "privacy.meta.title": "Política de privacidade | Dimension3D",
+  "privacy.meta.title": "Política de privacidade",
   "privacy.meta.description": "Como a Dimension3D recolhe dados analíticos anónimos e utiliza cookies.",
   "privacy.back": "← Voltar ao início",
   "privacy.title": "Política de privacidade",
@@ -524,7 +524,7 @@ export const ptTranslations: Record<string, string> = {
   "privacy.consent.change": "Alterar preferência",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Garantia de Qualidade | Dimension3D",
+  "returns.meta.title": "Garantia de Qualidade",
   "returns.meta.description": "Se a sua impressão chegar com um defeito ou não corresponder ao orçamento, avise-nos em 7 dias e resolvemos sem custo.",
   "returns.back": "← Voltar ao início",
   "returns.title": "Garantia de Qualidade",
@@ -662,7 +662,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.scope.makeSame": "Igualar todas as peças",
 
   // DesignRequest page
-  "design.meta.title": "Serviço de Design 3D Barcelona — Sem Ficheiro, a partir de uma Foto",
+  "design.meta.title": "Serviço de Design 3D Barcelona — sem ficheiro",
   "design.meta.description": "Serviço de design 3D em Barcelona — sem ficheiro 3D necessário. Envie uma foto ou descreva a peça e nós desenhamos e imprimimos por si. Orçamento gratuito em 1 hora.",
   "design.hero.badge": "Sem ficheiro 3D necessário",
   "design.hero.heading": "Sem ficheiro 3D? Sem problema.",
@@ -712,7 +712,7 @@ export const ptTranslations: Record<string, string> = {
   "xp.hero.v3.title": "Impressão 3D personalizada em Barcelona — Protótipos, peças de substituição e peças únicas",
   "xp.hero.v3.subtitle": "Carregue um ficheiro 3D para um preço imediato ou envie uma foto. Uma pessoa real analisa cada encomenda e responde em menos de 1 hora.",
   "xp.hero.v3.pill": "Orçamento gratuito · Sem mínimo · PLA, PETG, ABS, TPU · 24–48 h",
-  "xp.hero.v3.button": "Calcular o meu preço — imediato com um ficheiro 3D",
+  "xp.hero.v3.button": "Calcular o meu preço — imediato",
   "xp.hero.v3.under": "Carregue um ficheiro STL · Sem conta · Sem compromisso · Uma pessoa real analisa cada encomenda",
   "xp.hero.v4.title": "Impressão 3D em Barcelona — A partir de 10 €, sem mínimo",
   "xp.hero.v4.subtitle": "Envie um ficheiro ou foto e obtenha o preço em menos de 1 hora.",
@@ -730,8 +730,8 @@ export const ptTranslations: Record<string, string> = {
   "xp.calc.v4": "Preço imediato — a partir de 10 €",
 
   // Lemon referral page
-  "lemon.meta.title": "Impressão 3D em Barcelona — Peças personalizadas a pedido | Dimension3D",
-  "lemon.meta.desc": "Fabricamos qualquer peça ou acessório em 3D em Barcelona. Envie uma foto, obtenha um preço em menos de uma hora, levante ou receba em casa. A partir de 10 €, sem mínimo.",
+  "lemon.meta.title": "Impressão 3D em Barcelona — Peças personalizadas a pedido",
+  "lemon.meta.desc": "Fabricamos qualquer peça em 3D em Barcelona. Envie uma foto, obtenha preço em menos de uma hora, levante ou receba em casa. A partir de 10 €, sem mínimo.",
   "lemon.hero.title": "Tudo o que precisa, feito em 3D.",
   "lemon.hero.subtitle": "Uma peça partida, um acessório que não encontra, uma peça única.",
   "lemon.hero.detail": "Envie uma foto ou um ficheiro — obtenha um preço em menos de uma hora.",
@@ -759,4 +759,22 @@ export const ptTranslations: Record<string, string> = {
   "lemon.hero.headline": "Tudo o que precisa, feito em 3D.",
   "lemon.hero.sub": "Envie-nos uma foto do que precisa — normalmente respondemos em menos de uma hora.",
   "lemon.location": "Oficina em Sants, Barcelona · levantamento ou entrega em toda a Europa",
+  "nav.forBusiness": "Para empresas",
+  "nav.catalog": "Catálogo",
+  "nav.customDesign": "Design personalizado",
+  "nav.resources": "Recursos",
+  "nav.tools": "Ferramentas",
+  "nav.fileChecker": "Verificar ficheiro",
+  "nav.returnPolicy": "Política de devoluções",
+  "nav.guides": "Guias",
+  "hub.ctaButton": "Carregar ficheiro e ver preço",
+  "hub.whatsappBtn": "Escrever no WhatsApp",
+  "footer.specialties": "Especialidades",
+  "footer.popular": "Popular",
+  "footer.cities": "Cidades & Entrega",
+  "footer.countries": "Países para onde entregamos",
+  "footer.popularProducts": "Produtos populares",
+  "footer.returnPolicy": "Política de devoluções",
+  "footer.forBusiness": "Para empresas",
+  "footer.guides": "Guias",
 };

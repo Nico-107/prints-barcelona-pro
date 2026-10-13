@@ -30,12 +30,9 @@ function routeLanguage(path) {
   if (path.startsWith("/it/")) return "it";
   if (path.startsWith("/pt/")) return "pt";
   if (path === "/3d-printing-delivery-paris") return "fr";
-  if (path === "/3d-printing-delivery-berlin") return "de";
-  if (path === "/3d-printing-delivery-amsterdam") return "nl";
-  if (path === "/3d-printing-delivery-milan") return "it";
-  if (path === "/3d-printing-delivery-rome") return "it";
-  if (path === "/3d-printing-delivery-lisbon") return "pt";
-  if (path === "/design-your-3d-part") return "en";
+  // Other /3d-printing-delivery-* pages are EN-language content pages
+  if (path === "/design-your-3d-part" || path === "/3d-file-checker") return "en";
+  if (path === "/comprovador-arxiu-3d") return "ca";
   if (path === "/dissenya-la-teva-peca-3d") return "ca";
   if (
     path === "/mit-3d-drucker-geld-verdienen" ||
@@ -44,9 +41,25 @@ function routeLanguage(path) {
   ) return "de";
   if (
     path.startsWith("/3d-printing-") ||
-    path.startsWith("/blog") ||
     path === "/maker-guide" ||
     path === "/privacy"
+  ) return "en";
+  // English landing pages with non-/3d-printing- prefixes
+  if (
+    path.startsWith("/custom-parts-") ||
+    path.startsWith("/prototype-printing-") ||
+    path.startsWith("/urgent-3d-printing-") ||
+    path.startsWith("/replacement-parts-") ||
+    path.startsWith("/pla-printing-") ||
+    path.startsWith("/petg-printing-") ||
+    path.startsWith("/tpu-printing-") ||
+    path.startsWith("/miniatures-") ||
+    path.startsWith("/rapid-prototyping-") ||
+    path.startsWith("/functional-parts-") ||
+    path.startsWith("/best-3d-printing-") ||
+    path.startsWith("/short-run-3d-printing-") ||
+    path.startsWith("/how-to-") ||
+    path.startsWith("/is-3d-printing-")
   ) return "en";
   return "es";
 }
@@ -63,16 +76,19 @@ const HTML_LANG_MAP = {
 };
 
 // ─── Known foreign UI strings per language ──────────────────────────────────
-// If these appear on a page whose expected lang is different, it's R2 violation
+// Markers must be UNIQUE to that language — words that exist in multiple
+// languages (e.g. "Services" EN+FR, "Materials" EN+CA, "Home" EN+IT) are
+// excluded to prevent false positives.
 const LANGUAGE_MARKERS = {
-  es: ["Servicios", "Materiales", "Proyectos", "Subir archivo", "Reseñas", "Cómo funciona", "Inicio"],
-  ca: ["Serveis", "Materials", "Projectes", "Pujar arxiu", "Ressenyes"],
-  en: ["Services", "Materials", "Projects", "Upload file", "Reviews", "How it works", "Home"],
-  fr: ["Services", "Matériaux", "Projets", "Télécharger un fichier", "Avis", "Accueil"],
-  de: ["Leistungen", "Materialien", "Projekte", "Datei hochladen", "Kundenbewertungen", "Startseite"],
-  nl: ["Diensten", "Materialen", "Projecten", "Bestand uploaden", "Beoordelingen", "Startpagina"],
-  it: ["Servizi", "Materiali", "Progetti", "Carica file", "Recensioni", "Home"],
-  pt: ["Serviços", "Materiais", "Projetos", "Carregar ficheiro", "Avaliações", "Início"],
+  es: ["Servicios", "Materiales", "Subir archivo", "Reseñas", "Cómo funciona"],
+  ca: ["Serveis", "Projectes", "Pujar arxiu", "Ressenyes", "Enviaments"],
+  en: ["Upload file", "How it works", "Track Order", "Become a Maker"],
+  // "Impression 3D", "Stampa 3D", "Impressão 3D" excluded — appear in footer country links on every page
+  fr: ["Matériaux", "Télécharger un fichier", "Accueil"],
+  de: ["Leistungen", "Materialien", "Datei hochladen", "Kundenbewertungen", "Startseite"],
+  nl: ["Diensten", "Materialen", "Bestand uploaden", "Beoordelingen", "Startpagina"],
+  it: ["Servizi", "Carica file", "Recensioni"],
+  pt: ["Serviços", "Materiais", "Carregar ficheiro", "Avaliações"],
 };
 
 // ─── Parse sitemap ────────────────────────────────────────────────────────────
@@ -220,13 +236,22 @@ async function checkPage(browser, route, locale, vp, port) {
   const consoleErrors = [];
   const page = await context.newPage();
   page.on("console", (msg) => {
-    if (msg.type() === "error") consoleErrors.push(msg.text());
+    if (msg.type() === "error") {
+      const text = msg.text();
+      // Skip known environment noise in static QA builds
+      if (text.includes("429") || text.includes("WebSocket") || text.includes("ERR_NAME_NOT_RESOLVED")) return;
+      consoleErrors.push(text);
+    }
     if (msg.type() === "warning" && (
       msg.text().includes("Hydration failed") ||
       msg.text().includes("did not match")
     )) consoleErrors.push("HYDRATION: " + msg.text());
   });
-  page.on("pageerror", (err) => consoleErrors.push("PAGE_ERR: " + err.message));
+  page.on("pageerror", (err) => {
+    const text = err.message ?? "";
+    if (text.includes("429") || text.includes("WebSocket") || text.includes("ERR_NAME_NOT_RESOLVED")) return;
+    consoleErrors.push("PAGE_ERR: " + text);
+  });
 
   try {
     await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
@@ -317,8 +342,11 @@ async function checkPage(browser, route, locale, vp, port) {
           return rect.width > 0 && rect.height > 0 && rect.top >= 0 && rect.top < window.innerHeight + 200;
         });
         for (const btn of visibleButtons.slice(0, 30)) { // check first 30 visible
-          const text = btn.textContent?.trim().replace(/\s+/g, " ") ?? "";
+          // Use innerText so display:none children (A/B test hidden variants) are excluded
+          const text = (btn.innerText ?? btn.textContent ?? "").trim().replace(/\s+/g, " ");
           if (!text) continue;
+          // Skip single-character math/symbol controls (quantity +/− buttons)
+          if (/^[+\-×÷±−]$/.test(text)) continue;
           if (text.length < 2) {
             issues.push(`Too short: "${text}"`);
           } else if (text.length > 45) {

@@ -1,4 +1,4 @@
-import { Fragment, lazy, Suspense, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
@@ -14,11 +14,8 @@ import type { LandingContent, LandingTopic } from "@/seo/landingPages";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { StlEstimator } from "@/components/StlEstimator";
 
-// Topics classed as guides — get TechArticle instead of plain Article, and
-// benefit most from freshness signals since they compete for AI-answer
-// citation on procedural queries.
-const StlEstimator = lazy(() => import("@/components/StlEstimator"));
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "choosing-service",
@@ -464,9 +461,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
         {/* Calculator */}
         {!isMaker && (
-          <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl mx-4" />}>
-            <StlEstimator highlighted={calcHighlight} />
-          </Suspense>
+          <StlEstimator highlighted={calcHighlight} />
         )}
 
         {/* CTA */}

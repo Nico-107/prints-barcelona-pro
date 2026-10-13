@@ -8,6 +8,7 @@ import { deTranslations } from "@/i18n/de";
 import { nlTranslations } from "@/i18n/nl";
 import { itTranslations } from "@/i18n/it";
 import { ptTranslations } from "@/i18n/pt";
+import { pathLanguage as _pathLanguage } from "@/lib/pathLanguage";
 
 export type Language = "es" | "en" | "ca" | "fr" | "de" | "nl" | "it" | "pt";
 
@@ -31,31 +32,8 @@ const translations: Record<Language, Record<string, string>> = {
   pt: ptTranslations,
 };
 
-// Derive language from a URL path alone — deterministic, no browser APIs needed.
-// Must stay in sync with the SSR detect function in entry-server.tsx.
-function pathLanguage(path: string): Language {
-  if (path.startsWith("/ca/") || path === "/ca") return "ca";
-  if (path === "/3d-printing-delivery-paris") return "fr";
-  if (path === "/3d-printing-delivery-berlin") return "de";
-  if (path === "/3d-printing-delivery-amsterdam") return "nl";
-  if (path === "/3d-printing-delivery-milan") return "it";
-  if (path === "/3d-printing-delivery-rome") return "it";
-  if (path === "/3d-printing-delivery-lisbon") return "pt";
-  if (path === "/design-your-3d-part") return "en";
-  if (path === "/dissenya-la-teva-peca-3d") return "ca";
-  if (
-    path === "/mit-3d-drucker-geld-verdienen" ||
-    path === "/ist-3d-druck-geschaeft-rentabel" ||
-    path === "/kunden-fuer-3d-druck-finden"
-  ) return "de";
-  if (
-    path.startsWith("/3d-printing-") ||
-    path.startsWith("/blog") ||
-    path === "/maker-guide" ||
-    path === "/privacy"
-  ) return "en";
-  return "es";
-}
+// Re-export the shared pathLanguage so other files can import from here.
+const pathLanguage = _pathLanguage;
 
 export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?: Language }> = ({
   children,
@@ -74,27 +52,24 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
   // persisting page-forced languages (en, fr) to localStorage.
   const manualOverride = useRef(false);
 
-  // After hydration completes, apply the user's stored preference or browser
-  // language. Runs client-only (useEffect never runs during SSR), so it cannot
-  // cause a hydration mismatch — it simply triggers a post-hydration re-render.
+  // After hydration, apply the user's explicitly stored language preference.
+  // The URL always decides the language on first load; only an explicit switcher
+  // click can change it. Browser navigator.language is intentionally NOT used
+  // (it caused Spanish content with English chrome on /de/ and Spanish pages).
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const pageLang = pathLanguage(window.location.pathname);
-        if (pageLang === "en" || pageLang === "fr" || pageLang === "de" || pageLang === "nl" || pageLang === "it" || pageLang === "pt") return;
-        // /lemon serves walk-in Barcelona shoppers — force ES regardless of stored
-        // preference or browser locale. The plaque audience is local, not a remote
-        // English visitor whose browser happens to say en.
+        // Forced-language pages (all non-es paths) are never overridden.
+        if (pageLang !== "es") return;
+        // /lemon forces ES for the walk-in NFC audience.
         if (window.location.pathname === "/lemon") return;
         if (manualOverride.current) return;
+        // Apply only an explicit prior preference — no browser-language fallback.
         const stored = localStorage.getItem("preferred-language");
-        if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
+        if (stored === "en" || stored === "ca") {
           setLanguageState(stored as Language);
-          return;
         }
-        const browserLang = navigator.language.toLowerCase();
-        if (browserLang.startsWith("ca")) setLanguageState("ca");
-        else if (browserLang.startsWith("en")) setLanguageState("en");
       });
     });
     return () => cancelAnimationFrame(id);
@@ -113,35 +88,30 @@ export const LanguageProvider: React.FC<{ children: ReactNode; defaultLanguage?:
     setLanguageState(lang);
   }, []);
 
-  // Used by LanguageNavigationSync (rendered inside BrowserRouter) to re-sync
-  // language on client-side navigation. setLanguageState and manualOverride are
-  // both stable, so this callback never needs to be recreated.
+  // Used by LanguageNavigationSync on client-side navigation. The URL always
+  // determines the language; an explicit preference overrides only for es pages.
   const syncFromPath = useCallback((pathname: string) => {
     const pageLang = pathLanguage(pathname);
-    if (
-      pageLang === "en" || pageLang === "fr" || pageLang === "de" ||
-      pageLang === "nl" || pageLang === "it" || pageLang === "pt"
-    ) {
+    if (pageLang !== "es") {
+      // All non-Spanish paths are URL-forced: no override allowed.
       setLanguageState(pageLang);
       manualOverride.current = false;
       return;
     }
-    // /lemon forces ES on navigation too — see comment on the mount effect above.
+    // /lemon forces ES.
     if (pathname === "/lemon") {
       setLanguageState("es");
       manualOverride.current = false;
       return;
     }
     if (manualOverride.current) return;
+    // Apply stored explicit preference only (no browser language fallback).
     const stored = localStorage.getItem("preferred-language");
-    if (stored === "es" || stored === "en" || stored === "ca" || stored === "fr") {
+    if (stored === "en" || stored === "ca") {
       setLanguageState(stored as Language);
       return;
     }
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith("ca")) setLanguageState("ca");
-    else if (browserLang.startsWith("en")) setLanguageState("en");
-    else setLanguageState("es");
+    setLanguageState("es");
   }, []);
 
   const t = (key: string): string =>

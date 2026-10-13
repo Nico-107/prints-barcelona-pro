@@ -48,8 +48,8 @@ interface GuideCopy {
 
 const COPY: Record<string, GuideCopy> = {
   en: {
-    metaTitle: "How It Works for Makers — Full Guide | Dimension3D",
-    metaDesc: "The complete guide to joining the Dimension3D maker network: how orders reach you, how to quote, how to get paid directly with zero commission, and what we provide.",
+    metaTitle: "How It Works for Makers — Full Guide",
+    metaDesc: "The complete guide to joining the Dimension3D maker network: how orders reach you, how to quote, how to get paid directly with zero commission.",
     breadcrumbMakers: "Become a Maker",
     breadcrumbGuide: "How It Works",
     eyebrow: "The Maker Guide",
@@ -183,8 +183,8 @@ const COPY: Record<string, GuideCopy> = {
   },
 
   es: {
-    metaTitle: "Cómo funciona para makers — Guía completa | Dimension3D",
-    metaDesc: "La guía completa para unirte a la red de makers de Dimension3D: cómo llegan los pedidos, cómo presupuestar, cómo cobrar directamente con cero comisión y qué te proporcionamos.",
+    metaTitle: "Cómo funciona para makers — Guía completa",
+    metaDesc: "La guía completa para unirte a la red de makers de Dimension3D: cómo llegan los pedidos, cómo presupuestar y cómo cobrar con cero comisión.",
     breadcrumbMakers: "Únete como Maker",
     breadcrumbGuide: "Cómo funciona",
     eyebrow: "La Guía del Maker",
@@ -318,8 +318,8 @@ const COPY: Record<string, GuideCopy> = {
   },
 
   ca: {
-    metaTitle: "Com funciona per als makers — Guia completa | Dimension3D",
-    metaDesc: "La guia completa per unir-te a la xarxa de makers de Dimension3D: com arriben les comandes, com pressupostar, com cobrar directament amb zero comissió i què et proporcionem.",
+    metaTitle: "Com funciona per als makers — Guia completa",
+    metaDesc: "La guia completa per unir-te a la xarxa de makers de Dimension3D: com arriben les comandes, com pressupostar i com cobrar amb zero comissió.",
     breadcrumbMakers: "Uneix-te com a Maker",
     breadcrumbGuide: "Com funciona",
     eyebrow: "La Guia del Maker",

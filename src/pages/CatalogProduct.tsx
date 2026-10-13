@@ -164,12 +164,12 @@ const CatalogProduct = () => {
   return (
     <>
       <Helmet>
-        <title>{productName} | Dimension3D</title>
+        <title>{productName}</title>
         <meta name="description" content={productDescription} />
         <link rel="canonical" href={`${SITE_URL}/catalogo/${slug}`} />
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
       </Helmet>
-      <SocialMeta title={`${productName} | Dimension3D`} description={productDescription} path={`/catalogo/${product.slug}`} />
+      <SocialMeta title={`${productName}`} description={productDescription} path={`/catalogo/${product.slug}`} />
       <Header />
       <main className="min-h-screen bg-background pt-24 pb-20">
         <div className="container px-4">

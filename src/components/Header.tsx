@@ -86,13 +86,10 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
 
   const isEs = language === "es";
   const isCa = language === "ca";
-  const isFr = language === "fr";
   const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? g.labelCa : isEs ? g.labelEs : g.labelEn;
   const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
-  const servicesLabel = isCa ? "Serveis" : isEs ? "Servicios" : "Services";
-  const recursosLabel = isCa ? "Recursos" : isEs ? "Recursos" : isFr ? "Ressources" : "Resources";
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -168,7 +165,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                   onClick={() => capture("nav_click", { menu: "main", label_key: "business", href: businessHref })}
                   className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors whitespace-nowrap border border-accent/30 hover:border-accent/60 rounded-full px-3 py-1"
                 >
-                  {isEs ? "Para empresas" : isCa ? "Per a empreses" : "For business"}
+                  {t("nav.forBusiness")}
                 </Link>
               );
             })()}
@@ -177,20 +174,20 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
-              {isEs ? "Catálogo" : isCa ? "Catàleg" : "Catalogue"}
+              {t("nav.catalog")}
             </Link>
             <Link
               to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
               onClick={() => capture("nav_click", { menu: "main", label_key: "custom-design", href: isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part" })}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
-              {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
+              {t("nav.customDesign")}
             </Link>
 
-            {/* Servicios — actual print services only */}
+            {/* Services menu */}
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
-                {servicesLabel}
+                {t("nav.services")}
                 <ChevronDown className="w-3.5 h-3.5" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56 bg-background z-50">
@@ -210,7 +207,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 })}
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
-                  {isEs ? "Herramientas" : isCa ? "Eines" : "Tools"}
+                  {t("nav.tools")}
                 </DropdownMenuLabel>
                 <DropdownMenuItem asChild>
                   <Link
@@ -218,16 +215,16 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                     onClick={() => capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
                     className="cursor-pointer"
                   >
-                    {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
+                    {t("nav.fileChecker")}
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Recursos — materials, for business, specialties, guides, for makers */}
+            {/* Resources menu */}
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
-                {recursosLabel}
+                {t("nav.resources")}
                 <ChevronDown className="w-3.5 h-3.5" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-64 bg-background z-50">
@@ -314,7 +311,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                     onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "business", href: businessHref }); }}
                     className="py-2.5 px-3 rounded-lg bg-accent/10 text-accent font-semibold text-sm"
                   >
-                    {isEs ? "Para empresas" : isCa ? "Per a empreses" : "For business"}
+                    {t("nav.forBusiness")}
                   </Link>
                 );
               })()}
@@ -332,27 +329,27 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" }); }}
                 className="text-left py-2 text-foreground font-medium"
               >
-                {isEs ? "Catálogo" : isCa ? "Catàleg" : "Catalogue"}
+                {t("nav.catalog")}
               </Link>
               <Link
                 to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
                 onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "custom-design", href: isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part" }); }}
                 className="text-left py-2 text-foreground font-medium"
               >
-                {isEs ? "Diseño a medida" : isCa ? "Disseny a mida" : "Custom Design"}
+                {t("nav.customDesign")}
               </Link>
               <Link
                 to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
                 onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" }); }}
                 className="text-left py-2 text-foreground font-medium"
               >
-                {isEs ? "Verificar archivo" : isCa ? "Comprovar arxiu" : "Check your file"}
+                {t("nav.fileChecker")}
               </Link>
 
               {/* Services section */}
               <div className="pt-2">
                 <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
-                  {servicesLabel}
+                  {t("nav.services")}
                 </p>
                 {servicesGroup.items.map((item) => {
                   const href = slugForLang(item, language as any);
@@ -372,7 +369,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               {/* Recursos section */}
               <div className="pt-2">
                 <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
-                  {recursosLabel}
+                  {t("nav.resources")}
                 </p>
                 {resourcesGroups.map((group) => (
                   <div key={group.labelEn} className="mb-2">

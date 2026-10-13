@@ -434,7 +434,7 @@ export const enTranslations: Record<string, string> = {
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 
   // File Checker
-  "checker.meta.title": "Is Your 3D File Ready to Print? Free STL Checker | Dimension3D",
+  "checker.meta.title": "Is Your 3D File Ready to Print? Free STL Checker",
   "checker.meta.description": "Free in-browser STL file checker. Dimensions, estimated PLA weight, and overhang assessment in seconds — no signup, no server upload.",
   "checker.badge": "Free tool · No signup",
   "checker.heading": "Is your 3D file ready to print?",
@@ -473,7 +473,7 @@ export const enTranslations: Record<string, string> = {
   "banner.dismiss": "Dismiss",
 
   // Makers page
-  "makers.meta.title": "Join Our Maker Network | Dimension3D",
+  "makers.meta.title": "Join Our Maker Network",
   "makers.meta.description": "Own a 3D printer? Partner with Dimension3D, print real orders, and earn money with your machine.",
   "makers.hero.title": "Own a 3D printer? Join our maker network",
   "makers.hero.subtitle": "Partner with Dimension3D, receive print-ready orders, and earn money with your machine.",
@@ -533,7 +533,7 @@ export const enTranslations: Record<string, string> = {
   "b2bhome.cta": "Explore business services",
 
   // Privacy page
-  "privacy.meta.title": "Privacy Policy | Dimension3D",
+  "privacy.meta.title": "Privacy Policy",
   "privacy.meta.description": "How Dimension3D collects anonymous analytics data and uses cookies.",
   "privacy.back": "← Back to home",
   "privacy.title": "Privacy policy",
@@ -591,14 +591,14 @@ export const enTranslations: Record<string, string> = {
   "nofile.cta": "Request a custom design",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Quality Guarantee | Dimension3D",
+  "returns.meta.title": "Quality Guarantee",
   "returns.meta.description": "If your print arrives with a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost.",
   "returns.back": "← Back to home",
   "returns.title": "Quality Guarantee",
   "returns.body": "If your print arrives with a defect or doesn't match what was quoted — our fault, not a design or material limitation you were already informed of — tell us within 7 days of delivery and we'll make it right, at no cost to you. Coverage for cases outside that (customer measurement errors, colour/material choices, etc.) is handled case-by-case — reach out and we'll talk it through.",
 
   // Lemon Printers referral landing page (/lemon — noindex, NFC plaque traffic only)
-  "lemon.meta.title": "3D Printing in Barcelona — Custom Parts on Demand | Dimension3D",
+  "lemon.meta.title": "3D Printing in Barcelona — Custom Parts on Demand",
   "lemon.meta.desc": "We make any part or accessory in 3D in Barcelona. Send a photo, get a price within the hour, collect it or have it shipped. From €10, no minimum order.",
   "lemon.hero.title": "Whatever you need, made in 3D.",
   "lemon.hero.subtitle": "A broken part, an accessory you can't find, a one-off piece.",
@@ -758,4 +758,22 @@ export const enTranslations: Record<string, string> = {
   "calc.scope.wholeOrder": "Whole order",
   "calc.scope.someCustom": "Some parts have custom settings — switch to Advanced to see them",
   "calc.scope.makeSame": "Make all parts the same",
+  "nav.forBusiness": "For business",
+  "nav.catalog": "Catalogue",
+  "nav.customDesign": "Custom Design",
+  "nav.resources": "Resources",
+  "nav.tools": "Tools",
+  "nav.fileChecker": "Check your file",
+  "nav.returnPolicy": "Return Policy",
+  "nav.guides": "Guides",
+  "hub.ctaButton": "Upload file and see price",
+  "hub.whatsappBtn": "WhatsApp",
+  "footer.specialties": "Specialties",
+  "footer.popular": "Popular",
+  "footer.cities": "Cities & Delivery",
+  "footer.countries": "Countries we ship to",
+  "footer.popularProducts": "Popular Products",
+  "footer.returnPolicy": "Return Policy",
+  "footer.forBusiness": "For Business",
+  "footer.guides": "Guides",
 };

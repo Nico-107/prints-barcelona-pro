@@ -22,8 +22,22 @@ const Footer = () => {
   const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
     isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
 
-  const forBusinessLabel = isCa ? "Per a Empreses" : isEs ? "Para Empresas" : "For Business";
+  const forBusinessLabel = t("footer.forBusiness");
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
+
+  // Map SERVICES_MENU labelEn → i18n key so footer group headers are translated for all 8 langs
+  const tGroupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) => {
+    const keyMap: Record<string, string> = {
+      "Services": "nav.services",
+      "Materials": "nav.materials",
+      "For Business": "footer.forBusiness",
+      "Specialties": "footer.specialties",
+      "Guides": "footer.guides",
+      "Popular": "footer.popular",
+    };
+    const key = keyMap[g.labelEn];
+    return key ? t(key) : groupLabel(g);
+  };
 
   // Delivery / cities column — surfaces the city-delivery pages and the
   // secondary landing routes (Madrid, Valencia) so they stop being orphans.
@@ -96,7 +110,7 @@ const Footer = () => {
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
               <Link to="/creator" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.aboutCreator")}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
-              <Link to="/politica-devoluciones" className="text-background/70 text-sm hover:text-background transition-colors">{isCa ? "Política de devolucions" : isEs ? "Política de devoluciones" : "Return Policy"}</Link>
+              <Link to="/politica-devoluciones" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.returnPolicy")}</Link>
             </div>
           </div>
         </div>
@@ -105,7 +119,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-10 pb-10 border-b border-background/10">
           {SERVICES_MENU.filter((g) => g.labelEn !== "Guides").map((group) => (
             <div key={group.labelEn}>
-              <p className="font-medium text-sm mb-3">{groupLabel(group)}</p>
+              <p className="font-medium text-sm mb-3">{tGroupLabel(group)}</p>
               <ul className="flex flex-col gap-1.5">
                 {group.items.map((item) => (
                   <li key={item.slugEn}>
@@ -120,11 +134,10 @@ const Footer = () => {
           {(() => {
             const guidesGroup = SERVICES_MENU.find((g) => g.labelEn === "Guides");
             const designSlug = isCa ? "/dissenya-la-teva-peca-3d" : isEs ? "/disena-tu-pieza-3d" : "/design-your-3d-part";
-            const designLabel = isCa ? "Disseny a mida" : isEs ? "Diseño a medida" : "Custom Design";
             return (
               <div>
                 <p className="font-medium text-sm mb-3">
-                  {isCa ? "Guies" : isEs ? "Guías" : "Guides"}
+                  {t("footer.guides")}
                 </p>
                 <ul className="flex flex-col gap-1.5">
                   {guidesGroup?.items.map((item) => (
@@ -136,7 +149,7 @@ const Footer = () => {
                   ))}
                   <li>
                     <Link to={designSlug} className="text-background/70 text-sm hover:text-background transition-colors">
-                      {designLabel}
+                      {t("nav.customDesign")}
                     </Link>
                   </li>
                   <li>
@@ -144,12 +157,12 @@ const Footer = () => {
                       to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : "/3d-file-checker"}
                       className="text-background/70 text-sm hover:text-background transition-colors"
                     >
-                      {isCa ? "Comprovador d'arxiu STL" : isEs ? "Verificador de archivo STL" : "STL File Checker"}
+                      {t("nav.fileChecker")}
                     </Link>
                   </li>
                   <li>
                     <Link to="/catalogo" className="text-background/70 text-sm hover:text-background transition-colors">
-                      {isCa ? "Catàleg" : isEs ? "Catálogo" : "Catalogue"}
+                      {t("nav.catalog")}
                     </Link>
                   </li>
                   <li>
@@ -188,7 +201,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 gap-8 mb-10 pb-10 border-b border-background/10">
           <div>
             <p className="font-medium text-sm mb-3">
-              {isCa ? "Ciutats i Enviaments" : isEs ? "Ciudades y Envíos" : "Cities & Delivery"}
+              {t("footer.cities")}
             </p>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               {deliveryLinks.map((l) => (
@@ -202,7 +215,7 @@ const Footer = () => {
           </div>
           <div>
             <p className="font-medium text-sm mb-3">
-              {isCa ? "Productes Populars" : isEs ? "Productos Populares" : "Popular Products"}
+              {t("footer.popularProducts")}
             </p>
             <ul className="flex flex-col gap-1.5">
               {catalogueProducts.map((p) => (
@@ -219,11 +232,7 @@ const Footer = () => {
         {/* Countries we ship to — links 5 native-language hubs; spec §2f */}
         <div className="mb-10 pb-10 border-b border-background/10">
           <p className="font-medium text-sm mb-3">
-            {isCa
-              ? "Països als quals enviem"
-              : isEs
-              ? "Países a los que enviamos"
-              : "Countries we ship to"}
+            {t("footer.countries")}
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
             <li>

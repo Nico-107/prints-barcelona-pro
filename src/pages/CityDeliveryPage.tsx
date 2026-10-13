@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck, ExternalLink } from "lucide-react";
@@ -11,6 +11,7 @@ import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import type { CityPageConfig } from "@/data/cityDeliveryPages";
 import { SHIP_COUNTRIES } from "@/lib/instantBuy";
+import { StlEstimator } from "@/components/StlEstimator";
 
 /** Map country string from cityDeliveryPages to ISO2 code for SHIP_COUNTRIES check */
 const COUNTRY_TO_ISO2: Record<string, string> = {
@@ -24,8 +25,6 @@ const COUNTRY_TO_ISO2: Record<string, string> = {
   "España": "ES",
   "Spain": "ES",
 };
-
-const StlEstimator = lazy(() => import("@/components/StlEstimator"));
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -472,9 +471,7 @@ const CityDeliveryPage = ({ config }: Props) => {
 
         {/* Calculator */}
         <section id="calculator" className="container px-4 py-10">
-          <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl" />}>
-            <StlEstimator refCity={config.city} refDays={config.deliveryDays} refPickupAvailable={!!config.localPickup} />
-          </Suspense>
+          <StlEstimator refCity={config.city} refDays={config.deliveryDays} refPickupAvailable={!!config.localPickup} />
           {/* Show "coming soon" note for countries not in instant-checkout SHIP_COUNTRIES */}
           {(() => {
             const iso2 = COUNTRY_TO_ISO2[config.country];

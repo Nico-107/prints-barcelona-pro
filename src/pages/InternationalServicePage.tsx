@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { Helmet } from "react-helmet-async";
@@ -9,8 +9,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
-
-const StlEstimator = lazy(() => import("@/components/StlEstimator").then(m => ({ default: m.StlEstimator })));
+import { StlEstimator } from "@/components/StlEstimator";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -93,10 +92,10 @@ const InternationalServicePage = () => {
   <div className="min-h-screen bg-background">
     <Helmet>
       <html lang="en" />
-      <title>Professional 3D Printing Service — Fast Delivery Across Europe | Dimension3D</title>
+      <title>Professional 3D Printing Service — Fast EU Delivery</title>
       <meta
         name="description"
-        content="Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €10."
+        content="Professional FDM 3D printing in Barcelona, shipping across Europe and worldwide. Upload STL, instant quote, 3-7 day delivery. From €10."
       />
       <link rel="canonical" href={PAGE_URL} />
       <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
@@ -108,19 +107,19 @@ const InternationalServicePage = () => {
       <link rel="alternate" hrefLang="it" href={`${SITE_URL}/it/stampa-3d-online`} />
       <link rel="alternate" hrefLang="pt" href={`${SITE_URL}/pt/impressao-3d-online`} />
       <link rel="alternate" hrefLang="x-default" href={PAGE_URL} />
-      <meta property="og:title" content="Professional 3D Printing Service — Fast Delivery Across Europe | Dimension3D" />
+      <meta property="og:title" content="Professional 3D Printing Service — Fast Delivery Across Europe" />
       <meta
         property="og:description"
-        content="Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €10."
+        content="Professional FDM 3D printing in Barcelona, shipping across Europe and worldwide. Upload STL, instant quote, 3-7 day delivery. From €10."
       />
       <meta property="og:url" content={PAGE_URL} />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:image" content={SOCIAL_IMAGE_URL} />
-      <meta name="twitter:title" content="Professional 3D Printing Service — Fast Delivery Across Europe | Dimension3D" />
+      <meta name="twitter:title" content="Professional 3D Printing Service — Fast Delivery Across Europe" />
       <meta
         name="twitter:description"
-        content="Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €10."
+        content="Professional FDM 3D printing in Barcelona, shipping across Europe and worldwide. Upload STL, instant quote, 3-7 day delivery. From €10."
       />
       <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
@@ -215,9 +214,7 @@ const InternationalServicePage = () => {
 
       {/* Calculator */}
       <section id="calculator" className="container px-4 py-10">
-        <Suspense fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-xl" />}>
-          <StlEstimator />
-        </Suspense>
+        <StlEstimator />
       </section>
 
       {/* Content sections */}

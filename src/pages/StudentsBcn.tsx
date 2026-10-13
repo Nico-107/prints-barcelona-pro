@@ -17,8 +17,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Impresión 3D para Estudiantes en Barcelona — 20% Descuento | Dimension3D";
-const META_DESC = "Impresión 3D con 20% de descuento para estudiantes en Barcelona. Maquetas, TFG, prototipos de ingeniería. UPC, ESEIAAT, IQS, La Salle y más. Presupuesto en 1 hora.";
+const META_TITLE = "Impresión 3D para Estudiantes en Barcelona — 20% Descuento";
+const META_DESC = "Impresión 3D con 20% de descuento para estudiantes en Barcelona. Maquetas, TFG, prototipos de ingeniería. Presupuesto en 1 hora.";
 const CANONICAL = `${SITE_URL}/impresion-3d-estudiantes-barcelona`;
 
 const FAQS = [
@@ -86,7 +86,7 @@ const StudentsBcn = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Helmet>
         <html lang="es" />
         <title>{META_TITLE}</title>
@@ -122,7 +122,7 @@ const StudentsBcn = () => {
             </nav>
 
             {/* Discount badge */}
-            <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/40 text-amber-300 rounded-full px-5 py-2 text-sm font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/40 text-amber-300 rounded-full px-3 py-2 text-sm font-bold mb-6">
               <GraduationCap className="w-4 h-4" />
               20% de descuento para estudiantes
             </div>
@@ -514,9 +514,9 @@ const StudentsBcn = () => {
               Sube tu archivo, menciona tu universidad y obtienes el presupuesto con el descuento del 20% en menos de 1 hora.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="xl" className="bg-white text-amber-600 hover:bg-white/90 font-bold shadow-lg gap-2">
+              <Button asChild size="xl" className="bg-white text-amber-600 hover:bg-white/90 font-bold shadow-lg gap-2 whitespace-normal text-center">
                 <Link to="/#calculator">
-                  Sube tu archivo y menciona tu universidad
+                  Sube tu archivo · 20% descuento
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>

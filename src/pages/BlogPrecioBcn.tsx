@@ -15,8 +15,8 @@ import { capture } from "@/lib/analytics";
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
-const META_TITLE = "¿Cuánto cuesta la Impresión 3D en Barcelona? Guía de precios 2026 | Dimension3D";
-const META_DESC = "Guía completa de precios de impresión 3D en Barcelona 2026. Desde 10€ para piezas pequeñas. Factores que afectan el precio: material, tamaño, cantidad. Presupuesto gratis en 1 hora.";
+const META_TITLE = "Precio Impresión 3D Barcelona — Guía 2026";
+const META_DESC = "Guía de precios de impresión 3D en Barcelona 2026. Desde 10€ para piezas pequeñas. Material, tamaño, cantidad. Presupuesto gratis en 1 hora.";
 const CANONICAL = `${SITE_URL}/blog/precio-impresion-3d-barcelona`;
 
 const FAQS = [

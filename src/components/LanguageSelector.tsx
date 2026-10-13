@@ -44,7 +44,7 @@ const LanguageSelector = ({ landingTopicSlugs }: Props) => {
     }
   };
 
-  // FR pages: FR | EN. NL pages (Amsterdam bilingual): NL | EN. Elsewhere: ES | EN | CA.
+  // Intl pages: show native lang | EN. Else: ES | EN | CA.
   const langs: { code: Language; label: string; aria: string }[] =
     language === "fr"
       ? [
@@ -54,6 +54,21 @@ const LanguageSelector = ({ landingTopicSlugs }: Props) => {
       : language === "nl"
       ? [
           { code: "nl", label: "NL", aria: "Nederlands" },
+          { code: "en", label: "EN", aria: "English" },
+        ]
+      : language === "de"
+      ? [
+          { code: "de", label: "DE", aria: "Deutsch" },
+          { code: "en", label: "EN", aria: "English" },
+        ]
+      : language === "it"
+      ? [
+          { code: "it", label: "IT", aria: "Italiano" },
+          { code: "en", label: "EN", aria: "English" },
+        ]
+      : language === "pt"
+      ? [
+          { code: "pt", label: "PT", aria: "Português" },
           { code: "en", label: "EN", aria: "English" },
         ]
       : [

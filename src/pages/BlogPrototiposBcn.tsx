@@ -17,8 +17,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Prototipos Rápidos y Piezas Funcionales en 3D — Barcelona | Dimension3D";
-const META_DESC = "Impresión 3D de prototipos funcionales y piezas técnicas para ingenieros y empresas en Barcelona. Materiales de ingeniería, tolerancias ajustadas, entrega 24-48h. Presupuesto en 1 hora.";
+const META_TITLE = "Prototipos Rápidos y Piezas Funcionales en 3D — Barcelona";
+const META_DESC = "Impresión 3D de prototipos funcionales y piezas técnicas en Barcelona. Materiales de ingeniería, tolerancias ajustadas, entrega 24-48h.";
 const CANONICAL = `${SITE_URL}/blog/prototipos-rapidos-piezas-funcionales-barcelona`;
 
 const FAQS = [

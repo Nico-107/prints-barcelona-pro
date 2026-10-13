@@ -29,7 +29,7 @@ export const catalogProducts: CatalogProduct[] = [
     priceLow: 18,
     priceHigh: 35,
     description: {
-      es: "Un jarrón decorativo con textura acanalada impreso en 3D y personalizado a tu medida. Perfecto para decorar cualquier rincón del hogar o como regalo original. Disponible en varios tamaños y colores para adaptarse a tu estilo.",
+      es: "Jarrón decorativo con textura acanalada impreso en 3D. Perfecto para decorar el hogar o como regalo original. Disponible en varios tamaños y colores.",
       en: "A 3D-printed decorative vase with a ribbed texture, personalised to your taste. Perfect for styling any corner of your home or as an original gift. Available in several sizes and colours to suit your style.",
       ca: "Un gerro decoratiu amb textura acanalada imprès en 3D i personalitzat a la teva mida. Perfecte per decorar qualsevol racó de la llar o com a regal original. Disponible en diverses mides i colors per adaptar-se al teu estil.",
     },
@@ -59,7 +59,7 @@ export const catalogProducts: CatalogProduct[] = [
     priceLow: 12,
     priceHigh: 20,
     description: {
-      es: "Placa identificativa con el nombre o texto que elijas, ideal para puertas, escritorios o habitaciones. Fabricada con acabado de alta calidad y diseño elegante. Perfecta como regalo personalizado para cualquier ocasión.",
+      es: "Placa identificativa con el nombre elegido, ideal para puertas, escritorios o habitaciones. Fabricada con acabado de alta calidad. Regalo personalizado.",
       en: "Personalised name plate with the text of your choice, ideal for doors, desks or bedrooms. Made with a high-quality finish and elegant design. A perfect personalised gift for any occasion.",
       ca: "Placa identificativa amb el nom o text que triïs, ideal per a portes, escriptoris o habitacions. Fabricada amb un acabat d'alta qualitat i disseny elegant. El regal personalitzat perfecte per a qualsevol ocasió.",
     },
@@ -98,7 +98,7 @@ export const catalogProducts: CatalogProduct[] = [
     priceLow: 10,
     priceHigh: 16,
     description: {
-      es: "Soporte de teléfono con textura acanalada, diseño minimalista impreso en 3D. Ideal para el escritorio, la mesita de noche o cualquier rincón donde quieras tener el móvil siempre a mano y bien visible.",
+      es: "Soporte de teléfono con textura acanalada impreso en 3D. Diseño minimalista para escritorio o mesita. Móvil siempre a mano y visible.",
       en: "3D-printed phone stand with a ribbed texture and minimalist design. Ideal for your desk, bedside table or anywhere you want your phone always visible and within reach.",
       ca: "Suport de telèfon amb textura acanalada i disseny minimalista imprès en 3D. Ideal per a l'escriptori, la tauleta de nit o qualsevol racó on vulguis tenir el mòbil sempre a mà i ben visible.",
     },
@@ -131,7 +131,7 @@ export const catalogProducts: CatalogProduct[] = [
     priceLow: 20,
     priceHigh: 40,
     description: {
-      es: "Topper de tarta impreso en 3D con los nombres de los novios y, opcionalmente, la fecha del enlace. Un detalle único y romántico que hará aún más especial vuestro gran día. Disponible en acabados metalizados y clásicos.",
+      es: "Topper de tarta con los nombres de los novios impreso en 3D. Detalle único para vuestro gran día. Disponible en acabados metalizados y clásicos.",
       en: "3D-printed wedding cake topper with the names of the couple and, optionally, the date of the celebration. A unique and romantic touch that will make your special day even more memorable. Available in metallic and classic finishes.",
       ca: "Topper de pastís imprès en 3D amb els noms dels nuvis i, opcionalment, la data de l'enllaç. Un detall únic i romàntic que farà encara més especial el vostre gran dia. Disponible en acabats metal·litzats i clàssics.",
     },

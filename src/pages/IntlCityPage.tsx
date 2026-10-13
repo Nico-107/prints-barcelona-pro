@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, MessageCircle, ChevronRight } from "lucide-react";
@@ -16,10 +16,9 @@ import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import type { IntlCityContent } from "@/data/intlTypes";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const StlEstimator = lazy(() =>
-  import("@/components/StlEstimator").then((m) => ({ default: m.StlEstimator }))
-);
+import { StlEstimator } from "@/components/StlEstimator";
 
 function renderProse(text: string) {
   return text.split(/\n\n+/).map((p, i) => (
@@ -36,6 +35,7 @@ interface Props {
 const IntlCityPage = ({ content }: Props) => {
   const PAGE_URL = `${SITE_URL}${content.slug}`;
   const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
+  const { t } = useLanguage();
 
   const scrollToCalc = () => {
     capture("city_cta_click", {
@@ -202,7 +202,7 @@ const IntlCityPage = ({ content }: Props) => {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
-                  {content.city}
+                  {t("hub.ctaButton")}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button
@@ -238,15 +238,7 @@ const IntlCityPage = ({ content }: Props) => {
         {/* Calculator */}
         <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
           <div className="container px-4 max-w-5xl mx-auto">
-            <Suspense
-              fallback={
-                <div className="h-96 flex items-center justify-center text-muted-foreground">
-                  …
-                </div>
-              }
-            >
-              <StlEstimator />
-            </Suspense>
+            <StlEstimator />
           </div>
         </section>
 

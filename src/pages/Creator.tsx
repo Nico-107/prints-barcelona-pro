@@ -6,12 +6,12 @@ const Creator = () => {
   return (
     <>
       <Helmet>
-        <title>About the Builder | Dimension3D</title>
+        <title>About the Builder</title>
         <meta name="description" content="Mikołaj Szczełkun (Nico) built this platform solo — learn more about him and his other projects." />
         <meta name="robots" content="noindex" />
       </Helmet>
       <SocialMeta
-        title="About the Builder | Dimension3D"
+        title="About the Builder"
         description="Mikołaj Szczełkun (Nico) built this platform solo — learn more about him and his other projects."
         path="/creator"
       />

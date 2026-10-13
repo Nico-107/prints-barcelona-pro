@@ -11,8 +11,8 @@ export const PAGES_DE: LandingContent[] = [
     lang: "de",
     category: "use-case",
     audience: "maker",
-    metaTitle: "Mit 3D-Drucker Geld verdienen — Ehrlicher Praxisguide | Dimension3D",
-    metaDescription: "Praktischer Guide, um mit einem vorhandenen 3D-Drucker Geld zu verdienen. Reale Einkommenswege — lokaler Verkauf, Marktplätze, Design-Dateien, Auftragsarbeit für Firmen, Ersatzteile, Maker-Netzwerke — mit realistischem Aufwand und den ehrlichen Nachteilen für jeden Weg.",
+    metaTitle: "Mit 3D-Drucker Geld verdienen — Ehrlicher Praxisguide",
+    metaDescription: "Praktischer Guide, um mit einem vorhandenen 3D-Drucker Geld zu verdienen. Reale Einkommenswege — lokaler Verkauf, Marktplätze, Design-Dateien",
     h1: "Mit dem 3D-Drucker Geld verdienen",
     intro: "Du hast einen 3D-Drucker und möchtest, dass er sich selbst finanziert. Verständlich — aber das Internet ist voll von Anleitungen, die die unbequemen Details überspringen (Konkurrenz, Gebühren, langsamer Aufbau, wie viel Handarbeit jeder Kanal wirklich braucht). Dieser Guide geht die konkreten Wege durch, auf denen mit einem FDM-Drucker zu Hause tatsächlich Einnahmen entstehen — mit den Nachteilen offen benannt und ohne leere Versprechen. Einer der kürzeren Wege, wenn er funktioniert, ist der Beitritt zu einem lokalen Druck-Netzwerk — das von Dimension3D ist kostenlos, ohne Anmeldegebühr, ohne Provision und ohne Exklusivität — es läuft also parallel zu jedem anderen Kanal, den du weiter unten findest.",
     sections: [
@@ -80,8 +80,8 @@ export const PAGES_DE: LandingContent[] = [
     lang: "de",
     category: "use-case",
     audience: "maker",
-    metaTitle: "Ist ein 3D-Druck-Geschäft rentabel? Reale Kosten & Preise | Dimension3D",
-    metaDescription: "Die ehrliche Ökonomie eines 3D-Druck-Geschäfts: Filamentkosten pro Gramm, Stromkosten pro Druckstunde, Druckerabschreibung, Ausschussrate, Verpackung und Versand — mit einem durchgerechneten Beispiel, das aus diesen Inputs einen verteidigbaren Preis macht.",
+    metaTitle: "Ist ein 3D-Druck-Geschäft rentabel? Reale Kosten & Preise",
+    metaDescription: "Die ehrliche Ökonomie eines 3D-Druck-Geschäfts: Filamentkosten pro Gramm, Stromkosten pro Druckstunde, Druckerabschreibung, Ausschussrate",
     h1: "Ist ein 3D-Druck-Geschäft rentabel? Die realen Zahlen",
     intro: "Ob 3D-Druck profitabel ist, hängt davon ab, ob der Preis, den du nimmst, jeden Input abdeckt, der in ein Teil einfließt — nicht nur den Kunststoff. Diese Seite zerlegt die Kosten eines FDM-Drucks in seine tatsächlichen Komponenten, gibt realistische Spannen für jede Position (mit Begründung) und rechnet ein Beispiel komplett durch, damit du für deine eigene Arbeit verteidigbare Preise bauen kannst. Sie behandelt zusätzlich den Kostenblock, den die meisten Aufstellungen weglassen — Kundenakquise — und wie ein kostenloses lokales Netzwerk wie das von Dimension3D die Rechnung verändert, wenn Aufträge zu dir kommen statt umgekehrt.",
     sections: [
@@ -145,8 +145,8 @@ export const PAGES_DE: LandingContent[] = [
     lang: "de",
     category: "use-case",
     audience: "maker",
-    metaTitle: "Kunden für 3D-Druck finden — was wirklich funktioniert | Dimension3D",
-    metaDescription: "Drucker läuft, aber niemand bestellt? Praktischer Kundenaufbau-Guide für 3D-Druck-Maker: Google Business Profil, Marktplätze, saubere Fotografie, transparente Preise, Reaktionsgeschwindigkeit, wiederkehrende Kunden und einem bestehenden Druck-Netzwerk beitreten.",
+    metaTitle: "Kunden für 3D-Druck finden — was wirklich funktioniert",
+    metaDescription: "Drucker läuft, aber niemand bestellt? Praktischer Kundenaufbau-Guide für 3D-Druck-Maker: Google Business Profil, Marktplätze, saubere Fotografie",
     h1: "Kunden für 3D-Druck finden — das eigentliche Problem",
     intro: "Das schwierigste Problem im 3D-Druck ist nicht das Drucken. Es ist die Stille zwischen dem Einschalten des Druckers und der ersten Kundenanfrage. Diese Seite geht es um genau diese Lücke — die konkreten Dinge, die einen laufenden Drucker in einen stetigen Auftragsfluss verwandeln. Wenn du das Selbstmarketing ganz überspringen willst, ist eine Option der Beitritt zu einem lokalen Druck-Netzwerk — das von Dimension3D ist kostenlos, ohne Provision, ohne Anmeldegebühr und ohne Exklusivität — jeder Selbstmarketing-Weg weiter unten funktioniert weiterhin parallel dazu.",
     sections: [

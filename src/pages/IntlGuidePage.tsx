@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, ChevronRight } from "lucide-react";
@@ -16,10 +16,7 @@ import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import type { IntlGuideContent } from "@/data/intlTypes";
-
-const StlEstimator = lazy(() =>
-  import("@/components/StlEstimator").then((m) => ({ default: m.StlEstimator }))
-);
+import { StlEstimator } from "@/components/StlEstimator";
 
 function renderProse(text: string) {
   return text.split(/\n\n+/).map((p, i) => (
@@ -205,15 +202,7 @@ const IntlGuidePage = ({ content }: Props) => {
         {/* Calculator */}
         <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
           <div className="container px-4 max-w-5xl mx-auto">
-            <Suspense
-              fallback={
-                <div className="h-96 flex items-center justify-center text-muted-foreground">
-                  …
-                </div>
-              }
-            >
-              <StlEstimator />
-            </Suspense>
+            <StlEstimator />
           </div>
         </section>
 

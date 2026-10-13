@@ -20,7 +20,7 @@ const Catalog = () => {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Catálogo de productos personalizados | Dimension3D",
+    name: "Catálogo de productos personalizados",
     description: "Productos personalizados impresos en 3D: jarrón, placa de nombre, placa para mascota, soporte de teléfono y topper de boda.",
     url: `${SITE_URL}/catalogo`,
     itemListElement: [
@@ -66,17 +66,17 @@ const Catalog = () => {
   return (
     <>
       <Helmet>
-        <title>Catálogo de productos personalizados | Dimension3D</title>
+        <title>Catálogo de productos personalizados</title>
         <meta
           name="description"
-          content="Explora nuestro catálogo de productos personalizados impresos en 3D: jarrón acanalado, placa de nombre, placa para mascota y topper de boda. Solicita presupuesto sin compromiso."
+          content="Catálogo de productos personalizados impresos en 3D: jarrón, placa de nombre, soporte de teléfono y topper de boda. Solicita presupuesto sin compromiso."
         />
         <link rel="canonical" href={`${SITE_URL}/catalogo`} />
         <script type="application/ld+json">{JSON.stringify(itemListSchema)}</script>
       </Helmet>
       <SocialMeta
-        title="Catálogo de productos personalizados | Dimension3D"
-        description="Explora nuestro catálogo de productos personalizados impresos en 3D: jarrón acanalado, placa de nombre, placa para mascota y topper de boda. Solicita presupuesto sin compromiso."
+        title="Catálogo de productos personalizados"
+        description="Catálogo de productos personalizados impresos en 3D: jarrón, placa de nombre, soporte de teléfono y topper de boda. Solicita presupuesto sin compromiso."
         path="/catalogo"
       />
       <Header />

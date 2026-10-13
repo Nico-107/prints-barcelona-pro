@@ -48,15 +48,15 @@ const Track = () => {
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       <Helmet>
         <meta name="robots" content="noindex" />
-        <title>Track Your Order | Dimension3D Barcelona</title>
+        <title>Track Your Order Barcelona</title>
         <meta name="description" content="Check the live status of your 3D printing order from Dimension3D Barcelona. Enter your order number and phone digits to see updates." />
         <link rel="canonical" href={`${SITE_URL}/track`} />
-        <meta property="og:title" content="Track Your Order | Dimension3D Barcelona" />
+        <meta property="og:title" content="Track Your Order Barcelona" />
         <meta property="og:description" content="Check the live status of your 3D printing order from Dimension3D Barcelona." />
         <meta property="og:url" content={`${SITE_URL}/track`} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={SOCIAL_IMAGE_URL} />
-        <meta name="twitter:title" content="Track Your Order | Dimension3D Barcelona" />
+        <meta name="twitter:title" content="Track Your Order Barcelona" />
         <meta name="twitter:description" content="Check the live status of your 3D printing order from Dimension3D Barcelona." />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       </Helmet>

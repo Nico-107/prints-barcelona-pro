@@ -11,7 +11,7 @@ export const DE_PARTS: IntlPartContent[] = [
     locale: "de-DE",
     countryCode: "DE",
     originalSlug: "/adaptador-vesa-monitor",
-    metaTitle: "VESA Monitor Adapter — Universallösung für nicht-VESA Monitore",
+    metaTitle: "VESA Monitor Adapter",
     metaDescription:
       "3D-gedruckter Adapter für Monitore ohne VESA-Lochmuster. Verbindet jeden Monitor mit VESA-100×100-Halterungen. Ab 18 € · Versand nach Deutschland.",
     h1: "VESA Monitor Adapter — 3D-Druck Lösung für nicht-VESA Monitore",
@@ -142,7 +142,7 @@ export const FR_PARTS: IntlPartContent[] = [
     locale: "fr-FR",
     countryCode: "FR",
     originalSlug: "/adaptador-vesa-monitor",
-    metaTitle: "Adaptateur VESA Moniteur — Solution universelle impression 3D",
+    metaTitle: "Adaptateur VESA Moniteur",
     metaDescription:
       "Adaptateur imprimé en 3D pour moniteurs sans fixation VESA. Relie n'importe quel moniteur à un bras VESA 100×100. À partir de 18 € · Livraison en France.",
     h1: "Adaptateur VESA pour Moniteur — Impression 3D sur mesure",
@@ -185,7 +185,7 @@ export const FR_PARTS: IntlPartContent[] = [
     locale: "fr-FR",
     countryCode: "FR",
     originalSlug: "/rueda-cesto-lavavajillas-bosch",
-    metaTitle: "Roue Panier Lave-Vaisselle Bosch — Lot de 4 pièces compatibles",
+    metaTitle: "Roue Panier Lave-Vaisselle Bosch",
     metaDescription:
       "Lot de 4 roues de remplacement compatibles avec le panier inférieur des lave-vaisselle Bosch, Siemens et Neff. Imprimées en PETG. À partir de 11 €.",
     h1: "Roues de Panier Lave-Vaisselle Bosch — Lot de 4 pièces de rechange",

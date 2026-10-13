@@ -63,7 +63,7 @@ export const caTranslations: Record<string, string> = {
   "xp.hero.v3.title": "Impressió 3D a mida a Barcelona — prototips, recanvis i peces úniques",
   "xp.hero.v3.subtitle": "Puja un arxiu 3D per tenir un preu a l'instant, o envia'ns una foto del que necessites. Una persona real revisa cada comanda i respon en menys d'1 hora. Recollida a Barcelona o enviament a tot Espanya.",
   "xp.hero.v3.pill": "Pressupost gratuït · Sense comanda mínima · PLA, PETG, ABS, TPU i més · 24–48h",
-  "xp.hero.v3.button": "Calcular el meu preu — a l'instant amb arxiu 3D",
+  "xp.hero.v3.button": "Calcular el meu preu — a l'instant",
   "xp.hero.v3.under": "Puja un arxiu STL · Sense compte · Sense compromís · Una persona real revisa cada comanda",
   "xp.hero.v4.title": "Impressió 3D a Barcelona — des de 10 €, sense comanda mínima",
   "xp.hero.v4.subtitle": "Envia un arxiu o una foto i rep el teu preu en menys d'1 hora. Recull-ho a Barcelona o t'ho enviem a tot Espanya.",
@@ -434,7 +434,7 @@ export const caTranslations: Record<string, string> = {
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
 
   // File Checker
-  "checker.meta.title": "El Teu Arxiu 3D Està Llest per Imprimir? Comprovador STL Gratuït | Dimension3D",
+  "checker.meta.title": "Comprova el Teu Arxiu 3D — Comprovador STL Gratuït",
   "checker.meta.description": "Comprovador STL gratuït al navegador. Dimensions, pes estimat en PLA i avaluació de volades en segons — sense registre, sense pujada al servidor.",
   "checker.badge": "Eina gratuïta · Sense registre",
   "checker.heading": "El teu arxiu 3D està llest per imprimir?",
@@ -473,7 +473,7 @@ export const caTranslations: Record<string, string> = {
   "banner.dismiss": "Tanca",
 
   // Makers page
-  "makers.meta.title": "Uneix-te a la nostra xarxa de Makers | Dimension3D",
+  "makers.meta.title": "Uneix-te a la nostra xarxa de Makers",
   "makers.meta.description": "Tens una impressora 3D a casa? Col·labora amb Dimension3D, imprimeix comandes reals i guanya diners amb el teu equip.",
   "makers.hero.title": "Tens una impressora 3D? Uneix-te a la nostra xarxa de makers",
   "makers.hero.subtitle": "Col·labora amb Dimension3D, rep comandes llestes per imprimir i guanya diners amb el teu equip.",
@@ -533,7 +533,7 @@ export const caTranslations: Record<string, string> = {
   "cookie.banner.accept": "Acceptar",
 
   // Privacy page
-  "privacy.meta.title": "Política de Privacitat | Dimension3D",
+  "privacy.meta.title": "Política de Privacitat",
   "privacy.meta.description": "Com Dimension3D recopila dades analítiques anònimes i utilitza galetes.",
   "privacy.back": "← Torna a l'inici",
   "privacy.title": "Política de privacitat",
@@ -591,15 +591,15 @@ export const caTranslations: Record<string, string> = {
   "nofile.cta": "Demanar disseny personalitzat",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Garantia de Qualitat | Dimension3D",
+  "returns.meta.title": "Garantia de Qualitat",
   "returns.meta.description": "Si la teva impressió arriba amb un defecte o no coincideix amb el pressupost, comunica-ho en 7 dies i ho resolem sense cost.",
   "returns.back": "← Torna a l'inici",
   "returns.title": "Garantia de Qualitat",
   "returns.body": "Si la teva impressió arriba amb un defecte o no coincideix amb el que s'ha pressupostat — per error nostre, no per una limitació de disseny o material que ja t'havíem comunicat — comunica-ho en 7 dies des del lliurament i ho resolem sense cap cost per a tu. Els casos fora d'aquest supòsit (errors de mesura del client, elecció de color o material, etc.) els gestionem cas a cas — escriu-nos i ho parlem.",
 
   // Lemon Printers referral landing page (/lemon — noindex, NFC plaque traffic only)
-  "lemon.meta.title": "Impressió 3D a Barcelona — Peces a Mida | Dimension3D",
-  "lemon.meta.desc": "Fabriquem qualsevol peça o accessori en 3D a Barcelona. Envia una foto, rep el preu en menys d'una hora, recull-ho o t'ho enviem a casa. Des de 10 €, sense comanda mínima.",
+  "lemon.meta.title": "Impressió 3D a Barcelona — Peces a Mida",
+  "lemon.meta.desc": "Fabriquem qualsevol peça o accessori en 3D a Barcelona. Envia una foto, rep el preu en menys d'una hora, recull-ho o t'ho enviem. Des de 10 €, sense mínim.",
   "lemon.hero.title": "El que necessites, fabricat en 3D.",
   "lemon.hero.subtitle": "Un recanvi trencat, un accessori que no es ven, una peça única.",
   "lemon.hero.detail": "Envia una foto o un arxiu — rep el preu en menys d'una hora.",
@@ -758,4 +758,22 @@ export const caTranslations: Record<string, string> = {
   "calc.scope.wholeOrder": "Tota la comanda",
   "calc.scope.someCustom": "Algunes peces tenen configuració personalitzada — canvia a Avançat per veure-les",
   "calc.scope.makeSame": "Igualar totes les peces",
+  "nav.forBusiness": "Per a empreses",
+  "nav.catalog": "Catàleg",
+  "nav.customDesign": "Disseny a mida",
+  "nav.resources": "Recursos",
+  "nav.tools": "Eines",
+  "nav.fileChecker": "Comprovar arxiu",
+  "nav.returnPolicy": "Política de devolucions",
+  "nav.guides": "Guies",
+  "hub.ctaButton": "Pujar arxiu i veure preu",
+  "hub.whatsappBtn": "WhatsApp",
+  "footer.specialties": "Especialitats",
+  "footer.popular": "Popular",
+  "footer.cities": "Ciutats i Enviaments",
+  "footer.countries": "Països als quals enviem",
+  "footer.popularProducts": "Productes Populars",
+  "footer.returnPolicy": "Política de devolucions",
+  "footer.forBusiness": "Per a Empreses",
+  "footer.guides": "Guies",
 };

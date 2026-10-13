@@ -13,9 +13,9 @@ export const itHub: IntlHubContent = {
   lang: "it",
   locale: "it-IT",
   countryCode: "IT",
-  metaTitle: "Servizio Stampa 3D Online — Spedizione in Italia da 5,90 € | Dimension3D",
+  metaTitle: "Servizio Stampa 3D Online — Spedizione in Italia da 5,90 €",
   metaDescription:
-    "Far stampare in 3D non è mai stato così semplice. Studio FDM a Barcellona, prezzi stampa 3D trasparenti, preventivo entro 1 ora nei giorni lavorativi. Ordine minimo 10 €, spedizione piatta 5,90 €.",
+    "Far stampare in 3D non è mai stato così semplice. Studio FDM a Barcellona, prezzi stampa 3D trasparenti, preventivo entro 1 ora nei giorni lavorativi.",
   eyebrow: "Stampa 3D Online · Spedizione in tutta Italia",
   h1: "Servizio di Stampa 3D Online con Spedizione in Italia",
   promise: `Dimension3D è uno studio FDM professionale situato a Barcellona, nel cuore del Mediterraneo. Grazie al mercato unico europeo, i tuoi pezzi viaggiano dall'Iberia all'Italia senza dogana, con la stessa semplicità di un acquisto domestico. Che tu voglia far stampare in 3D un prototipo per il tuo ufficio a Milano, un ricambio stampa 3D per una macchina industriale a Torino, o un modello architettonico per uno studio romano, il processo è identico: carichi il file, ricevi il preventivo entro un'ora nei giorni lavorativi, approvi e aspetti la consegna.
@@ -115,9 +115,9 @@ export const itCityMilano: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Milano",
-  metaTitle: "Stampa 3D Online con Spedizione a Milano — Da 10 € | Dimension3D",
+  metaTitle: "Stampa 3D Online con Spedizione a Milano — Da 10 €",
   metaDescription:
-    "Servizio stampa 3D professionale con spedizione a Milano in solitamente 3–5 giorni lavorativi. Bambu Lab X2D, preventivo entro 1 ora, ordine minimo 10 €, spedizione 5,90 €.",
+    "Servizio stampa 3D professionale con spedizione a Milano in solitamente 3–5 giorni lavorativi.",
   h1: "Stampa 3D Online con Spedizione a Milano",
   eyebrow: "Spedizione a Milano · Solitamente 3–5 giorni lavorativi",
 
@@ -182,9 +182,9 @@ export const itCityTorino: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Torino",
-  metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 10 € | Dimension3D",
+  metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 10 €",
   metaDescription:
-    "Servizio stampa 3D professionale con spedizione a Torino in solitamente 3–5 giorni lavorativi. Camera chiusa Bambu Lab X2D, preventivo entro 1 ora, spedizione 5,90 €.",
+    "Servizio stampa 3D professionale con spedizione a Torino in solitamente 3–5 giorni lavorativi.",
   h1: "Stampa 3D Online con Spedizione a Torino",
   eyebrow: "Spedizione a Torino · Solitamente 3–5 giorni lavorativi",
 
@@ -250,9 +250,9 @@ export const itCityRoma: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Roma",
-  metaTitle: "Stampa 3D Online con Spedizione a Roma — Da 10 € | Dimension3D",
+  metaTitle: "Stampa 3D Online con Spedizione a Roma — Da 10 €",
   metaDescription:
-    "Servizio stampa 3D professionale con spedizione a Roma in solitamente 3–5 giorni lavorativi. Bambu Lab X2D, preventivo entro 1 ora, ordine minimo 10 €, nessuna dogana UE.",
+    "Servizio stampa 3D professionale con spedizione a Roma in solitamente 3–5 giorni lavorativi.",
   h1: "Stampa 3D Online con Spedizione a Roma",
   eyebrow: "Spedizione a Roma · Solitamente 3–5 giorni lavorativi",
 
@@ -316,9 +316,9 @@ export const itGuidePrice: IntlGuideContent = {
   lang: "it",
   locale: "it-IT",
   topic: "price",
-  metaTitle: "Prezzi Stampa 3D Online — Guida Completa 2025 | Dimension3D",
+  metaTitle: "Prezzi Stampa 3D Online — Guida Completa 2026",
   metaDescription:
-    "Come si calcolano i prezzi stampa 3D? Peso del materiale, tempo macchina, scelta del filamento: tutto spiegato con esempi reali. Ordine minimo 10 €, spedizione 5,90 €.",
+    "Come si calcolano i prezzi stampa 3D? Peso del materiale, tempo macchina, scelta del filamento: tutto spiegato con esempi reali.",
   h1: "Prezzi Stampa 3D Online: Come Funziona il Calcolo",
   intro: `Capire come vengono calcolati i prezzi stampa 3D ti aiuta a progettare pezzi più efficienti e a confrontare preventivi in modo informato. La formula di Dimension3D si basa su due componenti: il costo del materiale (proporzionale al peso in grammi) e il costo del tempo macchina (proporzionale alle ore di stampa). Non ci sono costi di setup, né tariffe minime oltre i 10 €.`,
 
@@ -409,9 +409,9 @@ export const itGuideFilePrep: IntlGuideContent = {
   lang: "it",
   locale: "it-IT",
   topic: "file-prep",
-  metaTitle: "Come Preparare il File per la Stampa 3D — Guida FDM | Dimension3D",
+  metaTitle: "Come Preparare il File per la Stampa 3D — Guida FDM",
   metaDescription:
-    "Come esportare STL, OBJ, STEP e 3MF per la stampa FDM. Errori comuni, tolleranze, spessori minimi e consigli pratici per ottenere un pezzo di qualità al primo tentativo.",
+    "Come esportare STL, OBJ, STEP e 3MF per la stampa FDM. Errori comuni, tolleranze, spessori minimi e consigli pratici per ottenere un pezzo di qualità al primo",
   h1: "Come Preparare il File per la Stampa 3D FDM",
   intro: `La qualità di un pezzo stampato in FDM dipende in buona parte dalla qualità del file di partenza. Un file ben preparato si traduce in un preventivo accurato, nessuna richiesta di revisione da parte nostra e un pezzo finale che corrisponde alle aspettative. Questa guida copre i passi essenziali per preparare correttamente un file per la stampa 3D online.`,
 
@@ -480,9 +480,9 @@ export const itGuideMaterials: IntlGuideContent = {
   lang: "it",
   locale: "it-IT",
   topic: "materials",
-  metaTitle: "Materiali per Stampa 3D FDM — PLA, PETG, ABS, Nylon | Dimension3D",
+  metaTitle: "Materiali per Stampa 3D FDM — PLA, PETG, ABS, Nylon",
   metaDescription:
-    "Guida completa ai materiali FDM: PLA, PETG, ABS e Nylon. Proprietà meccaniche, temperatura di esercizio, casi d'uso tipici e consigli per scegliere il materiale giusto per la tua applicazione.",
+    "Guida completa ai materiali FDM: PLA, PETG, ABS e Nylon. Proprietà meccaniche, temperatura di esercizio",
   h1: "Guida ai Materiali per Stampa 3D FDM",
   intro: `Scegliere il materiale giusto è uno dei passi più importanti per ottenere un pezzo stampato in 3D che soddisfi le tue esigenze. Ogni filamento ha un diverso equilibrio tra facilità di stampa, resistenza meccanica, resistenza termica e costo. Questa guida presenta le proprietà essenziali dei quattro materiali che utilizziamo, con indicazioni pratiche su quando scegliere ciascuno.`,
 
@@ -547,9 +547,9 @@ export const ptHub: IntlHubContent = {
   lang: "pt",
   locale: "pt-PT",
   countryCode: "PT",
-  metaTitle: "Serviço de Impressão 3D Online — Envio para Portugal a partir de 5,90 € | Dimension3D",
+  metaTitle: "Serviço de Impressão 3D Online",
   metaDescription:
-    "Imprimir em 3D de forma rápida e transparente. Estúdio FDM em Barcelona, preço impressão 3D imediato até 100 €, orçamento em 1 hora nos dias úteis. Encomenda mínima de 10 €, envio 5,90 €.",
+    "Imprimir em 3D de forma rápida e transparente. Estúdio FDM em Barcelona, preço impressão 3D imediato até 100 €, orçamento em 1 hora nos dias úteis.",
   eyebrow: "Impressão 3D Online · Envio para todo o Portugal",
   h1: "Serviço de Impressão 3D Online com Envio para Portugal",
   promise: `A Dimension3D é um estúdio FDM profissional sediado em Barcelona. Graças ao mercado único europeu, as peças viajam de Espanha para Portugal sem qualquer formalidade aduaneira, com a mesma simplicidade de uma encomenda nacional. Seja para obter peças de substituição impressão 3D para equipamentos industriais no Porto, um protótipo para um estúdio criativo em Lisboa, ou um modelo técnico para uma instituição académica, o processo é idêntico: carregue o ficheiro, receba o orçamento em até uma hora nos dias úteis, aprove e aguarde a entrega.
@@ -648,9 +648,9 @@ export const ptCityLisboa: IntlCityContent = {
   locale: "pt-PT",
   countryCode: "PT",
   city: "Lisboa",
-  metaTitle: "Impressão 3D Online com Envio para Lisboa — A partir de 10 € | Dimension3D",
+  metaTitle: "Impressão 3D Online com Envio para Lisboa — A partir de 10 €",
   metaDescription:
-    "Serviço de impressão 3D profissional com envio para Lisboa em habitualmente 2–4 dias úteis. Bambu Lab X2D, orçamento em 1 hora, encomenda mínima 10 €, envio 5,90 €.",
+    "Serviço de impressão 3D profissional com envio para Lisboa em habitualmente 2–4 dias úteis.",
   h1: "Impressão 3D Online com Envio para Lisboa",
   eyebrow: "Envio para Lisboa · Habitualmente 2–4 dias úteis",
 
@@ -712,9 +712,9 @@ export const ptCityPorto: IntlCityContent = {
   locale: "pt-PT",
   countryCode: "PT",
   city: "Porto",
-  metaTitle: "Impressão 3D Online com Envio para o Porto — A partir de 10 € | Dimension3D",
+  metaTitle: "Impressão 3D Online com Envio para o Porto",
   metaDescription:
-    "Serviço de impressão 3D profissional com envio para o Porto em habitualmente 2–4 dias úteis. Bambu Lab X2D câmara fechada, orçamento em 1 hora, encomenda mínima 10 €.",
+    "Serviço de impressão 3D profissional com envio para o Porto em habitualmente 2–4 dias úteis.",
   h1: "Impressão 3D Online com Envio para o Porto",
   eyebrow: "Envio para o Porto · Habitualmente 2–4 dias úteis",
 
@@ -775,9 +775,9 @@ export const ptGuidePrice: IntlGuideContent = {
   lang: "pt",
   locale: "pt-PT",
   topic: "price",
-  metaTitle: "Preço Impressão 3D Online — Guia Completo 2025 | Dimension3D",
+  metaTitle: "Preço Impressão 3D Online — Guia Completo 2026",
   metaDescription:
-    "Como se calcula o preço da impressão 3D? Peso do material, tempo de máquina, escolha do filamento: tudo explicado com exemplos reais. Encomenda mínima 10 €, envio 5,90 €.",
+    "Como se calcula o preço da impressão 3D? Peso do material, tempo de máquina, escolha do filamento: tudo explicado com exemplos reais.",
   h1: "Preço da Impressão 3D Online: Como Funciona o Cálculo",
   intro: `Compreender como é calculado o preço da impressão 3D ajuda a conceber peças mais eficientes e a avaliar orçamentos de forma informada. A fórmula da Dimension3D baseia-se em duas componentes: o custo do material (proporcional ao peso em gramas) e o custo do tempo de máquina (proporcional às horas de impressão). Não existem custos de configuração, nem mínimos além dos 10 €.`,
 
@@ -867,9 +867,9 @@ export const ptGuideFilePrep: IntlGuideContent = {
   lang: "pt",
   locale: "pt-PT",
   topic: "file-prep",
-  metaTitle: "Como Preparar o Ficheiro para Impressão 3D — Guia FDM | Dimension3D",
+  metaTitle: "Como Preparar o Ficheiro para Impressão 3D — Guia FDM",
   metaDescription:
-    "Como exportar STL, OBJ, STEP e 3MF para impressão FDM. Erros comuns, tolerâncias, espessuras mínimas e conselhos práticos para obter uma peça de qualidade na primeira tentativa.",
+    "Como exportar STL, OBJ, STEP e 3MF para impressão FDM. Erros comuns, tolerâncias, espessuras mínimas e conselhos práticos para obter uma peça de qualidade na",
   h1: "Como Preparar o Ficheiro para Impressão 3D FDM",
   intro: `A qualidade de uma peça impressa em FDM depende em grande parte da qualidade do ficheiro de partida. Um ficheiro bem preparado traduz-se num orçamento preciso, sem pedidos de revisão da nossa parte, e numa peça final que corresponde às expectativas. Este guia aborda os passos essenciais para preparar correctamente um ficheiro para impressão 3D online.`,
 
@@ -937,9 +937,9 @@ export const ptGuideMaterials: IntlGuideContent = {
   lang: "pt",
   locale: "pt-PT",
   topic: "materials",
-  metaTitle: "Materiais para Impressão 3D FDM — PLA, PETG, ABS, Nylon | Dimension3D",
+  metaTitle: "Materiais para Impressão 3D FDM — PLA, PETG, ABS, Nylon",
   metaDescription:
-    "Guia completo dos materiais FDM: PLA, PETG, ABS e Nylon. Propriedades mecânicas, temperatura de serviço, casos de uso típicos e conselhos para escolher o material certo para a sua aplicação.",
+    "Guia completo dos materiais FDM: PLA, PETG, ABS e Nylon. Propriedades mecânicas, temperatura de serviço",
   h1: "Guia de Materiais para Impressão 3D FDM",
   intro: `Escolher o material certo é um dos passos mais importantes para obter uma peça impressa em 3D que satisfaça as suas necessidades. Cada filamento apresenta um equilíbrio diferente entre facilidade de impressão, resistência mecânica, resistência térmica e custo. Este guia apresenta as propriedades essenciais dos quatro materiais que utilizamos, com indicações práticas sobre quando escolher cada um.`,
 

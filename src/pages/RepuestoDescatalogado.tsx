@@ -18,8 +18,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Repuesto Descatalogado en Barcelona — Reproducción 3D de Piezas que Ya No Se Venden | Dimension3D";
-const META_DESC = "¿Tu aparato necesita un repuesto que ya no fabrica el fabricante? Lo reproducimos en 3D en Barcelona desde foto o la pieza original. Desde 10€. Presupuesto en 1 hora.";
+const META_TITLE = "Repuesto Descatalogado Barcelona — Reproducción 3D";
+const META_DESC = "Repuestos descatalogados reproducidos en 3D en Barcelona desde foto o la pieza original. Desde 10€. Presupuesto en 1 hora.";
 const CANONICAL = `${SITE_URL}/repuesto-descatalogado`;
 
 const FAQS = [

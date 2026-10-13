@@ -18,8 +18,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Impresión 3D Sin Pedido Mínimo Barcelona — Desde 1 Pieza y 10€ | Dimension3D";
-const META_DESC = "Imprimimos una sola pieza en 3D en Barcelona desde 10€ sin pedido mínimo. Un clip, un adaptador, un soporte — sin importe mínimo ni cantidad mínima. Presupuesto gratis en 1 hora, entrega en 24–48h.";
+const META_TITLE = "Impresión 3D Sin Pedido Mínimo — Barcelona";
+const META_DESC = "Impresión 3D en Barcelona desde 10€ sin pedido mínimo. Un clip, un adaptador, un soporte. Presupuesto gratis en 1 hora, entrega en 24–48h.";
 const CANONICAL = `${SITE_URL}/impresion-3d-sin-pedido-minimo`;
 
 const FAQS = [

@@ -17,8 +17,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Recambios y Piezas Rotas en Impresión 3D Barcelona — Desde 10€ | Dimension3D";
-const META_DESC = "¿Se te ha roto una pieza y no encuentras el recambio? La imprimimos en 3D en Barcelona. Desde foto o medidas. Entrega 24-48h. Desde 10€. Presupuesto gratis en 1 hora.";
+const META_TITLE = "Recambios 3D Barcelona — Piezas Rotas desde 10€";
+const META_DESC = "Recambios 3D en Barcelona desde foto o medidas. Entrega 24-48h. Desde 10€. Presupuesto gratis en 1 hora.";
 const CANONICAL = `${SITE_URL}/blog/recambios-piezas-rotas-impresion-3d-barcelona`;
 
 const FAQS = [

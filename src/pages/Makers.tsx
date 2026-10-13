@@ -114,7 +114,7 @@ const GLOBE_TO_FORM_IDX: Record<string, number> = {
 
 const COPY: Record<string, MakersCopy> = {
   en: {
-    metaTitle: "Join the Maker Network | Dimension3D",
+    metaTitle: "Join the Maker Network",
     metaDesc: "Own a 3D printer? Join the Dimension3D maker network. Get real clients without marketing, first month free, zero commission — ever.",
     eyebrow: "The Dimension3D Maker Network",
     titleLine1: "We bring the clients.",
@@ -194,7 +194,7 @@ const COPY: Record<string, MakersCopy> = {
     ],
   },
   es: {
-    metaTitle: "Únete a la Red de Makers | Dimension3D",
+    metaTitle: "Únete a la Red de Makers",
     metaDesc: "¿Tienes una impresora 3D? Únete a la red de makers de Dimension3D. Recibe clientes reales sin hacer marketing, primer mes gratis, cero comisión.",
     eyebrow: "La Red de Makers de Dimension3D",
     titleLine1: "Nosotros traemos los clientes.",
@@ -274,7 +274,7 @@ const COPY: Record<string, MakersCopy> = {
     ],
   },
   ca: {
-    metaTitle: "Uneix-te a la Xarxa de Makers | Dimension3D",
+    metaTitle: "Uneix-te a la Xarxa de Makers",
     metaDesc: "Tens una impressora 3D? Uneix-te a la xarxa de makers de Dimension3D. Rep clients reals sense màrqueting, primer mes gratis, zero comissió.",
     eyebrow: "La Xarxa de Makers de Dimension3D",
     titleLine1: "Nosaltres portem els clients.",
