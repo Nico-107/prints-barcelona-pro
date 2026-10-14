@@ -1,9 +1,11 @@
 /**
- * QA quote-flow test for Dimension3D.
- * Uploads cube-20mm.stl on 6 representative pages, fills email, submits.
+ * QA quote-flow + buy-flow tests for Dimension3D.
+ * Uploads cube-20mm.stl on representative pages and tests both flows:
+ *   - Quote flow: fill email, click Review/Send quote → success message
+ *   - Buy flow:   pick fulfillment, click Buy Now → redirect to success
+ *   - Silent-fail guards: Buy Now without fulfillment shows error,
+ *                         Review without contact shows error
  * Supabase storage, DB insert, and edge function calls are intercepted (mocked).
- * Asserts: insert payload language/sourceCity, email body language/sourceCity,
- *          success message in page language, error message on DB failure.
  *
  * Usage: node scripts/qa/quote-flow.mjs
  * Exits 1 if any assertion fails.
@@ -19,7 +21,7 @@ const ROOT = join(__dirname, "../..");
 const DIST_DIR = join(ROOT, "dist");
 const STL_PATH = join(ROOT, "tests/fixtures/cube-20mm.stl");
 
-// ─── Static server (same as crawl.mjs) ────────────────────────────────────────
+// ─── Static server ─────────────────────────────────────────────────────────────
 const MIME = {
   ".html": "text/html", ".js": "application/javascript", ".css": "text/css",
   ".json": "application/json", ".png": "image/png", ".jpg": "image/jpeg",
@@ -67,7 +69,6 @@ const TEST_PAGES = [
   { path: "/3d-printing-delivery-berlin",   lang: "en", sourceCityExpect: "Berlin" },
 ];
 
-// Success message title per language (from i18n)
 const SUCCESS_TITLES = {
   es: "¡Solicitud enviada!",
   de: "Angebotsanfrage gesendet!",
@@ -79,7 +80,6 @@ const SUCCESS_TITLES = {
   pt: "Pedido de orçamento enviado!",
 };
 
-// Error message per language (uploadError key)
 const ERROR_MSGS = {
   es: "Error al subir el archivo",
   de: "Upload fehlgeschlagen",
@@ -87,37 +87,31 @@ const ERROR_MSGS = {
   en: "Upload failed",
 };
 
+// Contact missing error per language
+const CONTACT_MISSING_MSGS = {
+  es: "Introduce al menos un método de contacto",
+  de: "Bitte gib mindestens eine Kontaktmöglichkeit an",
+  fr: "Veuillez indiquer au moins un moyen de contact",
+  en: "Please provide at least one contact method",
+};
+
+// Fulfillment required error per language
+const FULFILLMENT_REQUIRED_MSGS = {
+  es: "Selecciona recogida o envío para continuar",
+  de: "Bitte wähle Abholung oder Versand",
+  fr: "Veuillez choisir retrait ou livraison",
+  en: "Please select pickup or shipping to continue",
+};
+
 let failures = 0;
 function fail(msg) { console.error(`  ✗ ${msg}`); failures++; }
 function ok(msg)   { console.log(`  ✓ ${msg}`); }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-const PORT = 4175;
-console.log("Starting quote-flow test server…");
-const server = await startServer(PORT);
-const BASE = `http://localhost:${PORT}`;
-
-const browser = await chromium.launch({
-  headless: true,
-  ...(existsSync("/opt/pw-browsers/chromium") ? { executablePath: "/opt/pw-browsers/chromium" } : {}),
-});
-
-async function testPage(pageSpec, mockFailDB = false) {
-  const { path, lang, sourceCityExpect } = pageSpec;
-  const label = `${path} [${lang}]${mockFailDB ? " [DB-FAIL]" : ""}`;
-  console.log(`\nTesting: ${label}`);
-
-  const context = await browser.newContext({ locale: "en-US", viewport: { width: 1280, height: 900 } });
-  const page = await context.newPage();
-
-  let insertPayload = null;
-  let emailPayload  = null;
-  let storageCallMade = false;
-
-  // Mock Supabase storage upload
+// ─── Shared mock setup ────────────────────────────────────────────────────────
+async function setupCommonMocks(page, { mockFailDB = false, mockCheckoutUrl = null } = {}) {
+  // Storage
   await page.route("**/storage/v1/object/**", async route => {
     if (route.request().method() === "POST" || route.request().method() === "PUT") {
-      storageCallMade = true;
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -128,10 +122,11 @@ async function testPage(pageSpec, mockFailDB = false) {
     }
   });
 
-  // Mock DB insert for quote_requests
+  // DB insert for quote_requests
+  const inserted = { payload: null };
   await page.route("**/rest/v1/quote_requests*", async route => {
     if (route.request().method() === "POST") {
-      try { insertPayload = JSON.parse(route.request().postData() || "{}"); } catch { insertPayload = {}; }
+      try { inserted.payload = JSON.parse(route.request().postData() || "{}"); } catch { inserted.payload = {}; }
       if (mockFailDB) {
         await route.fulfill({
           status: 500,
@@ -146,9 +141,10 @@ async function testPage(pageSpec, mockFailDB = false) {
     }
   });
 
-  // Mock send-quote-request edge function
+  // send-quote-request edge function
+  const emailed = { payload: null };
   await page.route("**/functions/v1/send-quote-request*", async route => {
-    try { emailPayload = JSON.parse(route.request().postData() || "{}"); } catch { emailPayload = {}; }
+    try { emailed.payload = JSON.parse(route.request().postData() || "{}"); } catch { emailed.payload = {}; }
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -156,60 +152,97 @@ async function testPage(pageSpec, mockFailDB = false) {
     });
   });
 
-  // Also mock price_estimates insert so it doesn't interfere
+  // price_estimates
   await page.route("**/rest/v1/price_estimates*", async route => {
     await route.fulfill({ status: 201, contentType: "application/json", body: "[]" });
   });
 
-  // Mock send-price-estimate edge function
+  // send-price-estimate
   await page.route("**/functions/v1/send-price-estimate*", async route => {
     await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true }) });
   });
+
+  // create-instant-checkout — mock so it doesn't cause unexpected navigations in quote tests
+  await page.route("**/functions/v1/create-instant-checkout*", async route => {
+    const url = mockCheckoutUrl ?? "about:blank";
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ checkoutUrl: url }),
+    });
+  });
+
+  return { inserted, emailed };
+}
+
+// ─── Upload file + wait for dialog ────────────────────────────────────────────
+async function uploadAndOpenDialog(page) {
+  const fileInput = page.locator('input[type="file"][accept=".stl"]').first();
+  await fileInput.setInputFiles(STL_PATH);
+  const dialog = page.locator('[role="dialog"]:not([aria-hidden="true"])');
+  await dialog.waitFor({ state: "visible", timeout: 15000 });
+  await page.waitForTimeout(1000);
+  return dialog;
+}
+
+// ─── Quote-flow test (fills email, clicks Review or Send quote) ───────────────
+async function testPage(pageSpec, mockFailDB = false) {
+  const { path, lang, sourceCityExpect } = pageSpec;
+  const label = `${path} [${lang}]${mockFailDB ? " [DB-FAIL]" : ""}`;
+  console.log(`\nTesting: ${label}`);
+
+  const context = await browser.newContext({ locale: "en-US", viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
+
+  const { inserted, emailed } = await setupCommonMocks(page, { mockFailDB });
 
   try {
     await page.goto(`${BASE}${path}`, { waitUntil: "networkidle", timeout: 30000 });
     await page.waitForTimeout(1500);
 
-    // Upload STL file via hidden file input
-    const fileInput = page.locator('input[type="file"][accept=".stl"]').first();
-    await fileInput.setInputFiles(STL_PATH);
-
-    // Wait for the checkout dialog to open (it opens automatically on estimate).
-    // Use :not([aria-hidden="true"]) to exclude the cookie-consent banner which also has role="dialog".
-    const dialog = page.locator('[role="dialog"]:not([aria-hidden="true"])');
-    await dialog.waitFor({ state: "visible", timeout: 15000 });
-    await page.waitForTimeout(1000); // let React settle
+    const dialog = await uploadAndOpenDialog(page);
 
     // Fill email field
     const emailInput = dialog.locator('#contact-email, input[type="email"]').first();
     await emailInput.waitFor({ state: "visible", timeout: 5000 });
     await emailInput.fill("test@example.com");
 
-    // Click the primary CTA — could be "Send quote" or "Buy Now" + "Request Review"
-    // Try "Request Review" / manual-review button first, then fall back to "Send quote"
-    const reviewBtn = dialog.locator('button:has-text("Review"), button:has-text("Revisión"), button:has-text("Überprüfung"), button:has-text("Révision"), button[class*="outline"]:has-text("Review")');
-    const sendBtn = dialog.locator('button[class*="cta"]:not(:disabled), button:has-text("Send quote"), button:has-text("Enviar"), button:has-text("Senden"), button:has-text("Envoyer"), button:has-text("Verzenden")');
+    // Button click strategy for quote flow:
+    //   1. Prefer the Review/Manual-review button — works in both buy-flow and quote-flow
+    //      (it submits a quote without needing fulfillment selection).
+    //   2. Fall back to primary CTA (Send quote in quote-only flow).
+    //   3. Last resort: any send-like text.
+    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen/i;
 
-    // Prefer the "Send quote" primary CTA
     let clickedSend = false;
-    if (await sendBtn.count() > 0) {
-      // Find the primary CTA button that's not whatsapp and not outline
+    const allBtns = dialog.locator('button:visible');
+    const count = await allBtns.count();
+
+    // Pass 1: Review button
+    for (let i = 0; i < count && !clickedSend; i++) {
+      const text = (await allBtns.nth(i).textContent() ?? "");
+      if (REVIEW_RE.test(text)) {
+        await allBtns.nth(i).click();
+        clickedSend = true;
+      }
+    }
+
+    // Pass 2: primary CTA
+    if (!clickedSend) {
       const primaryBtns = dialog.locator('button[class*="cta"]');
       if (await primaryBtns.count() > 0) {
         await primaryBtns.first().click();
         clickedSend = true;
       }
     }
+
+    // Pass 3: send-like text
     if (!clickedSend) {
-      // Try any visible button with send-like text
-      const allBtns = dialog.locator('button:visible');
-      const count = await allBtns.count();
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count && !clickedSend; i++) {
         const text = await allBtns.nth(i).textContent();
-        if (text && /send|enviar|senden|envoyer|verzend|invia|enviar/i.test(text)) {
+        if (text && /send|enviar|senden|envoyer|verzend|invia/i.test(text)) {
           await allBtns.nth(i).click();
           clickedSend = true;
-          break;
         }
       }
     }
@@ -221,7 +254,6 @@ async function testPage(pageSpec, mockFailDB = false) {
     }
 
     if (mockFailDB) {
-      // Expect error message in page language
       const errorKey = ERROR_MSGS[lang] ?? ERROR_MSGS.en;
       try {
         await page.waitForFunction(
@@ -234,7 +266,6 @@ async function testPage(pageSpec, mockFailDB = false) {
         fail(`${label}: expected error message "${errorKey}" to appear`);
       }
     } else {
-      // Expect success message in page language
       const successTitle = SUCCESS_TITLES[lang] ?? SUCCESS_TITLES.en;
       try {
         await page.waitForFunction(
@@ -247,36 +278,31 @@ async function testPage(pageSpec, mockFailDB = false) {
         fail(`${label}: expected success title "${successTitle}" to appear`);
       }
 
-      // Assert insert payload language
-      if (insertPayload !== null) {
-        const insertBody = Array.isArray(insertPayload) ? insertPayload[0] : insertPayload;
-        // language is in the email payload, not the DB insert — check email body
+      if (inserted.payload !== null) {
         ok(`${label}: DB insert received`);
       } else {
         fail(`${label}: DB insert was never called`);
       }
 
-      // Assert email payload
-      if (emailPayload !== null) {
-        if (emailPayload.language === lang) {
+      if (emailed.payload !== null) {
+        if (emailed.payload.language === lang) {
           ok(`${label}: email payload.language === "${lang}"`);
         } else {
-          fail(`${label}: email payload.language is "${emailPayload.language}", expected "${lang}"`);
+          fail(`${label}: email payload.language is "${emailed.payload.language}", expected "${lang}"`);
         }
         if (sourceCityExpect !== null) {
-          if (emailPayload.sourceCity === sourceCityExpect) {
+          if (emailed.payload.sourceCity === sourceCityExpect) {
             ok(`${label}: email payload.sourceCity === "${sourceCityExpect}"`);
           } else {
-            fail(`${label}: email payload.sourceCity is "${emailPayload.sourceCity}", expected "${sourceCityExpect}"`);
+            fail(`${label}: email payload.sourceCity is "${emailed.payload.sourceCity}", expected "${sourceCityExpect}"`);
           }
         } else {
-          ok(`${label}: sourceCity is ${emailPayload.sourceCity ?? "null"} (no city expected)`);
+          ok(`${label}: sourceCity is ${emailed.payload.sourceCity ?? "null"} (no city expected)`);
         }
       } else {
         fail(`${label}: send-quote-request was never called`);
       }
 
-      // Assert reference number visible
       try {
         await page.waitForFunction(
           () => {
@@ -302,21 +328,238 @@ async function testPage(pageSpec, mockFailDB = false) {
   }
 }
 
-// Run success tests for all 6 pages, then one DB-failure test
+// ─── Helper: click the VISIBLE instance of a data-testid element ──────────────
+// The checkout dialog renders actionSlot twice (desktop left column + mobile bar).
+// Only one is visible at a time depending on viewport. This helper finds it.
+async function clickVisible(dialog, testId) {
+  const loc = dialog.locator(`[data-testid="${testId}"]`);
+  const count = await loc.count();
+  for (let i = 0; i < count; i++) {
+    const el = loc.nth(i);
+    if (await el.isVisible()) {
+      await el.click();
+      return true;
+    }
+  }
+  throw new Error(`No visible element with data-testid="${testId}" found (${count} total)`);
+}
+
+// ─── Helper: wait until the visible Buy Now button is enabled ─────────────────
+async function waitForBuyNowEnabled(dialog, timeout = 8000) {
+  const deadline = Date.now() + timeout;
+  while (Date.now() < deadline) {
+    const loc = dialog.locator('[data-testid="buy-now-btn"]');
+    const count = await loc.count();
+    for (let i = 0; i < count; i++) {
+      const el = loc.nth(i);
+      if (await el.isVisible() && await el.isEnabled()) {
+        return el;
+      }
+    }
+    await new Promise(r => setTimeout(r, 200));
+  }
+  throw new Error('Buy Now button never became enabled within timeout');
+}
+
+// ─── Buy-flow test: pick fulfillment → Buy Now → redirect to success ──────────
+async function testBuyFlowSuccess(path, lang, fulfillment, viewport) {
+  const label = `BUY ${path} [${lang}] [${fulfillment}] [${viewport.width}px]`;
+  console.log(`\nTesting: ${label}`);
+
+  const context = await browser.newContext({ locale: "en-US", viewport });
+  const page = await context.newPage();
+
+  await setupCommonMocks(page, {
+    mockCheckoutUrl: `${BASE}/?checkout=success`,
+  });
+
+  try {
+    await page.goto(`${BASE}${path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await page.waitForTimeout(1500);
+
+    const dialog = await uploadAndOpenDialog(page);
+
+    // Pick fulfillment using the compact picker (data-testid scoped to dialog)
+    const fulfillmentTestId = fulfillment === "pickup" ? "compact-fulfillment-pickup" : "compact-fulfillment-shipping";
+    await clickVisible(dialog, fulfillmentTestId);
+    ok(`${label}: picked fulfillment "${fulfillment}"`);
+
+    // Wait for Buy Now to become enabled (preUploadDone=true after mock upload resolves)
+    const buyBtn = await waitForBuyNowEnabled(dialog);
+    await buyBtn.click();
+    ok(`${label}: clicked Buy Now`);
+
+    // Wait for redirect to success URL
+    await page.waitForURL(`**checkout=success**`, { timeout: 10000 });
+    ok(`${label}: redirected to checkout=success URL`);
+
+    // Wait for success banner
+    await page.waitForFunction(
+      () => document.body.innerText.includes("Payment confirmed"),
+      { timeout: 5000 }
+    );
+    ok(`${label}: success banner "Payment confirmed" visible`);
+  } catch (err) {
+    fail(`${label}: ${err.message}`);
+  } finally {
+    await context.close();
+  }
+}
+
+// ─── Silent-fail guard: Buy Now without fulfillment must show error ────────────
+async function testBuyNoFulfillmentShowsError(path, lang) {
+  const label = `BUY-NO-FULFILLMENT ${path} [${lang}]`;
+  console.log(`\nTesting: ${label}`);
+
+  const context = await browser.newContext({ locale: "en-US", viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
+
+  await setupCommonMocks(page);
+
+  try {
+    await page.goto(`${BASE}${path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await page.waitForTimeout(1500);
+
+    const dialog = await uploadAndOpenDialog(page);
+
+    // Wait for Buy Now to be enabled, then click it WITHOUT picking fulfillment
+    const buyBtn = await waitForBuyNowEnabled(dialog);
+    await buyBtn.click();
+
+    // Expect the fulfillment-required error to appear in the actions bar (not silently fail)
+    try {
+      await page.waitForFunction(
+        () => {
+          const text = document.body.innerText;
+          return text.includes("Selecciona recogida") ||
+            text.includes("select pickup") || text.includes("Select pickup") ||
+            text.includes("Abholung") || text.includes("retrait") || text.includes("Retrait") ||
+            text.includes("para continuar") || text.includes("to continue") ||
+            text.includes("zum Fortfahren") || text.includes("pour continuer");
+        },
+        { timeout: 5000 }
+      );
+      ok(`${label}: fulfillment-required error visible — Buy Now did not fail silently`);
+    } catch {
+      fail(`${label}: Buy Now failed silently — no fulfillment error appeared`);
+    }
+  } catch (err) {
+    fail(`${label}: ${err.message}`);
+  } finally {
+    await context.close();
+  }
+}
+
+// ─── Silent-fail guard: Review without contact must show error ─────────────────
+async function testReviewNoContactShowsError(path, lang) {
+  const label = `REVIEW-NO-CONTACT ${path} [${lang}]`;
+  console.log(`\nTesting: ${label}`);
+
+  const context = await browser.newContext({ locale: "en-US", viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
+
+  await setupCommonMocks(page);
+
+  try {
+    await page.goto(`${BASE}${path}`, { waitUntil: "networkidle", timeout: 30000 });
+    await page.waitForTimeout(1500);
+
+    const dialog = await uploadAndOpenDialog(page);
+
+    // Do NOT fill email — leave contact fields empty
+
+    // Find and click the Review button (outline secondary button)
+    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen/i;
+    const allBtns = dialog.locator('button:visible');
+    const count = await allBtns.count();
+    let clickedReview = false;
+    for (let i = 0; i < count && !clickedReview; i++) {
+      const text = (await allBtns.nth(i).textContent() ?? "");
+      if (REVIEW_RE.test(text)) {
+        await allBtns.nth(i).click();
+        clickedReview = true;
+      }
+    }
+
+    if (!clickedReview) {
+      // No Review button means this page is quote-only — test Send quote without contact
+      const primaryBtns = dialog.locator('button[class*="cta"]');
+      if (await primaryBtns.count() > 0) {
+        await primaryBtns.first().click();
+        clickedReview = true;
+      }
+    }
+
+    if (!clickedReview) {
+      fail(`${label}: could not find Review or Send quote button`);
+      await context.close();
+      return;
+    }
+
+    // Expect a contact-required error to appear
+    try {
+      await page.waitForFunction(
+        () => {
+          const text = document.body.innerText;
+          return text.includes("al menos un método") ||
+            text.includes("at least one contact") ||
+            text.includes("mindestens eine Kontakt") ||
+            text.includes("au moins un moyen") ||
+            text.includes("mètode de contacte") ||
+            text.includes("contactmogelijkheid") ||
+            text.includes("almeno un metodo") ||
+            text.includes("pelo menos um contacto");
+        },
+        { timeout: 5000 }
+      );
+      ok(`${label}: contact-required error visible — Review did not fail silently`);
+    } catch {
+      fail(`${label}: Review failed silently — no contact error appeared`);
+    }
+  } catch (err) {
+    fail(`${label}: ${err.message}`);
+  } finally {
+    await context.close();
+  }
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+const PORT = 4175;
+console.log("Starting quote-flow test server…");
+const server = await startServer(PORT);
+const BASE = `http://localhost:${PORT}`;
+
+const browser = await chromium.launch({
+  headless: true,
+  ...(existsSync("/opt/pw-browsers/chromium") ? { executablePath: "/opt/pw-browsers/chromium" } : {}),
+});
+
+// ── 1. Quote-flow: all 6 pages succeed ───────────────────────────────────────
+console.log("\n═══ QUOTE-FLOW TESTS ═══");
 for (const pageSpec of TEST_PAGES) {
   await testPage(pageSpec, false);
 }
 
-// DB failure test on the German hub (representative)
+// ── 2. Quote-flow: DB-failure test ────────────────────────────────────────────
 await testPage(TEST_PAGES[2], true);
+
+// ── 3. Buy-flow: pickup on desktop, shipping on mobile ────────────────────────
+console.log("\n═══ BUY-FLOW TESTS ═══");
+await testBuyFlowSuccess("/", "es", "pickup",   { width: 1280, height: 900 });
+await testBuyFlowSuccess("/", "es", "shipping", { width: 390,  height: 844 });
+
+// ── 4. Silent-fail guards ──────────────────────────────────────────────────────
+console.log("\n═══ SILENT-FAIL GUARD TESTS ═══");
+await testBuyNoFulfillmentShowsError("/", "es");
+await testReviewNoContactShowsError("/", "es");
 
 await browser.close();
 server.close();
 
-const total = TEST_PAGES.length + 1; // +1 for the failure test
+const total = TEST_PAGES.length + 1 + 2 + 2; // quote(6) + db-fail(1) + buy(2) + silent-fail(2)
 console.log(`\n──────────────────────────────────────────`);
 if (failures === 0) {
-  console.log(`✓ All ${total} quote-flow tests passed`);
+  console.log(`✓ All ${total} quote-flow + buy-flow tests passed`);
   process.exit(0);
 } else {
   console.log(`✗ ${failures} assertion(s) failed across ${total} tests`);

@@ -1,4 +1,4 @@
-export const CHECKOUT_V3_READY = import.meta.env.VITE_CHECKOUT_V3 === "1";
+export const CHECKOUT_V3_READY = import.meta.env.VITE_CHECKOUT_V3 !== "0";
 
 /** Countries supported by instant checkout (flat €5.90 shipping).
  *  Keep in sync with SHIP_COUNTRIES in supabase/functions/create-instant-checkout/index.ts */

@@ -713,9 +713,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const cc = checkContact(contactEmail, contactPhone);
     setContactTouched(true);
     if (!cc.ok) {
+      setQuoteError(t("calc.contact.atLeastOne"));
       capture('review_blocked_missing_contact', { code: cc.code });
       return;
     }
+    setQuoteError(null);
     setShowManualReview(true);
     submitQuote();
   };
@@ -724,6 +726,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const cc = checkContact(contactEmail, contactPhone);
     if (!cc.ok) {
       setContactTouched(true);
+      setQuoteError(t("calc.contact.atLeastOne"));
       capture('review_blocked_missing_contact', { code: cc.code });
       return;
     }
