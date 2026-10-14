@@ -407,7 +407,7 @@ describe("PriceBreakdown: calc.why.minNote visibility", () => {
     expect(bundle.order.baseCents).toBeLessThanOrEqual(1000);
 
     const container = mountPanel(
-      <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} />
+      <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
     // Expand the accordion to reveal the breakdown details
     const expandBtn = container.querySelector("button[aria-expanded]") as HTMLButtonElement;
@@ -424,7 +424,7 @@ describe("PriceBreakdown: calc.why.minNote visibility", () => {
     expect(bundle.order.baseCents).toBeGreaterThan(1000);
 
     const container = mountPanel(
-      <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} />
+      <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
     expect(container.innerHTML).not.toContain("calc.why.minNote");
     expect(container.innerHTML).not.toContain("calc.summary.setup");

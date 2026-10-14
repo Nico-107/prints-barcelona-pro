@@ -9,6 +9,8 @@ import { PartRow } from "./PartRow";
 import { ContactFields } from "./ContactFields";
 import { PriceBreakdown } from "./PriceBreakdown";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
+import { formatEUR } from "@/lib/formatPrice";
+import type { Language } from "@/lib/pathLanguage";
 
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"];
 
@@ -76,6 +78,9 @@ interface OrderPanelProps {
   /** When section='actions', show quote-only reason when applicable */
   anyMulticolour?: boolean;
   instantTotalPrice?: number | null;
+
+  /** Ref to pass to the compact fulfillment picker for focus on blocked Buy Now */
+  fulfillmentPickerRef?: React.RefObject<HTMLDivElement>;
 }
 
 export function OrderPanel({
@@ -124,7 +129,9 @@ export function OrderPanel({
   section = 'all',
   anyMulticolour = false,
   instantTotalPrice: instantTotalPriceProp,
+  fulfillmentPickerRef,
 }: OrderPanelProps) {
+  const lang = language as Language;
   const costByFileId: Record<string, number> = {};
   if (bundle) {
     validFiles.forEach((f, i) => {
@@ -159,13 +166,35 @@ export function OrderPanel({
 
   if (parsedFiles.length === 0 || !bundle) return null;
 
+  // Buy Now button label — "from {price}" before selection, exact after
+  const buyNowLabel = (() => {
+    if (isCheckingOut) return null;
+    const basePrice = chargedPrint; // print total without shipping
+    if (fulfillment === null) {
+      return t("calc.instantBuy.buyNow.from").replace("{price}", formatEUR(basePrice, lang));
+    }
+    const total = instantTotalPrice ?? basePrice;
+    return t("calc.instantBuy.buyNow").replace("{price}", formatEUR(total, lang).replace(/^€/, "").replace(/^\€/, ""));
+  })();
+
+  // Shipping fee formatted
+  const shippingFormatted = formatEUR(EST.shippingCents / 100, lang);
+
   // ── 'actions' section only ─────────────────────────────────────────────────
   if (section === 'actions') {
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible &&
       (bundle.orderResult.chargedPrintCents > EST.instantMaxCents || effectiveAnyMulticolour);
+
     const displayPrice = instantBuyEligible && instantTotalPrice !== null
-      ? instantTotalPrice.toFixed(2)
-      : bundle.total.toFixed(2);
+      ? formatEUR(instantTotalPrice, lang)
+      : formatEUR(bundle.total, lang);
+
+    // Single action error: checkout beats quote (Buy Now context > Review context)
+    const actionError = checkoutError && instantBuyEligible && !showManualReview
+      ? checkoutError
+      : quoteError
+      ? quoteError
+      : null;
 
     return (
       <div className="space-y-3">
@@ -173,11 +202,11 @@ export function OrderPanel({
         <div>
           <div className="flex justify-between items-baseline">
             <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
-            <span className="text-xl font-bold">€{displayPrice}</span>
+            <span className="text-xl font-bold">{displayPrice}</span>
           </div>
           {fulfillment === "shipping" && (
             <p className="text-xs text-muted-foreground text-right">
-              {t("calc.summary.shipping")} +€{(EST.shippingCents / 100).toFixed(2)}
+              {t("calc.summary.shipping")} +{shippingFormatted}
             </p>
           )}
           {fulfillment === "pickup" && (
@@ -190,47 +219,49 @@ export function OrderPanel({
           <p className="text-xs text-muted-foreground">{t("calc.actions.quoteOnlyWhy")}</p>
         )}
 
-        {/* Errors */}
-        {checkoutError && instantBuyEligible && !showManualReview && (
-          <p className="text-xs text-destructive">{checkoutError}</p>
-        )}
-        {quoteError && <p className="text-xs text-destructive">{quoteError}</p>}
+        {/* Single action error — at most one message */}
+        {actionError && <p className="text-xs text-destructive" role="alert">{actionError}</p>}
 
         {!adminMode && (
           <div className="space-y-2">
             {instantBuyEligible && !showManualReview ? (
               <>
                 {/* Compact fulfillment picker — visible next to Buy Now on all screen sizes */}
-                <div className="flex gap-2" data-testid="compact-fulfillment-picker">
+                <div
+                  className="flex gap-2"
+                  data-testid="compact-fulfillment-picker"
+                  ref={fulfillmentPickerRef}
+                  tabIndex={-1}
+                >
                   <button
                     type="button"
                     data-testid="compact-fulfillment-pickup"
                     onClick={() => onFulfillmentChange("pickup")}
                     disabled={isCheckingOut}
-                    className={`flex-1 text-center rounded-lg border px-2.5 py-2 text-xs transition-colors disabled:opacity-60 ${
+                    className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
                       fulfillment === "pickup"
                         ? "border-accent bg-accent/8 text-foreground font-medium"
                         : "border-input bg-background text-foreground hover:border-accent/60"
                     }`}
                   >
-                    {t("calc.instantBuy.fulfillment.pickup").replace("{city}", PICKUP_ADDRESS.city)} — {t("calc.fulfillment.free")}
+                    {t("calc.instantBuy.fulfillment.pickup.short")}
                   </button>
                   <button
                     type="button"
                     data-testid="compact-fulfillment-shipping"
                     onClick={() => onFulfillmentChange("shipping")}
                     disabled={isCheckingOut}
-                    className={`flex-1 text-center rounded-lg border px-2.5 py-2 text-xs transition-colors disabled:opacity-60 ${
+                    className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
                       fulfillment === "shipping"
                         ? "border-accent bg-accent/8 text-foreground font-medium"
                         : "border-input bg-background text-foreground hover:border-accent/60"
                     }`}
                   >
-                    {t("calc.instantBuy.fulfillment.shipping")} +€{(EST.shippingCents / 100).toFixed(2)}
+                    {t("calc.instantBuy.fulfillment.shipping.short").replace("{price}", shippingFormatted)}
                   </button>
                 </div>
                 {fulfillmentAttempted && fulfillment === null && (
-                  <p className="text-xs text-destructive">{t("calc.instantBuy.fulfillment.required")}</p>
+                  <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
                 )}
                 {/* Primary: Buy Now */}
                 <Button
@@ -242,8 +273,8 @@ export function OrderPanel({
                   disabled={isCheckingOut || !preUploadDone}
                 >
                   {isCheckingOut
-                    ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                    : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
+                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                    : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
                 {/* Secondary row: Review + WhatsApp side by side */}
@@ -256,7 +287,7 @@ export function OrderPanel({
                     disabled={isCheckingOut}
                   >
                     <Send className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">{t("calc.instantBuy.manualReview")}</span>
+                    <span className="min-w-0">{t("calc.instantBuy.manualReview.short")}</span>
                   </Button>
                   <Button
                     variant="whatsapp-outline"
@@ -266,7 +297,7 @@ export function OrderPanel({
                     disabled={isCheckingOut}
                   >
                     <MessageCircle className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">{t("calc.result.whatsapp")}</span>
+                    <span className="min-w-0">{t("calc.result.whatsapp.short")}</span>
                   </Button>
                 </div>
                 <p className="text-xs text-center text-muted-foreground">{t("calc.instantBuy.reviewHint")}</p>
@@ -295,7 +326,7 @@ export function OrderPanel({
                   disabled={isSubmittingQuote}
                 >
                   <MessageCircle className="w-4 h-4" />
-                  {t("calc.result.whatsapp")}
+                  {t("calc.result.whatsapp.short")}
                 </Button>
               </>
             )}
@@ -365,7 +396,7 @@ export function OrderPanel({
                   advancedMode={advancedMode}
                   disabled={disabled}
                   t={t}
-                  language={language}
+                  language={lang}
                   materialOptions={materialOptions}
                   onSelect={() => {
                     if (viewableIdx !== -1) onSelectPart(viewableIdx);
@@ -389,40 +420,40 @@ export function OrderPanel({
           {bundle.orderResult.setupCents > 0 && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.setup")}</span>
-              <span>€{(bundle.orderResult.setupCents / 100).toFixed(2)}</span>
+              <span>{formatEUR(bundle.orderResult.setupCents / 100, lang)}</span>
             </div>
           )}
           {bundle.orderResult.minAdjCents > 0 && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.minAdjust")}</span>
-              <span>+€{(bundle.orderResult.minAdjCents / 100).toFixed(2)}</span>
+              <span>+{formatEUR(bundle.orderResult.minAdjCents / 100, lang)}</span>
             </div>
           )}
           {bundle.orderResult.expressCents > 0 && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.express")}</span>
-              <span>+€{(bundle.orderResult.expressCents / 100).toFixed(2)}</span>
+              <span>+{formatEUR(bundle.orderResult.expressCents / 100, lang)}</span>
             </div>
           )}
           {fulfillment === "shipping" && (
             <div className="flex justify-between text-muted-foreground">
               <span>{t("calc.summary.shipping")}</span>
-              <span>+€{(EST.shippingCents / 100).toFixed(2)}</span>
+              <span>+{shippingFormatted}</span>
             </div>
           )}
           <div className="flex justify-between font-semibold border-t border-border pt-1 mt-1">
             <span>{t("calc.summary.total")}</span>
             <span>
-              €{instantBuyEligible && instantTotalPrice !== null
-                ? instantTotalPrice.toFixed(2)
-                : bundle.total.toFixed(2)}
+              {instantBuyEligible && instantTotalPrice !== null
+                ? formatEUR(instantTotalPrice, lang)
+                : formatEUR(bundle.total, lang)}
             </span>
           </div>
         </div>
       )}
 
       {/* Why this price? */}
-      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} />}
+      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} language={lang} />}
 
       {/* Notes */}
       {renderForm && !instantEligibleMaterials && !effectiveAnyMulticolour && (
@@ -476,11 +507,12 @@ export function OrderPanel({
               }`}
             >
               {t("calc.instantBuy.fulfillment.shipping")}
-              <span className="text-muted-foreground text-xs ml-1">+€{(EST.shippingCents / 100).toFixed(2)}</span>
+              <span className="text-muted-foreground text-xs ml-1">+{shippingFormatted}</span>
             </button>
 
-            {fulfillmentAttempted && fulfillment === null && (
-              <p className="text-xs text-destructive">{t("calc.instantBuy.fulfillment.required")}</p>
+            {/* Fulfillment error only shown here in form, NOT also in actions */}
+            {section === 'all' && fulfillmentAttempted && fulfillment === null && (
+              <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
             )}
 
             {fulfillment === "pickup" && allFastPickup && (
@@ -500,9 +532,10 @@ export function OrderPanel({
             onEmailChange={onContactEmailChange}
             onPhoneChange={onContactPhoneChange}
           />
-          {quoteError && <p className="text-xs text-destructive">{quoteError}</p>}
-          {checkoutError && instantBuyEligible && !showManualReview && (
-            <p className="text-xs text-destructive">{checkoutError}</p>
+          {/* Errors only in section='all'; section='form' defers to 'actions' bar */}
+          {section === 'all' && quoteError && <p className="text-xs text-destructive" role="alert">{quoteError}</p>}
+          {section === 'all' && checkoutError && instantBuyEligible && !showManualReview && (
+            <p className="text-xs text-destructive" role="alert">{checkoutError}</p>
           )}
           {oversizedFiles.length > 0 && (
             <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
@@ -526,8 +559,8 @@ export function OrderPanel({
                   disabled={isCheckingOut || !preUploadDone}
                 >
                   {isCheckingOut
-                    ? <><Loader2 className="w-4 h-4 animate-spin" />Paying…</>
-                    : <><CreditCard className="w-4 h-4" />{t("calc.instantBuy.buyNow").replace("{price}", instantTotalPrice?.toFixed(2) ?? "")}</>
+                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                    : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
                 <div>

@@ -736,6 +736,9 @@ export const enTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Checkout cancelled",
   "calc.checkout.cancelled.body": "No charge was made. Upload your files again to retry or request a review.",
   "calc.student.discount": "Student? Mention your university when confirming your quote and get a 20% discount.",
+  "calc.ref.pickup.banner": "Local pickup available in {city}, or shipped to your door",
+  "calc.ref.shipping.banner": "Delivering to {city}",
+  "calc.ref.shipping.days": " — tracked shipping in {days}",
   "calc.urgency.urgentNextDay": "Next day",
 
   // Checkout polish (Prompt 5)

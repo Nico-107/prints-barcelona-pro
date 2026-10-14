@@ -21,6 +21,8 @@ import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
 import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
+import { formatEUR } from "@/lib/formatPrice";
+import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
 import { checkContact, isValidEmail } from "@/lib/contactValidation";
@@ -237,6 +239,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [showManualReview, setShowManualReview] = useState(false);
   const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
+  const fulfillmentPickerRef = useRef<HTMLDivElement>(null);
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
@@ -256,6 +259,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setExitIntentError(null);
     }
   }, [showExitIntent]);
+
+  // Preselect shipping for international pages — only runs once on mount
+  useEffect(() => {
+    const intlLangs: Language[] = ["de", "fr", "it", "nl", "pt"];
+    const isIntl = (intlLangs as string[]).includes(language) ||
+      (language === "en" && !!refCity);
+    if (isIntl && !refPickupAvailable) {
+      setFulfillment("shipping");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const inputRef = useRef<HTMLInputElement>(null);
   const modalInputRef = useRef<HTMLInputElement>(null);
@@ -629,6 +642,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const handleInstantBuy = async () => {
     if (fulfillment === null) {
       setFulfillmentAttempted(true);
+      const el = fulfillmentPickerRef.current;
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        el.focus();
+      }
       return;
     }
     // If an email was typed but is invalid, show the error (phone is not required for Stripe)
@@ -665,6 +683,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         utmContent: storedUtm?.utm_content ?? null,
         utmCampaign: storedUtm?.utm_campaign ?? null,
         checkoutRef,
+        returnPath: window.location.pathname,
       });
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: checkoutBodyPayload,
@@ -1024,12 +1043,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   };
 
   // Price display — multicolour shows "from €X", instant-buy shows exact, normal shows "€X" (exact v3 price)
+  const lang = language as Language;
   const priceDisplay = bundle
     ? anyMulticolour
-      ? `${t("calc.multicolour.from")} €${bundle.total.toFixed(0)}+`
+      ? `${t("calc.multicolour.from")} ${formatEUR(Math.floor(bundle.total), lang)}+`
       : instantBuyEligible && instantTotalPrice !== null
-        ? `€${instantTotalPrice.toFixed(2)}`
-        : `€${bundle.total.toFixed(2)}`
+        ? formatEUR(instantTotalPrice, lang)
+        : formatEUR(bundle.total, lang)
     : "";
 
   const viewableFiles = validFiles.filter(f => !!f.file);
@@ -1197,7 +1217,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       : t("calc.result.disclaimer")}
                   </p>
                   <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">
-                    ¿Eres estudiante? Menciona tu universidad al confirmar tu presupuesto y obtén un 20% de descuento.
+                    {t("calc.student.discount")}
                   </p>
                 </>
               )}
@@ -1326,6 +1346,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 costByFileId={costByFileId}
                 disabled={false}
                 t={t}
+                language={lang}
                 onSelect={(idx) => setSelectedFileIndex(idx)}
                 onQtyChange={updateQty}
                 onRemove={removeFile}
@@ -1482,6 +1503,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           adminMode,
           anyMulticolour,
           instantTotalPrice,
+          fulfillmentPickerRef,
         } as const;
 
         const leftSlot = (
@@ -1528,6 +1550,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               costByFileId={costByFileId}
               disabled={isCheckingOut || isSubmittingQuote}
               t={t}
+              language={lang}
               onSelect={(idx, id) => {
                 setSelectedFileIndex(idx);
                 if (advancedMode) handleScopeChange(id);
@@ -1632,9 +1655,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             open={mobileModalOpen}
             onOpenChange={(open) => {
               if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
-              if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview) {
-                if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
-                exitIntentTimerRef.current = setTimeout(() => setShowExitIntent(true), 500);
+              if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
+                const alreadyShown = (() => { try { return !!sessionStorage.getItem("dim3d-exit-intent-shown"); } catch { return false; } })();
+                if (!alreadyShown) {
+                  if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
+                  exitIntentTimerRef.current = setTimeout(() => {
+                    setShowExitIntent(true);
+                    try { sessionStorage.setItem("dim3d-exit-intent-shown", "1"); } catch {}
+                  }, 500);
+                }
               }
               setMobileModalOpen(open);
               if (open) setViewerStateInModal("loading");
@@ -1690,8 +1719,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           <div className="max-w-xl mx-auto mb-6 rounded-xl bg-whatsapp/10 border border-whatsapp/25 px-5 py-4 flex items-start gap-3">
             <CheckCircle className="w-5 h-5 text-whatsapp shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">Payment confirmed — your order is placed!</p>
-              <p className="text-sm text-muted-foreground mt-0.5">We'll contact you with print updates. Thank you for your order.</p>
+              <p className="font-semibold text-foreground">{t("calc.checkout.success.banner.title")}</p>
+              <p className="text-sm text-muted-foreground mt-0.5">{t("calc.checkout.success.banner.body")}</p>
             </div>
           </div>
         )}
@@ -1699,8 +1728,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           <div className="max-w-xl mx-auto mb-6 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 px-5 py-4 flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">Checkout cancelled</p>
-              <p className="text-sm text-muted-foreground mt-0.5">No charge was made. Upload your files again to retry or request a review.</p>
+              <p className="font-semibold text-foreground">{t("calc.checkout.cancelled.title")}</p>
+              <p className="text-sm text-muted-foreground mt-0.5">{t("calc.checkout.cancelled.body")}</p>
             </div>
           </div>
         )}
@@ -1708,16 +1737,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           <div className="max-w-xl mx-auto mb-6">
             <p className="text-sm bg-amber-50 border border-amber-200 text-amber-800 rounded-lg px-4 py-2.5 text-center">
               {refPickupAvailable
-                ? language === "es"
-                  ? `Recogida local en ${refCity} disponible, o envío a domicilio`
-                  : language === "ca"
-                  ? `Recollida local a ${refCity} disponible, o enviament a domicili`
-                  : `Local pickup available in ${refCity}, or shipped to your door`
-                : language === "es"
-                ? `Enviando a ${refCity}${refDays ? ` — envío con seguimiento en ${refDays}` : ""}`
-                : language === "ca"
-                ? `Enviant a ${refCity}${refDays ? ` — enviament seguit en ${refDays}` : ""}`
-                : `Delivering to ${refCity}${refDays ? ` — tracked shipping in ${refDays}` : ""}`}
+                ? t("calc.ref.pickup.banner").replace("{city}", refCity)
+                : t("calc.ref.shipping.banner").replace("{city}", refCity) +
+                  (refDays ? t("calc.ref.shipping.days").replace("{days}", refDays) : "")}
             </p>
           </div>
         )}

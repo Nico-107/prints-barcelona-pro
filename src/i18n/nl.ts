@@ -638,6 +638,9 @@ export const nlTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Betaling geannuleerd",
   "calc.checkout.cancelled.body": "Er is geen bedrag in rekening gebracht. Upload uw bestanden opnieuw om het opnieuw te proberen of vraag een beoordeling aan.",
   "calc.student.discount": "Student? Vermeld je universiteit bij bevestiging van je offerte en krijg 20% korting.",
+  "calc.ref.pickup.banner": "Lokale afhaling in {city} mogelijk, of aan huis bezorgd",
+  "calc.ref.shipping.banner": "Bezorging naar {city}",
+  "calc.ref.shipping.days": " — gevolgde levering in {days}",
   "calc.urgency.urgentNextDay": "Volgende dag",
 
   // Checkout polish (Prompt 5)

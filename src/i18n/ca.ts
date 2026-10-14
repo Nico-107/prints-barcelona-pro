@@ -736,6 +736,9 @@ export const caTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Pagament cancel·lat",
   "calc.checkout.cancelled.body": "No s'ha realitzat cap càrrec. Torna a pujar els teus arxius per reintentar o sol·licita una revisió.",
   "calc.student.discount": "Ets estudiant? Menciona la teva universitat en confirmar el pressupost i obtén un 20% de descompte.",
+  "calc.ref.pickup.banner": "Recollida local a {city} disponible, o enviament a domicili",
+  "calc.ref.shipping.banner": "Enviant a {city}",
+  "calc.ref.shipping.days": " — enviament seguit en {days}",
   "calc.urgency.urgentNextDay": "Al dia següent",
 
   // Checkout polish (Prompt 5)

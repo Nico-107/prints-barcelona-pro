@@ -2,14 +2,17 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST } from "@/lib/estimator/core";
+import { formatEUR } from "@/lib/formatPrice";
+import type { Language } from "@/lib/pathLanguage";
 
 interface PriceBreakdownProps {
   bundle: BundleEstimateV3;
   fulfillment: "pickup" | "shipping" | null;
   t: (key: string) => string;
+  language: Language;
 }
 
-export function PriceBreakdown({ bundle, fulfillment, t }: PriceBreakdownProps) {
+export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakdownProps) {
   const [open, setOpen] = useState(false);
 
   const totalSupportsGrams = bundle.estimates.reduce((s, e) => s + e.supportCm3 * 1.05, 0);
@@ -45,13 +48,13 @@ export function PriceBreakdown({ bundle, fulfillment, t }: PriceBreakdownProps) 
           {bundle.orderResult.setupCents > 0 && (
             <div className="flex justify-between">
               <span>{t("calc.summary.setup")}</span>
-              <span>€{(bundle.orderResult.setupCents / 100).toFixed(2)}</span>
+              <span>{formatEUR(bundle.orderResult.setupCents / 100, language)}</span>
             </div>
           )}
           {bundle.orderResult.minAdjCents > 0 && (
             <div className="flex justify-between">
               <span>{t("calc.summary.minAdjust")}</span>
-              <span>+€{(bundle.orderResult.minAdjCents / 100).toFixed(2)}</span>
+              <span>+{formatEUR(bundle.orderResult.minAdjCents / 100, language)}</span>
             </div>
           )}
           {bundle.order.baseCents <= EST.minimumEur * 100 && (
@@ -60,19 +63,19 @@ export function PriceBreakdown({ bundle, fulfillment, t }: PriceBreakdownProps) 
           {bundle.orderResult.expressCents > 0 && (
             <div className="flex justify-between">
               <span>{t("calc.summary.express")}</span>
-              <span>+€{(bundle.orderResult.expressCents / 100).toFixed(2)}</span>
+              <span>+{formatEUR(bundle.orderResult.expressCents / 100, language)}</span>
             </div>
           )}
           {fulfillment === "shipping" && (
             <div className="flex justify-between">
               <span>{t("calc.summary.shipping")}</span>
-              <span>+€{(EST.shippingCents / 100).toFixed(2)}</span>
+              <span>+{formatEUR(EST.shippingCents / 100, language)}</span>
             </div>
           )}
           <div className="flex justify-between font-semibold border-t border-border pt-1 text-foreground">
             <span>{t("calc.summary.total")}</span>
             <span>
-              €{(bundle.orderResult.chargedPrintCents / 100 + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0)).toFixed(2)}
+              {formatEUR(bundle.orderResult.chargedPrintCents / 100 + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0), language)}
             </span>
           </div>
           <p className="text-xs text-muted-foreground/70 pt-1 italic">{t("calc.why.note")}</p>

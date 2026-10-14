@@ -296,7 +296,7 @@ export function CheckoutConfigurator({
         {quoteOnlyMaterials.length > 0 && (
           <details className="mt-1.5">
             <summary className="text-xs text-muted-foreground cursor-pointer select-none hover:text-foreground">
-              More materials (quote only)
+              {t("calc.mat.more")}
             </summary>
             <div className="mt-1.5 flex flex-wrap gap-1">
               {quoteOnlyMaterials.map(m => (

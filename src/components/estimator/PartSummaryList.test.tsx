@@ -53,6 +53,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={COST_BY_FILE}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={NOOP}
@@ -63,9 +64,9 @@ describe("PartSummaryList", () => {
     expect(html).toContain("b.stl");
     // Material line
     expect(html).toContain("PLA");
-    // Price
-    expect(html).toContain("12.50");
-    expect(html).toContain("8.90");
+    // Price — formatEUR renders locale-aware (es: "12,50 €")
+    expect(html).toMatch(/12[,.]50/);
+    expect(html).toMatch(/8[,.]90/);
   });
 
   it("qty − calls onQtyChange(id, qty-1)", () => {
@@ -79,6 +80,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={onQtyChange}
         onRemove={NOOP}
@@ -100,6 +102,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={onQtyChange}
         onRemove={NOOP}
@@ -120,6 +123,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={NOOP}
@@ -139,6 +143,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={NOOP}
@@ -159,6 +164,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={onRemove}
@@ -180,6 +186,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={onSelect}
         onQtyChange={NOOP}
         onRemove={NOOP}
@@ -203,6 +210,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={NOOP}
@@ -221,6 +229,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={NOOP}
@@ -240,6 +249,7 @@ describe("PartSummaryList", () => {
         selectedFileIndex={0}
         costByFileId={{}}
         t={t}
+        language="es"
         onSelect={NOOP}
         onQtyChange={NOOP}
         onRemove={NOOP}

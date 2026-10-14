@@ -638,6 +638,9 @@ export const deTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Bezahlung abgebrochen",
   "calc.checkout.cancelled.body": "Es wurde kein Betrag belastet. Laden Sie Ihre Dateien erneut hoch, um es zu wiederholen, oder fordern Sie eine Prüfung an.",
   "calc.student.discount": "Student? Erwähnen Sie Ihre Universität bei der Auftragsbestätigung und erhalten Sie 20% Rabatt.",
+  "calc.ref.pickup.banner": "Abholung in {city} verfügbar, oder Lieferung an die Haustür",
+  "calc.ref.shipping.banner": "Lieferung nach {city}",
+  "calc.ref.shipping.days": " — Versand mit Sendungsverfolgung in {days}",
   "calc.urgency.urgentNextDay": "Nächster Tag",
 
   // Checkout polish (Prompt 5)

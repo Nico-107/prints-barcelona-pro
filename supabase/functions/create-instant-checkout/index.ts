@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const STRIPE_SECRET_KEY = Deno.env.get("STRIPE_SECRET_KEY");
-const SITE_URL = "https://dimension3dprints.com";
+const SITE_URL = "https://www.dimension3dprints.com";
 
 // owner: edit here; flat 590 shipping loses money to far countries (RO about 14 EUR real cost)
 const SHIP_COUNTRIES = ["ES","PT","FR","DE","IT","NL","BE","LU","AT","IE","PL","DK","SE","FI"] as const;
@@ -569,6 +569,9 @@ serve(async (req: Request) => {
 
     const body = await req.json();
 
+    const rawReturnPath = typeof body?.returnPath === "string" ? body.returnPath : "";
+    const validReturnPath = /^\/[a-z0-9\-/]{0,120}$/.test(rawReturnPath) ? rawReturnPath : "";
+
     // ── V3 PATH ────────────────────────────────────────────────────────────────
     if (body?.pricingVersion === 3) {
       const pre = validateV3(body);
@@ -698,8 +701,8 @@ serve(async (req: Request) => {
       v3Params.set("metadata[pricing_version]", "3");
       v3Params.set("metadata[part_count]", String(v3Pieces.length));
       v3Params.set("metadata[materials]", v3UniqueMats.join(",").slice(0, 200));
-      v3Params.set("success_url", `${SITE_URL}/?checkout=success`);
-      v3Params.set("cancel_url", `${SITE_URL}/?checkout=cancelled`);
+      v3Params.set("success_url", `${SITE_URL}${validReturnPath}?checkout=success`);
+      v3Params.set("cancel_url", `${SITE_URL}${validReturnPath}?checkout=cancelled`);
 
       const { ph_distinct_id, ph_session_id, utm_source, utm_medium, utm_content, utm_campaign, product_type, customer_ref } = body;
       if (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) v3Params.set("metadata[ph_distinct_id]", ph_distinct_id.trim().slice(0, 500));
@@ -972,8 +975,8 @@ serve(async (req: Request) => {
       params.set("metadata[part_count]", String(enrichedPieces.length));
       params.set("metadata[materials]", uniqueMats.join(",").slice(0, 200));
 
-      params.set("success_url", `${SITE_URL}/?checkout=success`);
-      params.set("cancel_url", `${SITE_URL}/?checkout=cancelled`);
+      params.set("success_url", `${SITE_URL}${validReturnPath}?checkout=success`);
+      params.set("cancel_url", `${SITE_URL}${validReturnPath}?checkout=cancelled`);
 
       if (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) params.set("metadata[ph_distinct_id]", ph_distinct_id.trim().slice(0, 500));
       if (typeof ph_session_id === "string" && ph_session_id.trim()) params.set("metadata[ph_session_id]", ph_session_id.trim().slice(0, 500));
@@ -1115,8 +1118,8 @@ serve(async (req: Request) => {
       "metadata[order_id]": order.id,
       "metadata[order_number]": String(order.order_number),
       "metadata[fulfillment]": fulfillment,
-      "success_url": `${SITE_URL}/?checkout=success`,
-      "cancel_url": `${SITE_URL}/?checkout=cancelled`,
+      "success_url": `${SITE_URL}${validReturnPath}?checkout=success`,
+      "cancel_url": `${SITE_URL}${validReturnPath}?checkout=cancelled`,
     });
     // B1: visitor identity — added to metadata for server-side order_paid event
     if (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) params.set("metadata[ph_distinct_id]", ph_distinct_id.trim().slice(0, 500));
