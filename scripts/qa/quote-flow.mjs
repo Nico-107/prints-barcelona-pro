@@ -87,6 +87,17 @@ const ERROR_MSGS = {
   en: "Upload failed",
 };
 
+const BUY_SUCCESS_TITLES = {
+  es: "¡Pago confirmado",
+  ca: "Pagament confirmat",
+  en: "Payment confirmed",
+  de: "Zahlung bestätigt",
+  fr: "Paiement confirmé",
+  nl: "Betaling bevestigd",
+  it: "Pagamento confermato",
+  pt: "Pagamento confirmado",
+};
+
 // Contact missing error per language
 const CONTACT_MISSING_MSGS = {
   es: "Introduce al menos un método de contacto",
@@ -212,7 +223,7 @@ async function testPage(pageSpec, mockFailDB = false) {
     //      (it submits a quote without needing fulfillment selection).
     //   2. Fall back to primary CTA (Send quote in quote-only flow).
     //   3. Last resort: any send-like text.
-    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen/i;
+    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen|Revisión gratis|Revisió gratis|Free review|Kostenlose Prüfung|Révision gratuite|Gratis beoordeling|Revisione gratuita|Revisão gratuita/i;
 
     let clickedSend = false;
     const allBtns = dialog.locator('button:visible');
@@ -370,7 +381,7 @@ async function testBuyFlowSuccess(path, lang, fulfillment, viewport) {
   const page = await context.newPage();
 
   await setupCommonMocks(page, {
-    mockCheckoutUrl: `${BASE}/?checkout=success`,
+    mockCheckoutUrl: `${BASE}${path}?checkout=success`,
   });
 
   try {
@@ -393,12 +404,14 @@ async function testBuyFlowSuccess(path, lang, fulfillment, viewport) {
     await page.waitForURL(`**checkout=success**`, { timeout: 10000 });
     ok(`${label}: redirected to checkout=success URL`);
 
-    // Wait for success banner
+    // Wait for success banner (language-aware)
+    const successTxt = BUY_SUCCESS_TITLES[lang] ?? BUY_SUCCESS_TITLES.en;
     await page.waitForFunction(
-      () => document.body.innerText.includes("Payment confirmed"),
+      (txt) => document.body.innerText.includes(txt),
+      successTxt,
       { timeout: 5000 }
     );
-    ok(`${label}: success banner "Payment confirmed" visible`);
+    ok(`${label}: success banner visible ("${successTxt}")`);
   } catch (err) {
     fail(`${label}: ${err.message}`);
   } finally {
@@ -469,7 +482,7 @@ async function testReviewNoContactShowsError(path, lang) {
     // Do NOT fill email — leave contact fields empty
 
     // Find and click the Review button (outline secondary button)
-    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen/i;
+    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen|Revisión gratis|Revisió gratis|Free review|Kostenlose Prüfung|Révision gratuite|Gratis beoordeling|Revisione gratuita|Revisão gratuita/i;
     const allBtns = dialog.locator('button:visible');
     const count = await allBtns.count();
     let clickedReview = false;

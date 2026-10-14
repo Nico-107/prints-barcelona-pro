@@ -2,6 +2,8 @@ import { X } from "lucide-react";
 import type { ParsedFile, PartDefaults } from "@/lib/pricing";
 import { effectivePartSettings } from "@/lib/pricing";
 import { capture } from "@/lib/analytics";
+import { formatEUR } from "@/lib/formatPrice";
+import type { Language } from "@/lib/pathLanguage";
 
 interface PartSummaryListProps {
   parsedFiles: ParsedFile[];
@@ -12,6 +14,7 @@ interface PartSummaryListProps {
   costByFileId: Record<string, number>;
   disabled?: boolean;
   t: (key: string) => string;
+  language: Language;
   onSelect: (viewableIdx: number, fileId: string) => void;
   onQtyChange: (id: string, qty: number) => void;
   onRemove: (id: string) => void;
@@ -23,7 +26,7 @@ function stripUploadPrefix(name: string): string {
 
 export function PartSummaryList({
   parsedFiles, viewableFiles, defaults, selectedFileIndex,
-  costByFileId, disabled, t, onSelect, onQtyChange, onRemove,
+  costByFileId, disabled, t, language, onSelect, onQtyChange, onRemove,
 }: PartSummaryListProps) {
   const scrollClass = parsedFiles.length > 4 ? "max-h-[26dvh] overflow-y-auto" : "";
 
@@ -66,7 +69,7 @@ export function PartSummaryList({
                 {/* Price */}
                 {!f.parseError && costCents > 0 && (
                   <span className="text-xs font-semibold text-foreground shrink-0">
-                    €{(costCents / 100).toFixed(2)}
+                    {formatEUR(costCents / 100, language)}
                   </span>
                 )}
 

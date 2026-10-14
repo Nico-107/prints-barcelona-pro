@@ -1,6 +1,8 @@
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 import type { ParsedFile, PartSettings, MaterialOption } from "@/lib/pricing";
 import { capture } from "@/lib/analytics";
+import { formatEUR } from "@/lib/formatPrice";
+import type { Language } from "@/lib/pathLanguage";
 
 const INFILL_VALUES = [5, 15, 30, 50, 80];
 
@@ -17,7 +19,7 @@ interface PartRowProps {
   advancedMode: boolean;
   disabled?: boolean;
   t: (key: string) => string;
-  language: string;
+  language: Language;
   materialOptions: MaterialOption[];
   onSelect: () => void;
   onQtyChange: (qty: number) => void;
@@ -95,7 +97,7 @@ export function PartRow({
           {/* Price */}
           {!part.parseError && costCents > 0 && (
             <span className="text-sm font-semibold text-foreground shrink-0">
-              €{(costCents / 100).toFixed(2)}
+              {formatEUR(costCents / 100, language)}
             </span>
           )}
 

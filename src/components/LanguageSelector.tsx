@@ -2,6 +2,17 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 
+const LANG_HUB: Record<Language, string> = {
+  es: "/",
+  ca: "/ca",
+  en: "/3d-printing-service",
+  de: "/de/3d-druck-service",
+  fr: "/fr/impression-3d-en-ligne",
+  nl: "/nl/3d-printen-laten-maken",
+  it: "/it/stampa-3d-online",
+  pt: "/pt/impressao-3d-online",
+};
+
 interface Props {
   // Per-language slug map for the current landing page topic, resolved by
   // Header.tsx from PAGES_BY_SLUG + SLUGS_BY_TOPIC. Undefined when the current
@@ -40,6 +51,9 @@ const LanguageSelector = ({ landingTopicSlugs }: Props) => {
       const target = landingTopicSlugs[lang];
       if (target && target !== location.pathname) {
         navigate(target);
+      } else if (!target) {
+        const hub = LANG_HUB[lang];
+        if (hub !== location.pathname) navigate(hub);
       }
     }
   };
