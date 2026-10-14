@@ -304,6 +304,98 @@ describe("OrderPanel section prop", () => {
   });
 });
 
+// ─── Buy-flow: fulfillment picker visible in actions section ─────────────────
+
+describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
+  const validFiles = E1_FILES;
+  const bundle = computeBundleV3(E1_FILES, DEFAULTS, "standard")!;
+
+  it("section='actions' with instantBuyEligible shows pickup and shipping buttons", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={true}
+        fulfillment={null}
+        fulfillmentAttempted={false}
+        section="actions"
+        instantTotalPrice={10.00}
+      />
+    );
+    const html = container.innerHTML;
+    // Both fulfillment option strings must appear in the actions section
+    expect(html).toContain("calc.instantBuy.fulfillment.pickup");
+    expect(html).toContain("calc.instantBuy.fulfillment.shipping");
+    // Still no contact inputs
+    expect(container.querySelector('input[type="email"]')).toBeNull();
+    expect(container.querySelector('input[type="tel"]')).toBeNull();
+  });
+
+  it("section='actions' with fulfillmentAttempted=true and fulfillment=null shows required error", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={true}
+        fulfillment={null}
+        fulfillmentAttempted={true}
+        section="actions"
+        instantTotalPrice={10.00}
+      />
+    );
+    const html = container.innerHTML;
+    expect(html).toContain("calc.instantBuy.fulfillment.required");
+  });
+
+  it("section='actions' with fulfillment='pickup' marks pickup button as selected", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={true}
+        fulfillment="pickup"
+        fulfillmentAttempted={false}
+        section="actions"
+        instantTotalPrice={10.00}
+      />
+    );
+    // The pickup button should have the selected class (border-accent bg-accent/8)
+    const buttons = Array.from(container.querySelectorAll('button'));
+    const pickupBtn = buttons.find(b => b.textContent?.includes("calc.instantBuy.fulfillment.pickup"));
+    expect(pickupBtn).toBeTruthy();
+    expect(pickupBtn!.className).toContain("border-accent");
+  });
+
+  it("Buy Now button disabled when preUploadDone=false in actions section", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={E1_FILES}
+        validFiles={validFiles}
+        bundle={bundle}
+        instantBuyEligible={true}
+        fulfillment="pickup"
+        preUploadDone={false}
+        section="actions"
+        instantTotalPrice={10.00}
+      />
+    );
+    const html = container.innerHTML;
+    expect(html).toContain("calc.instantBuy.buyNow");
+    // Buy Now button should be disabled
+    const buyNowBtn = Array.from(container.querySelectorAll('button')).find(
+      b => b.textContent?.includes("calc.instantBuy.buyNow")
+    );
+    expect(buyNowBtn?.disabled).toBe(true);
+  });
+});
+
 // ─── calc.why.minNote component test (T5 from spec) ──────────────────────────
 
 describe("PriceBreakdown: calc.why.minNote visibility", () => {

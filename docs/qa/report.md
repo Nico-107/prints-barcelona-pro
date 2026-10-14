@@ -1,6 +1,6 @@
 # QA Report
 
-Generated: 2026-10-13T09:08:02.577Z
+Generated: 2026-10-14T09:42:33.074Z
 Routes checked: 150 × 2 locales × 2 viewports = 600 combinations
 Total violations: 0
 
