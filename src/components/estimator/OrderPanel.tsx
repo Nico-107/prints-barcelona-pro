@@ -213,7 +213,7 @@ export function OrderPanel({
                         : "border-input bg-background text-foreground hover:border-accent/60"
                     }`}
                   >
-                    {t("calc.instantBuy.fulfillment.pickup").replace("{city}", pickupCity)} — {t("calc.fulfillment.free")}
+                    {t("calc.instantBuy.fulfillment.pickup").replace("{city}", PICKUP_ADDRESS.city)} — {t("calc.fulfillment.free")}
                   </button>
                   <button
                     type="button"
