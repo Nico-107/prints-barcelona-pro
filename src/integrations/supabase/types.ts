@@ -193,6 +193,7 @@ export type Database = {
       }
       quote_requests: {
         Row: {
+          browser_language: string | null
           color: string | null
           contact_email: string | null
           contact_phone: string | null
@@ -205,22 +206,28 @@ export type Database = {
           estimated_price_low: number
           file_names: string[] | null
           file_paths: string[]
+          fulfillment: string | null
           id: string
           infill: string
           material: string
           multicolour: boolean | null
+          page_language: string | null
           pieces: Json | null
           product_name: string | null
           product_slug: string | null
           quantity: number
+          referrer_domain: string | null
+          source_path: string | null
           status: string
           urgency: string | null
           utm_content: string | null
+          utm_json: string | null
           utm_medium: string | null
           utm_source: string | null
           wall_loops: number
         }
         Insert: {
+          browser_language?: string | null
           color?: string | null
           contact_email?: string | null
           contact_phone?: string | null
@@ -233,22 +240,28 @@ export type Database = {
           estimated_price_low: number
           file_names?: string[] | null
           file_paths?: string[]
+          fulfillment?: string | null
           id?: string
           infill: string
           material: string
           multicolour?: boolean | null
+          page_language?: string | null
           pieces?: Json | null
           product_name?: string | null
           product_slug?: string | null
           quantity: number
+          referrer_domain?: string | null
+          source_path?: string | null
           status?: string
           urgency?: string | null
           utm_content?: string | null
+          utm_json?: string | null
           utm_medium?: string | null
           utm_source?: string | null
           wall_loops: number
         }
         Update: {
+          browser_language?: string | null
           color?: string | null
           contact_email?: string | null
           contact_phone?: string | null
@@ -261,17 +274,22 @@ export type Database = {
           estimated_price_low?: number
           file_names?: string[] | null
           file_paths?: string[]
+          fulfillment?: string | null
           id?: string
           infill?: string
           material?: string
           multicolour?: boolean | null
+          page_language?: string | null
           pieces?: Json | null
           product_name?: string | null
           product_slug?: string | null
           quantity?: number
+          referrer_domain?: string | null
+          source_path?: string | null
           status?: string
           urgency?: string | null
           utm_content?: string | null
+          utm_json?: string | null
           utm_medium?: string | null
           utm_source?: string | null
           wall_loops?: number

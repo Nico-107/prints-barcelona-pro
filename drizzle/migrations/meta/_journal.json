@@ -15,6 +15,13 @@
       "when": 1790780116881,
       "tag": "0001_add_pieces_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792088482130,
+      "tag": "0002_source_tracking",
+      "breakpoints": true
     }
   ]
 }
