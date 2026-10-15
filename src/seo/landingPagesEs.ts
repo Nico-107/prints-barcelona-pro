@@ -4,53 +4,6 @@ const pick = (...names: string[]) => names.map((n) => `/projects/${n}`);
 
 export const PAGES_ES: LandingContent[] = [
   {
-    slug: "/impresion-3d-barcelona",
-    topic: "service-3d-printing",
-    altSlug: "/3d-printing-barcelona",
-    lang: "es",
-    category: "service",
-    metaTitle: "Servicio de Impresión 3D en Barcelona — Desde 10€, en 1h",
-    metaDescription: "Servicio profesional de impresión 3D en Barcelona. Piezas a medida, prototipos y recambios. Presupuesto en 1h, desde 10€. Recogida local o envío.",
-    h1: "Impresión 3D en Barcelona — Presupuesto en 1h, Entrega Rápida",
-    intro: "Dimension3D es un estudio de impresión 3D ubicado en Barcelona que ayuda a particulares, makers, ingenieros y pequeñas empresas a fabricar piezas físicas de forma rápida, limpia y a un precio justo. Desde un solo recambio hasta una pequeña tirada de prototipos funcionales, gestionamos todo el proceso de forma local en la ciudad.",
-    sections: [
-      {
-        heading: "Qué imprimimos cada semana en Barcelona",
-        body: "Nuestro día a día combina piezas únicas a medida, recambios de objetos rotos o descatalogados, prototipos de diseño para startups locales y regalos personalizados. Trabajamos con tecnología FDM y una selección cuidada de materiales (PLA, PETG, ABS/ASA, Nylon y TPU), para elegir el plástico adecuado en lugar de imponer uno solo a todos los proyectos.\n\nSi tienes un archivo 3D (STL, OBJ, 3MF, STEP) podemos presupuestarlo casi al instante. Si solo tienes una foto, un boceto o la pieza rota, te ayudamos a convertirlo en algo imprimible. La idea es siempre la misma: tú nos cuentas el problema, nosotros entregamos la pieza."
-      },
-      {
-        heading: "Por qué elegir un proveedor local en Barcelona",
-        body: "Trabajar con una imprenta 3D en tu propia ciudad lo cambia todo. Te ahorras envíos internacionales, aduanas y barreras de idioma. Puedes recoger tu pedido en Barcelona con cita previa, o recibirlo en cualquier punto de la España peninsular con seguimiento. Los presupuestos llegan en menos de 1 hora en horario laboral por WhatsApp y podemos enseñarte muestras reales antes de imprimir.\n\nSer locales también nos permite iterar rápido. Si un prototipo necesita un pequeño cambio, lo ajustamos y reimprimimos el mismo día en lugar de esperar una semana a un proveedor extranjero."
-      },
-      {
-        heading: "Entregas rápidas y servicio el mismo día",
-        body: "Los pedidos estándar se entregan en 2–5 días laborables. Para encargos realmente urgentes ofrecemos servicio Express en 24–48 horas, e incluso producción el mismo día cuando la cola lo permite. Si tienes una fecha límite — un evento, una demo a un cliente, un electrodoméstico parado — dínoslo desde el principio y te diremos con honestidad qué es viable.\n\nNunca enviamos una pieza que no nos quedaríamos para nosotros. Cada impresión se revisa en cuanto a adherencia entre capas, precisión dimensional y acabado antes de salir del taller."
-      },
-      {
-        heading: "Cómo es el proceso",
-        body: "1. Envíanos tu archivo o describe lo que necesitas en el formulario o por WhatsApp.\n2. Te respondemos con un precio claro, el material recomendado y los plazos.\n3. Tú apruebas, imprimimos, revisamos y recibes la pieza.\n\nSin suscripciones, sin pedido mínimo y sin sorpresas en el precio."
-      }
-    ],
-    faqs: [
-      { q: "¿En cuánto tiempo puedo tener una impresión 3D en Barcelona?", a: "El plazo estándar es de 2–5 días laborables. Tenemos servicio Express en 24–48 horas e incluso entregas el mismo día según la cola y el tamaño de la pieza." },
-      { q: "¿Necesito un archivo 3D para hacer un pedido?", a: "No. Si solo tienes una foto, un boceto o la pieza rota original, te ayudamos a llegar a un archivo imprimible. También ofrecemos diseño a medida bajo presupuesto." },
-      { q: "¿Puedo recoger mi pedido en Barcelona?", a: "Sí, ofrecemos recogida local en Barcelona con cita previa. También enviamos a toda la España peninsular con seguimiento." },
-      { q: "¿Cuánto cuesta una impresión 3D?", a: "La mayoría de piezas pequeñas empiezan desde 10€. El precio final depende del tamaño, el material, el tiempo de impresión y la cantidad. Siempre recibes un presupuesto transparente antes de pagar nada." },
-      { q: "¿Ofrecéis impresión en resina o solo FDM?", a: "Trabajamos con tecnología FDM, que cubre la gran mayoría de aplicaciones prácticas — piezas funcionales, prototipos, regalos y recambios. Si un proyecto requiere realmente el nivel de detalle de la resina, te lo decimos de antemano." },
-      { q: "¿Cuál es el tamaño máximo que podéis imprimir en una pieza?", a: "Nuestro volumen de impresión es de aproximadamente 250×250×300 mm. Los objetos más grandes se pueden imprimir por partes y ensamblar limpiamente, con uniones planificadas para minimizar su visibilidad." }
-    ],
-    galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
-    related: [
-      { label: "Piezas Personalizadas a Medida", slug: "/piezas-personalizadas-3d-barcelona" },
-      { label: "Prototipado Rápido 24–72h", slug: "/prototipos-3d-barcelona" },
-      { label: "Tarifas Transparentes", slug: "/precio-impresion-3d-barcelona" },
-      { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
-      { label: "English Version", slug: "/3d-printing-barcelona" },
-      { label: "Versió en Català", slug: "/ca/impressio-3d-barcelona" }
-    ],
-    schemaServiceName: "Servicio de Impresión 3D Barcelona"
-  },
-  {
     slug: "/piezas-personalizadas-3d-barcelona",
     topic: "custom-parts",
     altSlug: "/custom-parts-barcelona",
@@ -229,7 +182,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Servicio Principal de Impresión 3D", slug: "/impresion-3d-barcelona" },
+      { label: "Impresión 3D en Barcelona", slug: "/" },
       { label: "Mejor Servicio Según Necesidad", slug: "/mejor-servicio-impresion-3d-barcelona" },
       { label: "PLA — la Opción Más Económica", slug: "/impresion-pla-barcelona" },
       { label: "Comparativa de Materiales", slug: "/guia-materiales-impresion-3d" },
@@ -339,7 +292,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "material",
     metaTitle: "Impresión PETG Barcelona — Piezas Funcionales y Exteriores",
-    metaDescription: "Impresión 3D en PETG en Barcelona. Más resistente que el PLA, soporta agua y UV. Envía tu STL/STEP — presupuesto en 1h.",
+    metaDescription: "Impresión 3D en PETG en Barcelona. Más resistente que el PLA, soporta agua y UV. Piezas funcionales y exteriores. Presupuesto en 1 h desde 10€.",
     h1: "Impresión 3D en PETG en Barcelona",
     intro: "Cuando una pieza necesita ser más dura que el PLA, sobrevivir al exterior o estar en contacto con agua, el PETG suele ser la respuesta. Dimension3D ofrece impresión profesional en PETG en Barcelona para aplicaciones funcionales, mecánicas y de exterior.",
     sections: [
@@ -386,7 +339,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "material",
     metaTitle: "Impresión TPU Flexible Barcelona",
-    metaDescription: "Impresión 3D flexible en TPU en Barcelona. Piezas tipo goma para soportes de móvil, juntas, mangos y wearables.",
+    metaDescription: "Impresión 3D en TPU flexible en Barcelona. Piezas tipo goma: soportes de móvil, juntas, mangos y wearables. Presupuesto en 1 h, desde 10€.",
     h1: "Impresión 3D Flexible en TPU en Barcelona",
     intro: "El TPU es el material que hace flexible la impresión 3D. Si una pieza necesita doblarse, agarrar, amortiguar o sellar, este es el que usamos. Dimension3D fabrica impresiones 3D a medida en TPU en Barcelona para todo, desde soportes de móvil hasta juntas industriales.",
     sections: [
@@ -482,7 +435,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
-    metaDescription: "Impresión 3D profesional para empresas e ingenieros en Barcelona. Envía tu archivo STL/STEP — presupuesto en 1 hora.",
+    metaDescription: "Impresión 3D para empresas e ingenieros en Barcelona. 250+ pedidos, desde 10€, sin tarifa de configuración. Factura con IVA. Presupuesto en 1 hora.",
     h1: "Impresión 3D para Empresas en Barcelona",
     intro: "Dimension3D trabaja con equipos de ingeniería, departamentos de I+D, talleres y pequeños fabricantes en Barcelona que necesitan piezas 3D funcionales sin los tiempos y la burocracia de un proveedor industrial. Envía tu archivo — STL, STEP o IGES — y recibe presupuesto profesional en menos de una hora. Sin cuenta, sin concurso, sin volumen mínimo.",
     sections: [
@@ -530,8 +483,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/rapid-prototyping-barcelona",
     lang: "es",
     category: "use-case",
-    metaTitle: "Prototipado Rápido Barcelona",
-    metaDescription: "Prototipado rápido en Barcelona para ingenieros y startups. Envía tu archivo STL o STEP — prototipo funcional en 24–72 horas. Itera rápido. PETG, Nylon, ABS.",
+    metaTitle: "Prototipado Rápido Barcelona — Entrega 24–72h, Desde 10€",
+    metaDescription: "Prototipado rápido en Barcelona para ingenieros y startups. STL o STEP — prototipo funcional en 24–72h. Desde 10€, sin tarifa de configuración. PETG, Nylon.",
     h1: "Prototipado Rápido en Barcelona — Entrega en 24–72h",
     intro: "La iteración rápida es la base del desarrollo de hardware. Dimension3D ofrece prototipado rápido en Barcelona con un plazo típico de 24–72 horas desde archivo hasta pieza en mano — para que tu próxima revisión de diseño llegue antes de que la competencia termine su primera solicitud de presupuesto.",
     sections: [
@@ -580,7 +533,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Piezas Funcionales 3D Barcelona",
-    metaDescription: "Piezas funcionales 3D en Barcelona en PETG, ABS, Nylon y TPU. Componentes estructurales, utillaje, piezas de uso final.",
+    metaDescription: "Piezas funcionales 3D en Barcelona: PETG, ABS, Nylon y TPU. Componentes estructurales, utillaje y piezas de uso final. Presupuesto en 1 h, desde 10€.",
     h1: "Piezas Funcionales 3D en Barcelona — Bajo Demanda",
     intro: "No toda impresión 3D es decorativa. Dimension3D está especializado en piezas funcionales impresas en 3D en Barcelona — componentes que cargan, flexionan, sellan, montan, protegen o sustituyen algo en el mundo real. Seleccionamos el material, el espesor de pared y el relleno correctos para lo que la pieza tiene que hacer.",
     sections: [
@@ -668,12 +621,12 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Preparar Archivos Correctamente", slug: "/como-preparar-archivo-impresion-3d" },
       { label: "Mejor Servicio por Caso de Uso", slug: "/mejor-servicio-impresion-3d-barcelona" },
       { label: "Cómo se Calcula el Precio", slug: "/precio-impresion-3d-barcelona" },
-      { label: "Impresión 3D en Barcelona", slug: "/impresion-3d-barcelona" },
+      { label: "Impresión 3D en Barcelona", slug: "/" },
       { label: "Choosing Guide (EN)", slug: "/how-to-choose-3d-printing-service-barcelona" }
     ],
     schemaServiceName: "Guía del Comprador de Impresión 3D Barcelona",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Qué preguntar antes de encargar", text: "Un servicio de impresión 3D serio responde a todas estas preguntas con claridad y por escrito. Si alguna respuesta queda vaga, esa vaguedad ya es información." },
       { name: "Señales a las que prestar atención en un presupuesto", text: "Algunos patrones merecen una pausa antes de aprobar un encargo. Ninguna de estas señales por sí sola indica un mal taller — pero tres o cuatro juntas forman un patrón." },
@@ -739,7 +692,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     schemaServiceName: "Guía de Materiales Impresión 3D",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- NUEVA: PREPARACIÓN DE ARCHIVO -----
@@ -798,7 +751,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     schemaServiceName: "Guía de Preparación de Archivos 3D",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Formatos aceptados — y cuál mandar", text: "Aceptamos los formatos 3D estándar: STL, STEP, OBJ, 3MF e IGES. Cada uno tiene sus compromisos, y cuál mandar depende de dónde salga tu modelo." },
       { name: "Espesor mínimo de pared en FDM", text: "La causa más habitual de que una pieza impresa falle es tener paredes demasiado finas. El FDM imprime en líneas extruidas (habitualmente 0,4 mm de ancho desde una boquilla estándar), y las paredes necesitan tener al menos varias anchuras de línea para mantener su forma." },
@@ -816,9 +769,9 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/best-3d-printing-service-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Mejor Servicio de Impresión 3D en Barcelona",
-    metaDescription: "No hay un único mejor servicio de impresión 3D en Barcelona — depende de qué imprimas, con qué plazo y qué tiene que aguantar la pieza.",
-    h1: "Mejor Servicio de Impresión 3D en Barcelona",
+    metaTitle: "Cómo Elegir Servicio de Impresión 3D — Guía Barcelona",
+    metaDescription: "No hay un único mejor servicio de impresión 3D en Barcelona. Esta guía desglosa qué priorizar según tu caso: urgencia, pieza única, empresa o regalo.",
+    h1: "Cómo Elegir el Mejor Servicio de Impresión 3D en Barcelona",
     intro: "No existe un único \"mejor\" servicio de impresión 3D — la respuesta honesta depende de qué estés imprimiendo, con qué plazo lo necesitas, y qué tiene que aguantar la pieza en uso. Quien necesita 500 tapones iguales para una producción tiene necesidades distintas de quien necesita un solo clip de repuesto para el viernes. Esta página desglosa la pregunta por caso de uso, te dice en qué fijarte para cada uno, y es honesta con los casos en los que nosotros no somos el proveedor adecuado.",
     sections: [
       {
@@ -859,13 +812,13 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Cómo Elegir un Servicio", slug: "/como-elegir-servicio-impresion-3d-barcelona" },
       { label: "Guía de Selección de Materiales", slug: "/guia-materiales-impresion-3d" },
       { label: "Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d" },
-      { label: "Nuestro Servicio de Impresión 3D", slug: "/impresion-3d-barcelona" },
+      { label: "Impresión 3D en Barcelona", slug: "/" },
       { label: "Desglose Transparente del Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Best Service (EN)", slug: "/best-3d-printing-service-barcelona" }
     ],
     schemaServiceName: "Mejor Servicio de Impresión 3D Barcelona",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- NUEVA: INGRESOS PARA MAKERS (cómo ganar dinero con una impresora 3D) -----
@@ -876,10 +829,10 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     audience: "maker",
-    metaTitle: "Cómo Ganar Dinero con una Impresora 3D — Guía Honesta",
-    metaDescription: "Guía práctica para obtener ingresos con una impresora 3D que ya tienes. Rutas reales — venta local, marketplaces, archivos de diseño, encargos para negocios",
+    metaTitle: "Cómo Ganar Dinero con una Impresora 3D — 6 Rutas Reales",
+    metaDescription: "Guía práctica para obtener ingresos con una impresora 3D que ya tienes. Rutas reales — venta local, marketplaces, archivos de diseño, encargos para negocios.",
     h1: "Cómo Ganar Dinero con una Impresora 3D",
-    intro: "Tienes una impresora 3D y quieres que se pague a sí misma. Perfecto — pero internet está lleno de guías que se saltan las partes incómodas (competencia, comisiones, ramps lentos, cuánto trabajo real requiere cada canal). Esta guía repasa las formas concretas en las que la gente genera ingresos con una impresora FDM en casa, con las contras claras y sin promesas de por medio. Uno de los caminos más cortos, cuando funciona, es unirte a una red local de impresión — la de Dimension3D es gratis, sin cuota de alta, sin comisión y sin exclusividad — así que puede correr en paralelo con cualquier otro canal de los que verás abajo.",
+    intro: "Sí, puedes ganar dinero con una impresora 3D — las seis rutas más fiables son: (1) venta local directa, (2) unirte a una red de impresión como la de Dimension3D (gratis, sin comisión, sin exclusividad), (3) marketplaces como Wallapop o Etsy, (4) vender archivos de diseño en Cults3D o MakerWorld, (5) encargos de prototipado para negocios locales y (6) recambios y reparaciones. La primera venta llega más rápido con venta local o a través de una red; los archivos de diseño son los más pasivos pero tardan más en escalar. Esta guía repasa cada canal con sus contras reales — sin promesas de ingresos, solo lo que pasa en la práctica.",
     sections: [
       {
         heading: "Vender impresiones acabadas en local — la primera venta más rápida",
@@ -926,7 +879,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     schemaServiceName: "Cómo Ganar Dinero con Impresora 3D — Guía",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Vender impresiones acabadas en local — la primera venta más rápida", text: "Vender impresiones físicas a gente de tu propia ciudad es el camino más corto entre la impresora y el primer ingreso. Te ahorras envíos, comisiones de plataforma y el cliente ve el objeto en la mano." },
       { name: "Unirte a una red de impresión — gratis, sin comisión, los encargos de tu zona van para ti", text: "Antes de los canales individuales que vienen abajo, el camino más corto a encargos reales que no tuviste que marketear es unirte a una red local de impresión." },
@@ -999,7 +952,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     schemaServiceName: "Guía Rentabilidad Negocio Impresión 3D",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- NUEVA: CLIENTES PARA MAKERS (cómo conseguir clientes de impresión 3D) -----
@@ -1064,7 +1017,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     schemaServiceName: "Guía Captación Clientes Impresión 3D",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Google Business Profile — el listado gratis que todo maker se salta", text: "Google Business Profile (antes Google My Business) es un listado gratuito que pone tu servicio de impresión 3D en Google Maps y en el bloque local al principio de las búsquedas locales. Es la pieza de marketing gratuito con mayor apalancamiento para un servicio basado en localización." },
       { name: "Unirte a una red de impresión existente — encargos que vienen a ti, gratis", text: "Todo lo demás en esta página es un canal que tienes que construir tú, y cada uno lleva meses de constancia antes de producir encargos de forma fiable. Si quieres una vía más corta a peticiones reales de clientes que no hayas tenido que buscar tú mismo, unirte a una red local de impresión existente es la opción de baja fricción." },
@@ -1084,7 +1037,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Comparativa de Materiales de Impresión 3D",
-    metaDescription: "Comparativa completa de materiales FDM: PLA, PETG, ABS, ASA, TPU, Nylon y variantes con fibra de carbono.",
+    metaDescription: "Comparativa completa de materiales FDM: PLA, PETG, ABS, ASA, TPU, Nylon y fibra de carbono. Propiedades, usos y precios orientativos en Dimension3D.",
     h1: "Comparativa de Materiales de Impresión 3D — ¿Qué Material es el Adecuado para tu Pieza?",
     intro: "Elegir el material equivocado cuesta dinero dos veces: una cuando pagas por una pieza que falla, y otra cuando la reimprimes. Esta página pone todos los materiales FDM que ofrecemos uno al lado del otro para que puedas comparar una sola vez y pedir con confianza. Todos los materiales de la tabla están en stock y se imprimen en nuestro taller.",
     comparisonTable: {
@@ -1154,7 +1107,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Comparativa de Plazos de Impresión 3D",
-    metaDescription: "Compara los plazos de entrega de impresión 3D: estándar, express y urgente. Plazos reales, impacto en el precio",
+    metaDescription: "Compara los plazos de entrega de impresión 3D en Barcelona: estándar 2–5 días, express 24–48 h y urgente. Plazos reales con impacto en el precio.",
     h1: "Comparativa de Plazos de Impresión 3D — Estándar, Express y Urgente",
     intro: "¿Cuánto tarda una impresión 3D? La respuesta depende del nivel de servicio que elijas — y de ser honestos sobre lo que cada nivel puede y no puede ofrecer. Esta página detalla nuestros tres niveles de plazo, sus tiempos reales, el impacto en el precio, los materiales disponibles y las condiciones que aplican, para que puedas ajustar tu fecha límite al nivel correcto sin sorpresas.",
     comparisonTable: {
@@ -1218,7 +1171,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "FDM vs SLA vs SLS",
-    metaDescription: "Compara FDM, SLA por resina y SLS/MJF: detalle de superficie, resistencia, materiales, coste y casos de uso.",
+    metaDescription: "Compara FDM, SLA (resina) y SLS/MJF: detalle de superficie, resistencia, materiales, coste y casos de uso. Elige el proceso correcto para tu pieza.",
     h1: "FDM vs SLA vs SLS — Comparativa de Tecnologías de Impresión 3D",
     intro: "Tres tecnologías dominan los servicios de impresión 3D profesionales: FDM (modelado por deposición fundida), SLA (estereolitografía / resina) y SLS o MJF (fusión por lecho de polvo). Cada una tiene ventajas reales y límites reales. Esta página las compara en las dimensiones que más importan — detalle de superficie, resistencia mecánica, rango de materiales, coste por pieza y caso de uso típico — y te dice con honestidad cuál elegir, incluyendo cuándo el FDM no es la respuesta correcta.",
     comparisonTable: {
@@ -1282,7 +1235,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Tiradas Cortas de Impresión 3D en Barcelona",
-    metaDescription: "Producción en tirada corta de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas.",
+    metaDescription: "Tiradas cortas de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas. Sin pedido mínimo. Presupuesto en 1 h, desde 10€.",
     h1: "Tiradas Cortas de Impresión 3D en Barcelona — Producción en Lote Sin Configuración",
     intro: "La producción en tirada corta se sitúa entre un prototipo único y una fabricación en serie: necesitas más de una pieza, pero no miles. En Dimension3D gestionamos lotes desde una sola unidad hasta varios cientos de piezas idénticas con el mismo plazo y calidad de material que un pedido de prototipo. Pedido mínimo de 10€, sin tarifa de configuración, factura incluida para pedidos de empresa.",
     sections: [

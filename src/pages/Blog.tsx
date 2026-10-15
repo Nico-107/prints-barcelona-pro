@@ -72,7 +72,7 @@ const blogArticleSchema = {
   "@type": "Article",
   inLanguage: "es",
   headline: "Guías de Impresión 3D en Barcelona",
-  description: "Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más.",
+  description: "Guías prácticas de impresión 3D en Barcelona: tabla de precios, servicio urgente, recambios FDM y materiales. Lo que necesitas saber antes de pedir.",
   url: `${SITE_URL}/blog`,
   author: AUTHOR_REF,
   publisher: PUBLISHER_REF,
@@ -88,15 +88,15 @@ const Blog = () => {
       <Helmet>
         <html lang="es" />
         <title>Guías de Impresión 3D Barcelona</title>
-        <meta name="description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
+        <meta name="description" content="Guías prácticas de impresión 3D en Barcelona: tabla de precios, servicio urgente, recambios FDM y materiales. Lo que necesitas saber antes de pedir." />
         <link rel="canonical" href={`${SITE_URL}/blog`} />
         <meta property="og:title" content="Guías de Impresión 3D Barcelona" />
-        <meta property="og:description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
+        <meta property="og:description" content="Guías prácticas de impresión 3D en Barcelona: tabla de precios, servicio urgente, recambios FDM y materiales. Lo que necesitas saber antes de pedir." />
         <meta property="og:url" content={`${SITE_URL}/blog`} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={SOCIAL_IMAGE_URL} />
         <meta name="twitter:title" content="Guías de Impresión 3D Barcelona" />
-        <meta name="twitter:description" content="Guías y recursos sobre impresión 3D en Barcelona — precios, urgente, recambios y más." />
+        <meta name="twitter:description" content="Guías prácticas de impresión 3D en Barcelona: tabla de precios, servicio urgente, recambios FDM y materiales. Lo que necesitas saber antes de pedir." />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(blogArticleSchema)}</script>

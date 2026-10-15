@@ -11,10 +11,10 @@ export const PAGES_DE: LandingContent[] = [
     lang: "de",
     category: "use-case",
     audience: "maker",
-    metaTitle: "Mit 3D-Drucker Geld verdienen — Ehrlicher Praxisguide",
-    metaDescription: "Praktischer Guide, um mit einem vorhandenen 3D-Drucker Geld zu verdienen. Reale Einkommenswege — lokaler Verkauf, Marktplätze, Design-Dateien",
+    metaTitle: "Mit 3D-Drucker Geld verdienen — 6 echte Einkommenswege",
+    metaDescription: "Praktischer Guide, um mit einem vorhandenen 3D-Drucker Geld zu verdienen. Reale Einkommenswege — lokaler Verkauf, Marktplätze, Design-Dateien.",
     h1: "Mit dem 3D-Drucker Geld verdienen",
-    intro: "Du hast einen 3D-Drucker und möchtest, dass er sich selbst finanziert. Verständlich — aber das Internet ist voll von Anleitungen, die die unbequemen Details überspringen (Konkurrenz, Gebühren, langsamer Aufbau, wie viel Handarbeit jeder Kanal wirklich braucht). Dieser Guide geht die konkreten Wege durch, auf denen mit einem FDM-Drucker zu Hause tatsächlich Einnahmen entstehen — mit den Nachteilen offen benannt und ohne leere Versprechen. Einer der kürzeren Wege, wenn er funktioniert, ist der Beitritt zu einem lokalen Druck-Netzwerk — das von Dimension3D ist kostenlos, ohne Anmeldegebühr, ohne Provision und ohne Exklusivität — es läuft also parallel zu jedem anderen Kanal, den du weiter unten findest.",
+    intro: "Ja, mit einem 3D-Drucker lässt sich Geld verdienen — die sechs zuverlässigsten Einkommenswege sind: (1) lokaler Direktverkauf, (2) Beitritt zu einem Drucknetzwerk wie dem von Dimension3D (kostenlos, keine Provision, keine Exklusivität), (3) Marktplätze wie eBay oder Etsy, (4) Design-Dateien auf Cults3D oder MakerWorld verkaufen, (5) Prototypen und Kleinserienfertigung für lokale Unternehmen und (6) Ersatzteile und Reparaturdrucke. Den ersten Umsatz erzielt man am schnellsten über Direktverkauf oder ein Netzwerk; Design-Dateien sind am passivsten, aber am langsamsten im Aufbau. Dieser Guide behandelt jeden Kanal mit ehrlichen Vor- und Nachteilen — ohne Einkommensversprechen, nur was in der Praxis tatsächlich passiert.",
     sections: [
       {
         heading: "Fertige Drucke lokal verkaufen — der schnellste erste Verkauf",
@@ -61,7 +61,7 @@ export const PAGES_DE: LandingContent[] = [
     ],
     schemaServiceName: "Mit 3D-Drucker Geld verdienen — Guide",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Fertige Drucke lokal verkaufen — der schnellste erste Verkauf", text: "Physische Drucke an Leute in der eigenen Stadt zu verkaufen ist der kürzeste Weg vom Drucker zum ersten Umsatz. Kein Versand, keine Plattformgebühren, und der Kunde hält das Objekt in der Hand." },
       { name: "Einem Druck-Netzwerk beitreten — kostenlos, ohne Provision, Aufträge aus deiner Region kommen zu dir", text: "Vor den einzelnen Kanälen weiter unten: der kürzeste Weg zu echten Kundenaufträgen, für die du kein Marketing machen musstest, ist der Beitritt zu einem lokalen Druck-Netzwerk." },
@@ -134,7 +134,7 @@ export const PAGES_DE: LandingContent[] = [
     ],
     schemaServiceName: "3D-Druck-Geschäft Rentabilität — Guide",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- MAKER-KUNDEN (Kunden für 3D-Druck finden) -----
@@ -199,7 +199,7 @@ export const PAGES_DE: LandingContent[] = [
     ],
     schemaServiceName: "Kunden für 3D-Druck finden — Guide",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Google Business Profil — der kostenlose Eintrag, den jeder Maker vergisst", text: "Google Business Profil (früher Google My Business) ist ein kostenloser Eintrag, der deinen 3D-Druck-Service auf Google Maps und in den lokalen Ergebnisblock oben in der lokalen Suche bringt. Es ist das einzelne Marketing-Werkzeug mit der höchsten Hebelwirkung für einen ortsgebundenen Dienst." },
       { name: "Einem bestehenden Druck-Netzwerk beitreten — Aufträge, die zu dir kommen, kostenlos", text: "Alles andere auf dieser Seite ist ein Kanal, den du selbst aufbauen musst, und jeder braucht Monate an Konsistenz, bevor er zuverlässig Aufträge produziert. Wenn du einen kürzeren Weg willst, ist der Beitritt zu einem bestehenden lokalen Druck-Netzwerk die risikoarme Option." },

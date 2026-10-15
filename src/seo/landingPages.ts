@@ -109,7 +109,7 @@ export const PAGES_EN: LandingContent[] = [
   {
     slug: "/3d-printing-barcelona",
     topic: "service-3d-printing",
-    altSlug: "/impresion-3d-barcelona",
+    altSlug: "/",
     lang: "en",
     category: "service",
     metaTitle: "3D Printing Service Barcelona — Quote in 1h, From 10€",
@@ -148,8 +148,8 @@ export const PAGES_EN: LandingContent[] = [
       { label: "Rapid Prototype Printing", slug: "/prototype-printing-barcelona" },
       { label: "Transparent Pricing Guide", slug: "/3d-printing-price-barcelona" },
       { label: "Full Materials Comparison", slug: "/3d-printing-materials-guide" },
-      { label: "Servicio en Español", slug: "/impresion-3d-barcelona" },
-      { label: "Servei en Català", slug: "/ca/impressio-3d-barcelona" }
+      { label: "Servicio en Español", slug: "/" },
+      { label: "Servei en Català", slug: "/ca/" }
     ],
     schemaServiceName: "3D Printing Service Barcelona"
   },
@@ -585,7 +585,7 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     metaTitle: "3D Printing for Business in Barcelona",
-    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. Send your STL/STEP file — quote in 1 hour.",
+    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. 250+ orders, from €10, VAT invoicing. Send your STL/STEP — quote in 1 hour.",
     h1: "3D Printing for Business in Barcelona",
     intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. €10 minimum order, no setup fee.",
     sections: [
@@ -776,7 +776,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "3D Printing Buyer's Guide Barcelona",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "What to ask before you place an order", text: "A serious 3D printing service will answer all of the following clearly and in writing. If any answer is vague, that is data." },
       { name: "Red flags in a 3D printing quote", text: "Some patterns are worth pausing over before you approve a job. None of these on their own means a shop is bad — but three or four together is a pattern." },
@@ -794,7 +794,7 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "material",
     metaTitle: "3D Printing Materials Guide — PLA, PETG, ABS, TPU, Nylon, CF",
-    metaDescription: "Practical FDM material selection guide. Real strengths, real weaknesses and typical uses for PLA, PETG, ABS, ASA, TPU",
+    metaDescription: "Practical FDM material guide: PLA, PETG, ABS, ASA, TPU, Nylon and carbon-fibre variants. Real strengths, real weaknesses, and which to pick for your part.",
     h1: "3D Printing Materials — A Practical Selection Guide",
     intro: "The single most common reason a 3D printed part fails in use is that the wrong material was picked for the job. This guide is not a specification sheet — it's a practical description of what each material we stock is genuinely good at, what it isn't, and when to reach for something else. Every material listed here is in our day-to-day rotation.",
     sections: [
@@ -842,7 +842,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "3D Printing Materials Guide",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- NEW: FILE PREPARATION GUIDE -----
@@ -901,7 +901,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "3D Printing File Preparation Guide",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Accepted file formats — and which one to send", text: "We accept the standard 3D file formats: STL, STEP, OBJ, 3MF, and IGES. Each has tradeoffs, and which one to send depends on where your model came from." },
       { name: "Wall thickness minimums for FDM", text: "The single most common cause of a printed part that fails is walls that are too thin. FDM prints in extruded lines (typically 0.4 mm wide from a standard nozzle), and walls need to be at least a few line widths thick to hold their shape and function structurally." },
@@ -919,9 +919,9 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/mejor-servicio-impresion-3d-barcelona",
     lang: "en",
     category: "service",
-    metaTitle: "Best 3D Printing Service in Barcelona",
-    metaDescription: "There is no single best 3D printing service in Barcelona — it depends on what you're printing, how fast you need it, and what the part has to do.",
-    h1: "Best 3D Printing Service in Barcelona",
+    metaTitle: "Best 3D Printing Service Barcelona — Matched by Use Case",
+    metaDescription: "No single best 3D printing service fits every project. This guide shows what to prioritise — urgency, custom parts, business use, or gifts.",
+    h1: "How to Choose the Best 3D Printing Service in Barcelona",
     intro: "There is no single \"best\" 3D printing service — the honest answer depends on what you're printing, how quickly you need it, and what the part has to survive in use. Someone printing 500 identical caps for a production run has different needs from someone who needs one replacement clip by Friday. This page breaks the question down by use case, tells you what to look for in each, and is honest about the cases where we're not the right supplier.",
     sections: [
       {
@@ -968,7 +968,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "Best 3D Printing Service Barcelona",
     datePublished: "2026-08-01",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- NEW: MAKER INCOME (how to make money with a 3D printer) -----
@@ -979,10 +979,10 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     audience: "maker",
-    metaTitle: "How to Make Money With a 3D Printer",
-    metaDescription: "A practical guide to earning income from a 3D printer you already own. Real income paths — local sales, marketplaces, design files, small-batch work",
+    metaTitle: "How to Make Money With a 3D Printer — 6 Real Income Paths",
+    metaDescription: "A practical guide to earning income from a 3D printer you already own. Real income paths — local sales, marketplaces, design files, small-batch work.",
     h1: "How to Make Money With a 3D Printer",
-    intro: "You own a 3D printer and you want it to earn its keep. Good — but the internet is full of tutorials that skip the awkward parts (competition, fees, slow ramp times, the amount of hands-on hustle each channel really needs). This guide walks through the concrete ways people actually generate income from an FDM printer at home, with the tradeoffs stated up front and no promises attached. One of the shortest paths, when it works, is joining a local print network — Dimension3D's is free to join, with no signup fee, no commission and no exclusivity — so it can run in parallel with any of the other channels below.",
+    intro: "Yes, you can make money with a 3D printer — the six most reliable income paths are: (1) local direct sales, (2) joining a print network like Dimension3D's (free, no commission, no exclusivity), (3) marketplaces such as Etsy or Wallapop, (4) selling design files on Cults3D or MakerWorld, (5) prototyping and small-batch work for local businesses, and (6) replacement and repair parts. The fastest path to a first sale is local direct selling or a network; the most passive (but slowest to ramp) is design file sales. This guide walks through each channel with honest tradeoffs — no income promises, just what actually happens in practice.",
     sections: [
       {
         heading: "Selling finished prints locally — the fastest first sale",
@@ -1029,7 +1029,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "Making Money With a 3D Printer — Guide",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Selling finished prints locally — the fastest first sale", text: "Selling physical prints to people in your own city is the shortest path from printer to first income. You avoid shipping, you avoid platform fees, and the customer either loves the object in their hands or they don't." },
       { name: "Joining a print network — free to join, no commission, orders from your area go to you", text: "Before the individual channels below, the shortest path to real customer orders you did not have to market for is joining a local print network. The Dimension3D maker network is set up for exactly this." },
@@ -1048,10 +1048,10 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     audience: "maker",
-    metaTitle: "Is a 3D Printing Business Profitable? Real Costs & Pricing",
-    metaDescription: "The honest economics of a 3D printing business: filament cost per gram, electricity per print hour, printer amortisation, failure rate",
+    metaTitle: "Is a 3D Printing Business Profitable? Real Costs & Numbers",
+    metaDescription: "The honest economics of a 3D printing business: filament cost per gram, electricity per print hour, printer amortisation, failure rate, worked example.",
     h1: "Is a 3D Printing Business Profitable? The Real Numbers",
-    intro: "Whether 3D printing is profitable depends on whether the price you charge covers every input that goes into a part — not just the plastic. This page breaks the cost of an FDM print down into its actual components, gives realistic ranges for each (with the reasoning), and walks through a fully worked example so you can build defendable pricing for your own work. It also covers the input most cost breakdowns leave out — customer acquisition — and how a free-to-join local network like Dimension3D's changes the math when orders come to you instead of you chasing them.",
+    intro: "Yes, a 3D printing business can be profitable — but only if you price every input, not just the plastic. Worked example: a 120 g PETG bracket (8-hour print) has direct costs of roughly €13 including material, machine time, electricity, failure buffer, and packaging; priced at €25–35 it yields a genuine gross margin once labour is included. This page breaks down every cost line — filament per gram, electricity per hour, printer amortisation, failure rate, packaging, shipping — and covers the input most breakdowns skip: customer acquisition, and how joining a free print network zeroes it out.",
     sections: [
       {
         heading: "Filament cost — per kilo and per gram",
@@ -1102,7 +1102,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "3D Printing Business Profitability Guide",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10"
+    dateModified: "2026-10-15"
   },
 
   // ----- NEW: MAKER CUSTOMERS (how to get 3D printing customers) -----
@@ -1114,9 +1114,9 @@ export const PAGES_EN: LandingContent[] = [
     category: "use-case",
     audience: "maker",
     metaTitle: "How to Get 3D Printing Customers — What Actually Works",
-    metaDescription: "Printer ready but nobody ordering? Practical customer-acquisition guide for 3D printing makers: Google Business Profile, marketplaces, photography",
+    metaDescription: "Printer ready but nobody ordering? Practical customer-acquisition guide for 3D printing makers: Google Business Profile, marketplaces, photography.",
     h1: "How to Get 3D Printing Customers — The Real Problem",
-    intro: "The hardest problem in 3D printing isn't printing. It's the silence between installing the printer and the first customer message arriving. This page is about closing that gap — the concrete things that convert a working printer into a steady flow of orders. If you want to skip the marketing hustle entirely, one option is joining a local print network — Dimension3D's is free to join, with no signup fee, no commission and no exclusivity — and every self-marketing path below still works alongside it.",
+    intro: "The fastest way to get 3D printing customers is a combination of three moves: (1) set up a free Google Business Profile so you show up in local searches, (2) post one clear before/after photo on Instagram or WhatsApp Status, and (3) join a print network like Dimension3D's (free, no commission) so inbound orders come to you without you chasing them. Every other channel — Etsy listings, Facebook groups, B2B outreach — layers on top of this base. This page covers what actually converts a working printer into a steady flow of orders, with the timeline and effort stated honestly.",
     sections: [
       {
         heading: "Google Business Profile — the free listing every maker skips",
@@ -1167,7 +1167,7 @@ export const PAGES_EN: LandingContent[] = [
     ],
     schemaServiceName: "Getting 3D Printing Customers — Guide",
     datePublished: "2026-08-02",
-    dateModified: "2026-08-10",
+    dateModified: "2026-10-15",
     howToSteps: [
       { name: "Google Business Profile — the free listing every maker skips", text: "Google Business Profile is a free listing that puts your 3D printing service on Google Maps and in the local pack at the top of local search results. It is the single highest-leverage piece of free marketing for a location-based service, and most home-based makers never set it up." },
       { name: "Joining an existing print network — orders that come to you, free to join", text: "Everything else on this page is a channel you have to build yourself, and each takes months of consistency before it produces orders reliably. If you want a shorter path to real customer requests, joining an existing local print network is the low-friction option worth considering first." },

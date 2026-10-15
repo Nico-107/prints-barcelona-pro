@@ -4,53 +4,6 @@ const pick = (...names: string[]) => names.map((n) => `/projects/${n}`);
 
 export const PAGES_CA: LandingContent[] = [
   {
-    slug: "/ca/impressio-3d-barcelona",
-    altSlug: "/3d-printing-barcelona",
-    topic: "service-3d-printing",
-    lang: "ca",
-    category: "service",
-    metaTitle: "Impressió 3D a Barcelona",
-    metaDescription: "Servei professional d'impressió 3D a Barcelona. Envia el teu arxiu STL/STEP — pressupost en menys d'1 hora, lliurament en 24–48h.",
-    h1: "Impressió 3D a Barcelona — Pressupost en 1h, Lliurament Ràpid",
-    intro: "Dimension3D és un estudi d'impressió 3D ubicat a Barcelona que ajuda particulars, makers, enginyers i petites empreses a fabricar peces físiques de manera ràpida, neta i a un preu just. Des d'un sol recanvi fins a una petita tirada de prototips funcionals, gestionem tot el procés de manera local a la ciutat.",
-    sections: [
-      {
-        heading: "Què imprimim cada setmana a Barcelona",
-        body: "El nostre dia a dia combina peces úniques a mida, recanvis d'objectes trencats o descatalogats, prototips de disseny per a startups locals i regals personalitzats. Treballem amb tecnologia FDM i una selecció acurada de materials (PLA, PETG, ABS/ASA, Nylon i TPU), per triar el plàstic adequat en lloc d'imposar-ne un sol a tots els projectes.\n\nSi tens un arxiu 3D (STL, OBJ, 3MF, STEP) podem pressupostar-lo gairebé a l'instant. Si només tens una foto, un esbós o la peça trencada, t'ajudem a convertir-ho en alguna cosa imprimible. La idea és sempre la mateixa: tu ens expliques el problema, nosaltres lliurem la peça."
-      },
-      {
-        heading: "Per què triar un proveïdor local a Barcelona",
-        body: "Treballar amb una impremta 3D a la teva pròpia ciutat ho canvia tot. T'estalvies enviaments internacionals, duanes i barreres d'idioma. Pots recollir la comanda a Barcelona amb cita prèvia, o rebre-la a qualsevol punt de l'Espanya peninsular amb seguiment. Els pressupostos arriben en menys d'1 hora en horari laboral per WhatsApp i et podem ensenyar mostres reals abans d'imprimir.\n\nSer locals també ens permet iterar ràpid. Si un prototip necessita un petit canvi, l'ajustem i reimprimim el mateix dia en lloc d'esperar una setmana a un proveïdor estranger."
-      },
-      {
-        heading: "Lliuraments ràpids i servei el mateix dia",
-        body: "Les comandes estàndard es lliuren en 2–5 dies laborables. Per a encàrrecs realment urgents oferim servei Express en 24–48 hores, i fins i tot producció el mateix dia quan la cua ho permet. Si tens una data límit — un esdeveniment, una demo a un client, un electrodomèstic aturat — digues-ho des del principi i et direm amb honestedat què és viable.\n\nMai enviem una peça que no ens quedaríem nosaltres. Cada impressió es revisa pel que fa a adherència entre capes, precisió dimensional i acabat abans de sortir del taller."
-      },
-      {
-        heading: "Com és el procés",
-        body: "1. Envia'ns el teu arxiu o descriu què necessites al formulari o per WhatsApp.\n2. Et responem amb un preu clar, el material recomanat i els terminis.\n3. Tu aproves, imprimim, revisem i reps la peça.\n\nSense subscripcions, sense comanda mínima i sense sorpreses al preu."
-      }
-    ],
-    faqs: [
-      { q: "En quant de temps puc tenir una impressió 3D a Barcelona?", a: "El termini estàndard és de 2–5 dies laborables. Tenim servei Express en 24–48 hores i fins i tot lliuraments el mateix dia segons la cua i la mida de la peça." },
-      { q: "Necessito un arxiu 3D per fer una comanda?", a: "No. Si només tens una foto, un esbós o la peça trencada original, t'ajudem a arribar a un arxiu imprimible. També oferim disseny a mida sota pressupost." },
-      { q: "Puc recollir la comanda a Barcelona?", a: "Sí, oferim recollida local a Barcelona amb cita prèvia. També enviem a tota l'Espanya peninsular amb seguiment." },
-      { q: "Quant costa una impressió 3D?", a: "La majoria de peces petites comencen des de 10€. El preu final depèn de la mida, el material, el temps d'impressió i la quantitat. Sempre reps un pressupost transparent abans de pagar res." },
-      { q: "Oferiu impressió en resina o només FDM?", a: "Treballem amb tecnologia FDM, que cobreix la gran majoria d'aplicacions pràctiques — peces funcionals, prototips, regals i recanvis. Si un projecte requereix realment el nivell de detall de la resina, t'ho diem per endavant." },
-      { q: "Quina és la mida màxima que podeu imprimir en una peça?", a: "El nostre volum d'impressió és d'aproximadament 250×250×300 mm. Els objectes més grans es poden imprimir per parts i acoblar neta, amb unions planificades per minimitzar la seva visibilitat." }
-    ],
-    galleryImages: pick("ferrari-key-holder.jpg", "green-chameleon.jpg", "eiffel-tower.jpg", "purple-figures.jpg", "halloween-set.jpg", "intake-manifold.jpg"),
-    related: [
-      { label: "Peces Personalitzades a Mida", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Prototipatge Ràpid 24–72h", slug: "/ca/prototips-3d-barcelona" },
-      { label: "Preus Transparents", slug: "/ca/preu-impressio-3d-barcelona" },
-      { label: "PLA per a Peces Detallades", slug: "/ca/impressio-pla-barcelona" },
-      { label: "English Version", slug: "/3d-printing-barcelona" },
-      { label: "Versión en Español", slug: "/impresion-3d-barcelona" }
-    ],
-    schemaServiceName: "Servei d'Impressió 3D Barcelona"
-  },
-  {
     slug: "/ca/peces-personalitzades-3d-barcelona",
     altSlug: "/custom-parts-barcelona",
     topic: "custom-parts",
@@ -198,7 +151,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "service",
     metaTitle: "Preu Impressió 3D Barcelona",
-    metaDescription: "Quant costa la impressió 3D a Barcelona? Peces petites des de 10€. Preus transparents per mida, material i quantitat.",
+    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 10€, sense comanda mínima. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
     h1: "Preu d'Impressió 3D a Barcelona",
     intro: "Una de les primeres preguntes de qualsevol client és: quant costarà la meva impressió 3D? En aquesta pàgina expliquem exactament què determina el preu d'una impressió 3D a Barcelona, amb exemples realistes, perquè puguis planificar el teu projecte sense sorpreses.",
     sections: [
@@ -229,7 +182,7 @@ export const PAGES_CA: LandingContent[] = [
     ],
     galleryImages: pick("custom-brackets.jpg", "ferrari-key-holder.jpg", "purple-figures.jpg", "cookie-cutters.jpg", "blue-molds.jpg", "red-adapter.jpg"),
     related: [
-      { label: "Servei Principal d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" },
+      { label: "Impressió 3D a Barcelona", slug: "/ca/" },
       { label: "Peces Personalitzades", slug: "/ca/peces-personalitzades-3d-barcelona" },
       { label: "PLA — Opció Més Econòmica", slug: "/ca/impressio-pla-barcelona" },
       { label: "Prototips 3D per Iterar", slug: "/ca/prototips-3d-barcelona" },
@@ -386,7 +339,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "material",
     metaTitle: "Impressió TPU Flexible Barcelona",
-    metaDescription: "Impressió 3D flexible en TPU a Barcelona. Peces tipus goma per a suports de mòbil, juntes, mànecs i wearables.",
+    metaDescription: "Impressió 3D en TPU flexible a Barcelona. Peces tipus goma: suports de mòbil, juntes, mànecs i wearables. Pressupost en 1 h, des de 10€.",
     h1: "Impressió 3D Flexible en TPU a Barcelona",
     intro: "El TPU és el material que fa flexible la impressió 3D. Si una peça necessita doblegar-se, agafar, esmorteir o segellar, aquest és el que fem servir. Dimension3D fabrica impressions 3D a mida en TPU a Barcelona per a tot, des de suports de mòbil fins a juntes industrials.",
     sections: [
@@ -466,7 +419,7 @@ export const PAGES_CA: LandingContent[] = [
     related: [
       { label: "PLA — Filament amb Detall", slug: "/ca/impressio-pla-barcelona" },
       { label: "Figures Úniques a Mida", slug: "/ca/peces-personalitzades-3d-barcelona" },
-      { label: "Servei Complet d'Impressió 3D", slug: "/ca/impressio-3d-barcelona" },
+      { label: "Impressió 3D a Barcelona", slug: "/ca/" },
       { label: "Preus per Lot i Quantitat", slug: "/ca/preu-impressio-3d-barcelona" },
       { label: "Miniatures (EN)", slug: "/miniatures-barcelona" },
       { label: "Miniaturas (ES)", slug: "/miniaturas-3d-barcelona" }
@@ -482,7 +435,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "use-case",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
-    metaDescription: "Impressió 3D professional per a empreses i enginyers a Barcelona. Envia el teu arxiu STL/STEP — pressupost en 1 hora.",
+    metaDescription: "Impressió 3D per a empreses i enginyers a Barcelona. 250+ comandes, des de 10€, factura amb IVA. Envia el teu STL/STEP — pressupost en 1 hora.",
     h1: "Impressió 3D per a Empreses a Barcelona",
     intro: "Dimension3D treballa amb equips d'enginyeria, departaments de R+D, tallers i petits fabricants a Barcelona que necessiten peces 3D funcionals sense els temps i la burocràcia d'un proveïdor industrial. Envia el teu arxiu — STL, STEP o IGES — i rep pressupost professional en menys d'una hora. Sense compte, sense concurs, sense volum mínim.",
     sections: [
