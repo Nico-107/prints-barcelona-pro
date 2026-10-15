@@ -213,65 +213,12 @@ const Index = () => {
   };
   const faqs = HOME_FAQS[language] ?? HOME_FAQS.es;
 
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "ProfessionalService"],
-    name: `Dimension3D ${ACTIVE_CITY.cityName}`,
-    url: SITE_URL,
-    telephone: `+${ACTIVE_CITY.whatsappNumber}`,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: ACTIVE_CITY.addressLocality,
-      addressRegion: ACTIVE_CITY.addressRegion,
-      addressCountry: ACTIVE_CITY.countryCode,
-    },
-    description: meta.description,
-    priceRange: "€€",
-    image: SOCIAL_IMAGE_URL,
-    areaServed: [
-      { "@type": "City", name: ACTIVE_CITY.areaServed },
-      { "@type": "Country", name: ACTIVE_CITY.countryName },
-    ],
-    geo: { "@type": "GeoCoordinates", latitude: 41.3851, longitude: 2.1734 },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "09:00",
-        closes: "20:00",
-      },
-    ],
-    hasMap: "https://maps.google.com/?q=Dimension3D+Barcelona+impresion+3D",
-    sameAs: ["https://www.instagram.com/dimension3dprints/"],
-    currenciesAccepted: "EUR",
-    paymentAccepted: "Cash, Credit Card, Bank Transfer",
-    foundingDate: "2024",
-    serviceArea: {
-      "@type": "GeoCircle",
-      geoMidpoint: { "@type": "GeoCoordinates", latitude: 41.3851, longitude: 2.1734 },
-      geoRadius: "50000",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: String(GOOGLE_RATING.count),
-      bestRating: "5",
-      worstRating: "1",
-    },
-    review: GOOGLE_REVIEWS_DATA.map((r) => ({
-      "@type": "Review",
-      author: { "@type": "Person", name: r.name },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-      reviewBody: r.text,
-    })),
-  };
-
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "Impresión 3D Barcelona",
     serviceType: "3D Printing Service",
-    provider: { "@type": "LocalBusiness", name: "Dimension3D Barcelona" },
+    provider: { "@id": `${SITE_URL}/#business` },
     areaServed: { "@type": "City", name: "Barcelona" },
     offers: {
       "@type": "Offer",
@@ -300,8 +247,8 @@ const Index = () => {
         <link rel="canonical" href={isCa ? `${SITE_URL}/ca/` : `${SITE_URL}/`} />
         <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
         <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/ca/`} />
-        <link rel="alternate" hrefLang="en" href={`${SITE_URL}/3d-printing-service`} />
-        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/3d-printing-service`} />
+        <link rel="alternate" hrefLang="en" href={`${SITE_URL}/3d-printing-barcelona`} />
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}/`} />
         <meta property="og:title" content={meta.title} />
         <meta property="og:description" content={meta.description} />
         <meta property="og:url" content={isCa ? `${SITE_URL}/ca/` : `${SITE_URL}/`} />
@@ -311,7 +258,6 @@ const Index = () => {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
-        <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
@@ -475,6 +421,98 @@ const Index = () => {
             </section>
           );
         })()}
+        {/* ── SERVICIOS & ENVÍOS INTERNACIONALES GRID ── */}
+        <section className="py-12 md:py-14 bg-background border-t border-border/50">
+          <div className="container px-4 max-w-5xl mx-auto">
+            <h2 className="text-base font-semibold text-foreground/70 uppercase tracking-widest mb-6 text-center">
+              {language === "en" ? "Barcelona 3D Printing Services" : language === "ca" ? "Serveis d'impressió 3D a Barcelona" : "Servicios de Impresión 3D en Barcelona"}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-8">
+              {(language === "en" ? [
+                { to: "/3d-printing-barcelona", label: "3D Printing in Barcelona" },
+                { to: "/prototype-printing-barcelona", label: "Prototype Printing" },
+                { to: "/rapid-prototyping-barcelona", label: "Rapid Prototyping" },
+                { to: "/3d-printing-for-business-barcelona", label: "For Business" },
+                { to: "/custom-parts-barcelona", label: "Custom Parts" },
+                { to: "/3d-printing-price-barcelona", label: "Pricing" },
+                { to: "/urgent-3d-printing-barcelona", label: "Urgent / Same-Day" },
+                { to: "/functional-parts-barcelona", label: "Functional Parts" },
+                { to: "/replacement-parts-barcelona", label: "Replacement Parts" },
+                { to: "/short-run-3d-printing-barcelona", label: "Short Runs" },
+              ] : language === "ca" ? [
+                { to: "/ca/", label: "Impressió 3D a Barcelona" },
+                { to: "/ca/prototips-3d-barcelona", label: "Prototips 3D" },
+                { to: "/ca/prototipatge-rapid-barcelona", label: "Prototipatge Ràpid" },
+                { to: "/ca/impressio-3d-empreses-barcelona", label: "Per a Empreses" },
+                { to: "/ca/peces-personalitzades-3d-barcelona", label: "Peces a Mida" },
+                { to: "/ca/preu-impressio-3d-barcelona", label: "Preus" },
+                { to: "/ca/impressio-3d-urgent-barcelona", label: "Servei Urgent" },
+                { to: "/ca/peces-funcionals-barcelona", label: "Peces Funcionals" },
+                { to: "/ca/recanvis-impressio-3d-barcelona", label: "Recanvis 3D" },
+              ] : [
+                { to: "/prototipos-3d-barcelona", label: "Prototipos 3D" },
+                { to: "/prototipado-rapido-barcelona", label: "Prototipado Rápido" },
+                { to: "/impresion-3d-empresas-barcelona", label: "Para Empresas" },
+                { to: "/piezas-personalizadas-3d-barcelona", label: "Piezas a Medida" },
+                { to: "/precio-impresion-3d-barcelona", label: "Precios" },
+                { to: "/impresion-3d-urgente-barcelona", label: "Servicio Urgente" },
+                { to: "/piezas-funcionales-barcelona", label: "Piezas Funcionales" },
+                { to: "/recambios-impresion-3d-barcelona", label: "Recambios 3D" },
+                { to: "/tiradas-cortas-impresion-3d-barcelona", label: "Tiradas Cortas" },
+                { to: "/impresion-3d-estudiantes-barcelona", label: "Descuento Estudiantes" },
+              ]).map(({ to, label }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="text-sm text-foreground/70 hover:text-accent px-3 py-2 rounded-lg border border-border/60 hover:border-accent/40 transition-colors text-center leading-snug"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+
+            <h2 className="text-base font-semibold text-foreground/70 uppercase tracking-widest mb-4 text-center">
+              {language === "en" ? "International Shipping" : language === "ca" ? "Enviaments Internacionals" : "Envíos Internacionales"}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              {(language === "en" ? [
+                { to: "/3d-printing-delivery-berlin", label: "🇩🇪 3D Printing → Berlin" },
+                { to: "/3d-printing-delivery-paris", label: "🇫🇷 3D Printing → Paris" },
+                { to: "/3d-printing-delivery-amsterdam", label: "🇳🇱 3D Printing → Amsterdam" },
+                { to: "/3d-printing-delivery-milan", label: "🇮🇹 3D Printing → Milan" },
+                { to: "/3d-printing-delivery-lisbon", label: "🇵🇹 3D Printing → Lisbon" },
+                { to: "/de/3d-druck-service", label: "🇩🇪 3D-Druck Service" },
+                { to: "/fr/impression-3d-en-ligne", label: "🇫🇷 Impression 3D" },
+                { to: "/nl/3d-printen-laten-maken", label: "🇳🇱 3D Printen" },
+                { to: "/it/stampa-3d-online", label: "🇮🇹 Stampa 3D" },
+                { to: "/pt/impressao-3d-online", label: "🇵🇹 Impressão 3D" },
+                { to: "/madrid", label: "🇪🇸 Madrid" },
+                { to: "/impresion-3d-con-entrega-a-valencia", label: "🇪🇸 Valencia" },
+              ] : [
+                { to: "/de/3d-druck-service", label: "🇩🇪 3D-Druck Service (DE)" },
+                { to: "/fr/impression-3d-en-ligne", label: "🇫🇷 Impression 3D (FR)" },
+                { to: "/nl/3d-printen-laten-maken", label: "🇳🇱 3D Printen (NL)" },
+                { to: "/it/stampa-3d-online", label: "🇮🇹 Stampa 3D (IT)" },
+                { to: "/pt/impressao-3d-online", label: "🇵🇹 Impressão 3D (PT)" },
+                { to: "/3d-printing-delivery-berlin", label: "🇩🇪 Envío a Berlín" },
+                { to: "/3d-printing-delivery-paris", label: "🇫🇷 Envío a París" },
+                { to: "/3d-printing-delivery-amsterdam", label: "🇳🇱 Envío a Amsterdam" },
+                { to: "/3d-printing-delivery-milan", label: "🇮🇹 Envío a Milán" },
+                { to: "/3d-printing-delivery-lisbon", label: "🇵🇹 Envío a Lisboa" },
+                { to: "/madrid", label: "🇪🇸 Envío a Madrid" },
+                { to: "/impresion-3d-con-entrega-a-valencia", label: "🇪🇸 Envío a Valencia" },
+              ]).map(({ to, label }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="text-sm text-foreground/70 hover:text-accent px-3 py-2 rounded-lg border border-border/60 hover:border-accent/40 transition-colors text-center leading-snug"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
       <WhatsAppFloat />

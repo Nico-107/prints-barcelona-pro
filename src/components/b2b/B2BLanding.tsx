@@ -551,7 +551,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
     "@type": "Service",
     name: c.h1,
     url: canonical,
-    provider: { "@type": "LocalBusiness", "@id": `${SITE_URL}/#organization` },
+    provider: { "@type": "LocalBusiness", "@id": `${SITE_URL}/#business` },
     areaServed: [
       { "@type": "City", name: "Barcelona" },
       { "@type": "Country", name: "Spain" },
