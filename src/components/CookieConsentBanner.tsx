@@ -39,7 +39,7 @@ const CookieConsentBanner = () => {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-[60] border-t border-border bg-background shadow-lg"
     >
       <div className="container max-w-5xl px-4 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
         <p className="flex-1 text-sm text-muted-foreground leading-snug">

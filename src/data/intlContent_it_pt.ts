@@ -18,6 +18,7 @@ export const itHub: IntlHubContent = {
     "Far stampare in 3D non è mai stato così semplice. Studio FDM a Barcellona, prezzi stampa 3D trasparenti, preventivo entro 1 ora nei giorni lavorativi.",
   eyebrow: "Stampa 3D Online · Spedizione in tutta Italia",
   h1: "Servizio di Stampa 3D Online con Spedizione in Italia",
+  heroSubtitle: "Carica il file, preventivo in 1 ora, spedizione in Italia in 3–5 giorni lavorativi. Da 10 €, senza ordine minimo.",
   promise: `Dimension3D è uno studio FDM professionale situato a Barcellona, nel cuore del Mediterraneo. Grazie al mercato unico europeo, i tuoi pezzi viaggiano dall'Iberia all'Italia senza dogana, con la stessa semplicità di un acquisto domestico. Che tu voglia far stampare in 3D un prototipo per il tuo ufficio a Milano, un ricambio stampa 3D per una macchina industriale a Torino, o un modello architettonico per uno studio romano, il processo è identico: carichi il file, ricevi il preventivo entro un'ora nei giorni lavorativi, approvi e aspetti la consegna.
 
 Il nostro parco macchine è interamente basato su stampanti Bambu Lab X2D con camera chiusa e piatto riscaldato. Questa architettura garantisce la stabilità termica necessaria per stampare correttamente materiali tecnici come PETG, ABS e Nylon, riducendo al minimo i difetti da warping che affliggono le macchine aperte entry-level. Il risultato sono pezzi con migliore adesione tra gli strati, superfici più consistenti e dimensioni finali più vicine al nominale.
@@ -552,6 +553,7 @@ export const ptHub: IntlHubContent = {
     "Imprimir em 3D de forma rápida e transparente. Estúdio FDM em Barcelona, preço impressão 3D imediato até 100 €, orçamento em 1 hora nos dias úteis.",
   eyebrow: "Impressão 3D Online · Envio para todo o Portugal",
   h1: "Serviço de Impressão 3D Online com Envio para Portugal",
+  heroSubtitle: "Carrega o ficheiro, orçamento em 1 hora, envio para Portugal em 3–5 dias úteis. A partir de 10 €, sem encomenda mínima.",
   promise: `A Dimension3D é um estúdio FDM profissional sediado em Barcelona. Graças ao mercado único europeu, as peças viajam de Espanha para Portugal sem qualquer formalidade aduaneira, com a mesma simplicidade de uma encomenda nacional. Seja para obter peças de substituição impressão 3D para equipamentos industriais no Porto, um protótipo para um estúdio criativo em Lisboa, ou um modelo técnico para uma instituição académica, o processo é idêntico: carregue o ficheiro, receba o orçamento em até uma hora nos dias úteis, aprove e aguarde a entrega.
 
 O nosso parque de máquinas é integralmente composto por impressoras Bambu Lab X2D com câmara fechada e cama aquecida. Esta arquitectura assegura a estabilidade térmica necessária para imprimir correctamente materiais técnicos como PETG, ABS e Nylon, reduzindo ao mínimo os defeitos de warping comuns em máquinas abertas de entrada de gama. O resultado são peças com melhor adesão entre camadas, superfícies mais consistentes e dimensões finais mais próximas do nominal.
@@ -648,7 +650,7 @@ export const ptCityLisboa: IntlCityContent = {
   locale: "pt-PT",
   countryCode: "PT",
   city: "Lisboa",
-  metaTitle: "Impressão 3D Online com Envio para Lisboa — A partir de 10 €",
+  metaTitle: "Impressão 3D com Envio para Lisboa — A partir de 10 €",
   metaDescription:
     "Serviço de impressão 3D profissional com envio para Lisboa em habitualmente 2–4 dias úteis.",
   h1: "Impressão 3D Online com Envio para Lisboa",
