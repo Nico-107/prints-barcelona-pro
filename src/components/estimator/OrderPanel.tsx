@@ -174,7 +174,7 @@ export function OrderPanel({
       return t("calc.instantBuy.buyNow.from").replace("{price}", formatEUR(basePrice, lang));
     }
     const total = instantTotalPrice ?? basePrice;
-    return t("calc.instantBuy.buyNow").replace("{price}", formatEUR(total, lang).replace(/^€/, "").replace(/^\€/, ""));
+    return t("calc.instantBuy.buyNow").replace("{price}", formatEUR(total, lang));
   })();
 
   // Shipping fee formatted

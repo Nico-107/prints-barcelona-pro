@@ -228,17 +228,17 @@ const IntlCityPage = ({ content }: Props) => {
           </div>
         </section>
 
-        {/* Intro body text */}
-        <section className="py-16 bg-background">
-          <div className="container px-4 max-w-4xl mx-auto">
-            {renderProse(content.introText)}
-          </div>
-        </section>
-
-        {/* Calculator */}
+        {/* Calculator — immediately after hero so upload CTA is near top */}
         <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
           <div className="container px-4 max-w-5xl mx-auto">
             <StlEstimator />
+          </div>
+        </section>
+
+        {/* Intro body text — moved below calculator; hero already shows button above fold */}
+        <section className="py-16 bg-background">
+          <div className="container px-4 max-w-4xl mx-auto">
+            {renderProse(content.introText)}
           </div>
         </section>
 

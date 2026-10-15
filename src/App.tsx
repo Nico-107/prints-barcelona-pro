@@ -4,7 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageContext";
+import LanguageSuggestionBar from "@/components/LanguageSuggestionBar";
 import { capture, updatePageContext } from "@/lib/analytics";
 import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
@@ -142,8 +143,12 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
+          {/* LanguageNavigationSync must never be removed — it re-syncs the language context
+              on every client-side navigation so language matches the URL without a full reload. */}
+          <LanguageNavigationSync />
           <OutboundContactTracker />
           <CookieConsentBanner />
+          <LanguageSuggestionBar />
           <Suspense fallback={PageFallback}>
             <Routes>
               <Route path="/" element={<Index />} />

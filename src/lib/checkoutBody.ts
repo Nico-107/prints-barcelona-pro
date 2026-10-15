@@ -43,6 +43,9 @@ export interface CheckoutBody {
   product_type: string;
   customer_ref: string | null;
   returnPath?: string;
+  // Source tracking (Item 6)
+  source_path?: string | null;
+  page_language?: string | null;
 }
 
 export interface BuildCheckoutBodyParams {
@@ -64,6 +67,8 @@ export interface BuildCheckoutBodyParams {
   utmCampaign: string | null;
   checkoutRef: string | null;
   returnPath?: string;
+  sourcePath?: string | null;
+  pageLanguage?: string | null;
 }
 
 export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
@@ -120,5 +125,7 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
     product_type: "stl_estimator",
     customer_ref: p.checkoutRef,
     returnPath: p.returnPath,
+    source_path: p.sourcePath ?? null,
+    page_language: p.pageLanguage ?? null,
   };
 }

@@ -134,6 +134,9 @@ const NO_GTAG = new Set<string>([
 // ---- Internal dispatch (works with any string event name) ----
 
 function _dispatch(event: string, properties?: Record<string, unknown>): void {
+  // Skip all events for internal/admin sessions — owner testing must not inflate metrics.
+  if (getIsInternal()) return;
+
   // Caller-supplied values win; context fills in the blanks.
   const enriched: Record<string, unknown> = {
     ...buildContextProps(),

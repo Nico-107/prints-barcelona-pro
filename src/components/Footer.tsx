@@ -229,36 +229,33 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Countries we ship to — links 5 native-language hubs; spec §2f */}
+        {/* International — one row per country: native hub + EN delivery page secondary link */}
         <div className="mb-10 pb-10 border-b border-background/10">
           <p className="font-medium text-sm mb-3">
             {t("footer.countries")}
           </p>
-          <ul className="flex flex-wrap gap-x-6 gap-y-1.5">
-            <li>
-              <Link to="/de/3d-druck-service" className="text-background/70 text-sm hover:text-background transition-colors">
-                🇩🇪 3D-Druck Service
-              </Link>
-            </li>
-            <li>
-              <Link to="/nl/3d-printen-laten-maken" className="text-background/70 text-sm hover:text-background transition-colors">
-                🇳🇱 3D printen laten maken
-              </Link>
-            </li>
-            <li>
-              <Link to="/fr/impression-3d-en-ligne" className="text-background/70 text-sm hover:text-background transition-colors">
-                🇫🇷 Impression 3D en ligne
-              </Link>
-            </li>
-            <li>
-              <Link to="/it/stampa-3d-online" className="text-background/70 text-sm hover:text-background transition-colors">
-                🇮🇹 Stampa 3D online
-              </Link>
-            </li>
-            <li>
-              <Link to="/pt/impressao-3d-online" className="text-background/70 text-sm hover:text-background transition-colors">
-                🇵🇹 Impressão 3D online
-              </Link>
+          <ul className="flex flex-col gap-2">
+            {[
+              { flag: "🇩🇪", hub: "/de/3d-druck-service", hubLabel: "3D-Druck Service", en: "/3d-printing-delivery-berlin", enLabel: "Delivery to Germany" },
+              { flag: "🇳🇱", hub: "/nl/3d-printen-laten-maken", hubLabel: "3D Printen", en: "/3d-printing-delivery-amsterdam", enLabel: "Delivery to Netherlands" },
+              { flag: "🇫🇷", hub: "/fr/impression-3d-en-ligne", hubLabel: "Impression 3D", en: "/3d-printing-delivery-paris", enLabel: "Delivery to France" },
+              { flag: "🇮🇹", hub: "/it/stampa-3d-online", hubLabel: "Stampa 3D", en: "/3d-printing-delivery-milan", enLabel: "Delivery to Italy" },
+              { flag: "🇵🇹", hub: "/pt/impressao-3d-online", hubLabel: "Impressão 3D", en: "/3d-printing-delivery-lisbon", enLabel: "Delivery to Portugal" },
+            ].map((c) => (
+              <li key={c.hub} className="flex items-center gap-3 flex-wrap">
+                <Link to={c.hub} className="text-background/70 text-sm hover:text-background transition-colors">
+                  {c.flag} {c.hubLabel}
+                </Link>
+                <span className="text-background/30 text-xs">·</span>
+                <Link to={c.en} className="text-background/50 text-xs hover:text-background/80 transition-colors">
+                  {c.enLabel}
+                </Link>
+              </li>
+            ))}
+            <li className="flex items-center gap-3 flex-wrap pt-1 border-t border-background/10 mt-1">
+              <span className="text-background/50 text-xs font-medium">{t("footer.outsideEU") || "Outside the EU"}:</span>
+              <Link to="/3d-printing-delivery-london" className="text-background/50 text-xs hover:text-background/80 transition-colors">🇬🇧 London</Link>
+              <Link to="/3d-printing-delivery-new-york" className="text-background/50 text-xs hover:text-background/80 transition-colors">🇺🇸 New York</Link>
             </li>
           </ul>
         </div>

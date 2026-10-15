@@ -423,7 +423,7 @@ export const caTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Impressió",
   "calc.instantBuy.shipping.surcharge": "Enviament",
   "calc.instantBuy.shipping.total": "Total",
-  "calc.instantBuy.buyNow": "Compra ara — €{price}",
+  "calc.instantBuy.buyNow": "Compra ara — {price}",
   "calc.instantBuy.buyNow.from": "Compra ara — des de {price}",
   "calc.instantBuy.manualReview": "Que ho revisi el nostre equip primer",
   "calc.instantBuy.manualReview.short": "Revisió gratis",
@@ -791,4 +791,8 @@ export const caTranslations: Record<string, string> = {
   "footer.returnPolicy": "Política de devolucions",
   "footer.forBusiness": "Per a Empreses",
   "footer.guides": "Guies",
+  "lang.suggest.text": "Aquesta pàgina existeix en Català → Canviar",
+  "lang.suggest.switch": "Canviar",
+  "lang.suggest.dismiss": "No, gràcies",
+  "footer.outsideEU": "Fora de la UE",
 };

@@ -280,6 +280,15 @@ export interface EventMap {
   hub_cta_click: Record<string, unknown>;
   guide_cta_click: Record<string, unknown>;
   guide_page_view: Record<string, unknown>;
+
+  // Language suggestion bar
+  lang_suggest_shown: { from: string; to: string };
+  lang_suggest_accepted: { from: string; to: string };
+  lang_suggest_dismissed: { from: string; to: string };
+
+  // B2B tracking
+  b2b_page_view: { lang: string };
+  b2b_cta_click: { which: string; section: string };
 }
 
 export type EventName = keyof EventMap;

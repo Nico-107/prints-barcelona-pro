@@ -395,7 +395,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Print",
   "calc.instantBuy.shipping.surcharge": "Bezorging",
   "calc.instantBuy.shipping.total": "Totaal",
-  "calc.instantBuy.buyNow": "Nu kopen — €{price}",
+  "calc.instantBuy.buyNow": "Nu kopen — {price}",
   "calc.instantBuy.buyNow.from": "Nu kopen — vanaf {price}",
   "calc.instantBuy.manualReview": "Laat ons team het eerst controleren",
   "calc.instantBuy.manualReview.short": "Gratis beoordeling",
@@ -792,4 +792,8 @@ export const nlTranslations: Record<string, string> = {
   "footer.returnPolicy": "Retourbeleid",
   "footer.forBusiness": "Voor bedrijven",
   "footer.guides": "Handleidingen",
+  "lang.suggest.text": "Deze pagina is beschikbaar in het Nederlands → Wijzigen",
+  "lang.suggest.switch": "Wijzigen",
+  "lang.suggest.dismiss": "Nee bedankt",
+  "footer.outsideEU": "Buiten de EU",
 };

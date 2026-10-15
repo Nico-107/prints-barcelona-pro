@@ -140,6 +140,13 @@ interface QuoteRequest {
   utm_medium: string | null;
   utm_content: string | null;
   pieces?: PieceInfo[] | null;
+  // Source tracking (Item 6)
+  source_path?: string | null;
+  page_language?: string | null;
+  browser_language?: string | null;
+  referrer_domain?: string | null;
+  utm_json?: string | null;
+  fulfillment?: string | null;
 }
 
 type Tab = "orders" | "quotes" | "makers" | "calculator" | "estimates" | "links";
@@ -1343,6 +1350,10 @@ const Admin = () => {
                     <div className="flex flex-wrap gap-x-6 gap-y-0.5 text-xs text-slate-500 mb-4">
                       <span>~{Number(q.estimated_grams).toFixed(1)} g</span>
                       <span>~{Number(q.estimated_hours).toFixed(1)} h print time</span>
+                      {q.page_language && <span>lang: {q.page_language}</span>}
+                      {q.source_path && <span className="text-slate-400 font-mono truncate max-w-[200px]" title={q.source_path}>{q.source_path}</span>}
+                      {q.fulfillment && <span>fulfillment: {q.fulfillment}</span>}
+                      {q.referrer_domain && <span>ref: {q.referrer_domain}</span>}
                     </div>
 
                     {/* File download links */}

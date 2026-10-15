@@ -91,9 +91,11 @@ interface Props {
   refDays?: string;
   /** When true, the city offers local pickup — banner copy switches from shipping to pickup+shipping */
   refPickupAvailable?: boolean;
+  /** When true, disables instant checkout (e.g. for countries outside SHIP_COUNTRIES) */
+  forceQuoteOnly?: boolean;
 }
 
-export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable }: Props) {
+export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
@@ -260,15 +262,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   }, [showExitIntent]);
 
-  // Preselect shipping for international pages — only runs once on mount
-  useEffect(() => {
-    const intlLangs: Language[] = ["de", "fr", "it", "nl", "pt"];
-    const isIntl = (intlLangs as string[]).includes(language) ||
-      (language === "en" && !!refCity);
-    if (isIntl && !refPickupAvailable) {
-      setFulfillment("shipping");
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const inputRef = useRef<HTMLInputElement>(null);
   const modalInputRef = useRef<HTMLInputElement>(null);
@@ -290,7 +283,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
   const filesWithinVerifyLimit = validFiles.every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES) &&
     validFiles.reduce((s, f) => s + f.sizeBytes, 0) <= 60 * 1024 * 1024;
-  const instantBuyEligible = instantBuyAllowed({
+  const instantBuyEligible = !forceQuoteOnly && instantBuyAllowed({
     adminMode,
     anyMulticolour,
     eligible: bundle?.orderResult.eligible ?? false,
@@ -608,12 +601,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
-  // Reset manual-review and fulfillment choices whenever eligibility drivers change
+  // Reset manual-review and fulfillment choices whenever eligibility drivers change.
+  // Also re-applies the international shipping default so it survives material changes.
   useEffect(() => {
     setShowManualReview(false);
-    setFulfillment(null);
     setFulfillmentAttempted(false);
-  }, [materialKey, multicolour]);
+    const intlDefault = (["de", "fr", "it", "nl", "pt"] as string[]).includes(language) ||
+      (language === "en" && !!refCity);
+    setFulfillment(intlDefault && !refPickupAvailable ? "shipping" : null);
+  }, [materialKey, multicolour, language, refCity, refPickupAvailable]);
 
   // Detect Stripe return URLs on page load
   useEffect(() => {
@@ -684,6 +680,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         utmCampaign: storedUtm?.utm_campaign ?? null,
         checkoutRef,
         returnPath: window.location.pathname,
+        sourcePath: window.location.pathname,
+        pageLanguage: language,
       });
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: checkoutBodyPayload,
@@ -897,6 +895,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         pieces,
         quote_id,
         ph_distinct_id: get_distinct_id() ?? null,
+        // Source tracking (Item 6)
+        sourcePath: window.location.pathname,
+        sourceUrl: `${window.location.origin}${window.location.pathname}`,
+        pageLanguage: language,
+        browserLanguage: typeof navigator !== "undefined" ? navigator.language : null,
+        referrer: typeof document !== "undefined" && document.referrer ? (() => { try { return new URL(document.referrer).hostname; } catch { return null; } })() : null,
+        utm: storedUtm ?? null,
+        fulfillment,
       };
       try {
         await Promise.race([
@@ -1022,6 +1028,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour: exitSummary.multicolour,
           sourceCity: refCity ?? null,
           pieces: exitPieces,
+          // Source tracking (Item 6)
+          sourcePath: window.location.pathname,
+          sourceUrl: `${window.location.origin}${window.location.pathname}`,
+          pageLanguage: language,
+          browserLanguage: typeof navigator !== "undefined" ? navigator.language : null,
+          referrer: typeof document !== "undefined" && document.referrer ? (() => { try { return new URL(document.referrer).hostname; } catch { return null; } })() : null,
+          utm: exitUtm ?? null,
+          fulfillment,
         },
       }).catch(e => console.error("send-quote-request failed:", e));
       exitIntentCloseReasonRef.current = "recovered";

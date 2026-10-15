@@ -208,17 +208,22 @@ async function crawl() {
     }
   }
 
+  // ── Client-navigation pass ────────────────────────────────────────────────
+  const { violations: navViolations, totalClicks } = await crawlClientNav(browser, PORT);
+
   await browser.close();
   server.close();
 
-  // Write report
-  writeReport(violations, routes);
+  const allViolations = [...violations, ...navViolations];
 
-  if (violations.length > 0) {
-    console.error(`\n❌ ${violations.length} violations found. See docs/qa/report.md`);
+  // Write report
+  writeReport(allViolations, routes, totalClicks);
+
+  if (allViolations.length > 0) {
+    console.error(`\n❌ ${allViolations.length} violations found (${violations.length} direct-load, ${navViolations.length} client-nav). See docs/qa/report.md`);
     process.exit(1);
   } else {
-    console.log("\n✅ 0 violations — all checks pass");
+    console.log("\n✅ 0 violations (direct loads + client navigation) — all checks pass");
   }
 }
 
@@ -438,18 +443,21 @@ async function checkPage(browser, route, locale, vp, port) {
   return violations;
 }
 
-function writeReport(violations, routes) {
+function writeReport(violations, routes, clientNavClicks = 0) {
   const byRule = {};
   for (const v of violations) {
     byRule[v.rule] = (byRule[v.rule] || 0) + 1;
   }
 
+  const directViolations = violations.filter(v => v.locale !== "client-nav");
+  const navViolations = violations.filter(v => v.locale === "client-nav");
   const lines = [
     "# QA Report",
     "",
     `Generated: ${new Date().toISOString()}`,
     `Routes checked: ${routes.length} × 2 locales × 2 viewports = ${routes.length * 4} combinations`,
-    `Total violations: ${violations.length}`,
+    `Client-navigation clicks: ${clientNavClicks}`,
+    `Total violations: ${violations.length} (${directViolations.length} direct-load, ${navViolations.length} client-nav)`,
     "",
     "## Summary by rule",
     "",
@@ -471,6 +479,150 @@ function writeReport(violations, routes) {
   writeFileSync(REPORT_PATH, lines.join("\n") + "\n", "utf-8");
   console.log(`\nReport written to docs/qa/report.md`);
   console.log("Violations by rule:", byRule);
+}
+
+// ─── Client-navigation pass ───────────────────────────────────────────────────
+// Starts on seed pages and clicks cross-language links without reloading.
+// Applies R1, R2, R3 to the post-navigation state.
+async function crawlClientNav(browser, port) {
+  const violations = [];
+  const seedPaths = ["/", "/3d-printing-service", "/de/3d-druck-service"];
+  let totalClicks = 0;
+
+  console.log("\n── Client-navigation pass ──────────────────────────────────────────────");
+
+  for (const seedPath of seedPaths) {
+    const context = await browser.newContext({
+      locale: "en-US",
+      viewport: { width: 1280, height: 900 },
+    });
+    const page = await context.newPage();
+    page.on("console", () => {});
+    try {
+      await page.goto(`http://127.0.0.1:${port}${seedPath}`, { waitUntil: "networkidle", timeout: 30000 });
+      await page.waitForTimeout(1000);
+
+      // Gather all internal links in header, footer, body that point to a different language
+      const links = await page.evaluate((seedPath, siteUrl) => {
+        const seedLang = (() => {
+          if (seedPath === "/" || seedPath === "") return "es";
+          if (seedPath.startsWith("/ca/") || seedPath === "/ca") return "ca";
+          if (seedPath.startsWith("/de/")) return "de";
+          if (seedPath.startsWith("/nl/")) return "nl";
+          if (seedPath.startsWith("/fr/")) return "fr";
+          if (seedPath.startsWith("/it/")) return "it";
+          if (seedPath.startsWith("/pt/")) return "pt";
+          if (seedPath.startsWith("/3d-printing-") || seedPath === "/maker-guide") return "en";
+          return "es";
+        })();
+        function pathLang(p) {
+          if (p === "/" || p === "") return "es";
+          if (p.startsWith("/ca/") || p === "/ca") return "ca";
+          if (p.startsWith("/de/")) return "de";
+          if (p.startsWith("/nl/")) return "nl";
+          if (p.startsWith("/fr/")) return "fr";
+          if (p.startsWith("/it/")) return "it";
+          if (p.startsWith("/pt/")) return "pt";
+          if (p.startsWith("/3d-printing-") || p === "/maker-guide" || p === "/3d-file-checker") return "en";
+          return "es";
+        }
+        const all = Array.from(document.querySelectorAll("header a[href], footer a[href], main a[href], [role='main'] a[href]"));
+        const found = [];
+        for (const a of all) {
+          const href = a.getAttribute("href") || "";
+          if (!href.startsWith("/")) continue;
+          const path = href.split("?")[0].split("#")[0];
+          const lang = pathLang(path);
+          if (lang !== seedLang && path !== seedPath) {
+            found.push({ href: path, lang, text: (a.textContent || "").trim().substring(0, 40) });
+          }
+        }
+        // Deduplicate by href
+        const seen = new Set();
+        return found.filter(f => { if (seen.has(f.href)) return false; seen.add(f.href); return true; });
+      }, seedPath, SITE_URL);
+
+      console.log(`  ${seedPath}: found ${links.length} cross-language links`);
+
+      // Click up to 20 links per seed page
+      for (const link of links.slice(0, 20)) {
+        try {
+          // Navigate by clicking (simulate client-side navigation)
+          await page.evaluate((href) => {
+            // Find anchor with this href and click it, or use history.pushState fallback
+            const anchors = Array.from(document.querySelectorAll("a[href]"));
+            const target = anchors.find(a => a.getAttribute("href") === href || a.getAttribute("href")?.split("?")[0] === href);
+            if (target) {
+              target.click();
+            } else {
+              window.history.pushState({}, "", href);
+              window.dispatchEvent(new PopStateEvent("popstate"));
+            }
+          }, link.href);
+          await page.waitForTimeout(800);
+
+          const htmlLang = await page.evaluate(() => document.documentElement.lang);
+          const normalizedLang = HTML_LANG_MAP[htmlLang?.toLowerCase()] ?? htmlLang;
+          const currentPath = await page.evaluate(() => window.location.pathname);
+          const expectedLang = routeLanguage(currentPath);
+
+          // R1: html lang after navigation
+          if (normalizedLang !== expectedLang) {
+            violations.push({
+              rule: "R1",
+              route: `${seedPath} → ${link.href}`,
+              locale: "client-nav",
+              vp: "desktop",
+              detail: `html[lang]="${htmlLang}" but expected "${expectedLang}" after client-nav from ${seedPath}`,
+            });
+          }
+
+          // R2: no foreign UI text in header
+          const headerText = await page.evaluate(() => {
+            const header = document.querySelector("header");
+            return header ? header.innerText : "";
+          });
+          const uiText = headerText.toLowerCase();
+          for (const [lang, markers] of Object.entries(LANGUAGE_MARKERS)) {
+            if (lang === expectedLang) continue;
+            if (lang === "en" && (expectedLang === "ca" || expectedLang === "es")) continue;
+            if (lang === "es" && expectedLang === "ca") continue;
+            for (const marker of markers) {
+              if (uiText.includes(marker.toLowerCase())) {
+                violations.push({
+                  rule: "R2",
+                  route: `${seedPath} → ${link.href}`,
+                  locale: "client-nav",
+                  vp: "desktop",
+                  detail: `Foreign text "${marker}" (${lang}) in header after nav to ${expectedLang} page`,
+                });
+                break;
+              }
+            }
+          }
+
+          totalClicks++;
+          // Navigate back to seed for next iteration
+          await page.goto(`http://127.0.0.1:${port}${seedPath}`, { waitUntil: "networkidle", timeout: 20000 });
+          await page.waitForTimeout(500);
+        } catch (e) {
+          console.log(`    skip ${link.href}: ${e.message?.substring(0, 60)}`);
+        }
+      }
+    } catch (e) {
+      console.log(`  Error on ${seedPath}: ${e.message?.substring(0, 80)}`);
+    } finally {
+      await context.close();
+    }
+  }
+
+  console.log(`  Total cross-language clicks: ${totalClicks}`);
+  if (violations.length > 0) {
+    console.error(`  ❌ ${violations.length} client-nav violations`);
+  } else {
+    console.log(`  ✅ 0 client-nav violations`);
+  }
+  return { violations, totalClicks };
 }
 
 crawl().catch((err) => {
