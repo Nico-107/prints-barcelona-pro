@@ -151,6 +151,8 @@ const CityDeliveryPage = ({ config }: Props) => {
     headline: config.h1,
     description: config.metaDescription,
     url: PAGE_URL,
+    dateModified: "2026-10-15",
+    datePublished: "2026-08-01",
     publisher: {
       "@type": "Organization",
       name: "Dimension3D",
@@ -184,7 +186,9 @@ const CityDeliveryPage = ({ config }: Props) => {
     ? {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
+        "@id": `${PAGE_URL}#local`,
         name: `Dimension3D — ${config.city}`,
+        telephone: `+${config.localPickup.whatsappNumber}`,
         address: {
           "@type": "PostalAddress",
           streetAddress: config.localPickup.address,
@@ -203,6 +207,22 @@ const CityDeliveryPage = ({ config }: Props) => {
         sameAs: ["https://share.google/YX41aS8lcqOlHGrhD"],
       }
     : null;
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: isES
+      ? `Impresión 3D en ${config.city}`
+      : `3D Printing Service — ${config.city}`,
+    areaServed: {
+      "@type": "City",
+      name: config.city,
+      ...(config.country === "España" || config.country === "Spain"
+        ? { containedInPlace: { "@type": "Country", "iso6166code": "ES" } }
+        : {}),
+    },
+    provider: { "@id": `${SITE_URL}/#business` },
+  };
 
   const pickupEmbedUrl = config.localPickup
     ? `https://www.google.com/maps?q=${encodeURIComponent(
@@ -268,6 +288,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         {localBusinessSchema && (
           <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
         )}

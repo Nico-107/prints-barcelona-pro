@@ -290,17 +290,47 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "Madrid",
     country: "España",
     deliveryDays: "1–2 días hábiles",
-    metaTitle: "Impresión 3D con Entrega a Madrid — Desde €10",
-    metaDescription: "Servicio profesional de impresión 3D desde Barcelona con entrega a Madrid en 1–2 días hábiles. Presupuesto en 1 hora. Pedido mínimo €10.",
-    h1: "Impresión 3D con Entrega a Madrid",
+    metaTitle: "Impresión 3D en Madrid — Precios desde 10€, Envío 1–2 Días",
+    metaDescription: "Impresión 3D FDM entregada en Madrid en 1–2 días hábiles desde Barcelona. Desde 10€, presupuesto en 1 hora. Prototipos, piezas funcionales y recambios.",
+    h1: "Impresión 3D en Madrid — Precios desde 10€, Entrega en 1–2 Días",
     eyebrowText: "Envío a Madrid · 1–2 Días Hábiles",
     heroSubtitle: "Estudio FDM profesional con sede en Barcelona. Sube tu STL o STEP, recibe presupuesto en 1 hora y entrega a Madrid en 1–2 días hábiles con mensajería seguida. Desde €10.",
-    introParagraph: "Madrid es el centro industrial y tecnológico de España — desde las startups del Corredor del Henares y los proveedores aeroespaciales de Getafe hasta los estudios de diseño de producto en Malasaña y los talleres de ingeniería de precisión en Leganés. Imprimimos tu pieza en nuestro taller FDM de Barcelona y la enviamos a Madrid con mensajería seguida en 1–2 días hábiles. Presupuesto humano confirmado en menos de 1 hora, comunicación directa por WhatsApp con el equipo que produce tu pieza, y tarificación transparente en euros. Pedido mínimo €10, sin tarifa de configuración, sin comisiones de plataforma.",
+    introParagraph: `Madrid es la capital de España y el mayor polo tecnológico e industrial del país. Los precios de impresión 3D en Madrid con entrega rápida desde Barcelona son exactamente los mismos que para cualquier otro punto de España: desde 10€ por pieza, sin tarifa de configuración y con presupuesto confirmado en menos de 1 hora en días laborables.
+
+La Comunidad de Madrid concentra un ecosistema industrial y tecnológico de primer orden. El Corredor del Henares — el mayor corredor industrial de España en términos de superficie logística — alberga empresas de logística, farmacéutica, química y electrónica que generan una demanda constante de piezas a medida, utillaje de producción y prototipos funcionales. El municipio de Getafe es uno de los polos aeroespaciales más importantes de Europa: Airbus Defence and Space, la División de Aviones de Transporte Militar, talleres de mecanizado de precisión y una cadena de proveedores tier-1 y tier-2. La impresión 3D encaja en este entorno como solución para prototipos de componentes, plantillas de verificación, útiles de ensamblaje y piezas de repuesto con plazos ajustados.
+
+Más al norte, el municipio de Alcobendas y el Parque Tecnológico de Tres Cantos concentran sedes de empresas como Indra, GMV, Repsol y numerosas multinacionales tecnológicas con departamentos de I+D activos. Estos entornos demandan ciclos rápidos de prototipado: de archivo CAD a pieza física en 24–72 horas, con materiales que van del PLA de concepto al Nylon-CF de validación estructural.
+
+El tejido de startups de Madrid — desde las aceleradoras de La Nave y el hub de South Summit hasta el ecosistema de diseño de producto en Lavapiés y Malasaña — genera pedidos frecuentes de primeras iteraciones de hardware, carcasas para electrónica, piezas de presentación y prototipos de validación de usuario. Muchos equipos de producto en Madrid utilizan servicios de impresión 3D de forma continua a lo largo del ciclo de desarrollo, con entregas de 1–2 días hábiles que permiten iterar en paralelo con el trabajo de ingeniería.
+
+Las universidades técnicas de la Comunidad de Madrid — la Universidad Politécnica de Madrid (UPM, con más de 40.000 estudiantes de ingeniería), la Universidad Carlos III en Leganés y la Universidad Rey Juan Carlos — generan una demanda constante de piezas para proyectos de fin de grado, investigación aplicada y laboratorios de prototipado. Trabajamos habitualmente con estudiantes y equipos de investigación de estas instituciones.
+
+El proceso es el mismo independientemente del tamaño del pedido: subes tu archivo STL, STEP, OBJ o 3MF (o nos envías una foto si no tienes archivo), recibes un presupuesto desglosado en menos de 1 hora, apruebas el precio y producimos la pieza. Enviamos a Madrid con mensajería seguida — la mayoría de pedidos llegan al día siguiente o en dos días hábiles. Para proyectos con necesidades de materiales específicos (Polycarbonato, Nylon PA12, Nylon-CF, ABS para alta temperatura o TPU para piezas flexibles), te recomendamos la opción correcta en el presupuesto.
+
+Sin pedido mínimo por encima de 10€, sin comisiones de plataforma, sin burocracia: subes tu archivo, nosotros producimos y tú recibes la pieza en Madrid.`,
     deliveryTableRow: ["Madrid y Comunidad de Madrid", "1–2 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda el envío de Barcelona a Madrid?",
     shippingFaqA: "Los pedidos se producen en nuestro taller de Barcelona y llegan a domicilios en Madrid en 1–2 días hábiles mediante mensajería estándar con seguimiento. Para muchos envíos, la entrega se produce al día siguiente del despacho. Todos los envíos incluyen número de seguimiento en cuanto el paquete sale del taller.",
     whatsappMsg: "Hola, soy de Madrid y me gustaría un presupuesto para impresión 3D con entrega desde Barcelona.",
     articleInLanguage: "es",
+    extraFaqs: [
+      {
+        q: "¿Cuánto cuesta la impresión 3D con entrega a Madrid?",
+        a: "El pedido mínimo es de 10€. El precio final depende del peso de la pieza en gramos, el tiempo de impresión y el material seleccionado. La mayoría de piezas pequeñas de uso doméstico o industrial están entre 10€ y 40€. El envío a Madrid tiene un coste estándar de mensajería con seguimiento, habitualmente al día siguiente del despacho. Usa la calculadora de esta página para obtener un presupuesto orientativo al instante.",
+      },
+      {
+        q: "¿Trabajáis con empresas e ingenieros de Madrid?",
+        a: "Sí. Trabajamos habitualmente con startups, estudios de ingeniería, empresas del sector aeroespacial, equipos de I+D y fabricantes de la Comunidad de Madrid. Para proyectos empresariales ofrecemos factura con IVA, firma de NDA para proyectos confidenciales y reencargos rápidos sobre archivos ya validados.",
+      },
+      {
+        q: "¿Qué materiales están disponibles para envío a Madrid?",
+        a: "Imprimimos en PLA, PETG, ABS, ASA, TPU flexible, Nylon (PA12/PA6), Polycarbonato y compositos con fibra de carbono. Te recomendamos el material más adecuado según la función de tu pieza — resistencia mecánica, temperatura de trabajo, flexibilidad o acabado superficial.",
+      },
+      {
+        q: "¿Podéis hacer prototipos iterativos para proyectos en Madrid?",
+        a: "Sí. El plazo estándar de 1–2 días hábiles permite ciclos de iteración rápidos. Si necesitas dos o tres versiones de la misma geometría, las podemos producir en días consecutivos. Para proyectos urgentes ofrecemos servicio express en 24–48 horas.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-madrid",
@@ -310,9 +340,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "Madrid",
     country: "Spain",
     deliveryDays: "1–2 business days",
-    metaTitle: "3D Printing Delivered to Madrid — From €10",
-    metaDescription: "Professional FDM 3D printing from Barcelona, delivered to Madrid in 1–2 business days. Quote in 1 hour. Minimum order €10.",
-    h1: "3D Printing Delivered to Madrid",
+    metaTitle: "3D Printing in Madrid — Prices from €10, 1–2 Day Delivery",
+    metaDescription: "FDM 3D printing from Barcelona, delivered to Madrid in 1–2 business days. Prices from €10, quote in 1 hour. Prototypes, functional parts, spare parts.",
+    h1: "3D Printing in Madrid — From €10, Delivered in 1–2 Days",
     eyebrowText: "Delivery to Madrid · 1–2 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote in one hour, delivery to Madrid in 1–2 business days via tracked courier. From €10.",
     introParagraph: "Madrid is Spain's industrial and technology hub — from the startups of the Corredor del Henares and the aerospace suppliers of Getafe to the product design studios of Malasaña and the precision engineering workshops of Leganés. We produce your part at our FDM studio in Barcelona and ship it to Madrid via tracked courier in 1–2 business days. Human-confirmed quote in under one hour, direct WhatsApp communication with the team producing your part, transparent pricing in euros. Minimum order €10, no marketplace commission.",
@@ -329,23 +359,53 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "Valencia",
     country: "España",
     deliveryDays: "1–2 días hábiles",
-    metaTitle: "Impresión 3D con Entrega a Valencia — Desde €10",
-    metaDescription: "Servicio profesional de impresión 3D desde Barcelona con entrega a Valencia en 1–2 días hábiles. Sube tu STL, presupuesto en 1 hora. Pedido mínimo €10.",
-    h1: "Impresión 3D con Entrega a Valencia",
+    metaTitle: "Impresión 3D en Valencia — Desde 10€, Envío 1–2 Días",
+    metaDescription: "Servicio de impresión 3D FDM con entrega a Valencia en 1–2 días hábiles desde Barcelona. Presupuesto en 1 hora, desde 10€. Prototipado rápido e industrial.",
+    h1: "Impresión 3D en Valencia — Entrega en 1–2 Días Hábiles",
     eyebrowText: "Envío a Valencia · 1–2 Días Hábiles",
-    heroSubtitle: "Estudio FDM profesional en Barcelona. Sube tu STL o STEP, recibe presupuesto en 1 hora, entrega en Valencia en 1–2 días hábiles. Desde €10.",
-    introParagraph: "Valencia combina una de las cadenas de automoción más importantes de España — con la planta de Ford en Almussafes y su extensa red de proveedores de primer nivel — con un ecosistema tecnológico en crecimiento en el Parque Tecnológico y Las Naves, y una comunidad activa de makers, diseñadores de producto y artesanos en el centro histórico y el barrio del Cabanyal. Al estar a pocas horas de Barcelona, los envíos llegan a Valencia en 1–2 días hábiles con seguimiento completo — frecuentemente al día siguiente del despacho. Para componentes de automoción, prototipos de ingeniería o proyectos de diseño urgentes, somos la opción más cercana y rápida disponible.",
+    heroSubtitle: "Estudio FDM en Barcelona. Sube tu STL o STEP, recibe presupuesto en 1 hora, entrega a Valencia en 1–2 días hábiles con mensajería seguida. Desde 10€.",
+    introParagraph: `Valencia es la tercera ciudad de España y uno de sus polos industriales más dinámicos. La Comunitat Valenciana tiene una base económica diversificada que incluye automoción, cerámica y azulejos, mueble y madera, agroalimentación, calzado, textil y un sector tecnológico en expansión. Todo ello genera una demanda constante de piezas a medida, prototipos funcionales, utillaje y recambios que la impresión 3D puede satisfacer con rapidez y sin los mínimos de producción que impone el moldeo por inyección.
+
+La industria de automoción es la más destacada: la planta de Ford en Almussafes y su extensa red de proveedores tier-1 y tier-2 requieren prototipos de componentes, plantillas de verificación y utillaje de producción con plazos ajustados. El sector cerámico de la Comunitat Valenciana — el mayor clúster de cerámica de construcción de Europa — utiliza impresión 3D para prototipar nuevas formas y diseños antes de llevarlos a producción en serie. Los fabricantes de mueble del arco Paterna–Manises–L'Eliana incorporan piezas funcionales impresas para mecanismos, herrajes a medida y piezas de exposición. Y la comunidad de makers, diseñadores de producto y estudios de ingeniería que orbitan alrededor de la Universitat Politècnica de València, del Parc Tecnològic y de espacios como Las Naves generan una demanda sostenida de iteraciones rápidas de prototipo.
+
+Trabajar con un servicio de impresión 3D profesional en lugar de una solución de escritorio marca la diferencia en cuanto a calidad de la pieza, selección de material y plazos predecibles. Desde Barcelona podemos imprimir en PLA, PETG, ABS, ASA, TPU flexible, Nylon y compostos de fibra de carbono, con los parámetros correctos para cada aplicación. Las piezas salen del taller en 24–72 horas tras confirmar el presupuesto, y llegan a Valencia frecuentemente al día siguiente del despacho.
+
+El proceso es directo: subes tu archivo STL, STEP, OBJ o 3MF (o nos envías una foto de la pieza si no tienes archivo), recibes un presupuesto transparente en menos de 1 hora en días laborables, apruebas el precio y te enviamos la pieza. No hay tarifas de configuración, no hay pedido mínimo por encima de los 10€, y cada pieza se revisa antes de salir del taller. Comunicación directa por WhatsApp en español, sin formularios que tardan días en responder.
+
+Para proyectos industriales valencianos que necesitan piezas de forma regular, guardamos el archivo y gestionamos reencargos sin fricciones. Para prototipos iterativos — cuando necesitas probar tres versiones de una geometría antes de confirmar el diseño final — el plazo de 1–2 días hábiles entre pedidos hace que la velocidad de iteración sea comparable a tener la impresora in-house, sin los costes de mantenimiento ni la curva de aprendizaje.`,
     deliveryTableRow: ["Valencia y Comunitat Valenciana", "1–2 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda un pedido de Barcelona a Valencia?",
-    shippingFaqA: "Los pedidos se envían desde Barcelona y llegan a Valencia en 1–2 días hábiles mediante mensajería estándar con seguimiento. La Comunitat Valenciana es una de nuestras zonas de entrega más rápidas — en muchos casos el pedido llega al día siguiente del envío. También ofrecemos recogida en Barcelona con cita previa para mayor comodidad.",
+    shippingFaqA: "Los pedidos se envían desde Barcelona y llegan a Valencia en 1–2 días hábiles mediante mensajería estándar con seguimiento. La Comunitat Valenciana es una de nuestras zonas de entrega más rápidas — en muchos casos el pedido llega al día siguiente del despacho. También ofrecemos recogida en Barcelona con cita previa.",
     whatsappMsg: "Hola, soy de Valencia y me gustaría un presupuesto para impresión 3D.",
     nativeSection: {
       lang: "ca",
       headline: "Servei d'impressió 3D professional amb lliurament a València",
-      body: "Pressupost instantani en 1 hora. Lliurament en 1–2 dies hàbils des de Barcelona. FDM en PLA, PETG, ABS, Nylon i compostos. Sense comanda mínima.",
+      body: "Pressupost instantani en 1 hora. Lliurament en 1–2 dies hàbils des de Barcelona. FDM en PLA, PETG, ABS, Nylon i compostos de fibra de carboni. Sense comanda mínima.",
       ctaLabel: "Demanar pressupost",
     },
     articleInLanguage: "es",
+    extraFaqs: [
+      {
+        q: "¿Cuánto cuesta la impresión 3D con entrega a Valencia?",
+        a: "El pedido mínimo es de 10€. El precio final depende del peso de la pieza (gramos de filamento), el tiempo de impresión y el material. La mayoría de piezas pequeñas de uso doméstico o industrial están entre 10€ y 40€. El envío a Valencia tiene un coste estándar de mensajería con seguimiento. Usa la calculadora de esta página para obtener un presupuesto orientativo al instante.",
+      },
+      {
+        q: "¿Imprimís para empresas industriales en Valencia?",
+        a: "Sí. Trabajamos habitualmente con startups, estudios de ingeniería, fabricantes de mueble, empresas del sector cerámico y proveedores de automoción de la Comunitat Valenciana. Para proyectos empresariales ofrecemos factura con IVA, firma de NDA para proyectos confidenciales y capacidad de reencargos rápidos sobre archivos ya validados.",
+      },
+      {
+        q: "¿Qué materiales están disponibles para envío a Valencia?",
+        a: "Imprimimos en PLA, PETG, ABS, ASA, TPU flexible, Nylon (PA12/PA6), Polycarbonato y variantes con fibra de carbono. Te recomendamos el material más adecuado según la función de tu pieza — resistencia mecánica, temperatura de trabajo, flexibilidad o acabado superficial.",
+      },
+      {
+        q: "¿Puedo pedir prototipos iterativos con entrega rápida a Valencia?",
+        a: "Sí. El plazo estándar de 1–2 días hábiles permite ciclos de iteración rápidos para prototipado de producto. Si necesitas dos o tres versiones de una misma geometría, las podemos producir en días consecutivos. Para proyectos urgentes ofrecemos servicio express en 24–48 horas.",
+      },
+      {
+        q: "¿Imprimís piezas industriales o solo decorativas?",
+        a: "Fabricamos todo tipo de piezas: recambios funcionales, utillaje de producción, plantillas de verificación, prototipos de ingeniería, piezas de exposición y artículos personalizados. El material y los parámetros de impresión se seleccionan según la función real de la pieza, no el más económico por defecto.",
+      },
+    ],
   },
   {
     slug: "/impresion-3d-sevilla",
@@ -355,12 +415,22 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "Sevilla",
     country: "España",
     deliveryDays: "2–3 días hábiles",
-    metaTitle: "Impresión 3D en Sevilla",
-    metaDescription: "Impresión 3D FDM producida localmente en Sevilla, con recogida en Av. Parsi 21 (cita previa) o envío a toda la provincia. Presupuesto en 1 hora. Desde €10.",
-    h1: "Impresión 3D en Sevilla — Producción y Recogida Local",
+    metaTitle: "Impresión 3D en Sevilla — Producción Local, Desde 10€",
+    metaDescription: "Impresión 3D FDM producida localmente en Sevilla con recogida en Av. Parsi 21 (cita previa) o envío a toda la provincia. Presupuesto en 1 hora. Desde 10€.",
+    h1: "Impresión 3D en Sevilla — Producción Local y Desde 10€",
     eyebrowText: "Recogida en Sevilla · Cita Previa",
     heroSubtitle: "Tu pieza, impresa por nuestro maker local en Sevilla y verificada con fotos antes de cada entrega. Recógela en Av. Parsi 21 con cita previa, o la enviamos a cualquier punto de la provincia. Presupuesto en 1 hora, desde €10.",
-    introParagraph: "Sevilla es uno de los grandes polos aeroespaciales de Europa — junto a Toulouse y Hamburgo, es una de las tres únicas ciudades del continente con una línea de montaje final de aviones, gracias a la planta de Airbus Defence and Space en San Pablo y a proveedores tier-1 como Alestis Aerospace en el parque tecnológico Aerópolis. A esto se suma una comunidad de ingeniería activa en la Escuela Técnica Superior de Ingeniería de la Universidad de Sevilla, y un tejido artesanal único ligado a la Feria de Abril y la Semana Santa. Ahora imprimimos directamente en Sevilla, de la mano de un maker local verificado que produce cada pieza y nos envía fotos de control de calidad antes de completarla. Puedes recoger tu pedido en Av. Parsi 21 con cita previa, o lo enviamos a cualquier punto de la provincia. Presupuesto humano confirmado en menos de 1 hora, comunicación directa por WhatsApp, pedido mínimo €10, sin comisiones de plataforma.",
+    introParagraph: `Sevilla es uno de los grandes polos aeroespaciales de Europa — junto a Toulouse y Hamburgo, es una de las tres únicas ciudades del continente con una línea de montaje final de aviones, gracias a la planta de Airbus Defence and Space en San Pablo y a proveedores tier-1 como Alestis Aerospace en el parque tecnológico Aerópolis. La impresión 3D tiene aplicación directa en este entorno: prototipado de componentes de aeroestructura, útiles de ensamblaje, plantillas de verificación dimensional y piezas de apoyo a la producción con plazos ajustados.
+
+A esto se suma una comunidad de ingeniería activa en la Escuela Técnica Superior de Ingeniería (ETSI) de la Universidad de Sevilla — una de las escuelas de ingeniería industrial y aeronáutica con más tradición de España — y un tejido de empresas tecnológicas y startups que ha crecido en los últimos años alrededor del Parque Científico y Tecnológico Cartuja. Ingenieros y diseñadores de producto de este ecosistema utilizan la impresión 3D para ciclos rápidos de prototipado: de archivo a pieza física en 24–72 horas, sin los tiempos de espera del moldeo por inyección ni los mínimos de producción que hacen inviable la fabricación pequeña.
+
+Sevilla tiene también un tejido artesanal y cultural singular. La Feria de Abril y la Semana Santa generan una demanda de piezas decorativas, complementos, accesorios y elementos de atrezo que la impresión 3D puede satisfacer con rapidez y personalización. La artesanía sevillana convive con la industria: talleres de forja, carpintería y cerámica incorporan piezas impresas en 3D para completar proyectos donde el molde tradicional no tiene la geometría necesaria o el plazo es demasiado corto.
+
+Lo que hace diferente nuestro servicio en Sevilla es la producción local: trabajamos con un maker verificado en la ciudad que imprime cada pieza, la revisa con fotografías de control de calidad y la tiene lista para recogida en Av. Parsi 21 (cita previa por WhatsApp) o la envía a cualquier punto de Sevilla y su provincia. Esto elimina el tiempo de tránsito desde Barcelona para pedidos locales y permite una comunicación directa en persona si el proyecto lo requiere.
+
+El proceso es directo: subes tu archivo STL, STEP, OBJ o 3MF (o nos envías una foto de la pieza si no tienes archivo), recibes un presupuesto transparente en menos de 1 hora en días laborables, apruebas el precio y producimos la pieza localmente en Sevilla. Sin tarifa de configuración, sin pedido mínimo por encima de los 10€, y con control de calidad fotográfico antes de cada entrega.
+
+Para proyectos industriales o de ingeniería que necesitan materiales de alto rendimiento — ABS para resistencia a temperatura, Nylon para carga mecánica, PETG para exposición exterior o TPU flexible para juntas y cubiertas — nuestro maker local trabaja con el mismo rango de materiales que el taller de Barcelona. Te recomendamos el material correcto en el presupuesto según la función real de la pieza.`,
     deliveryTableRow: ["Sevilla y provincia (envío)", "2–3 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda en estar lista mi pieza para recoger en Sevilla?",
     shippingFaqA: "Al producirse localmente en Sevilla, normalmente tu pieza está lista para recoger en 2–3 días hábiles tras confirmar el presupuesto. Te avisamos por WhatsApp en cuanto esté lista, junto con fotos de control de calidad de la pieza terminada.",
@@ -405,9 +475,9 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "Seville",
     country: "Spain",
     deliveryDays: "2–3 business days",
-    metaTitle: "3D Printing in Seville",
-    metaDescription: "FDM 3D printing produced locally in Seville, with pickup at Av. Parsi 21 (by appointment) or delivery across the province. Quote in 1 hour. From €10.",
-    h1: "3D Printing in Seville — Local Production & Pickup",
+    metaTitle: "3D Printing in Seville — Local Production, From €10",
+    metaDescription: "FDM 3D printing produced locally in Seville, with pickup at Av. Parsi 21 (by appointment) or delivery across the province. From €10, quote in 1 hour.",
+    h1: "3D Printing in Seville — Local Production & From €10",
     eyebrowText: "Seville Pickup · By Appointment",
     heroSubtitle: "Your part, printed by our local Seville maker and photo-verified before every handoff. Pick it up at Av. Parsi 21 by appointment, or we ship it across the province. Quote in 1 hour, from €10.",
     introParagraph: "Seville is one of Europe's major aerospace hubs — alongside Toulouse and Hamburg, it's one of only three cities on the continent with a final aircraft assembly line, thanks to the Airbus Defence and Space plant in San Pablo and tier-1 suppliers like Alestis Aerospace at the Aerópolis technology park. That sits alongside an active engineering community at the University of Seville's School of Engineering, and a distinctive craft tradition tied to the Feria de Abril and Semana Santa. We now print directly in Seville, through a verified local maker who produces each piece and sends us quality-check photos before it's marked complete. Pick up your order at Av. Parsi 21 by appointment, or we'll ship it anywhere in the province. Human-confirmed quote in under one hour, direct WhatsApp communication, minimum order €10, no marketplace commission.",

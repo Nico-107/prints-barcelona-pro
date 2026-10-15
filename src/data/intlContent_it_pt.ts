@@ -118,7 +118,7 @@ export const itCityMilano: IntlCityContent = {
   city: "Milano",
   metaTitle: "Stampa 3D Online con Spedizione a Milano — Da 10 €",
   metaDescription:
-    "Servizio stampa 3D professionale con spedizione a Milano in solitamente 3–5 giorni lavorativi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Milano in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Milano",
   eyebrow: "Spedizione a Milano · Solitamente 3–5 giorni lavorativi",
 
@@ -185,7 +185,7 @@ export const itCityTorino: IntlCityContent = {
   city: "Torino",
   metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 10 €",
   metaDescription:
-    "Servizio stampa 3D professionale con spedizione a Torino in solitamente 3–5 giorni lavorativi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Torino in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Torino",
   eyebrow: "Spedizione a Torino · Solitamente 3–5 giorni lavorativi",
 
@@ -253,7 +253,7 @@ export const itCityRoma: IntlCityContent = {
   city: "Roma",
   metaTitle: "Stampa 3D Online con Spedizione a Roma — Da 10 €",
   metaDescription:
-    "Servizio stampa 3D professionale con spedizione a Roma in solitamente 3–5 giorni lavorativi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Roma in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Roma",
   eyebrow: "Spedizione a Roma · Solitamente 3–5 giorni lavorativi",
 
@@ -483,7 +483,7 @@ export const itGuideMaterials: IntlGuideContent = {
   topic: "materials",
   metaTitle: "Materiali per Stampa 3D FDM — PLA, PETG, ABS, Nylon",
   metaDescription:
-    "Guida completa ai materiali FDM: PLA, PETG, ABS e Nylon. Proprietà meccaniche, temperatura di esercizio",
+    "Guida ai materiali FDM: PLA, PETG, ABS e Nylon a confronto. Resistenza meccanica, temperatura, casi pratici. Scegli il materiale giusto per il tuo progetto.",
   h1: "Guida ai Materiali per Stampa 3D FDM",
   intro: `Scegliere il materiale giusto è uno dei passi più importanti per ottenere un pezzo stampato in 3D che soddisfi le tue esigenze. Ogni filamento ha un diverso equilibrio tra facilità di stampa, resistenza meccanica, resistenza termica e costo. Questa guida presenta le proprietà essenziali dei quattro materiali che utilizziamo, con indicazioni pratiche su quando scegliere ciascuno.`,
 
@@ -652,7 +652,7 @@ export const ptCityLisboa: IntlCityContent = {
   city: "Lisboa",
   metaTitle: "Impressão 3D com Envio para Lisboa — A partir de 10 €",
   metaDescription:
-    "Serviço de impressão 3D profissional com envio para Lisboa em habitualmente 2–4 dias úteis.",
+    "Impressão 3D FDM de Barcelona, envio para Lisboa em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.",
   h1: "Impressão 3D Online com Envio para Lisboa",
   eyebrow: "Envio para Lisboa · Habitualmente 2–4 dias úteis",
 
@@ -716,7 +716,7 @@ export const ptCityPorto: IntlCityContent = {
   city: "Porto",
   metaTitle: "Impressão 3D Online com Envio para o Porto",
   metaDescription:
-    "Serviço de impressão 3D profissional com envio para o Porto em habitualmente 2–4 dias úteis.",
+    "Impressão 3D FDM de Barcelona, envio para o Porto em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.",
   h1: "Impressão 3D Online com Envio para o Porto",
   eyebrow: "Envio para o Porto · Habitualmente 2–4 dias úteis",
 
@@ -941,7 +941,7 @@ export const ptGuideMaterials: IntlGuideContent = {
   topic: "materials",
   metaTitle: "Materiais para Impressão 3D FDM — PLA, PETG, ABS, Nylon",
   metaDescription:
-    "Guia completo dos materiais FDM: PLA, PETG, ABS e Nylon. Propriedades mecânicas, temperatura de serviço",
+    "Guia dos materiais FDM: PLA, PETG, ABS e Nylon comparados. Resistência, temperatura e casos práticos. Escolha o material certo para o seu projecto 3D.",
   h1: "Guia de Materiais para Impressão 3D FDM",
   intro: `Escolher o material certo é um dos passos mais importantes para obter uma peça impressa em 3D que satisfaça as suas necessidades. Cada filamento apresenta um equilíbrio diferente entre facilidade de impressão, resistência mecânica, resistência térmica e custo. Este guia apresenta as propriedades essenciais dos quatro materiais que utilizamos, com indicações práticas sobre quando escolher cada um.`,
 
