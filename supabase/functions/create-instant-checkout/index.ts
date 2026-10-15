@@ -704,7 +704,7 @@ serve(async (req: Request) => {
       v3Params.set("success_url", `${SITE_URL}${validReturnPath}?checkout=success`);
       v3Params.set("cancel_url", `${SITE_URL}${validReturnPath}?checkout=cancelled`);
 
-      const { ph_distinct_id, ph_session_id, utm_source, utm_medium, utm_content, utm_campaign, product_type, customer_ref } = body;
+      const { ph_distinct_id, ph_session_id, utm_source, utm_medium, utm_content, utm_campaign, product_type, customer_ref, source_path, page_language } = body;
       if (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) v3Params.set("metadata[ph_distinct_id]", ph_distinct_id.trim().slice(0, 500));
       if (typeof ph_session_id === "string" && ph_session_id.trim()) v3Params.set("metadata[ph_session_id]", ph_session_id.trim().slice(0, 500));
       if (typeof utm_source === "string" && utm_source.trim()) v3Params.set("metadata[utm_source]", utm_source.trim().slice(0, 100));
@@ -713,6 +713,8 @@ serve(async (req: Request) => {
       if (typeof utm_campaign === "string" && utm_campaign.trim()) v3Params.set("metadata[utm_campaign]", utm_campaign.trim().slice(0, 100));
       if (typeof product_type === "string" && product_type.trim()) v3Params.set("metadata[product_type]", product_type.trim().slice(0, 100));
       if (typeof customer_ref === "string" && customer_ref.trim()) v3Params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
+      if (typeof source_path === "string" && source_path.trim()) v3Params.set("metadata[source_path]", source_path.trim().slice(0, 200));
+      if (typeof page_language === "string" && page_language.trim()) v3Params.set("metadata[page_language]", page_language.trim().slice(0, 20));
 
       if (vBody.fulfillment === "shipping") {
         SHIP_COUNTRIES.forEach((c, i) => v3Params.set(`shipping_address_collection[allowed_countries][${i}]`, c));

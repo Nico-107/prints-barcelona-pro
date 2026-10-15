@@ -181,6 +181,8 @@ serve(async (req: Request) => {
               paymentMethod: "stripe",
               stripePaymentLink: null,
               pieces: orderPieces,
+              sourcePath: session.metadata?.source_path ?? null,
+              pageLanguage: session.metadata?.page_language ?? null,
             },
           },
         );

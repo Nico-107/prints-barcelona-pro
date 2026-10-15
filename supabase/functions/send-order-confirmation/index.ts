@@ -43,6 +43,9 @@ interface ConfirmationPayload {
   paymentMethod?: "stripe" | "bizum" | "transfer" | "cash" | null;
   stripePaymentLink?: string | null;
   pieces?: ConfirmationPiece[] | null;
+  // Source tracking (Item 6)
+  sourcePath?: string | null;
+  pageLanguage?: string | null;
 }
 
 const sanitize = (s: string): string =>
@@ -214,6 +217,8 @@ serve(async (req: Request) => {
       paymentMethod,
       stripePaymentLink,
       pieces,
+      sourcePath,
+      pageLanguage,
     } = payload;
 
     if (!orderNumber) {
@@ -326,6 +331,13 @@ serve(async (req: Request) => {
       </div>
 
       ${filesBlock}
+
+      ${(sourcePath || pageLanguage) ? `
+      <div style="background:#f0f9ff;padding:14px 16px;border-radius:8px;margin:16px 0;font-size:12px;color:#334155;">
+        <p style="font-weight:700;margin:0 0 6px 0;color:#0369a1;">Origen</p>
+        ${sourcePath ? `<p style="margin:2px 0;"><strong>Página:</strong> ${sanitize(sourcePath)}</p>` : ""}
+        ${pageLanguage ? `<p style="margin:2px 0;"><strong>Idioma:</strong> ${sanitize(pageLanguage)}</p>` : ""}
+      </div>` : ""}
     `);
 
     const adminResult = await sendEmail(
