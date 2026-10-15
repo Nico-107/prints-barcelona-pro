@@ -471,16 +471,23 @@ const CityDeliveryPage = ({ config }: Props) => {
 
         {/* Calculator */}
         <section id="calculator" className="container px-4 py-10">
-          <StlEstimator refCity={config.city} refDays={config.deliveryDays} refPickupAvailable={!!config.localPickup} />
-          {/* Show "coming soon" note for countries not in instant-checkout SHIP_COUNTRIES */}
           {(() => {
             const iso2 = COUNTRY_TO_ISO2[config.country];
-            const inShipCountries = iso2 && (SHIP_COUNTRIES as readonly string[]).includes(iso2);
-            if (inShipCountries || !iso2) return null;
+            const inShipCountries = !iso2 || (SHIP_COUNTRIES as readonly string[]).includes(iso2);
             return (
-              <p className="mt-4 text-sm text-muted-foreground text-center border border-border/50 rounded-lg px-4 py-3 bg-muted/20">
-                {t("city.instantCheckout.comingSoon")}
-              </p>
+              <>
+                <StlEstimator
+                  refCity={config.city}
+                  refDays={config.deliveryDays}
+                  refPickupAvailable={!!config.localPickup}
+                  forceQuoteOnly={!inShipCountries}
+                />
+                {!inShipCountries && (
+                  <p className="mt-4 text-sm text-muted-foreground text-center border border-border/50 rounded-lg px-4 py-3 bg-muted/20">
+                    {t("city.instantCheckout.comingSoon")}
+                  </p>
+                )}
+              </>
             );
           })()}
         </section>

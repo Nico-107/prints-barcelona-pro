@@ -19,6 +19,8 @@ export const DE_HUB: IntlHubContent = {
 
   h1: "3D-Druck Service – online bestellen, nach Deutschland geliefert",
 
+  heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Ab 10 €, kein Mindestvolumen.",
+
   promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 10 €.`,
 
   howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 100 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 5,90 €, egal wie viele Teile Sie bestellen.`,

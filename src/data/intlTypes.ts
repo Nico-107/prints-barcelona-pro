@@ -9,6 +9,7 @@ export interface IntlHubContent {
   metaDescription: string; // ≤155 chars
   eyebrow: string;
   h1: string;
+  heroSubtitle?: string;   // max 2 lines — shown in hero; full promise goes below calculator
   promise: string;
   howItWorks: string;
   whatWePrint: string;

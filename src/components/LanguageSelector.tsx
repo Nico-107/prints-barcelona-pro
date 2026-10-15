@@ -1,8 +1,10 @@
+import { useState, useRef, useEffect } from "react";
+import { Globe, Check } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 
-const LANG_HUB: Record<Language, string> = {
+export const LANG_HUB: Record<Language, string> = {
   es: "/",
   ca: "/ca",
   en: "/3d-printing-service",
@@ -13,25 +15,53 @@ const LANG_HUB: Record<Language, string> = {
   pt: "/pt/impressao-3d-online",
 };
 
+const LANG_LABELS: Record<Language, string> = {
+  es: "Español",
+  ca: "Català",
+  en: "English",
+  de: "Deutsch",
+  fr: "Français",
+  nl: "Nederlands",
+  it: "Italiano",
+  pt: "Português",
+};
+
+const ALL_LANGUAGES: Language[] = ["es", "ca", "en", "de", "fr", "nl", "it", "pt"];
+
 interface Props {
-  // Per-language slug map for the current landing page topic, resolved by
-  // Header.tsx from PAGES_BY_SLUG + SLUGS_BY_TOPIC. Undefined when the current
-  // page is not a landing page (homepage, static routes, etc.).
   landingTopicSlugs?: Partial<Record<string, string>>;
+  // Intl page hreflang pairs: lang → slug for the current page
+  hreflangMap?: Partial<Record<string, string>>;
 }
 
-const LanguageSelector = ({ landingTopicSlugs }: Props) => {
+const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
   const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
 
   const handleChange = (lang: Language) => {
+    setOpen(false);
     setLanguage(lang);
 
-    // City delivery pages: some have language-paired counterparts (Madrid:
-    // /madrid ES ↔ /3d-printing-madrid EN) and must navigate to altSlug.
-    // Other city pages (Paris, Berlin, …) are bilingual on the same URL —
-    // just swap the language state without navigating.
+    // City delivery pages
     const currentCityPage = CITY_PAGES.find((p) => p.slug === location.pathname);
     if (currentCityPage) {
       if (currentCityPage.altSlug && currentCityPage.altSlug !== location.pathname) {
@@ -40,94 +70,75 @@ const LanguageSelector = ({ landingTopicSlugs }: Props) => {
       return;
     }
 
-    // Landing pages: navigate to the equivalent slug in the new language.
-    // The slug map is computed in Header.tsx via PAGES_BY_SLUG + SLUGS_BY_TOPIC
-    // and passed as a prop so the lookup happens once per render, not per click.
-    // If no equivalent exists for this language (e.g. no CA version of a
-    // comparison page), fall back to just the setLanguage() call above — the
-    // user stays on the current URL with updated UI chrome rather than being
-    // sent to an unrelated page.
+    // Hreflang map from intl pages
+    if (hreflangMap) {
+      const target = hreflangMap[lang];
+      if (target && target !== location.pathname) {
+        navigate(target);
+        return;
+      }
+      // Fall through to hub
+      const hub = LANG_HUB[lang];
+      if (hub !== location.pathname) navigate(hub);
+      return;
+    }
+
+    // Landing pages
     if (landingTopicSlugs) {
       const target = landingTopicSlugs[lang];
       if (target && target !== location.pathname) {
         navigate(target);
-      } else if (!target) {
-        const hub = LANG_HUB[lang];
-        if (hub !== location.pathname) navigate(hub);
+        return;
       }
+      const hub = LANG_HUB[lang];
+      if (hub !== location.pathname) navigate(hub);
+      return;
     }
+
+    // Default: go to hub
+    const hub = LANG_HUB[lang];
+    if (hub !== location.pathname) navigate(hub);
   };
 
-  // Intl pages: show native lang | EN. Else: ES | EN | CA.
-  const langs: { code: Language; label: string; aria: string }[] =
-    language === "fr"
-      ? [
-          { code: "fr", label: "FR", aria: "Français" },
-          { code: "en", label: "EN", aria: "English" },
-        ]
-      : language === "nl"
-      ? [
-          { code: "nl", label: "NL", aria: "Nederlands" },
-          { code: "en", label: "EN", aria: "English" },
-        ]
-      : language === "de"
-      ? [
-          { code: "de", label: "DE", aria: "Deutsch" },
-          { code: "en", label: "EN", aria: "English" },
-        ]
-      : language === "it"
-      ? [
-          { code: "it", label: "IT", aria: "Italiano" },
-          { code: "en", label: "EN", aria: "English" },
-        ]
-      : language === "pt"
-      ? [
-          { code: "pt", label: "PT", aria: "Português" },
-          { code: "en", label: "EN", aria: "English" },
-        ]
-      : [
-          { code: "es", label: "ES", aria: "Español" },
-          { code: "en", label: "EN", aria: "English" },
-          { code: "ca", label: "CA", aria: "Català" },
-        ];
-
   return (
-    <div className="flex items-center gap-1 text-sm">
-      {langs.map((l, i) => {
-        const isActive = language === l.code;
-        const className = `px-2 py-1 rounded transition-colors ${
-          isActive
-            ? "bg-primary text-primary-foreground font-medium"
-            : "text-muted-foreground hover:text-foreground"
-        }`;
-        // For CA, render a real <a href> when a target slug is known so
-        // crawlers can follow it to discover Catalan pages.
-        if (l.code === "ca" && !isActive) {
-          const caTarget = landingTopicSlugs?.ca;
-          if (caTarget) {
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1.5 px-2 py-1.5 rounded text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors min-h-[44px] min-w-[44px]"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={`Language: ${LANG_LABELS[language]}`}
+      >
+        <Globe className="w-4 h-4 shrink-0" />
+        <span className="uppercase text-xs font-semibold">{language}</span>
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 top-full mt-1 z-50 bg-background border border-border rounded-lg shadow-lg py-1 min-w-[160px]"
+        >
+          {ALL_LANGUAGES.map((lang) => {
+            const isActive = language === lang;
             return (
-              <span key={l.code} className="flex items-center gap-1">
-                <span className="text-muted-foreground/50">|</span>
-                <a href={caTarget} className={className} aria-label={l.aria} onClick={(e) => { e.preventDefault(); handleChange(l.code); }}>
-                  {l.label}
-                </a>
-              </span>
+              <button
+                key={lang}
+                role="menuitem"
+                aria-current={isActive ? "true" : undefined}
+                onClick={() => handleChange(lang)}
+                className={`w-full flex items-center justify-between gap-2 px-4 py-2.5 text-sm text-left min-h-[44px] transition-colors ${
+                  isActive
+                    ? "text-foreground font-medium bg-muted/50"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
+                }`}
+              >
+                <span>{LANG_LABELS[lang]}</span>
+                {isActive && <Check className="w-4 h-4 text-primary shrink-0" />}
+              </button>
             );
-          }
-        }
-        return (
-          <span key={l.code} className="flex items-center gap-1">
-            {i > 0 && <span className="text-muted-foreground/50">|</span>}
-            <button
-              onClick={() => handleChange(l.code)}
-              className={className}
-              aria-label={l.aria}
-            >
-              {l.label}
-            </button>
-          </span>
-        );
-      })}
+          })}
+        </div>
+      )}
     </div>
   );
 };

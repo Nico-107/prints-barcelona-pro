@@ -395,7 +395,7 @@ export const frTranslations: Record<string, string> = {
   "calc.instantBuy.shipping.print": "Impression",
   "calc.instantBuy.shipping.surcharge": "Livraison",
   "calc.instantBuy.shipping.total": "Total",
-  "calc.instantBuy.buyNow": "Acheter maintenant — €{price}",
+  "calc.instantBuy.buyNow": "Acheter maintenant — {price}",
   "calc.instantBuy.buyNow.from": "Acheter maintenant — à partir de {price}",
   "calc.instantBuy.manualReview": "Que notre équipe le vérifie d'abord",
   "calc.instantBuy.manualReview.short": "Révision gratuite",
@@ -792,4 +792,8 @@ export const frTranslations: Record<string, string> = {
   "footer.returnPolicy": "Politique de retour",
   "footer.forBusiness": "Pour les entreprises",
   "footer.guides": "Guides",
+  "lang.suggest.text": "Cette page existe en Français → Changer",
+  "lang.suggest.switch": "Changer",
+  "lang.suggest.dismiss": "Non merci",
+  "footer.outsideEU": "Hors UE",
 };

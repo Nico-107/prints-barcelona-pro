@@ -205,12 +205,12 @@ const IntlHubPage = ({ content }: Props) => {
                 {content.eyebrow}
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
                 {content.h1}
               </h1>
 
-              <p className="text-lg md:text-xl text-primary-foreground/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-                {content.promise}
+              <p className="text-base md:text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto leading-relaxed">
+                {content.heroSubtitle ?? content.promise}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -241,6 +241,22 @@ const IntlHubPage = ({ content }: Props) => {
           </div>
         </section>
 
+        {/* Calculator — immediately after hero so upload CTA is near top */}
+        <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
+          <div className="container px-4 max-w-5xl mx-auto">
+            <StlEstimator />
+          </div>
+        </section>
+
+        {/* Full intro / promise text (moved below calculator for SEO, above fold already covered by hero) */}
+        {content.heroSubtitle && (
+          <section className="py-12 bg-background">
+            <div className="container px-4 max-w-4xl mx-auto">
+              {renderProse(content.promise)}
+            </div>
+          </section>
+        )}
+
         {/* How ordering works */}
         <section className="py-16 bg-background">
           <div className="container px-4 max-w-4xl mx-auto">
@@ -248,15 +264,8 @@ const IntlHubPage = ({ content }: Props) => {
           </div>
         </section>
 
-        {/* Calculator */}
-        <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
-          <div className="container px-4 max-w-5xl mx-auto">
-            <StlEstimator />
-          </div>
-        </section>
-
         {/* What we print */}
-        <section className="py-16 bg-background">
+        <section className="py-16 bg-muted/30">
           <div className="container px-4 max-w-4xl mx-auto">
             {renderProse(content.whatWePrint)}
           </div>
