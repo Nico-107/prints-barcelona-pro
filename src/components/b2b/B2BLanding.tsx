@@ -467,7 +467,11 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
   const endRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
-  // 75% page read tracking
+  // Page view + 75% read tracking
+  useEffect(() => {
+    capture("b2b_page_view", { lang });
+  }, [lang]);
+
   useEffect(() => {
     const el = endRef.current;
     if (!el) return;
@@ -1161,12 +1165,15 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       </main>
 
       <Footer />
-      {!stickyBarVisible && <WhatsAppFloat />}
+      {/* WhatsApp float: always on desktop, hidden on mobile only when sticky bar is up */}
+      <div className={cn(!stickyBarVisible ? "" : "hidden md:block")}>
+        <WhatsAppFloat />
+      </div>
 
-      {/* ── Sticky bottom CTA bar (B2B pages only, after hero scrolls out) ── */}
+      {/* ── Sticky bottom CTA bar (mobile only, after hero scrolls out) ── */}
       {stickyBarVisible && (
         <div
-          className="fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur-sm border-t border-border flex gap-2 px-3 pt-3"
+          className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur-sm border-t border-border flex gap-2 px-3 pt-3"
           style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
           role="toolbar"
           aria-label={lang === "es" ? "Acciones rápidas" : lang === "ca" ? "Accions ràpides" : "Quick actions"}
