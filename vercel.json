@@ -1,5 +1,7 @@
 {
   "redirects": [
+    { "source": "/impresion-3d-barcelona", "destination": "/", "permanent": true },
+    { "source": "/ca/impressio-3d-barcelona", "destination": "/ca/", "permanent": true },
     { "source": "/impresion-3d-madrid", "destination": "/madrid", "permanent": true },
     { "source": "/impresion-3d-con-entrega-a-madrid", "destination": "/madrid", "permanent": true },
     { "source": "/catalogo/placa-mascota", "destination": "/catalogo/placa-nombre", "permanent": true }
