@@ -392,7 +392,13 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
         to: recipients,
-        subject: `[REVISIÓN] Cliente envió archivo — ${safeMaterial} · ${priceExact != null ? `€${Number(priceExact).toFixed(2)}` : `€${Math.round(priceLow ?? 0)}–€${Math.round(priceHigh ?? 0)}`}`,
+        subject: (() => {
+          const lang = (pageLanguage ?? safeLang ?? "es").toLowerCase();
+          const flag = lang === "en" ? "🇬🇧" : lang === "de" ? "🇩🇪" : lang === "fr" ? "🇫🇷" : lang === "it" ? "🇮🇹" : lang === "nl" ? "🇳🇱" : lang === "pt" ? "🇵🇹" : "🇪🇸";
+          const path = sourcePath ? sourcePath : "web";
+          const price = priceExact != null ? `€${Number(priceExact).toFixed(2)}` : `€${Math.round(priceLow ?? 0)}–€${Math.round(priceHigh ?? 0)}`;
+          return `[REVISIÓN] ${flag} ${lang.toUpperCase()} · ${path} — ${safeMaterial} · ${price}`;
+        })(),
         html: `
           <div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;color:#0f172a;">
             <h1 style="color:#0f172a;font-size:20px;margin-bottom:4px;">Nueva solicitud de presupuesto</h1>
