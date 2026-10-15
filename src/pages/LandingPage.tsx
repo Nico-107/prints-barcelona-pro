@@ -238,8 +238,19 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <meta name="description" content={page.metaDescription} />
         <link rel="canonical" href={url} />
         {topicSlugs.en && <link rel="alternate" hrefLang="en" href={`${SITE_URL}${topicSlugs.en}`} />}
-        {topicSlugs.es && <link rel="alternate" hrefLang="es" href={`${SITE_URL}${topicSlugs.es}`} />}
-        {topicSlugs.ca && <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${topicSlugs.ca}`} />}
+        {/* For EN pages whose ES twin is the homepage (altSlug="/"), the topic registry has no ES entry */}
+        {(topicSlugs.es
+          ? <link rel="alternate" hrefLang="es" href={`${SITE_URL}${topicSlugs.es}`} />
+          : (!isEs && !isCa && page.altSlug === "/"
+              ? <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
+              : null)
+        )}
+        {(topicSlugs.ca
+          ? <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${topicSlugs.ca}`} />
+          : (!isEs && !isCa && page.altSlug === "/"
+              ? <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/ca/`} />
+              : null)
+        )}
         {topicSlugs.de && <link rel="alternate" hrefLang="de" href={`${SITE_URL}${topicSlugs.de}`} />}
         {topicSlugs.en && <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${topicSlugs.en}`} />}
         <meta property="og:title" content={page.metaTitle} />
