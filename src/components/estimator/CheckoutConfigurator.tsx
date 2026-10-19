@@ -405,7 +405,7 @@ export function CheckoutConfigurator({
             <div>
               <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.notes.label")}</label>
               <textarea value={notesText} onChange={e => onNotesChange(e.target.value)} placeholder={t("calc.notes.placeholder")}
-                disabled={disabled} rows={3}
+                disabled={disabled} rows={3} data-ph-mask
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 resize-none" />
               <p className="text-xs text-muted-foreground mt-1">{t("calc.notes.reviewHint")}</p>
             </div>
@@ -418,7 +418,7 @@ export function CheckoutConfigurator({
         <div>
           <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.notes.label")}</label>
           <textarea value={notesText} onChange={e => onNotesChange(e.target.value)} placeholder={t("calc.notes.placeholder")}
-            disabled={disabled} rows={3}
+            disabled={disabled} rows={3} data-ph-mask
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 resize-none" />
           <p className="text-xs text-muted-foreground mt-1">{t("calc.notes.reviewHint")}</p>
         </div>

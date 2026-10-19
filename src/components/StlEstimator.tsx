@@ -1817,6 +1817,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     onChange={e => setContactEmail(e.target.value)}
                     placeholder={t("calc.exitIntent.email")}
                     disabled={exitIntentSubmitting}
+                    data-ph-mask
                     className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                   />
                   <input
@@ -1825,6 +1826,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     onChange={e => setContactPhone(e.target.value)}
                     placeholder={t("calc.exitIntent.phone")}
                     disabled={exitIntentSubmitting}
+                    data-ph-mask
                     className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                   />
                   {exitIntentError && (
