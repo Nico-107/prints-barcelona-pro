@@ -92,10 +92,10 @@ const InternationalServicePage = () => {
   <div className="min-h-screen bg-background">
     <Helmet>
       <html lang="en" />
-      <title>Professional 3D Printing Service — Fast EU Delivery</title>
+      <title>Online 3D Printing Service in Spain &amp; EU — From €10</title>
       <meta
         name="description"
-        content="Professional FDM 3D printing in Barcelona, shipping across Europe and worldwide. Upload STL, instant quote, 3-7 day delivery. From €10."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain &amp; EU. 250+ orders, from €10, no setup fee."
       />
       <link rel="canonical" href={PAGE_URL} />
       <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
@@ -107,19 +107,19 @@ const InternationalServicePage = () => {
       <link rel="alternate" hrefLang="it" href={`${SITE_URL}/it/stampa-3d-online`} />
       <link rel="alternate" hrefLang="pt" href={`${SITE_URL}/pt/impressao-3d-online`} />
       <link rel="alternate" hrefLang="x-default" href={PAGE_URL} />
-      <meta property="og:title" content="Professional 3D Printing Service — Fast Delivery Across Europe" />
+      <meta property="og:title" content="Online 3D Printing Service in Spain & EU — From €10" />
       <meta
         property="og:description"
-        content="Professional FDM 3D printing in Barcelona, shipping across Europe and worldwide. Upload STL, instant quote, 3-7 day delivery. From €10."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from €10, no setup fee."
       />
       <meta property="og:url" content={PAGE_URL} />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:image" content={SOCIAL_IMAGE_URL} />
-      <meta name="twitter:title" content="Professional 3D Printing Service — Fast Delivery Across Europe" />
+      <meta name="twitter:title" content="Online 3D Printing Service in Spain & EU — From €10" />
       <meta
         name="twitter:description"
-        content="Professional FDM 3D printing in Barcelona, shipping across Europe and worldwide. Upload STL, instant quote, 3-7 day delivery. From €10."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from €10, no setup fee."
       />
       <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>

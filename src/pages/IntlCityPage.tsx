@@ -69,6 +69,8 @@ const IntlCityPage = ({ content }: Props) => {
     description: content.metaDescription,
     inLanguage: content.locale,
     url: PAGE_URL,
+    dateModified: "2026-10-15",
+    datePublished: "2026-08-01",
     publisher: {
       "@type": "Organization",
       name: "Dimension3D",

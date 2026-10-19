@@ -30,7 +30,7 @@ const NotFound = () => {
               Calcular precio
             </Link>
             <Link
-              to="/impresion-3d-barcelona"
+              to="/"
               className="inline-flex items-center justify-center rounded-lg border border-border bg-card text-foreground px-5 py-2.5 text-sm font-semibold hover:border-accent/50 transition-colors"
             >
               Impresión 3D Barcelona

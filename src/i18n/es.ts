@@ -599,7 +599,7 @@ export const esTranslations: Record<string, string> = {
 
   // Quality Guarantee / Returns policy page
   "returns.meta.title": "Garantía de Calidad",
-  "returns.meta.description": "Si tu impresión llega con un defecto o no coincide con el presupuesto, cuéntanoslo en 7 días y lo resolvemos sin coste.",
+  "returns.meta.description": "Garantía de calidad en impresión 3D: si la pieza llega con defecto o no coincide con el presupuesto, cuéntanoslo en 7 días y lo resolvemos sin coste adicional.",
   "returns.back": "← Volver al inicio",
   "returns.title": "Garantía de Calidad",
   "returns.body": "Si tu impresión llega con un defecto o no coincide con lo presupuestado — por error nuestro, no por una limitación de diseño o material que ya te habíamos comunicado — cuéntanoslo en 7 días desde la entrega y lo resolvemos sin coste para ti. Los casos fuera de ese supuesto (errores de medida del cliente, elección de color o material, etc.) los gestionamos caso a caso — escríbenos y lo hablamos.",

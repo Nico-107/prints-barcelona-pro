@@ -10,9 +10,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
-import { ACTIVE_CITY, whatsappUrl, PICKUP_ADDRESS } from "@/config/cities";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
-import { GOOGLE_RATING } from "@/data/rating";
+import { ORGANIZATION_SCHEMA } from "@/seo/entities";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -55,27 +55,7 @@ const faqSchema = {
   })),
 };
 
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${SITE_URL}/#organization`,
-  name: "Dimension3D",
-  url: SITE_URL,
-  image: SOCIAL_IMAGE_URL,
-  priceRange: "€€",
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: String(GOOGLE_RATING.value),
-    reviewCount: String(GOOGLE_RATING.count),
-    bestRating: "5",
-  },
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: PICKUP_ADDRESS.street,
-    addressLocality: "Barcelona",
-    addressCountry: "ES",
-  },
-};
+const localBusinessSchema = ORGANIZATION_SCHEMA;
 
 const PART_EXAMPLES = [
   { type: "Clips y retenes de plástico", weight: "3–15 g", price: "10–12€", mat: "PETG" },

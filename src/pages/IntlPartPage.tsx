@@ -60,6 +60,8 @@ const IntlPartPage = ({ content }: Props) => {
     description: content.metaDescription,
     inLanguage: content.locale,
     url: PAGE_URL,
+    dateModified: "2026-10-15",
+    datePublished: "2026-08-01",
     author: AUTHOR_REF,
     publisher: PUBLISHER_REF,
     image: SOCIAL_IMAGE_URL,
