@@ -201,6 +201,20 @@ interface PartResetClickProps {
   // no extra fields
 }
 
+// ---- New events (Prompt 17) ----
+
+interface BuyBlockedProps {
+  reason?: "no_fulfillment" | "invalid_email" | "uploading";
+}
+
+interface ReviewBlockedProps {
+  reason?: "missing_contact" | "exit_intent_missing_contact";
+}
+
+interface CheckoutReturnedProps {
+  result?: "success" | "cancelled";
+}
+
 // ---- Master map ----
 
 export interface EventMap {
@@ -252,6 +266,9 @@ export interface EventMap {
   option_chosen: { group: 'quality' | 'strength' | 'supports' | 'orientation' | 'material' | 'colour'; value: string };
   review_blocked_missing_contact: { code: string };
   checkout_reopened: Record<string, never>;
+  buy_blocked: BuyBlockedProps;
+  review_blocked: ReviewBlockedProps;
+  checkout_returned: CheckoutReturnedProps;
 
   // Legacy / page-level events already used across the site
   quote_cta_click: QuoteCtaClickProps;
