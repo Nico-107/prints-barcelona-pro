@@ -798,4 +798,13 @@ export const caTranslations: Record<string, string> = {
   "lang.suggest.switch": "Canviar",
   "lang.suggest.dismiss": "No, gràcies",
   "footer.outsideEU": "Fora de la UE",
+  "survey.exit.title": "Què t'ha aturat?",
+  "survey.exit.reason.price": "El preu",
+  "survey.exit.reason.shipping": "L'enviament",
+  "survey.exit.reason.material": "Els materials",
+  "survey.exit.reason.talk": "Vull parlar amb algú",
+  "survey.exit.reason.browsing": "Només estic mirant",
+  "survey.exit.reason.other": "Un altre motiu",
+  "survey.exit.thanks": "Gràcies per la teva resposta!",
+  "survey.exit.whatsapp": "Xerrar per WhatsApp",
 };

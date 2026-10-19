@@ -799,4 +799,13 @@ export const nlTranslations: Record<string, string> = {
   "lang.suggest.switch": "Wijzigen",
   "lang.suggest.dismiss": "Nee bedankt",
   "footer.outsideEU": "Buiten de EU",
+  "survey.exit.title": "Wat heeft je tegengehouden?",
+  "survey.exit.reason.price": "De prijs",
+  "survey.exit.reason.shipping": "Verzending",
+  "survey.exit.reason.material": "De materialen",
+  "survey.exit.reason.talk": "Ik wil met iemand praten",
+  "survey.exit.reason.browsing": "Ik kijk alleen",
+  "survey.exit.reason.other": "Iets anders",
+  "survey.exit.thanks": "Bedankt voor je reactie!",
+  "survey.exit.whatsapp": "Chatten via WhatsApp",
 };

@@ -4,6 +4,7 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { ArrowRight, BookOpen, Building2, GraduationCap, Package, Star, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { useSectionView } from "@/hooks/usePageTracking";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
@@ -176,6 +177,22 @@ const Index = () => {
   const [calcHighlight, setCalcHighlight] = useState(false);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Section view tracking
+  const heroRef = useRef<HTMLDivElement>(null);
+  const howItWorksRef = useRef<HTMLDivElement>(null);
+  const calculatorRef = useRef<HTMLDivElement>(null);
+  const reviewsRef = useRef<HTMLElement>(null);
+  const materialsRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
+  const b2bRef = useRef<HTMLDivElement>(null);
+  useSectionView(heroRef, "hero");
+  useSectionView(howItWorksRef, "how-it-works");
+  useSectionView(calculatorRef, "calculator");
+  useSectionView(reviewsRef, "reviews");
+  useSectionView(materialsRef, "materials");
+  useSectionView(faqRef, "faq");
+  useSectionView(b2bRef, "b2b");
+
   useEffect(() => {
     return () => {
       if (highlightTimerRef.current !== null) clearTimeout(highlightTimerRef.current);
@@ -265,9 +282,9 @@ const Index = () => {
       <LaunchOfferBanner />
       <Header />
       <main className="pt-16">
-        <Hero onScrollToCalc={handleScrollToCalc} />
-        <HowItWorks />
-        <StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} />
+        <div ref={heroRef}><Hero onScrollToCalc={handleScrollToCalc} /></div>
+        <div ref={howItWorksRef}><HowItWorks /></div>
+        <div ref={calculatorRef}><StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} /></div>
 
         {/* No-file alternative path */}
         <section className="py-14 md:py-16 bg-foreground text-background">
@@ -290,7 +307,7 @@ const Index = () => {
         </section>
 
         <WhatCanWePrint />
-        <Materials />
+        <div ref={materialsRef}><Materials /></div>
         <WhyChooseUs />
         <Projects />
 
@@ -298,7 +315,7 @@ const Index = () => {
         {(() => {
           const copy = GOOGLE_REVIEWS_COPY[language] ?? GOOGLE_REVIEWS_COPY.es;
           return (
-            <section className="py-14 md:py-16 bg-secondary/30">
+            <section ref={reviewsRef} className="py-14 md:py-16 bg-secondary/30">
               <div className="container px-4 max-w-5xl mx-auto">
                 <div className="text-center mb-8">
                   <div className="inline-flex items-center gap-2 mb-2">
@@ -369,11 +386,11 @@ const Index = () => {
           );
         })()}
 
-        <BusinessCTA />
+        <div ref={b2bRef}><BusinessCTA /></div>
         <PricingInfo />
         <ServiceInfo />
         <ExpressPrinting />
-        <FAQ />
+        <div ref={faqRef}><FAQ /></div>
         <LocationMap />
         <CallToAction />
 

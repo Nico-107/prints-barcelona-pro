@@ -799,4 +799,13 @@ export const frTranslations: Record<string, string> = {
   "lang.suggest.switch": "Changer",
   "lang.suggest.dismiss": "Non merci",
   "footer.outsideEU": "Hors UE",
+  "survey.exit.title": "Qu'est-ce qui vous a arrêté ?",
+  "survey.exit.reason.price": "Le prix",
+  "survey.exit.reason.shipping": "La livraison",
+  "survey.exit.reason.material": "Les matériaux",
+  "survey.exit.reason.talk": "Je veux parler à quelqu'un",
+  "survey.exit.reason.browsing": "Je regarde seulement",
+  "survey.exit.reason.other": "Autre chose",
+  "survey.exit.thanks": "Merci pour votre réponse !",
+  "survey.exit.whatsapp": "Discuter sur WhatsApp",
 };

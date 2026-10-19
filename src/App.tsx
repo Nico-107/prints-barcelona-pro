@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageContext";
 import LanguageSuggestionBar from "@/components/LanguageSuggestionBar";
 import { capture, updatePageContext } from "@/lib/analytics";
+import { usePageTracking } from "@/hooks/usePageTracking";
 import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import NotFound from "./pages/NotFound";
@@ -110,6 +111,7 @@ function PostHogPageView() {
     updatePageContext({ page_type: inferPageType(location.pathname) });
     capture("$pageview");
   }, [location.pathname]); // intentionally excludes location.search
+  usePageTracking();
   return null;
 }
 

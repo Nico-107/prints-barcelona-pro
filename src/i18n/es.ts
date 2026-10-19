@@ -798,4 +798,13 @@ export const esTranslations: Record<string, string> = {
   "lang.suggest.switch": "Cambiar",
   "lang.suggest.dismiss": "No, gracias",
   "footer.outsideEU": "Fuera de la UE",
+  "survey.exit.title": "¿Qué te ha frenado?",
+  "survey.exit.reason.price": "El precio",
+  "survey.exit.reason.shipping": "El envío",
+  "survey.exit.reason.material": "Los materiales",
+  "survey.exit.reason.talk": "Quiero hablar con alguien",
+  "survey.exit.reason.browsing": "Solo estoy mirando",
+  "survey.exit.reason.other": "Otro motivo",
+  "survey.exit.thanks": "¡Gracias por tu respuesta!",
+  "survey.exit.whatsapp": "Hablar por WhatsApp",
 };

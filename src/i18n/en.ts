@@ -798,4 +798,13 @@ export const enTranslations: Record<string, string> = {
   "lang.suggest.switch": "Switch",
   "lang.suggest.dismiss": "No thanks",
   "footer.outsideEU": "Outside the EU",
+  "survey.exit.title": "What stopped you?",
+  "survey.exit.reason.price": "The price",
+  "survey.exit.reason.shipping": "Shipping",
+  "survey.exit.reason.material": "Materials",
+  "survey.exit.reason.talk": "I want to talk to someone",
+  "survey.exit.reason.browsing": "Just browsing",
+  "survey.exit.reason.other": "Something else",
+  "survey.exit.thanks": "Thanks for letting us know!",
+  "survey.exit.whatsapp": "Chat on WhatsApp",
 };

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, lazy, Suspense, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
+import { ExitReasonCard, hasExitSurveyBeenShown, markLeadSubmitted, hasLeadBeenSubmitted } from "@/components/ExitReasonCard";
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
@@ -97,21 +98,27 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
-  // Fire calculator_seen when section is ≥50% visible
+  // Fire calculator_seen and upload_area_view when section is ≥50% visible
   useEffect(() => {
     if (adminMode) return;
     const section = document.getElementById("calculator");
     if (!section) return;
-    let fired = false;
+    let calcFired = false;
+    let uploadFired = false;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (fired) return;
         const entry = entries[0];
         if (entry.intersectionRatio >= 0.5) {
-          fired = true;
-          observer.disconnect();
           const pageType = window.location.pathname === "/" || window.location.pathname === "/ca" ? "home" : "page";
-          capture("calculator_seen", { page_type: pageType });
+          if (!calcFired) {
+            calcFired = true;
+            capture("calculator_seen", { page_type: pageType });
+          }
+          if (!uploadFired) {
+            uploadFired = true;
+            capture("upload_area_view", { page_type: pageType });
+          }
+          if (calcFired && uploadFired) observer.disconnect();
         }
       },
       { threshold: 0.5 }
@@ -215,6 +222,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [exitIntentError, setExitIntentError] = useState<string | null>(null);
   const exitIntentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitIntentCloseReasonRef = useRef<"recovered" | "dismissed" | null>(null);
+  const modalOpenTimeRef = useRef<number | null>(null);
+  const [showExitSurvey, setShowExitSurvey] = useState(false);
+  const exitSurveyPriceBucket = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     if (showExitIntent) {
@@ -257,7 +267,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     ? chargedPrice + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0)
     : null;
 
-  const processFiles = async (newFiles: File[]) => {
+  const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
     const remaining = MAX_FILES - parsedFiles.length;
     if (remaining <= 0) {
       setError(t("calc.error.maxFiles"));
@@ -271,6 +281,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       : null
     );
 
+    capture("upload_started", { method, file_count: toProcess.length });
+    const uploadStartMs = Date.now();
+
     // Reset per-estimate refs — new files mean a fresh estimate and upload
     uploadedRef.current = null;
     setPreUploadDone(false);
@@ -281,15 +294,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     for (const f of toProcess) {
       const id = Math.random().toString(36).slice(2, 10);
+      const ext = f.name.split(".").pop()?.toLowerCase() ?? "unknown";
 
       if (!f.name.toLowerCase().endsWith(".stl")) {
-        const fileExt = f.name.split(".").pop()?.toLowerCase() ?? "unknown";
-        capture("file_upload_error", { reason: "not_stl", file_type: fileExt });
+        capture("file_upload_error", { reason: "not_stl", file_type: ext });
+        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "not_stl" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.notStl") });
         continue;
       }
       if (f.size > MAX_ESTIMATE_BYTES) {
         capture("file_upload_error", { reason: "size_exceeded", file_type: "stl" });
+        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "size_exceeded" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.size") });
         continue;
       }
@@ -300,12 +315,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const volumeMm3 = analysis.volumeMm3;
         if (analysis.triangles === 0 || volumeMm3 === 0) {
           capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
+          capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "parse_error" });
           results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
         } else {
+          capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext: "stl" });
           results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: f, analysis });
         }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
+        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "exception" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
       }
       await new Promise(r => setTimeout(r, 0));
@@ -320,6 +338,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
       const nextBundle = computeBundleV3(nextFiles, nextDefaults, urgency);
       if (nextBundle) {
+        const priceMid = (nextBundle.low + nextBundle.high) / 2;
+        const priceBucket = priceMid < 15 ? "<15" : priceMid < 30 ? "15-30" : priceMid < 60 ? "30-60" : priceMid < 100 ? "60-100" : ">100";
+        capture("estimate_shown", {
+          price_eur_bucket: priceBucket as "<15" | "15-30" | "30-60" | "60-100" | ">100",
+          time_to_price_ms: Date.now() - uploadStartMs,
+          file_count: nextFiles.filter(f => !f.parseError).length,
+        });
         estimateShownRef.current = true;
         capture('estimate_generated', {
           material: materialKey,
@@ -436,12 +461,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     e.preventDefault();
     setIsDragging(false);
     const files = Array.from(e.dataTransfer.files);
-    if (files.length > 0) processFiles(files);
+    if (files.length > 0) processFiles(files, "drop");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
-    if (files.length > 0) processFiles(files);
+    if (files.length > 0) processFiles(files, "click");
     e.target.value = "";
   };
 
@@ -512,6 +537,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   };
 
   const handleWhatsApp = () => {
+    capture('whatsapp_from_modal', { source: 'calculator' });
     capture('whatsapp_click', { source: 'calculator', location: 'calculator', path: window.location.pathname });
     const msg =
       language === "ca" ? "Hola, m'agradaria obtenir un pressupost exacte per als meus arxius 3D." :
@@ -539,6 +565,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setParsedFiles(prev => prev.map(f => f.id !== id ? { ...f, settings: undefined } : f));
     setScope("all");
   };
+
+  const handleMaterialChange = (v: string) => { setMaterialKey(v); capture('config_changed', { field: 'material', value: v }); };
+  const handleUrgencyChange = (v: "standard" | "express" | "urgent") => { setUrgency(v); capture('config_changed', { field: 'urgency', value: v }); };
+  const handleColorChange = (v: string) => { setColorPref(v); capture('config_changed', { field: 'colour', value: v }); };
+  const handleQualityChange = (v: typeof quality) => { setQuality(v); capture('config_changed', { field: 'quality', value: v }); };
 
   const clearFieldFromAllParts = (field: keyof PartSettings): number => {
     const count = parsedFiles.filter(f => f.settings != null && field in f.settings).length;
@@ -606,6 +637,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   }, []);
 
   const handleInstantBuy = async () => {
+    const priceMidForBucket = bundle ? (bundle.low + bundle.high) / 2 : 0;
+    const bucket = priceMidForBucket < 15 ? "<15" : priceMidForBucket < 30 ? "15-30" : priceMidForBucket < 60 ? "30-60" : priceMidForBucket < 100 ? "60-100" : ">100";
+    capture('buy_clicked', { price_eur_bucket: bucket });
     if (fulfillment === null) {
       capture('buy_blocked', { reason: 'no_fulfillment' });
       setFulfillmentAttempted(true);
@@ -691,6 +725,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         pricing_version: 3,
         quality: uniformQuality,
       });
+      capture('stripe_redirect', { price_eur: chargedPrice, fulfillment: fulfillment ?? undefined });
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
@@ -700,6 +735,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   };
 
   const handleManualReview = () => {
+    capture('review_clicked', { source: 'modal' });
     const cc = checkContact(contactEmail, contactPhone);
     setContactTouched(true);
     if (!cc.ok) {
@@ -894,6 +930,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setIsSubmittedQuote(true);
       setShowManualReview(false);
       setIsSubmittingQuote(false);
+      markLeadSubmitted();
     } catch (err: any) {
       if (slowTimerRef.current) { clearTimeout(slowTimerRef.current); slowTimerRef.current = null; }
       setUploadState("failed");
@@ -1142,12 +1179,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             disabled={isCheckingOut || isSubmittingQuote}
             t={t}
             materialOptions={materialOptions}
-            onMaterialChange={setMaterialKey}
-            onColorChange={setColorPref}
+            onMaterialChange={handleMaterialChange}
+            onColorChange={handleColorChange}
             onInfillChange={setInfillPct}
             onWallLoopsChange={setWallLoops}
             onMulticolourChange={setMulticolour}
-            onUrgencyChange={setUrgency}
+            onUrgencyChange={handleUrgencyChange}
             onAdvancedModeChange={setAdvancedMode}
           />
         </div>
@@ -1351,15 +1388,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 advancedMode={advancedMode}
                 onAdvancedModeChange={setAdvancedMode}
                 materialKey={materialKey}
-                onMaterialChange={setMaterialKey}
+                onMaterialChange={handleMaterialChange}
                 activeUseCase={activeUseCase}
                 onUseCaseChange={setActiveUseCase}
                 colorPref={colorPref}
-                onColorChange={setColorPref}
+                onColorChange={handleColorChange}
                 notesText={notesText}
                 onNotesChange={setNotesText}
                 quality={quality}
-                onQualityChange={setQuality}
+                onQualityChange={handleQualityChange}
                 infillPct={infillPct}
                 wallLoops={wallLoops}
                 onInfillChange={setInfillPct}
@@ -1369,7 +1406,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 orientation={orientation}
                 onOrientationChange={setOrientation}
                 urgency={urgency}
-                onUrgencyChange={setUrgency}
+                onUrgencyChange={handleUrgencyChange}
                 materialOptions={materialOptions}
                 disabled={false}
                 t={t}
@@ -1465,7 +1502,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           onApplyToAll: handleApplyToAll,
           fulfillment,
           fulfillmentAttempted,
-          onFulfillmentChange: (v: "pickup" | "shipping") => { setFulfillment(v); setFulfillmentAttempted(false); },
+          onFulfillmentChange: (v: "pickup" | "shipping") => { setFulfillment(v); setFulfillmentAttempted(false); capture('fulfillment_chosen', { type: v }); },
           pickupCity,
           contactEmail,
           contactPhone,
@@ -1473,8 +1510,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           quoteError,
           checkoutError,
           oversizedFiles,
-          onContactEmailChange: setContactEmail,
-          onContactPhoneChange: setContactPhone,
+          onContactEmailChange: (v: string) => { setContactEmail(v); if (v.length === 1) capture('contact_entered', { field: 'email' }); },
+          onContactPhoneChange: (v: string) => { setContactPhone(v); if (v.length === 1) capture('contact_entered', { field: 'phone' }); },
           advancedMode,
           instantBuyEligible,
           isCheckingOut,
@@ -1592,15 +1629,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               advancedMode={advancedMode}
               onAdvancedModeChange={setAdvancedMode}
               materialKey={materialKey}
-              onMaterialChange={setMaterialKey}
+              onMaterialChange={handleMaterialChange}
               activeUseCase={activeUseCase}
               onUseCaseChange={setActiveUseCase}
               colorPref={colorPref}
-              onColorChange={setColorPref}
+              onColorChange={handleColorChange}
               notesText={notesText}
               onNotesChange={setNotesText}
               quality={quality}
-              onQualityChange={setQuality}
+              onQualityChange={handleQualityChange}
               infillPct={infillPct}
               wallLoops={wallLoops}
               onInfillChange={setInfillPct}
@@ -1610,7 +1647,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               orientation={orientation}
               onOrientationChange={setOrientation}
               urgency={urgency}
-              onUrgencyChange={setUrgency}
+              onUrgencyChange={handleUrgencyChange}
               materialOptions={materialOptions}
               disabled={isCheckingOut || isSubmittingQuote}
               t={t}
@@ -1645,6 +1682,25 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             open={mobileModalOpen}
             onOpenChange={(open) => {
               if (!open && !isSubmittedQuote) capture('estimate_modal_dismissed');
+              if (open) {
+                modalOpenTimeRef.current = Date.now();
+              } else if (modalOpenTimeRef.current) {
+                const openMs = Date.now() - modalOpenTimeRef.current;
+                capture('modal_time_open', { duration_ms: openMs });
+                const wasLongEnough = openMs >= 5000;
+                modalOpenTimeRef.current = null;
+                // Exit survey replaces exit-intent when modal was open ≥5s and no lead yet
+                if (!open && !isSubmittedQuote && !showManualReview && !isCheckingOut && checkoutResult !== "success"
+                    && wasLongEnough && !hasExitSurveyBeenShown() && !hasLeadBeenSubmitted()) {
+                  setShowExitSurvey(true);
+                  // Store the price bucket for the survey
+                  if (bundle) {
+                    const mid = (bundle.low + bundle.high) / 2;
+                    exitSurveyPriceBucket.current = mid < 15 ? "<15" : mid < 30 ? "15-30" : mid < 60 ? "30-60" : mid < 100 ? "60-100" : ">100";
+                  }
+                  return; // skip exit-intent when showing exit survey
+                }
+              }
               if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
                 const alreadyShown = (() => { try { return !!sessionStorage.getItem("dim3d-exit-intent-shown"); } catch { return false; } })();
                 if (!alreadyShown) {
@@ -1801,6 +1857,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             )}
           </DialogContent>
         </Dialog>
+
+        {showExitSurvey && (
+          <ExitReasonCard
+            priceBucket={exitSurveyPriceBucket.current}
+            onClose={() => setShowExitSurvey(false)}
+          />
+        )}
       </div>
     </section>
   );

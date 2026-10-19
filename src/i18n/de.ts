@@ -799,4 +799,13 @@ export const deTranslations: Record<string, string> = {
   "lang.suggest.switch": "Wechseln",
   "lang.suggest.dismiss": "Nein danke",
   "footer.outsideEU": "Außerhalb der EU",
+  "survey.exit.title": "Was hat dich gestoppt?",
+  "survey.exit.reason.price": "Der Preis",
+  "survey.exit.reason.shipping": "Der Versand",
+  "survey.exit.reason.material": "Die Materialien",
+  "survey.exit.reason.talk": "Ich möchte mit jemandem sprechen",
+  "survey.exit.reason.browsing": "Ich schaue nur",
+  "survey.exit.reason.other": "Etwas anderes",
+  "survey.exit.thanks": "Danke für dein Feedback!",
+  "survey.exit.whatsapp": "Per WhatsApp chatten",
 };
