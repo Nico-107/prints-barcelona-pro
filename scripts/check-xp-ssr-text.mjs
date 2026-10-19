@@ -16,12 +16,27 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
-// Parse enabled experiment IDs from experimentsConfig.ts (line-by-line, no TS runtime)
-const configSrc = readFileSync(resolve(root, "src/lib/experimentsConfig.ts"), "utf-8");
-const enabledIds = configSrc
-  .split("\n")
-  .filter((line) => /^\s+\w+:/.test(line) && /enabled:\s*true/.test(line))
-  .map((line) => line.match(/^\s+(\w+):/)[1]);
+// Parse enabled experiment IDs and their variants from registry.ts (no TS runtime)
+const registrySrc = readFileSync(resolve(root, "src/lib/experiments/registry.ts"), "utf-8");
+
+// Match objects like: { id: 'header_btn_r2', ... variants: ['A','B'], ... enabled: true, }
+// across multiple lines within REGISTRY array
+const experimentBlocks = registrySrc.split(/\{(?=[^{}]*\bid:/);
+const enabledExps = experimentBlocks
+  .slice(1) // skip preamble before first block
+  .reduce((acc, block) => {
+    const idMatch = block.match(/id:\s*['"](\w+)['"]/);
+    const enabledMatch = block.match(/enabled:\s*(true|false)/);
+    const variantsMatch = block.match(/variants:\s*\[([^\]]+)\]/);
+    if (!idMatch || enabledMatch?.[1] !== 'true') return acc;
+    const variants = variantsMatch
+      ? variantsMatch[1].match(/['"]([A-Z])['"]/g)?.map(v => v.replace(/['"]/g, '')) ?? ['A']
+      : ['A'];
+    acc.push({ id: idMatch[1], variants });
+    return acc;
+  }, []);
+
+const enabledIds = enabledExps.map(e => e.id);
 
 if (enabledIds.length === 0) {
   console.log("[check-xp-ssr-text] No enabled experiments found — skipping.");
@@ -93,13 +108,15 @@ for (const filePath of FILES) {
 
   const COL = 38;
   console.log(
-    `${"Experiment".padEnd(22)} ${"v1".padEnd(COL)} ${"v2".padEnd(COL)} ${"v3".padEnd(COL)} v4`
+    `${"Experiment".padEnd(22)} ${"A".padEnd(COL)} ${"B".padEnd(COL)} ${"C".padEnd(COL)} D`
   );
   console.log("─".repeat(22 + (COL + 1) * 4));
 
-  for (const id of enabledIds) {
+  for (const expDef of enabledExps) {
+    const id = expDef.id;
+    const variants = expDef.variants.length >= 4 ? ['A','B','C','D'] : ['A','B','C','D'];
     const texts = [];
-    for (let v = 1; v <= 4; v++) {
+    for (const v of variants) {
       const raw = extractSlotContent(body, id, v);
       texts.push(raw !== null ? raw : "(not found)");
     }

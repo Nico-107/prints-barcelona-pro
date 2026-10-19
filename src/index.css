@@ -203,3 +203,43 @@
     50% { opacity: 0.9; transform: scale(1.05); }
   }
 }
+
+/* ── Experiment variant visibility (no-flicker, no screen-reader leakage) ─────
+   CSS runs before React hydrates. Inactive slots get display:none which also
+   removes them from the accessibility tree. The pre-paint script sets
+   data-xp-{id} on <html>; when absent (SSR / bots) control (A) is shown.   */
+
+/* header_btn_r2 */
+html:not([data-xp-header-btn-r2]) [data-xp-slot="header_btn_r2"][data-xp-v="B"],
+html[data-xp-header-btn-r2="A"]  [data-xp-slot="header_btn_r2"][data-xp-v="B"],
+html[data-xp-header-btn-r2="B"]  [data-xp-slot="header_btn_r2"][data-xp-v="A"] { display:none; }
+
+/* modal_actions_r1 */
+html:not([data-xp-modal-actions-r1]) [data-xp-slot="modal_actions_r1"][data-xp-v="B"],
+html:not([data-xp-modal-actions-r1]) [data-xp-slot="modal_actions_r1"][data-xp-v="C"],
+html[data-xp-modal-actions-r1="A"]  [data-xp-slot="modal_actions_r1"][data-xp-v="B"],
+html[data-xp-modal-actions-r1="A"]  [data-xp-slot="modal_actions_r1"][data-xp-v="C"],
+html[data-xp-modal-actions-r1="B"]  [data-xp-slot="modal_actions_r1"][data-xp-v="A"],
+html[data-xp-modal-actions-r1="B"]  [data-xp-slot="modal_actions_r1"][data-xp-v="C"],
+html[data-xp-modal-actions-r1="C"]  [data-xp-slot="modal_actions_r1"][data-xp-v="A"],
+html[data-xp-modal-actions-r1="C"]  [data-xp-slot="modal_actions_r1"][data-xp-v="B"] { display:none; }
+
+/* home_proof_r1 */
+html:not([data-xp-home-proof-r1]) [data-xp-slot="home_proof_r1"][data-xp-v="B"],
+html:not([data-xp-home-proof-r1]) [data-xp-slot="home_proof_r1"][data-xp-v="C"],
+html[data-xp-home-proof-r1="A"]  [data-xp-slot="home_proof_r1"][data-xp-v="B"],
+html[data-xp-home-proof-r1="A"]  [data-xp-slot="home_proof_r1"][data-xp-v="C"],
+html[data-xp-home-proof-r1="B"]  [data-xp-slot="home_proof_r1"][data-xp-v="A"],
+html[data-xp-home-proof-r1="B"]  [data-xp-slot="home_proof_r1"][data-xp-v="C"],
+html[data-xp-home-proof-r1="C"]  [data-xp-slot="home_proof_r1"][data-xp-v="A"],
+html[data-xp-home-proof-r1="C"]  [data-xp-slot="home_proof_r1"][data-xp-v="B"] { display:none; }
+
+/* upload_area_r1 */
+html:not([data-xp-upload-area-r1]) [data-xp-slot="upload_area_r1"][data-xp-v="B"],
+html:not([data-xp-upload-area-r1]) [data-xp-slot="upload_area_r1"][data-xp-v="C"],
+html[data-xp-upload-area-r1="A"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"],
+html[data-xp-upload-area-r1="A"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"],
+html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
+html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"],
+html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
+html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"] { display:none; }

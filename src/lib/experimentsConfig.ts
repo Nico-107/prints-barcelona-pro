@@ -1,8 +1,33 @@
-export const EXPERIMENTS = {
-  hero_pkg_r1:    { attr: "xpHeroPkg",    qa: "xp_hero",     versions: 4, enabled: false, endsOn: "2026-12-28", langs: ["es","en","ca"] as const },
-  header_btn_r2:  { attr: "xpHeaderBtn",  qa: "xp_header_r2",versions: 2, enabled: true,  endsOn: "2027-06-30", langs: ["es","en","ca"] as const },
-  float_label_r1: { attr: "xpFloatLabel", qa: "xp_float",    versions: 4, enabled: false, endsOn: "2026-12-28", langs: ["es","en","ca"] as const },
-  calc_title_r1:  { attr: "xpCalcTitle",  qa: "xp_calc",     versions: 4, enabled: false, endsOn: "2026-12-28", langs: ["es","en","ca"] as const },
-} as const;
+/**
+ * Thin shim kept for backwards compat and for scripts that parse this file.
+ * Source of truth is src/lib/experiments/registry.ts.
+ */
+
+import { REGISTRY, expDatasetKey } from './experiments/registry';
+
+export const EXPERIMENTS = Object.fromEntries(
+  REGISTRY.map(exp => [
+    exp.id,
+    {
+      attr: expDatasetKey(exp.id),
+      layer: exp.layer,
+      variants: exp.variants,
+      enabled: exp.enabled,
+      langs: exp.langs ?? [],
+      startedOn: exp.startedOn,
+      minDays: exp.minDays,
+      maxDays: exp.maxDays,
+    },
+  ]),
+) as Record<string, {
+  attr: string;
+  layer: string;
+  variants: string[];
+  enabled: boolean;
+  langs: string[];
+  startedOn: string;
+  minDays: number;
+  maxDays: number;
+}>;
 
 export type ExperimentId = keyof typeof EXPERIMENTS;

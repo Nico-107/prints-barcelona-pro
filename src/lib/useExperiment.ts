@@ -1,19 +1,18 @@
-import { useState, useEffect } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
-import { EXPERIMENTS, type ExperimentId } from "./experimentsConfig";
-import { getAssignment, isExperimentActive, isForcedForExperiment } from "./experiments";
+import { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { EXPERIMENTS, type ExperimentId } from './experimentsConfig';
+import { getVariant, isExperimentActive, isForcedVariant } from './experiments/engine';
 
 export interface ExperimentState {
-  version: number;
+  /** The assigned variant ('A' = control, 'B', 'C', …). Always 'A' during SSR. */
+  variant: string;
   active: boolean;
   forced: boolean;
   langOk: boolean;
 }
 
-// Always start here — identical on server and on the first client render.
-// Real values are applied in a useEffect after hydration, which avoids the
-// mismatch that occurs when useState() initialises differently in the browser.
-const SSR_DEFAULTS: ExperimentState = { version: 1, active: false, forced: false, langOk: false };
+// Stable SSR default — every page prerender sees control without flash.
+const SSR_DEFAULTS: ExperimentState = { variant: 'A', active: false, forced: false, langOk: false };
 
 export function useExperiment(id: ExperimentId): ExperimentState {
   const { language } = useLanguage();
@@ -21,13 +20,12 @@ export function useExperiment(id: ExperimentId): ExperimentState {
 
   const [state, setState] = useState<ExperimentState>(SSR_DEFAULTS);
 
-  // Compute real assignment after mount so the initial render matches SSR.
   useEffect(() => {
     const active = isExperimentActive(id);
-    const version = getAssignment(id);
-    const forced = isForcedForExperiment(id);
-    const langOk = (exp.langs as readonly string[]).includes(language);
-    setState({ version, active, forced, langOk });
+    const variant = getVariant(id);
+    const forced = isForcedVariant(id);
+    const langOk = exp.langs.length === 0 || exp.langs.includes(language);
+    setState({ variant, active, forced, langOk });
   }, [id, language, exp.langs]);
 
   return state;

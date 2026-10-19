@@ -1,8 +1,8 @@
 // PostHog instance — registered once by main.tsx (browser only).
 // Null during SSR/prerender; events are queued until registration.
 import { getStoredUTM } from "./utm";
-import { migrateExperimentAssignment, isAnyForced } from "./experiments";
-import { EXPERIMENTS, type ExperimentId } from "./experimentsConfig";
+import { migrateOnConsent } from "./experiments/engine";
+import { getExperimentSuperProps } from "./experiments/engine";
 import type { EventName, EventMap } from "./analyticsEvents";
 
 type PHInstance = {
@@ -62,31 +62,7 @@ function getSiteLanguage(): string {
 }
 
 function getExperimentProps(language: string): Record<string, unknown> {
-  const props: Record<string, unknown> = {};
-  if (typeof window === "undefined") return props;
-
-  const now = new Date();
-  let anyForced = false;
-
-  (Object.entries(EXPERIMENTS) as [ExperimentId, (typeof EXPERIMENTS)[ExperimentId]][]).forEach(([id, exp]) => {
-    if (!exp.enabled) return;
-    if (now >= new Date(exp.endsOn + "T00:00:00Z")) return;
-
-    const langOk = (exp.langs as readonly string[]).includes(language);
-    if (!langOk) {
-      props[`xp_${id}`] = "n/a";
-      return;
-    }
-
-    const raw = document.documentElement.dataset[exp.attr];
-    const v = raw ? parseInt(raw, 10) : 1;
-    props[`xp_${id}`] = v;
-
-    if (isAnyForced()) anyForced = true;
-  });
-
-  if (anyForced) props.xp_forced = true;
-  return props;
+  return getExperimentSuperProps(language);
 }
 
 function buildContextProps(): Record<string, unknown> {
@@ -213,5 +189,16 @@ export function get_session_id(): string | undefined {
 
 export function upgradeAnalyticsPersistence(): void {
   ph?.set_config({ persistence: "localStorage+cookie" });
-  migrateExperimentAssignment();
+  migrateOnConsent();
+}
+
+export function enableHeatmapsAndReplay(): void {
+  if (!ph) return;
+  (ph as any).set_config({
+    enable_heatmaps: true,
+    session_recording: {
+      maskAllInputs: true,
+      maskTextSelector: '[data-ph-mask]',
+    },
+  });
 }

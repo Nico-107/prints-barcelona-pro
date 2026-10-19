@@ -144,11 +144,11 @@ interface OutboundContactClickProps {
 
 interface ExperimentExposureProps {
   experiment?: string;
-  version?: number;
-  language?: string;
-  page_type?: string;
+  variant?: string;
+  layer?: string;
+  page_path?: string;
+  lang?: string;
   forced?: boolean;
-  visible_ok?: boolean;
   placement?: "desktop" | "mobile";
 }
 
@@ -161,6 +161,85 @@ interface ExperimentErrorProps {
   reason?: "visible_mismatch" | "no_visible_block";
   assigned?: number;
   visible?: number;
+}
+
+// ---- New events — Prompt 18 full-funnel tracking ----
+
+interface UploadAreaViewProps {
+  page_type?: string;
+}
+
+interface UploadStartedProps {
+  method?: "drop" | "click";
+  file_count?: number;
+}
+
+interface FileParsedProps {
+  status?: "ok" | "error";
+  size_kb?: number;
+  ext?: string;
+  reason?: string;
+}
+
+interface EstimateShownProps {
+  price_eur_bucket?: "<15" | "15-30" | "30-60" | "60-100" | ">100";
+  time_to_price_ms?: number;
+  file_count?: number;
+}
+
+interface ConfigChangedProps {
+  field?: "material" | "quantity" | "colour" | "quality" | "urgency";
+  value?: string;
+}
+
+interface FulfillmentChosenProps {
+  type?: "pickup" | "shipping";
+}
+
+interface ContactEnteredProps {
+  field?: "email" | "phone" | "notes";
+}
+
+interface BuyClickedProps {
+  price_eur_bucket?: string;
+}
+
+interface ReviewClickedProps {
+  source?: string;
+}
+
+interface WhatsappFromModalProps {
+  source?: string;
+}
+
+interface StripeRedirectProps {
+  price_eur?: number;
+  fulfillment?: "pickup" | "shipping";
+}
+
+interface ScrollDepthProps {
+  depth?: 25 | 50 | 75 | 100;
+  page_type?: string;
+}
+
+interface SectionViewProps {
+  section?: string;
+  page_type?: string;
+}
+
+interface CtaClickProps {
+  cta_id?: string;
+  section?: string;
+  text_variant?: string;
+}
+
+interface ExitReasonProps {
+  reason?: string;
+  price_eur_bucket?: string;
+}
+
+interface ModalTimeOpenProps {
+  duration_ms?: number;
 }
 
 interface QuoteCtaClickProps {
@@ -269,6 +348,24 @@ export interface EventMap {
   buy_blocked: BuyBlockedProps;
   review_blocked: ReviewBlockedProps;
   checkout_returned: CheckoutReturnedProps;
+
+  // New events — Prompt 18 (full-funnel tracking)
+  upload_area_view: UploadAreaViewProps;
+  upload_started: UploadStartedProps;
+  file_parsed: FileParsedProps;
+  estimate_shown: EstimateShownProps;
+  config_changed: ConfigChangedProps;
+  fulfillment_chosen: FulfillmentChosenProps;
+  contact_entered: ContactEnteredProps;
+  buy_clicked: BuyClickedProps;
+  review_clicked: ReviewClickedProps;
+  whatsapp_from_modal: WhatsappFromModalProps;
+  stripe_redirect: StripeRedirectProps;
+  scroll_depth: ScrollDepthProps;
+  section_view: SectionViewProps;
+  cta_click: CtaClickProps;
+  exit_reason: ExitReasonProps;
+  modal_time_open: ModalTimeOpenProps;
 
   // Legacy / page-level events already used across the site
   quote_cta_click: QuoteCtaClickProps;
