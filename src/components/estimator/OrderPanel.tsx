@@ -277,6 +277,13 @@ export function OrderPanel({
                     : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
+                {/* Trust line */}
+                <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                  {t("calc.trust.promise")}
+                </p>
+                <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                  {t("calc.trust.secureWith")} {t("calc.trust.methods")}
+                </p>
                 {/* Secondary row: Review + WhatsApp side by side */}
                 <div className="grid grid-cols-2 gap-2">
                   <Button
@@ -563,6 +570,13 @@ export function OrderPanel({
                     : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
+                {/* Trust line */}
+                <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                  {t("calc.trust.promise")}
+                </p>
+                <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                  {t("calc.trust.secureWith")} {t("calc.trust.methods")}
+                </p>
                 <div>
                   <Button
                     variant="outline"
