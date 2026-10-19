@@ -8,6 +8,7 @@ import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
 import { ExitReasonCard, hasExitSurveyBeenShown, markLeadSubmitted, hasLeadBeenSubmitted } from "@/components/ExitReasonCard";
+import { useXpExposure } from "@/lib/experiments";
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
@@ -126,6 +127,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     observer.observe(section);
     return () => observer.disconnect();
   }, [adminMode]);
+
+  // Experiment: upload_area_r1 — exposure fires when the drop zone is visible
+  const uploadAreaExposureRef = useRef<HTMLDivElement>(null);
+  useXpExposure(uploadAreaExposureRef, "upload_area_r1");
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -1125,28 +1130,90 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
         {/* Drop zone / add-more */}
         {parsedFiles.length === 0 ? (
-          <>
-            <div
-              {...dragHandlers}
-              onClick={() => inputRef.current?.click()}
-              className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
-                isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
-              }`}
-            >
-              <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
-              <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
-              <p className="text-sm text-muted-foreground">{t("calc.dropSub")}</p>
-            </div>
-            <p className="text-center text-sm text-muted-foreground mt-2">
-              {t("calc.dropzone.noFile")}{" "}
-              <Link
-                to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "es" ? "/disena-tu-pieza-3d" : "/design-your-3d-part"}
-                className="underline text-foreground hover:text-accent transition-colors"
+          <div ref={uploadAreaExposureRef}>
+            {/* Variant A (control): current copy */}
+            <div data-xp-slot="upload_area_r1" data-xp-v="A">
+              <div
+                {...dragHandlers}
+                onClick={() => inputRef.current?.click()}
+                className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
+                  isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
+                }`}
               >
-                {t("calc.dropzone.noFile.cta")}
-              </Link>
-            </p>
-          </>
+                <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
+                <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
+                <p className="text-sm text-muted-foreground">{t("calc.dropSub")}</p>
+              </div>
+              <p className="text-center text-sm text-muted-foreground mt-2">
+                {t("calc.dropzone.noFile")}{" "}
+                <Link
+                  to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "es" ? "/disena-tu-pieza-3d" : "/design-your-3d-part"}
+                  className="underline text-foreground hover:text-accent transition-colors"
+                >
+                  {t("calc.dropzone.noFile.cta")}
+                </Link>
+              </p>
+            </div>
+
+            {/* Variant B: bigger drop zone with file types + WhatsApp link */}
+            <div data-xp-slot="upload_area_r1" data-xp-v="B">
+              <div
+                {...dragHandlers}
+                onClick={() => inputRef.current?.click()}
+                className={`relative border-[3px] border-dashed rounded-xl p-12 text-center cursor-pointer transition-all select-none ${
+                  isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
+                }`}
+              >
+                <Calculator className="w-14 h-14 text-accent mx-auto mb-3" />
+                <p className="text-lg font-semibold text-foreground mb-1">{t("calc.drop")}</p>
+                <p className="text-sm text-muted-foreground mb-2">{t("calc.dropSub")}</p>
+                <p className="text-xs font-mono text-accent/80 tracking-wider">STL · 3MF · OBJ · STEP</p>
+              </div>
+              <p className="text-center text-sm text-muted-foreground mt-3">
+                {t("xp.uploadArea.b.noFile")}{" "}
+                <a
+                  href={`${WHATSAPP_URL}?text=${encodeURIComponent(t("xp.uploadArea.b.whatsappMsg"))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-whatsapp hover:underline"
+                  onClick={() => capture("whatsapp_from_modal", { source: "upload_area_b" })}
+                >
+                  {t("xp.uploadArea.b.whatsappLink")}
+                </a>
+              </p>
+            </div>
+
+            {/* Variant C: control drop zone + 3-step mini guide */}
+            <div data-xp-slot="upload_area_r1" data-xp-v="C">
+              <div
+                {...dragHandlers}
+                onClick={() => inputRef.current?.click()}
+                className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
+                  isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
+                }`}
+              >
+                <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
+                <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
+                <p className="text-sm text-muted-foreground mb-3">{t("calc.dropSub")}</p>
+                <div className="flex justify-center gap-4 text-xs text-muted-foreground">
+                  <span>1 {t("xp.uploadArea.c.step1")}</span>
+                  <span>·</span>
+                  <span>2 {t("xp.uploadArea.c.step2")}</span>
+                  <span>·</span>
+                  <span>3 {t("xp.uploadArea.c.step3")}</span>
+                </div>
+              </div>
+              <p className="text-center text-sm text-muted-foreground mt-2">
+                {t("calc.dropzone.noFile")}{" "}
+                <Link
+                  to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "es" ? "/disena-tu-pieza-3d" : "/design-your-3d-part"}
+                  className="underline text-foreground hover:text-accent transition-colors"
+                >
+                  {t("calc.dropzone.noFile.cta")}
+                </Link>
+              </p>
+            </div>
+          </div>
         ) : parsedFiles.length < MAX_FILES ? (
           <div
             {...dragHandlers}

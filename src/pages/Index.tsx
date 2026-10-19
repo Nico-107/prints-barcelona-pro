@@ -5,6 +5,8 @@ import { ArrowRight, BookOpen, Building2, GraduationCap, Package, Star, Wrench, 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { useSectionView } from "@/hooks/usePageTracking";
+import { useXpExposure } from "@/lib/experiments";
+import { STATS } from "@/config/b2bFacts";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
@@ -25,7 +27,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
 import { ORGANIZATION_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
-import { GOOGLE_RATING } from "@/data/rating";
+import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { capture } from "@/lib/analytics";
 
 const SITE_URL = "https://www.dimension3dprints.com";
@@ -192,6 +194,7 @@ const Index = () => {
   useSectionView(materialsRef, "materials");
   useSectionView(faqRef, "faq");
   useSectionView(b2bRef, "b2b");
+  useXpExposure(reviewsRef, "home_proof_r1");
 
   useEffect(() => {
     return () => {
@@ -311,75 +314,123 @@ const Index = () => {
         <WhyChooseUs />
         <Projects />
 
-        {/* ── GOOGLE REVIEWS ── */}
+        {/* ── GOOGLE REVIEWS / home_proof_r1 ── */}
         {(() => {
           const copy = GOOGLE_REVIEWS_COPY[language] ?? GOOGLE_REVIEWS_COPY.es;
+          const periodCopy = STATS.totalOrdersPeriod[language as keyof typeof STATS.totalOrdersPeriod] ?? STATS.totalOrdersPeriod.es;
+          const ratingOk = GOOGLE_RATING.value != null && GOOGLE_RATING.count != null;
+
+          const ReviewCards = () => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {GOOGLE_REVIEWS_DATA.map((review) => (
+                <div
+                  key={review.name}
+                  className="bg-background rounded-xl p-5 border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex gap-0.5">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star key={s} className="w-4 h-4 fill-gold text-gold" />
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "#4285F4" }}>
+                      <span
+                        className="w-3.5 h-3.5 rounded-full text-[8px] font-bold inline-flex items-center justify-center flex-shrink-0"
+                        style={{ background: "#4285F4", color: "#fff" }}
+                      >
+                        G
+                      </span>
+                      Google
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{review.text}"</p>
+                  <span className="font-semibold text-foreground text-sm">{review.name}</span>
+                </div>
+              ))}
+            </div>
+          );
+
           return (
             <section ref={reviewsRef} className="py-14 md:py-16 bg-secondary/30">
               <div className="container px-4 max-w-5xl mx-auto">
-                <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 mb-2">
-                    <span
-                      className="w-5 h-5 rounded-full text-[10px] font-bold inline-flex items-center justify-center flex-shrink-0"
-                      style={{ background: "#4285F4", color: "#fff" }}
-                    >
-                      G
-                    </span>
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
+                {/* Variant A (control): current 3 review quotes */}
+                <div data-xp-slot="home_proof_r1" data-xp-v="A">
+                  <div className="text-center mb-8">
+                    <div className="inline-flex items-center gap-2 mb-2">
+                      <span className="w-5 h-5 rounded-full text-[10px] font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
+                      <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
+                    </div>
+                  </div>
+                  <ReviewCards />
+                  <p className="text-sm text-center text-foreground/55 mt-6">
+                    <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                      {copy.aggregate} &rarr;
+                    </a>
+                  </p>
+                  <div className="text-center mt-4">
+                    <Button asChild variant="outline" size="sm" onClick={() => capture("google_review_click", { location: "home_reviews" })}>
+                      <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer">{t("reviews.writeOnGoogle")}</a>
+                    </Button>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {GOOGLE_REVIEWS_DATA.map((review) => (
-                    <div
-                      key={review.name}
-                      className="bg-background rounded-xl p-5 border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300"
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex gap-0.5">
-                          {[1, 2, 3, 4, 5].map((s) => (
-                            <Star key={s} className="w-4 h-4 fill-gold text-gold" />
-                          ))}
-                        </div>
-                        <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "#4285F4" }}>
-                          <span
-                            className="w-3.5 h-3.5 rounded-full text-[8px] font-bold inline-flex items-center justify-center flex-shrink-0"
-                            style={{ background: "#4285F4", color: "#fff" }}
-                          >
-                            G
-                          </span>
-                          Google
+
+                {/* Variant B: Google rating badge + same quotes (skips to A if data missing) */}
+                <div data-xp-slot="home_proof_r1" data-xp-v="B">
+                  <div className="text-center mb-8">
+                    {ratingOk ? (
+                      <div className="inline-flex items-center gap-3 bg-background border border-border rounded-xl px-5 py-3 shadow-sm mb-4">
+                        <span className="w-8 h-8 rounded-full text-sm font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
+                        <div className="text-left">
+                          <div className="flex items-center gap-1">
+                            {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-3.5 h-3.5 fill-gold text-gold" />)}
+                            <span className="text-base font-bold text-foreground ml-1">{formatRating(language)}</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">{GOOGLE_RATING.count} {language === "ca" ? "ressenyes" : language === "en" ? "reviews" : "reseñas"} · Google</p>
                         </div>
                       </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{review.text}"</p>
-                      <span className="font-semibold text-foreground text-sm">{review.name}</span>
+                    ) : null}
+                    <div className="inline-flex items-center gap-2 mb-2">
+                      <span className="w-5 h-5 rounded-full text-[10px] font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
+                      <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
                     </div>
-                  ))}
-                </div>
-                <p className="text-sm text-center text-foreground/55 mt-6">
-                  <a
-                    href={GOOGLE_BUSINESS_PROFILE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-accent transition-colors"
-                  >
-                    {copy.aggregate} &rarr;
-                  </a>
-                </p>
-                <div className="text-center mt-4">
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    onClick={() => capture("google_review_click", { location: "home_reviews" })}
-                  >
-                    <a
-                      href={GOOGLE_BUSINESS_PROFILE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t("reviews.writeOnGoogle")}
+                  </div>
+                  <ReviewCards />
+                  <p className="text-sm text-center text-foreground/55 mt-6">
+                    <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                      {copy.aggregate} &rarr;
                     </a>
-                  </Button>
+                  </p>
+                  <div className="text-center mt-4">
+                    <Button asChild variant="outline" size="sm" onClick={() => capture("google_review_click", { location: "home_reviews_b" })}>
+                      <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer">{t("reviews.writeOnGoogle")}</a>
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Variant C: print photos strip + stats */}
+                <div data-xp-slot="home_proof_r1" data-xp-v="C">
+                  <div className="text-center mb-6">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-1">
+                      {STATS.totalOrders && `${STATS.totalOrders} ${language === "ca" ? "comandes" : language === "en" ? "orders" : "pedidos"} ${periodCopy}`}
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mb-6">
+                    {[
+                      { src: "/projects/curved-parts.webp", alt: language === "en" ? "Custom curved parts" : language === "ca" ? "Peces corbes a mida" : "Piezas curvas a medida" },
+                      { src: "/projects/custom-brackets.webp", alt: language === "en" ? "Custom brackets" : language === "ca" ? "Suports personalitzats" : "Soportes personalizados" },
+                      { src: "/projects/blue-molds.webp", alt: language === "en" ? "Blue molds" : language === "ca" ? "Motlles blaus" : "Moldes azules" },
+                      { src: "/projects/intake-manifold.webp", alt: language === "en" ? "Intake manifold part" : language === "ca" ? "Peça d'admissió" : "Pieza de admisión" },
+                      { src: "/projects/big-ben-tower.webp", alt: language === "en" ? "Big Ben tower model" : language === "ca" ? "Model de Big Ben" : "Modelo de Big Ben" },
+                      { src: "/projects/purple-detail.webp", alt: language === "en" ? "Detailed purple part" : language === "ca" ? "Peça porpra detallada" : "Pieza morada detallada" },
+                    ].map(({ src, alt }) => (
+                      <img key={src} src={src} alt={alt} className="w-full aspect-square object-cover rounded-lg border border-border" loading="lazy" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-center text-foreground/55 mt-2">
+                    <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                      {copy.aggregate} &rarr;
+                    </a>
+                  </p>
                 </div>
               </div>
             </section>

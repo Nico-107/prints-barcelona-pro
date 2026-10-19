@@ -1,8 +1,11 @@
+import { useRef } from "react";
 import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
+import { useXpExposure } from "@/lib/experiments";
+import { REFUND_IF_UNPRINTABLE } from "@/config/policies";
 import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
@@ -180,6 +183,10 @@ export function OrderPanel({
   // Shipping fee formatted
   const shippingFormatted = formatEUR(EST.shippingCents / 100, lang);
 
+  // Experiment: modal_actions_r1 — exposure fires when the actions area is visible
+  const actionsExposureRef = useRef<HTMLDivElement>(null);
+  useXpExposure(actionsExposureRef, "modal_actions_r1");
+
   // ── 'actions' section only ─────────────────────────────────────────────────
   if (section === 'actions') {
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible &&
@@ -223,10 +230,10 @@ export function OrderPanel({
         {actionError && <p className="text-xs text-destructive" role="alert">{actionError}</p>}
 
         {!adminMode && (
-          <div className="space-y-2">
+          <div className="space-y-2" ref={actionsExposureRef}>
             {instantBuyEligible && !showManualReview ? (
               <>
-                {/* Compact fulfillment picker — visible next to Buy Now on all screen sizes */}
+                {/* Compact fulfillment picker — same across all variants */}
                 <div
                   className="flex gap-2"
                   data-testid="compact-fulfillment-picker"
@@ -263,51 +270,142 @@ export function OrderPanel({
                 {fulfillmentAttempted && fulfillment === null && (
                   <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
                 )}
-                {/* Primary: Buy Now */}
-                <Button
-                  variant="cta"
-                  size="lg"
-                  className="w-full gap-2"
-                  data-testid="buy-now-btn"
-                  onClick={onInstantBuy}
-                  disabled={isCheckingOut || !preUploadDone}
-                >
-                  {isCheckingOut
-                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
-                  }
-                </Button>
-                {/* Trust line */}
-                <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                  {t("calc.trust.promise")}
-                </p>
-                <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                  {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                </p>
-                {/* Secondary row: Review + WhatsApp side by side */}
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full gap-1.5 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
-                    onClick={onManualReview}
-                    disabled={isCheckingOut}
-                  >
-                    <Send className="w-3.5 h-3.5 shrink-0" />
-                    <span className="min-w-0">{t("calc.instantBuy.manualReview.short")}</span>
-                  </Button>
-                  <Button
-                    variant="whatsapp-outline"
-                    size="sm"
-                    className="w-full gap-1.5 text-xs"
-                    onClick={onWhatsApp}
-                    disabled={isCheckingOut}
-                  >
-                    <MessageCircle className="w-3.5 h-3.5 shrink-0" />
-                    <span className="min-w-0">{t("calc.result.whatsapp.short")}</span>
-                  </Button>
+
+                {/* Variant A (control): Buy Now + trust + Review/WhatsApp row */}
+                <div data-xp-slot="modal_actions_r1" data-xp-v="A">
+                  <div className="space-y-2">
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      data-testid="buy-now-btn"
+                      onClick={onInstantBuy}
+                      disabled={isCheckingOut || !preUploadDone}
+                    >
+                      {isCheckingOut
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                        : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
+                      }
+                    </Button>
+                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                      {t("calc.trust.promise")}
+                    </p>
+                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                      {t("calc.trust.secureWith")} {t("calc.trust.methods")}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full gap-1.5 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                        onClick={onManualReview}
+                        disabled={isCheckingOut}
+                      >
+                        <Send className="w-3.5 h-3.5 shrink-0" />
+                        <span className="min-w-0">{t("calc.instantBuy.manualReview.short")}</span>
+                      </Button>
+                      <Button
+                        variant="whatsapp-outline"
+                        size="sm"
+                        className="w-full gap-1.5 text-xs"
+                        onClick={onWhatsApp}
+                        disabled={isCheckingOut}
+                      >
+                        <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span className="min-w-0">{t("calc.result.whatsapp.short")}</span>
+                      </Button>
+                    </div>
+                    <p className="text-xs text-center text-muted-foreground">{t("calc.instantBuy.reviewHint")}</p>
+                  </div>
                 </div>
-                <p className="text-xs text-center text-muted-foreground">{t("calc.instantBuy.reviewHint")}</p>
+
+                {/* Variant B (buy-first): Buy Now only, text links below */}
+                <div data-xp-slot="modal_actions_r1" data-xp-v="B">
+                  <div className="space-y-2">
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      data-testid="buy-now-btn"
+                      onClick={onInstantBuy}
+                      disabled={isCheckingOut || !preUploadDone}
+                    >
+                      {isCheckingOut
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                        : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
+                      }
+                    </Button>
+                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                      {t("calc.trust.promise")}
+                    </p>
+                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                      {t("calc.trust.secureWith")} {t("calc.trust.methods")}
+                    </p>
+                    <div className="flex flex-col items-center gap-1 pt-1">
+                      <button
+                        type="button"
+                        onClick={onManualReview}
+                        disabled={isCheckingOut}
+                        className="text-xs text-accent hover:underline disabled:opacity-60"
+                      >
+                        {t("xp.modalActions.b.reviewLink")}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onWhatsApp}
+                        disabled={isCheckingOut}
+                        className="text-[11px] text-whatsapp hover:underline disabled:opacity-60"
+                      >
+                        {t("calc.result.whatsapp.short")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Variant C (reassure-then-buy): reassurance list + Buy Now + text links */}
+                <div data-xp-slot="modal_actions_r1" data-xp-v="C">
+                  <div className="space-y-2">
+                    <ul className="text-[11px] text-muted-foreground space-y-0.5 px-1">
+                      <li>· {t("xp.modalActions.c.reassure1")}</li>
+                      {REFUND_IF_UNPRINTABLE && <li>· {t("xp.modalActions.c.reassure2")}</li>}
+                      <li>· {t("xp.modalActions.c.reassure3")}</li>
+                    </ul>
+                    <Button
+                      variant="cta"
+                      size="lg"
+                      className="w-full gap-2"
+                      data-testid="buy-now-btn"
+                      onClick={onInstantBuy}
+                      disabled={isCheckingOut || !preUploadDone}
+                    >
+                      {isCheckingOut
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                        : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
+                      }
+                    </Button>
+                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                      {t("calc.trust.secureWith")} {t("calc.trust.methods")}
+                    </p>
+                    <div className="flex justify-center gap-4 pt-1">
+                      <button
+                        type="button"
+                        onClick={onManualReview}
+                        disabled={isCheckingOut}
+                        className="text-xs text-accent hover:underline disabled:opacity-60"
+                      >
+                        {t("calc.instantBuy.manualReview.short")}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onWhatsApp}
+                        disabled={isCheckingOut}
+                        className="text-xs text-whatsapp hover:underline disabled:opacity-60"
+                      >
+                        {t("calc.result.whatsapp.short")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </>
             ) : (
               <>

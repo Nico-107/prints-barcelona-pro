@@ -8,12 +8,13 @@ import { wasExposureFired, markExposureFired } from './engine';
 export function useXpExposure(
   ref: React.RefObject<Element | null>,
   experimentId: string,
-  onExpose: () => void,
+  onExpose?: () => void,
 ): void {
   const firedRef = useRef(false);
-  const stableExpose = useCallback(onExpose, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const stableExpose = useCallback(onExpose ?? (() => {}), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
     if (firedRef.current || wasExposureFired(experimentId)) {
       firedRef.current = true;
       return;
