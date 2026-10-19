@@ -302,7 +302,7 @@ export const enTranslations: Record<string, string> = {
   "footer.nav.aboutCreator": "About the creator",
 
   // STL Price Calculator
-  "calc.title": "Get an Instant Price",
+  "calc.title": "Instant price — from €10",
   "calc.subtitle": "Upload your STL files — no account, no commitment.",
   "calc.drop": "Drop your STL files here",
   "calc.dropSub": "or click to browse · up to 20 files, max 50 MB each",
@@ -382,6 +382,9 @@ export const enTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / phone",
   "calc.contact.atLeastOne": "Enter at least one contact method — email or phone",
   "calc.contact.submit": "Send quote request",
+  "calc.trust.promise": "Secure payment with Stripe · Email receipt · We reply in 1 h",
+  "calc.trust.methods": "Card · Apple Pay · Google Pay · iDEAL · Klarna",
+  "calc.trust.secureWith": "Secure payment with",
   "calc.contact.submitting": "Uploading & sending...",
   "calc.contact.success.title": "Quote request sent!",
   "calc.contact.success.desc": "We'll review your estimate and confirm the exact price within 1 hour on business days.",
@@ -474,7 +477,7 @@ export const enTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Chat with us",
   "whatsapp.message": "Hello, I'd like to request a 3D printing service from Dimension3D.",
-  "whatsapp.float.label": "Questions? Chat with us",
+  "whatsapp.float.label": "Talk to a real person",
 
   // Launch offer banner
   "banner.dismiss": "Dismiss",

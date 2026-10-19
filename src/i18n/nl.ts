@@ -7,7 +7,7 @@ export const nlTranslations: Record<string, string> = {
   "nav.projects": "Projecten",
   "nav.reviews": "Beoordelingen",
   "nav.uploadFile": "Bestand uploaden",
-  "nav.requestQuote": "Gratis offerte",
+  "nav.requestQuote": "Direct je prijs",
   "nav.headerRating": "{rating}/5 op Google",
   "nav.trackOrder": "Bestelling volgen",
 
@@ -274,7 +274,7 @@ export const nlTranslations: Record<string, string> = {
   "footer.nav.aboutCreator": "Over de maker",
 
   // STL Price Calculator
-  "calc.title": "Ontvang een directe prijs",
+  "calc.title": "Directe prijs — vanaf € 10",
   "calc.subtitle": "Upload uw STL-bestanden — geen account, geen verplichtingen.",
   "calc.drop": "Sleep uw STL-bestanden hier",
   "calc.dropSub": "of klik om te bladeren · tot 20 bestanden, max 50 MB elk",
@@ -354,6 +354,9 @@ export const nlTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / telefoon",
   "calc.contact.atLeastOne": "Voer minimaal één contactmethode in — e-mail of telefoon",
   "calc.contact.submit": "Offerteaanvraag versturen",
+  "calc.trust.promise": "Veilige betaling via Stripe · Bevestiging per email · Reactie binnen 1 u",
+  "calc.trust.methods": "Kaart · Apple Pay · Google Pay · iDEAL · Klarna",
+  "calc.trust.secureWith": "Veilige betaling met",
   "calc.contact.submitting": "Uploaden & verzenden...",
   "calc.contact.success.title": "Offerteaanvraag verzonden!",
   "calc.contact.success.desc": "Wij beoordelen uw schatting en bevestigen de exacte prijs binnen 1 uur op werkdagen.",
@@ -446,7 +449,7 @@ export const nlTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Chat met ons",
   "whatsapp.message": "Hallo, ik wil graag een 3D printservice aanvragen bij Dimension3D.",
-  "whatsapp.float.label": "Vragen? Schrijf ons",
+  "whatsapp.float.label": "Praat met een echt persoon",
 
   // Launch offer banner
   "banner.dismiss": "Sluiten",
