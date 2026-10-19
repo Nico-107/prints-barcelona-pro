@@ -29,7 +29,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   const landingTopicSlugs = currentLandingPage
     ? SLUGS_BY_TOPIC[currentLandingPage.topic]
     : undefined;
-  const { version: hdrVersion, active: hdrActive, forced: hdrForced, langOk: hdrLangOk } = useExperiment("header_btn_r1");
+  const { version: hdrVersion, active: hdrActive, forced: hdrForced, langOk: hdrLangOk } = useExperiment("header_btn_r2");
   const desktopSlotRef = useRef<HTMLButtonElement>(null);
 
   // Text depends only on language — same on server and first client render.
@@ -40,8 +40,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   // Fire exposure once. Desktop: on mount if visible. Mobile: when menu opens.
   const fireHeaderExposure = (placement: "desktop" | "mobile") => {
     if (!hdrActive || !hdrLangOk) return;
-    if (wasExposureFired("header_btn_r1")) return;
-    const slots = document.querySelectorAll('[data-xp-slot="header_btn_r1"]');
+    if (wasExposureFired("header_btn_r2")) return;
+    const slots = document.querySelectorAll('[data-xp-slot="header_btn_r2"]');
     const visible = Array.from(slots).filter(
       (el) => (el as HTMLElement).offsetParent !== null
     );
@@ -50,14 +50,14 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
       visible_ok = true;
     } else if (visible.length !== 1) {
       capture("experiment_error", {
-        experiment: "header_btn_r1",
+        experiment: "header_btn_r2",
         reason: visible.length === 0 ? "no_visible_block" : "visible_mismatch",
         assigned: hdrVersion,
         visible: visible.length,
       });
     }
     capture("experiment_exposure", {
-      experiment: "header_btn_r1",
+      experiment: "header_btn_r2",
       version: hdrVersion,
       language,
       page_type: "header",
@@ -65,7 +65,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
       visible_ok,
       placement,
     });
-    markExposureFired("header_btn_r1");
+    markExposureFired("header_btn_r2");
   };
 
   useEffect(() => {
@@ -283,10 +283,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               onClick={() => { capture("quote_cta_click", { location: "header" }); scrollToSection("calculator"); }}
               className="whitespace-nowrap"
             >
-              <span data-xp-slot="header_btn_r1" data-xp-v="1" className="whitespace-nowrap">{t("nav.requestQuote")}</span>
-              <span data-xp-slot="header_btn_r1" data-xp-v="2" className="whitespace-nowrap">{xpHeaderText("xp.header.v2")}</span>
-              <span data-xp-slot="header_btn_r1" data-xp-v="3" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
-              <span data-xp-slot="header_btn_r1" data-xp-v="4" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
+              <span data-xp-slot="header_btn_r2" data-xp-v="1" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
+              <span data-xp-slot="header_btn_r2" data-xp-v="2" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
             </Button>
           </div>
 
@@ -403,10 +401,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 className="w-full"
                 onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); scrollToSection("calculator"); }}
               >
-                <span data-xp-slot="header_btn_r1" data-xp-v="1">{t("nav.requestQuote")}</span>
-                <span data-xp-slot="header_btn_r1" data-xp-v="2">{xpHeaderText("xp.header.v2")}</span>
-                <span data-xp-slot="header_btn_r1" data-xp-v="3">{xpHeaderText("xp.header.v3")}</span>
-                <span data-xp-slot="header_btn_r1" data-xp-v="4">{xpHeaderText("xp.header.v4")}</span>
+                <span data-xp-slot="header_btn_r2" data-xp-v="1">{xpHeaderText("xp.header.v3")}</span>
+                <span data-xp-slot="header_btn_r2" data-xp-v="2">{xpHeaderText("xp.header.v4")}</span>
               </Button>
             </div>
           </nav>

@@ -7,7 +7,7 @@ export const frTranslations: Record<string, string> = {
   "nav.projects": "Projets",
   "nav.reviews": "Avis clients",
   "nav.uploadFile": "Envoyer un fichier",
-  "nav.requestQuote": "Devis gratuit",
+  "nav.requestQuote": "Prix immédiat",
   "nav.headerRating": "{rating}/5 sur Google",
   "nav.trackOrder": "Suivre ma commande",
 
@@ -274,7 +274,7 @@ export const frTranslations: Record<string, string> = {
   "footer.nav.aboutCreator": "À propos du créateur",
 
   // STL Price Calculator
-  "calc.title": "Obtenez un prix instantané",
+  "calc.title": "Prix instantané — à partir de 10 €",
   "calc.subtitle": "Envoyez vos fichiers STL — sans compte, sans engagement.",
   "calc.drop": "Déposez vos fichiers STL ici",
   "calc.dropSub": "ou cliquez pour parcourir · jusqu'à 20 fichiers, 50 Mo max chacun",
@@ -354,6 +354,9 @@ export const frTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / téléphone",
   "calc.contact.atLeastOne": "Saisissez au moins un moyen de contact — e-mail ou téléphone",
   "calc.contact.submit": "Envoyer la demande de devis",
+  "calc.trust.promise": "Paiement sécurisé Stripe · Reçu par email · Réponse en 1 h",
+  "calc.trust.methods": "Carte · Apple Pay · Google Pay · iDEAL · Klarna",
+  "calc.trust.secureWith": "Paiement sécurisé avec",
   "calc.contact.submitting": "Téléchargement et envoi…",
   "calc.contact.success.title": "Demande de devis envoyée !",
   "calc.contact.success.desc": "Nous allons examiner votre estimation et confirmer le prix exact en moins d'1 heure les jours ouvrés.",
@@ -446,7 +449,7 @@ export const frTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Discutons",
   "whatsapp.message": "Bonjour, je souhaite obtenir un devis pour un service d'impression 3D chez Dimension3D.",
-  "whatsapp.float.label": "Des questions ?",
+  "whatsapp.float.label": "Parlez à une vraie personne",
 
   // Launch offer banner
   "banner.dismiss": "Fermer",

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,6 @@ import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/an
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
-import { useExperiment } from "@/lib/useExperiment";
-import { wasExposureFired, markExposureFired } from "@/lib/experiments";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { effectivePartSettings } from "@/lib/pricing";
 import type { Scope } from "./estimator/PartScopeBar";
@@ -99,42 +97,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
-  const { version: calcVersion, active: calcActive, forced: calcForced, langOk: calcLangOk } = useExperiment("calc_title_r1");
-
-  // Text depends only on language — same on server and first client render.
-  const xpCalcText = (key: string): string =>
-    ["es", "en", "ca"].includes(language) ? t(key) : t("calc.title");
-
-  const fireCalcExposure = useCallback((pageType: string) => {
-    if (!calcActive || !calcLangOk) return;
-    if (wasExposureFired("calc_title_r1")) return;
-    const slots = document.querySelectorAll('[data-xp-slot="calc_title_r1"]');
-    const visible = Array.from(slots).filter(
-      (el) => (el as HTMLElement).offsetParent !== null
-    );
-    let visible_ok = false;
-    if (visible.length === 1 && visible[0].getAttribute("data-xp-v") === String(calcVersion)) {
-      visible_ok = true;
-    } else if (visible.length !== 1) {
-      capture("experiment_error", {
-        experiment: "calc_title_r1",
-        reason: visible.length === 0 ? "no_visible_block" : "visible_mismatch",
-        assigned: calcVersion,
-        visible: visible.length,
-      });
-    }
-    capture("experiment_exposure", {
-      experiment: "calc_title_r1",
-      version: calcVersion,
-      language,
-      page_type: pageType,
-      forced: calcForced,
-      visible_ok,
-    });
-    markExposureFired("calc_title_r1");
-  }, [calcActive, calcLangOk, calcVersion, calcForced, language]);
-
-  // Fire calculator_seen + calc_title experiment exposure when section is ≥50% visible
+  // Fire calculator_seen when section is ≥50% visible
   useEffect(() => {
     if (adminMode) return;
     const section = document.getElementById("calculator");
@@ -149,14 +112,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           observer.disconnect();
           const pageType = window.location.pathname === "/" || window.location.pathname === "/ca" ? "home" : "page";
           capture("calculator_seen", { page_type: pageType });
-          fireCalcExposure(pageType);
         }
       },
       { threshold: 0.5 }
     );
     observer.observe(section);
     return () => observer.disconnect();
-  }, [adminMode, fireCalcExposure]);
+  }, [adminMode]);
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -624,19 +586,28 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         if (raw) { stash = JSON.parse(raw); sessionStorage.removeItem("dim3d-checkout-ctx"); }
       } catch {}
       setCheckoutResult("success");
-      capture('instant_checkout_completed', stash as {
-        value?: number; shipping_fee?: number; currency?: string;
-        fulfillment?: "pickup" | "shipping"; product_type?: string;
-        part_slug?: string; file_count?: number; total_units?: number; material?: string;
-      });
+      capture('checkout_returned', { result: 'success' });
+      // Dedup: only fire instant_checkout_completed once per browser session
+      const completedKey = "dim3d-checkout-completed";
+      const alreadyFired = (() => { try { return !!sessionStorage.getItem(completedKey); } catch { return false; } })();
+      if (!alreadyFired) {
+        try { sessionStorage.setItem(completedKey, "1"); } catch { /* ignore */ }
+        capture('instant_checkout_completed', stash as {
+          value?: number; shipping_fee?: number; currency?: string;
+          fulfillment?: "pickup" | "shipping"; product_type?: string;
+          part_slug?: string; file_count?: number; total_units?: number; material?: string;
+        });
+      }
     } else if (co === "cancelled") {
       setCheckoutResult("cancelled");
+      capture('checkout_returned', { result: 'cancelled' });
       capture('instant_checkout_cancelled');
     }
   }, []);
 
   const handleInstantBuy = async () => {
     if (fulfillment === null) {
+      capture('buy_blocked', { reason: 'no_fulfillment' });
       setFulfillmentAttempted(true);
       const el = fulfillmentPickerRef.current;
       if (el) {
@@ -647,10 +618,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
     // If an email was typed but is invalid, show the error (phone is not required for Stripe)
     if (contactEmail.trim() && !isValidEmail(contactEmail)) {
+      capture('buy_blocked', { reason: 'invalid_email' });
       setContactTouched(true);
       return;
     }
     if (!uploadedRef.current || instantTotalPrice === null) {
+      capture('buy_blocked', { reason: 'uploading' });
       setCheckoutError("Files are still uploading. Please wait a moment and try again.");
       return;
     }
@@ -731,6 +704,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setContactTouched(true);
     if (!cc.ok) {
       setQuoteError(t("calc.contact.atLeastOne"));
+      capture('review_blocked', { reason: 'missing_contact' });
       capture('review_blocked_missing_contact', { code: cc.code });
       return;
     }
@@ -744,6 +718,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     if (!cc.ok) {
       setContactTouched(true);
       setQuoteError(t("calc.contact.atLeastOne"));
+      capture('review_blocked', { reason: 'missing_contact' });
       capture('review_blocked_missing_contact', { code: cc.code });
       return;
     }
@@ -930,6 +905,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const submitExitIntent = async () => {
     if (!contactEmail.trim() && !contactPhone.trim()) {
+      capture('review_blocked', { reason: 'exit_intent_missing_contact' });
       setExitIntentError(t("calc.contact.atLeastOne"));
       return;
     }
@@ -1711,17 +1687,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     <section id="calculator" className="py-20 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-10">
-          <p data-xp-slot="calc_title_r1" data-xp-v="1" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {t("calc.title")}
-          </p>
-          <p data-xp-slot="calc_title_r1" data-xp-v="2" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-            {xpCalcText("xp.calc.v2")}
-          </p>
-          <p data-xp-slot="calc_title_r1" data-xp-v="3" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-            {xpCalcText("xp.calc.v3")}
-          </p>
-          <p data-xp-slot="calc_title_r1" data-xp-v="4" className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-            {xpCalcText("xp.calc.v4")}
           </p>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
             {(UPLOAD_HEADING[language] ?? UPLOAD_HEADING.en).action}

@@ -6,17 +6,21 @@ const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
 const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
 
 // B2: server-side order_paid — idempotent via Stripe session.id as PostHog uuid, 3s timeout
+// Required env vars: POSTHOG_KEY (project API key), POSTHOG_HOST (e.g. https://eu.i.posthog.com)
 async function captureOrderPaid(
   distinctId: string,
   properties: Record<string, unknown>,
   idempotencyKey: string,
   processPersonProfile: boolean,
 ): Promise<void> {
-  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  if (!POSTHOG_KEY || !POSTHOG_HOST) {
+    console.error("[order_paid] Missing env var — POSTHOG_KEY:", !!POSTHOG_KEY, "POSTHOG_HOST:", !!POSTHOG_HOST);
+    return;
+  }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 3000);
   try {
-    await fetch(`${POSTHOG_HOST}/capture/`, {
+    const res = await fetch(`${POSTHOG_HOST}/capture/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -31,8 +35,14 @@ async function captureOrderPaid(
       }),
       signal: controller.signal,
     });
-  } catch {
-    // timeout or network error — never blocks order processing
+    if (!res.ok) {
+      const body = await res.text().catch(() => "(unreadable)");
+      console.error(`[order_paid] PostHog returned ${res.status}: ${body}`);
+    } else {
+      console.log(`[order_paid] Captured for ${distinctId} (session ${idempotencyKey})`);
+    }
+  } catch (e: any) {
+    console.error("[order_paid] Capture failed:", e?.message ?? e);
   } finally {
     clearTimeout(timer);
   }

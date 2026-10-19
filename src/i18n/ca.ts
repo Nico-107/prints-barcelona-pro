@@ -302,7 +302,7 @@ export const caTranslations: Record<string, string> = {
   "footer.nav.aboutCreator": "Sobre el creador",
 
   // STL Price Calculator
-  "calc.title": "Obtén un preu instantani",
+  "calc.title": "Preu a l'instant — des de 10 €",
   "calc.subtitle": "Puja els teus arxius STL — sense compte, sense compromís.",
   "calc.drop": "Deixa anar els teus arxius STL aquí",
   "calc.dropSub": "o fes clic · fins a 20 arxius, màx. 50 MB cadascun",
@@ -382,6 +382,9 @@ export const caTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / telèfon",
   "calc.contact.atLeastOne": "Introdueix almenys un mètode de contacte — email o telèfon",
   "calc.contact.submit": "Enviar sol·licitud de pressupost",
+  "calc.trust.promise": "Pagament segur amb Stripe · Rebut per email · T'escrivim en 1 h",
+  "calc.trust.methods": "Targeta · Apple Pay · Google Pay · iDEAL · Klarna",
+  "calc.trust.secureWith": "Pagament segur amb",
   "calc.contact.submitting": "Pujant i enviant...",
   "calc.contact.success.title": "Sol·licitud enviada!",
   "calc.contact.success.desc": "Revisarem la teva estimació i confirmarem el preu exacte en menys d'1 hora en dies laborables.",
@@ -474,7 +477,7 @@ export const caTranslations: Record<string, string> = {
   // WhatsApp
   "whatsapp.tooltip": "Parlem?",
   "whatsapp.message": "Hola, m'agradaria sol·licitar un servei d'impressió 3D amb Dimension3D.",
-  "whatsapp.float.label": "Dubtes? Escriu-nos",
+  "whatsapp.float.label": "Parla amb una persona real",
 
   // Launch offer banner
   "banner.dismiss": "Tanca",

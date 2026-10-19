@@ -554,6 +554,13 @@ function buildStripeLineItems(
 }
 // PRICING-END
 
+// Map page language to Stripe locale (Stripe supports: es, ca→es, en, de, fr, it, nl, pt)
+function stripeLocale(lang: string): string {
+  const l = (lang ?? "").toLowerCase().split("-")[0];
+  const map: Record<string, string> = { es: "es", ca: "es", en: "en", de: "de", fr: "fr", it: "it", nl: "nl", pt: "pt" };
+  return map[l] ?? "en";
+}
+
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -688,6 +695,11 @@ serve(async (req: Request) => {
       const v3Lines = stripeLinesV3(priced, vBody.pieces, v3LangStr);
 
       const v3Params = new URLSearchParams({ "mode": "payment" });
+      // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
+      // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
+      v3Params.set("after_expiration[recovery][enabled]", "true");
+      v3Params.set("after_expiration[recovery][allow_promotion_codes]", "false");
+      v3Params.set("locale", stripeLocale(v3LangStr));
       v3Lines.forEach((line, i) => {
         v3Params.set(`line_items[${i}][quantity]`, "1");
         v3Params.set(`line_items[${i}][price_data][currency]`, "eur");
@@ -962,6 +974,11 @@ serve(async (req: Request) => {
       );
 
       const params = new URLSearchParams({ "mode": "payment" });
+      // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
+      // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
+      params.set("after_expiration[recovery][enabled]", "true");
+      params.set("after_expiration[recovery][allow_promotion_codes]", "false");
+      params.set("locale", stripeLocale(langStr));
 
       for (let i = 0; i < lineItems.length; i++) {
         params.set(`line_items[${i}][quantity]`, "1");
@@ -1112,6 +1129,11 @@ serve(async (req: Request) => {
 
     const params = new URLSearchParams({
       "mode": "payment",
+      // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
+      // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
+      "after_expiration[recovery][enabled]": "true",
+      "after_expiration[recovery][allow_promotion_codes]": "false",
+      "locale": stripeLocale(typeof language === "string" ? language : ""),
       "line_items[0][quantity]": "1",
       "line_items[0][price_data][currency]": "eur",
       "line_items[0][price_data][unit_amount]": String(Math.round(price * 100)),
