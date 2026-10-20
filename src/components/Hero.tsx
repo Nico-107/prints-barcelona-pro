@@ -4,6 +4,7 @@ import { Upload, MapPin, Clock, UserCheck, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, countryFlag } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { AUTUMN_DISCOUNT } from "@/config/policies";
 
 const GEO_DELIVERY: Record<string, string> = {
   FR: "3–4 business days",
@@ -207,6 +208,12 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
           {isXpLang && (
             <p className="mt-3 text-sm text-primary-foreground/60 animate-fade-in-delay-2">
               {t("xp.hero.v4.under")}
+            </p>
+          )}
+
+          {Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime() && (
+            <p className="mt-3 text-sm font-semibold text-amber-300 animate-fade-in-delay-2">
+              🍂 {t("calc.autumn.badge")}
             </p>
           )}
 
