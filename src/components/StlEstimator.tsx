@@ -23,7 +23,8 @@ import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
-import { isImageFile, isConvertibleModel, fileExt } from "@/lib/fileConverters";
+import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
+import { ContactFields } from "./estimator/ContactFields";
 import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
@@ -200,6 +201,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [imageDescriptions, setImageDescriptions] = useState<Record<string, string>>({});
   const [imageSubmitting, setImageSubmitting] = useState<Record<string, boolean>>({});
   const [imageSubmitted, setImageSubmitted] = useState<Record<string, boolean>>({});
+  const [imageSubmitError, setImageSubmitError] = useState<Record<string, string>>({});
   // Link upload per-file state (fileId → link value)
   const [linkValues, setLinkValues] = useState<Record<string, string>>({});
   const [linkSubmitting, setLinkSubmitting] = useState<Record<string, boolean>>({});
@@ -389,7 +391,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext });
           // Store converted STL file for upload if needed
           const uploadFile = convertedStlBuf ? fileToAnalyze : f;
-          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis });
+          const bboxMm = convertedStlBuf ? stlBboxMm(convertedStlBuf) : undefined;
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis, bboxMm });
         }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -431,13 +434,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           support_cm3: nextBundle.estimates.reduce((s, e) => s + e.supportCm3, 0),
           orientation_saving_eur: nextBundle.savedByOrientationEur,
         });
-
-        // Open confirmation modal once per estimate on all screen sizes
-        if (!modalShownRef.current && !hasSubmitted) {
-          modalShownRef.current = true;
-          setMobileModalOpen(true);
-          capture('estimate_modal_shown', { has_bundle: true });
-        }
 
         // Upload files early (fire-and-forget) so submission is near-instant
         const validForUpload = nextFiles.filter(f => !f.parseError && f.file && f.sizeBytes <= MAX_BYTES);
@@ -523,14 +519,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             }).catch(console.error);
           }
         })();
-      } else {
-        // No valid STL bundle — but maybe image/link files were added; open modal anyway
-        const hasSpecialFiles = nextFiles.some(f => f.imageFile || f.linkFile);
-        if (hasSpecialFiles && !modalShownRef.current && !hasSubmitted) {
-          modalShownRef.current = true;
-          setMobileModalOpen(true);
-          capture('estimate_modal_shown', { has_bundle: false });
-        }
+      }
+      // Open confirmation modal for any file addition — includes image, link, and parse-error files
+      if (!modalShownRef.current && !hasSubmitted && results.length > 0) {
+        modalShownRef.current = true;
+        setMobileModalOpen(true);
+        capture('estimate_modal_shown', { has_bundle: !!nextBundle });
       }
     }
   };
@@ -629,12 +623,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const handleImageSubmit = async (fileId: string, imageFile: File) => {
     const desc = imageDescriptions[fileId] ?? "";
     setImageSubmitting(prev => ({ ...prev, [fileId]: true }));
+    setImageSubmitError(prev => ({ ...prev, [fileId]: "" }));
     try {
       const timestamp = Date.now();
       const sanitized = imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "_");
       const path = `${timestamp}-${sanitized}`;
-      await supabaseAnon.storage.from("print-requests").upload(path, imageFile);
-      await supabase.functions.invoke("send-quote-request", {
+      const { error: uploadErr } = await supabaseAnon.storage.from("print-requests").upload(path, imageFile);
+      if (uploadErr) throw uploadErr;
+      const { error: invokeErr } = await supabase.functions.invoke("send-quote-request", {
         body: {
           filePaths: [path],
           fileNames: [imageFile.name],
@@ -664,10 +660,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fulfillment: null,
         },
       });
+      if (invokeErr) throw invokeErr;
       capture("image_design_request_submitted", { lang: language });
       setImageSubmitted(prev => ({ ...prev, [fileId]: true }));
     } catch (e) {
       console.error("image submit error:", e);
+      setImageSubmitError(prev => ({ ...prev, [fileId]: t("calc.image.submit.error") }));
     }
     setImageSubmitting(prev => ({ ...prev, [fileId]: false }));
   };
@@ -961,6 +959,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     checkoutFailureNoteRef.current = `INSTANT CHECKOUT FAILED: ${code} — send Stripe payment link`;
     setQuoteError(null);
     setShowManualReview(true);
+    submitQuote();
+  };
+
+  const handleSendForFreeReview = (fileId: string) => {
+    const file = parsedFiles.find(f => f.id === fileId);
+    capture('parse_error_free_review_click', { name: file?.name });
+    const cc = checkContact(contactEmail, contactPhone);
+    setContactTouched(true);
+    if (!cc.ok) {
+      setQuoteError(t("calc.contact.atLeastOne"));
+      return;
+    }
+    checkoutFailureNoteRef.current = `PARSE ERROR: ${file?.name ?? fileId}`;
+    setQuoteError(null);
     submitQuote();
   };
 
@@ -1762,7 +1774,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       </div>
 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
-      {!adminMode && (bundle || parsedFiles.some(f => f.imageFile || f.linkFile)) && (() => {
+      {!adminMode && (bundle || parsedFiles.some(f => f.imageFile || f.linkFile || !!f.parseError)) && (() => {
         const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
 
         const sharedOrderPanelProps = {
@@ -1885,7 +1897,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
                 {imageSubmitted[f.id] ? (
                   <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
-                    <CheckCircle className="w-3.5 h-3.5" /> {t("calc.image.card.success")}
+                    <CheckCircle className="w-3.5 h-3.5" /> {t("calc.image.submit.success")}
                   </p>
                 ) : (
                   <div className="space-y-2">
@@ -1898,6 +1910,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       disabled={imageSubmitting[f.id]}
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
+                    <ContactFields
+                      email={contactEmail}
+                      phone={contactPhone}
+                      touched={contactTouched}
+                      disabled={imageSubmitting[f.id]}
+                      t={t}
+                      onEmailChange={v => { setContactEmail(v); if (v.length === 1) capture('contact_entered', { field: 'email' }); }}
+                      onPhoneChange={v => { setContactPhone(v); if (v.length === 1) capture('contact_entered', { field: 'phone' }); }}
+                    />
+                    {imageSubmitError[f.id] && (
+                      <p className="text-xs text-destructive">{imageSubmitError[f.id]}</p>
+                    )}
                     <Button
                       variant="cta"
                       size="sm"
@@ -1973,6 +1997,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               }}
               onQtyChange={updateQty}
               onRemove={removeFile}
+              onFreeReview={handleSendForFreeReview}
             />
 
             {/* Add files button */}
@@ -2009,9 +2034,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             )}
           </div>
         ) : !bundle ? (
-          // Image/link-only: show a minimal contact prompt
+          // Image/link/parse-error only: show 3-step flow + contact form
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">{t("calc.exitIntent.body")}</p>
+            <div className="space-y-2">
+              {([1, 2, 3] as const).map(n => (
+                <div key={n} className="flex items-start gap-2">
+                  <span className="shrink-0 w-5 h-5 rounded-full bg-accent/15 text-accent text-[11px] font-semibold flex items-center justify-center mt-0.5">{n}</span>
+                  <p className="text-sm text-muted-foreground">{t(`calc.image.steps.${n}`)}</p>
+                </div>
+              ))}
+            </div>
             <OrderPanel
               {...sharedOrderPanelProps}
               hideParts={true}

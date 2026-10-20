@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { ParsedFile, PartDefaults } from "@/lib/pricing";
 import { effectivePartSettings } from "@/lib/pricing";
 import { capture } from "@/lib/analytics";
@@ -18,6 +19,7 @@ interface PartSummaryListProps {
   onSelect: (viewableIdx: number, fileId: string) => void;
   onQtyChange: (id: string, qty: number) => void;
   onRemove: (id: string) => void;
+  onFreeReview?: (fileId: string) => void;
 }
 
 function stripUploadPrefix(name: string): string {
@@ -26,7 +28,7 @@ function stripUploadPrefix(name: string): string {
 
 export function PartSummaryList({
   parsedFiles, viewableFiles, defaults, selectedFileIndex,
-  costByFileId, disabled, t, language, onSelect, onQtyChange, onRemove,
+  costByFileId, disabled, t, language, onSelect, onQtyChange, onRemove, onFreeReview,
 }: PartSummaryListProps) {
   const scrollClass = parsedFiles.length > 4 ? "max-h-[26dvh] overflow-y-auto" : "";
 
@@ -50,7 +52,7 @@ export function PartSummaryList({
             : "bg-muted/20 border border-border/50 hover:border-border";
 
           return (
-            <div key={f.id} className={`rounded-lg ${rowBg} transition-colors`}>
+            <div key={f.id} className={`rounded-lg ${rowBg} transition-colors overflow-hidden`}>
               <div
                 className="flex items-center gap-2 px-3 min-h-[44px] py-1.5"
                 style={!f.parseError && viewableIdx !== -1 ? { cursor: "pointer" } : undefined}
@@ -64,6 +66,14 @@ export function PartSummaryList({
                   ) : matColour ? (
                     <p className="text-[10px] text-muted-foreground leading-tight">{matColour}</p>
                   ) : null}
+                  {!f.parseError && f.bboxMm && (
+                    <p className="text-[10px] text-muted-foreground leading-tight">
+                      {t("calc.part.detectedSize")
+                        .replace("{x}", f.bboxMm.x.toFixed(1))
+                        .replace("{y}", f.bboxMm.y.toFixed(1))
+                        .replace("{z}", f.bboxMm.z.toFixed(1))}
+                    </p>
+                  )}
                 </div>
 
                 {/* Price */}
@@ -118,6 +128,19 @@ export function PartSummaryList({
                   <X className="w-3.5 h-3.5 text-muted-foreground" />
                 </button>
               </div>
+              {f.parseError && onFreeReview && (
+                <div className="px-3 pb-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full text-xs h-7"
+                    disabled={disabled}
+                    onClick={e => { e.stopPropagation(); onFreeReview(f.id); }}
+                  >
+                    {t("calc.error.freeReview.button")}
+                  </Button>
+                </div>
+              )}
             </div>
           );
         })}
