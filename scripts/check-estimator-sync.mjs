@@ -8,6 +8,7 @@ const FN = "supabase/functions/create-instant-checkout/index.ts";
 const PAIRS = [
   { name: "ESTIMATOR", start: "// ESTIMATOR-START", end: "// ESTIMATOR-END", client: "src/lib/estimator/core.ts" },
   { name: "CHECKOUT-V3", start: "// CHECKOUT-V3-START", end: "// CHECKOUT-V3-END", client: "src/lib/checkoutV3.ts" },
+  { name: "AUTUMN-DISCOUNT", start: "// AUTUMN-DISCOUNT-START", end: "// AUTUMN-DISCOUNT-END", client: "src/config/policies.ts" },
 ];
 const block = (text, s, e) => {
   const a = text.indexOf(s), b = text.indexOf(e);

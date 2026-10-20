@@ -276,8 +276,8 @@ export const ptTranslations: Record<string, string> = {
   // STL Price Calculator
   "calc.title": "Preço imediato — a partir de 10 €",
   "calc.subtitle": "Envie os seus ficheiros STL — sem conta, sem compromisso.",
-  "calc.drop": "Arraste os seus ficheiros STL para aqui",
-  "calc.dropSub": "ou clique para procurar · até 20 ficheiros, máx. 50 MB cada",
+  "calc.drop": "Arraste os seus ficheiros para aqui",
+  "calc.dropSub": "STL, OBJ, 3MF, GLB — ou uma foto do que precisa",
   "calc.addMore": "Adicionar mais ficheiros",
   "calc.maxFiles": "Máximo de 20 ficheiros atingido",
   "calc.material": "Material",
@@ -313,6 +313,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.modal.trust": "{rating}/5 de {count} avaliações do Google · Sem conta · Sem spam",
   "calc.modal.dragHint": "Arraste para rodar",
   "calc.viewer.multicolourCaption": "Multicolor: cores escolhidas consigo",
+  "calc.viewer.expand": "Ver em 3D",
   "city.instantCheckout.comingSoon": "O pagamento imediato para este país está a chegar — peça um orçamento.",
   "calc.modal.moreFiles": "e mais {count} ficheiros",
   "calc.result.detail": "{grams}g · ~{hours}h de impressão",
@@ -405,7 +406,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup.short": "Levantamento (grátis)",
   "calc.instantBuy.fulfillment.shipping.short": "Envio +{price}",
   "calc.instantBuy.confirmation": "Confirmação instantânea — pronto para imprimir. Nenhuma revisão manual necessária para este preço.",
-  "calc.exitIntent.headline": "Atenção! Ainda não recebemos o seu ficheiro",
+  "calc.exitIntent.headline": "Ainda não tem a certeza? Podemos rever por si.",
   "calc.exitIntent.body": "Deixe aqui o seu email ou WhatsApp — analisamos a sua peça e entramos em contacto consigo pessoalmente. Gratuito, sem compromisso.",
   "calc.exitIntent.email": "O seu email",
   "calc.exitIntent.phone": "WhatsApp / telefone",
@@ -818,4 +819,28 @@ export const ptTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Outro motivo",
   "survey.exit.thanks": "Obrigado pelo teu feedback!",
   "survey.exit.whatsapp": "Falar no WhatsApp",
+
+  // Item 2 — new file types
+  "calc.upload.format": "STL, OBJ, 3MF, GLB — ou uma foto do que precisa",
+  "calc.upload.unit.warning": "As unidades parecem incorretas — a maior dimensão é {dim} mm. Usou metros ou polegadas?",
+  "calc.upload.unit.warning.scale": "{label}: redimensionar para {dim} mm?",
+  "calc.upload.link.title": "Ficheiro demasiado grande para carregar",
+  "calc.upload.link.body": "Partilhe um link WeTransfer ou Google Drive e tratamos do resto.",
+  "calc.upload.link.placeholder": "Cole o link aqui",
+  "calc.upload.link.submit": "Enviar link",
+  "calc.image.card.title": "Desenhamos a peça a partir da sua foto",
+  "calc.image.card.body": "Respondemos em 1 h com um preço.",
+  "calc.image.card.desc.placeholder": "Descreva a peça — dimensões, material, utilização…",
+  "calc.image.card.submit": "Enviar pedido",
+  "calc.image.card.submitting": "A enviar…",
+  "calc.image.card.success": "Recebido! Responderemos em cerca de 1 hora.",
+  "calc.image.card.error": "Algo correu mal. Tente o WhatsApp.",
+
+  // Item 3 — contact name
+  "calc.contact.name": "Nome (opcional)",
+
+  // Item 4 — autumn discount
+  "calc.autumn.badge": "Oferta de outono",
+  "calc.autumn.line": "Desconto de outono −10 %",
+  "calc.autumn.nudge": "Adicione mais {amount} e poupe 10 %",
 };

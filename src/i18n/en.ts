@@ -304,8 +304,8 @@ export const enTranslations: Record<string, string> = {
   // STL Price Calculator
   "calc.title": "Instant price — from €10",
   "calc.subtitle": "Upload your STL files — no account, no commitment.",
-  "calc.drop": "Drop your STL files here",
-  "calc.dropSub": "or click to browse · up to 20 files, max 50 MB each",
+  "calc.drop": "Drop your files here",
+  "calc.dropSub": "STL, OBJ, 3MF, GLB — or a photo of what you need",
   "calc.addMore": "Add more files",
   "calc.maxFiles": "Maximum 20 files reached",
   "calc.material": "Material",
@@ -341,6 +341,7 @@ export const enTranslations: Record<string, string> = {
   "calc.modal.trust": "{rating}/5 from {count} Google reviews · No account needed · No spam",
   "calc.modal.dragHint": "Drag to rotate",
   "calc.viewer.multicolourCaption": "Multicolour: colours chosen with you",
+  "calc.viewer.expand": "View in 3D",
   "city.instantCheckout.comingSoon": "Instant checkout for this country is coming — request a quote instead.",
   "calc.modal.moreFiles": "and {count} more files",
   "calc.result.detail": "{grams}g · ~{hours}h print time",
@@ -433,8 +434,8 @@ export const enTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup.short": "Pickup (free)",
   "calc.instantBuy.fulfillment.shipping.short": "Shipping +{price}",
   "calc.instantBuy.confirmation": "Instant confirmation — ready to print. No manual review needed for this price.",
-  "calc.exitIntent.headline": "We haven't received your file yet!",
-  "calc.exitIntent.body": "Leave your email or WhatsApp number here and we'll review your part and get back to you personally — free, no commitment.",
+  "calc.exitIntent.headline": "Not sure yet? We can review it for you.",
+  "calc.exitIntent.body": "Leave your email or WhatsApp — we'll check your file and get back to you personally. Free, no commitment.",
   "calc.exitIntent.email": "Your email",
   "calc.exitIntent.phone": "WhatsApp / phone",
   "calc.exitIntent.success": "Got it! We'll be in touch soon.",
@@ -817,4 +818,28 @@ export const enTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Something else",
   "survey.exit.thanks": "Thanks for letting us know!",
   "survey.exit.whatsapp": "Chat on WhatsApp",
+
+  // Item 2: new file formats + image flow
+  "calc.upload.format": "STL, OBJ, 3MF, GLB — or a photo of what you need",
+  "calc.upload.unit.warning": "Are the dimensions correct? The part seems {dim}.",
+  "calc.upload.unit.warning.scale": "Scale ×10 / ÷10 / ×1000",
+  "calc.upload.link.title": "File is larger than 50 MB",
+  "calc.upload.link.body": "Send us a download link (WeTransfer, Google Drive…)",
+  "calc.upload.link.placeholder": "Paste link here",
+  "calc.upload.link.submit": "Send link",
+  "calc.image.card.title": "We'll design the part from your photo",
+  "calc.image.card.body": "We reply within 1 h with a price.",
+  "calc.image.card.desc.placeholder": "What is it? Approximate size?",
+  "calc.image.card.submit": "Request design",
+  "calc.image.card.submitting": "Sending…",
+  "calc.image.card.success": "Sent! We'll reply with a price within 1 h.",
+  "calc.image.card.error": "Something went wrong. Please try again.",
+
+  // Item 3: optional name field
+  "calc.contact.name": "Your name (optional)",
+
+  // Item 4: autumn discount
+  "calc.autumn.badge": "−10% on orders from €20 until 30/11",
+  "calc.autumn.line": "Autumn discount −10 %",
+  "calc.autumn.nudge": "Add {amount} more and save 10%",
 };

@@ -276,8 +276,8 @@ export const frTranslations: Record<string, string> = {
   // STL Price Calculator
   "calc.title": "Prix instantané — à partir de 10 €",
   "calc.subtitle": "Envoyez vos fichiers STL — sans compte, sans engagement.",
-  "calc.drop": "Déposez vos fichiers STL ici",
-  "calc.dropSub": "ou cliquez pour parcourir · jusqu'à 20 fichiers, 50 Mo max chacun",
+  "calc.drop": "Déposez vos fichiers ici",
+  "calc.dropSub": "STL, OBJ, 3MF, GLB — ou une photo de ce dont vous avez besoin",
   "calc.addMore": "Ajouter d'autres fichiers",
   "calc.maxFiles": "Maximum de 20 fichiers atteint",
   "calc.material": "Matériau",
@@ -313,6 +313,7 @@ export const frTranslations: Record<string, string> = {
   "calc.modal.trust": "{rating}/5 sur {count} avis Google · Pas de compte requis · Pas de spam",
   "calc.modal.dragHint": "Faites glisser pour tourner",
   "calc.viewer.multicolourCaption": "Multicolore : couleurs choisies avec vous",
+  "calc.viewer.expand": "Voir en 3D",
   "city.instantCheckout.comingSoon": "Le paiement instantané pour ce pays arrive bientôt — demandez un devis.",
   "calc.modal.moreFiles": "et {count} autres fichiers",
   "calc.result.detail": "{grams}g · ~{hours}h d'impression",
@@ -405,7 +406,7 @@ export const frTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup.short": "Retrait (gratuit)",
   "calc.instantBuy.fulfillment.shipping.short": "Livraison +{price}",
   "calc.instantBuy.confirmation": "Confirmation instantanée — prêt à imprimer. Aucune révision manuelle nécessaire pour ce prix.",
-  "calc.exitIntent.headline": "Attendez ! Nous n'avons pas encore reçu votre fichier",
+  "calc.exitIntent.headline": "Pas encore sûr(e) ? Nous pouvons l'examiner pour vous.",
   "calc.exitIntent.body": "Laissez votre e-mail ou WhatsApp directement ici — nous analyserons votre pièce et vous répondrons personnellement. Gratuit, sans engagement.",
   "calc.exitIntent.email": "Votre e-mail",
   "calc.exitIntent.phone": "WhatsApp / téléphone",
@@ -818,4 +819,28 @@ export const frTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Autre chose",
   "survey.exit.thanks": "Merci pour votre réponse !",
   "survey.exit.whatsapp": "Discuter sur WhatsApp",
+
+  // Item 2 — new file types
+  "calc.upload.format": "STL, OBJ, 3MF, GLB — ou une photo de ce dont vous avez besoin",
+  "calc.upload.unit.warning": "Les unités semblent incorrectes — la plus grande dimension est {dim} mm. Avez-vous utilisé des mètres ou des pouces ?",
+  "calc.upload.unit.warning.scale": "{label} : redimensionner à {dim} mm ?",
+  "calc.upload.link.title": "Fichier trop volumineux pour être téléchargé",
+  "calc.upload.link.body": "Partagez un lien WeTransfer ou Google Drive et nous nous en occuperons.",
+  "calc.upload.link.placeholder": "Collez le lien ici",
+  "calc.upload.link.submit": "Envoyer le lien",
+  "calc.image.card.title": "Nous concevrons la pièce à partir de votre photo",
+  "calc.image.card.body": "Nous vous répondrons dans 1 h avec un prix.",
+  "calc.image.card.desc.placeholder": "Décrivez la pièce — dimensions, matériau, utilisation…",
+  "calc.image.card.submit": "Envoyer la demande",
+  "calc.image.card.submitting": "Envoi en cours…",
+  "calc.image.card.success": "Reçu ! Nous vous répondrons dans environ 1 heure.",
+  "calc.image.card.error": "Une erreur s'est produite. Essayez WhatsApp.",
+
+  // Item 3 — contact name
+  "calc.contact.name": "Nom (facultatif)",
+
+  // Item 4 — autumn discount
+  "calc.autumn.badge": "Offre d'automne",
+  "calc.autumn.line": "Remise d'automne −10 %",
+  "calc.autumn.nudge": "Ajoutez {amount} de plus et économisez 10 %",
 };
