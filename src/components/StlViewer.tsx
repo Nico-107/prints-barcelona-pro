@@ -8,9 +8,11 @@ interface StlViewerProps {
   onReady?: () => void;
   /** Optional colour value — named key, hex string, or free-text colour word */
   colour?: string;
+  /** CSS touch-action for the canvas. Use "pan-y" so scroll passes through when not expanded. */
+  touchAction?: string;
 }
 
-export default function StlViewer({ file, size = 240, onError, onReady, colour }: StlViewerProps) {
+export default function StlViewer({ file, size = 240, onError, onReady, colour, touchAction }: StlViewerProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -118,6 +120,7 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour }
         canvas.style.height = "100%";
         canvas.style.cursor = "grab";
         canvas.style.borderRadius = "8px";
+        if (touchAction) canvas.style.touchAction = touchAction;
 
         cleanupFn = () => {
           renderer.dispose();
@@ -166,16 +169,24 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour }
         setIsLoading(false);
         onReady?.();
 
-        // ResizeObserver — keep renderer in sync with container size
+        // ResizeObserver — debounced with rAF + same-size guard to prevent the
+        // "ResizeObserver loop completed with undelivered notifications" error.
+        let roRafId: number | null = null;
+        let roLastW = 0, roLastH = 0;
         const ro = new ResizeObserver(() => {
-          if (!containerRef.current) return;
-          const w = containerRef.current.clientWidth;
-          const h = containerRef.current.clientHeight;
-          if (w > 0 && h > 0) {
+          if (roRafId !== null) return;
+          roRafId = requestAnimationFrame(() => {
+            roRafId = null;
+            if (!containerRef.current) return;
+            const w = containerRef.current.clientWidth;
+            const h = containerRef.current.clientHeight;
+            if (w === roLastW && h === roLastH) return;
+            if (w <= 0 || h <= 0) return;
+            roLastW = w; roLastH = h;
             renderer.setSize(w, h);
             camera.aspect = w / h;
             camera.updateProjectionMatrix();
-          }
+          });
         });
         ro.observe(cont);
 
@@ -280,6 +291,13 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour }
       cleanupFn?.();
     };
   }, [isMounted, file, size]);
+
+  // Update canvas touch-action when prop changes (without reloading the geometry)
+  useEffect(() => {
+    const renderer = rendererRef.current;
+    if (!renderer?.domElement) return;
+    renderer.domElement.style.touchAction = touchAction ?? "";
+  }, [touchAction]);
 
   // Separate effect: update material colour whenever `colour` prop changes
   // Does NOT reload the file — runs independently of the geometry effect.
