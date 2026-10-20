@@ -5,7 +5,7 @@
 - [x] 3. "What stopped you?" micro-survey
 - [x] 4. Heatmaps and session replay (consent only)
 - [x] 5. Experiment wave 1 (3 tests + header)
-- [ ] 6. Results script (`scripts/xp/report.mjs`)
+- [x] 6. Results script (`scripts/xp/report.mjs`)
 - [ ] 7. Experiment log and backlog
 - [ ] 8. Design polish
 - [ ] 9. Verification and final output
