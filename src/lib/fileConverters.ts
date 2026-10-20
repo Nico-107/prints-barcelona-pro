@@ -38,9 +38,14 @@ function meshToStlBuffer(mesh: THREE.Mesh): ArrayBuffer {
   // STLExporter returns DataView for binary:true, string for binary:false
   const result = exporter.parse(mesh, { binary: true }) as unknown as DataView | string;
   if (typeof result === "string") {
-    return new TextEncoder().encode(result).buffer;
+    const bytes = new TextEncoder().encode(result);
+    const out = new ArrayBuffer(bytes.byteLength);
+    new Uint8Array(out).set(bytes);
+    return out;
   }
-  return result.buffer;
+  const out = new ArrayBuffer(result.byteLength);
+  new Uint8Array(out).set(new Uint8Array(result.buffer, result.byteOffset, result.byteLength));
+  return out;
 }
 
 export async function objToStlBuffer(file: File): Promise<ArrayBuffer> {
