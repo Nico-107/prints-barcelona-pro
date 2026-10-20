@@ -1249,7 +1249,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         capture("submit_error", { stage: "exit_intent", table: "quote_requests", code: insertErr.code ?? "unknown" });
         throw new Error(insertErr.message);
       }
-      supabase.functions.invoke("send-quote-request", {
+      const { error: sendErr } = await supabase.functions.invoke("send-quote-request", {
         body: {
           filePaths: uploadedPaths,
           fileNames: uploadedNames,
@@ -1270,7 +1270,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour: exitSummary.multicolour,
           sourceCity: refCity ?? null,
           pieces: exitPieces,
-          // Source tracking (Item 6)
           sourcePath: window.location.pathname,
           sourceUrl: `${window.location.origin}${window.location.pathname}`,
           pageLanguage: language,
@@ -1279,7 +1278,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           utm: exitUtm ?? null,
           fulfillment,
         },
-      }).catch(e => console.error("send-quote-request failed:", e));
+      });
+      if (sendErr) throw sendErr;
       exitIntentCloseReasonRef.current = "recovered";
       capture("exit_intent_recovered");
       setExitIntentSubmitting(false);
@@ -2224,7 +2224,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             setShowExitIntent(open);
           }}
         >
-          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button]:!hidden">
+          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
             {exitIntentSubmitted ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
@@ -2241,40 +2241,42 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   </div>
                 </DialogHeader>
                 <p className="text-sm text-muted-foreground mb-4">{t("calc.exitIntent.body")}</p>
-                <div className="space-y-2 mb-4">
-                  <input
-                    type="email"
-                    value={contactEmail}
-                    onChange={e => setContactEmail(e.target.value)}
-                    placeholder={t("calc.exitIntent.email")}
+                <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }}>
+                  <div className="space-y-2 mb-4">
+                    <input
+                      type="email"
+                      value={contactEmail}
+                      onChange={e => setContactEmail(e.target.value)}
+                      placeholder={t("calc.exitIntent.email")}
+                      disabled={exitIntentSubmitting}
+                      data-ph-mask
+                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    <input
+                      type="tel"
+                      value={contactPhone}
+                      onChange={e => setContactPhone(e.target.value)}
+                      placeholder={t("calc.exitIntent.phone")}
+                      disabled={exitIntentSubmitting}
+                      data-ph-mask
+                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    {exitIntentError && (
+                      <p className="text-xs text-destructive">{exitIntentError}</p>
+                    )}
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="cta"
+                    className="w-full gap-2"
                     disabled={exitIntentSubmitting}
-                    data-ph-mask
-                    className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                  />
-                  <input
-                    type="tel"
-                    value={contactPhone}
-                    onChange={e => setContactPhone(e.target.value)}
-                    placeholder={t("calc.exitIntent.phone")}
-                    disabled={exitIntentSubmitting}
-                    data-ph-mask
-                    className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                  />
-                  {exitIntentError && (
-                    <p className="text-xs text-destructive">{exitIntentError}</p>
-                  )}
-                </div>
-                <Button
-                  variant="cta"
-                  className="w-full gap-2"
-                  onClick={submitExitIntent}
-                  disabled={exitIntentSubmitting}
-                >
-                  {exitIntentSubmitting
-                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
-                  }
-                </Button>
+                  >
+                    {exitIntentSubmitting
+                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                      : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
+                    }
+                  </Button>
+                </form>
                 <button
                   type="button"
                   className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
