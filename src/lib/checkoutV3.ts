@@ -1,5 +1,6 @@
 import { EST, estimatePart, priceOrder } from "./estimator/core";
 import type { MeshAnalysis, OrderPrice, PartEstimate, QualityKey } from "./estimator/core";
+import { AUTUMN_DISCOUNT } from "@/config/policies";
 
 // CHECKOUT-V3-START
 // =====================================================================================
@@ -69,20 +70,71 @@ export function evaluateV3(body: any, analyses: MeshAnalysis[]): V3Result<{ body
   return { ok: true, value: { body: val, priced, shippingCents, chargeCents: priced.order.totalCents + shippingCents } };
 }
 
-/** Stripe line items (cents) — one per part with cost > 0, plus setup / minimum-adjustment / express. Sum == order.totalCents. */
-export function stripeLinesV3(priced: V3Priced, pieces: V3Piece[], language: string): { name: string; cents: number }[] {
-  const L = language === 'es' ? { fill: 'relleno', setup: 'Preparación del pedido', min: 'Ajuste al pedido mínimo (10 €)', exp: 'Suplemento express' }
-    : language === 'ca' ? { fill: 'farciment', setup: 'Preparació de la comanda', min: 'Ajust a la comanda mínima (10 €)', exp: 'Suplement exprés' }
-    : { fill: 'infill', setup: 'Order setup', min: 'Adjustment to the €10 minimum', exp: 'Express surcharge' };
-  const lines: { name: string; cents: number }[] = [];
+/**
+ * Stripe line items (cents) — one per part with cost > 0, plus setup / minimum-adjustment / express.
+ * Sum == order.totalCents (before discount), or (order.totalCents - autumnDiscountCents) when discount applies.
+ * Discount is spread proportionally across print lines; setup/express lines are not discounted.
+ */
+export function stripeLinesV3(
+  priced: V3Priced,
+  pieces: V3Piece[],
+  language: string,
+  autumnDiscountCents = 0,
+): { name: string; cents: number }[] {
+  const L = language === 'es'
+    ? { fill: 'relleno', setup: 'Preparación del pedido', min: 'Ajuste al pedido mínimo (10 €)', exp: 'Suplemento express', disc: 'Descuento de otoño −10 %' }
+    : language === 'ca'
+    ? { fill: 'farciment', setup: 'Preparació de la comanda', min: 'Ajust a la comanda mínima (10 €)', exp: 'Suplement exprés', disc: 'Descompte de tardor −10 %' }
+    : language === 'de'
+    ? { fill: 'Füllung', setup: 'Auftragseinrichtung', min: 'Anpassung auf Mindestbestellung (10 €)', exp: 'Expressaufschlag', disc: 'Herbstrabatt −10 %' }
+    : language === 'fr'
+    ? { fill: 'remplissage', setup: 'Préparation de la commande', min: "Ajustement au minimum (10 €)", exp: 'Supplément express', disc: 'Remise automne −10 %' }
+    : language === 'nl'
+    ? { fill: 'vulling', setup: 'Ordervoorbereiding', min: 'Aanpassing aan minimumbestelling (10 €)', exp: 'Expresstoeslag', disc: 'Herfstkorting −10 %' }
+    : language === 'it'
+    ? { fill: 'riempimento', setup: 'Preparazione ordine', min: "Adeguamento al minimo d'ordine (10 €)", exp: 'Supplemento express', disc: 'Sconto autunnale −10 %' }
+    : language === 'pt'
+    ? { fill: 'preenchimento', setup: 'Preparação do pedido', min: "Ajuste ao mínimo do pedido (10 €)", exp: 'Suplemento expresso', disc: 'Desconto de outono −10 %' }
+    : { fill: 'infill', setup: 'Order setup', min: 'Adjustment to the €10 minimum', exp: 'Express surcharge', disc: 'Autumn discount −10 %' };
+
+  // Collect print lines (part cost rows only, not setup/express)
+  const printLines: { name: string; cents: number }[] = [];
   priced.order.parts.forEach((pl, i) => {
     if (pl.costCents <= 0) return;
     const p = pieces[i];
-    lines.push({ name: `${p.name} — ${p.material}, ${p.infill}% ${L.fill}, ×${p.quantity}`.slice(0, 120), cents: pl.costCents });
+    printLines.push({ name: `${p.name} — ${p.material}, ${p.infill}% ${L.fill}, ×${p.quantity}`.slice(0, 120), cents: pl.costCents });
   });
+
+  // Apply autumn discount proportionally across print lines
+  if (autumnDiscountCents > 0 && printLines.length > 0) {
+    const printTotal = printLines.reduce((s, l) => s + l.cents, 0);
+    let distributed = 0;
+    for (let i = 0; i < printLines.length - 1; i++) {
+      const share = Math.round((printLines[i].cents / printTotal) * autumnDiscountCents);
+      printLines[i].cents -= share;
+      printLines[i].name = `${printLines[i].name} · ${L.disc}`.slice(0, 120);
+      distributed += share;
+    }
+    // Last line absorbs rounding residual so total is exact
+    const last = printLines[printLines.length - 1];
+    last.cents -= (autumnDiscountCents - distributed);
+    last.name = `${last.name} · ${L.disc}`.slice(0, 120);
+  }
+
+  const lines: { name: string; cents: number }[] = [...printLines];
   if (priced.order.setupCents > 0) lines.push({ name: L.setup, cents: priced.order.setupCents });
   if (priced.order.minAdjCents > 0) lines.push({ name: L.min, cents: priced.order.minAdjCents });
   if (priced.order.expressCents > 0) lines.push({ name: L.exp, cents: priced.order.expressCents });
   return lines;
+}
+
+/** Returns autumn discount in cents if the offer is active and the print subtotal qualifies; else 0. */
+export function computeAutumnDiscount(printSubtotalCents: number): number {
+  const now = Date.now();
+  const end = new Date(AUTUMN_DISCOUNT.endsAt).getTime();
+  if (now > end) return 0;
+  if (printSubtotalCents < AUTUMN_DISCOUNT.minCents) return 0;
+  // Discount = round(subtotal × 10%) so discounted total = round(subtotal × 0.9) exactly
+  return Math.round(printSubtotalCents * AUTUMN_DISCOUNT.pct / 100);
 }
 // CHECKOUT-V3-END
