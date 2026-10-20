@@ -8,4 +8,4 @@
 - [x] 6. Results script (`scripts/xp/report.mjs`)
 - [x] 7. Experiment log and backlog
 - [x] 8. Design polish
-- [ ] 9. Verification and final output
+- [x] 9. Verification and final output

@@ -21,7 +21,7 @@ const registrySrc = readFileSync(resolve(root, "src/lib/experiments/registry.ts"
 
 // Match objects like: { id: 'header_btn_r2', ... variants: ['A','B'], ... enabled: true, }
 // across multiple lines within REGISTRY array
-const experimentBlocks = registrySrc.split(/\{(?=[^{}]*\bid:/);
+const experimentBlocks = registrySrc.split(/\{(?=[^{}]*\bid:)/);
 const enabledExps = experimentBlocks
   .slice(1) // skip preamble before first block
   .reduce((acc, block) => {

@@ -15,13 +15,13 @@ function generateExperimentCSS(): string {
   const rules: string[] = [];
   for (const [id, exp] of Object.entries(EXPERIMENTS)) {
     const attr = camelToKebab(exp.attr);
-    for (let v = 1; v <= exp.versions; v++) {
+    for (const v of exp.variants) {
       rules.push(
         `html[data-${attr}="${v}"] [data-xp-slot="${id}"]:not([data-xp-v="${v}"]){display:none!important}`
       );
     }
     rules.push(
-      `html:not([data-${attr}]) [data-xp-slot="${id}"]:not([data-xp-v="1"]){display:none!important}`
+      `html:not([data-${attr}]) [data-xp-slot="${id}"]:not([data-xp-v="${exp.variants[0]}"]){display:none!important}`
     );
   }
   return rules.join("");
@@ -29,37 +29,42 @@ function generateExperimentCSS(): string {
 
 function generateExperimentScript(): string {
   const expList = Object.entries(EXPERIMENTS).map(([id, exp]) => {
-    const endMs = new Date(exp.endsOn + "T00:00:00Z").getTime();
-    return `{i:${JSON.stringify(id)},a:${JSON.stringify(exp.attr)},q:${JSON.stringify(exp.qa)},v:${exp.versions},on:${exp.enabled},e:${endMs}}`;
+    const startMs = new Date(exp.startedOn + "T00:00:00Z").getTime();
+    const endMs = startMs + exp.maxDays * 86400000;
+    return `{i:${JSON.stringify(id)},a:${JSON.stringify(exp.attr)},vs:${JSON.stringify(exp.variants)},on:${exp.enabled},e:${endMs}}`;
   });
+
+  const fallbackList = Object.entries(EXPERIMENTS)
+    .map(([, e]) => `[${JSON.stringify(e.attr)},${JSON.stringify(e.variants[0])}]`)
+    .join(",");
 
   return `(function(){
 try{
 var D=document.documentElement,T=Date.now(),C=0;
 try{C=localStorage.getItem("cookie-consent")==="accepted"?1:0}catch(x){}
 var P=new URLSearchParams(location.search);
+var XP=P.get("xp"),XPS=XP?XP.split(":"):[null,null];
 var E=[${expList.join(",")}];
 for(var j=0;j<E.length;j++){
 var x=E[j];
-if(!x.on||T>=x.e){D.dataset[x.a]="1";continue;}
-var qa=P.get(x.q),qv=qa?+qa:0;
-if(qv>=1&&qv<=x.v){
-try{sessionStorage.setItem("dim3d-xp-"+x.i+"_forced",""+qv);}catch(s){}
-D.dataset[x.a]=""+qv;continue;
+if(!x.on||T>=x.e){D.dataset[x.a]=x.vs[0];continue;}
+if(XPS[0]===x.i&&x.vs.indexOf(XPS[1])>=0){
+try{sessionStorage.setItem("dim3d-xp-"+x.i+"_forced",XPS[1]);}catch(s){}
+D.dataset[x.a]=XPS[1];continue;
 }
-var sf=0;try{sf=+(sessionStorage.getItem("dim3d-xp-"+x.i+"_forced")||0)||0;}catch(s){}
-if(sf>=1&&sf<=x.v){D.dataset[x.a]=""+sf;continue;}
-var st=C?localStorage:sessionStorage,sv=0;
-try{sv=+(st.getItem("dim3d-xp-"+x.i)||0)||0;}catch(s){}
-if(sv>=1&&sv<=x.v){D.dataset[x.a]=""+sv;continue;}
-var r=1;
-try{var arr=new Uint32Array(1);crypto.getRandomValues(arr);r=(arr[0]%x.v)+1;}catch(s){r=Math.floor(Math.random()*x.v)+1;}
-try{st.setItem("dim3d-xp-"+x.i,""+r);}catch(s){}
-D.dataset[x.a]=""+r;
+var sf=null;try{sf=sessionStorage.getItem("dim3d-xp-"+x.i+"_forced");}catch(s){}
+if(sf&&x.vs.indexOf(sf)>=0){D.dataset[x.a]=sf;continue;}
+var st=C?localStorage:sessionStorage,sv=null;
+try{sv=st.getItem("dim3d-xp-"+x.i);}catch(s){}
+if(sv&&x.vs.indexOf(sv)>=0){D.dataset[x.a]=sv;continue;}
+var r;
+try{var arr=new Uint32Array(1);crypto.getRandomValues(arr);r=x.vs[arr[0]%x.vs.length];}catch(s){r=x.vs[Math.floor(Math.random()*x.vs.length)];}
+try{st.setItem("dim3d-xp-"+x.i,r);}catch(s){}
+D.dataset[x.a]=r;
 }
 }catch(err){
-var F=[${Object.values(EXPERIMENTS).map(e => JSON.stringify(e.attr)).join(",")}];
-for(var k=0;k<F.length;k++){try{document.documentElement.dataset[F[k]]="1";}catch(s){}}
+var F=[${fallbackList}];
+for(var k=0;k<F.length;k++){try{document.documentElement.dataset[F[k][0]]=F[k][1];}catch(s){}}
 }
 })()`;
 }
