@@ -98,3 +98,9 @@ This is why `minDays: 21` and `maxDays: 56`, and why only one experiment runs pe
 | WhatsApp bubble (`float_label_r1`) | **v4**: "Habla con una persona real" | 26% WhatsApp click rate vs ~14% for others |
 
 Full details: `docs/EXPERIMENT-R1-RESULTS.md`. Winning copy promoted to permanent in Prompt 17.
+
+---
+
+## Confounds to track
+
+**Autumn discount (active Oct 20 – Nov 30 2026):** The 10 % discount on print orders ≥ 20 € is live while `modal_actions_r1` and other round-2 experiments run. Any conversion uplift measured during this period is partially attributable to the discount. Do not declare winners based on data from Oct 20 – Nov 30 without accounting for this. Consider using post-discount data only for final decisions if the experiment is still running in December.
