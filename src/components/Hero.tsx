@@ -160,9 +160,14 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden hero-gradient">
-      <div className="absolute inset-0 opacity-[0.03]">
+      <div className="absolute inset-0 opacity-[0.025]">
         <div className="absolute inset-0" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+        {/* Radial vignette — darkens the edges so the hero feels deeper */}
+        <div className="absolute inset-0" style={{
+          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 100%)',
+          opacity: 1,
         }} />
       </div>
 

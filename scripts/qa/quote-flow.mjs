@@ -223,7 +223,7 @@ async function testPage(pageSpec, mockFailDB = false) {
     //      (it submits a quote without needing fulfillment selection).
     //   2. Fall back to primary CTA (Send quote in quote-only flow).
     //   3. Last resort: any send-like text.
-    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen|Revisión gratis|Revisió gratis|Free review|Kostenlose Prüfung|Révision gratuite|Gratis beoordeling|Revisione gratuita|Revisão gratuita/i;
+    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen|Revisión gratis|Revisió gratis|Free review|Kostenlose Prüfung|Révision gratuite|Gratis beoordeling|Revisione gratuita|Revisão gratuita|Dateiprüfung|revisem|file review|revisamos|bestandscontrole/i;
 
     let clickedSend = false;
     const allBtns = dialog.locator('button:visible');
@@ -238,9 +238,9 @@ async function testPage(pageSpec, mockFailDB = false) {
       }
     }
 
-    // Pass 2: primary CTA
+    // Pass 2: primary CTA (visible only — hidden slots from experiments must be skipped)
     if (!clickedSend) {
-      const primaryBtns = dialog.locator('button[class*="cta"]');
+      const primaryBtns = dialog.locator('button[class*="cta"]:visible');
       if (await primaryBtns.count() > 0) {
         await primaryBtns.first().click();
         clickedSend = true;
@@ -482,7 +482,7 @@ async function testReviewNoContactShowsError(path, lang) {
     // Do NOT fill email — leave contact fields empty
 
     // Find and click the Review button (outline secondary button)
-    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen|Revisión gratis|Revisió gratis|Free review|Kostenlose Prüfung|Révision gratuite|Gratis beoordeling|Revisione gratuita|Revisão gratuita/i;
+    const REVIEW_RE = /Que lo revise|Have our team|Unser Team soll|Que notre équipe|Que el nostre|Laat ons team|Che il nostro|Que a nossa|review it first|Prüfen|Revisión gratis|Revisió gratis|Free review|Kostenlose Prüfung|Révision gratuite|Gratis beoordeling|Revisione gratuita|Revisão gratuita|Dateiprüfung|revisem|file review|revisamos|bestandscontrole/i;
     const allBtns = dialog.locator('button:visible');
     const count = await allBtns.count();
     let clickedReview = false;
@@ -496,7 +496,7 @@ async function testReviewNoContactShowsError(path, lang) {
 
     if (!clickedReview) {
       // No Review button means this page is quote-only — test Send quote without contact
-      const primaryBtns = dialog.locator('button[class*="cta"]');
+      const primaryBtns = dialog.locator('button[class*="cta"]:visible');
       if (await primaryBtns.count() > 0) {
         await primaryBtns.first().click();
         clickedReview = true;

@@ -16,7 +16,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "qa": "node scripts/qa/crawl.mjs",
-    "qa:quote": "node scripts/qa/quote-flow.mjs"
+    "qa:quote": "node scripts/qa/quote-flow.mjs",
+    "xp:report": "node scripts/xp/report.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

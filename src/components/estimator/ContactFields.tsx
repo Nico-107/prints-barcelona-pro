@@ -56,6 +56,7 @@ export function ContactFields({
           onChange={e => onEmailChange(e.target.value)}
           placeholder={t("calc.contact.email")}
           disabled={disabled}
+          data-ph-mask
           aria-invalid={emailInvalid}
           aria-describedby={showError ? "contact-error" : undefined}
           className={`w-full h-11 rounded-md border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 ${
@@ -70,6 +71,7 @@ export function ContactFields({
           onChange={e => onPhoneChange(e.target.value)}
           placeholder={t("calc.contact.phone")}
           disabled={disabled}
+          data-ph-mask
           aria-invalid={phoneInvalid}
           aria-describedby={showError ? "contact-error" : undefined}
           className={`w-full h-11 rounded-md border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 ${

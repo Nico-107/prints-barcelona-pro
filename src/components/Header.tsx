@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
 import { useExperiment } from "@/lib/useExperiment";
-import { wasExposureFired, markExposureFired } from "@/lib/experiments";
+import { wasExposureFired, markExposureFired, useXpExposure } from "@/lib/experiments";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,58 +29,32 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   const landingTopicSlugs = currentLandingPage
     ? SLUGS_BY_TOPIC[currentLandingPage.topic]
     : undefined;
-  const { version: hdrVersion, active: hdrActive, forced: hdrForced, langOk: hdrLangOk } = useExperiment("header_btn_r2");
+  const { variant: hdrVariant, active: hdrActive, forced: hdrForced, langOk: hdrLangOk } = useExperiment("header_btn_r2");
   const desktopSlotRef = useRef<HTMLButtonElement>(null);
 
   // Text depends only on language — same on server and first client render.
-  // Never on active/langOk/version (those are post-hydration state).
   const xpHeaderText = (key: string): string =>
     XP_LANGS.includes(language) ? t(key) : t("nav.requestQuote");
 
-  // Fire exposure once. Desktop: on mount if visible. Mobile: when menu opens.
   const fireHeaderExposure = (placement: "desktop" | "mobile") => {
     if (!hdrActive || !hdrLangOk) return;
     if (wasExposureFired("header_btn_r2")) return;
-    const slots = document.querySelectorAll('[data-xp-slot="header_btn_r2"]');
-    const visible = Array.from(slots).filter(
-      (el) => (el as HTMLElement).offsetParent !== null
-    );
-    let visible_ok = false;
-    if (visible.length === 1 && visible[0].getAttribute("data-xp-v") === String(hdrVersion)) {
-      visible_ok = true;
-    } else if (visible.length !== 1) {
-      capture("experiment_error", {
-        experiment: "header_btn_r2",
-        reason: visible.length === 0 ? "no_visible_block" : "visible_mismatch",
-        assigned: hdrVersion,
-        visible: visible.length,
-      });
-    }
     capture("experiment_exposure", {
       experiment: "header_btn_r2",
-      version: hdrVersion,
-      language,
-      page_type: "header",
+      variant: hdrVariant,
+      layer: "header",
+      page_path: location.pathname,
+      lang: language,
       forced: hdrForced,
-      visible_ok,
       placement,
     });
     markExposureFired("header_btn_r2");
   };
 
-  useEffect(() => {
-    // Try desktop slot first; if hidden (mobile viewport), wait for menu open
-    const el = desktopSlotRef.current;
-    if (el && (el as HTMLElement).offsetParent !== null) {
-      fireHeaderExposure("desktop");
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hdrActive, hdrLangOk, hdrVersion, hdrForced, language]);
+  useXpExposure(desktopSlotRef, "header_btn_r2", () => fireHeaderExposure("desktop"));
 
   useEffect(() => {
-    if (isMenuOpen) {
-      fireHeaderExposure("mobile");
-    }
+    if (isMenuOpen) fireHeaderExposure("mobile");
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMenuOpen]);
 
@@ -283,8 +257,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               onClick={() => { capture("quote_cta_click", { location: "header" }); scrollToSection("calculator"); }}
               className="whitespace-nowrap"
             >
-              <span data-xp-slot="header_btn_r2" data-xp-v="1" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
-              <span data-xp-slot="header_btn_r2" data-xp-v="2" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
+              <span data-xp-slot="header_btn_r2" data-xp-v="A" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
+              <span data-xp-slot="header_btn_r2" data-xp-v="B" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
             </Button>
           </div>
 
@@ -401,8 +375,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
                 className="w-full"
                 onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); scrollToSection("calculator"); }}
               >
-                <span data-xp-slot="header_btn_r2" data-xp-v="1">{xpHeaderText("xp.header.v3")}</span>
-                <span data-xp-slot="header_btn_r2" data-xp-v="2">{xpHeaderText("xp.header.v4")}</span>
+                <span data-xp-slot="header_btn_r2" data-xp-v="A">{xpHeaderText("xp.header.v3")}</span>
+                <span data-xp-slot="header_btn_r2" data-xp-v="B">{xpHeaderText("xp.header.v4")}</span>
               </Button>
             </div>
           </nav>
