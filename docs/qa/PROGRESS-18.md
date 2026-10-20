@@ -7,5 +7,5 @@
 - [x] 5. Experiment wave 1 (3 tests + header)
 - [x] 6. Results script (`scripts/xp/report.mjs`)
 - [x] 7. Experiment log and backlog
-- [ ] 8. Design polish
+- [x] 8. Design polish
 - [ ] 9. Verification and final output
