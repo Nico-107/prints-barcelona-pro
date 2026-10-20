@@ -764,9 +764,6 @@ serve(async (req: Request) => {
       const v3Params = new URLSearchParams({ "mode": "payment" });
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      v3Params.set("after_expiration[recovery][enabled]", "true");
-      v3Params.set("after_expiration[recovery][allow_promotion_codes]", "false");
-      v3Params.set("consent_collection[promotions]", "auto");
       v3Params.set("locale", stripeLocale(v3LangStr));
       v3Lines.forEach((line, i) => {
         v3Params.set(`line_items[${i}][quantity]`, "1");
@@ -1047,9 +1044,6 @@ serve(async (req: Request) => {
       const params = new URLSearchParams({ "mode": "payment" });
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      params.set("after_expiration[recovery][enabled]", "true");
-      params.set("after_expiration[recovery][allow_promotion_codes]", "false");
-      params.set("consent_collection[promotions]", "auto");
       params.set("locale", stripeLocale(langStr));
 
       for (let i = 0; i < lineItems.length; i++) {
@@ -1203,9 +1197,6 @@ serve(async (req: Request) => {
       "mode": "payment",
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      "after_expiration[recovery][enabled]": "true",
-      "after_expiration[recovery][allow_promotion_codes]": "false",
-      "consent_collection[promotions]": "auto",
       "locale": stripeLocale(typeof language === "string" ? language : ""),
       "line_items[0][quantity]": "1",
       "line_items[0][price_data][currency]": "eur",
