@@ -27,6 +27,8 @@ const initPostHog = () => {
       capture_exceptions: true,
       capture_dead_clicks: true,
       persistence: accepted ? "localStorage+cookie" : "memory",
+      disable_session_recording: true,
+      enable_heatmaps: false,
       ...(COOKIELESS_ENABLED ? { cookieless_mode: "on_reject" as const } : {}),
       on_request_error: (failure) => {
         console.error("[PostHog] request failed:", failure);

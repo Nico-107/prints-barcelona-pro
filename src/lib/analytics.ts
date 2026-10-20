@@ -201,4 +201,11 @@ export function enableHeatmapsAndReplay(): void {
       maskTextSelector: '[data-ph-mask]',
     },
   });
+  (ph as any).startSessionRecording?.();
+}
+
+export function disableHeatmapsAndReplay(): void {
+  if (!ph) return;
+  (ph as any).stopSessionRecording?.();
+  (ph as any).set_config({ enable_heatmaps: false });
 }

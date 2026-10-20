@@ -1,6 +1,6 @@
 # QA Report
 
-Generated: 2026-10-20T10:48:48.371Z
+Generated: 2026-10-20T11:33:23.352Z
 Routes checked: 148 × 2 locales × 2 viewports = 592 combinations
 Client-navigation clicks: 0
 Total violations: 0 (0 direct-load, 0 client-nav)

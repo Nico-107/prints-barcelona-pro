@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { upgradeAnalyticsPersistence, enableHeatmapsAndReplay } from "@/lib/analytics";
+import { upgradeAnalyticsPersistence, enableHeatmapsAndReplay, disableHeatmapsAndReplay } from "@/lib/analytics";
 import { migrateExperimentAssignment } from "@/lib/experiments";
 
 const CONSENT_KEY = "cookie-consent";
@@ -34,6 +34,7 @@ const CookieConsentBanner = () => {
 
   const reject = () => {
     localStorage.setItem(CONSENT_KEY, "rejected");
+    disableHeatmapsAndReplay();
     setConsent("rejected");
   };
 
