@@ -1,11 +1,11 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { useXpExposure } from "@/lib/experiments";
-import { REFUND_IF_UNPRINTABLE } from "@/config/policies";
+import { REFUND_IF_UNPRINTABLE, AUTUMN_DISCOUNT } from "@/config/policies";
 import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
@@ -44,12 +44,14 @@ interface OrderPanelProps {
   // Contact form
   contactEmail: string;
   contactPhone: string;
+  contactName?: string;
   contactTouched: boolean;
   quoteError: string | null;
   checkoutError: string | null;
   oversizedFiles: ParsedFile[];
   onContactEmailChange: (v: string) => void;
   onContactPhoneChange: (v: string) => void;
+  onContactNameChange?: (v: string) => void;
 
   // State
   hideParts?: boolean;
@@ -67,6 +69,8 @@ interface OrderPanelProps {
   onManualReview: () => void;
   onSubmitQuote: () => void;
   onWhatsApp: () => void;
+  /** Fired once per popup open when Buy Now is ≥50% on screen for 500 ms */
+  onBuyButtonVisible?: () => void;
 
   // i18n
   language: string;
@@ -84,6 +88,8 @@ interface OrderPanelProps {
 
   /** Ref to pass to the compact fulfillment picker for focus on blocked Buy Now */
   fulfillmentPickerRef?: React.RefObject<HTMLDivElement>;
+  /** Autumn discount to show in the actions section (cents, 0 = not applicable) */
+  autumnDiscountCents?: number;
 }
 
 export function OrderPanel({
@@ -112,6 +118,8 @@ export function OrderPanel({
   oversizedFiles,
   onContactEmailChange,
   onContactPhoneChange,
+  contactName,
+  onContactNameChange,
   hideParts = false,
   advancedMode,
   instantBuyEligible,
@@ -125,6 +133,7 @@ export function OrderPanel({
   onManualReview,
   onSubmitQuote,
   onWhatsApp,
+  onBuyButtonVisible,
   language,
   t,
   materialOptions,
@@ -133,6 +142,7 @@ export function OrderPanel({
   anyMulticolour = false,
   instantTotalPrice: instantTotalPriceProp,
   fulfillmentPickerRef,
+  autumnDiscountCents = 0,
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -187,14 +197,55 @@ export function OrderPanel({
   const actionsExposureRef = useRef<HTMLDivElement>(null);
   useXpExposure(actionsExposureRef, "modal_actions_r1");
 
+  // buy_button_visible — fired once per popup open when the actions area is ≥50% visible for 500 ms
+  const buyVisibleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (!onBuyButtonVisible || !actionsExposureRef.current) return;
+    let fired = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (fired) return;
+        const entry = entries[0];
+        if (entry.intersectionRatio >= 0.5) {
+          if (buyVisibleTimerRef.current) return;
+          buyVisibleTimerRef.current = setTimeout(() => {
+            buyVisibleTimerRef.current = null;
+            if (!fired) { fired = true; onBuyButtonVisible(); }
+          }, 500);
+        } else {
+          if (buyVisibleTimerRef.current) {
+            clearTimeout(buyVisibleTimerRef.current);
+            buyVisibleTimerRef.current = null;
+          }
+        }
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(actionsExposureRef.current);
+    return () => {
+      io.disconnect();
+      if (buyVisibleTimerRef.current) { clearTimeout(buyVisibleTimerRef.current); buyVisibleTimerRef.current = null; }
+    };
+  }, [onBuyButtonVisible]);
+
   // ── 'actions' section only ─────────────────────────────────────────────────
   if (section === 'actions') {
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible &&
       (bundle.orderResult.chargedPrintCents > EST.instantMaxCents || effectiveAnyMulticolour);
 
+    const printCents = bundle.orderResult.chargedPrintCents;
+    const offerActive = Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
+    const showAutumnDiscount = autumnDiscountCents > 0 && offerActive;
+    const showAutumnNudge = !showAutumnDiscount && offerActive &&
+      printCents >= 1000 && printCents < AUTUMN_DISCOUNT.minCents;
+    const nudgeAmountEur = showAutumnNudge ? (AUTUMN_DISCOUNT.minCents - printCents) / 100 : 0;
+
+    const originalPrice = instantBuyEligible && instantTotalPrice !== null
+      ? formatEUR(instantTotalPrice + autumnDiscountCents / 100, lang)
+      : formatEUR(bundle.total + autumnDiscountCents / 100, lang);
     const displayPrice = instantBuyEligible && instantTotalPrice !== null
       ? formatEUR(instantTotalPrice, lang)
-      : formatEUR(bundle.total, lang);
+      : formatEUR(bundle.total - autumnDiscountCents / 100, lang);
 
     // Single action error: checkout beats quote (Buy Now context > Review context)
     const actionError = checkoutError && instantBuyEligible && !showManualReview
@@ -205,12 +256,31 @@ export function OrderPanel({
 
     return (
       <div className="space-y-3">
-        {/* Total + shipping sub-line */}
+        {/* Total + autumn discount + shipping sub-line */}
         <div>
-          <div className="flex justify-between items-baseline">
-            <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
-            <span className="text-xl font-bold">{displayPrice}</span>
-          </div>
+          {showAutumnDiscount ? (
+            <div className="space-y-0.5">
+              <div className="flex justify-between items-baseline">
+                <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
+                <span className="text-sm text-muted-foreground line-through">{originalPrice}</span>
+              </div>
+              <div className="flex justify-between items-baseline text-green-600 dark:text-green-400">
+                <span className="text-xs font-medium">
+                  {t("calc.autumn.badge")} · {t("calc.autumn.line").replace(" −10 %", "")} −10 %
+                </span>
+                <span className="text-xs font-medium">−{formatEUR(autumnDiscountCents / 100, lang)}</span>
+              </div>
+              <div className="flex justify-between items-baseline">
+                <span className="text-sm font-semibold">&nbsp;</span>
+                <span className="text-xl font-bold">{displayPrice}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between items-baseline">
+              <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
+              <span className="text-xl font-bold">{displayPrice}</span>
+            </div>
+          )}
           {fulfillment === "shipping" && (
             <p className="text-xs text-muted-foreground text-right">
               {t("calc.summary.shipping")} +{shippingFormatted}
@@ -218,6 +288,11 @@ export function OrderPanel({
           )}
           {fulfillment === "pickup" && (
             <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
+          )}
+          {showAutumnNudge && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+              {t("calc.autumn.nudge").replace("{amount}", formatEUR(nudgeAmountEur, lang))}
+            </p>
           )}
         </div>
 
@@ -297,7 +372,7 @@ export function OrderPanel({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full gap-1.5 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                        className="w-full gap-1.5 text-sm min-h-[44px] border-accent text-accent hover:bg-accent/10 hover:border-accent"
                         onClick={onManualReview}
                         disabled={isCheckingOut}
                       >
@@ -307,7 +382,7 @@ export function OrderPanel({
                       <Button
                         variant="whatsapp-outline"
                         size="sm"
-                        className="w-full gap-1.5 text-xs"
+                        className="w-full gap-1.5 text-sm min-h-[44px]"
                         onClick={onWhatsApp}
                         disabled={isCheckingOut}
                       >
@@ -426,7 +501,7 @@ export function OrderPanel({
                 <Button
                   variant="whatsapp-outline"
                   size="sm"
-                  className="w-full gap-2"
+                  className="w-full gap-2 text-sm min-h-[44px]"
                   onClick={onWhatsApp}
                   disabled={isSubmittingQuote}
                 >
@@ -631,11 +706,13 @@ export function OrderPanel({
           <ContactFields
             email={contactEmail}
             phone={contactPhone}
+            name={contactName}
             touched={contactTouched}
             disabled={disabled}
             t={t}
             onEmailChange={onContactEmailChange}
             onPhoneChange={onContactPhoneChange}
+            onNameChange={onContactNameChange}
           />
           {/* Errors only in section='all'; section='form' defers to 'actions' bar */}
           {section === 'all' && quoteError && <p className="text-xs text-destructive" role="alert">{quoteError}</p>}

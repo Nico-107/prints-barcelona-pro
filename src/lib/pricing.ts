@@ -219,6 +219,10 @@ export interface ParsedFile extends ParsedFileForPricing {
   name: string;
   sizeBytes: number;
   file?: File;
+  /** Image file — shows design-request card, excluded from pricing */
+  imageFile?: boolean;
+  /** Oversized STL (>50 MB) — shows link-upload card, excluded from pricing */
+  linkFile?: boolean;
 }
 
 export interface MaterialOption {

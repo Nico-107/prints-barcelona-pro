@@ -4,15 +4,18 @@ import { checkContact } from "@/lib/contactValidation";
 interface ContactFieldsProps {
   email: string;
   phone: string;
+  /** Optional name — shown as a third field below email/phone */
+  name?: string;
   touched: boolean;
   disabled?: boolean;
   t: (key: string) => string;
   onEmailChange: (v: string) => void;
   onPhoneChange: (v: string) => void;
+  onNameChange?: (v: string) => void;
 }
 
 export function ContactFields({
-  email, phone, touched, disabled, t, onEmailChange, onPhoneChange,
+  email, phone, name, touched, disabled, t, onEmailChange, onPhoneChange, onNameChange,
 }: ContactFieldsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -27,7 +30,6 @@ export function ContactFields({
   useEffect(() => {
     if (!touched || check.ok) return;
     containerRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    // Focus the first empty or invalid input
     const shouldFocusEmail =
       !check.emailTyped ||
       (check.emailTyped && !check.emailValid && (!check.phoneTyped || !check.phoneValid));
@@ -46,7 +48,7 @@ export function ContactFields({
     t("calc.validate.contact");
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} className="space-y-3">
       <div className="grid sm:grid-cols-2 gap-3">
         <input
           ref={emailRef}
@@ -79,8 +81,20 @@ export function ContactFields({
           }`}
         />
       </div>
+      {onNameChange !== undefined && (
+        <input
+          id="contact-name"
+          type="text"
+          value={name ?? ""}
+          onChange={e => onNameChange(e.target.value)}
+          placeholder={t("calc.contact.name")}
+          disabled={disabled}
+          data-ph-mask
+          className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+        />
+      )}
       {showError && (
-        <p id="contact-error" role="alert" className="text-xs text-destructive font-medium mt-2">
+        <p id="contact-error" role="alert" className="text-xs text-destructive font-medium">
           {errorMsg}
         </p>
       )}

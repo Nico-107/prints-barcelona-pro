@@ -175,7 +175,7 @@ interface UploadStartedProps {
 }
 
 interface FileParsedProps {
-  status?: "ok" | "error";
+  status?: "ok" | "error" | "image" | "link";
   size_kb?: number;
   ext?: string;
   reason?: string;
@@ -302,7 +302,10 @@ export interface EventMap {
 
   // Existing events
   estimate_generated: EstimateGeneratedProps;
-  estimate_modal_shown: Record<string, never>;
+  estimate_modal_shown: { has_bundle?: boolean };
+  image_design_request_submitted: { lang: string };
+  link_file_submitted: { lang: string };
+  buy_button_visible: { device: string; files: number; lang: string };
   estimate_modal_dismissed: Record<string, never>;
   estimate_abandoned: EstimateAbandonedProps;
   whatsapp_click: WhatsappClickProps;

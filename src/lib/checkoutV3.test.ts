@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { analyzeTriangles } from "./estimator/core";
 import { boxMesh, tBeamMesh } from "./estimator/fixtures";
-import { evaluateV3, priceV3, stripeLinesV3, validateV3 } from "./checkoutV3";
+import { computeAutumnDiscount, evaluateV3, priceV3, stripeLinesV3, validateV3 } from "./checkoutV3";
 
 const ANALYSES = [analyzeTriangles(boxMesh(40, 40, 40)), analyzeTriangles(tBeamMesh())];
 const makeBody = (): any => ({ pricingVersion: 3, urgency: "standard", fulfillment: "pickup", exactPrice: 0, pieces: [
@@ -52,5 +52,61 @@ describe("checkout v3 contract (the SAME code runs in the edge function)", () =>
     b.exactPrice = priceV3(validateV3(b).value as any, big).order.totalCents / 100; expect(evaluateV3(b, big).error).toBe("PRICE_ABOVE_INSTANT_LIMIT");
     const huge = [analyzeTriangles(boxMesh(300, 50, 50))]; const c = makeBody(); c.pieces = [{ ...c.pieces[0], quantity: 1 }];
     c.exactPrice = priceV3(validateV3(c).value as any, huge).order.totalCents / 100; expect(evaluateV3(c, huge).error).toBe("OVERSIZE_PART");
+  });
+});
+
+describe("autumn discount", () => {
+  afterEach(() => { vi.useRealTimers(); });
+
+  it("returns 0 below 20 € (1999 cents)", () => {
+    expect(computeAutumnDiscount(1999)).toBe(0);
+  });
+
+  it("returns 10% at exactly 20 € (2000 cents)", () => {
+    expect(computeAutumnDiscount(2000)).toBe(200);
+  });
+
+  it("returns 10% at 50 € (5000 cents)", () => {
+    expect(computeAutumnDiscount(5000)).toBe(500);
+  });
+
+  it("returns 0 after offer ends", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-12-01T00:00:00Z"));
+    expect(computeAutumnDiscount(5000)).toBe(0);
+  });
+
+  it("Stripe lines sum correctly with discount applied", () => {
+    const b = priced();
+    const r = evaluateV3(b, ANALYSES);
+    expect(r.ok).toBe(true);
+    const v = r.value!;
+    const printCents = v.priced.order.totalCents - v.priced.order.expressCents - v.priced.order.setupCents - v.priced.order.minAdjCents;
+    const discount = computeAutumnDiscount(printCents);
+    const lines = stripeLinesV3(v.priced, v.body.pieces, "en", discount);
+    const expectedTotal = v.priced.order.totalCents - discount;
+    expect(lines.reduce((s, l) => s + l.cents, 0)).toBe(expectedTotal);
+  });
+
+  it("discount label appears on print lines when discount > 0", () => {
+    const b = priced();
+    const r = evaluateV3(b, ANALYSES);
+    expect(r.ok).toBe(true);
+    const v = r.value!;
+    // Force a discount even if total is below threshold for label test
+    const lines = stripeLinesV3(v.priced, v.body.pieces, "es", 100);
+    const discountedLine = lines.find(l => l.name.includes("Descuento"));
+    expect(discountedLine).toBeTruthy();
+  });
+
+  it("discount distributes proportionally — rounding residual absorbed by last print line", () => {
+    const b = priced();
+    const r = evaluateV3(b, ANALYSES);
+    expect(r.ok).toBe(true);
+    const v = r.value!;
+    const discount = 99; // odd number to force rounding
+    const lines = stripeLinesV3(v.priced, v.body.pieces, "en", discount);
+    expect(lines.reduce((s, l) => s + l.cents, 0)).toBe(v.priced.order.totalCents - discount);
+    expect(lines.every(l => l.cents > 0)).toBe(true);
   });
 });

@@ -276,8 +276,8 @@ export const nlTranslations: Record<string, string> = {
   // STL Price Calculator
   "calc.title": "Directe prijs — vanaf € 10",
   "calc.subtitle": "Upload uw STL-bestanden — geen account, geen verplichtingen.",
-  "calc.drop": "Sleep uw STL-bestanden hier",
-  "calc.dropSub": "of klik om te bladeren · tot 20 bestanden, max 50 MB elk",
+  "calc.drop": "Sleep uw bestanden hier",
+  "calc.dropSub": "STL, OBJ, 3MF, GLB — of een foto van wat u nodig heeft",
   "calc.addMore": "Meer bestanden toevoegen",
   "calc.maxFiles": "Maximum van 20 bestanden bereikt",
   "calc.material": "Materiaal",
@@ -313,6 +313,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.modal.trust": "{rating}/5 uit {count} Google-beoordelingen · Geen account nodig · Geen spam",
   "calc.modal.dragHint": "Slepen om te roteren",
   "calc.viewer.multicolourCaption": "Meerkleurig: kleuren samen met u gekozen",
+  "calc.viewer.expand": "Bekijk in 3D",
   "city.instantCheckout.comingSoon": "Directe afrekening voor dit land komt eraan — vraag een offerte aan.",
   "calc.modal.moreFiles": "en nog {count} bestanden",
   "calc.result.detail": "{grams}g · ~{hours}u printtijd",
@@ -405,7 +406,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.instantBuy.fulfillment.pickup.short": "Ophalen (gratis)",
   "calc.instantBuy.fulfillment.shipping.short": "Bezorging +{price}",
   "calc.instantBuy.confirmation": "Directe bevestiging — klaar om te printen. Geen handmatige beoordeling nodig voor deze prijs.",
-  "calc.exitIntent.headline": "Wacht! We hebben uw bestand nog niet ontvangen",
+  "calc.exitIntent.headline": "Nog niet zeker? We kunnen het voor u beoordelen.",
   "calc.exitIntent.body": "Laat hier uw e-mail of WhatsApp-nummer achter — we bekijken uw onderdeel persoonlijk en nemen contact met u op. Gratis, vrijblijvend.",
   "calc.exitIntent.email": "Uw e-mailadres",
   "calc.exitIntent.phone": "WhatsApp / telefoon",
@@ -818,4 +819,28 @@ export const nlTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Iets anders",
   "survey.exit.thanks": "Bedankt voor je reactie!",
   "survey.exit.whatsapp": "Chatten via WhatsApp",
+
+  // Item 2 — new file types
+  "calc.upload.format": "STL, OBJ, 3MF, GLB — of een foto van wat u nodig heeft",
+  "calc.upload.unit.warning": "Eenheden lijken onjuist — grootste afmeting is {dim} mm. Gebruikte u meters of inches?",
+  "calc.upload.unit.warning.scale": "{label}: herschalen naar {dim} mm?",
+  "calc.upload.link.title": "Bestand te groot om te uploaden",
+  "calc.upload.link.body": "Deel een WeTransfer- of Google Drive-link en wij zorgen voor de rest.",
+  "calc.upload.link.placeholder": "Plak link hier",
+  "calc.upload.link.submit": "Link versturen",
+  "calc.image.card.title": "We ontwerpen het onderdeel op basis van uw foto",
+  "calc.image.card.body": "We reageren binnen 1 uur met een prijs.",
+  "calc.image.card.desc.placeholder": "Beschrijf het onderdeel — afmetingen, materiaal, gebruik…",
+  "calc.image.card.submit": "Aanvraag versturen",
+  "calc.image.card.submitting": "Verzenden…",
+  "calc.image.card.success": "Ontvangen! We reageren binnen ongeveer 1 uur.",
+  "calc.image.card.error": "Er is iets misgegaan. Probeer WhatsApp.",
+
+  // Item 3 — contact name
+  "calc.contact.name": "Naam (optioneel)",
+
+  // Item 4 — autumn discount
+  "calc.autumn.badge": "Herfstaanbieding",
+  "calc.autumn.line": "Herfstkorting −10 %",
+  "calc.autumn.nudge": "Voeg nog {amount} toe en bespaar 10 %",
 };

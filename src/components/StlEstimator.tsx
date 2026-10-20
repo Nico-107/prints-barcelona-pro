@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, lazy, Suspense, useCallback } from "react";
+import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,8 @@ import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
+import { AUTUMN_DISCOUNT } from "@/config/policies";
+import { isImageFile, isConvertibleModel, fileExt } from "@/lib/fileConverters";
 import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
@@ -184,6 +186,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   // Quote submission state
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
+  const [contactName, setContactName] = useState("");
   const [colorPref, setColorPref] = useState("");
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
   const [isSubmittedQuote, setIsSubmittedQuote] = useState(false);
@@ -192,6 +195,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   // Mobile modal
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
+  const [mobileViewerExpanded, setMobileViewerExpanded] = useState(false);
+  // Image design request per-file state (fileId → description)
+  const [imageDescriptions, setImageDescriptions] = useState<Record<string, string>>({});
+  const [imageSubmitting, setImageSubmitting] = useState<Record<string, boolean>>({});
+  const [imageSubmitted, setImageSubmitted] = useState<Record<string, boolean>>({});
+  // Link upload per-file state (fileId → link value)
+  const [linkValues, setLinkValues] = useState<Record<string, string>>({});
+  const [linkSubmitting, setLinkSubmitting] = useState<Record<string, boolean>>({});
+  const [linkSubmitted, setLinkSubmitted] = useState<Record<string, boolean>>({});
   const [viewerStateInModal, setViewerStateInModal] = useState<"loading" | "ready" | "failed">("loading");
   const [shortViewport, setShortViewport] = useState(false);
 
@@ -203,6 +215,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     mq.addEventListener?.("change", update);
     return () => mq.removeEventListener?.("change", update);
   }, []);
+
+  // Set data-estimator-open on body so CookieConsentBanner can hide itself
+  useEffect(() => {
+    if (mobileModalOpen) {
+      document.body.setAttribute("data-estimator-open", "1");
+    } else {
+      document.body.removeAttribute("data-estimator-open");
+    }
+    return () => { document.body.removeAttribute("data-estimator-open"); };
+  }, [mobileModalOpen]);
 
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "slow" | "done" | "failed">("idle");
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -249,7 +271,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
-  const validFiles = parsedFiles.filter(f => !f.parseError);
+  const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
   const costByFileId: Record<string, number> = {};
   const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
   if (bundle) {
@@ -268,8 +290,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     flagReady: CHECKOUT_V3_READY,
   });
   const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
+
+  // Autumn discount (client display only — server re-computes at checkout)
+  const autumnOfferActive = Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
+  const autumnDiscountCents = (autumnOfferActive && bundle && bundle.orderResult.chargedPrintCents >= AUTUMN_DISCOUNT.minCents)
+    ? Math.round(bundle.orderResult.chargedPrintCents * AUTUMN_DISCOUNT.pct / 100)
+    : 0;
+
   const instantTotalPrice = instantBuyEligible
-    ? chargedPrice + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0)
+    ? chargedPrice - autumnDiscountCents / 100 + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0)
     : null;
 
   const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
@@ -299,36 +328,70 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     for (const f of toProcess) {
       const id = Math.random().toString(36).slice(2, 10);
-      const ext = f.name.split(".").pop()?.toLowerCase() ?? "unknown";
+      const ext = fileExt(f.name);
 
-      if (!f.name.toLowerCase().endsWith(".stl")) {
+      // Image files → design-request card (no pricing)
+      if (isImageFile(f.name)) {
+        capture("file_parsed", { status: "image", size_kb: Math.round(f.size / 1024), ext });
+        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, imageFile: true });
+        continue;
+      }
+
+      // OBJ / 3MF / GLB → convert to STL first
+      let fileToAnalyze = f;
+      let convertedStlBuf: ArrayBuffer | null = null;
+      if (isConvertibleModel(f.name)) {
+        try {
+          const { objToStlBuffer, threeMfToStlBuffer, glbToStlBuffer } = await import("@/lib/fileConverters");
+          if (ext === "obj") convertedStlBuf = await objToStlBuffer(f);
+          else if (ext === "3mf") convertedStlBuf = await threeMfToStlBuffer(f);
+          else if (ext === "glb") convertedStlBuf = await glbToStlBuffer(f);
+          if (convertedStlBuf) {
+            fileToAnalyze = new File([convertedStlBuf], f.name.replace(/\.[^.]+$/, ".stl"), { type: "model/stl" });
+          }
+        } catch (convErr) {
+          capture("file_upload_error", { reason: "convert_error", file_type: ext });
+          capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "convert_error" });
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
+          continue;
+        }
+      } else if (ext !== "stl") {
         capture("file_upload_error", { reason: "not_stl", file_type: ext });
         capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "not_stl" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.notStl") });
         continue;
       }
-      if (f.size > MAX_ESTIMATE_BYTES) {
-        capture("file_upload_error", { reason: "size_exceeded", file_type: "stl" });
-        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "size_exceeded" });
+
+      // STL > 50 MB → link card (no pricing)
+      if (fileToAnalyze.size > MAX_BYTES && ext === "stl" && !convertedStlBuf) {
+        capture("file_parsed", { status: "link", size_kb: Math.round(f.size / 1024), ext: "stl" });
+        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, linkFile: true });
+        continue;
+      }
+      if (fileToAnalyze.size > MAX_ESTIMATE_BYTES) {
+        capture("file_upload_error", { reason: "size_exceeded", file_type: ext });
+        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "size_exceeded" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.size") });
         continue;
       }
 
       try {
-        const buf = await f.arrayBuffer();
+        const buf = convertedStlBuf ?? await fileToAnalyze.arrayBuffer();
         const analysis = analyzeTriangles(stlToTriangles(buf));
         const volumeMm3 = analysis.volumeMm3;
         if (analysis.triangles === 0 || volumeMm3 === 0) {
-          capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
-          capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "parse_error" });
+          capture("file_upload_error", { reason: "parse_error", file_type: ext });
+          capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "parse_error" });
           results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
         } else {
-          capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext: "stl" });
-          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: f, analysis });
+          capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext });
+          // Store converted STL file for upload if needed
+          const uploadFile = convertedStlBuf ? fileToAnalyze : f;
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis });
         }
       } catch {
-        capture("file_upload_error", { reason: "parse_error", file_type: "stl" });
-        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "exception" });
+        capture("file_upload_error", { reason: "parse_error", file_type: ext });
+        capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "exception" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
       }
       await new Promise(r => setTimeout(r, 0));
@@ -371,7 +434,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         if (!modalShownRef.current && !hasSubmitted) {
           modalShownRef.current = true;
           setMobileModalOpen(true);
-          capture('estimate_modal_shown');
+          capture('estimate_modal_shown', { has_bundle: true });
         }
 
         // Upload files early (fire-and-forget) so submission is near-instant
@@ -458,6 +521,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             }).catch(console.error);
           }
         })();
+      } else {
+        // No valid STL bundle — but maybe image/link files were added; open modal anyway
+        const hasSpecialFiles = nextFiles.some(f => f.imageFile || f.linkFile);
+        if (hasSpecialFiles && !modalShownRef.current && !hasSubmitted) {
+          modalShownRef.current = true;
+          setMobileModalOpen(true);
+          capture('estimate_modal_shown', { has_bundle: false });
+        }
       }
     }
   };
@@ -516,6 +587,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setParsing(false);
     setContactEmail("");
     setContactPhone("");
+    setContactName("");
     setColorPref("");
     setNotesText("");
     setActiveUseCase(null);
@@ -528,6 +600,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setQuoteError(null);
     setQuoteRef(null);
     setMobileModalOpen(false);
+    setMobileViewerExpanded(false);
     setSelectedFileIndex(0);
     setExpandedPartId(null);
     setPreUploadDone(false);
@@ -549,6 +622,95 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       language === "es" ? "Hola, me gustaría obtener un presupuesto exacto para mis archivos 3D." :
       "Hi, I'd like to get an exact quote for my 3D prints.";
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  const handleImageSubmit = async (fileId: string, imageFile: File) => {
+    const desc = imageDescriptions[fileId] ?? "";
+    setImageSubmitting(prev => ({ ...prev, [fileId]: true }));
+    try {
+      const timestamp = Date.now();
+      const sanitized = imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+      const path = `${timestamp}-${sanitized}`;
+      await supabaseAnon.storage.from("print-requests").upload(path, imageFile);
+      await supabase.functions.invoke("send-quote-request", {
+        body: {
+          filePaths: [path],
+          fileNames: [imageFile.name],
+          contactEmail: contactEmail.trim() || null,
+          contactPhone: contactPhone.trim() || null,
+          color: `FOTO / DISEÑO | ${desc}`,
+          material: "PLA",
+          urgency: "standard",
+          infillPct: 15,
+          wallLoops: 2,
+          totalGrams: 0,
+          totalHours: 0,
+          totalUnits: 1,
+          priceLow: 0,
+          priceHigh: 0,
+          priceExact: 0,
+          language,
+          multicolour: false,
+          sourceCity: refCity ?? null,
+          pieces: [],
+          sourcePath: window.location.pathname,
+          sourceUrl: `${window.location.origin}${window.location.pathname}`,
+          pageLanguage: language,
+          browserLanguage: typeof navigator !== "undefined" ? navigator.language : null,
+          referrer: null,
+          utm: null,
+          fulfillment: null,
+        },
+      });
+      capture("image_design_request_submitted", { lang: language });
+      setImageSubmitted(prev => ({ ...prev, [fileId]: true }));
+    } catch (e) {
+      console.error("image submit error:", e);
+    }
+    setImageSubmitting(prev => ({ ...prev, [fileId]: false }));
+  };
+
+  const handleLinkSubmit = async (fileId: string, fileName: string) => {
+    const link = linkValues[fileId] ?? "";
+    if (!link.trim()) return;
+    setLinkSubmitting(prev => ({ ...prev, [fileId]: true }));
+    try {
+      await supabase.functions.invoke("send-quote-request", {
+        body: {
+          filePaths: [],
+          fileNames: [fileName],
+          contactEmail: contactEmail.trim() || null,
+          contactPhone: contactPhone.trim() || null,
+          color: `LARGE FILE LINK: ${link.trim()}`,
+          material: materialKey,
+          urgency,
+          infillPct,
+          wallLoops,
+          totalGrams: 0,
+          totalHours: 0,
+          totalUnits: 1,
+          priceLow: 0,
+          priceHigh: 0,
+          priceExact: 0,
+          language,
+          multicolour: false,
+          sourceCity: refCity ?? null,
+          pieces: [],
+          sourcePath: window.location.pathname,
+          sourceUrl: `${window.location.origin}${window.location.pathname}`,
+          pageLanguage: language,
+          browserLanguage: typeof navigator !== "undefined" ? navigator.language : null,
+          referrer: null,
+          utm: null,
+          fulfillment: null,
+        },
+      });
+      capture("link_file_submitted", { lang: language });
+      setLinkSubmitted(prev => ({ ...prev, [fileId]: true }));
+    } catch (e) {
+      console.error("link submit error:", e);
+    }
+    setLinkSubmitting(prev => ({ ...prev, [fileId]: false }));
   };
 
   // Per-part settings handlers
@@ -822,7 +984,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }));
 
       // Combine color preference + notes into existing color field (payload shape unchanged)
-      const colorWithNotes = [colorPref.trim(), notesText.trim()].filter(Boolean).join(' | Notes: ') || null;
+      const colorWithNotes = [colorPref.trim(), notesText.trim(), contactName.trim() ? `Name: ${contactName.trim()}` : ""].filter(Boolean).join(' | ') || null;
 
       // A4: pseudonymous customer_ref; B4: stable quote_id for DB row + event join
       const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
@@ -1081,7 +1243,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       ? `${t("calc.multicolour.from")} ${formatEUR(Math.floor(bundle.total), lang)}+`
       : instantBuyEligible && instantTotalPrice !== null
         ? formatEUR(instantTotalPrice, lang)
-        : formatEUR(bundle.total, lang)
+        : formatEUR(bundle.total - autumnDiscountCents / 100, lang)
     : "";
 
   const viewableFiles = validFiles.filter(f => !!f.file);
@@ -1122,7 +1284,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         <input
           ref={inputRef}
           type="file"
-          accept=".stl"
+          accept=".stl,.obj,.3mf,.glb,.jpg,.jpeg,.png,.heic,.webp,.pdf"
           multiple
           className="hidden"
           onChange={handleChange}
@@ -1550,7 +1712,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       </div>
 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
-      {!adminMode && bundle && (() => {
+      {!adminMode && (bundle || parsedFiles.some(f => f.imageFile || f.linkFile)) && (() => {
         const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
 
         const sharedOrderPanelProps = {
@@ -1579,6 +1741,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           oversizedFiles,
           onContactEmailChange: (v: string) => { setContactEmail(v); if (v.length === 1) capture('contact_entered', { field: 'email' }); },
           onContactPhoneChange: (v: string) => { setContactPhone(v); if (v.length === 1) capture('contact_entered', { field: 'phone' }); },
+          contactName,
+          onContactNameChange: setContactName,
+          onBuyButtonVisible: () => {
+            const device = window.innerWidth < 1024 ? "mobile" : "desktop";
+            capture("buy_button_visible", {
+              device,
+              files: validFiles.length,
+              lang: language,
+            });
+          },
+          autumnDiscountCents,
           advancedMode,
           instantBuyEligible,
           isCheckingOut,
@@ -1607,37 +1780,134 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDragging(false); }}
             onDrop={(e) => { setIsDragging(false); handleDrop(e); }}
           >
-            {/* Viewer — absorbs spare height, capped at 340px */}
-            {stepperFile?.file && viewerStateInModal !== "failed" && (() => {
+            {/* Viewer — 140px thumbnail on mobile, expand button; full height on desktop */}
+            {stepperFile?.file && !stepperFile.imageFile && viewerStateInModal !== "failed" && (() => {
               const eff = effectivePartSettings(stepperFile, defaults);
               const isMulti = eff.multicolour;
-              // When multicolour is active, show neutral grey in the viewer
               const viewerColour = isMulti ? undefined : (eff.color || undefined);
               return (
-                <div className="relative flex-1 min-h-[200px] max-h-[340px] rounded-xl border border-border bg-muted/20 overflow-hidden">
+                <div className={`relative rounded-xl border border-border bg-muted/20 overflow-hidden transition-all ${
+                  mobileViewerExpanded
+                    ? "flex-1 min-h-[200px] max-h-[340px]"
+                    : "lg:flex-1 lg:min-h-[200px] lg:max-h-[340px] max-lg:h-[140px] shrink-0"
+                }`}>
                   <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
                     <StlViewer
                       key={`${stepperFile.id}-dialog`}
                       file={stepperFile.file}
                       colour={viewerColour}
+                      touchAction={mobileViewerExpanded ? undefined : "pan-y"}
                       onReady={() => setViewerStateInModal("ready")}
                       onError={() => setViewerStateInModal("failed")}
                     />
                   </Suspense>
                   {viewerStateInModal === "ready" && (
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none">
-                      <span className="text-[11px] text-muted-foreground bg-background/75 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap">
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                      <span className="text-[11px] text-muted-foreground bg-background/75 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap pointer-events-none">
                         {isMulti ? t("calc.viewer.multicolourCaption") : t("calc.modal.dragHint")}
                       </span>
+                      <button
+                        type="button"
+                        onClick={() => setMobileViewerExpanded(v => !v)}
+                        className="lg:hidden text-[11px] text-accent bg-background/90 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap"
+                      >
+                        {mobileViewerExpanded ? "↑" : t("calc.viewer.expand")}
+                      </button>
                     </div>
                   )}
                 </div>
               );
             })()}
 
+            {/* Image design-request cards */}
+            {parsedFiles.filter(f => f.imageFile).map(f => (
+              <div key={f.id} className="shrink-0 rounded-xl border border-border bg-accent/5 p-4">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div>
+                    <p className="text-sm font-semibold">{t("calc.image.card.title")}</p>
+                    <p className="text-xs text-muted-foreground">{t("calc.image.card.body")}</p>
+                  </div>
+                  <button type="button" onClick={() => removeFile(f.id)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                {imageSubmitted[f.id] ? (
+                  <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                    <CheckCircle className="w-3.5 h-3.5" /> {t("calc.image.card.success")}
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground font-mono truncate">{f.name}</p>
+                    <textarea
+                      rows={2}
+                      value={imageDescriptions[f.id] ?? ""}
+                      onChange={e => setImageDescriptions(prev => ({ ...prev, [f.id]: e.target.value }))}
+                      placeholder={t("calc.image.card.desc.placeholder")}
+                      disabled={imageSubmitting[f.id]}
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    <Button
+                      variant="cta"
+                      size="sm"
+                      className="w-full"
+                      disabled={imageSubmitting[f.id] || (!contactEmail.trim() && !contactPhone.trim())}
+                      onClick={() => f.file && handleImageSubmit(f.id, f.file)}
+                    >
+                      {imageSubmitting[f.id]
+                        ? <><Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />{t("calc.image.card.submitting")}</>
+                        : t("calc.image.card.submit")}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Large-file link cards */}
+            {parsedFiles.filter(f => f.linkFile).map(f => (
+              <div key={f.id} className="shrink-0 rounded-xl border border-border bg-amber-50 dark:bg-amber-950/20 p-4">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div>
+                    <p className="text-sm font-semibold">{t("calc.upload.link.title")}</p>
+                    <p className="text-xs text-muted-foreground">{t("calc.upload.link.body")}</p>
+                  </div>
+                  <button type="button" onClick={() => removeFile(f.id)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                {linkSubmitted[f.id] ? (
+                  <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                    <CheckCircle className="w-3.5 h-3.5" /> {t("calc.exitIntent.success")}
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground font-mono truncate">{f.name}</p>
+                    <input
+                      type="url"
+                      value={linkValues[f.id] ?? ""}
+                      onChange={e => setLinkValues(prev => ({ ...prev, [f.id]: e.target.value }))}
+                      placeholder={t("calc.upload.link.placeholder")}
+                      disabled={linkSubmitting[f.id]}
+                      className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      disabled={linkSubmitting[f.id] || !(linkValues[f.id] ?? "").trim()}
+                      onClick={() => handleLinkSubmit(f.id, f.name)}
+                    >
+                      {linkSubmitting[f.id]
+                        ? <><Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />{t("calc.contact.submitting")}</>
+                        : t("calc.upload.link.submit")}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ))}
+
             {/* Parts list — qty steppers + remove + price + select */}
             <PartSummaryList
-              parsedFiles={parsedFiles}
+              parsedFiles={parsedFiles.filter(f => !f.imageFile && !f.linkFile)}
               viewableFiles={viewableFiles}
               defaults={defaults}
               selectedFileIndex={selectedFileIndex}
@@ -1685,6 +1955,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             {quoteRef && (
               <p className="text-xs text-muted-foreground mt-2 font-mono">{t("calc.contact.success.ref").replace("{ref}", quoteRef)}</p>
             )}
+          </div>
+        ) : !bundle ? (
+          // Image/link-only: show a minimal contact prompt
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">{t("calc.exitIntent.body")}</p>
+            <OrderPanel
+              {...sharedOrderPanelProps}
+              hideParts={true}
+              section="form"
+            />
           </div>
         ) : (
           <div className="space-y-6">
