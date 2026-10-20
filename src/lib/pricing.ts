@@ -223,6 +223,8 @@ export interface ParsedFile extends ParsedFileForPricing {
   imageFile?: boolean;
   /** Oversized STL (>50 MB) — shows link-upload card, excluded from pricing */
   linkFile?: boolean;
+  /** Bounding box in mm — populated for OBJ/3MF/GLB conversions to show detected size */
+  bboxMm?: { x: number; y: number; z: number };
 }
 
 export interface MaterialOption {

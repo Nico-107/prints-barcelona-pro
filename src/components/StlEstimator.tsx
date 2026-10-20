@@ -23,7 +23,8 @@ import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
-import { isImageFile, isConvertibleModel, fileExt } from "@/lib/fileConverters";
+import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
+import { ContactFields } from "./estimator/ContactFields";
 import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
@@ -200,6 +201,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [imageDescriptions, setImageDescriptions] = useState<Record<string, string>>({});
   const [imageSubmitting, setImageSubmitting] = useState<Record<string, boolean>>({});
   const [imageSubmitted, setImageSubmitted] = useState<Record<string, boolean>>({});
+  const [imageSubmitError, setImageSubmitError] = useState<Record<string, string>>({});
   // Link upload per-file state (fileId → link value)
   const [linkValues, setLinkValues] = useState<Record<string, string>>({});
   const [linkSubmitting, setLinkSubmitting] = useState<Record<string, boolean>>({});
@@ -232,6 +234,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   // Instant checkout state
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [checkoutErrorCode, setCheckoutErrorCode] = useState<string | null>(null);
   const [preUploadDone, setPreUploadDone] = useState(false);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   const [showManualReview, setShowManualReview] = useState(false);
@@ -269,6 +272,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const uploadedRef = useRef<{ paths: string[]; names: string[]; byId: Record<string, string> } | null>(null);
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const checkoutFailureNoteRef = useRef<string | null>(null);
 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
@@ -387,7 +391,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext });
           // Store converted STL file for upload if needed
           const uploadFile = convertedStlBuf ? fileToAnalyze : f;
-          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis });
+          const bboxMm = convertedStlBuf ? stlBboxMm(convertedStlBuf) : undefined;
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis, bboxMm });
         }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -429,13 +434,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           support_cm3: nextBundle.estimates.reduce((s, e) => s + e.supportCm3, 0),
           orientation_saving_eur: nextBundle.savedByOrientationEur,
         });
-
-        // Open confirmation modal once per estimate on all screen sizes
-        if (!modalShownRef.current && !hasSubmitted) {
-          modalShownRef.current = true;
-          setMobileModalOpen(true);
-          capture('estimate_modal_shown', { has_bundle: true });
-        }
 
         // Upload files early (fire-and-forget) so submission is near-instant
         const validForUpload = nextFiles.filter(f => !f.parseError && f.file && f.sizeBytes <= MAX_BYTES);
@@ -521,14 +519,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             }).catch(console.error);
           }
         })();
-      } else {
-        // No valid STL bundle — but maybe image/link files were added; open modal anyway
-        const hasSpecialFiles = nextFiles.some(f => f.imageFile || f.linkFile);
-        if (hasSpecialFiles && !modalShownRef.current && !hasSubmitted) {
-          modalShownRef.current = true;
-          setMobileModalOpen(true);
-          capture('estimate_modal_shown', { has_bundle: false });
-        }
+      }
+      // Open confirmation modal for any file addition — includes image, link, and parse-error files
+      if (!modalShownRef.current && !hasSubmitted && results.length > 0) {
+        modalShownRef.current = true;
+        setMobileModalOpen(true);
+        capture('estimate_modal_shown', { has_bundle: !!nextBundle });
       }
     }
   };
@@ -627,12 +623,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const handleImageSubmit = async (fileId: string, imageFile: File) => {
     const desc = imageDescriptions[fileId] ?? "";
     setImageSubmitting(prev => ({ ...prev, [fileId]: true }));
+    setImageSubmitError(prev => ({ ...prev, [fileId]: "" }));
     try {
       const timestamp = Date.now();
       const sanitized = imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "_");
       const path = `${timestamp}-${sanitized}`;
-      await supabaseAnon.storage.from("print-requests").upload(path, imageFile);
-      await supabase.functions.invoke("send-quote-request", {
+      const { error: uploadErr } = await supabaseAnon.storage.from("print-requests").upload(path, imageFile);
+      if (uploadErr) throw uploadErr;
+      const { error: invokeErr } = await supabase.functions.invoke("send-quote-request", {
         body: {
           filePaths: [path],
           fileNames: [imageFile.name],
@@ -662,10 +660,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fulfillment: null,
         },
       });
+      if (invokeErr) throw invokeErr;
       capture("image_design_request_submitted", { lang: language });
       setImageSubmitted(prev => ({ ...prev, [fileId]: true }));
     } catch (e) {
       console.error("image submit error:", e);
+      setImageSubmitError(prev => ({ ...prev, [fileId]: t("calc.image.submit.error") }));
     }
     setImageSubmitting(prev => ({ ...prev, [fileId]: false }));
   };
@@ -825,11 +825,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
     if (!uploadedRef.current || instantTotalPrice === null) {
       capture('buy_blocked', { reason: 'uploading' });
-      setCheckoutError("Files are still uploading. Please wait a moment and try again.");
+      setCheckoutErrorCode("UPLOADING");
+      setCheckoutError(t("calc.checkout.error.fileNotFound"));
       return;
     }
     setIsCheckingOut(true);
     setCheckoutError(null);
+    setCheckoutErrorCode(null);
     try {
       const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : null;
@@ -860,7 +862,34 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: checkoutBodyPayload,
       });
-      if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
+      if (error) {
+        // Read the actual JSON error code from the edge function response
+        let code = "UNKNOWN";
+        let httpStatus = 0;
+        try {
+          const ctx = (error as any)?.context;
+          if (ctx) {
+            httpStatus = (ctx as Response).status ?? 0;
+            const json = await (ctx as Response).json();
+            code = json?.error ?? "UNKNOWN";
+            console.error("create-instant-checkout error:", code, json);
+          }
+        } catch { console.error("checkout error (raw):", (error as any)?.message); }
+        capture('checkout_failed', { code, http_status: httpStatus, price_eur: chargedPrice, file_count: validFiles.length });
+        setIsCheckingOut(false);
+        setCheckoutErrorCode(code);
+        if (code === "FILE_NOT_FOUND") setCheckoutError(t("calc.checkout.error.fileNotFound"));
+        else if (code === "PRICE_MISMATCH") setCheckoutError(t("calc.checkout.error.priceMismatch"));
+        else setCheckoutError(t("calc.checkout.error.default"));
+        return;
+      }
+      if (!data?.checkoutUrl) {
+        capture('checkout_failed', { code: 'NO_URL', http_status: 200, price_eur: chargedPrice, file_count: validFiles.length });
+        setIsCheckingOut(false);
+        setCheckoutErrorCode("NO_URL");
+        setCheckoutError(t("calc.checkout.error.default"));
+        return;
+      }
       try {
         sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({
           value: chargedPrice,
@@ -896,8 +925,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
+      capture('checkout_failed', { code: 'EXCEPTION', http_status: 0, price_eur: chargedPrice, file_count: validFiles.length });
       setIsCheckingOut(false);
-      setCheckoutError(err.message ?? "Checkout failed. Please request a review instead.");
+      setCheckoutErrorCode("EXCEPTION");
+      setCheckoutError(t("calc.checkout.error.default"));
     }
   };
 
@@ -913,6 +944,35 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
     setQuoteError(null);
     setShowManualReview(true);
+    submitQuote();
+  };
+
+  const handleSendOrderAfterCheckoutFail = () => {
+    const code = checkoutErrorCode ?? "UNKNOWN";
+    capture('checkout_failed_send_order', { code });
+    const cc = checkContact(contactEmail, contactPhone);
+    setContactTouched(true);
+    if (!cc.ok) {
+      setQuoteError(t("calc.contact.atLeastOne"));
+      return;
+    }
+    checkoutFailureNoteRef.current = `INSTANT CHECKOUT FAILED: ${code} — send Stripe payment link`;
+    setQuoteError(null);
+    setShowManualReview(true);
+    submitQuote();
+  };
+
+  const handleSendForFreeReview = (fileId: string) => {
+    const file = parsedFiles.find(f => f.id === fileId);
+    capture('parse_error_free_review_click', { name: file?.name });
+    const cc = checkContact(contactEmail, contactPhone);
+    setContactTouched(true);
+    if (!cc.ok) {
+      setQuoteError(t("calc.contact.atLeastOne"));
+      return;
+    }
+    checkoutFailureNoteRef.current = `PARSE ERROR: ${file?.name ?? fileId}`;
+    setQuoteError(null);
     submitQuote();
   };
 
@@ -984,7 +1044,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }));
 
       // Combine color preference + notes into existing color field (payload shape unchanged)
-      const colorWithNotes = [colorPref.trim(), notesText.trim(), contactName.trim() ? `Name: ${contactName.trim()}` : ""].filter(Boolean).join(' | ') || null;
+      const failureNote = checkoutFailureNoteRef.current;
+      checkoutFailureNoteRef.current = null;
+      const colorWithNotes = [colorPref.trim(), notesText.trim(), contactName.trim() ? `Name: ${contactName.trim()}` : "", failureNote ?? ""].filter(Boolean).join(' | ') || null;
 
       // A4: pseudonymous customer_ref; B4: stable quote_id for DB row + event join
       const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
@@ -1187,7 +1249,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         capture("submit_error", { stage: "exit_intent", table: "quote_requests", code: insertErr.code ?? "unknown" });
         throw new Error(insertErr.message);
       }
-      supabase.functions.invoke("send-quote-request", {
+      const { error: sendErr } = await supabase.functions.invoke("send-quote-request", {
         body: {
           filePaths: uploadedPaths,
           fileNames: uploadedNames,
@@ -1208,7 +1270,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour: exitSummary.multicolour,
           sourceCity: refCity ?? null,
           pieces: exitPieces,
-          // Source tracking (Item 6)
           sourcePath: window.location.pathname,
           sourceUrl: `${window.location.origin}${window.location.pathname}`,
           pageLanguage: language,
@@ -1217,7 +1278,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           utm: exitUtm ?? null,
           fulfillment,
         },
-      }).catch(e => console.error("send-quote-request failed:", e));
+      });
+      if (sendErr) throw sendErr;
       exitIntentCloseReasonRef.current = "recovered";
       capture("exit_intent_recovered");
       setExitIntentSubmitting(false);
@@ -1712,7 +1774,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       </div>
 
       {/* Confirmation modal — opens immediately on estimate, all screen sizes, consumer only */}
-      {!adminMode && (bundle || parsedFiles.some(f => f.imageFile || f.linkFile)) && (() => {
+      {!adminMode && (bundle || parsedFiles.some(f => f.imageFile || f.linkFile || !!f.parseError)) && (() => {
         const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
 
         const sharedOrderPanelProps = {
@@ -1738,6 +1800,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contactTouched,
           quoteError,
           checkoutError,
+          checkoutErrorCode,
           oversizedFiles,
           onContactEmailChange: (v: string) => { setContactEmail(v); if (v.length === 1) capture('contact_entered', { field: 'email' }); },
           onContactPhoneChange: (v: string) => { setContactPhone(v); if (v.length === 1) capture('contact_entered', { field: 'phone' }); },
@@ -1763,6 +1826,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           onInstantBuy: handleInstantBuy,
           onManualReview: handleManualReview,
           onSubmitQuote: submitQuote,
+          onSendOrderAfterCheckoutFail: handleSendOrderAfterCheckoutFail,
           onWhatsApp: handleWhatsApp,
           language,
           t,
@@ -1833,7 +1897,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </div>
                 {imageSubmitted[f.id] ? (
                   <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
-                    <CheckCircle className="w-3.5 h-3.5" /> {t("calc.image.card.success")}
+                    <CheckCircle className="w-3.5 h-3.5" /> {t("calc.image.submit.success")}
                   </p>
                 ) : (
                   <div className="space-y-2">
@@ -1846,6 +1910,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       disabled={imageSubmitting[f.id]}
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
+                    <ContactFields
+                      email={contactEmail}
+                      phone={contactPhone}
+                      touched={contactTouched}
+                      disabled={imageSubmitting[f.id]}
+                      t={t}
+                      onEmailChange={v => { setContactEmail(v); if (v.length === 1) capture('contact_entered', { field: 'email' }); }}
+                      onPhoneChange={v => { setContactPhone(v); if (v.length === 1) capture('contact_entered', { field: 'phone' }); }}
+                    />
+                    {imageSubmitError[f.id] && (
+                      <p className="text-xs text-destructive">{imageSubmitError[f.id]}</p>
+                    )}
                     <Button
                       variant="cta"
                       size="sm"
@@ -1921,6 +1997,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               }}
               onQtyChange={updateQty}
               onRemove={removeFile}
+              onFreeReview={handleSendForFreeReview}
             />
 
             {/* Add files button */}
@@ -1957,9 +2034,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             )}
           </div>
         ) : !bundle ? (
-          // Image/link-only: show a minimal contact prompt
+          // Image/link/parse-error only: show 3-step flow + contact form
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">{t("calc.exitIntent.body")}</p>
+            <div className="space-y-2">
+              {([1, 2, 3] as const).map(n => (
+                <div key={n} className="flex items-start gap-2">
+                  <span className="shrink-0 w-5 h-5 rounded-full bg-accent/15 text-accent text-[11px] font-semibold flex items-center justify-center mt-0.5">{n}</span>
+                  <p className="text-sm text-muted-foreground">{t(`calc.image.steps.${n}`)}</p>
+                </div>
+              ))}
+            </div>
             <OrderPanel
               {...sharedOrderPanelProps}
               hideParts={true}
@@ -2140,7 +2224,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             setShowExitIntent(open);
           }}
         >
-          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button]:!hidden">
+          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
             {exitIntentSubmitted ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
@@ -2157,40 +2241,42 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   </div>
                 </DialogHeader>
                 <p className="text-sm text-muted-foreground mb-4">{t("calc.exitIntent.body")}</p>
-                <div className="space-y-2 mb-4">
-                  <input
-                    type="email"
-                    value={contactEmail}
-                    onChange={e => setContactEmail(e.target.value)}
-                    placeholder={t("calc.exitIntent.email")}
+                <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }}>
+                  <div className="space-y-2 mb-4">
+                    <input
+                      type="email"
+                      value={contactEmail}
+                      onChange={e => setContactEmail(e.target.value)}
+                      placeholder={t("calc.exitIntent.email")}
+                      disabled={exitIntentSubmitting}
+                      data-ph-mask
+                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    <input
+                      type="tel"
+                      value={contactPhone}
+                      onChange={e => setContactPhone(e.target.value)}
+                      placeholder={t("calc.exitIntent.phone")}
+                      disabled={exitIntentSubmitting}
+                      data-ph-mask
+                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
+                    {exitIntentError && (
+                      <p className="text-xs text-destructive">{exitIntentError}</p>
+                    )}
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="cta"
+                    className="w-full gap-2"
                     disabled={exitIntentSubmitting}
-                    data-ph-mask
-                    className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                  />
-                  <input
-                    type="tel"
-                    value={contactPhone}
-                    onChange={e => setContactPhone(e.target.value)}
-                    placeholder={t("calc.exitIntent.phone")}
-                    disabled={exitIntentSubmitting}
-                    data-ph-mask
-                    className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-                  />
-                  {exitIntentError && (
-                    <p className="text-xs text-destructive">{exitIntentError}</p>
-                  )}
-                </div>
-                <Button
-                  variant="cta"
-                  className="w-full gap-2"
-                  onClick={submitExitIntent}
-                  disabled={exitIntentSubmitting}
-                >
-                  {exitIntentSubmitting
-                    ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
-                  }
-                </Button>
+                  >
+                    {exitIntentSubmitting
+                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                      : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
+                    }
+                  </Button>
+                </form>
                 <button
                   type="button"
                   className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
