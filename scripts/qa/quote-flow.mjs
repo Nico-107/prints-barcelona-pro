@@ -188,7 +188,7 @@ async function setupCommonMocks(page, { mockFailDB = false, mockCheckoutUrl = nu
 
 // ─── Upload file + wait for dialog ────────────────────────────────────────────
 async function uploadAndOpenDialog(page) {
-  const fileInput = page.locator('input[type="file"][accept=".stl"]').first();
+  const fileInput = page.locator('input[type="file"]').first();
   await fileInput.setInputFiles(STL_PATH);
   const dialog = page.locator('[role="dialog"]:not([aria-hidden="true"])');
   await dialog.waitFor({ state: "visible", timeout: 15000 });

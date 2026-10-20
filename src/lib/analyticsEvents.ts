@@ -406,6 +406,11 @@ export interface EventMap {
   // B2B tracking
   b2b_page_view: { lang: string };
   b2b_cta_click: { which: string; section: string };
+
+  // Checkout error / parse error recovery
+  checkout_failed: { code: string; http_status: number; price_eur: number; file_count: number };
+  checkout_failed_send_order: { code: string };
+  parse_error_free_review_click: { name: string | undefined };
 }
 
 export type EventName = keyof EventMap;
