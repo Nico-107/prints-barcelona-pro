@@ -1,7 +1,7 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import posthog from "posthog-js";
-import { registerPostHog, processInternalFlag } from "./lib/analytics";
+import { registerPostHog, processInternalFlag, enableHeatmapsAndReplay } from "./lib/analytics";
 import App from "./App.tsx";
 import "./index.css";
 
@@ -33,8 +33,13 @@ const initPostHog = () => {
       on_request_error: (failure) => {
         console.error("[PostHog] request failed:", failure);
       },
+      loaded: () => {
+        registerPostHog(posthog);
+        if (localStorage.getItem("cookie-consent") === "accepted") {
+          enableHeatmapsAndReplay();
+        }
+      },
     });
-    registerPostHog(posthog);
   } else if (import.meta.env.DEV) {
     console.warn("[analytics] VITE_POSTHOG_KEY or VITE_POSTHOG_HOST not set — PostHog disabled");
   }

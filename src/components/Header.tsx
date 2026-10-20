@@ -3,8 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
-import { useExperiment } from "@/lib/useExperiment";
-import { wasExposureFired, markExposureFired, useXpExposure } from "@/lib/experiments";
+import { useXpExposure, fireXpExposure } from "@/lib/experiments";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,32 +28,16 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
   const landingTopicSlugs = currentLandingPage
     ? SLUGS_BY_TOPIC[currentLandingPage.topic]
     : undefined;
-  const { variant: hdrVariant, active: hdrActive, forced: hdrForced, langOk: hdrLangOk } = useExperiment("header_btn_r2");
   const desktopSlotRef = useRef<HTMLButtonElement>(null);
 
   // Text depends only on language — same on server and first client render.
   const xpHeaderText = (key: string): string =>
     XP_LANGS.includes(language) ? t(key) : t("nav.requestQuote");
 
-  const fireHeaderExposure = (placement: "desktop" | "mobile") => {
-    if (!hdrActive || !hdrLangOk) return;
-    if (wasExposureFired("header_btn_r2")) return;
-    capture("experiment_exposure", {
-      experiment: "header_btn_r2",
-      variant: hdrVariant,
-      layer: "header",
-      page_path: location.pathname,
-      lang: language,
-      forced: hdrForced,
-      placement,
-    });
-    markExposureFired("header_btn_r2");
-  };
-
-  useXpExposure(desktopSlotRef, "header_btn_r2", () => fireHeaderExposure("desktop"));
+  useXpExposure(desktopSlotRef, "header_btn_r2", () => ({ placement: "desktop" }));
 
   useEffect(() => {
-    if (isMenuOpen) fireHeaderExposure("mobile");
+    if (isMenuOpen) fireXpExposure("header_btn_r2", { placement: "mobile" });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMenuOpen]);
 

@@ -13,5 +13,5 @@ export {
   migrateOnConsent as migrateExperimentAssignment,
 } from './experiments/engine';
 
-export { useXpExposure } from './experiments/exposure';
+export { useXpExposure, fireXpExposure } from './experiments/exposure';
 export type { ExperimentDef, VariantId, LayerId } from './experiments/registry';
