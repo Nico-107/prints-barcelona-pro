@@ -48,6 +48,7 @@ interface OrderPanelProps {
   contactTouched: boolean;
   quoteError: string | null;
   checkoutError: string | null;
+  checkoutErrorCode?: string | null;
   oversizedFiles: ParsedFile[];
   onContactEmailChange: (v: string) => void;
   onContactPhoneChange: (v: string) => void;
@@ -68,6 +69,7 @@ interface OrderPanelProps {
   onInstantBuy: () => void;
   onManualReview: () => void;
   onSubmitQuote: () => void;
+  onSendOrderAfterCheckoutFail?: () => void;
   onWhatsApp: () => void;
   /** Fired once per popup open when Buy Now is ≥50% on screen for 500 ms */
   onBuyButtonVisible?: () => void;
@@ -115,6 +117,7 @@ export function OrderPanel({
   contactTouched,
   quoteError,
   checkoutError,
+  checkoutErrorCode,
   oversizedFiles,
   onContactEmailChange,
   onContactPhoneChange,
@@ -132,6 +135,7 @@ export function OrderPanel({
   onInstantBuy,
   onManualReview,
   onSubmitQuote,
+  onSendOrderAfterCheckoutFail,
   onWhatsApp,
   onBuyButtonVisible,
   language,
@@ -717,7 +721,14 @@ export function OrderPanel({
           {/* Errors only in section='all'; section='form' defers to 'actions' bar */}
           {section === 'all' && quoteError && <p className="text-xs text-destructive" role="alert">{quoteError}</p>}
           {section === 'all' && checkoutError && instantBuyEligible && !showManualReview && (
-            <p className="text-xs text-destructive" role="alert">{checkoutError}</p>
+            <div className="space-y-2">
+              <p className="text-xs text-destructive" role="alert">{checkoutError}</p>
+              {checkoutErrorCode && checkoutErrorCode !== "UPLOADING" && onSendOrderAfterCheckoutFail && (
+                <Button variant="outline" size="sm" className="w-full" onClick={onSendOrderAfterCheckoutFail}>
+                  {t("calc.checkout.error.sendOrder")}
+                </Button>
+              )}
+            </div>
           )}
           {oversizedFiles.length > 0 && (
             <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">

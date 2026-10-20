@@ -232,6 +232,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   // Instant checkout state
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [checkoutErrorCode, setCheckoutErrorCode] = useState<string | null>(null);
   const [preUploadDone, setPreUploadDone] = useState(false);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   const [showManualReview, setShowManualReview] = useState(false);
@@ -269,6 +270,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const uploadedRef = useRef<{ paths: string[]; names: string[]; byId: Record<string, string> } | null>(null);
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const checkoutFailureNoteRef = useRef<string | null>(null);
 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
@@ -825,11 +827,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
     if (!uploadedRef.current || instantTotalPrice === null) {
       capture('buy_blocked', { reason: 'uploading' });
-      setCheckoutError("Files are still uploading. Please wait a moment and try again.");
+      setCheckoutErrorCode("UPLOADING");
+      setCheckoutError(t("calc.checkout.error.fileNotFound"));
       return;
     }
     setIsCheckingOut(true);
     setCheckoutError(null);
+    setCheckoutErrorCode(null);
     try {
       const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : null;
@@ -860,7 +864,34 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: checkoutBodyPayload,
       });
-      if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL returned");
+      if (error) {
+        // Read the actual JSON error code from the edge function response
+        let code = "UNKNOWN";
+        let httpStatus = 0;
+        try {
+          const ctx = (error as any)?.context;
+          if (ctx) {
+            httpStatus = (ctx as Response).status ?? 0;
+            const json = await (ctx as Response).json();
+            code = json?.error ?? "UNKNOWN";
+            console.error("create-instant-checkout error:", code, json);
+          }
+        } catch { console.error("checkout error (raw):", (error as any)?.message); }
+        capture('checkout_failed', { code, http_status: httpStatus, price_eur: chargedPrice, file_count: validFiles.length });
+        setIsCheckingOut(false);
+        setCheckoutErrorCode(code);
+        if (code === "FILE_NOT_FOUND") setCheckoutError(t("calc.checkout.error.fileNotFound"));
+        else if (code === "PRICE_MISMATCH") setCheckoutError(t("calc.checkout.error.priceMismatch"));
+        else setCheckoutError(t("calc.checkout.error.default"));
+        return;
+      }
+      if (!data?.checkoutUrl) {
+        capture('checkout_failed', { code: 'NO_URL', http_status: 200, price_eur: chargedPrice, file_count: validFiles.length });
+        setIsCheckingOut(false);
+        setCheckoutErrorCode("NO_URL");
+        setCheckoutError(t("calc.checkout.error.default"));
+        return;
+      }
       try {
         sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({
           value: chargedPrice,
@@ -896,8 +927,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
+      capture('checkout_failed', { code: 'EXCEPTION', http_status: 0, price_eur: chargedPrice, file_count: validFiles.length });
       setIsCheckingOut(false);
-      setCheckoutError(err.message ?? "Checkout failed. Please request a review instead.");
+      setCheckoutErrorCode("EXCEPTION");
+      setCheckoutError(t("calc.checkout.error.default"));
     }
   };
 
@@ -911,6 +944,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       capture('review_blocked_missing_contact', { code: cc.code });
       return;
     }
+    setQuoteError(null);
+    setShowManualReview(true);
+    submitQuote();
+  };
+
+  const handleSendOrderAfterCheckoutFail = () => {
+    const code = checkoutErrorCode ?? "UNKNOWN";
+    capture('checkout_failed_send_order', { code });
+    const cc = checkContact(contactEmail, contactPhone);
+    setContactTouched(true);
+    if (!cc.ok) {
+      setQuoteError(t("calc.contact.atLeastOne"));
+      return;
+    }
+    checkoutFailureNoteRef.current = `INSTANT CHECKOUT FAILED: ${code} — send Stripe payment link`;
     setQuoteError(null);
     setShowManualReview(true);
     submitQuote();
@@ -984,7 +1032,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }));
 
       // Combine color preference + notes into existing color field (payload shape unchanged)
-      const colorWithNotes = [colorPref.trim(), notesText.trim(), contactName.trim() ? `Name: ${contactName.trim()}` : ""].filter(Boolean).join(' | ') || null;
+      const failureNote = checkoutFailureNoteRef.current;
+      checkoutFailureNoteRef.current = null;
+      const colorWithNotes = [colorPref.trim(), notesText.trim(), contactName.trim() ? `Name: ${contactName.trim()}` : "", failureNote ?? ""].filter(Boolean).join(' | ') || null;
 
       // A4: pseudonymous customer_ref; B4: stable quote_id for DB row + event join
       const ref = contactEmail.trim() ? await customerRef(contactEmail.trim()) : undefined;
@@ -1738,6 +1788,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           contactTouched,
           quoteError,
           checkoutError,
+          checkoutErrorCode,
           oversizedFiles,
           onContactEmailChange: (v: string) => { setContactEmail(v); if (v.length === 1) capture('contact_entered', { field: 'email' }); },
           onContactPhoneChange: (v: string) => { setContactPhone(v); if (v.length === 1) capture('contact_entered', { field: 'phone' }); },
@@ -1763,6 +1814,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           onInstantBuy: handleInstantBuy,
           onManualReview: handleManualReview,
           onSubmitQuote: submitQuote,
+          onSendOrderAfterCheckoutFail: handleSendOrderAfterCheckoutFail,
           onWhatsApp: handleWhatsApp,
           language,
           t,
