@@ -1377,6 +1377,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             <div data-xp-slot="upload_area_r1" data-xp-v="A">
               <div
                 {...dragHandlers}
+                data-ph-name="upload"
                 onClick={() => inputRef.current?.click()}
                 className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
                   isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
@@ -1401,6 +1402,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             <div data-xp-slot="upload_area_r1" data-xp-v="B">
               <div
                 {...dragHandlers}
+                data-ph-name="upload"
                 onClick={() => inputRef.current?.click()}
                 className={`relative border-[3px] border-dashed rounded-xl p-12 text-center cursor-pointer transition-all select-none ${
                   isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
@@ -2030,6 +2032,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             {!isSubmittedQuote && parsedFiles.length < MAX_FILES && (
               <button
                 type="button"
+                data-ph-name="add-more-files"
                 onClick={() => { capture("estimate_add_more_click", { location: "dialog" }); modalInputRef.current?.click(); }}
                 className={`shrink-0 flex items-center justify-center gap-1.5 h-10 w-full rounded-xl border border-dashed text-sm text-muted-foreground transition-all ${
                   isDragging ? "border-accent bg-accent/8" : "border-border/60 hover:border-accent/50 hover:bg-accent/4"
@@ -2287,6 +2290,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     type="submit"
                     variant="cta"
                     className="w-full gap-2"
+                    data-ph-name="exit-popup-send"
                     disabled={exitIntentSubmitting}
                   >
                     {exitIntentSubmitting

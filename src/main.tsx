@@ -26,6 +26,8 @@ const initPostHog = () => {
       capture_pageleave: true,
       capture_exceptions: true,
       capture_dead_clicks: true,
+      autocapture: true,
+      rageclick: true,
       persistence: accepted ? "localStorage+cookie" : "memory",
       disable_session_recording: true,
       enable_heatmaps: false,

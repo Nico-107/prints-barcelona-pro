@@ -276,6 +276,7 @@ export function CheckoutConfigurator({
             const delta = deltas.materials[mat];
             return (
               <button key={mat} type="button"
+                data-ph-name="material-chip"
                 onClick={() => handleMaterialChange(mat)}
                 disabled={disabled}
                 className={`text-left px-2.5 py-2 rounded-lg border text-xs transition-colors disabled:opacity-50 ${
