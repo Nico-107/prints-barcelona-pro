@@ -3,9 +3,39 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const STRIPE_SECRET_KEY = Deno.env.get("STRIPE_SECRET_KEY");
 const SITE_URL = "https://www.dimension3dprints.com";
+const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
+const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
 
 // owner: edit here; flat 590 shipping loses money to far countries (RO about 14 EUR real cost)
 const SHIP_COUNTRIES = ["ES","PT","FR","DE","IT","NL","BE","LU","AT","IE","PL","DK","SE","FI"] as const;
+
+// PostHog capture helper — 3s timeout, never throws
+async function capturePostHog(
+  event: string,
+  distinctId: string,
+  properties: Record<string, unknown>,
+): Promise<void> {
+  if (!POSTHOG_KEY || !POSTHOG_HOST) return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
+  try {
+    await fetch(`${POSTHOG_HOST}/capture/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        api_key: POSTHOG_KEY,
+        event,
+        distinct_id: distinctId,
+        properties: { ...properties, $process_person_profile: false },
+      }),
+      signal: controller.signal,
+    });
+  } catch {
+    // timeout or network error — never throw
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 // Anon-callable: same permissive CORS pattern as send-quote-request (no auth required)
 const corsHeaders = {
@@ -829,6 +859,20 @@ serve(async (req: Request) => {
 
       const v3Session = await v3Res.json();
       console.log(`Instant checkout v3 session created for order ${v3OrderRow.id} (#${v3OrderRow.order_number})`);
+
+      // Item 3: server-side checkout event (immune to ad blockers)
+      const v3PhRawId = typeof body.ph_distinct_id === "string" && body.ph_distinct_id.trim() ? body.ph_distinct_id.trim() : null;
+      await capturePostHog("checkout_session_created_server", v3PhRawId ?? ("anon_" + v3OrderRow.id), {
+        order_number: v3OrderRow.order_number,
+        value: v3ChargeWithDiscount / 100,
+        pricing_version: 3,
+        autumn_discount_cents: v3AutumnDiscountCents || null,
+        fulfillment: vBody.fulfillment,
+        part_count: v3Pieces.length,
+        materials: v3UniqueMats.join(","),
+        $session_id: typeof body.ph_session_id === "string" ? body.ph_session_id.trim() : null,
+      });
+
       return json({ checkoutUrl: v3Session.url, autumn_discount_cents: v3AutumnDiscountCents || undefined });
     }
 
@@ -1106,6 +1150,19 @@ serve(async (req: Request) => {
       const session = await res.json();
       console.log(`Instant checkout v2 session created for order ${orderRow.id} (#${orderRow.order_number})`);
 
+      // Item 3: server-side checkout event
+      const v2PhRawId = typeof ph_distinct_id === "string" && ph_distinct_id.trim() ? ph_distinct_id.trim() : null;
+      await capturePostHog("checkout_session_created_server", v2PhRawId ?? ("anon_" + orderRow.id), {
+        order_number: orderRow.order_number,
+        value: order.chargedPrintCents / 100,
+        pricing_version: 2,
+        autumn_discount_cents: null,
+        fulfillment,
+        part_count: enrichedPieces.length,
+        materials: uniqueMats.join(","),
+        $session_id: typeof ph_session_id === "string" ? ph_session_id.trim() : null,
+      });
+
       return json({ checkoutUrl: session.url });
     }
 
@@ -1254,6 +1311,19 @@ serve(async (req: Request) => {
 
     const session = await res.json();
     console.log(`Instant checkout session created for order ${order.id} (#${order.order_number})`);
+
+    // Item 3: server-side checkout event (legacy path)
+    const legacyPhRawId = typeof ph_distinct_id === "string" && ph_distinct_id.trim() ? ph_distinct_id.trim() : null;
+    await capturePostHog("checkout_session_created_server", legacyPhRawId ?? ("anon_" + order.id), {
+      order_number: order.order_number,
+      value: price,
+      pricing_version: 1,
+      autumn_discount_cents: null,
+      fulfillment,
+      part_count: 1,
+      materials: material,
+      $session_id: typeof ph_session_id === "string" ? ph_session_id.trim() : null,
+    });
 
     return json({ checkoutUrl: session.url });
   } catch (err: any) {

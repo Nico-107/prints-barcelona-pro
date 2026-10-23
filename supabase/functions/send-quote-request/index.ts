@@ -476,13 +476,18 @@ const handler = async (req: Request): Promise<Response> => {
     // B3: quote_received — awaited so the event lands before the response
     const phRawId = (typeof ph_distinct_id === "string" && ph_distinct_id.trim()) ? ph_distinct_id.trim() : null;
     const srvId = phRawId ?? ("srv_" + crypto.randomUUID().replace(/-/g, "").slice(0, 16));
+    const contactType = safeEmail && safePhone ? "both" : safeEmail ? "email" : "phone";
     await captureQuoteReceived(srvId, {
       quote_id: quote_id ?? null,
       material,
       total_units: totalUnits,
       price_low: Math.round(priceLow ?? 0),
       price_high: Math.round(priceHigh ?? 0),
+      price_exact: priceExact != null ? Number(priceExact) : null,
+      file_count: filePaths?.length ?? 0,
+      source_path: sourcePath ?? null,
       source_city: sourceCity ?? null,
+      contact_type: contactType,
     }, !!phRawId);
 
     // Customer confirmation email — sent if email present; failure does not block success
