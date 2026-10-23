@@ -322,6 +322,7 @@ export function OrderPanel({
                   <button
                     type="button"
                     data-testid="compact-fulfillment-pickup"
+                    data-ph-name="pickup-option"
                     onClick={() => onFulfillmentChange("pickup")}
                     disabled={isCheckingOut}
                     className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
@@ -335,6 +336,7 @@ export function OrderPanel({
                   <button
                     type="button"
                     data-testid="compact-fulfillment-shipping"
+                    data-ph-name="shipping-option"
                     onClick={() => onFulfillmentChange("shipping")}
                     disabled={isCheckingOut}
                     className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
@@ -358,6 +360,7 @@ export function OrderPanel({
                       size="lg"
                       className="w-full gap-2"
                       data-testid="buy-now-btn"
+                      data-ph-name="buy-now"
                       onClick={onInstantBuy}
                       disabled={isCheckingOut || !preUploadDone}
                     >
@@ -377,6 +380,7 @@ export function OrderPanel({
                         variant="outline"
                         size="sm"
                         className="w-full gap-1.5 text-sm min-h-[44px] border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                        data-ph-name="free-review"
                         onClick={onManualReview}
                         disabled={isCheckingOut}
                       >
@@ -387,6 +391,7 @@ export function OrderPanel({
                         variant="whatsapp-outline"
                         size="sm"
                         className="w-full gap-1.5 text-sm min-h-[44px]"
+                        data-ph-name="whatsapp-calculator"
                         onClick={onWhatsApp}
                         disabled={isCheckingOut}
                       >
@@ -406,6 +411,7 @@ export function OrderPanel({
                       size="lg"
                       className="w-full gap-2"
                       data-testid="buy-now-btn"
+                      data-ph-name="buy-now"
                       onClick={onInstantBuy}
                       disabled={isCheckingOut || !preUploadDone}
                     >
@@ -454,6 +460,7 @@ export function OrderPanel({
                       size="lg"
                       className="w-full gap-2"
                       data-testid="buy-now-btn"
+                      data-ph-name="buy-now"
                       onClick={onInstantBuy}
                       disabled={isCheckingOut || !preUploadDone}
                     >
@@ -493,6 +500,7 @@ export function OrderPanel({
                   variant="cta"
                   size="lg"
                   className="w-full gap-2"
+                  data-ph-name="send-my-order"
                   onClick={onSubmitQuote}
                   disabled={isSubmittingQuote}
                 >
@@ -506,6 +514,7 @@ export function OrderPanel({
                   variant="whatsapp-outline"
                   size="sm"
                   className="w-full gap-2 text-sm min-h-[44px]"
+                  data-ph-name="whatsapp-calculator"
                   onClick={onWhatsApp}
                   disabled={isSubmittingQuote}
                 >
@@ -724,7 +733,7 @@ export function OrderPanel({
             <div className="space-y-2">
               <p className="text-xs text-destructive" role="alert">{checkoutError}</p>
               {checkoutErrorCode && checkoutErrorCode !== "UPLOADING" && onSendOrderAfterCheckoutFail && (
-                <Button variant="outline" size="sm" className="w-full" onClick={onSendOrderAfterCheckoutFail}>
+                <Button variant="outline" size="sm" className="w-full" data-ph-name="send-my-order" onClick={onSendOrderAfterCheckoutFail}>
                   {t("calc.checkout.error.sendOrder")}
                 </Button>
               )}
@@ -748,6 +757,7 @@ export function OrderPanel({
                   variant="cta"
                   size="lg"
                   className="w-full gap-2"
+                  data-ph-name="buy-now"
                   onClick={onInstantBuy}
                   disabled={isCheckingOut || !preUploadDone}
                 >
@@ -768,6 +778,7 @@ export function OrderPanel({
                     variant="outline"
                     size="lg"
                     className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                    data-ph-name="free-review"
                     onClick={onManualReview}
                     disabled={isCheckingOut}
                   >
@@ -782,6 +793,7 @@ export function OrderPanel({
                   variant="whatsapp-outline"
                   size="sm"
                   className="w-full gap-2"
+                  data-ph-name="whatsapp-calculator"
                   onClick={onWhatsApp}
                   disabled={isCheckingOut}
                 >
@@ -795,6 +807,7 @@ export function OrderPanel({
                   variant="cta"
                   size="lg"
                   className="w-full gap-2"
+                  data-ph-name="send-my-order"
                   onClick={onSubmitQuote}
                   disabled={isSubmittingQuote}
                 >
@@ -807,6 +820,7 @@ export function OrderPanel({
                   variant="whatsapp-outline"
                   size="sm"
                   className="w-full gap-2"
+                  data-ph-name="whatsapp-calculator"
                   onClick={onWhatsApp}
                   disabled={isSubmittingQuote}
                 >

@@ -75,6 +75,56 @@ async function verifyStripeSignature(body: string, signature: string, secret: st
   return computed === v1Part;
 }
 
+// Pure helper — also tested via src/lib/stripeWebhookHelpers.test.ts
+export function shouldSendConfirmation(currentStatus: string | null | undefined): boolean {
+  return currentStatus !== "paid";
+}
+
+// Pure helper: build order_paid PostHog properties from session metadata + order row
+export function buildOrderPaidProps(
+  session: Record<string, any>,
+  order: Record<string, unknown> | null,
+): Record<string, unknown> {
+  const meta = (session.metadata ?? {}) as Record<string, string>;
+  const pricingVersion = meta.pricing_version ? Number(meta.pricing_version) : null;
+  const partCount = meta.part_count ? Number(meta.part_count) : null;
+  const materialsStr = typeof meta.materials === "string" ? meta.materials : null;
+  const isMixed = materialsStr ? materialsStr.includes(",") : null;
+
+  let qualitySummary: string | null = null;
+  let supportsSummary: string | null = null;
+  if (pricingVersion === 3 && Array.isArray(order?.pieces)) {
+    const v3Pieces = (order!.pieces as Array<Record<string, unknown>>);
+    const qualities = [...new Set(v3Pieces.map(p => String(p.quality ?? "")))].filter(Boolean);
+    const supportsVals = v3Pieces.map(p => p.supports);
+    qualitySummary = qualities.length === 1 ? qualities[0] : qualities.length > 1 ? "mixed" : null;
+    supportsSummary = supportsVals.every(s => s === true) ? "all" : supportsVals.every(s => s === false) ? "none" : "mixed";
+  }
+
+  return {
+    order_id: meta.order_id ?? null,
+    order_number: meta.order_number ?? null,
+    value: (session.amount_total ?? 0) / 100,
+    currency: (session.currency ?? "eur").toUpperCase(),
+    fulfillment: meta.fulfillment ?? null,
+    source_path: meta.source_path ?? null,
+    product_type: meta.product_type ?? null,
+    part_slug: meta.part_slug ?? null,
+    utm_source: meta.utm_source ?? null,
+    utm_medium: meta.utm_medium ?? null,
+    utm_content: meta.utm_content ?? null,
+    utm_campaign: meta.utm_campaign ?? null,
+    customer_ref: meta.customer_ref ?? null,
+    $session_id: meta.ph_session_id ?? null,
+    ...(pricingVersion != null ? { pricing_version: pricingVersion } : {}),
+    ...(partCount != null ? { part_count: partCount } : {}),
+    ...(materialsStr != null ? { materials: materialsStr } : {}),
+    ...(isMixed != null ? { is_mixed: isMixed } : {}),
+    ...(qualitySummary != null ? { quality: qualitySummary } : {}),
+    ...(supportsSummary != null ? { supports: supportsSummary } : {}),
+  };
+}
+
 serve(async (req: Request) => {
   if (req.method !== "POST") return new Response("Method Not Allowed", { status: 405 });
 
@@ -103,158 +153,183 @@ serve(async (req: Request) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
 
-    if (orderId) {
-      // Instant self-service checkout flow — paid, ready to print
-      // Authoritative contact info comes from the completed Stripe session.
-      const stripeEmail =
-        session.customer_details?.email ?? session.customer_email ?? null;
-      const stripePhone = session.customer_details?.phone ?? null;
-      const shipping =
-        session.shipping_details ?? session.collected_information?.shipping_details ?? null;
+    // Declared at outer scope so captureOrderPaid can use order?.pieces
+    let order: {
+      order_number: number | null;
+      product_title: string | null;
+      notes: string | null;
+      file_paths: string[] | null;
+      fulfillment: string | null;
+      shipping_address: unknown;
+      customer_phone: string | null;
+      pieces: unknown;
+    } | null = null;
 
-      const updatePayload: Record<string, unknown> = {
-        payment_status: "paid",
-        status: "quote_approved",
-      };
-      if (stripeEmail) updatePayload.customer_email = stripeEmail;
-      if (stripePhone) updatePayload.customer_phone = stripePhone;
-      if (shipping) updatePayload.shipping_address = shipping;
+    let dbUpdateFailed = false;
 
-      const { data: order, error } = await adminClient
-        .from("orders")
-        .update(updatePayload)
-        .eq("id", orderId)
-        .select("order_number, product_title, notes, file_paths, fulfillment, shipping_address, customer_phone, pieces")
-        .maybeSingle();
+    try {
+      if (orderId) {
+        // Instant self-service checkout flow — paid, ready to print
 
-      if (error) {
-        console.error("Failed to mark instant order " + orderId + " as paid:", error);
-      } else {
-        console.log("Instant order " + orderId + " marked paid + quote_approved");
+        // Idempotency: read current status before updating to avoid duplicate emails
+        const { data: existing } = await adminClient
+          .from("orders")
+          .select("payment_status")
+          .eq("id", orderId)
+          .maybeSingle();
 
-        // Same customer confirmation email path used for paid orders
-        const notes = order?.notes ?? "";
-        const orderPieces: Array<Record<string, unknown>> | null =
-          Array.isArray(order?.pieces) ? order!.pieces : null;
-        const isV2Pieces = orderPieces != null && orderPieces.some((p) => typeof p.material === "string");
-
-        let material: string;
-        let color: string | null;
-        let infill: string | null;
-        let wallLoops: string | null;
-
-        if (isV2Pieces) {
-          const mats = [...new Set(orderPieces!.map((p) => String(p.material ?? "")))];
-          const infills = [...new Set(orderPieces!.map((p) => String(p.infill ?? "")))];
-          const walls = [...new Set(orderPieces!.map((p) => String(p.wallLoops ?? "")))];
-          material = mats.length === 1 ? mats[0] : `Mixed (${mats.join(", ")})`;
-          color = null;
-          infill = infills.length === 1 ? infills[0] : "mixed";
-          wallLoops = walls.length === 1 ? walls[0] : "mixed";
+        if (!shouldSendConfirmation(existing?.payment_status)) {
+          // Already processed — skip email, still fire order_paid (idempotent)
+          console.log(`[idempotency] Order ${orderId} already paid — skipping confirmation email`);
+          const { data: existingOrder } = await adminClient
+            .from("orders")
+            .select("order_number, product_title, notes, file_paths, fulfillment, shipping_address, customer_phone, pieces")
+            .eq("id", orderId)
+            .maybeSingle();
+          order = existingOrder ?? null;
         } else {
-          const materialMatch = /Material: ([^\s/.]+)/.exec(notes);
-          const colorMatch = /Material: [^\s/.]+ \/ ([^.]+)\./.exec(notes);
-          const infillMatch = /Infill: ([^,]+),/.exec(notes);
-          const wallsMatch = /,\s*(\S+) walls/.exec(notes);
-          material = materialMatch?.[1] ?? "PLA";
-          color = colorMatch?.[1]?.trim() ?? null;
-          infill = infillMatch?.[1]?.trim() ?? null;
-          wallLoops = wallsMatch?.[1] ?? null;
+          // Authoritative contact info comes from the completed Stripe session.
+          const stripeEmail =
+            session.customer_details?.email ?? session.customer_email ?? null;
+          const stripePhone = session.customer_details?.phone ?? null;
+          const shipping =
+            session.shipping_details ?? session.collected_information?.shipping_details ?? null;
+
+          const updatePayload: Record<string, unknown> = {
+            payment_status: "paid",
+            status: "quote_approved",
+          };
+          if (stripeEmail) updatePayload.customer_email = stripeEmail;
+          if (stripePhone) updatePayload.customer_phone = stripePhone;
+          if (shipping) updatePayload.shipping_address = shipping;
+
+          const { data: updatedOrder, error } = await adminClient
+            .from("orders")
+            .update(updatePayload)
+            .eq("id", orderId)
+            .select("order_number, product_title, notes, file_paths, fulfillment, shipping_address, customer_phone, pieces")
+            .maybeSingle();
+
+          if (error) {
+            console.error("Failed to mark instant order " + orderId + " as paid:", error);
+            dbUpdateFailed = true;
+          } else {
+            order = updatedOrder ?? null;
+            console.log("Instant order " + orderId + " marked paid + quote_approved");
+
+            const notes = order?.notes ?? "";
+            const orderPieces: Array<Record<string, unknown>> | null =
+              Array.isArray(order?.pieces) ? (order!.pieces as Array<Record<string, unknown>>) : null;
+            const isV2Pieces = orderPieces != null && orderPieces.some((p) => typeof p.material === "string");
+
+            let material: string;
+            let color: string | null;
+            let infill: string | null;
+            let wallLoops: string | null;
+
+            if (isV2Pieces) {
+              const mats = [...new Set(orderPieces!.map((p) => String(p.material ?? "")))];
+              const infills = [...new Set(orderPieces!.map((p) => String(p.infill ?? "")))];
+              const walls = [...new Set(orderPieces!.map((p) => String(p.wallLoops ?? "")))];
+              material = mats.length === 1 ? mats[0] : `Mixed (${mats.join(", ")})`;
+              color = null;
+              infill = infills.length === 1 ? infills[0] : "mixed";
+              wallLoops = walls.length === 1 ? walls[0] : "mixed";
+            } else {
+              const materialMatch = /Material: ([^\s/.]+)/.exec(notes);
+              const colorMatch = /Material: [^\s/.]+ \/ ([^.]+)\./.exec(notes);
+              const infillMatch = /Infill: ([^,]+),/.exec(notes);
+              const wallsMatch = /,\s*(\S+) walls/.exec(notes);
+              material = materialMatch?.[1] ?? "PLA";
+              color = colorMatch?.[1]?.trim() ?? null;
+              infill = infillMatch?.[1]?.trim() ?? null;
+              wallLoops = wallsMatch?.[1] ?? null;
+            }
+
+            const qtyMatch = /qty (\d+)/.exec(notes);
+            const filesMatch = /Files: ([^.]+)\./.exec(notes);
+            const filePaths: string[] = Array.isArray(order?.file_paths) ? order!.file_paths as string[] : [];
+            const fileNames = filesMatch
+              ? filesMatch[1].split(",").map((s: string) => s.trim())
+              : filePaths.map((p) => p.split("/").pop() ?? p);
+
+            const { error: mailErr } = await adminClient.functions.invoke(
+              "send-order-confirmation",
+              {
+                body: {
+                  customerEmail: stripeEmail,
+                  customerPhone: stripePhone ?? order?.customer_phone ?? null,
+                  orderNumber: order?.order_number,
+                  finalPrice: (session.amount_total ?? 0) / 100,
+                  material,
+                  color,
+                  infill,
+                  wallLoops,
+                  quantity: qtyMatch ? Number(qtyMatch[1]) : null,
+                  fulfillment: order?.fulfillment ?? null,
+                  shippingAddress: shipping ?? order?.shipping_address ?? null,
+                  filePaths,
+                  fileNames,
+                  deliveryDate: null,
+                  customerName: session.customer_details?.name ?? null,
+                  paymentMethod: "stripe",
+                  stripePaymentLink: null,
+                  pieces: orderPieces,
+                  sourcePath: session.metadata?.source_path ?? null,
+                  pageLanguage: session.metadata?.page_language ?? null,
+                },
+              },
+            );
+            if (mailErr) console.error("send-order-confirmation failed:", mailErr);
+          }
         }
+      } else if (orderNumber) {
+        // Legacy payment-link flow
 
-        const qtyMatch = /qty (\d+)/.exec(notes);
-        const filesMatch = /Files: ([^.]+)\./.exec(notes);
-        const filePaths: string[] = Array.isArray(order?.file_paths) ? order!.file_paths : [];
-        const fileNames = filesMatch
-          ? filesMatch[1].split(",").map((s: string) => s.trim())
-          : filePaths.map((p) => p.split("/").pop() ?? p);
+        // Idempotency check
+        const { data: existing } = await adminClient
+          .from("orders")
+          .select("payment_status")
+          .eq("order_number", parseInt(orderNumber))
+          .maybeSingle();
 
-        const { error: mailErr } = await adminClient.functions.invoke(
-          "send-order-confirmation",
-          {
-            body: {
-              customerEmail: stripeEmail,
-              customerPhone: stripePhone ?? order?.customer_phone ?? null,
-              orderNumber: order?.order_number,
-              finalPrice: (session.amount_total ?? 0) / 100,
-              material,
-              color,
-              infill,
-              wallLoops,
-              quantity: qtyMatch ? Number(qtyMatch[1]) : null,
-              fulfillment: order?.fulfillment ?? null,
-              shippingAddress: shipping ?? order?.shipping_address ?? null,
-              filePaths,
-              fileNames,
-              deliveryDate: null,
-              customerName: session.customer_details?.name ?? null,
-              paymentMethod: "stripe",
-              stripePaymentLink: null,
-              pieces: orderPieces,
-              sourcePath: session.metadata?.source_path ?? null,
-              pageLanguage: session.metadata?.page_language ?? null,
-            },
-          },
-        );
-        if (mailErr) console.error("send-order-confirmation failed:", mailErr);
+        if (!shouldSendConfirmation(existing?.payment_status)) {
+          console.log(`[idempotency] Order #${orderNumber} already paid — skipping update`);
+        } else {
+          const { error } = await adminClient
+            .from("orders")
+            .update({ payment_status: "paid" })
+            .eq("order_number", parseInt(orderNumber));
+
+          if (error) {
+            console.error("Failed to update payment_status for order #" + orderNumber + ":", error);
+            dbUpdateFailed = true;
+          } else {
+            console.log("Marked order #" + orderNumber + " as paid");
+          }
+        }
       }
-    } else if (orderNumber) {
-      const { error } = await adminClient
-        .from("orders")
-        .update({ payment_status: "paid" })
-        .eq("order_number", parseInt(orderNumber));
+    } catch (unexpectedErr: any) {
+      // Non-DB errors: log and fall through to return 200 so Stripe stops retrying.
+      // (The order may already be marked paid; a retry would only re-send emails.)
+      console.error("[stripe-webhook] unexpected error:", unexpectedErr?.message ?? unexpectedErr, unexpectedErr?.stack);
+    }
 
-      if (error) {
-        console.error("Failed to update payment_status for order #" + orderNumber + ":", error);
-      } else {
-        console.log("Marked order #" + orderNumber + " as paid");
-      }
+    // Return 500 only when the DB update itself failed — that's when a Stripe retry is useful.
+    if (dbUpdateFailed) {
+      return new Response(JSON.stringify({ error: "DB_UPDATE_FAILED" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // B2: order_paid — idempotent (Stripe session.id is PostHog event uuid), 3s timeout
     const meta = session.metadata ?? {};
     const rawPHId = typeof meta.ph_distinct_id === "string" ? meta.ph_distinct_id.trim() : "";
 
-    // v2/v3-specific additive properties (safe to add — undefined on legacy orders)
-    const pricingVersion = meta.pricing_version ? Number(meta.pricing_version) : null;
-    const partCount = meta.part_count ? Number(meta.part_count) : null;
-    const materialsStr = typeof meta.materials === "string" ? meta.materials : null;
-    const isMixed = materialsStr ? materialsStr.includes(",") : null;
-
-    // v3-specific: quality and supports summary from the stored pieces
-    let qualitySummary: string | null = null;
-    let supportsSummary: string | null = null;
-    if (pricingVersion === 3 && Array.isArray(order?.pieces)) {
-      const v3Pieces = order!.pieces as Array<Record<string, unknown>>;
-      const qualities = [...new Set(v3Pieces.map(p => String(p.quality ?? "")))].filter(Boolean);
-      const supportsVals = v3Pieces.map(p => p.supports);
-      qualitySummary = qualities.length === 1 ? qualities[0] : qualities.length > 1 ? "mixed" : null;
-      supportsSummary = supportsVals.every(s => s === true) ? "all" : supportsVals.every(s => s === false) ? "none" : "mixed";
-    }
-
     await captureOrderPaid(
       rawPHId || ("anon_" + session.id),
-      {
-        order_id: meta.order_id ?? null,
-        order_number: meta.order_number ?? null,
-        value: (session.amount_total ?? 0) / 100,
-        currency: (session.currency ?? "eur").toUpperCase(),
-        fulfillment: meta.fulfillment ?? null,
-        product_type: meta.product_type ?? null,
-        part_slug: meta.part_slug ?? null,
-        utm_source: meta.utm_source ?? null,
-        utm_medium: meta.utm_medium ?? null,
-        utm_content: meta.utm_content ?? null,
-        utm_campaign: meta.utm_campaign ?? null,
-        customer_ref: meta.customer_ref ?? null,
-        $session_id: meta.ph_session_id ?? null,
-        ...(pricingVersion != null ? { pricing_version: pricingVersion } : {}),
-        ...(partCount != null ? { part_count: partCount } : {}),
-        ...(materialsStr != null ? { materials: materialsStr } : {}),
-        ...(isMixed != null ? { is_mixed: isMixed } : {}),
-        ...(qualitySummary != null ? { quality: qualitySummary } : {}),
-        ...(supportsSummary != null ? { supports: supportsSummary } : {}),
-      },
+      buildOrderPaidProps(session, order),
       session.id,
       !!rawPHId,
     );

@@ -50,6 +50,7 @@ export function DefaultSettings({
         <div className="flex rounded-full border border-border overflow-hidden text-xs">
           <button
             type="button"
+            data-ph-name="simple-mode"
             onClick={() => onAdvancedModeChange(false)}
             className={`px-2.5 py-1 transition-colors ${!advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
           >
@@ -57,6 +58,7 @@ export function DefaultSettings({
           </button>
           <button
             type="button"
+            data-ph-name="advanced-mode"
             onClick={() => onAdvancedModeChange(true)}
             className={`px-2.5 py-1 transition-colors border-l border-border ${advancedMode ? "bg-accent text-accent-foreground font-medium" : "bg-background text-muted-foreground hover:bg-muted/30"}`}
           >
