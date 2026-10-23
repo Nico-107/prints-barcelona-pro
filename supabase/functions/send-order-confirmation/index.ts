@@ -233,7 +233,19 @@ serve(async (req: Request) => {
     const safePhone = customerPhone?.trim() || null;
     const safeName = customerName ? sanitize(customerName.trim()) : null;
     const safeMaterial = sanitize(String(material ?? "n/a"));
-    const safeColor = color ? sanitize(String(color).trim()) : null;
+
+    // Resolve color: prefer top-level; fall back to pieces' color (or "Mixed" for multiple)
+    let resolvedColor: string | null = color ? String(color).trim() : null;
+    if (!resolvedColor && Array.isArray(pieces) && pieces.length > 0) {
+      const pieceColors = (pieces as ConfirmationPiece[])
+        .map(p => p.color?.trim() ?? null)
+        .filter((c): c is string => !!c);
+      if (pieceColors.length > 0) {
+        const unique = [...new Set(pieceColors)];
+        resolvedColor = unique.length === 1 ? unique[0] : "Mixed";
+      }
+    }
+    const safeColor = resolvedColor ? sanitize(resolvedColor) : null;
 
     // 7-day signed download links for the uploaded model files (admin copy only)
     const admin = createClient(supabaseUrl, serviceRoleKey);
@@ -260,9 +272,24 @@ serve(async (req: Request) => {
         ? `<p style="color:#b91c1c;margin:16px 0;">No se pudieron generar enlaces de descarga (${paths.length} archivo(s)).</p>`
         : "";
 
-    const addressHtml = shippingAddress
-      ? `<p style="margin:6px 0;"><strong>Dirección de envío:</strong><br/><span style="font-family:monospace;font-size:13px;">${sanitize(JSON.stringify(shippingAddress, null, 1))}</span></p>`
-      : "";
+    let addressHtml = "";
+    if (shippingAddress && typeof shippingAddress === "object") {
+      const sa = shippingAddress as Record<string, unknown>;
+      const addr = (sa.address && typeof sa.address === "object")
+        ? sa.address as Record<string, unknown>
+        : sa;
+      const addrName   = sa.name   ? sanitize(String(sa.name).trim())   : null;
+      const line1      = addr.line1       ? sanitize(String(addr.line1).trim())       : null;
+      const line2      = addr.line2       ? sanitize(String(addr.line2).trim())       : null;
+      const postalCode = addr.postal_code ? sanitize(String(addr.postal_code).trim()) : null;
+      const city       = addr.city        ? sanitize(String(addr.city).trim())        : null;
+      const country    = addr.country     ? sanitize(String(addr.country).trim())     : null;
+      const cityLine   = [postalCode, city].filter(Boolean).join(" ");
+      const lines = [addrName, line1, line2, cityLine, country].filter(Boolean);
+      if (lines.length > 0) {
+        addressHtml = `<p style="margin:6px 0;"><strong>Dirección de envío:</strong><br/>${lines.join("<br/>")}</p>`;
+      }
+    }
 
     const deliveryHtml = deliveryDate
       ? `<p style="margin:6px 0;"><strong>Fecha de entrega estimada:</strong> ${new Date(deliveryDate).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}</p>`
