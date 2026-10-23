@@ -30,7 +30,7 @@ Branch: `tracking-21`
 | `npm run build` | ✓ 153 pages, 0 violations, 0 broken links |
 | `scripts/check-estimator-sync.mjs` | ✓ ESTIMATOR/CHECKOUT-V3/AUTUMN-DISCOUNT identical |
 | `npm run qa:quote` | ✓ 11/11 tests passed |
-| `npm run qa` | in progress |
+| `npm run qa` | ✓ 0 violations (592 checks, 148 routes) |
 | `scripts/qa/batch-estimate.mjs` | ✓ 3 files → 1 call (fileCount=3), no JS errors |
 
 ## Edge Functions Changed (REDEPLOY REQUIRED)
