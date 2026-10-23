@@ -273,6 +273,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalShownRef = useRef(false);
   const slowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const checkoutFailureNoteRef = useRef<string | null>(null);
+  // Guard: don't send a second estimate email for the same session+files within 10 min
+  const sentEstimateRef = useRef<{ key: string; sentAt: number } | null>(null);
 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
@@ -467,7 +469,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             // uploadedRef stays null — submitQuote will run the fallback upload loop
           }
 
-          // Insert price_estimates per valid file (with paths if upload succeeded)
+          // Insert price_estimates per valid file (free — feeds the admin Price Log)
+          const batchFiles: Array<{
+            fileName: string; material: string; infillPct: number; quantity: number;
+            volumeCm3: number; grams: number; estHours: number; exactPrice: number;
+          }> = [];
+          let batchTotalCents = 0;
           for (const f of nextFiles.filter(f2 => !f2.parseError && f2.analysis)) {
             const eff = effectivePartSettings(f, capturedDefaults);
             const { estimatePart: ep, priceOrder: po } = await import("@/lib/estimator/core");
@@ -500,23 +507,34 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 capture("submit_error", { stage: "estimate", table: "price_estimates", code: dbErr.code ?? "unknown" });
               }
             });
-            supabase.functions.invoke("send-price-estimate", {
-              body: {
-                fileName: f.name,
-                material: eff.material,
-                infillPct: eff.infill,
-                quantity: f.qty,
-                volumeCm3: f.volumeMm3 / 1000,
-                grams: gr,
-                estHours: hrs,
-                priceLow: exactPrice,
-                priceHigh: exactPrice,
-                exactPrice,
-                filePaths: uploadedPaths,
-                language: capturedLang,
-                sourceCity: refCity ?? null,
-              },
-            }).catch(console.error);
+            batchFiles.push({ fileName: f.name, material: eff.material, infillPct: eff.infill, quantity: f.qty, volumeCm3: f.volumeMm3 / 1000, grams: gr, estHours: hrs, exactPrice });
+            batchTotalCents += singleOrder.totalCents;
+          }
+
+          // One email per upload batch — client-side guard against re-estimates within 10 min
+          if (batchFiles.length > 0) {
+            const phSid = get_session_id() ?? null;
+            const batchKey = (phSid ?? "no-sid") + "|" + batchFiles.map(f => f.fileName).sort().join(",");
+            const now = Date.now();
+            const TEN_MIN = 10 * 60 * 1000;
+            const alreadySent = sentEstimateRef.current?.key === batchKey && (now - sentEstimateRef.current.sentAt) < TEN_MIN;
+            if (!alreadySent) {
+              sentEstimateRef.current = { key: batchKey, sentAt: now };
+              supabase.functions.invoke("send-price-estimate", {
+                body: {
+                  files: batchFiles,
+                  totalPrice: batchTotalCents / 100,
+                  fileCount: batchFiles.length,
+                  filePaths: uploadedPaths,
+                  fileNames: uploadedNames,
+                  language: capturedLang,
+                  sourceCity: refCity ?? null,
+                  sourcePath: window.location.pathname,
+                  phDistinctId: get_distinct_id() ?? null,
+                  phSessionId: phSid,
+                },
+              }).catch(console.error);
+            }
           }
         })();
       }
