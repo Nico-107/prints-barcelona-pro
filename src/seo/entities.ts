@@ -19,7 +19,7 @@ const sameAs = [GOOGLE_BUSINESS_PROFILE_URL, INSTAGRAM_URL, TIKTOK_URL, YOUTUBE_
 // No AggregateRating or Review here — these are managed separately by Google.
 export const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",
-  "@type": ["LocalBusiness", "ProfessionalService"],
+  "@type": "Organization",
   "@id": `${SITE_URL}/#business`,
   name: "Dimension3D",
   alternateName: ["Dimension 3D Prints", "Dimension3D BCN", "Dimension 3D Barcelona"],

@@ -17,14 +17,7 @@ import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import type { IntlGuideContent } from "@/data/intlTypes";
 import { StlEstimator } from "@/components/StlEstimator";
-
-function renderProse(text: string) {
-  return text.split(/\n\n+/).map((p, i) => (
-    <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
-      {p.trim()}
-    </p>
-  ));
-}
+import { renderMarkdown } from "@/lib/renderMarkdown";
 
 interface Props {
   content: IntlGuideContent;
@@ -163,7 +156,7 @@ const IntlGuidePage = ({ content }: Props) => {
             {content.sections.map((sec, i) => (
               <section key={i} className="mb-12">
                 <h2 className="text-2xl font-bold mb-4">{sec.heading}</h2>
-                {renderProse(sec.body)}
+                <div className="prose-sm">{renderMarkdown(sec.body)}</div>
               </section>
             ))}
 

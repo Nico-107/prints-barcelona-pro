@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, CheckCircle2, ChevronRight, Clock, Globe, Package } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronRight, Clock, Globe, Package, Quote, Star } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -19,6 +19,8 @@ import { EST, priceOrder } from "@/lib/estimator/core";
 import type { OrderPartInput, PartEstimate } from "@/lib/estimator/core";
 import type { IntlHubContent } from "@/data/intlTypes";
 import { INTL_MARKETS } from "@/config/intlMarkets";
+import { renderMarkdown, parseMaterialCards } from "@/lib/renderMarkdown";
+import { GOOGLE_RATING } from "@/data/rating";
 
 import { StlEstimator } from "@/components/StlEstimator";
 
@@ -63,13 +65,21 @@ function fmtEur(cents: number, locale: string): string {
   });
 }
 
-function renderProse(text: string) {
-  return text.split(/\n\n+/).map((p, i) => (
-    <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
-      {p.trim()}
-    </p>
-  ));
-}
+const SHIPPING_LABELS: Record<string, [string, string, string]> = {
+  it: ["Origine → Destinazione", "Tempi stimati", "Costo"],
+  pt: ["Origem → Destino", "Prazo estimado", "Custo"],
+  de: ["Herkunft → Ziel", "Lieferzeit (ca.)", "Kosten"],
+  nl: ["Herkomst → Bestemming", "Levertijd (ca.)", "Kosten"],
+  fr: ["Origine → Destination", "Délai estimé", "Coût"],
+  en: ["Origin → Destination", "Estimated delivery", "Cost"],
+};
+
+// Real reviews (subset of staticReviews from Reviews.tsx — no Supabase dependency here)
+const STRIP_REVIEWS = [
+  { name: "Valentino M.", text: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!", source: "google" as const },
+  { name: "Kirill G.", text: "Fast, affordable, and worked perfectly. We needed a special part that was impossible to buy — 3D printing solved it.", source: "google" as const },
+  { name: "Daniel C.", text: "Espectacular. Servicio y calidad de 10.", source: "google" as const },
+];
 
 interface Props {
   content: IntlHubContent;
@@ -102,7 +112,7 @@ const IntlHubPage = ({ content }: Props) => {
 
   const orgSchema = {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "ProfessionalService"],
+    "@type": "Organization",
     "@id": `${SITE_URL}/#business`,
     name: "Dimension3D",
     alternateName: [
@@ -299,19 +309,17 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Promise / intro text */}
         {content.heroSubtitle && (
           <section className="py-12 bg-background">
-            <div className="container px-4 max-w-4xl mx-auto prose prose-sm md:prose-base max-w-none">
-              {renderProse(content.promise)}
+            <div className="container px-4 max-w-4xl mx-auto">
+              {renderMarkdown(content.promise)}
             </div>
           </section>
         )}
 
-        {/* How it works */}
+        {/* How it works — styled steps */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
             <div className="max-w-3xl mx-auto">
-              <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-                {renderProse(content.howItWorks)}
-              </div>
+              {renderMarkdown(content.howItWorks)}
             </div>
           </div>
         </section>
@@ -319,20 +327,49 @@ const IntlHubPage = ({ content }: Props) => {
         {/* What we print */}
         <section className="py-14 md:py-20 bg-background">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-              {renderProse(content.whatWePrint)}
+            <div className="max-w-3xl mx-auto">
+              {renderMarkdown(content.whatWePrint)}
             </div>
           </div>
         </section>
 
-        {/* Materials */}
-        <section className="bg-secondary/20 py-14 md:py-20">
-          <div className="container px-4">
-            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-              {renderProse(content.materialsText)}
-            </div>
-          </div>
-        </section>
+        {/* Materials — cards grid when data is in bullet format, prose otherwise */}
+        {(() => {
+          const cards = parseMaterialCards(content.materialsText);
+          if (cards) {
+            // Extract heading (standalone **text**) and trailing prose from materialsText
+            const blocks = content.materialsText.split(/\n\n+/).map(b => b.trim()).filter(Boolean);
+            const heading = blocks.find(b => /^\*\*[^*]+\*\*$/.test(b))?.slice(2, -2) ?? null;
+            const trailing = blocks.filter(b => !/^\*\*[^*]+\*\*$/.test(b) && !b.trim().startsWith('-')).join('\n\n');
+            return (
+              <section className="bg-secondary/20 py-14 md:py-20">
+                <div className="container px-4 max-w-4xl mx-auto">
+                  {heading && <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">{heading}</h2>}
+                  <div className="grid sm:grid-cols-2 gap-4 mb-6">
+                    {cards.map(({ name, desc }) => (
+                      <div key={name} className="p-5 rounded-xl border border-border/50 bg-card hover:border-accent/40 transition-colors">
+                        <h3 className="font-bold text-foreground mb-2">{name}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {trailing && (
+                    <p className="text-sm text-muted-foreground leading-relaxed">{trailing}</p>
+                  )}
+                </div>
+              </section>
+            );
+          }
+          return (
+            <section className="bg-secondary/20 py-14 md:py-20">
+              <div className="container px-4">
+                <div className="max-w-3xl mx-auto">
+                  {renderMarkdown(content.materialsText)}
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
         {/* Price table */}
         <section className="py-14 md:py-20 bg-background">
@@ -369,8 +406,72 @@ const IntlHubPage = ({ content }: Props) => {
 
         {/* File formats */}
         <section className="py-14 bg-secondary/20">
-          <div className="container px-4 max-w-4xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-            {renderProse(content.fileFormatsText)}
+          <div className="container px-4 max-w-4xl mx-auto">
+            {renderMarkdown(content.fileFormatsText)}
+          </div>
+        </section>
+
+        {/* Shipping table */}
+        {(() => {
+          const market = INTL_MARKETS.find(m => m.code === content.countryCode);
+          if (!market) return null;
+          const [colDest, colTime, colCost] = SHIPPING_LABELS[content.lang] ?? SHIPPING_LABELS.en;
+          const rows: [string, string, string][] = [
+            [`ES → ${content.countryCode}`, market.typicalDeliveryDays, "5,90 €"],
+            [`ES → EU`, "4–7 " + (content.lang === "de" ? "Werktage" : content.lang === "nl" ? "werkdagen" : content.lang === "fr" ? "jours ouvrables" : content.lang === "it" ? "giorni lavorativi" : content.lang === "pt" ? "dias úteis" : "business days"), "5,90 €"],
+            [`ES → UK / US / AU`, "5–10 days", "—"],
+          ];
+          return (
+            <section className="py-14 bg-background">
+              <div className="container px-4 max-w-4xl mx-auto">
+                <div className="overflow-x-auto rounded-lg border border-border">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-muted/50">
+                        <th className="px-4 py-3 text-left font-medium">{colDest}</th>
+                        <th className="px-4 py-3 text-left font-medium">{colTime}</th>
+                        <th className="px-4 py-3 text-left font-medium">{colCost}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.map(([dest, time, cost]) => (
+                        <tr key={dest} className="border-t border-border">
+                          <td className="px-4 py-3 text-muted-foreground">{dest}</td>
+                          <td className="px-4 py-3 text-muted-foreground">{time}</td>
+                          <td className="px-4 py-3 text-muted-foreground">{cost}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
+
+        {/* Review strip */}
+        <section className="py-14 bg-secondary/20">
+          <div className="container px-4 max-w-4xl mx-auto">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="flex gap-0.5">
+                {[1,2,3,4,5].map(s => <Star key={s} className="w-5 h-5 fill-yellow-400 text-yellow-400" />)}
+              </div>
+              <span className="text-sm text-muted-foreground font-medium">
+                {GOOGLE_RATING.value.toFixed(1)}/5 · {GOOGLE_RATING.count} Google reviews
+              </span>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {STRIP_REVIEWS.map((r, i) => (
+                <div key={i} className="bg-card rounded-xl p-5 border border-border/50">
+                  <Quote className="w-4 h-4 text-accent/30 mb-3" />
+                  <p className="text-sm text-muted-foreground leading-relaxed italic mb-3">"{r.text}"</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-foreground">{r.name}</span>
+                    <span className="text-xs text-blue-500 font-medium">G</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -399,8 +500,8 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Long SEO text (optional) */}
         {content.seoText && (
           <section className="py-14 bg-secondary/20">
-            <div className="container px-4 max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-              {renderProse(content.seoText)}
+            <div className="container px-4 max-w-3xl mx-auto">
+              {renderMarkdown(content.seoText)}
             </div>
           </section>
         )}
