@@ -19,7 +19,7 @@ import { computeBundleV3 } from "@/lib/estimate";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
 import type { QualityKey } from "@/lib/estimator/core";
-import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
+import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
@@ -288,13 +288,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
   const filesWithinVerifyLimit = validFiles.every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES) &&
     validFiles.reduce((s, f) => s + f.sizeBytes, 0) <= 60 * 1024 * 1024;
-  const instantBuyEligible = !forceQuoteOnly && instantBuyAllowed({
+  const instantBuyStatus = getInstantBuyStatus({
     adminMode,
     anyMulticolour,
-    eligible: bundle?.orderResult.eligible ?? false,
+    orderReasons: bundle?.order.reasons ?? [],
     filesWithinVerifyLimit,
     flagReady: CHECKOUT_V3_READY,
+    forceQuoteOnly,
+    showManualReview,
   });
+  const instantBuyEligible = instantBuyStatus.eligible;
+  const ineligibleReasons = instantBuyStatus.reasons;
   const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
 
   // Autumn discount (client display only — server re-computes at checkout)
@@ -415,10 +419,23 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (nextBundle) {
         const priceMid = (nextBundle.low + nextBundle.high) / 2;
         const priceBucket = priceMid < 15 ? "<15" : priceMid < 30 ? "15-30" : priceMid < 60 ? "30-60" : priceMid < 100 ? "60-100" : ">100";
+        const nextAnyMulticolour = nextFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile).some(f => effectivePartSettings(f, nextDefaults).multicolour);
+        const nextFilesWithinVerifyLimit = nextFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile).every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES);
+        const nextStatus = getInstantBuyStatus({
+          adminMode: false,
+          anyMulticolour: nextAnyMulticolour,
+          orderReasons: nextBundle.order.reasons,
+          filesWithinVerifyLimit: nextFilesWithinVerifyLimit,
+          flagReady: CHECKOUT_V3_READY,
+          forceQuoteOnly,
+          showManualReview: false,
+        });
         capture("estimate_shown", {
           price_eur_bucket: priceBucket as "<15" | "15-30" | "30-60" | "60-100" | ">100",
           time_to_price_ms: Date.now() - uploadStartMs,
           file_count: nextFiles.filter(f => !f.parseError).length,
+          instant_eligible: nextStatus.eligible,
+          ineligible_reasons: nextStatus.reasons.join(","),
         });
         estimateShownRef.current = true;
         capture('estimate_generated', {
@@ -433,6 +450,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
           pricing_version: 3,
           estimated_hours: nextBundle.totalHours,
+          instant_eligible: nextStatus.eligible,
+          ineligible_reasons: nextStatus.reasons.join(","),
           support_cm3: nextBundle.estimates.reduce((s, e) => s + e.supportCm3, 0),
           orientation_saving_eur: nextBundle.savedByOrientationEur,
         });
@@ -779,15 +798,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
-  // Reset manual-review and fulfillment choices whenever eligibility drivers change.
-  // Also re-applies the international shipping default so it survives material changes.
+  // Reset manual-review whenever any eligibility driver changes (files, quantities, settings).
+  // This ensures a new upload always shows the Buy button fresh.
   useEffect(() => {
     setShowManualReview(false);
     setFulfillmentAttempted(false);
+  }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
+
+  // Re-apply the international shipping default when language/page changes.
+  useEffect(() => {
     const intlDefault = (["de", "fr", "it", "nl", "pt"] as string[]).includes(language) ||
       (language === "en" && !!refCity);
     setFulfillment(intlDefault && !refPickupAvailable ? "shipping" : null);
-  }, [materialKey, multicolour, language, refCity, refPickupAvailable]);
+  }, [language, refCity, refPickupAvailable]);
 
   // Detect Stripe return URLs on page load
   useEffect(() => {
@@ -1832,6 +1855,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               device,
               files: validFiles.length,
               lang: language,
+              instant_eligible: instantBuyEligible,
+              ineligible_reasons: ineligibleReasons.join(","),
+              actions_branch: instantBuyEligible ? "buy" : "quote",
             });
           },
           autumnDiscountCents,
@@ -1855,6 +1881,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           anyMulticolour,
           instantTotalPrice,
           fulfillmentPickerRef,
+          ineligibleReasons,
+          supportHeavy: bundle?.supportHeavy ?? false,
         } as const;
 
         const leftSlot = (

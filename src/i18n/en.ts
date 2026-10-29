@@ -854,4 +854,14 @@ export const enTranslations: Record<string, string> = {
   "calc.autumn.badge": "−10% on orders from €20 until 30/11",
   "calc.autumn.line": "Autumn discount −10 %",
   "calc.autumn.nudge": "Add {amount} more and save 10%",
+
+  "calc.actions.quoteOnly.over-limit": "Orders over €100 are reviewed manually — we send the final price within 1 h.",
+  "calc.actions.quoteOnly.oversize": "One part is larger than our printer (256 mm). We'll review it and suggest how to split it.",
+  "calc.actions.quoteOnly.material": "We confirm this material manually before printing.",
+  "calc.actions.quoteOnly.multicolour": "Multicolour parts are confirmed manually.",
+  "calc.actions.quoteOnly.city-not-shipped": "Your country is not on our direct shipping list — we'll quote you manually.",
+  "calc.actions.quoteOnly.file-too-large": "Large file: we review it before confirming the order. We'll reply within 1 h.",
+  "calc.actions.orientation.warning": "This orientation doesn't fit our printer. We'll print it in the best fitting orientation.",
+  "calc.instantBuy.complexReview": "Free technical review · reply in 1 h",
+  "calc.instantBuy.uploading": "Preparing your files…",
 };

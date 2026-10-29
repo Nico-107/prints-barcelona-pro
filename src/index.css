@@ -214,15 +214,7 @@ html:not([data-xp-header-btn-r2]) [data-xp-slot="header_btn_r2"][data-xp-v="B"],
 html[data-xp-header-btn-r2="A"]  [data-xp-slot="header_btn_r2"][data-xp-v="B"],
 html[data-xp-header-btn-r2="B"]  [data-xp-slot="header_btn_r2"][data-xp-v="A"] { display:none; }
 
-/* modal_actions_r1 */
-html:not([data-xp-modal-actions-r1]) [data-xp-slot="modal_actions_r1"][data-xp-v="B"],
-html:not([data-xp-modal-actions-r1]) [data-xp-slot="modal_actions_r1"][data-xp-v="C"],
-html[data-xp-modal-actions-r1="A"]  [data-xp-slot="modal_actions_r1"][data-xp-v="B"],
-html[data-xp-modal-actions-r1="A"]  [data-xp-slot="modal_actions_r1"][data-xp-v="C"],
-html[data-xp-modal-actions-r1="B"]  [data-xp-slot="modal_actions_r1"][data-xp-v="A"],
-html[data-xp-modal-actions-r1="B"]  [data-xp-slot="modal_actions_r1"][data-xp-v="C"],
-html[data-xp-modal-actions-r1="C"]  [data-xp-slot="modal_actions_r1"][data-xp-v="A"],
-html[data-xp-modal-actions-r1="C"]  [data-xp-slot="modal_actions_r1"][data-xp-v="B"] { display:none; }
+/* modal_actions_r1 — concluded 2026-10-29, variant B shipped permanently (no CSS needed) */
 
 /* home_proof_r1 */
 html:not([data-xp-home-proof-r1]) [data-xp-slot="home_proof_r1"][data-xp-v="B"],

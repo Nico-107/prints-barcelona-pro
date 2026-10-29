@@ -855,4 +855,14 @@ export const ptTranslations: Record<string, string> = {
   "calc.autumn.badge": "Oferta de outono",
   "calc.autumn.line": "Desconto de outono −10 %",
   "calc.autumn.nudge": "Adicione mais {amount} e poupe 10 %",
+
+  "calc.actions.quoteOnly.over-limit": "Encomendas acima de 100 € são revistas manualmente — enviamos o preço final em menos de 1 h.",
+  "calc.actions.quoteOnly.oversize": "Uma peça é maior que a nossa impressora (256 mm). Revemo-la e sugerimos como dividi-la.",
+  "calc.actions.quoteOnly.material": "Confirmamos este material manualmente antes de imprimir.",
+  "calc.actions.quoteOnly.multicolour": "As peças multicolor são confirmadas manualmente.",
+  "calc.actions.quoteOnly.city-not-shipped": "O seu país não está na nossa lista de envio direto — faremos um orçamento manual.",
+  "calc.actions.quoteOnly.file-too-large": "Ficheiro grande: revemo-lo antes de confirmar a encomenda. Resposta em menos de 1 h.",
+  "calc.actions.orientation.warning": "Esta orientação não cabe na nossa impressora. Imprimiremos na melhor orientação possível.",
+  "calc.instantBuy.complexReview": "Revisão gratuita por um técnico · resposta em 1 h",
+  "calc.instantBuy.uploading": "A preparar os seus ficheiros…",
 };

@@ -855,4 +855,14 @@ export const nlTranslations: Record<string, string> = {
   "calc.autumn.badge": "Herfstaanbieding",
   "calc.autumn.line": "Herfstkorting −10 %",
   "calc.autumn.nudge": "Voeg nog {amount} toe en bespaar 10 %",
+
+  "calc.actions.quoteOnly.over-limit": "Bestellingen boven €100 worden handmatig beoordeeld — we sturen je de definitieve prijs binnen 1 uur.",
+  "calc.actions.quoteOnly.oversize": "Een onderdeel is groter dan onze printer (256 mm). We beoordelen het en stellen voor hoe het gesplitst kan worden.",
+  "calc.actions.quoteOnly.material": "We bevestigen dit materiaal handmatig voor het printen.",
+  "calc.actions.quoteOnly.multicolour": "Meerkeurige onderdelen worden handmatig bevestigd.",
+  "calc.actions.quoteOnly.city-not-shipped": "Jouw land staat niet op onze directe verzendlijst — we maken handmatig een offerte voor je.",
+  "calc.actions.quoteOnly.file-too-large": "Groot bestand: we beoordelen het voor de orderbevestiging. Antwoord binnen 1 uur.",
+  "calc.actions.orientation.warning": "Deze oriëntatie past niet in onze printer. We printen in de best mogelijke oriëntatie.",
+  "calc.instantBuy.complexReview": "Gratis technische beoordeling · antwoord in 1 uur",
+  "calc.instantBuy.uploading": "Je bestanden worden voorbereid…",
 };

@@ -850,4 +850,14 @@ export const deTranslations: Record<string, string> = {
   "calc.autumn.badge": "−10% auf Bestellungen ab 20 € bis 30.11.",
   "calc.autumn.line": "Herbstrabatt −10 %",
   "calc.autumn.nudge": "{amount} mehr und du sparst 10%",
+
+  "calc.actions.quoteOnly.over-limit": "Bestellungen über 100 € werden manuell geprüft — wir senden dir den Endpreis in weniger als 1 Std.",
+  "calc.actions.quoteOnly.oversize": "Ein Teil ist größer als unser Drucker (256 mm). Wir prüfen es und schlagen vor, wie es aufgeteilt werden kann.",
+  "calc.actions.quoteOnly.material": "Dieses Material bestätigen wir manuell vor dem Druck.",
+  "calc.actions.quoteOnly.multicolour": "Mehrfarbige Teile werden manuell bestätigt.",
+  "calc.actions.quoteOnly.city-not-shipped": "Dein Land ist nicht in unserer Direktversandliste — wir erstellen dir manuell ein Angebot.",
+  "calc.actions.quoteOnly.file-too-large": "Große Datei: wir prüfen sie vor der Auftragsbestätigung. Antwort in weniger als 1 Std.",
+  "calc.actions.orientation.warning": "Diese Ausrichtung passt nicht in unseren Drucker. Wir drucken in der bestmöglichen Ausrichtung.",
+  "calc.instantBuy.complexReview": "Kostenlose Überprüfung durch einen Techniker · Antwort in 1 Std.",
+  "calc.instantBuy.uploading": "Deine Dateien werden vorbereitet…",
 };

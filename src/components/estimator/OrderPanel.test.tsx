@@ -386,12 +386,11 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
         instantTotalPrice={10.00}
       />
     );
+    // When preUploadDone=false the button shows the uploading spinner, not the normal label
     const html = container.innerHTML;
-    expect(html).toContain("calc.instantBuy.buyNow");
-    // Buy Now button should be disabled
-    const buyNowBtn = Array.from(container.querySelectorAll('button')).find(
-      b => b.textContent?.includes("calc.instantBuy.buyNow")
-    );
+    expect(html).toContain("calc.instantBuy.uploading");
+    // Buy Now button (data-testid) should be disabled
+    const buyNowBtn = container.querySelector('[data-testid="buy-now-btn"]') as HTMLButtonElement | null;
     expect(buyNowBtn?.disabled).toBe(true);
   });
 });

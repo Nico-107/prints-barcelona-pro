@@ -849,4 +849,14 @@ export const caTranslations: Record<string, string> = {
   "calc.autumn.badge": "−10% en comandes des de 20 € fins al 30/11",
   "calc.autumn.line": "Descompte de tardor −10 %",
   "calc.autumn.nudge": "Afegeix {amount} més i estalvia un 10%",
+
+  "calc.actions.quoteOnly.over-limit": "Les comandes de més de 100 € les revisem manualment: t'enviem el preu final en menys d'1 h.",
+  "calc.actions.quoteOnly.oversize": "Una peça és més gran que la nostra impressora (256 mm). La revisem i et proposem com dividir-la.",
+  "calc.actions.quoteOnly.material": "Aquest material el confirmem manualment abans d'imprimir.",
+  "calc.actions.quoteOnly.multicolour": "Les peces multicolor les confirmem manualment.",
+  "calc.actions.quoteOnly.city-not-shipped": "El teu país no és a la nostra llista d'enviament directe: et farem un pressupost manualment.",
+  "calc.actions.quoteOnly.file-too-large": "Arxiu gran: el revisem abans de confirmar la comanda. Et responem en menys d'1 h.",
+  "calc.actions.orientation.warning": "Aquesta orientació no cap a la nostra impressora. Imprimirem en la millor orientació possible.",
+  "calc.instantBuy.complexReview": "Revisió gratuïta per un tècnic · resposta en 1 h",
+  "calc.instantBuy.uploading": "Preparant els teus arxius…",
 };
