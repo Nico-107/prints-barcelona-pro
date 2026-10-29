@@ -83,10 +83,10 @@
 - [x] 2.5 No page defines its own actions layout (grep confirmed); checkoutUx.ts emphasis disabled
 
 ## STEP 3: Exit popup on every page (P0)
-- [ ] 3.1 Trigger on every page/language when modal closes with ≥1 file loaded (fix quote-only + intl)
-- [ ] 3.2 Three variants: priced+buyable, quote-only, upload-failed — all localized
-- [ ] 3.3 Improve oversize card in modal
-- [ ] 3.4 Analytics events: `exit_popup_shown` + `exit_popup_action`
+- [x] 3.1 Trigger on every page/language when modal closes with ≥1 file loaded (fix quote-only + intl)
+- [x] 3.2 Three variants: priced+buyable, quote-only, upload-failed — all localized
+- [x] 3.3 Improve oversize card in modal
+- [x] 3.4 Analytics events: `exit_popup_shown` + `exit_popup_action`
 
 ## STEP 4: 3D viewer overlays (P0)
 - [ ] 4.1 Camera orbit (OrbitControls) so part+overlays move together

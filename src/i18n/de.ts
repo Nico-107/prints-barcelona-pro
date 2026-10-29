@@ -416,6 +416,12 @@ export const deTranslations: Record<string, string> = {
   "calc.abandon.headline": "Dein Preis von {price} wird 24 h gespeichert",
   "calc.abandon.cta": "Zurück zur Bestellung",
   "calc.abandon.dismiss": "Jetzt nicht",
+  "calc.exitPopup.priced.reviewCta": "Ich möchte, dass ein Mensch prüft",
+  "calc.exitPopup.quote.headline": "Deine Bestellung ist fast fertig",
+  "calc.exitPopup.quote.sendCta": "Zur kostenlosen Prüfung senden",
+  "calc.exitPopup.failed.headline": "Wir konnten deine Datei nicht laden",
+  "calc.exitPopup.failed.linkCta": "Link senden",
+  "calc.exitPopup.failed.linkPlaceholder": "WeTransfer-, Drive- oder ähnlicher Link",
   "calc.dropzone.noFile": "Keine 3D-Datei?",
   "calc.dropzone.noFile.cta": "Wir gestalten es aus einem Foto oder einer Idee",
 

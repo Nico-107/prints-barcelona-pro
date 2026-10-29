@@ -444,6 +444,12 @@ export const enTranslations: Record<string, string> = {
   "calc.abandon.headline": "Your price of {price} is saved for 24 h",
   "calc.abandon.cta": "Back to my order",
   "calc.abandon.dismiss": "Not now",
+  "calc.exitPopup.priced.reviewCta": "I'd prefer a human review",
+  "calc.exitPopup.quote.headline": "Your order is almost ready",
+  "calc.exitPopup.quote.sendCta": "Send for free review",
+  "calc.exitPopup.failed.headline": "We couldn't load your file",
+  "calc.exitPopup.failed.linkCta": "Send link",
+  "calc.exitPopup.failed.linkPlaceholder": "WeTransfer, Drive or similar link",
   "calc.dropzone.noFile": "No 3D file?",
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 

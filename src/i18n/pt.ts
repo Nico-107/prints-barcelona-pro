@@ -416,6 +416,12 @@ export const ptTranslations: Record<string, string> = {
   "calc.abandon.headline": "O teu preço de {price} fica guardado 24 h",
   "calc.abandon.cta": "Voltar ao meu pedido",
   "calc.abandon.dismiss": "Agora não",
+  "calc.exitPopup.priced.reviewCta": "Prefiro que uma pessoa reveja",
+  "calc.exitPopup.quote.headline": "O teu pedido está quase pronto",
+  "calc.exitPopup.quote.sendCta": "Enviar para revisão gratuita",
+  "calc.exitPopup.failed.headline": "Não conseguimos carregar o teu ficheiro",
+  "calc.exitPopup.failed.linkCta": "Enviar ligação",
+  "calc.exitPopup.failed.linkPlaceholder": "Ligação WeTransfer, Drive ou similar",
   "calc.dropzone.noFile": "Sem ficheiro 3D?",
   "calc.dropzone.noFile.cta": "Criamo-lo a partir de uma foto ou ideia",
 

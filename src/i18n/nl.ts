@@ -416,6 +416,12 @@ export const nlTranslations: Record<string, string> = {
   "calc.abandon.headline": "Jouw prijs van {price} is 24 u bewaard",
   "calc.abandon.cta": "Terug naar mijn bestelling",
   "calc.abandon.dismiss": "Nu niet",
+  "calc.exitPopup.priced.reviewCta": "Ik wil dat een persoon het bekijkt",
+  "calc.exitPopup.quote.headline": "Uw bestelling is bijna klaar",
+  "calc.exitPopup.quote.sendCta": "Sturen voor gratis beoordeling",
+  "calc.exitPopup.failed.headline": "We konden uw bestand niet laden",
+  "calc.exitPopup.failed.linkCta": "Link sturen",
+  "calc.exitPopup.failed.linkPlaceholder": "WeTransfer-, Drive- of vergelijkbare link",
   "calc.dropzone.noFile": "Geen 3D-bestand?",
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 

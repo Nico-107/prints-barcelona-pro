@@ -246,6 +246,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const fulfillmentPickerRef = useRef<HTMLDivElement>(null);
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const [exitPopupVariant, setExitPopupVariant] = useState<'priced' | 'quote' | 'failed'>('priced');
+  const [exitPopupReviewExpanded, setExitPopupReviewExpanded] = useState(false);
+  const [exitPopupLinkValue, setExitPopupLinkValue] = useState("");
+  const [exitPopupLinkSubmitting, setExitPopupLinkSubmitting] = useState(false);
+  const [exitPopupLinkSubmitted, setExitPopupLinkSubmitted] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
   const [scope, setScope] = useState<Scope>("all");
@@ -263,9 +268,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   useEffect(() => {
     if (showExitIntent) {
       capture("exit_intent_shown");
+      capture("exit_popup_shown", { variant: exitPopupVariant, page_type: window.location.pathname, lang: language });
       setExitIntentSubmitted(false);
       setExitIntentError(null);
+      setExitPopupReviewExpanded(false);
+      setExitPopupLinkValue("");
+      setExitPopupLinkSubmitted(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showExitIntent]);
 
 
@@ -1386,6 +1396,45 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
+  const submitExitIntentFailed = async () => {
+    if (!exitPopupLinkValue.trim() && !contactEmail.trim()) return;
+    setExitPopupLinkSubmitting(true);
+    try {
+      const exitUtm = getStoredUTM();
+      const { error: insertErr } = await supabaseAnon
+        .from("quote_requests")
+        .insert({
+          id: crypto.randomUUID(),
+          contact_email: contactEmail.trim() || null,
+          contact_phone: contactPhone.trim() || null,
+          material: materialKey,
+          infill: String(infillPct),
+          wall_loops: wallLoops,
+          quantity: 1,
+          estimated_grams: 0,
+          estimated_hours: 0,
+          estimated_price_low: 0,
+          estimated_price_high: 0,
+          file_paths: [],
+          status: "pending",
+          customization: { fileLink: exitPopupLinkValue.trim() } as unknown as import("@/integrations/supabase/types").Json,
+          utm_source: exitUtm?.utm_source ?? null,
+          utm_medium: exitUtm?.utm_medium ?? null,
+          utm_content: exitUtm?.utm_content ?? null,
+          source_path: window.location.pathname,
+          page_language: language,
+        });
+      if (insertErr) throw new Error(insertErr.message);
+      capture("exit_popup_action", { action: "failed_link_sent" });
+      setExitPopupLinkSubmitting(false);
+      setExitPopupLinkSubmitted(true);
+      setTimeout(() => setShowExitIntent(false), 2000);
+    } catch (err: any) {
+      setExitPopupLinkSubmitting(false);
+      console.error("exit-intent failed submit error:", err);
+    }
+  };
+
   const dragHandlers = {
     onDragOver: (e: React.DragEvent) => { e.preventDefault(); setIsDragging(true); },
     onDragLeave: () => setIsDragging(false),
@@ -2072,6 +2121,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       disabled={linkSubmitting[f.id]}
                       className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
+                    <input
+                      type="email"
+                      value={contactEmail}
+                      onChange={e => setContactEmail(e.target.value)}
+                      placeholder={t("calc.exitIntent.email")}
+                      disabled={linkSubmitting[f.id]}
+                      data-ph-mask
+                      className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
                     <Button
                       variant="outline"
                       size="sm"
@@ -2083,6 +2141,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         ? <><Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />{t("calc.contact.submitting")}</>
                         : t("calc.upload.link.submit")}
                     </Button>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-1.5 h-8 rounded-lg border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors"
+                    >
+                      {t("calc.result.whatsapp.short")}
+                    </a>
                   </div>
                 )}
               </div>
@@ -2240,11 +2306,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   return; // skip exit-intent when showing exit survey
                 }
               }
-              if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
+              if (!open && parsedFiles.length > 0 && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
                 const alreadyShown = (() => { try { return !!sessionStorage.getItem("dim3d-exit-intent-shown"); } catch { return false; } })();
                 if (!alreadyShown) {
                   if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
+                  const variant = (instantBuyEligible && instantTotalPrice !== null) ? 'priced'
+                    : validFiles.length > 0 ? 'quote' : 'failed';
                   exitIntentTimerRef.current = setTimeout(() => {
+                    setExitPopupVariant(variant);
                     setShowExitIntent(true);
                     try { sessionStorage.setItem("dim3d-exit-intent-shown", "1"); } catch {}
                   }, 500);
@@ -2321,24 +2390,30 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
         {inner}
 
-        {/* Exit-intent dialog — shown 500ms after modal closes without a purchase */}
+        {/* Exit-intent dialog — 3 variants: priced, quote, failed */}
         <Dialog
           open={showExitIntent}
           onOpenChange={(open) => {
             if (!open && exitIntentCloseReasonRef.current === null) {
               capture("exit_intent_dismissed");
+              capture("exit_popup_action", { action: "dismissed" });
             }
             exitIntentCloseReasonRef.current = null;
             setShowExitIntent(open);
           }}
         >
           <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
-            {/* Abandon recovery — eligible visitor had a price; no email capture (STEP 2.7) */}
-            {instantBuyEligible && instantTotalPrice !== null ? (
-              <div className="text-center space-y-4">
+            {exitIntentSubmitted || exitPopupLinkSubmitted ? (
+              <div className="text-center py-4">
+                <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
+                <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>
+              </div>
+            ) : exitPopupVariant === 'priced' ? (
+              /* ── Priced variant ── */
+              <div className="space-y-3">
                 <DialogHeader>
                   <DialogTitle className="text-base font-bold text-foreground leading-snug">
-                    {t("calc.abandon.headline").replace("{price}", formatEUR(instantTotalPrice, lang))}
+                    {t("calc.abandon.headline").replace("{price}", formatEUR(instantTotalPrice ?? chargedPrice, lang))}
                   </DialogTitle>
                 </DialogHeader>
                 <Button
@@ -2348,42 +2423,28 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "recovered";
                     capture("exit_intent_recovered");
+                    capture("exit_popup_action", { action: "back_to_order" });
                     setShowExitIntent(false);
                     setMobileModalOpen(true);
                   }}
                 >
                   {t("calc.abandon.cta")}
                 </Button>
-                <button
-                  type="button"
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
-                  onClick={() => {
-                    exitIntentCloseReasonRef.current = "dismissed";
-                    capture("exit_intent_dismissed");
-                    setShowExitIntent(false);
-                  }}
-                >
-                  {t("calc.abandon.dismiss")}
-                </button>
-              </div>
-            ) : exitIntentSubmitted ? (
-              <div className="text-center py-4">
-                <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
-                <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>
-              </div>
-            ) : (
-              <>
-                <DialogHeader className="mb-3">
-                  <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
-                    <DialogTitle className="text-base font-bold text-destructive leading-snug">
-                      {t("calc.exitIntent.headline")}
-                    </DialogTitle>
-                  </div>
-                </DialogHeader>
-                <p className="text-sm text-muted-foreground mb-4">{t("calc.exitIntent.body")}</p>
-                <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }}>
-                  <div className="space-y-2 mb-4">
+                {!exitPopupReviewExpanded ? (
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-accent text-accent text-sm font-medium hover:bg-accent/10 transition-colors px-3"
+                    onClick={() => {
+                      setExitPopupReviewExpanded(true);
+                      capture("exit_popup_action", { action: "review_expand" });
+                    }}
+                  >
+                    <Send className="w-3.5 h-3.5 shrink-0" />
+                    {t("calc.exitPopup.priced.reviewCta")}
+                  </button>
+                ) : (
+                  <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }} className="space-y-2">
+                    <p className="text-xs font-medium text-foreground">{t("calc.exitPopup.priced.reviewCta")}</p>
                     <input
                       type="email"
                       value={contactEmail}
@@ -2391,7 +2452,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       placeholder={t("calc.exitIntent.email")}
                       disabled={exitIntentSubmitting}
                       data-ph-mask
-                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
                     <input
                       type="tel"
@@ -2400,37 +2461,136 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       placeholder={t("calc.exitIntent.phone")}
                       disabled={exitIntentSubmitting}
                       data-ph-mask
-                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
-                    {exitIntentError && (
-                      <p className="text-xs text-destructive">{exitIntentError}</p>
-                    )}
-                  </div>
-                  <Button
-                    type="submit"
-                    variant="cta"
-                    className="w-full gap-2"
-                    data-ph-name="exit-popup-send"
+                    {exitIntentError && <p className="text-xs text-destructive">{exitIntentError}</p>}
+                    <Button type="submit" variant="outline" size="sm" className="w-full gap-1.5" disabled={exitIntentSubmitting}>
+                      {exitIntentSubmitting ? <><Loader2 className="w-3.5 h-3.5 animate-spin" />{t("calc.contact.submitting")}</> : <><Send className="w-3.5 h-3.5" />{t("calc.exitIntent.cta")}</>}
+                    </Button>
+                  </form>
+                )}
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center pt-1"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    capture("exit_popup_action", { action: "dismissed" });
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.abandon.dismiss")}
+                </button>
+              </div>
+            ) : exitPopupVariant === 'quote' ? (
+              /* ── Quote-only variant ── */
+              <div className="space-y-3">
+                <DialogHeader>
+                  <DialogTitle className="text-base font-bold text-foreground leading-snug">
+                    {t("calc.exitPopup.quote.headline")}
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }} className="space-y-2">
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={e => setContactEmail(e.target.value)}
+                    placeholder={t("calc.exitIntent.email")}
                     disabled={exitIntentSubmitting}
-                  >
-                    {exitIntentSubmitting
-                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                      : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
-                    }
+                    data-ph-mask
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <input
+                    type="tel"
+                    value={contactPhone}
+                    onChange={e => setContactPhone(e.target.value)}
+                    placeholder={t("calc.exitIntent.phone")}
+                    disabled={exitIntentSubmitting}
+                    data-ph-mask
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  {exitIntentError && <p className="text-xs text-destructive">{exitIntentError}</p>}
+                  <Button type="submit" variant="cta" className="w-full gap-2" disabled={exitIntentSubmitting}>
+                    {exitIntentSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</> : <><Send className="w-4 h-4" />{t("calc.exitPopup.quote.sendCta")}</>}
                   </Button>
                 </form>
                 <button
                   type="button"
-                  className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-input text-foreground text-sm hover:bg-muted/50 transition-colors px-3"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "recovered";
+                    capture("exit_popup_action", { action: "back_to_order" });
+                    setShowExitIntent(false);
+                    setMobileModalOpen(true);
+                  }}
+                >
+                  {t("calc.abandon.cta")}
+                </button>
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "dismissed";
                     capture("exit_intent_dismissed");
+                    capture("exit_popup_action", { action: "dismissed" });
                     setShowExitIntent(false);
                   }}
                 >
-                  {t("calc.exitIntent.dismiss")}
+                  {t("calc.abandon.dismiss")}
                 </button>
-              </>
+              </div>
+            ) : (
+              /* ── Upload-failed variant ── */
+              <div className="space-y-3">
+                <DialogHeader>
+                  <DialogTitle className="text-base font-bold text-foreground leading-snug">
+                    {t("calc.exitPopup.failed.headline")}
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={e => { e.preventDefault(); submitExitIntentFailed(); }} className="space-y-2">
+                  <input
+                    type="url"
+                    value={exitPopupLinkValue}
+                    onChange={e => setExitPopupLinkValue(e.target.value)}
+                    placeholder={t("calc.exitPopup.failed.linkPlaceholder")}
+                    disabled={exitPopupLinkSubmitting}
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={e => setContactEmail(e.target.value)}
+                    placeholder={t("calc.exitIntent.email")}
+                    disabled={exitPopupLinkSubmitting}
+                    data-ph-mask
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <Button type="submit" variant="cta" className="w-full gap-2" disabled={exitPopupLinkSubmitting}>
+                    {exitPopupLinkSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</> : <><Send className="w-4 h-4" />{t("calc.exitPopup.failed.linkCta")}</>}
+                  </Button>
+                </form>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-sm font-medium hover:bg-whatsapp/10 transition-colors px-3"
+                  onClick={() => capture("exit_popup_action", { action: "whatsapp" })}
+                >
+                  {t("calc.result.whatsapp.short")}
+                </a>
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    capture("exit_popup_action", { action: "dismissed" });
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.abandon.dismiss")}
+                </button>
+              </div>
             )}
           </DialogContent>
         </Dialog>

@@ -320,6 +320,8 @@ export interface EventMap {
   exit_intent_shown: Record<string, never>;
   exit_intent_recovered: Record<string, never>;
   exit_intent_dismissed: Record<string, never>;
+  exit_popup_shown: { variant: 'priced' | 'quote' | 'failed'; page_type: string; lang: string };
+  exit_popup_action: { action: string };
 
   // New events — A6
   part_page_view: PartPageViewProps;

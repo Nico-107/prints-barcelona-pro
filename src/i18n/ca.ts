@@ -444,6 +444,12 @@ export const caTranslations: Record<string, string> = {
   "calc.abandon.headline": "El teu preu de {price} queda guardat 24 h",
   "calc.abandon.cta": "Tornar a la meva comanda",
   "calc.abandon.dismiss": "Ara no",
+  "calc.exitPopup.priced.reviewCta": "Prefereixo que ho revisi una persona",
+  "calc.exitPopup.quote.headline": "La teva comanda gairebé és a punt",
+  "calc.exitPopup.quote.sendCta": "Enviar per a revisió gratuïta",
+  "calc.exitPopup.failed.headline": "No hem pogut carregar el teu arxiu",
+  "calc.exitPopup.failed.linkCta": "Enviar enllaç",
+  "calc.exitPopup.failed.linkPlaceholder": "Enllaç de WeTransfer, Drive o similar",
   "calc.dropzone.noFile": "Sense arxiu 3D?",
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
 
