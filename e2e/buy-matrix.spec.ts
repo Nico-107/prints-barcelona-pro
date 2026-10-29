@@ -16,69 +16,105 @@ const CUBE_STL = path.resolve(__dirname, "../qa/fixtures/small-cube.stl");
 
 // ── Large-file fixture generators ────────────────────────────────────────────
 
-/** Generate a binary STL of approximately targetMb megabytes. */
+/**
+ * Generate a binary STL of approximately targetMb megabytes as a UV sphere.
+ * A smooth sphere simplifies well (< 0.5% volume change) so prepareStl()'s
+ * volume-preservation check always passes → buy button always appears.
+ * Radius 20 mm → 40×40×40 mm bbox, ~33,500 mm³ volume → price ~€5.
+ */
 function makeLargeBinaryStl(targetMb: number): string {
   const targetBytes = targetMb * 1024 * 1024;
-  const headerBytes = 84;
-  const triBytes = 50;
-  const triCount = Math.floor((targetBytes - headerBytes) / triBytes);
+  const totalTris = Math.floor((targetBytes - 84) / 50);
+  const segs = Math.floor(Math.sqrt(totalTris / 2));
+  const uSegs = segs, vSegs = segs;
+  const triCount = uSegs * vSegs * 2;
+  const R = 20; // 20 mm radius → small bbox, cheap to print
 
-  const buf = Buffer.alloc(headerBytes + triCount * triBytes, 0);
+  const buf = Buffer.alloc(84 + triCount * 50, 0);
   buf.writeUInt32LE(triCount, 80);
-  // Write a plausible 10mm cube triangle (first 50 bytes so parser is happy)
-  const triStart = 84;
-  buf.writeFloatLE(0,  triStart);    // normal x
-  buf.writeFloatLE(0,  triStart+4);  // normal y
-  buf.writeFloatLE(1,  triStart+8);  // normal z
-  buf.writeFloatLE(0,  triStart+12); // v0 x
-  buf.writeFloatLE(0,  triStart+16); // v0 y
-  buf.writeFloatLE(0,  triStart+20); // v0 z
-  buf.writeFloatLE(10, triStart+24); // v1 x
-  buf.writeFloatLE(0,  triStart+28); // v1 y
-  buf.writeFloatLE(0,  triStart+32); // v1 z
-  buf.writeFloatLE(5,  triStart+36); // v2 x
-  buf.writeFloatLE(10, triStart+40); // v2 y
-  buf.writeFloatLE(0,  triStart+44); // v2 z
-  // Copy that template triangle into all subsequent triangles
-  for (let i = 1; i < triCount; i++) {
-    buf.copyWithin(84 + i * 50, 84, 84 + 50);
+
+  const cols = uSegs + 1, rows = vSegs + 1;
+  const px = new Float32Array(cols * rows);
+  const py = new Float32Array(cols * rows);
+  const pz = new Float32Array(cols * rows);
+  for (let j = 0; j < rows; j++) {
+    const theta = (j * Math.PI) / vSegs;
+    const st = Math.sin(theta), ct = Math.cos(theta);
+    for (let i = 0; i < cols; i++) {
+      const phi = (i * 2 * Math.PI) / uSegs;
+      const idx = j * cols + i;
+      px[idx] = R * st * Math.cos(phi);
+      py[idx] = R * ct;
+      pz[idx] = R * st * Math.sin(phi);
+    }
   }
 
-  const outPath = path.join(os.tmpdir(), `buy-matrix-${targetMb}mb.stl`);
+  let t = 0;
+  for (let j = 0; j < vSegs; j++) {
+    for (let i = 0; i < uSegs; i++) {
+      const i0 = j * cols + i, i1 = i0 + 1, i2 = i0 + cols, i3 = i2 + 1;
+      const quads: [number, number, number][] = [[i0, i2, i1], [i1, i2, i3]];
+      for (const [a, b, c] of quads) {
+        const off = 84 + t * 50;
+        const ax = px[b]-px[a], ay = py[b]-py[a], az = pz[b]-pz[a];
+        const bx = px[c]-px[a], by = py[c]-py[a], bz = pz[c]-pz[a];
+        const nx = ay*bz - az*by, ny = az*bx - ax*bz, nz = ax*by - ay*bx;
+        buf.writeFloatLE(nx, off);      buf.writeFloatLE(ny, off+4);    buf.writeFloatLE(nz, off+8);
+        buf.writeFloatLE(px[a], off+12); buf.writeFloatLE(py[a], off+16); buf.writeFloatLE(pz[a], off+20);
+        buf.writeFloatLE(px[b], off+24); buf.writeFloatLE(py[b], off+28); buf.writeFloatLE(pz[b], off+32);
+        buf.writeFloatLE(px[c], off+36); buf.writeFloatLE(py[c], off+40); buf.writeFloatLE(pz[c], off+44);
+        t++;
+      }
+    }
+  }
+
+  const outPath = path.join(os.tmpdir(), `buy-matrix-${targetMb}mb-${process.pid}.stl`);
   fs.writeFileSync(outPath, buf);
   return outPath;
 }
 
-/** Generate an ASCII STL of approximately targetMb megabytes. */
-function makeLargeAsciiStl(targetMb: number): string {
-  // One triangle: ~130 bytes in ASCII
-  const bytesPerTri = 130;
-  const triCount = Math.floor((targetMb * 1024 * 1024) / bytesPerTri);
+/**
+ * Generate an ASCII STL of approximately targetMb megabytes.
+ * Uses front-face triangles (y=const, z varies) so each triangle contributes
+ * a non-zero signed-volume term and the total volumeMm3 > 0.
+ */
+function makeLargeAsciiStl(targetMb: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Each triangle with 3D vertices (z varies): ~145 bytes
+    const bytesPerTri = 145;
+    const triCount = Math.floor((targetMb * 1024 * 1024) / bytesPerTri);
 
-  const outPath = path.join(os.tmpdir(), `buy-matrix-ascii-${targetMb}mb.stl`);
-  const ws = fs.createWriteStream(outPath);
-  ws.write("solid generated\n");
-  for (let i = 0; i < triCount; i++) {
-    const x = (i % 100) * 0.1;
-    const y = Math.floor(i / 100) * 0.1;
-    ws.write(`  facet normal 0 0 1\n    outer loop\n`);
-    ws.write(`      vertex ${x} ${y} 0\n`);
-    ws.write(`      vertex ${x+0.1} ${y} 0\n`);
-    ws.write(`      vertex ${x} ${y+0.1} 0\n`);
-    ws.write(`    endloop\n  endfacet\n`);
-  }
-  ws.write("endsolid generated\n");
-  ws.end();
-  return outPath;
+    const outPath = path.join(os.tmpdir(), `buy-matrix-ascii-${targetMb}mb-${process.pid}.stl`);
+    const ws = fs.createWriteStream(outPath);
+    ws.on("error", reject);
+
+    ws.write("solid generated\n");
+    for (let i = 0; i < triCount; i++) {
+      // Keep x and y within 0–50 mm by wrapping row/col so bbox stays small
+      const col = i % 100;
+      const row = (Math.floor(i / 100)) % 100; // wrap so y ≤ 50 mm
+      const x = col * 0.5;
+      const y = (row + 1) * 0.5; // y > 0 so signed-volume term is non-zero
+      const z0 = 0, z1 = 0.5;
+      ws.write(
+        `  facet normal 0 -1 0\n    outer loop\n` +
+        `      vertex ${x} ${y} ${z0}\n` +
+        `      vertex ${x + 0.5} ${y} ${z0}\n` +
+        `      vertex ${x + 0.5} ${y} ${z1}\n` +
+        `    endloop\n  endfacet\n`
+      );
+    }
+    ws.end("endsolid generated\n", () => resolve(outPath));
+  });
 }
 
 // Pre-generate large fixtures once per run
 let BINARY_35MB: string;
 let ASCII_45MB: string;
 
-test.beforeAll(() => {
+test.beforeAll(async () => {
   BINARY_35MB = makeLargeBinaryStl(35);
-  ASCII_45MB  = makeLargeAsciiStl(45);
+  ASCII_45MB  = await makeLargeAsciiStl(45);
 });
 
 test.afterAll(() => {
