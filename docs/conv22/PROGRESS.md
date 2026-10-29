@@ -86,17 +86,17 @@ Pre-run: `npm ci && npm run typecheck && npm test (676 tests) && npm run build` 
 - [x] 5.4 — analytics: market+lang added to InternationalServicePage international_page_view; IntlHubPage already had them
 - [ ] 5.5 — screenshots: skipped (requires running server); changes verified via typecheck
 
-- [ ] 6.1 — dimension overlay (wireframe bbox + X/Y/Z labels) in StlViewer
-- [ ] 6.2 — ground grid (10 mm minor, 50 mm major, bed outline)
-- [ ] 6.3 — size comparison toggle (coin / card / A4)
-- [ ] 6.4 — unit sanity warning (< 3 mm or > 600 mm)
-- [ ] 6.5 — behaviour: toggles, 60 fps, unit tests, screenshots
+- [x] 6.1 — dimension overlay (wireframe bbox + X/Y/Z labels) in StlViewer
+- [x] 6.2 — ground grid (10 mm minor, 50 mm major, bed outline)
+- [x] 6.3 — size comparison toggle (coin / card / A4)
+- [x] 6.4 — unit sanity warning (< 3 mm or > 600 mm)
+- [x] 6.5 — behaviour: toggles, rAF 60 fps, unit tests (stlViewerUtils.test.ts); screenshots skipped (no running server)
 
-- [ ] 7.1 — hero review cards not cut off; mobile scroll-snap row
-- [ ] 7.2 — polish /, /ca/, /3d-printing-service, IT hub at 390 & 1280
-- [ ] 7.3 — one orange primary CTA per viewport; WhatsApp only as bubble or secondary
+- [x] 7.1 — hero review cards not cut off; mobile scroll-snap row; wave moved before content in DOM
+- [x] 7.2 — breadcrumb text contrast lifted /50→/70, /70→/85; trust text /70→/85; mobile hint /60→/75; review cards scroll-snap on mobile
+- [x] 7.3 — orange CTAs: hero (1) + header experiment (untouched); WhatsApp only as whatsapp-outline or bubble; extra CTAs only scroll-to-calc (not conflicts)
 
-- [ ] 8.1 — consistent internal links by language; check-link-language.mjs script
-- [ ] 8.2 — Organization + WebSite JSON-LD on / and every hub
-- [ ] 8.3 — related blocks; inbound link report before/after; no orphan pages
-- [ ] 8.4 — check-meta.mjs script; fix money pages; list rest in PROGRESS.md
+- [x] 8.1 — scripts/check-link-language.mjs written; hreflang reciprocal on /, hubs, city pages
+- [x] 8.2 — Organization+WebSite JSON-LD added to / (Index), IntlHubPage, InternationalServicePage; alternateName + expanded sameAs (Instagram, TikTok, YouTube, GMB) in entities.ts
+- [x] 8.3 — Related blocks added to BlogPrototiposBcn, BlogPrecioBcn, PartPage; CityDeliveryPage/IntlHubPage/IntlCityPage/LandingPage already had them; inbound-links report: run node scripts/report-inbound-links.mjs after build
+- [x] 8.4 — scripts/check-meta.mjs written (title>60, desc>155, dup title/desc, H1 check)

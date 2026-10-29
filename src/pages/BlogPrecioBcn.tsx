@@ -530,6 +530,27 @@ const BlogPrecioBcn = () => {
           </div>
         </div>
 
+        {/* Related posts */}
+        <section className="py-12 bg-muted/30">
+          <div className="container px-4 max-w-3xl mx-auto">
+            <h2 className="text-lg font-bold text-foreground mb-4">Lectura relacionada</h2>
+            <ul className="space-y-2">
+              {[
+                { to: "/blog/prototipos-rapidos-piezas-funcionales-barcelona", label: "Prototipos y piezas funcionales en Barcelona" },
+                { to: "/piezas-personalizadas-3d-barcelona", label: "Piezas personalizadas en Barcelona" },
+                { to: "/impresion-3d-empresas-barcelona", label: "Servicios B2B de impresión 3D" },
+                { to: "/", label: "Calculadora de precio instantáneo" },
+              ].map(({ to, label }) => (
+                <li key={to}>
+                  <Link to={to} className="flex items-center gap-2 text-accent hover:underline text-sm">
+                    <span aria-hidden="true">→</span>{label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
         <div className="container px-4 py-4 max-w-3xl mx-auto">
           <Link to="/blog" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
             ← Todas las guías

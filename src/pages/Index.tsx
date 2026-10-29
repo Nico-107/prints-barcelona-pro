@@ -26,7 +26,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
-import { ORGANIZATION_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
+import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { capture } from "@/lib/analytics";
 
@@ -281,6 +281,7 @@ const Index = () => {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
+        <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
       </Helmet>
       <LaunchOfferBanner />
       <Header />

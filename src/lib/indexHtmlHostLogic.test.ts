@@ -7,11 +7,11 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 // Pure function equivalent of the inline script
 function runHostScript(hostname: string): { redirect?: string; noindex?: boolean } {
   const result: { redirect?: string; noindex?: boolean } = {};
-  const lovable =
+  const lv =
     hostname.endsWith(".lovable.app") ||
     hostname.endsWith(".lovableproject.com") ||
     hostname.endsWith(".lovable.dev");
-  if (lovable) {
+  if (lv) {
     result.redirect = "https://www.dimension3dprints.com/test?q=1";
     return result;
   }

@@ -175,9 +175,16 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
       <div className="absolute top-20 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
       <div className="absolute bottom-32 right-20 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
 
-      <div className="container relative z-10 px-4">
+      {/* Wave rendered before content so content stacks on top without z-index fights */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 70C1200 65 1320 55 1380 50L1440 45V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"/>
+        </svg>
+      </div>
+
+      <div className="container relative z-10 px-4 pb-28 md:pb-20">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 animate-fade-in font-medium">
+          <p className="text-sm uppercase tracking-widest text-primary-foreground/75 mb-4 animate-fade-in font-medium">
             Dimension3D {ACTIVE_CITY.cityName}
           </p>
 
@@ -218,12 +225,12 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
           )}
 
           {/* Mobile scroll hint — visible only on small screens */}
-          <p className="md:hidden mt-4 text-center text-sm text-primary-foreground/60 animate-fade-in-delay-2">
+          <p className="md:hidden mt-4 text-center text-sm text-primary-foreground/75 animate-fade-in-delay-2">
             ↓ {MOBILE_HINT[language] ?? MOBILE_HINT.es}
           </p>
 
           {/* Trust indicators */}
-          <div className="mt-12 flex flex-wrap justify-center gap-6 text-primary-foreground/70 text-sm animate-fade-in-delay-2">
+          <div className="mt-12 flex flex-wrap justify-center gap-6 text-primary-foreground/85 text-sm animate-fade-in-delay-2">
             {trustItems.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
                 <item.icon className="w-4 h-4 text-accent" />
@@ -232,21 +239,18 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
             ))}
           </div>
 
-          {/* Highlighted review quotes */}
-          <div className="mt-10 flex flex-col md:flex-row gap-4 justify-center animate-fade-in-delay-2">
+          {/* Highlighted review quotes — horizontal scroll-snap on mobile, row on desktop */}
+          <div className="mt-10 flex flex-row gap-4 overflow-x-auto snap-x snap-mandatory md:overflow-visible md:justify-center md:flex-wrap animate-fade-in-delay-2 pb-1 -mx-4 px-4 md:mx-0 md:px-0">
             {[t("hero.quote1"), t("hero.quote2"), t("hero.quote3")].map((quote, i) => (
-              <div key={i} className="bg-primary-foreground/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-primary-foreground/10">
-                <p className="text-primary-foreground/80 text-xs italic">{quote}</p>
+              <div
+                key={i}
+                className="snap-start shrink-0 w-64 md:w-auto md:max-w-[220px] bg-primary-foreground/8 backdrop-blur-sm rounded-xl px-4 py-3 border border-primary-foreground/15"
+              >
+                <p className="text-primary-foreground/85 text-xs italic leading-relaxed">{quote}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 70C1200 65 1320 55 1380 50L1440 45V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"/>
-        </svg>
       </div>
     </section>
   );

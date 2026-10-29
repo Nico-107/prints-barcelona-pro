@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
+import { AUTHOR_REF, PUBLISHER_REF, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
@@ -127,6 +127,8 @@ const InternationalServicePage = () => {
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
+      <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
     </Helmet>
 
     <Header />

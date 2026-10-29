@@ -15,6 +15,7 @@ import {
 import { ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
+import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
 import type { OrderPartInput, PartEstimate } from "@/lib/estimator/core";
 import type { IntlHubContent } from "@/data/intlTypes";
@@ -175,6 +176,8 @@ const IntlHubPage = ({ content }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
+        <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
       </Helmet>
 
       <Header />
@@ -195,12 +198,12 @@ const IntlHubPage = ({ content }: Props) => {
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
-                <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
+              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/70 mb-5">
+                <Link to="/" className="hover:text-primary-foreground/90 transition-colors">
                   Dimension3D
                 </Link>
                 <span>/</span>
-                <span className="text-primary-foreground/70">{content.breadcrumbHub}</span>
+                <span className="text-primary-foreground/85">{content.breadcrumbHub}</span>
               </nav>
 
               <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
