@@ -18,6 +18,7 @@ import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
 import type { OrderPartInput, PartEstimate } from "@/lib/estimator/core";
 import type { IntlHubContent } from "@/data/intlTypes";
+import { INTL_MARKETS } from "@/config/intlMarkets";
 
 import { StlEstimator } from "@/components/StlEstimator";
 
@@ -273,15 +274,15 @@ const IntlHubPage = ({ content }: Props) => {
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { icon: Clock, value: "< 1 h", label: content.trustChips[1] },
-              { icon: Package, value: content.trustChips[2], label: content.trustChips[3] },
-              { icon: Globe, value: "30+", label: "countries" },
+              { icon: Package, value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
+              { icon: Globe, value: "5,90 €", label: content.trustChips[2] },
               { icon: CheckCircle2, value: "€10", label: content.trustChips[0] },
             ].map(({ icon: Icon, value, label }) => (
               <div key={label} className="text-center p-5 rounded-xl border border-border/50 bg-card">
                 <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <Icon className="w-5 h-5 text-accent" />
                 </div>
-                <p className="text-xl font-bold text-foreground mb-1">{value}</p>
+                <p className="text-lg font-bold text-foreground mb-1 leading-tight">{value}</p>
                 <p className="text-xs text-muted-foreground">{label}</p>
               </div>
             ))}

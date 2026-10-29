@@ -101,7 +101,7 @@
 - [x] 5.1 Shared IntlLanding/* components driven by content object, all 6 pages
 - [x] 5.2 Flags: hero pill, language selector, footer consistency
 - [x] 5.3 Brand searches: hub titles, Organization alternateName, add JSON-LD to /
-- [ ] 5.4 Screenshot all hubs at 3 breakpoints, fix glitches
+- [x] 5.4 Screenshot all hubs at 3 breakpoints, fix glitches (stats grid overflow fixed)
 - [x] 5.5 Analytics: international_page_view + international_cta_click with section
 
 ## STEP 6: Configurator polish (P1)
