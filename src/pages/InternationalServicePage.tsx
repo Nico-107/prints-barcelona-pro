@@ -76,7 +76,7 @@ const faqSchema = {
 
 const InternationalServicePage = () => {
   useEffect(() => {
-    capture('international_page_view', { referrer: document.referrer });
+    capture('international_page_view', { referrer: document.referrer, market: "en", lang: "en" });
   }, []);
 
   const scrollToCalc = () => {
@@ -85,6 +85,8 @@ const InternationalServicePage = () => {
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
+      const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
+      fileInput?.click();
     }
   };
 
@@ -159,18 +161,9 @@ const InternationalServicePage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+              <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="intl-hero-cta" onClick={scrollToCalc}>
                 Get an Instant Quote
                 <ArrowRight className="w-5 h-5" />
-              </Button>
-              <Button
-                variant="whatsapp-outline"
-                size="xl"
-                onClick={() => { capture('whatsapp_click', { location: 'other', path: window.location.pathname }); capture('international_cta_click'); window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'd like a quote for 3D printing. I'm based outside Spain.")}`, "_blank"); }}
-                className="group"
-              >
-                <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-                Message Us on WhatsApp
               </Button>
             </div>
 

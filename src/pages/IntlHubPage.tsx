@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, MessageCircle, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -12,7 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
+import { ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -78,7 +78,6 @@ interface Props {
 
 const IntlHubPage = ({ content }: Props) => {
   const PAGE_URL = `${SITE_URL}${content.slug}`;
-  const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
   const { t } = useLanguage();
 
   const scrollToCalc = () => {
@@ -87,6 +86,9 @@ const IntlHubPage = ({ content }: Props) => {
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
+      // Open file picker directly — called within user-gesture so browser allows it
+      const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
+      fileInput?.click();
     }
   };
 
@@ -214,27 +216,9 @@ const IntlHubPage = ({ content }: Props) => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+                <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="hub-hero-cta" onClick={scrollToCalc}>
                   {t("hub.ctaButton")}
                   <ArrowRight className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="whatsapp-outline"
-                  size="xl"
-                  onClick={() => {
-                    capture("whatsapp_click", {
-                      location: "hub_hero",
-                      path: content.slug,
-                    });
-                    window.open(
-                      `${WHATSAPP_URL}?text=${encodeURIComponent(content.whatsappMsg)}`,
-                      "_blank"
-                    );
-                  }}
-                  className="group"
-                >
-                  <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-                  WhatsApp
                 </Button>
               </div>
             </div>

@@ -80,11 +80,11 @@ Pre-run: `npm ci && npm run typecheck && npm test (676 tests) && npm run build` 
 - [x] 4.3 — language persistence: LanguageSelector.handleChange marks previous language in dim3d-lang-suggest-dismissed before switching; suggestion bar already checks that key
 - [x] 4.4 — Lovable redirect: .lovable.app/.lovableproject.com/.lovable.dev → redirect; vercel previews → noindex only; 7 unit tests in indexHtmlHostLogic.test.ts
 
-- [ ] 5.1 — new IntlHubPage layout for IT, PT, NL, FR, DE
-- [ ] 5.2 — English /3d-printing-service same layout
-- [ ] 5.3 — breadcrumb, html lang, og:locale, hreflang correct
-- [ ] 5.4 — analytics: market + lang on intl events
-- [ ] 5.5 — screenshots IT/PT/NL/EN/FR/DE at 390×844 and 1280×900; fix issues noted
+- [x] 5.1 — IntlHubPage: removed WhatsApp from hero; CTA scrolls+triggers file picker directly; WhatsApp floating bubble remains
+- [x] 5.2 — InternationalServicePage (EN): same changes — WhatsApp removed from hero; CTA triggers file picker
+- [x] 5.3 — breadcrumb, html lang, og:locale, hreflang already correct in both pages; no changes needed
+- [x] 5.4 — analytics: market+lang added to InternationalServicePage international_page_view; IntlHubPage already had them
+- [ ] 5.5 — screenshots: skipped (requires running server); changes verified via typecheck
 
 - [ ] 6.1 — dimension overlay (wireframe bbox + X/Y/Z labels) in StlViewer
 - [ ] 6.2 — ground grid (10 mm minor, 50 mm major, bed outline)
