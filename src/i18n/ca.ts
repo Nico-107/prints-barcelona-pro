@@ -675,6 +675,12 @@ export const caTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Tria material i explica'ns per a què és.",
   "calc.mode.advancedHint": "Control total: qualitat, resistència, suports, orientació.",
+  "calc.adv.group.material": "Material i color",
+  "calc.adv.group.material.hint": "PLA per a prototips, PETG per a peces funcionals, ABS per a resistència a la calor.",
+  "calc.adv.group.quality": "Qualitat i resistència",
+  "calc.adv.group.quality.hint": "L'alçada de capa afecta l'acabat i el temps. El farcit afecta el pes i el cost.",
+  "calc.adv.group.orientation": "Orientació i suports",
+  "calc.adv.group.orientation.hint": "L'orientació afecta el preu. Els suports es necessiten per a voladissos >45° però n'augmenten el cost.",
   "calc.use.title": "Per a què és?",
   "calc.use.decor": "Decoració / exposició",
   "calc.use.everyday": "Ús diari",

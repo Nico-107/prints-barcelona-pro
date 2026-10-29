@@ -105,11 +105,11 @@
 - [x] 5.5 Analytics: international_page_view + international_cta_click with section
 
 ## STEP 6: Configurator polish (P1)
-- [ ] 6.1 Default 3/4 view, part fills ~70% of frame after upload
-- [ ] 6.2 Part list rows: dimensions + per-part price, click selects in viewer
-- [ ] 6.3 Shipping/pickup always pre-selected, compact segmented control above Buy on every page
-- [ ] 6.4 Mobile sticky footer: price + fulfillment + Buy visible without scroll
-- [ ] 6.5 Advanced mode groups: Material & colour · Size · Quality & strength · Orientation & supports
+- [x] 6.1 Default 3/4 view, part fills ~70% of frame after upload (dist * 1.4)
+- [x] 6.2 Part list rows: dimensions + per-part price, click selects in viewer
+- [x] 6.3 Shipping/pickup always pre-selected, compact segmented control above Buy on every page
+- [x] 6.4 Mobile sticky footer: price + fulfillment + Buy visible without scroll (CheckoutDialog actionSlot)
+- [x] 6.5 Advanced mode groups: Material & colour · Quality & strength · Orientation & supports with localized help text
 
 ## STEP 7: Checks (P1)
 - [ ] 7.1 Extend buy-matrix e2e: all hubs + / + one city, Simple/Advanced, small/35MB/45MB files

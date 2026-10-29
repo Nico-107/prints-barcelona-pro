@@ -309,7 +309,7 @@ export default function StlViewer({
         geometry.boundingBox!.getSize(boxSize);
         const maxDim = Math.max(boxSize.x, boxSize.y, boxSize.z);
         const fovRad = (camera.fov * Math.PI) / 180;
-        const dist = (maxDim / 2) / Math.tan(fovRad / 2) * 2.0;
+        const dist = (maxDim / 2) / Math.tan(fovRad / 2) * 1.4; // 1.4 → part fills ~70% of frame
 
         // Camera looks at the middle of the part
         const partCenter = new THREE.Vector3(0, boxSize.y / 2, 0);

@@ -577,6 +577,12 @@ export const nlTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Kies een materiaal en vertel ons waarvoor het dient.",
   "calc.mode.advancedHint": "Volledige controle: kwaliteit, sterkte, supports, oriëntatie.",
+  "calc.adv.group.material": "Materiaal & kleur",
+  "calc.adv.group.material.hint": "PLA voor prototypes, PETG voor functionele onderdelen, ABS voor warmtebestendigheid.",
+  "calc.adv.group.quality": "Kwaliteit & sterkte",
+  "calc.adv.group.quality.hint": "Laagdikte beïnvloedt oppervlakteafwerking en tijd. Vulling beïnvloedt gewicht en kosten.",
+  "calc.adv.group.orientation": "Oriëntatie & supports",
+  "calc.adv.group.orientation.hint": "Oriëntatie beïnvloedt de prijs. Supports zijn nodig voor overhangen >45° maar verhogen de kosten.",
   "calc.use.title": "Waarvoor is het?",
   "calc.use.decor": "Decoratie / expositie",
   "calc.use.everyday": "Dagelijks gebruik",

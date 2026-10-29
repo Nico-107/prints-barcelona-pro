@@ -577,6 +577,12 @@ export const itTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Scegli un materiale e dicci a cosa serve.",
   "calc.mode.advancedHint": "Controllo totale: qualità, resistenza, supporti, orientamento.",
+  "calc.adv.group.material": "Materiale e colore",
+  "calc.adv.group.material.hint": "PLA per prototipi, PETG per pezzi funzionali, ABS per resistenza al calore.",
+  "calc.adv.group.quality": "Qualità e resistenza",
+  "calc.adv.group.quality.hint": "L'altezza del layer influisce sulla finitura e sul tempo. Il riempimento influisce sul peso e sul costo.",
+  "calc.adv.group.orientation": "Orientamento e supporti",
+  "calc.adv.group.orientation.hint": "L'orientamento influisce sul prezzo. I supporti servono per le sporgenze >45° ma aumentano il costo.",
   "calc.use.title": "A cosa serve?",
   "calc.use.decor": "Decorazione / esposizione",
   "calc.use.everyday": "Uso quotidiano",

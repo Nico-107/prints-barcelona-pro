@@ -577,6 +577,12 @@ export const frTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Choisissez un matériau et dites-nous à quoi il sert.",
   "calc.mode.advancedHint": "Contrôle total : qualité, résistance, supports, orientation.",
+  "calc.adv.group.material": "Matériau & couleur",
+  "calc.adv.group.material.hint": "PLA pour les prototypes, PETG pour les pièces fonctionnelles, ABS pour la résistance à la chaleur.",
+  "calc.adv.group.quality": "Qualité & résistance",
+  "calc.adv.group.quality.hint": "La hauteur de couche affecte le rendu et le temps. Le remplissage affecte le poids et le coût.",
+  "calc.adv.group.orientation": "Orientation & supports",
+  "calc.adv.group.orientation.hint": "L'orientation affecte le prix. Les supports sont nécessaires pour les surplombs >45° mais augmentent le coût.",
   "calc.use.title": "À quoi ça sert ?",
   "calc.use.decor": "Décoration / exposition",
   "calc.use.everyday": "Usage quotidien",

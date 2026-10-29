@@ -577,6 +577,12 @@ export const deTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Wählen Sie ein Material und erklären Sie uns, wofür es gedacht ist.",
   "calc.mode.advancedHint": "Volle Kontrolle: Qualität, Stärke, Stützen, Ausrichtung.",
+  "calc.adv.group.material": "Material & Farbe",
+  "calc.adv.group.material.hint": "PLA für Prototypen, PETG für Funktionsteile, ABS für Wärmebeständigkeit.",
+  "calc.adv.group.quality": "Qualität & Stärke",
+  "calc.adv.group.quality.hint": "Schichthöhe beeinflusst Oberfläche und Zeit. Füllung beeinflusst Gewicht und Kosten.",
+  "calc.adv.group.orientation": "Ausrichtung & Stützen",
+  "calc.adv.group.orientation.hint": "Ausrichtung beeinflusst den Preis. Stützen werden für Überhänge >45° benötigt, erhöhen aber die Kosten.",
   "calc.use.title": "Wofür ist es?",
   "calc.use.decor": "Dekoration / Ausstellung",
   "calc.use.everyday": "Alltägliche Nutzung",
