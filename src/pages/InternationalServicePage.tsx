@@ -76,11 +76,11 @@ const faqSchema = {
 
 const InternationalServicePage = () => {
   useEffect(() => {
-    capture('international_page_view', { referrer: document.referrer, market: "en", lang: "en" });
+    capture('international_page_view', { market: "en", lang: "en" });
   }, []);
 
-  const scrollToCalc = () => {
-    capture('international_cta_click');
+  const scrollToCalc = (section = "hero") => {
+    capture('international_cta_click', { market: "en", lang: "en", section });
     const el = document.getElementById("calculator");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
@@ -150,8 +150,7 @@ const InternationalServicePage = () => {
         <div className="container relative z-10 px-4 py-16">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
-              <Globe className="w-3.5 h-3.5" />
-              Shipping Across Europe & Worldwide
+              🇬🇧 3D Printing from Barcelona · Ships Worldwide
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
@@ -163,7 +162,7 @@ const InternationalServicePage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="intl-hero-cta" onClick={scrollToCalc}>
+              <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="intl-hero-cta" onClick={() => scrollToCalc("hero")}>
                 Get an Instant Quote
                 <ArrowRight className="w-5 h-5" />
               </Button>
@@ -247,7 +246,7 @@ const InternationalServicePage = () => {
                 <ol className="space-y-3 list-decimal list-inside">
                   <li>
                     <strong className="text-foreground">Upload your file.</strong> Send your STL, STEP, OBJ, or 3MF file via our{" "}
-                    <button onClick={scrollToCalc} className="text-accent hover:underline">online estimator</button>
+                    <button onClick={() => scrollToCalc("content")} className="text-accent hover:underline">online estimator</button>
                     , by email, or directly on WhatsApp. The estimator gives an instant price estimate based on your file's weight and print time.
                   </li>
                   <li>
@@ -337,7 +336,7 @@ const InternationalServicePage = () => {
                 </p>
                 <p>
                   Use the{" "}
-                  <button onClick={scrollToCalc} className="text-accent hover:underline font-semibold">online calculator</button>{" "}
+                  <button onClick={() => scrollToCalc("content")} className="text-accent hover:underline font-semibold">online calculator</button>{" "}
                   to upload your file and get an instant estimate, or send the file directly and we'll quote within the hour.
                 </p>
               </div>
@@ -526,7 +525,7 @@ const InternationalServicePage = () => {
             Upload your STL or STEP file to our online calculator for an instant price estimate. A member of the team reviews every file and confirms the exact price within one hour. No account required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+            <Button variant="cta" size="xl" className="shadow-lg" onClick={() => scrollToCalc("final")}>
               Get an Instant Quote
               <ArrowRight className="w-5 h-5" />
             </Button>
@@ -535,7 +534,7 @@ const InternationalServicePage = () => {
               size="xl"
               onClick={() => {
                 capture('whatsapp_click', { location: 'other', path: window.location.pathname });
-                capture('international_cta_click');
+                capture('international_cta_click', { market: "en", lang: "en", section: "final" });
                 window.open(
                   `${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'm based outside Spain and I'd like a quote for 3D printing.")}`,
                   "_blank"

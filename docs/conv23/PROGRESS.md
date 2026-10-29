@@ -98,11 +98,11 @@
 - [x] 4.7 Performance + unit tests (4 scaleStlBuffer tests)
 
 ## STEP 5: International landing pages (P0)
-- [ ] 5.1 Shared IntlLanding/* components driven by content object, all 6 pages
-- [ ] 5.2 Flags: hero pill, language selector, footer consistency
-- [ ] 5.3 Brand searches: hub titles, Organization alternateName, add JSON-LD to /
+- [x] 5.1 Shared IntlLanding/* components driven by content object, all 6 pages
+- [x] 5.2 Flags: hero pill, language selector, footer consistency
+- [x] 5.3 Brand searches: hub titles, Organization alternateName, add JSON-LD to /
 - [ ] 5.4 Screenshot all hubs at 3 breakpoints, fix glitches
-- [ ] 5.5 Analytics: international_page_view + international_cta_click with section
+- [x] 5.5 Analytics: international_page_view + international_cta_click with section
 
 ## STEP 6: Configurator polish (P1)
 - [ ] 6.1 Default 3/4 view, part fills ~70% of frame after upload

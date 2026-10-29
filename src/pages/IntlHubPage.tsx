@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronRight, Clock, Globe, Package } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -12,19 +12,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
-import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
+import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
 import type { OrderPartInput, PartEstimate } from "@/lib/estimator/core";
 import type { IntlHubContent } from "@/data/intlTypes";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 import { StlEstimator } from "@/components/StlEstimator";
 
-// Price table computed at module level: no window/Date calls → no hydration mismatch.
-// Reference part: 50 g, 0.8 h, 80×80×40 mm — same reference as the B2B batch table.
+// Reference part for price table — 50 g, 0.8 h — same as B2B table.
 const _REF: PartEstimate = {
   plasticCm3: 50 / 1.27,
   supportCm3: 0,
@@ -79,30 +76,53 @@ interface Props {
 
 const IntlHubPage = ({ content }: Props) => {
   const PAGE_URL = `${SITE_URL}${content.slug}`;
-  const { t } = useLanguage();
 
-  const scrollToCalc = () => {
-    capture("hub_cta_click", { market: content.countryCode, type: "calculator" });
+  const scrollToCalc = (section: string) => {
+    capture("international_cta_click", { market: content.countryCode, lang: content.lang, section });
     const el = document.getElementById("calculator");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
-      // Open file picker directly — called within user-gesture so browser allows it
       const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
       fileInput?.click();
     }
   };
 
   useEffect(() => {
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       capture("international_page_view", {
         market: content.countryCode,
         lang: content.lang,
         slug: content.slug,
       });
     }, 500);
-    return () => clearTimeout(t);
+    return () => clearTimeout(timer);
   }, [content.slug, content.countryCode, content.lang]);
+
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "@id": `${SITE_URL}/#business`,
+    name: "Dimension3D",
+    alternateName: [
+      "Dimension 3D Prints",
+      "Dimension3D BCN",
+      "Dimension 3D Barcelona",
+      ...content.orgAlternateNames,
+    ],
+    url: SITE_URL,
+    logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png`, width: 512, height: 512 },
+    image: SOCIAL_IMAGE_URL,
+    telephone: "+34 672 051 147",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Rambla del Brasil, 53",
+      addressLocality: "Barcelona",
+      postalCode: "08028",
+      addressRegion: "Cataluña",
+      addressCountry: "ES",
+    },
+  };
 
   const webPageSchema = {
     "@context": "https://schema.org",
@@ -129,11 +149,7 @@ const IntlHubPage = ({ content }: Props) => {
     "@type": "Service",
     name: content.h1,
     description: content.metaDescription,
-    provider: {
-      "@type": "Organization",
-      name: "Dimension3D",
-      url: SITE_URL,
-    },
+    provider: { "@type": "Organization", name: "Dimension3D", url: SITE_URL },
     areaServed: { "@type": "Country", identifier: content.countryCode },
     url: PAGE_URL,
   };
@@ -155,7 +171,6 @@ const IntlHubPage = ({ content }: Props) => {
         <title>{content.metaTitle}</title>
         <meta name="description" content={content.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />
-        {/* Full reciprocal hreflang cluster — all 5 hubs + English hub, x-default = EN */}
         <link rel="alternate" hrefLang="de" href={`${SITE_URL}/de/3d-druck-service`} />
         <link rel="alternate" hrefLang="nl" href={`${SITE_URL}/nl/3d-printen-laten-maken`} />
         <link rel="alternate" hrefLang="fr" href={`${SITE_URL}/fr/impression-3d-en-ligne`} />
@@ -176,7 +191,7 @@ const IntlHubPage = ({ content }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
+        <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
       </Helmet>
 
@@ -198,7 +213,7 @@ const IntlHubPage = ({ content }: Props) => {
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/70 mb-5">
+              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/70 mb-4">
                 <Link to="/" className="hover:text-primary-foreground/90 transition-colors">
                   Dimension3D
                 </Link>
@@ -218,55 +233,108 @@ const IntlHubPage = ({ content }: Props) => {
                 {content.heroSubtitle ?? content.promise}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="hub-hero-cta" onClick={scrollToCalc}>
-                  {t("hub.ctaButton")}
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <Button
+                  variant="cta"
+                  size="xl"
+                  className="shadow-lg w-full sm:w-auto"
+                  data-ph-name="hub-hero-cta"
+                  onClick={() => scrollToCalc("hero")}
+                >
+                  {content.ctaLabel}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
+                <p className="text-primary-foreground/60 text-sm">{content.noRegistration}</p>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
+                {content.trustChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
+                    {chip}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
+
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+              <path d="M0 80L60 70C120 60 240 40 360 35C480 30 600 40 720 45C840 50 960 50 1080 46.7C1200 43.3 1320 36.7 1380 33.3L1440 30V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z" fill="hsl(var(--background))" />
+            </svg>
+          </div>
         </section>
 
-        {/* Calculator — immediately after hero so upload CTA is near top */}
+        {/* Quick stats */}
+        <section className="container px-4 py-12">
+          <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { icon: Clock, value: "< 1 h", label: content.trustChips[1] },
+              { icon: Package, value: content.trustChips[2], label: content.trustChips[3] },
+              { icon: Globe, value: "30+", label: "countries" },
+              { icon: CheckCircle2, value: "€10", label: content.trustChips[0] },
+            ].map(({ icon: Icon, value, label }) => (
+              <div key={label} className="text-center p-5 rounded-xl border border-border/50 bg-card">
+                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
+                  <Icon className="w-5 h-5 text-accent" />
+                </div>
+                <p className="text-xl font-bold text-foreground mb-1">{value}</p>
+                <p className="text-xs text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Calculator */}
         <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
           <div className="container px-4 max-w-5xl mx-auto">
             <StlEstimator />
           </div>
         </section>
 
-        {/* Full intro / promise text (moved below calculator for SEO, above fold already covered by hero) */}
+        {/* Promise / intro text */}
         {content.heroSubtitle && (
           <section className="py-12 bg-background">
-            <div className="container px-4 max-w-4xl mx-auto">
+            <div className="container px-4 max-w-4xl mx-auto prose prose-sm md:prose-base max-w-none">
               {renderProse(content.promise)}
             </div>
           </section>
         )}
 
-        {/* How ordering works */}
-        <section className="py-16 bg-background">
-          <div className="container px-4 max-w-4xl mx-auto">
-            {renderProse(content.howItWorks)}
+        {/* How it works */}
+        <section className="bg-secondary/20 py-14 md:py-20">
+          <div className="container px-4">
+            <div className="max-w-3xl mx-auto">
+              <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+                {renderProse(content.howItWorks)}
+              </div>
+            </div>
           </div>
         </section>
 
         {/* What we print */}
-        <section className="py-16 bg-muted/30">
-          <div className="container px-4 max-w-4xl mx-auto">
-            {renderProse(content.whatWePrint)}
+        <section className="py-14 md:py-20 bg-background">
+          <div className="container px-4">
+            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+              {renderProse(content.whatWePrint)}
+            </div>
           </div>
         </section>
 
         {/* Materials */}
-        <section className="py-16 bg-muted/30">
-          <div className="container px-4 max-w-4xl mx-auto">
-            {renderProse(content.materialsText)}
+        <section className="bg-secondary/20 py-14 md:py-20">
+          <div className="container px-4">
+            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+              {renderProse(content.materialsText)}
+            </div>
           </div>
         </section>
 
         {/* Price table */}
-        <section className="py-16 bg-background">
+        <section className="py-14 md:py-20 bg-background">
           <div className="container px-4 max-w-4xl mx-auto">
             <p className="text-sm text-muted-foreground mb-4">{content.priceTableCaption}</p>
             <div className="overflow-x-auto rounded-lg border border-border">
@@ -299,14 +367,14 @@ const IntlHubPage = ({ content }: Props) => {
         </section>
 
         {/* File formats */}
-        <section className="py-16 bg-muted/30">
-          <div className="container px-4 max-w-4xl mx-auto">
+        <section className="py-14 bg-secondary/20">
+          <div className="container px-4 max-w-4xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
             {renderProse(content.fileFormatsText)}
           </div>
         </section>
 
         {/* FAQ */}
-        <section className="py-16 bg-background">
+        <section className="py-14 md:py-20 bg-background">
           <div className="container px-4 max-w-4xl mx-auto">
             <Accordion type="single" collapsible className="space-y-3">
               {content.faqs.map((faq, i) => (
@@ -327,9 +395,18 @@ const IntlHubPage = ({ content }: Props) => {
           </div>
         </section>
 
+        {/* Long SEO text (optional) */}
+        {content.seoText && (
+          <section className="py-14 bg-secondary/20">
+            <div className="container px-4 max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+              {renderProse(content.seoText)}
+            </div>
+          </section>
+        )}
+
         {/* City and guide links */}
         {(content.cityLinks.length > 0 || content.guideLinks.length > 0) && (
-          <section className="py-16 bg-muted/30">
+          <section className="py-14 bg-background">
             <div className="container px-4 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
               {content.cityLinks.length > 0 && (
                 <ul className="space-y-2">
@@ -364,6 +441,28 @@ const IntlHubPage = ({ content }: Props) => {
             </div>
           </section>
         )}
+
+        {/* Final CTA band */}
+        <section className="container px-4 py-16 md:py-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              {content.h1}
+            </h2>
+            <p className="text-muted-foreground mb-8 leading-relaxed">
+              {content.promise.split("\n\n")[0]}
+            </p>
+            <Button
+              variant="cta"
+              size="xl"
+              className="shadow-lg"
+              data-ph-name="hub-final-cta"
+              onClick={() => scrollToCalc("final")}
+            >
+              {content.ctaLabel}
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
+        </section>
       </main>
 
       <Footer />

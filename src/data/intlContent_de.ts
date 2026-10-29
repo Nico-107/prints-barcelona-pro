@@ -10,16 +10,21 @@ export const DE_HUB: IntlHubContent = {
   lang: "de",
   locale: "de-DE",
   countryCode: "DE",
+  flag: "🇩🇪",
 
-  metaTitle: "3D-Druck Service aus Barcelona",
+  metaTitle: "3D-Druck Service · Lieferung nach Deutschland | Dimension3D",
   metaDescription:
     "Professioneller FDM 3D-Druck aus Barcelona – Angebot in 1 Stunde, Lieferung nach Deutschland in der Regel 3–5 Werktage. PLA, PETG, ABS, ASA, TPU, Nylon, PC.",
 
-  eyebrow: "3D-Druck Service aus Barcelona · Lieferung nach Deutschland",
+  eyebrow: "🇩🇪 3D-Druck aus Barcelona · Lieferung nach Deutschland",
 
   h1: "3D-Druck Service – online bestellen, nach Deutschland geliefert",
 
   heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Ab 10 €, kein Mindestvolumen.",
+  ctaLabel: "Datei hochladen und Preis sehen",
+  noRegistration: "Ohne Registrierung · Ohne Verpflichtung",
+  trustChips: ["Ab 10 €", "Angebot in 1 Stunde", "Versand 5,90 € verfolgt", "Kein Zoll in der EU"],
+  orgAlternateNames: ["Dimension3D Deutschland", "Dimension 3D Prints Germany", "Dimension 3D Germany"],
 
   promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 10 €.`,
 

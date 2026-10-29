@@ -387,8 +387,8 @@ export interface EventMap {
   city_page_view: Record<string, unknown>;
   design_request_submitted: Record<string, unknown>;
   page_read_75pct: Record<string, unknown>;
-  international_page_view: Record<string, unknown>;
-  international_cta_click: Record<string, unknown>;
+  international_page_view: { market: string; lang: string; slug?: string };
+  international_cta_click: { market: string; lang: string; section: string };
   landing_page_upload_cta_click: Record<string, unknown>;
   lemon_page_view: Record<string, unknown>;
   lemon_cta_click: Record<string, unknown>;
