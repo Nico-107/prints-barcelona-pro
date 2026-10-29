@@ -61,8 +61,8 @@ export function CheckoutConfigurator({
   materialKey, onMaterialChange, activeUseCase, onUseCaseChange,
   colorPref, onColorChange, notesText, onNotesChange,
   quality, onQualityChange, infillPct, wallLoops, onInfillChange, onWallLoopsChange,
-  supports: _supports, onSupportsChange: _onSupportsChange,
-  orientation: _orientation, onOrientationChange: _onOrientationChange,
+  supports, onSupportsChange,
+  orientation, onOrientationChange,
   urgency, onUrgencyChange, materialOptions, disabled, t,
   scope = "all", onScopeChange, costByFileId = {},
   onPartSettingsChange, onResetPartSettings, onApplyToAll,
@@ -266,9 +266,17 @@ export function CheckoutConfigurator({
         </div>
       )}
 
+      {/* Advanced group header: Material & colour */}
+      {advancedMode && (
+        <div>
+          <p className="text-xs font-semibold text-foreground uppercase tracking-widest mb-0.5">{t("calc.adv.group.material")}</p>
+          <p className="text-xs text-muted-foreground mb-2">{t("calc.adv.group.material.hint")}</p>
+        </div>
+      )}
+
       {/* Material cards */}
       <div>
-        <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.material")}</p>
+        <p className={advancedMode ? "sr-only" : "text-xs font-medium text-muted-foreground mb-2"}>{t("calc.material")}</p>
         <div className="grid grid-cols-2 gap-1.5">
           {INSTANT_MATERIALS.map(mat => {
             const opt = materialOptions.find(m => m.key === mat);
@@ -329,6 +337,12 @@ export function CheckoutConfigurator({
       {/* Advanced-only options (non-whole-order) */}
       {advancedMode && (
         <>
+          {/* Advanced group header: Quality & strength */}
+          <div>
+            <p className="text-xs font-semibold text-foreground uppercase tracking-widest mb-0.5">{t("calc.adv.group.quality")}</p>
+            <p className="text-xs text-muted-foreground mb-2">{t("calc.adv.group.quality.hint")}</p>
+          </div>
+
           {/* Quality */}
           <div>
             <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.quality.title")}</p>
@@ -369,6 +383,56 @@ export function CheckoutConfigurator({
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Advanced group header: Orientation & supports */}
+          <div>
+            <p className="text-xs font-semibold text-foreground uppercase tracking-widest mb-0.5">{t("calc.adv.group.orientation")}</p>
+            <p className="text-xs text-muted-foreground mb-2">{t("calc.adv.group.orientation.hint")}</p>
+          </div>
+
+          {/* Orientation */}
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.orient.title")}</p>
+            <div className="space-y-1" role="radiogroup">
+              {(["auto", 0, 1] as const).map((o) => {
+                const isAuto = o === "auto";
+                const isCurrent = orientation === o;
+                return (
+                  <button key={String(o)} type="button" role="radio" aria-checked={isCurrent}
+                    onClick={() => onOrientationChange(o)}
+                    disabled={disabled}
+                    className={`w-full text-left px-3 py-2 rounded-lg border text-xs transition-colors disabled:opacity-50 ${isCurrent ? "border-accent bg-accent/8" : "border-border bg-background hover:border-accent/60"}`}
+                  >
+                    {isAuto ? t("calc.orient.auto") : o === 0 ? t("calc.orient.keep") : t("calc.orient.name.1")}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Supports */}
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.supports.title")}</p>
+            <div className="space-y-1" role="radiogroup">
+              <button type="button" role="radio" aria-checked={supports}
+                onClick={() => onSupportsChange(true)}
+                disabled={disabled}
+                className={`w-full text-left px-3 py-2 rounded-lg border text-xs transition-colors disabled:opacity-50 ${supports ? "border-accent bg-accent/8" : "border-border bg-background hover:border-accent/60"}`}
+              >
+                {t("calc.supports.auto")}
+              </button>
+              <button type="button" role="radio" aria-checked={!supports}
+                onClick={() => onSupportsChange(false)}
+                disabled={disabled}
+                className={`w-full text-left px-3 py-2 rounded-lg border text-xs transition-colors disabled:opacity-50 ${!supports ? "border-accent bg-accent/8" : "border-border bg-background hover:border-accent/60"}`}
+              >
+                {t("calc.supports.none")}
+              </button>
+            </div>
+            {!supports && (
+              <p className="text-xs text-amber-600 mt-1.5">{t("calc.supports.warning")}</p>
+            )}
           </div>
         </>
       )}

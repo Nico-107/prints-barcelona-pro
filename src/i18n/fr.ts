@@ -416,6 +416,12 @@ export const frTranslations: Record<string, string> = {
   "calc.abandon.headline": "Ton prix de {price} est sauvegardé 24 h",
   "calc.abandon.cta": "Revenir à ma commande",
   "calc.abandon.dismiss": "Pas maintenant",
+  "calc.exitPopup.priced.reviewCta": "Je préfère qu'une personne vérifie",
+  "calc.exitPopup.quote.headline": "Ta commande est presque prête",
+  "calc.exitPopup.quote.sendCta": "Envoyer pour révision gratuite",
+  "calc.exitPopup.failed.headline": "Nous n'avons pas pu charger ton fichier",
+  "calc.exitPopup.failed.linkCta": "Envoyer le lien",
+  "calc.exitPopup.failed.linkPlaceholder": "Lien WeTransfer, Drive ou similaire",
   "calc.dropzone.noFile": "Pas de fichier 3D ?",
   "calc.dropzone.noFile.cta": "On le conçoit depuis une photo ou une idée",
 
@@ -571,6 +577,12 @@ export const frTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Choisissez un matériau et dites-nous à quoi il sert.",
   "calc.mode.advancedHint": "Contrôle total : qualité, résistance, supports, orientation.",
+  "calc.adv.group.material": "Matériau & couleur",
+  "calc.adv.group.material.hint": "PLA pour les prototypes, PETG pour les pièces fonctionnelles, ABS pour la résistance à la chaleur.",
+  "calc.adv.group.quality": "Qualité & résistance",
+  "calc.adv.group.quality.hint": "La hauteur de couche affecte le rendu et le temps. Le remplissage affecte le poids et le coût.",
+  "calc.adv.group.orientation": "Orientation & supports",
+  "calc.adv.group.orientation.hint": "L'orientation affecte le prix. Les supports sont nécessaires pour les surplombs >45° mais augmentent le coût.",
   "calc.use.title": "À quoi ça sert ?",
   "calc.use.decor": "Décoration / exposition",
   "calc.use.everyday": "Usage quotidien",
@@ -870,4 +882,6 @@ export const frTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Cette orientation ne tient pas dans notre imprimante. Nous imprimerons dans la meilleure orientation possible.",
   "calc.instantBuy.complexReview": "Révision gratuite par un technicien · réponse en 1 h",
   "calc.instantBuy.uploading": "Préparation de vos fichiers…",
+  "calc.prepare.converting": "Optimisation du fichier… {pct}%",
+  "calc.prepare.simplifying": "Préparation de votre fichier… {pct}%",
 };

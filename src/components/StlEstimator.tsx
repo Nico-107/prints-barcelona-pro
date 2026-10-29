@@ -24,6 +24,7 @@ import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
 import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
+import { CHECKOUT_MAX_BYTES, isBinaryStl, scaleStlBuffer } from "@/lib/stlPrepare";
 import { ContactFields } from "./estimator/ContactFields";
 import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
@@ -136,9 +137,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   useXpExposure(uploadAreaExposureRef, "upload_area_r1");
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
+  const [scaleByFileId, setScaleByFileId] = useState<Record<string, number>>({});
   const [isDragging, setIsDragging] = useState(false);
   const [parsing, setParsing] = useState(false);
   const [parsingHasLargeFile, setParsingHasLargeFile] = useState(false);
+  const [prepareProgress, setPrepareProgress] = useState<{ name: string; pct: number; stage: string } | null>(null);
+  const gzippedOriginalsRef = useRef<Array<{ id: string; gzName: string; buf: ArrayBuffer }>>([]);
   const [error, setError] = useState<string | null>(null);
   const [materialKey, setMaterialKey] = useState("PLA");
   const [infillPct, setInfillPct] = useState(15);
@@ -243,6 +247,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const fulfillmentPickerRef = useRef<HTMLDivElement>(null);
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const [exitPopupVariant, setExitPopupVariant] = useState<'priced' | 'quote' | 'failed'>('priced');
+  const [exitPopupReviewExpanded, setExitPopupReviewExpanded] = useState(false);
+  const [exitPopupLinkValue, setExitPopupLinkValue] = useState("");
+  const [exitPopupLinkSubmitting, setExitPopupLinkSubmitting] = useState(false);
+  const [exitPopupLinkSubmitted, setExitPopupLinkSubmitted] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
   const [scope, setScope] = useState<Scope>("all");
@@ -260,9 +269,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   useEffect(() => {
     if (showExitIntent) {
       capture("exit_intent_shown");
+      capture("exit_popup_shown", { variant: exitPopupVariant, page_type: window.location.pathname, lang: language });
       setExitIntentSubmitted(false);
       setExitIntentError(null);
+      setExitPopupReviewExpanded(false);
+      setExitPopupLinkValue("");
+      setExitPopupLinkSubmitted(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showExitIntent]);
 
 
@@ -280,7 +294,27 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
   const costByFileId: Record<string, number> = {};
-  const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
+  // Apply per-file scale to volume+bounds before pricing (scale doesn't touch pricing logic)
+  const scaledParsedFiles: ParsedFile[] = parsedFiles.map(f => {
+    const s = scaleByFileId[f.id] ?? 1;
+    if (s === 1) return f;
+    const s3 = s * s * s;
+    const analysis = f.analysis ? {
+      ...f.analysis,
+      volumeMm3: f.analysis.volumeMm3 * s3,
+      boundsMm: f.analysis.boundsMm.map(v => v * s) as [number, number, number],
+      orientations: f.analysis.orientations.map(o => ({
+        ...o,
+        sizeXMm: o.sizeXMm * s,
+        sizeYMm: o.sizeYMm * s,
+        heightMm: o.heightMm * s,
+        overhangCm2: o.overhangCm2 * s * s,
+        fitsPlate: o.sizeXMm * s <= 256 && o.sizeYMm * s <= 256,
+      })),
+    } : f.analysis;
+    return { ...f, volumeMm3: f.volumeMm3 * s3, analysis };
+  });
+  const bundle: BundleEstimateV3 | null = computeBundleV3(scaledParsedFiles, defaults, urgency);
   if (bundle) {
     validFiles.forEach((f, i) => { costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0; });
   }
@@ -373,13 +407,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         continue;
       }
 
-      // STL > 50 MB → link card (no pricing)
-      if (fileToAnalyze.size > MAX_BYTES && ext === "stl" && !convertedStlBuf) {
-        capture("file_parsed", { status: "link", size_kb: Math.round(f.size / 1024), ext: "stl" });
-        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, linkFile: true });
-        continue;
-      }
-      if (fileToAnalyze.size > MAX_ESTIMATE_BYTES) {
+      // Parse limit (client-side only — independent of upload limit)
+      if (fileToAnalyze.size > MAX_ESTIMATE_BYTES && !convertedStlBuf) {
         capture("file_upload_error", { reason: "size_exceeded", file_type: ext });
         capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "size_exceeded" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.size") });
@@ -387,8 +416,53 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }
 
       try {
-        const buf = convertedStlBuf ?? await fileToAnalyze.arrayBuffer();
-        const analysis = analyzeTriangles(stlToTriangles(buf));
+        const rawBuf = convertedStlBuf ?? await fileToAnalyze.arrayBuffer();
+
+        // STL preparation: ASCII→binary and/or simplify if > 28 MB so the server's
+        // 30 MB per-file re-measure always passes (HARD RULE 7).
+        let checkoutBuf = rawBuf;
+        const needsConvert = !isBinaryStl(rawBuf);
+        const needsSimplify = rawBuf.byteLength > CHECKOUT_MAX_BYTES;
+        if (needsConvert || needsSimplify) {
+          setPrepareProgress({ name: f.name, pct: 0, stage: "converting" });
+          try {
+            const { prepareStl } = await import("@/lib/stlPrepare");
+            const prep = await prepareStl(rawBuf, (p) => {
+              setPrepareProgress({ name: f.name, pct: p.pct, stage: p.stage });
+            });
+            checkoutBuf = prep.checkoutBuf;
+            if (prep.originalGzipped) {
+              gzippedOriginalsRef.current.push({
+                id,
+                gzName: f.name.replace(/\.[^.]+$/, `.original.stl.gz`),
+                buf: prep.originalGzipped,
+              });
+            }
+            capture("file_prepared", {
+              original_bytes: prep.original_bytes,
+              format: prep.format,
+              ascii_converted: prep.ascii_converted,
+              simplified: prep.simplified,
+              triangles_before: prep.triangles_before,
+              triangles_after: prep.triangles_after,
+              final_bytes: prep.final_bytes,
+              ms: prep.ms,
+            });
+          } catch (prepErr) {
+            console.warn("[StlEstimator] STL preparation failed:", prepErr);
+            // checkoutBuf stays as rawBuf
+          }
+          setPrepareProgress(null);
+        }
+
+        // If prepared checkout copy is still > 50 MB (very rare): show link card
+        if (checkoutBuf.byteLength > MAX_BYTES) {
+          capture("file_parsed", { status: "link", size_kb: Math.round(f.size / 1024), ext: "stl" });
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, linkFile: true });
+          continue;
+        }
+
+        const analysis = analyzeTriangles(stlToTriangles(checkoutBuf));
         const volumeMm3 = analysis.volumeMm3;
         if (analysis.triangles === 0 || volumeMm3 === 0) {
           capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -396,10 +470,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
         } else {
           capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext });
-          // Store converted STL file for upload if needed
-          const uploadFile = convertedStlBuf ? fileToAnalyze : f;
-          const bboxMm = convertedStlBuf ? stlBboxMm(convertedStlBuf) : undefined;
-          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis, bboxMm });
+          // Upload the checkout copy (prepared binary STL); sizeBytes reflects its size
+          const checkoutFile = new File([checkoutBuf], f.name.replace(/\.[^.]+$/, ".stl"), { type: "model/stl" });
+          const bboxMm = stlBboxMm(checkoutBuf);
+          results.push({ id, name: f.name, sizeBytes: checkoutBuf.byteLength, volumeMm3, qty: 1, file: checkoutFile, analysis, bboxMm });
         }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -462,6 +536,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const capturedLang = language;
         const capturedMulticolour = multicolour;
         const capturedDefaults: PartDefaults = { ...nextDefaults };
+        const capturedScale = { ...scaleByFileId };
+
+        const capturedGzOriginals = [...gzippedOriginalsRef.current];
+        gzippedOriginalsRef.current = [];
 
         (async () => {
           const uploadTimestamp = Date.now();
@@ -472,14 +550,31 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             for (const f of validForUpload) {
               const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
               const path = `${uploadTimestamp}-${sanitized}`;
+              const fileScale = capturedScale[f.id] ?? 1;
+              let uploadBlob: Blob | File;
+              if (fileScale !== 1) {
+                const rawBuf = await f.file!.arrayBuffer();
+                const scaledBuf = scaleStlBuffer(rawBuf, fileScale);
+                uploadBlob = new Blob([scaledBuf], { type: "model/stl" });
+              } else {
+                uploadBlob = f.file!;
+              }
               const { error: uploadErr } = await supabaseAnon.storage
                 .from("print-requests")
-                .upload(path, f.file!);
+                .upload(path, uploadBlob);
               if (!uploadErr) {
                 uploadedPaths.push(path);
                 uploadedNames.push(f.name);
                 uploadedById[f.id] = path;
               }
+            }
+            // Upload gzipped originals (fire-and-forget; errors are non-fatal)
+            for (const gz of capturedGzOriginals) {
+              const sanitized = gz.gzName.replace(/[^a-zA-Z0-9.-]/g, "_");
+              await supabaseAnon.storage
+                .from("print-requests")
+                .upload(`${uploadTimestamp}-${sanitized}`, new Blob([gz.buf], { type: "application/gzip" }))
+                .catch(() => { /* non-fatal */ });
             }
             uploadedRef.current = { paths: uploadedPaths, names: uploadedNames, byId: uploadedById };
             setPreUploadDone(true);
@@ -1332,6 +1427,45 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
+  const submitExitIntentFailed = async () => {
+    if (!exitPopupLinkValue.trim() && !contactEmail.trim()) return;
+    setExitPopupLinkSubmitting(true);
+    try {
+      const exitUtm = getStoredUTM();
+      const { error: insertErr } = await supabaseAnon
+        .from("quote_requests")
+        .insert({
+          id: crypto.randomUUID(),
+          contact_email: contactEmail.trim() || null,
+          contact_phone: contactPhone.trim() || null,
+          material: materialKey,
+          infill: String(infillPct),
+          wall_loops: wallLoops,
+          quantity: 1,
+          estimated_grams: 0,
+          estimated_hours: 0,
+          estimated_price_low: 0,
+          estimated_price_high: 0,
+          file_paths: [],
+          status: "pending",
+          customization: { fileLink: exitPopupLinkValue.trim() } as unknown as import("@/integrations/supabase/types").Json,
+          utm_source: exitUtm?.utm_source ?? null,
+          utm_medium: exitUtm?.utm_medium ?? null,
+          utm_content: exitUtm?.utm_content ?? null,
+          source_path: window.location.pathname,
+          page_language: language,
+        });
+      if (insertErr) throw new Error(insertErr.message);
+      capture("exit_popup_action", { action: "failed_link_sent" });
+      setExitPopupLinkSubmitting(false);
+      setExitPopupLinkSubmitted(true);
+      setTimeout(() => setShowExitIntent(false), 2000);
+    } catch (err: any) {
+      setExitPopupLinkSubmitting(false);
+      console.error("exit-intent failed submit error:", err);
+    }
+  };
+
   const dragHandlers = {
     onDragOver: (e: React.DragEvent) => { e.preventDefault(); setIsDragging(true); },
     onDragLeave: () => setIsDragging(false),
@@ -1530,14 +1664,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </div>
         )}
 
-        {/* Parsing spinner */}
-        {parsing && (
+        {/* Parsing / preparation spinner */}
+        {(parsing || prepareProgress) && (
           <div className="mt-6 flex flex-col items-center gap-1.5 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
-              {t("calc.analysing")}
+              {prepareProgress
+                ? t(prepareProgress.stage === "simplifying"
+                    ? "calc.prepare.simplifying"
+                    : "calc.prepare.converting"
+                  ).replace("{pct}", String(prepareProgress.pct))
+                : t("calc.analysing")}
             </div>
-            {parsingHasLargeFile && (
+            {!prepareProgress && parsingHasLargeFile && (
               <p className="text-xs text-amber-600 dark:text-amber-400 text-center">
                 {t("calc.notice.largeFile")}
               </p>
@@ -1692,6 +1831,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       key={`${stepperFile.id}-admin`}
                       file={stepperFile.file}
                       colour={viewerColour}
+                      language={language}
+                      scaleFactor={scaleByFileId[stepperFile.id] ?? 1}
                     />
                   </Suspense>
                 </div>
@@ -1911,6 +2052,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       touchAction={mobileViewerExpanded ? undefined : "pan-y"}
                       onReady={() => setViewerStateInModal("ready")}
                       onError={() => setViewerStateInModal("failed")}
+                      language={language}
+                      scaleFactor={scaleByFileId[stepperFile.id] ?? 1}
+                      onScaleChange={(s) => setScaleByFileId(prev => ({ ...prev, [stepperFile.id]: s }))}
+                      massGrams={bundle?.orderResult.parts[validFiles.indexOf(stepperFile)]?.gramsPerUnit}
+                      showScaleControl={advancedMode}
                     />
                   </Suspense>
                   {viewerStateInModal === "ready" && (
@@ -2013,6 +2159,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       disabled={linkSubmitting[f.id]}
                       className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
+                    <input
+                      type="email"
+                      value={contactEmail}
+                      onChange={e => setContactEmail(e.target.value)}
+                      placeholder={t("calc.exitIntent.email")}
+                      disabled={linkSubmitting[f.id]}
+                      data-ph-mask
+                      className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                    />
                     <Button
                       variant="outline"
                       size="sm"
@@ -2024,6 +2179,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         ? <><Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />{t("calc.contact.submitting")}</>
                         : t("calc.upload.link.submit")}
                     </Button>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-1.5 h-8 rounded-lg border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors"
+                    >
+                      {t("calc.result.whatsapp.short")}
+                    </a>
                   </div>
                 )}
               </div>
@@ -2181,11 +2344,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   return; // skip exit-intent when showing exit survey
                 }
               }
-              if (!open && instantBuyEligible && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
+              if (!open && parsedFiles.length > 0 && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
                 const alreadyShown = (() => { try { return !!sessionStorage.getItem("dim3d-exit-intent-shown"); } catch { return false; } })();
                 if (!alreadyShown) {
                   if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
+                  const variant = (instantBuyEligible && instantTotalPrice !== null) ? 'priced'
+                    : validFiles.length > 0 ? 'quote' : 'failed';
                   exitIntentTimerRef.current = setTimeout(() => {
+                    setExitPopupVariant(variant);
                     setShowExitIntent(true);
                     try { sessionStorage.setItem("dim3d-exit-intent-shown", "1"); } catch {}
                   }, 500);
@@ -2262,24 +2428,30 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
         {inner}
 
-        {/* Exit-intent dialog — shown 500ms after modal closes without a purchase */}
+        {/* Exit-intent dialog — 3 variants: priced, quote, failed */}
         <Dialog
           open={showExitIntent}
           onOpenChange={(open) => {
             if (!open && exitIntentCloseReasonRef.current === null) {
               capture("exit_intent_dismissed");
+              capture("exit_popup_action", { action: "dismissed" });
             }
             exitIntentCloseReasonRef.current = null;
             setShowExitIntent(open);
           }}
         >
-          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
-            {/* Abandon recovery — eligible visitor had a price; no email capture (STEP 2.7) */}
-            {instantBuyEligible && instantTotalPrice !== null ? (
-              <div className="text-center space-y-4">
+          <DialogContent data-testid="exit-popup" className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
+            {exitIntentSubmitted || exitPopupLinkSubmitted ? (
+              <div className="text-center py-4">
+                <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
+                <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>
+              </div>
+            ) : exitPopupVariant === 'priced' ? (
+              /* ── Priced variant ── */
+              <div className="space-y-3">
                 <DialogHeader>
                   <DialogTitle className="text-base font-bold text-foreground leading-snug">
-                    {t("calc.abandon.headline").replace("{price}", formatEUR(instantTotalPrice, lang))}
+                    {t("calc.abandon.headline").replace("{price}", formatEUR(instantTotalPrice ?? chargedPrice, lang))}
                   </DialogTitle>
                 </DialogHeader>
                 <Button
@@ -2289,42 +2461,28 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "recovered";
                     capture("exit_intent_recovered");
+                    capture("exit_popup_action", { action: "back_to_order" });
                     setShowExitIntent(false);
                     setMobileModalOpen(true);
                   }}
                 >
                   {t("calc.abandon.cta")}
                 </Button>
-                <button
-                  type="button"
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
-                  onClick={() => {
-                    exitIntentCloseReasonRef.current = "dismissed";
-                    capture("exit_intent_dismissed");
-                    setShowExitIntent(false);
-                  }}
-                >
-                  {t("calc.abandon.dismiss")}
-                </button>
-              </div>
-            ) : exitIntentSubmitted ? (
-              <div className="text-center py-4">
-                <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
-                <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>
-              </div>
-            ) : (
-              <>
-                <DialogHeader className="mb-3">
-                  <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
-                    <DialogTitle className="text-base font-bold text-destructive leading-snug">
-                      {t("calc.exitIntent.headline")}
-                    </DialogTitle>
-                  </div>
-                </DialogHeader>
-                <p className="text-sm text-muted-foreground mb-4">{t("calc.exitIntent.body")}</p>
-                <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }}>
-                  <div className="space-y-2 mb-4">
+                {!exitPopupReviewExpanded ? (
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-accent text-accent text-sm font-medium hover:bg-accent/10 transition-colors px-3"
+                    onClick={() => {
+                      setExitPopupReviewExpanded(true);
+                      capture("exit_popup_action", { action: "review_expand" });
+                    }}
+                  >
+                    <Send className="w-3.5 h-3.5 shrink-0" />
+                    {t("calc.exitPopup.priced.reviewCta")}
+                  </button>
+                ) : (
+                  <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }} className="space-y-2">
+                    <p className="text-xs font-medium text-foreground">{t("calc.exitPopup.priced.reviewCta")}</p>
                     <input
                       type="email"
                       value={contactEmail}
@@ -2332,7 +2490,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       placeholder={t("calc.exitIntent.email")}
                       disabled={exitIntentSubmitting}
                       data-ph-mask
-                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
                     <input
                       type="tel"
@@ -2341,37 +2499,139 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       placeholder={t("calc.exitIntent.phone")}
                       disabled={exitIntentSubmitting}
                       data-ph-mask
-                      className="w-full h-11 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                      className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                     />
-                    {exitIntentError && (
-                      <p className="text-xs text-destructive">{exitIntentError}</p>
-                    )}
-                  </div>
-                  <Button
-                    type="submit"
-                    variant="cta"
-                    className="w-full gap-2"
-                    data-ph-name="exit-popup-send"
+                    {exitIntentError && <p className="text-xs text-destructive">{exitIntentError}</p>}
+                    <Button type="submit" variant="outline" size="sm" className="w-full gap-1.5" disabled={exitIntentSubmitting}>
+                      {exitIntentSubmitting ? <><Loader2 className="w-3.5 h-3.5 animate-spin" />{t("calc.contact.submitting")}</> : <><Send className="w-3.5 h-3.5" />{t("calc.exitIntent.cta")}</>}
+                    </Button>
+                  </form>
+                )}
+                <button
+                  type="button"
+                  data-testid="exit-popup-dismiss"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center pt-1"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    capture("exit_popup_action", { action: "dismissed" });
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.abandon.dismiss")}
+                </button>
+              </div>
+            ) : exitPopupVariant === 'quote' ? (
+              /* ── Quote-only variant ── */
+              <div className="space-y-3">
+                <DialogHeader>
+                  <DialogTitle className="text-base font-bold text-foreground leading-snug">
+                    {t("calc.exitPopup.quote.headline")}
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={e => { e.preventDefault(); submitExitIntent(); }} className="space-y-2">
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={e => setContactEmail(e.target.value)}
+                    placeholder={t("calc.exitIntent.email")}
                     disabled={exitIntentSubmitting}
-                  >
-                    {exitIntentSubmitting
-                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                      : <><Send className="w-4 h-4" />{t("calc.exitIntent.cta")}</>
-                    }
+                    data-ph-mask
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <input
+                    type="tel"
+                    value={contactPhone}
+                    onChange={e => setContactPhone(e.target.value)}
+                    placeholder={t("calc.exitIntent.phone")}
+                    disabled={exitIntentSubmitting}
+                    data-ph-mask
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  {exitIntentError && <p className="text-xs text-destructive">{exitIntentError}</p>}
+                  <Button type="submit" variant="cta" className="w-full gap-2" disabled={exitIntentSubmitting}>
+                    {exitIntentSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</> : <><Send className="w-4 h-4" />{t("calc.exitPopup.quote.sendCta")}</>}
                   </Button>
                 </form>
                 <button
                   type="button"
-                  className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-input text-foreground text-sm hover:bg-muted/50 transition-colors px-3"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "recovered";
+                    capture("exit_popup_action", { action: "back_to_order" });
+                    setShowExitIntent(false);
+                    setMobileModalOpen(true);
+                  }}
+                >
+                  {t("calc.abandon.cta")}
+                </button>
+                <button
+                  type="button"
+                  data-testid="exit-popup-dismiss"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "dismissed";
                     capture("exit_intent_dismissed");
+                    capture("exit_popup_action", { action: "dismissed" });
                     setShowExitIntent(false);
                   }}
                 >
-                  {t("calc.exitIntent.dismiss")}
+                  {t("calc.abandon.dismiss")}
                 </button>
-              </>
+              </div>
+            ) : (
+              /* ── Upload-failed variant ── */
+              <div className="space-y-3">
+                <DialogHeader>
+                  <DialogTitle className="text-base font-bold text-foreground leading-snug">
+                    {t("calc.exitPopup.failed.headline")}
+                  </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={e => { e.preventDefault(); submitExitIntentFailed(); }} className="space-y-2">
+                  <input
+                    type="url"
+                    value={exitPopupLinkValue}
+                    onChange={e => setExitPopupLinkValue(e.target.value)}
+                    placeholder={t("calc.exitPopup.failed.linkPlaceholder")}
+                    disabled={exitPopupLinkSubmitting}
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={e => setContactEmail(e.target.value)}
+                    placeholder={t("calc.exitIntent.email")}
+                    disabled={exitPopupLinkSubmitting}
+                    data-ph-mask
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+                  />
+                  <Button type="submit" variant="cta" className="w-full gap-2" disabled={exitPopupLinkSubmitting}>
+                    {exitPopupLinkSubmitting ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</> : <><Send className="w-4 h-4" />{t("calc.exitPopup.failed.linkCta")}</>}
+                  </Button>
+                </form>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-sm font-medium hover:bg-whatsapp/10 transition-colors px-3"
+                  onClick={() => capture("exit_popup_action", { action: "whatsapp" })}
+                >
+                  {t("calc.result.whatsapp.short")}
+                </a>
+                <button
+                  type="button"
+                  data-testid="exit-popup-dismiss"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    capture("exit_popup_action", { action: "dismissed" });
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.abandon.dismiss")}
+                </button>
+              </div>
             )}
           </DialogContent>
         </Dialog>

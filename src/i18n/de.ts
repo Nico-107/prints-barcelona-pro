@@ -416,6 +416,12 @@ export const deTranslations: Record<string, string> = {
   "calc.abandon.headline": "Dein Preis von {price} wird 24 h gespeichert",
   "calc.abandon.cta": "Zurück zur Bestellung",
   "calc.abandon.dismiss": "Jetzt nicht",
+  "calc.exitPopup.priced.reviewCta": "Ich möchte, dass ein Mensch prüft",
+  "calc.exitPopup.quote.headline": "Deine Bestellung ist fast fertig",
+  "calc.exitPopup.quote.sendCta": "Zur kostenlosen Prüfung senden",
+  "calc.exitPopup.failed.headline": "Wir konnten deine Datei nicht laden",
+  "calc.exitPopup.failed.linkCta": "Link senden",
+  "calc.exitPopup.failed.linkPlaceholder": "WeTransfer-, Drive- oder ähnlicher Link",
   "calc.dropzone.noFile": "Keine 3D-Datei?",
   "calc.dropzone.noFile.cta": "Wir gestalten es aus einem Foto oder einer Idee",
 
@@ -571,6 +577,12 @@ export const deTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Wählen Sie ein Material und erklären Sie uns, wofür es gedacht ist.",
   "calc.mode.advancedHint": "Volle Kontrolle: Qualität, Stärke, Stützen, Ausrichtung.",
+  "calc.adv.group.material": "Material & Farbe",
+  "calc.adv.group.material.hint": "PLA für Prototypen, PETG für Funktionsteile, ABS für Wärmebeständigkeit.",
+  "calc.adv.group.quality": "Qualität & Stärke",
+  "calc.adv.group.quality.hint": "Schichthöhe beeinflusst Oberfläche und Zeit. Füllung beeinflusst Gewicht und Kosten.",
+  "calc.adv.group.orientation": "Ausrichtung & Stützen",
+  "calc.adv.group.orientation.hint": "Ausrichtung beeinflusst den Preis. Stützen werden für Überhänge >45° benötigt, erhöhen aber die Kosten.",
   "calc.use.title": "Wofür ist es?",
   "calc.use.decor": "Dekoration / Ausstellung",
   "calc.use.everyday": "Alltägliche Nutzung",
@@ -865,4 +877,6 @@ export const deTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Diese Ausrichtung passt nicht in unseren Drucker. Wir drucken in der bestmöglichen Ausrichtung.",
   "calc.instantBuy.complexReview": "Kostenlose Überprüfung durch einen Techniker · Antwort in 1 Std.",
   "calc.instantBuy.uploading": "Deine Dateien werden vorbereitet…",
+  "calc.prepare.converting": "Datei wird optimiert… {pct}%",
+  "calc.prepare.simplifying": "Datei wird vorbereitet… {pct}%",
 };

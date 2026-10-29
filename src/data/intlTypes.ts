@@ -5,22 +5,28 @@ export interface IntlHubContent {
   lang: string;
   locale: string;
   countryCode: string;
+  flag: string;             // emoji flag e.g. "🇮🇹"
   metaTitle: string;       // ≤60 chars
   metaDescription: string; // ≤155 chars
   eyebrow: string;
   h1: string;
   heroSubtitle?: string;   // max 2 lines — shown in hero; full promise goes below calculator
   promise: string;
+  ctaLabel: string;        // native-language upload CTA e.g. "Carica il file e vedi il prezzo"
+  noRegistration: string;  // e.g. "Senza registrazione · Senza impegno"
+  trustChips: [string, string, string, string]; // 4 trust chips for hero
   howItWorks: string;
   whatWePrint: string;
   materialsText: string;
   fileFormatsText: string;
+  seoText?: string;        // optional long SEO guide text placed after FAQ
   faqs: Array<{ q: string; a: string }>;
   whatsappMsg: string;
   priceTableCaption: string;
   breadcrumbHub: string;
   cityLinks: Array<{ to: string; label: string }>;
   guideLinks: Array<{ to: string; label: string }>;
+  orgAlternateNames: string[]; // country-specific alternate names for Organization JSON-LD
 }
 
 export interface IntlCityContent {

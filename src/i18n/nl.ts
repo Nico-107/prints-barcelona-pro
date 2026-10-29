@@ -416,6 +416,12 @@ export const nlTranslations: Record<string, string> = {
   "calc.abandon.headline": "Jouw prijs van {price} is 24 u bewaard",
   "calc.abandon.cta": "Terug naar mijn bestelling",
   "calc.abandon.dismiss": "Nu niet",
+  "calc.exitPopup.priced.reviewCta": "Ik wil dat een persoon het bekijkt",
+  "calc.exitPopup.quote.headline": "Uw bestelling is bijna klaar",
+  "calc.exitPopup.quote.sendCta": "Sturen voor gratis beoordeling",
+  "calc.exitPopup.failed.headline": "We konden uw bestand niet laden",
+  "calc.exitPopup.failed.linkCta": "Link sturen",
+  "calc.exitPopup.failed.linkPlaceholder": "WeTransfer-, Drive- of vergelijkbare link",
   "calc.dropzone.noFile": "Geen 3D-bestand?",
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 
@@ -571,6 +577,12 @@ export const nlTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Kies een materiaal en vertel ons waarvoor het dient.",
   "calc.mode.advancedHint": "Volledige controle: kwaliteit, sterkte, supports, oriëntatie.",
+  "calc.adv.group.material": "Materiaal & kleur",
+  "calc.adv.group.material.hint": "PLA voor prototypes, PETG voor functionele onderdelen, ABS voor warmtebestendigheid.",
+  "calc.adv.group.quality": "Kwaliteit & sterkte",
+  "calc.adv.group.quality.hint": "Laagdikte beïnvloedt oppervlakteafwerking en tijd. Vulling beïnvloedt gewicht en kosten.",
+  "calc.adv.group.orientation": "Oriëntatie & supports",
+  "calc.adv.group.orientation.hint": "Oriëntatie beïnvloedt de prijs. Supports zijn nodig voor overhangen >45° maar verhogen de kosten.",
   "calc.use.title": "Waarvoor is het?",
   "calc.use.decor": "Decoratie / expositie",
   "calc.use.everyday": "Dagelijks gebruik",
@@ -870,4 +882,6 @@ export const nlTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Deze oriëntatie past niet in onze printer. We printen in de best mogelijke oriëntatie.",
   "calc.instantBuy.complexReview": "Gratis technische beoordeling · antwoord in 1 uur",
   "calc.instantBuy.uploading": "Je bestanden worden voorbereid…",
+  "calc.prepare.converting": "Bestand optimaliseren… {pct}%",
+  "calc.prepare.simplifying": "Bestand voorbereiden… {pct}%",
 };

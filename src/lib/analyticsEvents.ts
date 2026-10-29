@@ -320,6 +320,8 @@ export interface EventMap {
   exit_intent_shown: Record<string, never>;
   exit_intent_recovered: Record<string, never>;
   exit_intent_dismissed: Record<string, never>;
+  exit_popup_shown: { variant: 'priced' | 'quote' | 'failed'; page_type: string; lang: string };
+  exit_popup_action: { action: string };
 
   // New events — A6
   part_page_view: PartPageViewProps;
@@ -385,8 +387,8 @@ export interface EventMap {
   city_page_view: Record<string, unknown>;
   design_request_submitted: Record<string, unknown>;
   page_read_75pct: Record<string, unknown>;
-  international_page_view: Record<string, unknown>;
-  international_cta_click: Record<string, unknown>;
+  international_page_view: { market: string; lang: string; slug?: string };
+  international_cta_click: { market: string; lang: string; section: string };
   landing_page_upload_cta_click: Record<string, unknown>;
   lemon_page_view: Record<string, unknown>;
   lemon_cta_click: Record<string, unknown>;
@@ -415,6 +417,18 @@ export interface EventMap {
   checkout_failed: { code: string; http_status: number; price_eur: number; file_count: number };
   checkout_failed_send_order: { code: string };
   parse_error_free_review_click: { name: string | undefined };
+
+  // File preparation (STEP 1)
+  file_prepared: {
+    original_bytes: number;
+    format: string;
+    ascii_converted: boolean;
+    simplified: boolean;
+    triangles_before: number;
+    triangles_after: number;
+    final_bytes: number;
+    ms: number;
+  };
 
   // Consent (STEP 3.4)
   consent_prompt_shown: { placement: 'card' | 'sheet' | 'top-docked'; trigger: 'scroll' | 'click' | 'timer' };

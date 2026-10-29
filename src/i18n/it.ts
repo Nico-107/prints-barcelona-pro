@@ -416,6 +416,12 @@ export const itTranslations: Record<string, string> = {
   "calc.abandon.headline": "Il tuo prezzo di {price} è salvato per 24 h",
   "calc.abandon.cta": "Torna al mio ordine",
   "calc.abandon.dismiss": "Non ora",
+  "calc.exitPopup.priced.reviewCta": "Preferisco che lo esamini una persona",
+  "calc.exitPopup.quote.headline": "Il tuo ordine è quasi pronto",
+  "calc.exitPopup.quote.sendCta": "Invia per revisione gratuita",
+  "calc.exitPopup.failed.headline": "Non siamo riusciti a caricare il tuo file",
+  "calc.exitPopup.failed.linkCta": "Invia link",
+  "calc.exitPopup.failed.linkPlaceholder": "Link WeTransfer, Drive o simile",
   "calc.dropzone.noFile": "Nessun file 3D?",
   "calc.dropzone.noFile.cta": "Lo progettiamo da una foto o un'idea",
 
@@ -571,6 +577,12 @@ export const itTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Scegli un materiale e dicci a cosa serve.",
   "calc.mode.advancedHint": "Controllo totale: qualità, resistenza, supporti, orientamento.",
+  "calc.adv.group.material": "Materiale e colore",
+  "calc.adv.group.material.hint": "PLA per prototipi, PETG per pezzi funzionali, ABS per resistenza al calore.",
+  "calc.adv.group.quality": "Qualità e resistenza",
+  "calc.adv.group.quality.hint": "L'altezza del layer influisce sulla finitura e sul tempo. Il riempimento influisce sul peso e sul costo.",
+  "calc.adv.group.orientation": "Orientamento e supporti",
+  "calc.adv.group.orientation.hint": "L'orientamento influisce sul prezzo. I supporti servono per le sporgenze >45° ma aumentano il costo.",
   "calc.use.title": "A cosa serve?",
   "calc.use.decor": "Decorazione / esposizione",
   "calc.use.everyday": "Uso quotidiano",
@@ -870,4 +882,6 @@ export const itTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Questo orientamento non entra nella nostra stampante. Stamperemo nel miglior orientamento possibile.",
   "calc.instantBuy.complexReview": "Revisione gratuita da un tecnico · risposta in 1 ora",
   "calc.instantBuy.uploading": "Preparazione dei tuoi file…",
+  "calc.prepare.converting": "Ottimizzazione del file… {pct}%",
+  "calc.prepare.simplifying": "Preparazione del tuo file… {pct}%",
 };

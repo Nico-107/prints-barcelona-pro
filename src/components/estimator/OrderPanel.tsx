@@ -205,7 +205,6 @@ export function OrderPanel({
     if (r.startsWith('material:')) return 'calc.actions.quoteOnly.material';
     if (r === 'multicolour') return 'calc.actions.quoteOnly.multicolour';
     if (r === 'city-not-shipped') return 'calc.actions.quoteOnly.city-not-shipped';
-    if (r === 'file-too-large') return 'calc.actions.quoteOnly.file-too-large';
     return null;
   })();
 
@@ -395,12 +394,12 @@ export function OrderPanel({
                   <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
                 )}
 
-                {/* Buy-first (variant B shipped permanently — modal_actions_r1 concluded) */}
+                {/* Big Buy button · trust line · payment badges · two small buttons */}
                 <div className="space-y-2">
                   <Button
                     variant="cta"
-                    size="lg"
-                    className="w-full gap-2"
+                    size="xl"
+                    className="w-full gap-2 text-lg font-semibold max-lg:h-[60px]"
                     data-testid="buy-now-btn"
                     data-ph-name="buy-now"
                     onClick={onInstantBuy}
@@ -417,40 +416,25 @@ export function OrderPanel({
                     {t("calc.trust.promise")}
                   </p>
                   <PaymentBadges language={language} />
-                  {/* STEP 1.6: full-width review button for complex orders */}
-                  {showEmphasisReview ? (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full gap-1.5 text-sm min-h-[44px] border-accent text-accent hover:bg-accent/10 hover:border-accent"
-                      data-ph-name="free-review"
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
                       onClick={onManualReview}
                       disabled={isCheckingOut}
+                      className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-accent text-accent text-xs font-medium hover:bg-accent/10 transition-colors disabled:opacity-50 px-3"
+                      data-ph-name="free-review"
                     >
-                      <Send className="w-3.5 h-3.5 shrink-0" />
-                      <span className="min-w-0">{t("calc.instantBuy.complexReview")}</span>
-                    </Button>
-                  ) : (
-                    <div className="flex flex-col items-center gap-1 pt-1">
-                      <button
-                        type="button"
-                        onClick={onManualReview}
-                        disabled={isCheckingOut}
-                        className="text-xs text-accent hover:underline disabled:opacity-60"
-                        data-ph-name="free-review"
-                      >
-                        {t("xp.modalActions.b.reviewLink")}
-                      </button>
-                    </div>
-                  )}
-                  <div className="flex justify-center pt-0.5">
+                      <Send className="w-3 h-3 shrink-0" />
+                      {t("calc.instantBuy.manualReview.short")}
+                    </button>
                     <button
                       type="button"
                       onClick={onWhatsApp}
                       disabled={isCheckingOut}
-                      className="text-[11px] text-whatsapp hover:underline disabled:opacity-60"
+                      className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors disabled:opacity-50 px-3"
                       data-ph-name="whatsapp-calculator"
                     >
+                      <MessageCircle className="w-3 h-3 shrink-0" />
                       {t("calc.result.whatsapp.short")}
                     </button>
                   </div>
@@ -458,11 +442,42 @@ export function OrderPanel({
               </>
             ) : (
               <>
-                {/* Primary: Send quote */}
+                {/* Quote-only: fulfillment picker above button */}
+                <div
+                  className="flex gap-2"
+                  data-testid="compact-fulfillment-picker"
+                  ref={fulfillmentPickerRef}
+                  tabIndex={-1}
+                >
+                  <button
+                    type="button"
+                    onClick={() => onFulfillmentChange("pickup")}
+                    className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors whitespace-nowrap ${
+                      fulfillment === "pickup"
+                        ? "border-accent bg-accent/8 text-foreground font-medium"
+                        : "border-input bg-background text-foreground hover:border-accent/60"
+                    }`}
+                  >
+                    {t("calc.instantBuy.fulfillment.pickup.short")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onFulfillmentChange("shipping")}
+                    className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors whitespace-nowrap ${
+                      fulfillment === "shipping"
+                        ? "border-accent bg-accent/8 text-foreground font-medium"
+                        : "border-input bg-background text-foreground hover:border-accent/60"
+                    }`}
+                  >
+                    {t("calc.instantBuy.fulfillment.shipping.short").replace("{price}", shippingFormatted)}
+                  </button>
+                </div>
+
+                {/* Quote-only: primary orange + small WhatsApp */}
                 <Button
                   variant="cta"
-                  size="lg"
-                  className="w-full gap-2"
+                  size="xl"
+                  className="w-full gap-2 text-lg font-semibold max-lg:h-[60px]"
                   data-ph-name="send-my-order"
                   onClick={onSubmitQuote}
                   disabled={isSubmittingQuote}
@@ -472,18 +487,16 @@ export function OrderPanel({
                     : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
                   }
                 </Button>
-                {/* Secondary: WhatsApp */}
-                <Button
-                  variant="whatsapp-outline"
-                  size="sm"
-                  className="w-full gap-2 text-sm min-h-[44px]"
-                  data-ph-name="whatsapp-calculator"
+                <button
+                  type="button"
                   onClick={onWhatsApp}
                   disabled={isSubmittingQuote}
+                  className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors disabled:opacity-50 px-3"
+                  data-ph-name="whatsapp-calculator"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="w-3 h-3 shrink-0" />
                   {t("calc.result.whatsapp.short")}
-                </Button>
+                </button>
               </>
             )}
           </div>
@@ -718,8 +731,8 @@ export function OrderPanel({
               <>
                 <Button
                   variant="cta"
-                  size="lg"
-                  className="w-full gap-2"
+                  size="xl"
+                  className="w-full gap-2 text-lg font-semibold max-lg:h-[60px]"
                   data-testid="buy-now-btn"
                   data-ph-name="buy-now"
                   onClick={onInstantBuy}
@@ -732,45 +745,39 @@ export function OrderPanel({
                       : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
-                {/* Trust line */}
                 <p className="text-[11px] text-center text-muted-foreground leading-tight">
                   {t("calc.trust.promise")}
                 </p>
                 <PaymentBadges language={language} />
-                <div>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full gap-2 text-xs border-accent text-accent hover:bg-accent/10 hover:border-accent"
-                    data-ph-name="free-review"
+                <div className="flex gap-2">
+                  <button
+                    type="button"
                     onClick={onManualReview}
                     disabled={isCheckingOut}
+                    className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-accent text-accent text-xs font-medium hover:bg-accent/10 transition-colors disabled:opacity-50 px-3"
+                    data-ph-name="free-review"
                   >
-                    <Send className="w-4 h-4 shrink-0" />
-                    {t("calc.instantBuy.manualReview")}
-                  </Button>
-                  <p className="text-xs text-center text-muted-foreground mt-1">
-                    {t("calc.instantBuy.reviewHint")}
-                  </p>
+                    <Send className="w-3 h-3 shrink-0" />
+                    {t("calc.instantBuy.manualReview.short")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onWhatsApp}
+                    disabled={isCheckingOut}
+                    className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors disabled:opacity-50 px-3"
+                    data-ph-name="whatsapp-calculator"
+                  >
+                    <MessageCircle className="w-3 h-3 shrink-0" />
+                    {t("calc.result.whatsapp.short")}
+                  </button>
                 </div>
-                <Button
-                  variant="whatsapp-outline"
-                  size="sm"
-                  className="w-full gap-2"
-                  data-ph-name="whatsapp-calculator"
-                  onClick={onWhatsApp}
-                  disabled={isCheckingOut}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  {t("calc.result.whatsapp")}
-                </Button>
               </>
             ) : (
               <>
                 <Button
                   variant="cta"
-                  size="lg"
-                  className="w-full gap-2"
+                  size="xl"
+                  className="w-full gap-2 text-lg font-semibold max-lg:h-[60px]"
                   data-ph-name="send-my-order"
                   onClick={onSubmitQuote}
                   disabled={isSubmittingQuote}
@@ -780,17 +787,16 @@ export function OrderPanel({
                     : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
                   }
                 </Button>
-                <Button
-                  variant="whatsapp-outline"
-                  size="sm"
-                  className="w-full gap-2"
-                  data-ph-name="whatsapp-calculator"
+                <button
+                  type="button"
                   onClick={onWhatsApp}
                   disabled={isSubmittingQuote}
+                  className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors disabled:opacity-50 px-3"
+                  data-ph-name="whatsapp-calculator"
                 >
-                  <MessageCircle className="w-4 h-4" />
-                  {t("calc.result.whatsapp")}
-                </Button>
+                  <MessageCircle className="w-3 h-3 shrink-0" />
+                  {t("calc.result.whatsapp.short")}
+                </button>
               </>
             )}
           </div>

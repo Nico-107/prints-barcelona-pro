@@ -444,6 +444,12 @@ export const caTranslations: Record<string, string> = {
   "calc.abandon.headline": "El teu preu de {price} queda guardat 24 h",
   "calc.abandon.cta": "Tornar a la meva comanda",
   "calc.abandon.dismiss": "Ara no",
+  "calc.exitPopup.priced.reviewCta": "Prefereixo que ho revisi una persona",
+  "calc.exitPopup.quote.headline": "La teva comanda gairebé és a punt",
+  "calc.exitPopup.quote.sendCta": "Enviar per a revisió gratuïta",
+  "calc.exitPopup.failed.headline": "No hem pogut carregar el teu arxiu",
+  "calc.exitPopup.failed.linkCta": "Enviar enllaç",
+  "calc.exitPopup.failed.linkPlaceholder": "Enllaç de WeTransfer, Drive o similar",
   "calc.dropzone.noFile": "Sense arxiu 3D?",
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
 
@@ -669,6 +675,12 @@ export const caTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Tria material i explica'ns per a què és.",
   "calc.mode.advancedHint": "Control total: qualitat, resistència, suports, orientació.",
+  "calc.adv.group.material": "Material i color",
+  "calc.adv.group.material.hint": "PLA per a prototips, PETG per a peces funcionals, ABS per a resistència a la calor.",
+  "calc.adv.group.quality": "Qualitat i resistència",
+  "calc.adv.group.quality.hint": "L'alçada de capa afecta l'acabat i el temps. El farcit afecta el pes i el cost.",
+  "calc.adv.group.orientation": "Orientació i suports",
+  "calc.adv.group.orientation.hint": "L'orientació afecta el preu. Els suports es necessiten per a voladissos >45° però n'augmenten el cost.",
   "calc.use.title": "Per a què és?",
   "calc.use.decor": "Decoració / exposició",
   "calc.use.everyday": "Ús diari",
@@ -864,4 +876,6 @@ export const caTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Aquesta orientació no cap a la nostra impressora. Imprimirem en la millor orientació possible.",
   "calc.instantBuy.complexReview": "Revisió gratuïta per un tècnic · resposta en 1 h",
   "calc.instantBuy.uploading": "Preparant els teus arxius…",
+  "calc.prepare.converting": "Optimitzant arxiu… {pct}%",
+  "calc.prepare.simplifying": "Preparant el teu arxiu… {pct}%",
 };

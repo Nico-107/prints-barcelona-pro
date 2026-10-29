@@ -47,10 +47,12 @@ describe("getInstantBuyStatus", () => {
     expect(r.reasons).toContain('city-not-shipped');
   });
 
-  it("file-too-large when filesWithinVerifyLimit false", () => {
+  it("eligible even when filesWithinVerifyLimit false (file-too-large removed in v5.23)", () => {
+    // Preparation (ASCII→binary + simplification) ensures checkout copies are always ≤ 28 MB.
+    // The filesWithinVerifyLimit param is kept for backward compat but no longer blocks Buy.
     const r = getInstantBuyStatus({ ...statusBase, filesWithinVerifyLimit: false });
-    expect(r.eligible).toBe(false);
-    expect(r.reasons).toContain('file-too-large');
+    expect(r.eligible).toBe(true);
+    expect(r.reasons).not.toContain('file-too-large');
   });
 
   it("multicolour when anyMulticolour", () => {

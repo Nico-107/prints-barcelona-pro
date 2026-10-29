@@ -444,6 +444,12 @@ export const enTranslations: Record<string, string> = {
   "calc.abandon.headline": "Your price of {price} is saved for 24 h",
   "calc.abandon.cta": "Back to my order",
   "calc.abandon.dismiss": "Not now",
+  "calc.exitPopup.priced.reviewCta": "I'd prefer a human review",
+  "calc.exitPopup.quote.headline": "Your order is almost ready",
+  "calc.exitPopup.quote.sendCta": "Send for free review",
+  "calc.exitPopup.failed.headline": "We couldn't load your file",
+  "calc.exitPopup.failed.linkCta": "Send link",
+  "calc.exitPopup.failed.linkPlaceholder": "WeTransfer, Drive or similar link",
   "calc.dropzone.noFile": "No 3D file?",
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 
@@ -669,6 +675,12 @@ export const enTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Pick a material and tell us what it's for.",
   "calc.mode.advancedHint": "Full control: quality, strength, supports, orientation.",
+  "calc.adv.group.material": "Material & colour",
+  "calc.adv.group.material.hint": "PLA for prototypes, PETG for functional parts, ABS for heat resistance.",
+  "calc.adv.group.quality": "Quality & strength",
+  "calc.adv.group.quality.hint": "Layer height affects surface finish and print time. Infill affects weight and cost.",
+  "calc.adv.group.orientation": "Orientation & supports",
+  "calc.adv.group.orientation.hint": "Orientation affects price. Supports are needed for overhangs >45° but add cost.",
   "calc.use.title": "What is it for?",
   "calc.use.decor": "Decoration / display",
   "calc.use.everyday": "Everyday use",
@@ -869,4 +881,6 @@ export const enTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "This orientation doesn't fit our printer. We'll print it in the best fitting orientation.",
   "calc.instantBuy.complexReview": "Free technical review · reply in 1 h",
   "calc.instantBuy.uploading": "Preparing your files…",
+  "calc.prepare.converting": "Optimising file… {pct}%",
+  "calc.prepare.simplifying": "Preparing your file… {pct}%",
 };

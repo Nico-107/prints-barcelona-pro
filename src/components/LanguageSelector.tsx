@@ -26,6 +26,17 @@ const LANG_LABELS: Record<Language, string> = {
   pt: "Português",
 };
 
+const LANG_FLAGS: Record<Language, string> = {
+  es: "🇪🇸",
+  ca: "🇦🇩",
+  en: "🇬🇧",
+  de: "🇩🇪",
+  fr: "🇫🇷",
+  nl: "🇳🇱",
+  it: "🇮🇹",
+  pt: "🇵🇹",
+};
+
 const ALL_LANGUAGES: Language[] = ["es", "ca", "en", "de", "fr", "nl", "it", "pt"];
 
 interface Props {
@@ -139,7 +150,10 @@ const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
                 }`}
               >
-                <span>{LANG_LABELS[lang]}</span>
+                <span className="flex items-center gap-2">
+                  <span aria-hidden="true">{LANG_FLAGS[lang]}</span>
+                  {LANG_LABELS[lang]}
+                </span>
                 {isActive && <Check className="w-4 h-4 text-primary shrink-0" />}
               </button>
             );

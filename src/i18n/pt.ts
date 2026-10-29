@@ -416,6 +416,12 @@ export const ptTranslations: Record<string, string> = {
   "calc.abandon.headline": "O teu preço de {price} fica guardado 24 h",
   "calc.abandon.cta": "Voltar ao meu pedido",
   "calc.abandon.dismiss": "Agora não",
+  "calc.exitPopup.priced.reviewCta": "Prefiro que uma pessoa reveja",
+  "calc.exitPopup.quote.headline": "O teu pedido está quase pronto",
+  "calc.exitPopup.quote.sendCta": "Enviar para revisão gratuita",
+  "calc.exitPopup.failed.headline": "Não conseguimos carregar o teu ficheiro",
+  "calc.exitPopup.failed.linkCta": "Enviar ligação",
+  "calc.exitPopup.failed.linkPlaceholder": "Ligação WeTransfer, Drive ou similar",
   "calc.dropzone.noFile": "Sem ficheiro 3D?",
   "calc.dropzone.noFile.cta": "Criamo-lo a partir de uma foto ou ideia",
 
@@ -571,6 +577,12 @@ export const ptTranslations: Record<string, string> = {
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Escolha um material e diga-nos para que serve.",
   "calc.mode.advancedHint": "Controlo total: qualidade, resistência, suportes, orientação.",
+  "calc.adv.group.material": "Material e cor",
+  "calc.adv.group.material.hint": "PLA para protótipos, PETG para peças funcionais, ABS para resistência ao calor.",
+  "calc.adv.group.quality": "Qualidade e resistência",
+  "calc.adv.group.quality.hint": "A altura da camada afecta o acabamento e o tempo. O preenchimento afecta o peso e o custo.",
+  "calc.adv.group.orientation": "Orientação e suportes",
+  "calc.adv.group.orientation.hint": "A orientação afecta o preço. Os suportes são necessários para saliências >45° mas aumentam o custo.",
   "calc.use.title": "Para que serve?",
   "calc.use.decor": "Decoração / exposição",
   "calc.use.everyday": "Uso diário",
@@ -870,4 +882,6 @@ export const ptTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Esta orientação não cabe na nossa impressora. Imprimiremos na melhor orientação possível.",
   "calc.instantBuy.complexReview": "Revisão gratuita por um técnico · resposta em 1 h",
   "calc.instantBuy.uploading": "A preparar os seus ficheiros…",
+  "calc.prepare.converting": "A optimizar o ficheiro… {pct}%",
+  "calc.prepare.simplifying": "A preparar o seu ficheiro… {pct}%",
 };

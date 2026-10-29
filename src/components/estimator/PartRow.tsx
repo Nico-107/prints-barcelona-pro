@@ -63,6 +63,13 @@ export function PartRow({
   if (effectiveColor) summaryParts.push(effectiveColor);
   const summaryLine = summaryParts.join(" · ");
 
+  const dims = part.analysis?.boundsMm;
+  const dimsLine = dims
+    ? `${Math.round(dims[0])} × ${Math.round(dims[1])} × ${Math.round(dims[2])} mm`
+    : part.bboxMm
+    ? `${Math.round(part.bboxMm.x)} × ${Math.round(part.bboxMm.y)} × ${Math.round(part.bboxMm.z)} mm`
+    : null;
+
   const rowBg = part.parseError
     ? "bg-destructive/8 border border-destructive/20"
     : isSelected
@@ -83,12 +90,17 @@ export function PartRow({
             {part.parseError ? (
               <p className="text-xs text-destructive">{part.parseError}</p>
             ) : (
-              <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
-                <span className="text-xs text-muted-foreground">{summaryLine}</span>
-                {isCustomized && (
-                  <span className="text-xs bg-accent/15 text-accent border border-accent/30 rounded-full px-1.5 py-0 leading-4">
-                    {t("calc.parts.customized")}
-                  </span>
+              <div className="mt-0.5 space-y-0.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-xs text-muted-foreground">{summaryLine}</span>
+                  {isCustomized && (
+                    <span className="text-xs bg-accent/15 text-accent border border-accent/30 rounded-full px-1.5 py-0 leading-4">
+                      {t("calc.parts.customized")}
+                    </span>
+                  )}
+                </div>
+                {dimsLine && (
+                  <p className="text-xs text-muted-foreground/70">{dimsLine}</p>
                 )}
               </div>
             )}
