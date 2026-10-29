@@ -441,6 +441,9 @@ export const enTranslations: Record<string, string> = {
   "calc.exitIntent.success": "Got it! We'll be in touch soon.",
   "calc.exitIntent.cta": "Send my details",
   "calc.exitIntent.dismiss": "No thanks",
+  "calc.abandon.headline": "Your price of {price} is saved for 24 h",
+  "calc.abandon.cta": "Back to my order",
+  "calc.abandon.dismiss": "Not now",
   "calc.dropzone.noFile": "No 3D file?",
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
 

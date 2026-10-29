@@ -157,15 +157,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [contactTouched, setContactTouched] = useState(false);
 
   // Simple / Advanced mode — persisted to localStorage, defaults to Simple.
-  // Must start false on server to avoid hydration mismatch; synced from localStorage in useEffect.
+  // Must start false on server to avoid hydration mismatch; synced from sessionStorage in useEffect.
+  // Advanced mode persists for the session only — never auto-restored for first-time visitors (STEP 2.5).
   const [advancedMode, setAdvancedModeRaw] = useState<boolean>(false);
   useEffect(() => {
     try {
-      if (localStorage.getItem("dim3d-calc-mode") === "advanced") setAdvancedModeRaw(true);
+      if (sessionStorage.getItem("dim3d-calc-mode") === "advanced") setAdvancedModeRaw(true);
     } catch { /* unavailable */ }
   }, []);
   const setAdvancedMode = (val: boolean) => {
-    try { localStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
+    try { sessionStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
     if (!val) {
       // Reset global defaults + clear per-part advanced overrides (keep material/color)
       setInfillPct(15);
@@ -805,11 +806,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setFulfillmentAttempted(false);
   }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
 
-  // Re-apply the international shipping default when language/page changes.
+  // Pre-select fulfillment: shipping everywhere, pickup on pages that offer it (STEP 2.1).
   useEffect(() => {
-    const intlDefault = (["de", "fr", "it", "nl", "pt"] as string[]).includes(language) ||
-      (language === "en" && !!refCity);
-    setFulfillment(intlDefault && !refPickupAvailable ? "shipping" : null);
+    setFulfillment(refPickupAvailable ? "pickup" : "shipping");
   }, [language, refCity, refPickupAvailable]);
 
   // Detect Stripe return URLs on page load
@@ -1883,6 +1882,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           fulfillmentPickerRef,
           ineligibleReasons,
           supportHeavy: bundle?.supportHeavy ?? false,
+          urgency,
         } as const;
 
         const leftSlot = (
@@ -2274,7 +2274,40 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           }}
         >
           <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
-            {exitIntentSubmitted ? (
+            {/* Abandon recovery — eligible visitor had a price; no email capture (STEP 2.7) */}
+            {instantBuyEligible && instantTotalPrice !== null ? (
+              <div className="text-center space-y-4">
+                <DialogHeader>
+                  <DialogTitle className="text-base font-bold text-foreground leading-snug">
+                    {t("calc.abandon.headline").replace("{price}", formatEUR(instantTotalPrice, lang))}
+                  </DialogTitle>
+                </DialogHeader>
+                <Button
+                  variant="cta"
+                  className="w-full gap-2"
+                  data-ph-name="abandon-recover"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "recovered";
+                    capture("exit_intent_recovered");
+                    setShowExitIntent(false);
+                    setMobileModalOpen(true);
+                  }}
+                >
+                  {t("calc.abandon.cta")}
+                </Button>
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.abandon.dismiss")}
+                </button>
+              </div>
+            ) : exitIntentSubmitted ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
                 <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>

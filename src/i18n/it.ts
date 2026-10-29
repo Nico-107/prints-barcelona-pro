@@ -413,6 +413,9 @@ export const itTranslations: Record<string, string> = {
   "calc.exitIntent.success": "Ricevuto! Ti contatteremo presto.",
   "calc.exitIntent.cta": "Invia i miei dati",
   "calc.exitIntent.dismiss": "No, grazie",
+  "calc.abandon.headline": "Il tuo prezzo di {price} è salvato per 24 h",
+  "calc.abandon.cta": "Torna al mio ordine",
+  "calc.abandon.dismiss": "Non ora",
   "calc.dropzone.noFile": "Nessun file 3D?",
   "calc.dropzone.noFile.cta": "Lo progettiamo da una foto o un'idea",
 

@@ -13,6 +13,8 @@ import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
 import { ContactFields } from "./ContactFields";
 import { PriceBreakdown } from "./PriceBreakdown";
+import { DeliveryPromise } from "./DeliveryPromise";
+import { PaymentBadges } from "./PaymentBadges";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { formatEUR } from "@/lib/formatPrice";
 import type { Language } from "@/lib/pathLanguage";
@@ -98,6 +100,8 @@ interface OrderPanelProps {
   ineligibleReasons?: IneligibleReason[];
   /** True when any part has heavy support (from bundle.supportHeavy) */
   supportHeavy?: boolean;
+  /** Current urgency selection — passed to DeliveryPromise for transit estimate */
+  urgency?: string;
 }
 
 export function OrderPanel({
@@ -155,6 +159,7 @@ export function OrderPanel({
   autumnDiscountCents = 0,
   ineligibleReasons = [],
   supportHeavy = false,
+  urgency = "standard",
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -327,6 +332,7 @@ export function OrderPanel({
               {t("calc.summary.shipping")} +{shippingFormatted}
             </p>
           )}
+          <DeliveryPromise language={language} urgency={urgency} fulfillment={fulfillment} />
           {fulfillment === "pickup" && (
             <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
           )}
@@ -410,9 +416,7 @@ export function OrderPanel({
                   <p className="text-[11px] text-center text-muted-foreground leading-tight">
                     {t("calc.trust.promise")}
                   </p>
-                  <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                    {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                  </p>
+                  <PaymentBadges language={language} />
                   {/* STEP 1.6: full-width review button for complex orders */}
                   {showEmphasisReview ? (
                     <Button
@@ -716,22 +720,23 @@ export function OrderPanel({
                   variant="cta"
                   size="lg"
                   className="w-full gap-2"
+                  data-testid="buy-now-btn"
                   data-ph-name="buy-now"
                   onClick={onInstantBuy}
                   disabled={isCheckingOut || !preUploadDone}
                 >
                   {isCheckingOut
                     ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
+                    : !preUploadDone
+                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.instantBuy.uploading")}</>
+                      : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
                 {/* Trust line */}
                 <p className="text-[11px] text-center text-muted-foreground leading-tight">
                   {t("calc.trust.promise")}
                 </p>
-                <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                  {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                </p>
+                <PaymentBadges language={language} />
                 <div>
                   <Button
                     variant="outline"

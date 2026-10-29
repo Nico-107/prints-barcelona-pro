@@ -51,21 +51,21 @@ Pre-run: `npm ci && npm run typecheck && npm test (676 tests) && npm run build` 
 - [x] 0.4 — PROGRESS.md created (this file)
 - [ ] 0.5 — commit + push SPEC.md and PROGRESS.md
 
-- [ ] 1.1 — reproduce: fixtures + Playwright matrix; verdict per candidate cause
-- [ ] 1.2 — `getInstantBuyStatus()` in instantBuy.ts
-- [ ] 1.3 — fix root causes (showManualReview reset, orientation warning, 30-50 MB files)
-- [ ] 1.4 — never silent: reason line above button, all 8 languages
-- [ ] 1.5 — conclude modal_actions_r1; ship variant B permanently
-- [ ] 1.6 — complex-part path: review button grows; checkoutUx.ts config
-- [ ] 1.7 — unit tests getInstantBuyStatus; Playwright buy-matrix; registry-driven test
+- [x] 1.1 — reproduce: fixtures + Playwright matrix; verdict per candidate cause
+- [x] 1.2 — `getInstantBuyStatus()` in instantBuy.ts
+- [x] 1.3 — fix root causes (showManualReview reset, orientation warning, 30-50 MB files)
+- [x] 1.4 — never silent: reason line above button, all 8 languages
+- [x] 1.5 — conclude modal_actions_r1; ship variant B permanently
+- [x] 1.6 — complex-part path: review button grows; checkoutUx.ts config
+- [x] 1.7 — unit tests getInstantBuyStatus; Playwright buy-matrix; registry-driven test
 
-- [ ] 2.1 — pre-select fulfillment (intl=shipping, BCN=shipping default)
-- [ ] 2.2 — preUploadDone: spinner + auto-continue, no silent grey disable
-- [ ] 2.3 — mobile: total+Buy above fold; sticky bottom bar
-- [ ] 2.4 — delivery promise next to price (client-side only)
-- [ ] 2.5 — Simple mode default, Advanced session-only
-- [ ] 2.6 — trust under Buy: payment logos + badges
-- [ ] 2.7 — abandon recovery: exit popup reopens with same files
+- [x] 2.1 — pre-select fulfillment (intl=shipping, BCN=shipping default)
+- [x] 2.2 — preUploadDone: spinner + auto-continue, no silent grey disable
+- [x] 2.3 — mobile: total+Buy above fold; sticky bottom bar — CheckoutDialog actionSlot is already a sticky footer on mobile (shrink-0, below scroll body); no additional work needed
+- [x] 2.4 — delivery promise next to price (client-side only) — DeliveryPromise.tsx renders after shipping sub-line; uses Intl.DateTimeFormat client-side only
+- [x] 2.5 — Simple mode default, Advanced session-only
+- [x] 2.6 — trust under Buy: payment logos + badges — PaymentBadges.tsx: Visa/MC chip + Apple Pay/Google Pay text badges; iDEAL+Klarna for nl, MB WAY for pt, Klarna for de
+- [x] 2.7 — abandon recovery: exit popup reopens with same files — eligible visitors see price-saved headline + Volver button (no email capture); Volver calls setMobileModalOpen(true)
 
 - [ ] 3.0 — read PostHog docs; record behaviour before/after decision
 - [ ] 3.1 — new consent UI (CookieConsentBanner.tsx rewrite)
