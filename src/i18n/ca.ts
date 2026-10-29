@@ -441,6 +441,9 @@ export const caTranslations: Record<string, string> = {
   "calc.exitIntent.success": "Rebut! Ens posarem en contacte aviat.",
   "calc.exitIntent.cta": "Enviar les meves dades",
   "calc.exitIntent.dismiss": "No, gràcies",
+  "calc.abandon.headline": "El teu preu de {price} queda guardat 24 h",
+  "calc.abandon.cta": "Tornar a la meva comanda",
+  "calc.abandon.dismiss": "Ara no",
   "calc.dropzone.noFile": "Sense arxiu 3D?",
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
 
@@ -538,10 +541,12 @@ export const caTranslations: Record<string, string> = {
   "b2bhome.cta": "Descobreix els serveis per a empreses",
 
   // Cookie consent banner
-  "cookie.banner.message": "Fem servir analítica web anònima per millorar el lloc. Si acceptes, activem un identificador persistent per a una analítica més detallada.",
+  "cookie.banner.message": "Fem servir cookies d'anàlisi per veure què falla i millorar la web. Sense anuncis ni venda de dades.",
   "cookie.banner.privacy": "Política de privacitat",
   "cookie.banner.reject": "Rebutjar",
   "cookie.banner.accept": "Acceptar",
+  "cookie.banner.moreInfo": "Més info",
+  "cookie.banner.prefs": "Preferències de cookies",
 
   // Privacy page
   "privacy.meta.title": "Política de Privacitat",
@@ -551,9 +556,9 @@ export const caTranslations: Record<string, string> = {
   "privacy.updated": "Actualitzat: juny 2025",
   "privacy.intro": "A Dimension3D respectem la teva privacitat. Aquesta pàgina explica quines dades recopilem, per què i com fem servir les galetes.",
   "privacy.analytics.title": "Analítica web",
-  "privacy.analytics.body": "Fem servir PostHog per entendre com s'utilitza el lloc (pàgines vistes, fonts de trànsit, taxa de rebot). Per defecte només recopilem dades de sessió anònimes: sense galetes ni identificadors persistents. Si acceptes les galetes, activem un identificador emmagatzemat al teu navegador per entendre millor el comportament entre visites.",
-  "privacy.cookies.title": "Galetes",
-  "privacy.cookies.body": "Sense el teu consentiment no emmagatzemem cap galeta analítica. Si acceptes, PostHog desa un identificador a localStorage i en una galeta de primera part. Pots retirar el teu consentiment en qualsevol moment amb el botó de baix.",
+  "privacy.analytics.body": "Fem servir PostHog per entendre com s'utilitza el lloc. Sense consentiment, PostHog funciona sense galetes: recopila pàgines vistes i embuts de manera anònima, sense cap galeta ni identificador persistent. Si acceptes, activem un identificador persistent (localStorage + galeta), gravacions de sessió amb les entrades de text emmascarades, i mapes de calor. Google Analytics 4 rep senyals de conversió amb mode de consentiment v2. Stripe i Supabase processen les dades necessàries per completar la teva comanda.",
+  "privacy.cookies.title": "Galetes i gravacions",
+  "privacy.cookies.body": "Sense consentiment: cap galeta analítica, anàlisi anònim en memòria de sessió. Amb consentiment: galeta de sessió PostHog + identificador localStorage (12 mesos), gravacions de sessió amb entrades emmascarades. La teva elecció es guarda 12 mesos. Pots canviar-la en qualsevol moment amb l'enllaç «Preferències de cookies» del peu de pàgina.",
   "privacy.contact.title": "Contacte",
   "privacy.contact.body": "Per a qualsevol consulta de privacitat, contacta'ns per WhatsApp o per correu electrònic.",
   "privacy.consent.current": "La teva preferència actual",
@@ -849,4 +854,14 @@ export const caTranslations: Record<string, string> = {
   "calc.autumn.badge": "−10% en comandes des de 20 € fins al 30/11",
   "calc.autumn.line": "Descompte de tardor −10 %",
   "calc.autumn.nudge": "Afegeix {amount} més i estalvia un 10%",
+
+  "calc.actions.quoteOnly.over-limit": "Les comandes de més de 100 € les revisem manualment: t'enviem el preu final en menys d'1 h.",
+  "calc.actions.quoteOnly.oversize": "Una peça és més gran que la nostra impressora (256 mm). La revisem i et proposem com dividir-la.",
+  "calc.actions.quoteOnly.material": "Aquest material el confirmem manualment abans d'imprimir.",
+  "calc.actions.quoteOnly.multicolour": "Les peces multicolor les confirmem manualment.",
+  "calc.actions.quoteOnly.city-not-shipped": "El teu país no és a la nostra llista d'enviament directe: et farem un pressupost manualment.",
+  "calc.actions.quoteOnly.file-too-large": "Arxiu gran: el revisem abans de confirmar la comanda. Et responem en menys d'1 h.",
+  "calc.actions.orientation.warning": "Aquesta orientació no cap a la nostra impressora. Imprimirem en la millor orientació possible.",
+  "calc.instantBuy.complexReview": "Revisió gratuïta per un tècnic · resposta en 1 h",
+  "calc.instantBuy.uploading": "Preparant els teus arxius…",
 };

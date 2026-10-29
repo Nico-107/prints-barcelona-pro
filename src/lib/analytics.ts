@@ -199,6 +199,12 @@ export function enableHeatmapsAndReplay(): void {
     session_recording: {
       maskAllInputs: true,
       maskTextSelector: '[data-ph-mask]',
+      // Unmask quantity/numeric inputs only — posthog-js 1.393 has no unmaskInputSelector
+      maskInputFn: (text: string, el: HTMLElement | null) =>
+        el?.closest('[data-ph-unmask]') ? text : '*'.repeat(text.length),
+      recordCanvas: true,
+      canvasFps: 3,
+      minimumDurationMilliseconds: 2000,
     },
   });
   (ph as any).startSessionRecording?.();

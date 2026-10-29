@@ -540,6 +540,26 @@ const PartPage = ({ part }: Props) => {
           )}
         </Button>
       </div>
+      {/* Related catalogue pages */}
+      <section className="py-10 bg-muted/30">
+        <div className="container px-4 max-w-4xl mx-auto">
+          <h2 className="text-base font-bold text-foreground mb-3">More parts to explore</h2>
+          <ul className="flex flex-wrap gap-3">
+            {[
+              { to: "/catalogo", label: "All catalogue parts" },
+              { to: "/", label: "Instant price calculator" },
+              { to: "/piezas-personalizadas-3d-barcelona", label: "Custom 3D parts" },
+              { to: "/piezas-funcionales-barcelona", label: "Functional parts" },
+            ].map(({ to, label }) => (
+              <li key={to}>
+                <Link to={to} className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline">
+                  <span aria-hidden="true">→</span>{label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
       <Footer />
       <WhatsAppFloat />
     </>

@@ -413,6 +413,9 @@ export const itTranslations: Record<string, string> = {
   "calc.exitIntent.success": "Ricevuto! Ti contatteremo presto.",
   "calc.exitIntent.cta": "Invia i miei dati",
   "calc.exitIntent.dismiss": "No, grazie",
+  "calc.abandon.headline": "Il tuo prezzo di {price} è salvato per 24 h",
+  "calc.abandon.cta": "Torna al mio ordine",
+  "calc.abandon.dismiss": "Non ora",
   "calc.dropzone.noFile": "Nessun file 3D?",
   "calc.dropzone.noFile.cta": "Lo progettiamo da una foto o un'idea",
 
@@ -504,10 +507,12 @@ export const itTranslations: Record<string, string> = {
   "makers.form.required.desc": "Compila tutti i campi obbligatori.",
 
   // Cookie consent banner
-  "cookie.banner.message": "Utilizziamo analisi web anonime per migliorare il sito. Se accetti, abilitiamo un identificatore persistente per analisi più approfondite.",
+  "cookie.banner.message": "Usiamo cookie di analisi per individuare problemi e migliorare il sito. Niente pubblicità né vendita di dati.",
   "cookie.banner.privacy": "Informativa sulla privacy",
   "cookie.banner.reject": "Rifiuta",
   "cookie.banner.accept": "Accetta",
+  "cookie.banner.moreInfo": "Più info",
+  "cookie.banner.prefs": "Preferenze cookie",
 
   // B2B homepage banner
   "b2bhome.badge": "Per le aziende",
@@ -523,9 +528,9 @@ export const itTranslations: Record<string, string> = {
   "privacy.updated": "Aggiornata: giugno 2025",
   "privacy.intro": "Da Dimension3D rispettiamo la tua privacy. Questa pagina spiega quali dati raccogliamo, perché, e come utilizziamo i cookie.",
   "privacy.analytics.title": "Analisi web",
-  "privacy.analytics.body": "Utilizziamo PostHog per capire come viene usato il sito (visualizzazioni di pagina, fonti di traffico, frequenza di rimbalzo). Per impostazione predefinita raccogliamo solo dati di sessione anonimi: nessun cookie, nessun identificatore persistente. Se accetti i cookie, abilitiamo un identificatore memorizzato nel tuo browser per comprendere meglio il comportamento tra le visite.",
-  "privacy.cookies.title": "Cookie",
-  "privacy.cookies.body": "Senza il tuo consenso non memorizziamo cookie analitici. Se accetti, PostHog memorizza un identificatore in localStorage e in un cookie di prima parte. Puoi revocare il consenso in qualsiasi momento tramite il pulsante qui sotto.",
+  "privacy.analytics.body": "Utilizziamo PostHog per capire come viene usato il sito. Senza consenso, PostHog funziona senza cookie: conta le visualizzazioni di pagina e i funnel in modo anonimo, senza cookie né identificatori persistenti. Se accetti, abilitiamo un identificatore persistente (localStorage + cookie), registrazioni di sessione con tutti i campi di testo mascherati, e heatmap. Google Analytics 4 riceve segnali di conversione in modalità consenso v2. Stripe e Supabase trattano i dati necessari per completare il tuo ordine.",
+  "privacy.cookies.title": "Cookie e registrazioni",
+  "privacy.cookies.body": "Senza consenso: nessun cookie analitico, analisi anonima in memoria di sessione. Con consenso: cookie di sessione PostHog + identificatore localStorage (12 mesi), registrazioni di sessione con input mascherati. La tua scelta viene salvata per 12 mesi. Puoi cambiarla in qualsiasi momento tramite il link «Preferenze cookie» nel footer.",
   "privacy.contact.title": "Contatto",
   "privacy.contact.body": "Per qualsiasi domanda sulla privacy, contattaci via WhatsApp o email.",
   "privacy.consent.current": "La tua preferenza attuale",
@@ -855,4 +860,14 @@ export const itTranslations: Record<string, string> = {
   "calc.autumn.badge": "Offerta autunnale",
   "calc.autumn.line": "Sconto autunnale −10 %",
   "calc.autumn.nudge": "Aggiungi ancora {amount} e risparmia il 10 %",
+
+  "calc.actions.quoteOnly.over-limit": "Gli ordini superiori a 100 € vengono esaminati manualmente — ti inviamo il prezzo finale entro 1 ora.",
+  "calc.actions.quoteOnly.oversize": "Un pezzo è più grande della nostra stampante (256 mm). Lo esaminiamo e ti proponiamo come dividerlo.",
+  "calc.actions.quoteOnly.material": "Confermiamo questo materiale manualmente prima di stampare.",
+  "calc.actions.quoteOnly.multicolour": "I pezzi multicolore vengono confermati manualmente.",
+  "calc.actions.quoteOnly.city-not-shipped": "Il tuo paese non è nella nostra lista di spedizione diretta — ti faremo un preventivo manuale.",
+  "calc.actions.quoteOnly.file-too-large": "File grande: lo esaminiamo prima di confermare l'ordine. Risposta entro 1 ora.",
+  "calc.actions.orientation.warning": "Questo orientamento non entra nella nostra stampante. Stamperemo nel miglior orientamento possibile.",
+  "calc.instantBuy.complexReview": "Revisione gratuita da un tecnico · risposta in 1 ora",
+  "calc.instantBuy.uploading": "Preparazione dei tuoi file…",
 };

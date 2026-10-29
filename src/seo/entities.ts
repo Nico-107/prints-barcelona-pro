@@ -8,8 +8,10 @@ import { SHIP_COUNTRIES } from "@/lib/instantBuy";
 
 export const GOOGLE_BUSINESS_PROFILE_URL = "https://maps.app.goo.gl/ebXjjrXXA6bVwUkeA";
 const INSTAGRAM_URL = "https://www.instagram.com/dimension3dprints/";
+const TIKTOK_URL    = "https://www.tiktok.com/@dimension3dprints";
+const YOUTUBE_URL   = "https://www.youtube.com/@dimension3dprints";
 
-const sameAs = [GOOGLE_BUSINESS_PROFILE_URL, INSTAGRAM_URL].filter(Boolean);
+const sameAs = [GOOGLE_BUSINESS_PROFILE_URL, INSTAGRAM_URL, TIKTOK_URL, YOUTUBE_URL].filter(Boolean);
 
 // Site-wide LocalBusiness entity.
 // @id is /#business — referenced by Service JSON-LD on city pages and
@@ -20,8 +22,14 @@ export const ORGANIZATION_SCHEMA = {
   "@type": ["LocalBusiness", "ProfessionalService"],
   "@id": `${SITE_URL}/#business`,
   name: "Dimension3D",
+  alternateName: ["Dimension 3D Prints", "Dimension3D BCN", "Dimension 3D Barcelona"],
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/logo.png`,
+    width: 512,
+    height: 512,
+  },
   image: `${SITE_URL}/og/share-default.png`,
   telephone: "+34 672 051 147",
   address: {
@@ -43,6 +51,16 @@ export const ORGANIZATION_SCHEMA = {
     "iso6166code": code,
   })),
   ...(sameAs.length > 0 ? { sameAs } : {}),
+};
+
+// WebSite entity — enables sitelinks searchbox eligibility.
+export const WEBSITE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "Dimension3D",
+  url: SITE_URL,
+  publisher: { "@id": `${SITE_URL}/#business` },
 };
 
 export const PERSON_SCHEMA = {

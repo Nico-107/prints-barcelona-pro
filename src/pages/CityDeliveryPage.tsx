@@ -294,7 +294,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         )}
       </Helmet>
 
-      <Header hideLanguageSelector={["fr", "de", "it", "pt"].includes(config.articleInLanguage ?? "")} />
+      <Header />
 
       <main className="pt-16">
         {/* Hero */}
@@ -312,8 +312,8 @@ const CityDeliveryPage = ({ config }: Props) => {
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
-                <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
+              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/70 mb-5">
+                <Link to="/" className="hover:text-primary-foreground/90 transition-colors">
                   {homeLabel}
                 </Link>
                 <span>/</span>
@@ -321,7 +321,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   {serviceLabel}
                 </Link>
                 <span>/</span>
-                <span className="text-primary-foreground/70">{config.city}</span>
+                <span className="text-primary-foreground/85">{config.city}</span>
               </nav>
               <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
                 <Truck className="w-3.5 h-3.5" />

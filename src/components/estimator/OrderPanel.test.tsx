@@ -386,12 +386,11 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
         instantTotalPrice={10.00}
       />
     );
+    // When preUploadDone=false the button shows the uploading spinner, not the normal label
     const html = container.innerHTML;
-    expect(html).toContain("calc.instantBuy.buyNow");
-    // Buy Now button should be disabled
-    const buyNowBtn = Array.from(container.querySelectorAll('button')).find(
-      b => b.textContent?.includes("calc.instantBuy.buyNow")
-    );
+    expect(html).toContain("calc.instantBuy.uploading");
+    // Buy Now button (data-testid) should be disabled
+    const buyNowBtn = container.querySelector('[data-testid="buy-now-btn"]') as HTMLButtonElement | null;
     expect(buyNowBtn?.disabled).toBe(true);
   });
 });
@@ -491,5 +490,42 @@ describe("Hydration: PartRow", () => {
       e.includes("Hydration") || e.includes("did not match") || e.includes("recoverable")
     );
     expect(hydrationErrors).toHaveLength(0);
+  });
+});
+
+// ─── Hard rule #7: Buy button must always be present for eligible orders ──────
+import { REGISTRY } from "@/lib/experiments/registry";
+
+describe("Hard rule 7: Buy button present for eligible orders regardless of experiment variant", () => {
+  const eligibleAnalysis = analyzeTriangles(boxMesh(40, 40, 40));
+  const eligibleFiles: ParsedFile[] = [
+    { id: "x", name: "part.stl", sizeBytes: 1000, volumeMm3: eligibleAnalysis.volumeMm3, qty: 1, analysis: eligibleAnalysis },
+  ];
+  const eligibleBundle = computeBundleV3(eligibleFiles, DEFAULTS, "standard")!;
+
+  it("Buy button is present with eligible order", () => {
+    const container = mountPanel(
+      <OrderPanel
+        {...BASE_PROPS}
+        parsedFiles={eligibleFiles}
+        validFiles={eligibleFiles}
+        bundle={eligibleBundle}
+        instantBuyEligible={true}
+        preUploadDone={true}
+        fulfillment="pickup"
+        section="actions"
+        instantTotalPrice={10}
+      />
+    );
+    const btn = container.querySelector('[data-testid="buy-now-btn"]');
+    expect(btn).toBeTruthy();
+    expect((btn as HTMLButtonElement)?.disabled).toBe(false);
+  });
+
+  it("no active checkout_modal experiment hides the Buy button", () => {
+    const checkoutLayerExps = REGISTRY.filter(exp => exp.enabled && exp.layer === 'checkout_modal');
+    // If this list is non-empty, each variant must be individually verified.
+    // Currently should be empty since modal_actions_r1 was concluded.
+    expect(checkoutLayerExps).toHaveLength(0);
   });
 });

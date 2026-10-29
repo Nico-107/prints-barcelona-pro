@@ -19,7 +19,7 @@ import { computeBundleV3 } from "@/lib/estimate";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
 import type { QualityKey } from "@/lib/estimator/core";
-import { CHECKOUT_V3_READY, instantBuyAllowed } from "@/lib/instantBuy";
+import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
@@ -157,15 +157,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [contactTouched, setContactTouched] = useState(false);
 
   // Simple / Advanced mode — persisted to localStorage, defaults to Simple.
-  // Must start false on server to avoid hydration mismatch; synced from localStorage in useEffect.
+  // Must start false on server to avoid hydration mismatch; synced from sessionStorage in useEffect.
+  // Advanced mode persists for the session only — never auto-restored for first-time visitors (STEP 2.5).
   const [advancedMode, setAdvancedModeRaw] = useState<boolean>(false);
   useEffect(() => {
     try {
-      if (localStorage.getItem("dim3d-calc-mode") === "advanced") setAdvancedModeRaw(true);
+      if (sessionStorage.getItem("dim3d-calc-mode") === "advanced") setAdvancedModeRaw(true);
     } catch { /* unavailable */ }
   }, []);
   const setAdvancedMode = (val: boolean) => {
-    try { localStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
+    try { sessionStorage.setItem("dim3d-calc-mode", val ? "advanced" : "simple"); } catch { /* unavailable */ }
     if (!val) {
       // Reset global defaults + clear per-part advanced overrides (keep material/color)
       setInfillPct(15);
@@ -288,13 +289,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const anyMulticolour = validFiles.some(f => effectivePartSettings(f, defaults).multicolour);
   const filesWithinVerifyLimit = validFiles.every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES) &&
     validFiles.reduce((s, f) => s + f.sizeBytes, 0) <= 60 * 1024 * 1024;
-  const instantBuyEligible = !forceQuoteOnly && instantBuyAllowed({
+  const instantBuyStatus = getInstantBuyStatus({
     adminMode,
     anyMulticolour,
-    eligible: bundle?.orderResult.eligible ?? false,
+    orderReasons: bundle?.order.reasons ?? [],
     filesWithinVerifyLimit,
     flagReady: CHECKOUT_V3_READY,
+    forceQuoteOnly,
+    showManualReview,
   });
+  const instantBuyEligible = instantBuyStatus.eligible;
+  const ineligibleReasons = instantBuyStatus.reasons;
   const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
 
   // Autumn discount (client display only — server re-computes at checkout)
@@ -415,10 +420,23 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (nextBundle) {
         const priceMid = (nextBundle.low + nextBundle.high) / 2;
         const priceBucket = priceMid < 15 ? "<15" : priceMid < 30 ? "15-30" : priceMid < 60 ? "30-60" : priceMid < 100 ? "60-100" : ">100";
+        const nextAnyMulticolour = nextFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile).some(f => effectivePartSettings(f, nextDefaults).multicolour);
+        const nextFilesWithinVerifyLimit = nextFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile).every(f => f.sizeBytes <= V3_VERIFY_MAX_BYTES);
+        const nextStatus = getInstantBuyStatus({
+          adminMode: false,
+          anyMulticolour: nextAnyMulticolour,
+          orderReasons: nextBundle.order.reasons,
+          filesWithinVerifyLimit: nextFilesWithinVerifyLimit,
+          flagReady: CHECKOUT_V3_READY,
+          forceQuoteOnly,
+          showManualReview: false,
+        });
         capture("estimate_shown", {
           price_eur_bucket: priceBucket as "<15" | "15-30" | "30-60" | "60-100" | ">100",
           time_to_price_ms: Date.now() - uploadStartMs,
           file_count: nextFiles.filter(f => !f.parseError).length,
+          instant_eligible: nextStatus.eligible,
+          ineligible_reasons: nextStatus.reasons.join(","),
         });
         estimateShownRef.current = true;
         capture('estimate_generated', {
@@ -433,6 +451,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           multicolour,
           pricing_version: 3,
           estimated_hours: nextBundle.totalHours,
+          instant_eligible: nextStatus.eligible,
+          ineligible_reasons: nextStatus.reasons.join(","),
           support_cm3: nextBundle.estimates.reduce((s, e) => s + e.supportCm3, 0),
           orientation_saving_eur: nextBundle.savedByOrientationEur,
         });
@@ -779,15 +799,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
-  // Reset manual-review and fulfillment choices whenever eligibility drivers change.
-  // Also re-applies the international shipping default so it survives material changes.
+  // Reset manual-review whenever any eligibility driver changes (files, quantities, settings).
+  // This ensures a new upload always shows the Buy button fresh.
   useEffect(() => {
     setShowManualReview(false);
     setFulfillmentAttempted(false);
-    const intlDefault = (["de", "fr", "it", "nl", "pt"] as string[]).includes(language) ||
-      (language === "en" && !!refCity);
-    setFulfillment(intlDefault && !refPickupAvailable ? "shipping" : null);
-  }, [materialKey, multicolour, language, refCity, refPickupAvailable]);
+  }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
+
+  // Pre-select fulfillment: shipping everywhere, pickup on pages that offer it (STEP 2.1).
+  useEffect(() => {
+    setFulfillment(refPickupAvailable ? "pickup" : "shipping");
+  }, [language, refCity, refPickupAvailable]);
 
   // Detect Stripe return URLs on page load
   useEffect(() => {
@@ -1832,6 +1854,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               device,
               files: validFiles.length,
               lang: language,
+              instant_eligible: instantBuyEligible,
+              ineligible_reasons: ineligibleReasons.join(","),
+              actions_branch: instantBuyEligible ? "buy" : "quote",
             });
           },
           autumnDiscountCents,
@@ -1855,6 +1880,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           anyMulticolour,
           instantTotalPrice,
           fulfillmentPickerRef,
+          ineligibleReasons,
+          supportHeavy: bundle?.supportHeavy ?? false,
+          urgency,
         } as const;
 
         const leftSlot = (
@@ -2246,7 +2274,40 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           }}
         >
           <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
-            {exitIntentSubmitted ? (
+            {/* Abandon recovery — eligible visitor had a price; no email capture (STEP 2.7) */}
+            {instantBuyEligible && instantTotalPrice !== null ? (
+              <div className="text-center space-y-4">
+                <DialogHeader>
+                  <DialogTitle className="text-base font-bold text-foreground leading-snug">
+                    {t("calc.abandon.headline").replace("{price}", formatEUR(instantTotalPrice, lang))}
+                  </DialogTitle>
+                </DialogHeader>
+                <Button
+                  variant="cta"
+                  className="w-full gap-2"
+                  data-ph-name="abandon-recover"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "recovered";
+                    capture("exit_intent_recovered");
+                    setShowExitIntent(false);
+                    setMobileModalOpen(true);
+                  }}
+                >
+                  {t("calc.abandon.cta")}
+                </Button>
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
+                  onClick={() => {
+                    exitIntentCloseReasonRef.current = "dismissed";
+                    capture("exit_intent_dismissed");
+                    setShowExitIntent(false);
+                  }}
+                >
+                  {t("calc.abandon.dismiss")}
+                </button>
+              </div>
+            ) : exitIntentSubmitted ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
                 <p className="font-semibold text-foreground">{t("calc.exitIntent.success")}</p>

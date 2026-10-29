@@ -413,6 +413,9 @@ export const nlTranslations: Record<string, string> = {
   "calc.exitIntent.success": "Ontvangen! We nemen snel contact op.",
   "calc.exitIntent.cta": "Mijn gegevens sturen",
   "calc.exitIntent.dismiss": "Nee, bedankt",
+  "calc.abandon.headline": "Jouw prijs van {price} is 24 u bewaard",
+  "calc.abandon.cta": "Terug naar mijn bestelling",
+  "calc.abandon.dismiss": "Nu niet",
   "calc.dropzone.noFile": "Geen 3D-bestand?",
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
 
@@ -504,10 +507,12 @@ export const nlTranslations: Record<string, string> = {
   "makers.form.required.desc": "Vul alle verplichte velden in.",
 
   // Cookie consent banner
-  "cookie.banner.message": "Wij gebruiken anonieme webanalytics om de site te verbeteren. Als u akkoord gaat, activeren wij een persistente identificatie voor uitgebreidere analyses.",
+  "cookie.banner.message": "We gebruiken analytische cookies om problemen op te sporen en de site te verbeteren. Geen advertenties, geen verkoop van gegevens.",
   "cookie.banner.privacy": "Privacybeleid",
   "cookie.banner.reject": "Weigeren",
   "cookie.banner.accept": "Accepteren",
+  "cookie.banner.moreInfo": "Meer info",
+  "cookie.banner.prefs": "Cookievoorkeuren",
 
   // B2B homepage banner
   "b2bhome.badge": "Voor bedrijven",
@@ -523,9 +528,9 @@ export const nlTranslations: Record<string, string> = {
   "privacy.updated": "Bijgewerkt: juni 2025",
   "privacy.intro": "Bij Dimension3D respecteren wij uw privacy. Op deze pagina leggen wij uit welke gegevens wij verzamelen, waarom, en hoe wij cookies gebruiken.",
   "privacy.analytics.title": "Webanalytics",
-  "privacy.analytics.body": "Wij gebruiken PostHog om te begrijpen hoe de site wordt gebruikt (paginaweergaven, verkeersbronnen, bouncepercentage). Standaard verzamelen wij alleen anonieme sessiegegevens: geen cookies, geen persistente identificatoren. Als u cookies accepteert, activeren wij een identificator die in uw browser is opgeslagen om het gedrag tussen bezoeken beter te begrijpen.",
-  "privacy.cookies.title": "Cookies",
-  "privacy.cookies.body": "Zonder uw toestemming slaan wij geen analytische cookies op. Als u akkoord gaat, slaat PostHog een identificator op in localStorage en een first-party cookie. U kunt uw toestemming op elk moment intrekken via de knop hieronder.",
+  "privacy.analytics.body": "Wij gebruiken PostHog om te begrijpen hoe de site wordt gebruikt. Zonder toestemming werkt PostHog zonder cookies: het telt paginaweergaven en trechters anoniem, zonder cookies of persistente identificatoren. Als u accepteert, activeren wij een persistente identificator (localStorage + cookie), sessie-opnames met gemaskeerde tekstinvoer, en heatmaps. Google Analytics 4 ontvangt conversiesignalen onder toestemmingsmodus v2. Stripe en Supabase verwerken de gegevens die nodig zijn voor uw bestelling.",
+  "privacy.cookies.title": "Cookies en opnames",
+  "privacy.cookies.body": "Zonder toestemming: geen analytische cookies, anonieme sessieanalyse in geheugen. Met toestemming: PostHog-sessiecookie + localStorage-identificator (12 maanden), sessie-opnames met gemaskeerde invoer. Uw keuze wordt 12 maanden opgeslagen. U kunt deze altijd wijzigen via de link «Cookievoorkeuren» in de voettekst.",
   "privacy.contact.title": "Contact",
   "privacy.contact.body": "Voor privacyvragen kunt u contact met ons opnemen via WhatsApp of e-mail.",
   "privacy.consent.current": "Uw huidige voorkeur",
@@ -855,4 +860,14 @@ export const nlTranslations: Record<string, string> = {
   "calc.autumn.badge": "Herfstaanbieding",
   "calc.autumn.line": "Herfstkorting −10 %",
   "calc.autumn.nudge": "Voeg nog {amount} toe en bespaar 10 %",
+
+  "calc.actions.quoteOnly.over-limit": "Bestellingen boven €100 worden handmatig beoordeeld — we sturen je de definitieve prijs binnen 1 uur.",
+  "calc.actions.quoteOnly.oversize": "Een onderdeel is groter dan onze printer (256 mm). We beoordelen het en stellen voor hoe het gesplitst kan worden.",
+  "calc.actions.quoteOnly.material": "We bevestigen dit materiaal handmatig voor het printen.",
+  "calc.actions.quoteOnly.multicolour": "Meerkeurige onderdelen worden handmatig bevestigd.",
+  "calc.actions.quoteOnly.city-not-shipped": "Jouw land staat niet op onze directe verzendlijst — we maken handmatig een offerte voor je.",
+  "calc.actions.quoteOnly.file-too-large": "Groot bestand: we beoordelen het voor de orderbevestiging. Antwoord binnen 1 uur.",
+  "calc.actions.orientation.warning": "Deze oriëntatie past niet in onze printer. We printen in de best mogelijke oriëntatie.",
+  "calc.instantBuy.complexReview": "Gratis technische beoordeling · antwoord in 1 uur",
+  "calc.instantBuy.uploading": "Je bestanden worden voorbereid…",
 };

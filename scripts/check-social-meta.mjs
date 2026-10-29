@@ -66,10 +66,15 @@ for (const file of files.sort()) {
   if (canonicalMatch && ogUrlMatch && canonicalMatch[1] !== ogUrlMatch[1])
     violations.push(`og:url (${ogUrlMatch[1]}) ≠ canonical (${canonicalMatch[1]})`);
 
-  // No "Lovable" in head section
+  // No Lovable platform branding in head (generator meta, link[rel=lovable], etc.)
+  // We intentionally do NOT flag our own redirect script that mentions lovable domain strings.
   const headMatch = html.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
-  if (headMatch && /lovable/i.test(headMatch[1]))
-    violations.push("Lovable placeholder found in <head>");
+  if (headMatch) {
+    const headNoScript = headMatch[1].replace(/<script[\s\S]*?<\/script>/gi, "");
+    if (/content=["'][^"']*lovable[^"']*["']/i.test(headNoScript)
+      || /rel=["']lovable["']/i.test(headNoScript))
+      violations.push("Lovable placeholder found in <head>");
+  }
 
   const status = violations.length === 0 ? "OK" : "FAIL";
   rows.push({ rel, status, violations });

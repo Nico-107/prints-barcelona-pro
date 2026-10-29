@@ -24,6 +24,8 @@ interface EstimateGeneratedProps {
   estimated_hours?: number;
   support_cm3?: number;
   orientation_saving_eur?: number;
+  instant_eligible?: boolean;
+  ineligible_reasons?: string;
 }
 
 interface EstimateAbandonedProps {
@@ -185,6 +187,8 @@ interface EstimateShownProps {
   price_eur_bucket?: "<15" | "15-30" | "30-60" | "60-100" | ">100";
   time_to_price_ms?: number;
   file_count?: number;
+  instant_eligible?: boolean;
+  ineligible_reasons?: string;
 }
 
 interface ConfigChangedProps {
@@ -305,7 +309,7 @@ export interface EventMap {
   estimate_modal_shown: { has_bundle?: boolean };
   image_design_request_submitted: { lang: string };
   link_file_submitted: { lang: string };
-  buy_button_visible: { device: string; files: number; lang: string };
+  buy_button_visible: { device: string; files: number; lang: string; instant_eligible?: boolean; ineligible_reasons?: string; actions_branch?: 'buy' | 'quote' };
   estimate_modal_dismissed: Record<string, never>;
   estimate_abandoned: EstimateAbandonedProps;
   whatsapp_click: WhatsappClickProps;
@@ -411,6 +415,10 @@ export interface EventMap {
   checkout_failed: { code: string; http_status: number; price_eur: number; file_count: number };
   checkout_failed_send_order: { code: string };
   parse_error_free_review_click: { name: string | undefined };
+
+  // Consent (STEP 3.4)
+  consent_prompt_shown: { placement: 'card' | 'sheet' | 'top-docked'; trigger: 'scroll' | 'click' | 'timer' };
+  consent_decision: { decision: 'accept' | 'reject'; seconds_to_decision: number; page_type: string };
 }
 
 export type EventName = keyof EventMap;

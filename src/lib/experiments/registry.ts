@@ -53,7 +53,9 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-10-20',
     minDays: 21,
     maxDays: 56,
-    enabled: true,
+    enabled: false,
+    // Concluded 2026-10-29: early stop by owner decision. Sample too small for a statistical
+    // winner. Variant B (buy-first, text links for review/WhatsApp) shipped permanently.
   },
   {
     id: 'home_proof_r1',

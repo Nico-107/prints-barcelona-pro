@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
+import { AUTHOR_REF, PUBLISHER_REF, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
@@ -76,7 +76,7 @@ const faqSchema = {
 
 const InternationalServicePage = () => {
   useEffect(() => {
-    capture('international_page_view', { referrer: document.referrer });
+    capture('international_page_view', { referrer: document.referrer, market: "en", lang: "en" });
   }, []);
 
   const scrollToCalc = () => {
@@ -85,6 +85,8 @@ const InternationalServicePage = () => {
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
+      const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
+      fileInput?.click();
     }
   };
 
@@ -125,9 +127,11 @@ const InternationalServicePage = () => {
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
+      <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
     </Helmet>
 
-    <Header hideLanguageSelector={true} />
+    <Header />
 
     <main className="pt-16">
       {/* Hero */}
@@ -159,18 +163,9 @@ const InternationalServicePage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
+              <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="intl-hero-cta" onClick={scrollToCalc}>
                 Get an Instant Quote
                 <ArrowRight className="w-5 h-5" />
-              </Button>
-              <Button
-                variant="whatsapp-outline"
-                size="xl"
-                onClick={() => { capture('whatsapp_click', { location: 'other', path: window.location.pathname }); capture('international_cta_click'); window.open(`${WHATSAPP_URL}?text=${encodeURIComponent("Hi, I'd like a quote for 3D printing. I'm based outside Spain.")}`, "_blank"); }}
-                className="group"
-              >
-                <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-                Message Us on WhatsApp
               </Button>
             </div>
 

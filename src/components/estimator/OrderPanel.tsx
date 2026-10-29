@@ -1,16 +1,20 @@
 import { useRef, useEffect } from "react";
 import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
+import type { IneligibleReason } from "@/lib/instantBuy";
+import { REVIEW_EMPHASIS, REVIEW_EMPHASIS_MATERIALS, REVIEW_EMPHASIS_MAX_DIM_MM, REVIEW_EMPHASIS_MIN_QTY } from "@/config/checkoutUx";
 import { Button } from "@/components/ui/button";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { useXpExposure } from "@/lib/experiments";
-import { REFUND_IF_UNPRINTABLE, AUTUMN_DISCOUNT } from "@/config/policies";
+import { AUTUMN_DISCOUNT } from "@/config/policies";
 import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
 import { ContactFields } from "./ContactFields";
 import { PriceBreakdown } from "./PriceBreakdown";
+import { DeliveryPromise } from "./DeliveryPromise";
+import { PaymentBadges } from "./PaymentBadges";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { formatEUR } from "@/lib/formatPrice";
 import type { Language } from "@/lib/pathLanguage";
@@ -92,6 +96,12 @@ interface OrderPanelProps {
   fulfillmentPickerRef?: React.RefObject<HTMLDivElement>;
   /** Autumn discount to show in the actions section (cents, 0 = not applicable) */
   autumnDiscountCents?: number;
+  /** Reasons from getInstantBuyStatus — drives the never-silent reason line */
+  ineligibleReasons?: IneligibleReason[];
+  /** True when any part has heavy support (from bundle.supportHeavy) */
+  supportHeavy?: boolean;
+  /** Current urgency selection — passed to DeliveryPromise for transit estimate */
+  urgency?: string;
 }
 
 export function OrderPanel({
@@ -147,6 +157,9 @@ export function OrderPanel({
   instantTotalPrice: instantTotalPriceProp,
   fulfillmentPickerRef,
   autumnDiscountCents = 0,
+  ineligibleReasons = [],
+  supportHeavy = false,
+  urgency = "standard",
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -182,6 +195,35 @@ export function OrderPanel({
   const disabled = isCheckingOut || isSubmittingQuote;
 
   if (parsedFiles.length === 0 || !bundle) return null;
+
+  // Primary reason key for the never-silent quote-only reason line
+  const quoteOnlyReasonKey = (() => {
+    if (ineligibleReasons.length === 0) return null;
+    const r = ineligibleReasons[0];
+    if (r === 'over-limit') return 'calc.actions.quoteOnly.over-limit';
+    if (r.startsWith('oversize:')) return 'calc.actions.quoteOnly.oversize';
+    if (r.startsWith('material:')) return 'calc.actions.quoteOnly.material';
+    if (r === 'multicolour') return 'calc.actions.quoteOnly.multicolour';
+    if (r === 'city-not-shipped') return 'calc.actions.quoteOnly.city-not-shipped';
+    if (r === 'file-too-large') return 'calc.actions.quoteOnly.file-too-large';
+    return null;
+  })();
+
+  // STEP 1.6: show full-width review button inside the instant-buy branch when the order is complex
+  const showEmphasisReview = (() => {
+    if (!instantBuyEligible) return false;
+    if (chargedPrint >= REVIEW_EMPHASIS.minTotalEur) return true;
+    if (validFiles.some(f => REVIEW_EMPHASIS_MATERIALS.includes(effectivePartSettings(f, defaults).material))) return true;
+    if (supportHeavy) return true;
+    if (validFiles.some(f => {
+      const s = f.analysis;
+      if (!s) return false;
+      const [bx, by, bz] = s.boundsMm;
+      return bx > REVIEW_EMPHASIS_MAX_DIM_MM || by > REVIEW_EMPHASIS_MAX_DIM_MM || bz > REVIEW_EMPHASIS_MAX_DIM_MM;
+    })) return true;
+    if (validFiles.some(f => f.qty >= REVIEW_EMPHASIS_MIN_QTY)) return true;
+    return false;
+  })();
 
   // Buy Now button label — "from {price}" before selection, exact after
   const buyNowLabel = (() => {
@@ -234,8 +276,8 @@ export function OrderPanel({
 
   // ── 'actions' section only ─────────────────────────────────────────────────
   if (section === 'actions') {
-    const showQuoteOnlyWhy = !adminMode && !instantBuyEligible &&
-      (bundle.orderResult.chargedPrintCents > EST.instantMaxCents || effectiveAnyMulticolour);
+    // Never silent: always show a reason when quote-only (STEP 1.4)
+    const showQuoteOnlyWhy = !adminMode && !instantBuyEligible && quoteOnlyReasonKey !== null;
 
     const printCents = bundle.orderResult.chargedPrintCents;
     const offerActive = Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
@@ -290,6 +332,7 @@ export function OrderPanel({
               {t("calc.summary.shipping")} +{shippingFormatted}
             </p>
           )}
+          <DeliveryPromise language={language} urgency={urgency} fulfillment={fulfillment} />
           {fulfillment === "pickup" && (
             <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
           )}
@@ -300,9 +343,9 @@ export function OrderPanel({
           )}
         </div>
 
-        {/* Quote-only reason */}
-        {showQuoteOnlyWhy && (
-          <p className="text-xs text-muted-foreground">{t("calc.actions.quoteOnlyWhy")}</p>
+        {/* Quote-only reason — never silent (STEP 1.4) */}
+        {showQuoteOnlyWhy && quoteOnlyReasonKey && (
+          <p className="text-xs text-muted-foreground">{t(quoteOnlyReasonKey)}</p>
         )}
 
         {/* Single action error — at most one message */}
@@ -352,144 +395,64 @@ export function OrderPanel({
                   <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
                 )}
 
-                {/* Variant A (control): Buy Now + trust + Review/WhatsApp row */}
-                <div data-xp-slot="modal_actions_r1" data-xp-v="A">
-                  <div className="space-y-2">
-                    <Button
-                      variant="cta"
-                      size="lg"
-                      className="w-full gap-2"
-                      data-testid="buy-now-btn"
-                      data-ph-name="buy-now"
-                      onClick={onInstantBuy}
-                      disabled={isCheckingOut || !preUploadDone}
-                    >
-                      {isCheckingOut
-                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                {/* Buy-first (variant B shipped permanently — modal_actions_r1 concluded) */}
+                <div className="space-y-2">
+                  <Button
+                    variant="cta"
+                    size="lg"
+                    className="w-full gap-2"
+                    data-testid="buy-now-btn"
+                    data-ph-name="buy-now"
+                    onClick={onInstantBuy}
+                    disabled={isCheckingOut || !preUploadDone}
+                  >
+                    {isCheckingOut
+                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
+                      : !preUploadDone
+                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.instantBuy.uploading")}</>
                         : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
-                      }
-                    </Button>
-                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                      {t("calc.trust.promise")}
-                    </p>
-                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                      {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                    </p>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full gap-1.5 text-sm min-h-[44px] border-accent text-accent hover:bg-accent/10 hover:border-accent"
-                        data-ph-name="free-review"
-                        onClick={onManualReview}
-                        disabled={isCheckingOut}
-                      >
-                        <Send className="w-3.5 h-3.5 shrink-0" />
-                        <span className="min-w-0">{t("calc.instantBuy.manualReview.short")}</span>
-                      </Button>
-                      <Button
-                        variant="whatsapp-outline"
-                        size="sm"
-                        className="w-full gap-1.5 text-sm min-h-[44px]"
-                        data-ph-name="whatsapp-calculator"
-                        onClick={onWhatsApp}
-                        disabled={isCheckingOut}
-                      >
-                        <MessageCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span className="min-w-0">{t("calc.result.whatsapp.short")}</span>
-                      </Button>
-                    </div>
-                    <p className="text-xs text-center text-muted-foreground">{t("calc.instantBuy.reviewHint")}</p>
-                  </div>
-                </div>
-
-                {/* Variant B (buy-first): Buy Now only, text links below */}
-                <div data-xp-slot="modal_actions_r1" data-xp-v="B">
-                  <div className="space-y-2">
+                    }
+                  </Button>
+                  <p className="text-[11px] text-center text-muted-foreground leading-tight">
+                    {t("calc.trust.promise")}
+                  </p>
+                  <PaymentBadges language={language} />
+                  {/* STEP 1.6: full-width review button for complex orders */}
+                  {showEmphasisReview ? (
                     <Button
-                      variant="cta"
-                      size="lg"
-                      className="w-full gap-2"
-                      data-testid="buy-now-btn"
-                      data-ph-name="buy-now"
-                      onClick={onInstantBuy}
-                      disabled={isCheckingOut || !preUploadDone}
+                      variant="outline"
+                      size="sm"
+                      className="w-full gap-1.5 text-sm min-h-[44px] border-accent text-accent hover:bg-accent/10 hover:border-accent"
+                      data-ph-name="free-review"
+                      onClick={onManualReview}
+                      disabled={isCheckingOut}
                     >
-                      {isCheckingOut
-                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                        : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
-                      }
+                      <Send className="w-3.5 h-3.5 shrink-0" />
+                      <span className="min-w-0">{t("calc.instantBuy.complexReview")}</span>
                     </Button>
-                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                      {t("calc.trust.promise")}
-                    </p>
-                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                      {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                    </p>
+                  ) : (
                     <div className="flex flex-col items-center gap-1 pt-1">
                       <button
                         type="button"
                         onClick={onManualReview}
                         disabled={isCheckingOut}
                         className="text-xs text-accent hover:underline disabled:opacity-60"
+                        data-ph-name="free-review"
                       >
                         {t("xp.modalActions.b.reviewLink")}
                       </button>
-                      <button
-                        type="button"
-                        onClick={onWhatsApp}
-                        disabled={isCheckingOut}
-                        className="text-[11px] text-whatsapp hover:underline disabled:opacity-60"
-                      >
-                        {t("calc.result.whatsapp.short")}
-                      </button>
                     </div>
-                  </div>
-                </div>
-
-                {/* Variant C (reassure-then-buy): reassurance list + Buy Now + text links */}
-                <div data-xp-slot="modal_actions_r1" data-xp-v="C">
-                  <div className="space-y-2">
-                    <ul className="text-[11px] text-muted-foreground space-y-0.5 px-1">
-                      <li>· {t("xp.modalActions.c.reassure1")}</li>
-                      {REFUND_IF_UNPRINTABLE && <li>· {t("xp.modalActions.c.reassure2")}</li>}
-                      <li>· {t("xp.modalActions.c.reassure3")}</li>
-                    </ul>
-                    <Button
-                      variant="cta"
-                      size="lg"
-                      className="w-full gap-2"
-                      data-testid="buy-now-btn"
-                      data-ph-name="buy-now"
-                      onClick={onInstantBuy}
-                      disabled={isCheckingOut || !preUploadDone}
+                  )}
+                  <div className="flex justify-center pt-0.5">
+                    <button
+                      type="button"
+                      onClick={onWhatsApp}
+                      disabled={isCheckingOut}
+                      className="text-[11px] text-whatsapp hover:underline disabled:opacity-60"
+                      data-ph-name="whatsapp-calculator"
                     >
-                      {isCheckingOut
-                        ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                        : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
-                      }
-                    </Button>
-                    <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                      {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                    </p>
-                    <div className="flex justify-center gap-4 pt-1">
-                      <button
-                        type="button"
-                        onClick={onManualReview}
-                        disabled={isCheckingOut}
-                        className="text-xs text-accent hover:underline disabled:opacity-60"
-                      >
-                        {t("calc.instantBuy.manualReview.short")}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={onWhatsApp}
-                        disabled={isCheckingOut}
-                        className="text-xs text-whatsapp hover:underline disabled:opacity-60"
-                      >
-                        {t("calc.result.whatsapp.short")}
-                      </button>
-                    </div>
+                      {t("calc.result.whatsapp.short")}
+                    </button>
                   </div>
                 </div>
               </>
@@ -757,22 +720,23 @@ export function OrderPanel({
                   variant="cta"
                   size="lg"
                   className="w-full gap-2"
+                  data-testid="buy-now-btn"
                   data-ph-name="buy-now"
                   onClick={onInstantBuy}
                   disabled={isCheckingOut || !preUploadDone}
                 >
                   {isCheckingOut
                     ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
+                    : !preUploadDone
+                      ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.instantBuy.uploading")}</>
+                      : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
                 {/* Trust line */}
                 <p className="text-[11px] text-center text-muted-foreground leading-tight">
                   {t("calc.trust.promise")}
                 </p>
-                <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                  {t("calc.trust.secureWith")} {t("calc.trust.methods")}
-                </p>
+                <PaymentBadges language={language} />
                 <div>
                   <Button
                     variant="outline"

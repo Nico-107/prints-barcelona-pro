@@ -10,9 +10,9 @@ vi.mock('@/lib/analytics', () => ({ capture: vi.fn() }));
 import * as analytics from '@/lib/analytics';
 import { fireXpExposure, useXpExposure } from './exposure';
 
+// modal_actions_r1 excluded — concluded 2026-10-29, no longer fires exposures.
 const EXPERIMENTS = [
   'header_btn_r2',
-  'modal_actions_r1',
   'home_proof_r1',
   'upload_area_r1',
 ] as const;

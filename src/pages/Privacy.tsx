@@ -20,9 +20,9 @@ const Privacy = () => {
   }, []);
 
   const resetConsent = () => {
-    localStorage.removeItem(CONSENT_KEY);
-    // Reload so main.tsx re-initialises PostHog in memory mode and banner reappears.
-    window.location.reload();
+    try { localStorage.removeItem(CONSENT_KEY); localStorage.removeItem("cookie-consent-date"); } catch {}
+    document.dispatchEvent(new Event("cookie-prefs-open"));
+    setConsent(null);
   };
 
   const currentLabel = !hydrated || consent === null
