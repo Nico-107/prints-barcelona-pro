@@ -626,6 +626,7 @@ export default function StlViewer({
       {dimsMm && (
         <span
           ref={xLabelRef}
+          data-testid="viewer-x-label"
           style={{ ...LABEL_STYLE, color: "#cc3333", borderLeft: "3px solid #cc3333" }}
           aria-hidden="true"
         >
@@ -636,6 +637,7 @@ export default function StlViewer({
       {dimsMm && (
         <span
           ref={yLabelRef}
+          data-testid="viewer-y-label"
           style={{ ...LABEL_STYLE, color: "#2a8a2a", borderLeft: "3px solid #2a8a2a" }}
           aria-hidden="true"
         >
@@ -646,6 +648,7 @@ export default function StlViewer({
       {dimsMm && (
         <span
           ref={zLabelRef}
+          data-testid="viewer-z-label"
           style={{ ...LABEL_STYLE, color: "#2255cc", borderLeft: "3px solid #2255cc" }}
           aria-hidden="true"
         >
@@ -656,6 +659,7 @@ export default function StlViewer({
       {/* Comparison object caption */}
       <span
         ref={compareLabelRef}
+        data-testid="viewer-compare-label"
         style={{ ...LABEL_STYLE, display: "none", color: "#444", fontWeight: 600 }}
         aria-hidden="true"
       >
@@ -668,6 +672,7 @@ export default function StlViewer({
           <button
             onClick={handleDimsToggle}
             title={tv("dims", language)}
+            data-testid="viewer-dims-toggle"
             style={pillBtn(showDims)}
           >
             {tv("dims", language)}
@@ -675,6 +680,7 @@ export default function StlViewer({
           <button
             onClick={handleCompareToggle}
             title={tv("compare", language)}
+            data-testid="viewer-compare-toggle"
             style={pillBtn(compareMode !== "off")}
           >
             {tv("compare", language)}
@@ -682,6 +688,7 @@ export default function StlViewer({
           <button
             onClick={handleResetView}
             title={tv("reset", language)}
+            data-testid="viewer-reset-btn"
             style={{ ...pillBtn(false), padding: "3px 7px" }}
           >
             ↺

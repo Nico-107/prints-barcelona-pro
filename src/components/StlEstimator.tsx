@@ -2440,7 +2440,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             setShowExitIntent(open);
           }}
         >
-          <DialogContent className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
+          <DialogContent data-testid="exit-popup" className="sm:max-w-sm p-8 gap-0 [&>button.absolute]:hidden">
             {exitIntentSubmitted || exitPopupLinkSubmitted ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-10 h-10 text-whatsapp mx-auto mb-3" />
