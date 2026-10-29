@@ -76,11 +76,11 @@
 - [x] 1.7 Unit tests (7 tests in stlPrepare.test.ts: isBinaryStl, round-trip, ASCII=binary analysis, no-op)
 
 ## STEP 2: Buy button layout (P0)
-- [ ] 2.1 Full-width Buy button, h-56px desktop / h-60px mobile, text-lg semibold, exact price
-- [ ] 2.2 Two small equal side-by-side buttons under Buy: "Revisión gratuita" + "WhatsApp"
-- [ ] 2.3 Trust line + payment badges between Buy and small row, max 2 lines
-- [ ] 2.4 Quote-only: primary orange "Enviar para revisión gratuita", small WhatsApp under it
-- [ ] 2.5 All pages/languages use the same OrderPanel (grep check)
+- [x] 2.1 Full-width Buy button size="xl" h-14 desktop / h-[60px] mobile, text-lg semibold, exact price
+- [x] 2.2 Two small equal side-by-side buttons under Buy: "Revisión gratuita" (outline accent) + "WhatsApp" (outline)
+- [x] 2.3 Trust line + payment badges between Buy and small row
+- [x] 2.4 Quote-only: primary orange "Enviar para revisión" + small WhatsApp
+- [x] 2.5 No page defines its own actions layout (grep confirmed); checkoutUx.ts emphasis disabled
 
 ## STEP 3: Exit popup on every page (P0)
 - [ ] 3.1 Trigger on every page/language when modal closes with ≥1 file loaded (fix quote-only + intl)
