@@ -118,8 +118,8 @@
 - [x] 7.4 check-link-language + meta/JSON-LD checks pass, hub inbound ≥ conv-22
 
 ## STEP 8: Final verification
-- [ ] 8.1 typecheck + test counts + build last 40 lines
-- [ ] 8.2 git diff origin/main pricing/estimator/supabase prints nothing
-- [ ] 8.3 Playwright buy-matrix, exit-popup, viewer tables
-- [ ] 8.4 Screenshots from 5.4 and 6.4
-- [ ] 8.5 PROGRESS.md, OWNER.md, LOVABLE.md, git status, git log
+- [x] 8.1 typecheck clean · 716 unit tests pass · 153 pages, 0 SEO violations, 0 broken links
+- [x] 8.2 git diff origin/main pricing/estimator/supabase prints nothing
+- [x] 8.3 Playwright buy-matrix 26/26, exit-popup 6/8 (2 skipped expected), viewer 10/10 — total 42/44 pass
+- [x] 8.4 Screenshots: docs/screenshots/conv23-desktop-home/it/de + conv23-mobile-home
+- [x] 8.5 PROGRESS.md, OWNER.md (no LOVABLE.md needed — no server changes); git status clean; 12 commits ahead of origin/main
