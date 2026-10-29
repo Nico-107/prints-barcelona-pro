@@ -2509,6 +2509,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 )}
                 <button
                   type="button"
+                  data-testid="exit-popup-dismiss"
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center pt-1"
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "dismissed";
@@ -2566,6 +2567,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </button>
                 <button
                   type="button"
+                  data-testid="exit-popup-dismiss"
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "dismissed";
@@ -2618,6 +2620,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 </a>
                 <button
                   type="button"
+                  data-testid="exit-popup-dismiss"
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-center"
                   onClick={() => {
                     exitIntentCloseReasonRef.current = "dismissed";

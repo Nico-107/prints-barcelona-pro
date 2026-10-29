@@ -112,10 +112,10 @@
 - [x] 6.5 Advanced mode groups: Material & colour · Quality & strength · Orientation & supports with localized help text
 
 ## STEP 7: Checks (P1)
-- [ ] 7.1 Extend buy-matrix e2e: all hubs + / + one city, Simple/Advanced, small/35MB/45MB files
-- [ ] 7.2 Exit popup e2e: priced/quote-only/failed on / and /it/stampa-3d-online
-- [ ] 7.3 Viewer e2e: rotate, label DOM move, comparison/grid world-point consistency
-- [ ] 7.4 check-link-language + meta/JSON-LD checks pass, hub inbound ≥ conv-22
+- [x] 7.1 Extend buy-matrix e2e: all hubs + / + one city, Simple/Advanced, small/35MB/45MB files
+- [x] 7.2 Exit popup e2e: priced/quote-only/failed on / and /it/stampa-3d-online
+- [x] 7.3 Viewer e2e: rotate, label DOM move, comparison/grid world-point consistency
+- [x] 7.4 check-link-language + meta/JSON-LD checks pass, hub inbound ≥ conv-22
 
 ## STEP 8: Final verification
 - [ ] 8.1 typecheck + test counts + build last 40 lines

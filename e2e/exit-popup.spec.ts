@@ -16,7 +16,7 @@ const CUBE_STL = path.resolve(__dirname, "../qa/fixtures/small-cube.stl");
 
 // Invalid STL: valid extension but random bytes → parse fails → 'failed' variant
 function makeInvalidStl(): string {
-  const p = path.join(os.tmpdir(), "exit-popup-invalid.stl");
+  const p = path.join(os.tmpdir(), `exit-popup-invalid-${process.pid}.stl`);
   fs.writeFileSync(p, Buffer.from("NOT_AN_STL_FILE_GARBAGE_CONTENT_XYZ", "utf8"));
   return p;
 }
@@ -33,44 +33,33 @@ test.afterAll(() => {
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-/** Upload a file, wait for the buy button or any upload state, then open and close the
- *  checkout modal on mobile so the exit popup fires. */
-async function triggerExitPopup(page: Page, filePath: string, waitMs = 20000) {
+/** Upload a file, open the checkout modal (mobile), close it, wait for exit popup. */
+async function triggerExitPopup(page: Page, filePath: string, waitMs = 25000) {
   const fileInput = page.locator('input[type="file"]').first();
   await fileInput.setInputFiles(filePath);
 
-  // Wait until either the buy button OR the review button is visible (upload complete)
-  await page.waitForSelector(
-    '[data-testid="buy-now-btn"], [data-testid="review-btn"], .border-destructive',
-    { timeout: waitMs },
-  );
-
-  // On mobile (< 1024px) the buy-now-btn opens the modal; on desktop we need
-  // to click the buy button in the sticky area or the main section.
+  // On mobile, the buy/review button is in the sticky footer (.last() = last in DOM)
   const buyBtn = page.locator('[data-testid="buy-now-btn"]').last();
-  const hasBuy = await buyBtn.isVisible().catch(() => false);
+  const reviewBtn = page.locator('[data-testid="review-btn"]').last();
 
-  if (hasBuy) {
+  // Wait for either button to become visible (upload complete)
+  await buyBtn.or(reviewBtn).last().waitFor({ state: "visible", timeout: waitMs });
+
+  if (await buyBtn.isVisible().catch(() => false)) {
     await buyBtn.click();
-    // Wait for checkout dialog to be visible
-    await page.waitForSelector('[aria-label="Cerrar"], [aria-label="Close"], [aria-label="Chiudi"], [aria-label="Sluiten"]', { timeout: 8000 });
-
-    // Close the modal → should trigger exit popup after 500ms
-    const closeBtn = page.locator('[aria-label="Cerrar"], [aria-label="Close"], [aria-label="Chiudi"], [aria-label="Sluiten"]').first();
+    // Wait for the checkout dialog to open (has a heading "Tu pedido" or similar)
+    await page.locator('[role="dialog"]').first().waitFor({ state: "visible", timeout: 8000 });
+    // Close the modal → triggers 500ms exit popup timer
+    const closeBtn = page.locator('[role="dialog"] button[aria-label]').first();
     await closeBtn.click();
-  } else {
-    // No buy button (quote-only or failed); try clicking review button to open modal
-    const reviewBtn = page.locator('[data-testid="review-btn"]').last();
-    const hasReview = await reviewBtn.isVisible().catch(() => false);
-    if (hasReview) {
-      await reviewBtn.click();
-      await page.waitForTimeout(300);
-      await page.keyboard.press("Escape");
-    }
+  } else if (await reviewBtn.isVisible().catch(() => false)) {
+    await reviewBtn.click();
+    await page.waitForTimeout(300);
+    await page.keyboard.press("Escape");
   }
 
   // Wait for the 500ms exit popup timer + rendering
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(900);
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
@@ -95,8 +84,7 @@ test("Exit popup dismisses — / (es)", async ({ page }) => {
   const popup = page.locator('[data-testid="exit-popup"]');
   await expect(popup).toBeVisible({ timeout: 3000 });
 
-  // Click the dismiss link (last button in the popup with muted text)
-  const dismissBtn = popup.locator("button").last();
+  const dismissBtn = popup.locator('[data-testid="exit-popup-dismiss"]').first();
   await dismissBtn.click();
   await expect(popup).not.toBeVisible({ timeout: 3000 });
 });
