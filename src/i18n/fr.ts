@@ -507,10 +507,12 @@ export const frTranslations: Record<string, string> = {
   "makers.form.required.desc": "Veuillez remplir tous les champs obligatoires.",
 
   // Cookie consent banner
-  "cookie.banner.message": "Nous utilisons des analyses web anonymes pour améliorer le site. Si vous acceptez, nous activons un identifiant persistant pour des analyses plus approfondies.",
+  "cookie.banner.message": "Nous utilisons des cookies d'analyse pour améliorer le site. Pas de pub, pas de revente de données.",
   "cookie.banner.privacy": "Politique de confidentialité",
   "cookie.banner.reject": "Refuser",
   "cookie.banner.accept": "Accepter",
+  "cookie.banner.moreInfo": "En savoir plus",
+  "cookie.banner.prefs": "Préférences cookies",
 
   // B2B homepage banner
   "b2bhome.badge": "Pour les entreprises",
@@ -526,9 +528,9 @@ export const frTranslations: Record<string, string> = {
   "privacy.updated": "Mis à jour : juin 2025",
   "privacy.intro": "Chez Dimension3D, nous respectons votre vie privée. Cette page explique quelles données nous collectons, pourquoi, et comment nous utilisons les cookies.",
   "privacy.analytics.title": "Analyses web",
-  "privacy.analytics.body": "Nous utilisons PostHog pour comprendre comment le site est utilisé (pages vues, sources de trafic, taux de rebond). Par défaut, nous collectons uniquement des données de session anonymes : pas de cookies, pas d'identifiants persistants. Si vous acceptez les cookies, nous activons un identifiant stocké dans votre navigateur pour mieux comprendre le comportement entre les visites.",
-  "privacy.cookies.title": "Cookies",
-  "privacy.cookies.body": "Sans votre consentement, nous ne stockons aucun cookie analytique. Si vous acceptez, PostHog stocke un identifiant dans localStorage et dans un cookie propriétaire. Vous pouvez retirer votre consentement à tout moment via le bouton ci-dessous.",
+  "privacy.analytics.body": "Nous utilisons PostHog pour comprendre comment le site est utilisé. Sans consentement, PostHog fonctionne sans cookies : il compte les pages vues et les entonnoirs de manière anonyme, sans aucun cookie ni identifiant persistant. Si vous acceptez, nous activons un identifiant persistant (localStorage + cookie), des enregistrements de session avec toutes les saisies masquées, et des cartes de chaleur. Google Analytics 4 reçoit des signaux de conversion en mode consentement v2. Stripe et Supabase traitent les données nécessaires à votre commande.",
+  "privacy.cookies.title": "Cookies et enregistrements",
+  "privacy.cookies.body": "Sans consentement : aucun cookie analytique, analyse anonyme en mémoire de session. Avec consentement : cookie de session PostHog + identifiant localStorage (12 mois), enregistrements de session avec saisies masquées. Votre choix est sauvegardé 12 mois. Vous pouvez le modifier à tout moment via le lien «Préférences cookies» dans le pied de page.",
   "privacy.contact.title": "Contact",
   "privacy.contact.body": "Pour toute question relative à la confidentialité, contactez-nous via WhatsApp ou par e-mail.",
   "privacy.consent.current": "Votre préférence actuelle",

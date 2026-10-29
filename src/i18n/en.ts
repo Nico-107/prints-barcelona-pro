@@ -535,10 +535,12 @@ export const enTranslations: Record<string, string> = {
   "makers.form.required.desc": "Please fill in all required fields.",
 
   // Cookie consent banner
-  "cookie.banner.message": "We use anonymous web analytics to improve the site. If you accept, we enable a persistent identifier for richer analytics.",
+  "cookie.banner.message": "We use analytics cookies to spot issues and improve the site. No ads, no data selling.",
   "cookie.banner.privacy": "Privacy policy",
   "cookie.banner.reject": "Reject",
   "cookie.banner.accept": "Accept",
+  "cookie.banner.moreInfo": "More info",
+  "cookie.banner.prefs": "Cookie preferences",
 
   // B2B homepage banner
   "b2bhome.badge": "For Business",
@@ -554,9 +556,9 @@ export const enTranslations: Record<string, string> = {
   "privacy.updated": "Updated: June 2025",
   "privacy.intro": "At Dimension3D we respect your privacy. This page explains what data we collect, why, and how we use cookies.",
   "privacy.analytics.title": "Web analytics",
-  "privacy.analytics.body": "We use PostHog to understand how the site is used (page views, traffic sources, bounce rate). By default we collect only anonymous session data: no cookies, no persistent identifiers. If you accept cookies, we enable an identifier stored in your browser to better understand behaviour across visits.",
-  "privacy.cookies.title": "Cookies",
-  "privacy.cookies.body": "Without your consent we store no analytics cookies. If you accept, PostHog stores an identifier in localStorage and a first-party cookie. You can withdraw consent at any time using the button below.",
+  "privacy.analytics.body": "We use PostHog to understand how the site is used. Without consent, PostHog runs cookieless: it counts page views and funnels anonymously with no cookies or persistent identifiers. If you accept, we enable a persistent identifier (localStorage + cookie), session recordings with all text inputs masked, and heatmaps. Google Analytics 4 receives conversion signals under consent mode v2. Stripe and Supabase process data needed to complete your order.",
+  "privacy.cookies.title": "Cookies and recordings",
+  "privacy.cookies.body": "Without consent: no analytics cookies, anonymous in-session analytics only. With consent: PostHog session cookie + localStorage identifier (12 months), session recordings with inputs masked. Your choice is stored for 12 months. You can change it at any time via the 'Cookie preferences' link in the footer.",
   "privacy.contact.title": "Contact",
   "privacy.contact.body": "For any privacy questions, contact us via WhatsApp or email.",
   "privacy.consent.current": "Your current preference",

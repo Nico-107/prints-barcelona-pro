@@ -199,6 +199,11 @@ export function enableHeatmapsAndReplay(): void {
     session_recording: {
       maskAllInputs: true,
       maskTextSelector: '[data-ph-mask]',
+      // Unmask non-sensitive controls so replays are useful
+      unmaskInputSelector: '[data-ph-unmask]',
+      recordCanvas: true,
+      canvasFps: 3,
+      minimumDurationMilliseconds: 2000,
     },
   });
   (ph as any).startSessionRecording?.();

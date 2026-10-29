@@ -507,10 +507,12 @@ export const deTranslations: Record<string, string> = {
   "makers.form.required.desc": "Bitte füllen Sie alle Pflichtfelder aus.",
 
   // Cookie consent banner
-  "cookie.banner.message": "Wir verwenden anonyme Web-Analytics zur Verbesserung der Website. Wenn Sie zustimmen, aktivieren wir eine persistente Kennung für detailliertere Analysen.",
+  "cookie.banner.message": "Wir verwenden Analyse-Cookies, um Probleme zu erkennen und die Website zu verbessern. Keine Werbung, kein Datenverkauf.",
   "cookie.banner.privacy": "Datenschutzrichtlinie",
   "cookie.banner.reject": "Ablehnen",
   "cookie.banner.accept": "Akzeptieren",
+  "cookie.banner.moreInfo": "Mehr erfahren",
+  "cookie.banner.prefs": "Cookie-Einstellungen",
 
   // B2B homepage banner
   "b2bhome.badge": "Für Unternehmen",
@@ -526,9 +528,9 @@ export const deTranslations: Record<string, string> = {
   "privacy.updated": "Aktualisiert: Juni 2025",
   "privacy.intro": "Bei Dimension3D respektieren wir Ihre Privatsphäre. Diese Seite erklärt, welche Daten wir erheben, warum, und wie wir Cookies einsetzen.",
   "privacy.analytics.title": "Web-Analytics",
-  "privacy.analytics.body": "Wir verwenden PostHog, um zu verstehen, wie die Website genutzt wird (Seitenaufrufe, Verkehrsquellen, Absprungrate). Standardmäßig erfassen wir nur anonyme Sitzungsdaten: keine Cookies, keine persistenten Kennungen. Wenn Sie Cookies akzeptieren, aktivieren wir eine in Ihrem Browser gespeicherte Kennung, um das Verhalten über mehrere Besuche besser zu verstehen.",
-  "privacy.cookies.title": "Cookies",
-  "privacy.cookies.body": "Ohne Ihre Zustimmung speichern wir keine Analyse-Cookies. Wenn Sie zustimmen, speichert PostHog eine Kennung im localStorage und als Erstanbieter-Cookie. Sie können Ihre Zustimmung jederzeit über die Schaltfläche unten widerrufen.",
+  "privacy.analytics.body": "Wir verwenden PostHog, um zu verstehen, wie die Website genutzt wird. Ohne Zustimmung läuft PostHog ohne Cookies: Es zählt Seitenaufrufe und Trichter anonym, ohne Cookies oder persistente Kennungen. Bei Zustimmung aktivieren wir eine persistente Kennung (localStorage + Cookie), Sitzungsaufzeichnungen mit maskierten Texteingaben und Heatmaps. Google Analytics 4 empfängt Konversionssignale im Einwilligungsmodus v2. Stripe und Supabase verarbeiten die für Ihre Bestellung erforderlichen Daten.",
+  "privacy.cookies.title": "Cookies und Aufzeichnungen",
+  "privacy.cookies.body": "Ohne Zustimmung: keine Analyse-Cookies, anonyme Sitzungsanalyse im Speicher. Mit Zustimmung: PostHog-Sitzungs-Cookie + localStorage-Kennung (12 Monate), Sitzungsaufzeichnungen mit maskierten Eingaben. Ihre Wahl wird 12 Monate gespeichert. Sie können sie jederzeit über den Link «Cookie-Einstellungen» in der Fußzeile ändern.",
   "privacy.contact.title": "Kontakt",
   "privacy.contact.body": "Bei Fragen zum Datenschutz kontaktieren Sie uns über WhatsApp oder per E-Mail.",
   "privacy.consent.current": "Ihre aktuelle Einstellung",

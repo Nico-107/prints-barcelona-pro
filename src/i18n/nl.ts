@@ -507,10 +507,12 @@ export const nlTranslations: Record<string, string> = {
   "makers.form.required.desc": "Vul alle verplichte velden in.",
 
   // Cookie consent banner
-  "cookie.banner.message": "Wij gebruiken anonieme webanalytics om de site te verbeteren. Als u akkoord gaat, activeren wij een persistente identificatie voor uitgebreidere analyses.",
+  "cookie.banner.message": "We gebruiken analytische cookies om problemen op te sporen en de site te verbeteren. Geen advertenties, geen verkoop van gegevens.",
   "cookie.banner.privacy": "Privacybeleid",
   "cookie.banner.reject": "Weigeren",
   "cookie.banner.accept": "Accepteren",
+  "cookie.banner.moreInfo": "Meer info",
+  "cookie.banner.prefs": "Cookievoorkeuren",
 
   // B2B homepage banner
   "b2bhome.badge": "Voor bedrijven",
@@ -526,9 +528,9 @@ export const nlTranslations: Record<string, string> = {
   "privacy.updated": "Bijgewerkt: juni 2025",
   "privacy.intro": "Bij Dimension3D respecteren wij uw privacy. Op deze pagina leggen wij uit welke gegevens wij verzamelen, waarom, en hoe wij cookies gebruiken.",
   "privacy.analytics.title": "Webanalytics",
-  "privacy.analytics.body": "Wij gebruiken PostHog om te begrijpen hoe de site wordt gebruikt (paginaweergaven, verkeersbronnen, bouncepercentage). Standaard verzamelen wij alleen anonieme sessiegegevens: geen cookies, geen persistente identificatoren. Als u cookies accepteert, activeren wij een identificator die in uw browser is opgeslagen om het gedrag tussen bezoeken beter te begrijpen.",
-  "privacy.cookies.title": "Cookies",
-  "privacy.cookies.body": "Zonder uw toestemming slaan wij geen analytische cookies op. Als u akkoord gaat, slaat PostHog een identificator op in localStorage en een first-party cookie. U kunt uw toestemming op elk moment intrekken via de knop hieronder.",
+  "privacy.analytics.body": "Wij gebruiken PostHog om te begrijpen hoe de site wordt gebruikt. Zonder toestemming werkt PostHog zonder cookies: het telt paginaweergaven en trechters anoniem, zonder cookies of persistente identificatoren. Als u accepteert, activeren wij een persistente identificator (localStorage + cookie), sessie-opnames met gemaskeerde tekstinvoer, en heatmaps. Google Analytics 4 ontvangt conversiesignalen onder toestemmingsmodus v2. Stripe en Supabase verwerken de gegevens die nodig zijn voor uw bestelling.",
+  "privacy.cookies.title": "Cookies en opnames",
+  "privacy.cookies.body": "Zonder toestemming: geen analytische cookies, anonieme sessieanalyse in geheugen. Met toestemming: PostHog-sessiecookie + localStorage-identificator (12 maanden), sessie-opnames met gemaskeerde invoer. Uw keuze wordt 12 maanden opgeslagen. U kunt deze altijd wijzigen via de link «Cookievoorkeuren» in de voettekst.",
   "privacy.contact.title": "Contact",
   "privacy.contact.body": "Voor privacyvragen kunt u contact met ons opnemen via WhatsApp of e-mail.",
   "privacy.consent.current": "Uw huidige voorkeur",

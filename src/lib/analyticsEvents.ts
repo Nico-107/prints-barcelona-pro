@@ -415,6 +415,10 @@ export interface EventMap {
   checkout_failed: { code: string; http_status: number; price_eur: number; file_count: number };
   checkout_failed_send_order: { code: string };
   parse_error_free_review_click: { name: string | undefined };
+
+  // Consent (STEP 3.4)
+  consent_prompt_shown: { placement: 'card' | 'sheet' | 'top-docked'; trigger: 'scroll' | 'click' | 'timer' };
+  consent_decision: { decision: 'accept' | 'reject'; seconds_to_decision: number; page_type: string };
 }
 
 export type EventName = keyof EventMap;

@@ -110,6 +110,11 @@ const Footer = () => {
               <Link to="/track" className="text-background/70 text-sm hover:text-background transition-colors">{t("nav.trackOrder")}</Link>
               <Link to="/creator" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.aboutCreator")}</Link>
               <Link to="/privacy" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.nav.privacy")}</Link>
+              <button
+                type="button"
+                className="text-background/70 text-sm hover:text-background transition-colors text-left"
+                onClick={() => document.dispatchEvent(new Event("cookie-prefs-open"))}
+              >{t("cookie.banner.prefs")}</button>
               <Link to="/politica-devoluciones" className="text-background/70 text-sm hover:text-background transition-colors">{t("footer.returnPolicy")}</Link>
             </div>
           </div>

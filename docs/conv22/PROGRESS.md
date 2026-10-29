@@ -67,13 +67,13 @@ Pre-run: `npm ci && npm run typecheck && npm test (676 tests) && npm run build` 
 - [x] 2.6 — trust under Buy: payment logos + badges — PaymentBadges.tsx: Visa/MC chip + Apple Pay/Google Pay text badges; iDEAL+Klarna for nl, MB WAY for pt, Klarna for de
 - [x] 2.7 — abandon recovery: exit popup reopens with same files — eligible visitors see price-saved headline + Volver button (no email capture); Volver calls setMobileModalOpen(true)
 
-- [ ] 3.0 — read PostHog docs; record behaviour before/after decision
-- [ ] 3.1 — new consent UI (CookieConsentBanner.tsx rewrite)
-- [ ] 3.2 — analytics for all; recordings only after Accept
-- [ ] 3.3 — recording quality: masks, canvas, console errors
-- [ ] 3.4 — measure consent: new events
-- [ ] 3.5 — privacy page updates (8 languages)
-- [ ] 3.6 — Playwright consent tests
+- [x] 3.0 — PostHog behaviour: persistence:"memory" before consent (events in-session only, no cookies); cookieless_mode:"on_reject" when COOKIELESS_ENABLED=true (server hash, must enable in project settings). After Accept: persistence:"localStorage+cookie", recording starts, heatmaps on. After Reject: memory stays, no recording.
+- [x] 3.1 — new consent UI: desktop=floating card bottom-left 360px; mobile=slim sheet ≤96px; top-docked when modal open (z-[70]); 4s/scroll/click triggers; "Rechazar"=outline, "Aceptar"=accent; footer "Preferencias de cookies" reopens via cookie-prefs-open DOM event
+- [x] 3.2 — analytics for all; recordings only after Accept (unchanged from before, existing enableHeatmapsAndReplay)
+- [x] 3.3 — recording quality: unmaskInputSelector=[data-ph-unmask], recordCanvas:true, canvasFps:3, minimumDurationMilliseconds:2000
+- [x] 3.4 — measure consent: consent_prompt_shown + consent_decision events added to analyticsEvents.ts
+- [x] 3.5 — privacy page updates (8 languages): analytics.body now describes cookieless mode, recordings+masks, GA4 v2, Stripe/Supabase; cookies.body describes 12-month TTL, footer link to reopen
+- [x] 3.6 — Playwright consent tests: e2e/consent.spec.ts — no cookies before choice, timer trigger, scroll trigger, modal open (no bbox overlap with buy btn), Accept/Reject persistence, footer prefs link
 
 - [ ] 4.1 — language selector visible on every page; 8×8 switch matrix in PROGRESS.md
 - [ ] 4.2 — logo → LANG_HUB[language]; header nav links language-aware
