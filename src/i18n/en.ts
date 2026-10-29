@@ -869,4 +869,6 @@ export const enTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "This orientation doesn't fit our printer. We'll print it in the best fitting orientation.",
   "calc.instantBuy.complexReview": "Free technical review · reply in 1 h",
   "calc.instantBuy.uploading": "Preparing your files…",
+  "calc.prepare.converting": "Optimising file… {pct}%",
+  "calc.prepare.simplifying": "Preparing your file… {pct}%",
 };

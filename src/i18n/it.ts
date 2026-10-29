@@ -870,4 +870,6 @@ export const itTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Questo orientamento non entra nella nostra stampante. Stamperemo nel miglior orientamento possibile.",
   "calc.instantBuy.complexReview": "Revisione gratuita da un tecnico · risposta in 1 ora",
   "calc.instantBuy.uploading": "Preparazione dei tuoi file…",
+  "calc.prepare.converting": "Ottimizzazione del file… {pct}%",
+  "calc.prepare.simplifying": "Preparazione del tuo file… {pct}%",
 };

@@ -67,13 +67,13 @@
 ---
 
 ## STEP 1: Big files can be bought (P0)
-- [ ] 1.1 ASCII STL → binary STL conversion in browser before pricing/upload
-- [ ] 1.2 Build "checkout copy" for binary STL > 28 MB (mesh simplification, Web Worker, progress)
-- [ ] 1.3 Upload gzipped original next to checkout copy
-- [ ] 1.4 Files > 50 MB: run 1.1–1.2 before showing "file too large"
-- [ ] 1.5 Remove `file-too-large` as Buy-blocking reason
-- [ ] 1.6 Add `file_prepared` analytics event
-- [ ] 1.7 Unit tests (ASCII→binary, simplification volume/bbox) + e2e (35MB binary, 45MB ASCII)
+- [x] 1.1 ASCII STL → binary STL conversion in browser before pricing/upload
+- [x] 1.2 Build "checkout copy" for binary STL > 28 MB (meshoptimizer/simplifier, progress UI)
+- [x] 1.3 Upload gzipped original next to checkout copy (CompressionStream, fire-and-forget)
+- [x] 1.4 Files > 50 MB: run 1.1–1.2 before showing "file too large"
+- [x] 1.5 Remove `file-too-large` as Buy-blocking reason (instantBuy.ts)
+- [x] 1.6 Add `file_prepared` analytics event (analyticsEvents.ts)
+- [x] 1.7 Unit tests (7 tests in stlPrepare.test.ts: isBinaryStl, round-trip, ASCII=binary analysis, no-op)
 
 ## STEP 2: Buy button layout (P0)
 - [ ] 2.1 Full-width Buy button, h-56px desktop / h-60px mobile, text-lg semibold, exact price

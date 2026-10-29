@@ -870,4 +870,6 @@ export const ptTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Esta orientação não cabe na nossa impressora. Imprimiremos na melhor orientação possível.",
   "calc.instantBuy.complexReview": "Revisão gratuita por um técnico · resposta em 1 h",
   "calc.instantBuy.uploading": "A preparar os seus ficheiros…",
+  "calc.prepare.converting": "A optimizar o ficheiro… {pct}%",
+  "calc.prepare.simplifying": "A preparar o seu ficheiro… {pct}%",
 };

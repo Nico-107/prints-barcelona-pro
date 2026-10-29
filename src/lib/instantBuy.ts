@@ -11,7 +11,6 @@ export type IneligibleReason =
   | `material:${string}`
   | `oversize:${string}`
   | 'multicolour'
-  | 'file-too-large'
   | 'city-not-shipped'
   | 'manual-review-open'
   | 'flag-off';
@@ -39,7 +38,8 @@ export function getInstantBuyStatus(p: InstantBuyStatusParams): InstantBuyStatus
 
   if (!p.flagReady || p.adminMode) reasons.push('flag-off');
   if (p.forceQuoteOnly) reasons.push('city-not-shipped');
-  if (!p.filesWithinVerifyLimit) reasons.push('file-too-large');
+  // file-too-large removed: preparation (ASCII→binary + simplification) ensures checkout
+  // copies are always ≤ 28 MB before upload, so the server's re-measure always passes.
   if (p.anyMulticolour) reasons.push('multicolour');
   if (p.showManualReview) reasons.push('manual-review-open');
 

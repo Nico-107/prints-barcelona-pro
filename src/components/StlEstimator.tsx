@@ -24,6 +24,7 @@ import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
 import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
+import { CHECKOUT_MAX_BYTES, isBinaryStl } from "@/lib/stlPrepare";
 import { ContactFields } from "./estimator/ContactFields";
 import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
@@ -139,6 +140,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [isDragging, setIsDragging] = useState(false);
   const [parsing, setParsing] = useState(false);
   const [parsingHasLargeFile, setParsingHasLargeFile] = useState(false);
+  const [prepareProgress, setPrepareProgress] = useState<{ name: string; pct: number; stage: string } | null>(null);
+  const gzippedOriginalsRef = useRef<Array<{ id: string; gzName: string; buf: ArrayBuffer }>>([]);
   const [error, setError] = useState<string | null>(null);
   const [materialKey, setMaterialKey] = useState("PLA");
   const [infillPct, setInfillPct] = useState(15);
@@ -373,13 +376,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         continue;
       }
 
-      // STL > 50 MB → link card (no pricing)
-      if (fileToAnalyze.size > MAX_BYTES && ext === "stl" && !convertedStlBuf) {
-        capture("file_parsed", { status: "link", size_kb: Math.round(f.size / 1024), ext: "stl" });
-        results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, linkFile: true });
-        continue;
-      }
-      if (fileToAnalyze.size > MAX_ESTIMATE_BYTES) {
+      // Parse limit (client-side only — independent of upload limit)
+      if (fileToAnalyze.size > MAX_ESTIMATE_BYTES && !convertedStlBuf) {
         capture("file_upload_error", { reason: "size_exceeded", file_type: ext });
         capture("file_parsed", { status: "error", size_kb: Math.round(f.size / 1024), ext, reason: "size_exceeded" });
         results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.size") });
@@ -387,8 +385,53 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }
 
       try {
-        const buf = convertedStlBuf ?? await fileToAnalyze.arrayBuffer();
-        const analysis = analyzeTriangles(stlToTriangles(buf));
+        const rawBuf = convertedStlBuf ?? await fileToAnalyze.arrayBuffer();
+
+        // STL preparation: ASCII→binary and/or simplify if > 28 MB so the server's
+        // 30 MB per-file re-measure always passes (HARD RULE 7).
+        let checkoutBuf = rawBuf;
+        const needsConvert = !isBinaryStl(rawBuf);
+        const needsSimplify = rawBuf.byteLength > CHECKOUT_MAX_BYTES;
+        if (needsConvert || needsSimplify) {
+          setPrepareProgress({ name: f.name, pct: 0, stage: "converting" });
+          try {
+            const { prepareStl } = await import("@/lib/stlPrepare");
+            const prep = await prepareStl(rawBuf, (p) => {
+              setPrepareProgress({ name: f.name, pct: p.pct, stage: p.stage });
+            });
+            checkoutBuf = prep.checkoutBuf;
+            if (prep.originalGzipped) {
+              gzippedOriginalsRef.current.push({
+                id,
+                gzName: f.name.replace(/\.[^.]+$/, `.original.stl.gz`),
+                buf: prep.originalGzipped,
+              });
+            }
+            capture("file_prepared", {
+              original_bytes: prep.original_bytes,
+              format: prep.format,
+              ascii_converted: prep.ascii_converted,
+              simplified: prep.simplified,
+              triangles_before: prep.triangles_before,
+              triangles_after: prep.triangles_after,
+              final_bytes: prep.final_bytes,
+              ms: prep.ms,
+            });
+          } catch (prepErr) {
+            console.warn("[StlEstimator] STL preparation failed:", prepErr);
+            // checkoutBuf stays as rawBuf
+          }
+          setPrepareProgress(null);
+        }
+
+        // If prepared checkout copy is still > 50 MB (very rare): show link card
+        if (checkoutBuf.byteLength > MAX_BYTES) {
+          capture("file_parsed", { status: "link", size_kb: Math.round(f.size / 1024), ext: "stl" });
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, linkFile: true });
+          continue;
+        }
+
+        const analysis = analyzeTriangles(stlToTriangles(checkoutBuf));
         const volumeMm3 = analysis.volumeMm3;
         if (analysis.triangles === 0 || volumeMm3 === 0) {
           capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -396,10 +439,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
         } else {
           capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext });
-          // Store converted STL file for upload if needed
-          const uploadFile = convertedStlBuf ? fileToAnalyze : f;
-          const bboxMm = convertedStlBuf ? stlBboxMm(convertedStlBuf) : undefined;
-          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3, qty: 1, file: uploadFile, analysis, bboxMm });
+          // Upload the checkout copy (prepared binary STL); sizeBytes reflects its size
+          const checkoutFile = new File([checkoutBuf], f.name.replace(/\.[^.]+$/, ".stl"), { type: "model/stl" });
+          const bboxMm = stlBboxMm(checkoutBuf);
+          results.push({ id, name: f.name, sizeBytes: checkoutBuf.byteLength, volumeMm3, qty: 1, file: checkoutFile, analysis, bboxMm });
         }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -463,6 +506,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const capturedMulticolour = multicolour;
         const capturedDefaults: PartDefaults = { ...nextDefaults };
 
+        const capturedGzOriginals = [...gzippedOriginalsRef.current];
+        gzippedOriginalsRef.current = [];
+
         (async () => {
           const uploadTimestamp = Date.now();
           const uploadedPaths: string[] = [];
@@ -480,6 +526,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 uploadedNames.push(f.name);
                 uploadedById[f.id] = path;
               }
+            }
+            // Upload gzipped originals (fire-and-forget; errors are non-fatal)
+            for (const gz of capturedGzOriginals) {
+              const sanitized = gz.gzName.replace(/[^a-zA-Z0-9.-]/g, "_");
+              await supabaseAnon.storage
+                .from("print-requests")
+                .upload(`${uploadTimestamp}-${sanitized}`, new Blob([gz.buf], { type: "application/gzip" }))
+                .catch(() => { /* non-fatal */ });
             }
             uploadedRef.current = { paths: uploadedPaths, names: uploadedNames, byId: uploadedById };
             setPreUploadDone(true);
@@ -1530,14 +1584,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </div>
         )}
 
-        {/* Parsing spinner */}
-        {parsing && (
+        {/* Parsing / preparation spinner */}
+        {(parsing || prepareProgress) && (
           <div className="mt-6 flex flex-col items-center gap-1.5 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
-              {t("calc.analysing")}
+              {prepareProgress
+                ? t(prepareProgress.stage === "simplifying"
+                    ? "calc.prepare.simplifying"
+                    : "calc.prepare.converting"
+                  ).replace("{pct}", String(prepareProgress.pct))
+                : t("calc.analysing")}
             </div>
-            {parsingHasLargeFile && (
+            {!prepareProgress && parsingHasLargeFile && (
               <p className="text-xs text-amber-600 dark:text-amber-400 text-center">
                 {t("calc.notice.largeFile")}
               </p>

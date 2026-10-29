@@ -870,4 +870,6 @@ export const nlTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Deze oriëntatie past niet in onze printer. We printen in de best mogelijke oriëntatie.",
   "calc.instantBuy.complexReview": "Gratis technische beoordeling · antwoord in 1 uur",
   "calc.instantBuy.uploading": "Je bestanden worden voorbereid…",
+  "calc.prepare.converting": "Bestand optimaliseren… {pct}%",
+  "calc.prepare.simplifying": "Bestand voorbereiden… {pct}%",
 };

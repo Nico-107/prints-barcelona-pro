@@ -416,6 +416,18 @@ export interface EventMap {
   checkout_failed_send_order: { code: string };
   parse_error_free_review_click: { name: string | undefined };
 
+  // File preparation (STEP 1)
+  file_prepared: {
+    original_bytes: number;
+    format: string;
+    ascii_converted: boolean;
+    simplified: boolean;
+    triangles_before: number;
+    triangles_after: number;
+    final_bytes: number;
+    ms: number;
+  };
+
   // Consent (STEP 3.4)
   consent_prompt_shown: { placement: 'card' | 'sheet' | 'top-docked'; trigger: 'scroll' | 'click' | 'timer' };
   consent_decision: { decision: 'accept' | 'reject'; seconds_to_decision: number; page_type: string };

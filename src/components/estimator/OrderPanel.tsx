@@ -205,7 +205,6 @@ export function OrderPanel({
     if (r.startsWith('material:')) return 'calc.actions.quoteOnly.material';
     if (r === 'multicolour') return 'calc.actions.quoteOnly.multicolour';
     if (r === 'city-not-shipped') return 'calc.actions.quoteOnly.city-not-shipped';
-    if (r === 'file-too-large') return 'calc.actions.quoteOnly.file-too-large';
     return null;
   })();
 

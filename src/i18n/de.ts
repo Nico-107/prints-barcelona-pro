@@ -865,4 +865,6 @@ export const deTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Diese Ausrichtung passt nicht in unseren Drucker. Wir drucken in der bestmöglichen Ausrichtung.",
   "calc.instantBuy.complexReview": "Kostenlose Überprüfung durch einen Techniker · Antwort in 1 Std.",
   "calc.instantBuy.uploading": "Deine Dateien werden vorbereitet…",
+  "calc.prepare.converting": "Datei wird optimiert… {pct}%",
+  "calc.prepare.simplifying": "Datei wird vorbereitet… {pct}%",
 };

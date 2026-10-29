@@ -864,4 +864,6 @@ export const caTranslations: Record<string, string> = {
   "calc.actions.orientation.warning": "Aquesta orientació no cap a la nostra impressora. Imprimirem en la millor orientació possible.",
   "calc.instantBuy.complexReview": "Revisió gratuïta per un tècnic · resposta en 1 h",
   "calc.instantBuy.uploading": "Preparant els teus arxius…",
+  "calc.prepare.converting": "Optimitzant arxiu… {pct}%",
+  "calc.prepare.simplifying": "Preparant el teu arxiu… {pct}%",
 };
