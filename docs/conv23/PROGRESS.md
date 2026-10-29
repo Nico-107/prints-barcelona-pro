@@ -89,13 +89,13 @@
 - [x] 3.4 Analytics events: `exit_popup_shown` + `exit_popup_action`
 
 ## STEP 4: 3D viewer overlays (P0)
-- [ ] 4.1 Camera orbit (OrbitControls) so part+overlays move together
-- [ ] 4.2 Dimension labels: "92 mm", axis-colored, edge midpoints, CSS2DRenderer, hide edge-on, summary line
-- [ ] 4.3 Ground grid in mm, fade edges, print bed outline > 120 mm
-- [ ] 4.4 Comparison object on grid next to part (coin/card/A4), solid material + outline, caption
-- [ ] 4.5 Labelled pill toggle buttons "Medidas" / "Comparar" + "Vista inicial" reset
-- [ ] 4.6 Scale control: % slider 25–400%, numeric field, unit-fix chips, live dims update
-- [ ] 4.7 Performance + unit tests
+- [x] 4.1 Camera orbit (OrbitControls) so part+overlays move together
+- [x] 4.2 Dimension labels: "92 mm", axis-colored, edge midpoints, summary line + mass
+- [x] 4.3 Ground grid in mm, fade edges, print bed outline > 120 mm
+- [x] 4.4 Comparison object on grid next to part (coin/card/A4), solid material + outline, caption
+- [x] 4.5 Labelled pill toggle buttons "Medidas" / "Comparar" + "Vista inicial" reset
+- [x] 4.6 Scale control: % slider 25–400%, numeric field, unit-fix chips, live dims update + upload scaled STL
+- [x] 4.7 Performance + unit tests (4 scaleStlBuffer tests)
 
 ## STEP 5: International landing pages (P0)
 - [ ] 5.1 Shared IntlLanding/* components driven by content object, all 6 pages

@@ -335,3 +335,26 @@ export async function prepareStl(
     ms: Date.now() - t0,
   };
 }
+
+/**
+ * Scales every vertex coordinate in a binary STL by `scale`.
+ * Used to apply user-selected scale factor before upload and analysis.
+ */
+export function scaleStlBuffer(buf: ArrayBuffer, scale: number): ArrayBuffer {
+  if (scale === 1) return buf;
+  if (!isBinaryStl(buf)) throw new Error("scaleStlBuffer: not a binary STL");
+  const dv = new DataView(buf);
+  const n = dv.getUint32(80, true);
+  const out = buf.slice(0); // copy
+  const dvOut = new DataView(out);
+  for (let i = 0; i < n; i++) {
+    const base = 84 + i * 50;
+    // normal (base 0-12): leave unchanged
+    // vertices (base 12-48): scale each float32
+    for (let k = 0; k < 9; k++) {
+      const off = base + 12 + k * 4;
+      dvOut.setFloat32(off, dv.getFloat32(off, true) * scale, true);
+    }
+  }
+  return out;
+}

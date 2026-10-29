@@ -4,7 +4,6 @@ import {
   getUnitWarning,
   gridSizeForPart,
   COMPARE_NEXT,
-  COMPARE_LABEL,
   type CompareMode,
 } from "@/lib/stlViewerUtils";
 
@@ -13,56 +12,92 @@ interface StlViewerProps {
   size?: number;
   onError?: () => void;
   onReady?: () => void;
-  /** Optional colour value — named key, hex string, or free-text colour word */
   colour?: string;
-  /** CSS touch-action for the canvas. Use "pan-y" so scroll passes through when not expanded. */
   touchAction?: string;
+  language?: string;
+  /** External scale factor for display (1 = original, 2 = 200%). Parent controls it. */
+  scaleFactor?: number;
+  /** Called when the user adjusts the scale slider in the viewer. */
+  onScaleChange?: (scale: number) => void;
+  /** Part mass in grams — shown in the summary line. */
+  massGrams?: number;
+  /** Show scale slider (Advanced mode). */
+  showScaleControl?: boolean;
 }
 
+// ─── Localised viewer labels ───────────────────────────────────────────────────
+const VIEWER_LABELS: Record<string, Record<string, string>> = {
+  dims:    { es: 'Medidas',  en: 'Dimensions', ca: 'Mides',   it: 'Misure', de: 'Maße',     fr: 'Mesures',   nl: 'Maten',    pt: 'Medidas'  },
+  compare: { es: 'Comparar', en: 'Compare',    ca: 'Comparar', it: 'Confronta', de: 'Vergleich', fr: 'Comparer', nl: 'Vergelijk', pt: 'Comparar' },
+  reset:   { es: 'Vista inicial', en: 'Reset view', ca: 'Vista inicial', it: 'Vista iniziale', de: 'Ansicht zurücksetzen', fr: 'Vue initiale', nl: 'Beginweergave', pt: 'Vista inicial' },
+  coinLabel: { es: 'Moneda 1 €', en: '€1 coin', ca: 'Moneda 1 €', it: 'Moneta 1 €', de: '1-€-Münze', fr: 'Pièce 1 €', nl: '€1 munt', pt: 'Moeda 1 €' },
+  cardLabel: { es: 'Tarjeta bancaria', en: 'Bank card', ca: 'Targeta bancària', it: 'Carta bancaria', de: 'Bankkarte', fr: 'Carte bancaire', nl: 'Bankkaart', pt: 'Cartão bancário' },
+  a4Label:   { es: 'Folio A4', en: 'A4 sheet', ca: 'Full A4', it: 'Foglio A4', de: 'A4-Blatt', fr: 'Feuille A4', nl: 'A4-vel', pt: 'Folha A4' },
+  scaleLabel: { es: 'Tamaño', en: 'Scale', ca: 'Mida', it: 'Scala', de: 'Größe', fr: 'Taille', nl: 'Grootte', pt: 'Tamanho' },
+  cmChip:  { es: 'Está en cm', en: 'In cm', ca: 'Està en cm', it: 'In cm', de: 'In cm', fr: 'En cm', nl: 'In cm', pt: 'Em cm' },
+  inChip:  { es: 'Está en pulgadas', en: 'In inches', ca: 'Està en polzades', it: 'In pollici', de: 'In Zoll', fr: 'En pouces', nl: 'In inches', pt: 'Em polegadas' },
+  origChip: { es: 'Original', en: 'Original', ca: 'Original', it: 'Originale', de: 'Original', fr: 'Original', nl: 'Origineel', pt: 'Original' },
+};
+const tv = (key: string, lang?: string) =>
+  VIEWER_LABELS[key]?.[lang ?? 'es'] ?? VIEWER_LABELS[key]?.['es'] ?? key;
+
+// ─── Styles ───────────────────────────────────────────────────────────────────
 const LABEL_STYLE: React.CSSProperties = {
   position: "absolute",
   left: 0,
   top: 0,
-  fontSize: 10,
-  fontWeight: 600,
-  color: "#111",
-  background: "rgba(255,255,255,0.88)",
-  padding: "1px 4px",
+  fontSize: 11,
+  fontWeight: 700,
+  background: "rgba(255,255,255,0.92)",
+  padding: "2px 5px",
   borderRadius: 3,
   pointerEvents: "none",
   whiteSpace: "nowrap",
   transform: "translate(-50%,-50%)",
   display: "none",
   lineHeight: 1.4,
+  boxShadow: "0 1px 3px rgba(0,0,0,.12)",
 };
 
-function overlayBtn(active: boolean): React.CSSProperties {
+function pillBtn(active: boolean): React.CSSProperties {
   return {
-    background: active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.65)",
-    border: "1px solid rgba(0,0,0,0.18)",
-    borderRadius: 4,
-    padding: "2px 6px",
-    fontSize: 10,
+    background: active ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.75)",
+    border: `1px solid ${active ? "rgba(0,0,0,0.28)" : "rgba(0,0,0,0.16)"}`,
+    borderRadius: 20,
+    padding: "3px 10px",
+    fontSize: 11,
+    fontWeight: 600,
     cursor: "pointer",
-    color: "#333",
-    lineHeight: "1.4",
+    color: active ? "#111" : "#555",
+    lineHeight: "1.5",
     userSelect: "none",
+    whiteSpace: "nowrap",
   };
 }
 
-export default function StlViewer({ file, size = 240, onError, onReady, colour, touchAction }: StlViewerProps) {
+function fmtMm(mm: number): string {
+  return mm < 10 ? `${mm.toFixed(1)} mm` : `${Math.round(mm)} mm`;
+}
+
+export default function StlViewer({
+  file, size = 240, onError, onReady, colour, touchAction,
+  language, scaleFactor = 1, onScaleChange, massGrams, showScaleControl,
+}: StlViewerProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [dimsMm, setDimsMm] = useState<{ x: number; y: number; z: number } | null>(null);
+  const [rawDimsMm, setRawDimsMm] = useState<{ x: number; y: number; z: number } | null>(null);
   const [unitWarning, setUnitWarning] = useState<"unit-small" | "unit-large" | null>(null);
   const [showGrid, setShowGrid] = useState(true);
+  const [showDims, setShowDims] = useState(true);
   const [compareMode, setCompareMode] = useState<CompareMode>("off");
+  const [localScale, setLocalScale] = useState(100); // percent
 
   const containerRef = useRef<HTMLDivElement>(null);
   const xLabelRef = useRef<HTMLSpanElement>(null);
   const yLabelRef = useRef<HTMLSpanElement>(null);
   const zLabelRef = useRef<HTMLSpanElement>(null);
+  const compareLabelRef = useRef<HTMLSpanElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const materialRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,24 +107,35 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cameraRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const controlsRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const gridGroupRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const compareGroupRef = useRef<any>(null);
+  // Stores world-space anchor points for each axis label + compare caption
   const projDataRef = useRef<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    xPt: any; yPt: any; zPt: any; mesh: any; camera: any;
+    xPt: any; yPt: any; zPt: any; comparePt: any;
   } | null>(null);
-  // Refs track current toggle state so closures inside init() see up-to-date values
+
+  // Refs track current toggle state inside Three.js animation closures
   const showGridRef = useRef(true);
+  const showDimsRef = useRef(true);
   const compareModeRef = useRef<CompareMode>("off");
 
   useEffect(() => { setIsMounted(true); }, []);
 
-  // Reset dimension state when a new file is loaded
+  // Reset state when a new file is loaded
   useEffect(() => {
-    setDimsMm(null);
+    setRawDimsMm(null);
     setUnitWarning(null);
+    setLocalScale(100);
   }, [file]);
+
+  // Sync external scaleFactor → local slider
+  useEffect(() => {
+    setLocalScale(Math.round(scaleFactor * 100));
+  }, [scaleFactor]);
 
   const handleGridToggle = () => {
     const next = !showGridRef.current;
@@ -100,6 +146,17 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
       const r = rendererRef.current, s = sceneRef.current, c = cameraRef.current;
       if (r && s && c) r.render(s, c);
     }
+  };
+
+  const handleDimsToggle = () => {
+    const next = !showDimsRef.current;
+    showDimsRef.current = next;
+    setShowDims(next);
+    [xLabelRef, yLabelRef, zLabelRef].forEach(ref => {
+      if (ref.current) ref.current.style.display = next ? "block" : "none";
+    });
+    const r = rendererRef.current, s = sceneRef.current, c = cameraRef.current;
+    if (r && s && c) r.render(s, c);
   };
 
   const handleCompareToggle = () => {
@@ -116,6 +173,21 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
     }
   };
 
+  const handleResetView = () => {
+    const controls = controlsRef.current;
+    if (controls) {
+      controls.reset();
+      const r = rendererRef.current, s = sceneRef.current, c = cameraRef.current;
+      if (r && s && c) r.render(s, c);
+    }
+  };
+
+  const handleScaleSlider = (pct: number) => {
+    const clamped = Math.max(25, Math.min(400, pct));
+    setLocalScale(clamped);
+    onScaleChange?.(clamped / 100);
+  };
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isMounted) return;
@@ -125,7 +197,10 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
 
     const init = async () => {
       try {
-        const THREE = await import("three");
+        const [THREE, { OrbitControls }] = await Promise.all([
+          import("three"),
+          import("three/examples/jsm/controls/OrbitControls.js"),
+        ]);
         if (canceled || !containerRef.current) return;
 
         const cont = containerRef.current;
@@ -204,97 +279,110 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         canvas.style.display = "block";
         canvas.style.width = "100%";
         canvas.style.height = "100%";
-        canvas.style.cursor = "grab";
         canvas.style.borderRadius = "8px";
         if (touchAction) canvas.style.touchAction = touchAction;
-
-        cleanupFn = () => {
-          renderer.dispose();
-          if (cont.contains(canvas)) cont.removeChild(canvas);
-        };
 
         rendererRef.current = renderer;
         sceneRef.current = scene;
         cameraRef.current = camera;
 
-        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
         dirLight.position.set(1, 2, 3);
         scene.add(dirLight);
-        scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 0.4));
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 0.5));
 
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-
         geometry.computeBoundingBox();
         const box = geometry.boundingBox!;
         const center = new THREE.Vector3();
         box.getCenter(center);
-        geometry.translate(-center.x, -center.y, -center.z);
+        // Shift geometry so bottom face is at y = 0
+        geometry.translate(-center.x, -box.min.y - center.y + center.y, -center.z);
+        // Re-centre: center on XZ, rest on y=0
+        box.getCenter(center);
+        geometry.translate(-center.x, 0, -center.z);
+        geometry.computeBoundingBox();
 
         const boxSize = new THREE.Vector3();
-        box.getSize(boxSize);
+        geometry.boundingBox!.getSize(boxSize);
         const maxDim = Math.max(boxSize.x, boxSize.y, boxSize.z);
         const fovRad = (camera.fov * Math.PI) / 180;
-        const dist = (maxDim / 2) / Math.tan(fovRad / 2) * 1.8;
-        camera.position.set(0, 0, dist);
+        const dist = (maxDim / 2) / Math.tan(fovRad / 2) * 2.0;
+
+        // Camera looks at the middle of the part
+        const partCenter = new THREE.Vector3(0, boxSize.y / 2, 0);
+        camera.position.set(dist * 0.6, dist * 0.5, dist * 0.8);
+        camera.lookAt(partCenter);
         camera.near = dist / 1000;
         camera.far = dist * 100;
         camera.updateProjectionMatrix();
 
         geometry.computeVertexNormals();
 
-        const material = new THREE.MeshStandardMaterial({ color: 0xd0d0d0 });
+        const material = new THREE.MeshStandardMaterial({ color: 0xd0d0d0, roughness: 0.7, metalness: 0.05 });
         materialRef.current = material;
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
 
-        // ── 6.1  Wireframe bounding box + label projection points ──────────
+        // Apply colour immediately if provided
+        if (colour) {
+          const preview = colourToPreview(colour);
+          material.color.set(preview.hex);
+          material.opacity = preview.opacity;
+          material.transparent = preview.opacity < 1;
+          material.metalness = preview.metalness;
+          material.roughness = preview.roughness;
+          material.needsUpdate = true;
+        }
+
+        // ── Bounding box wireframe ──────────────────────────────────────────
         const dimsRounded = {
-          x: Math.round(boxSize.x),
-          y: Math.round(boxSize.y),
-          z: Math.round(boxSize.z),
+          x: parseFloat(boxSize.x.toFixed(1)),
+          y: parseFloat(boxSize.y.toFixed(1)),
+          z: parseFloat(boxSize.z.toFixed(1)),
         };
-        setDimsMm(dimsRounded);
+        setRawDimsMm(dimsRounded);
         setUnitWarning(getUnitWarning(dimsRounded));
 
         const wireBoxGeo = new THREE.BoxGeometry(boxSize.x, boxSize.y, boxSize.z);
         const wireEdgesGeo = new THREE.EdgesGeometry(wireBoxGeo);
         wireBoxGeo.dispose();
-        const wireMat = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.4 });
+        const wireMat = new THREE.LineBasicMaterial({ color: 0x888888, transparent: true, opacity: 0.35 });
         const wire = new THREE.LineSegments(wireEdgesGeo, wireMat);
+        wire.position.y = boxSize.y / 2;
         mesh.add(wire);
 
-        // Label anchor points in local space — 60% outside each face centre
+        // Label anchor points — placed at edge midpoints, in WORLD space (mesh is at origin)
+        // X label: right-face midpoint, Y label: top-face midpoint, Z label: front-face midpoint
         projDataRef.current = {
-          xPt: new THREE.Vector3(boxSize.x / 2 * 1.6, 0, 0),
-          yPt: new THREE.Vector3(0, boxSize.y / 2 * 1.6, 0),
-          zPt: new THREE.Vector3(0, 0, boxSize.z / 2 * 1.6),
-          mesh,
-          camera,
+          xPt: new THREE.Vector3(boxSize.x / 2 * 1.55, boxSize.y / 2, 0),
+          yPt: new THREE.Vector3(0, boxSize.y * 1.25, 0),
+          zPt: new THREE.Vector3(0, boxSize.y / 2, boxSize.z / 2 * 1.55),
+          comparePt: new THREE.Vector3(maxDim / 2 + 60, 15, 0),
         };
 
-        // ── 6.2  Ground grid ───────────────────────────────────────────────
+        // ── Ground grid ─────────────────────────────────────────────────────
         const gridGroup = new THREE.Group();
-        gridGroup.position.y = -boxSize.y / 2;
-
+        // grid sits at y = 0 (part bottom)
         const gSize = gridSizeForPart(maxDim);
 
         const minorGrid = new THREE.GridHelper(gSize, gSize / 10, 0xcccccc, 0xcccccc);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (minorGrid.material as any).transparent = true;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (minorGrid.material as any).opacity = 0.45;
+        (minorGrid.material as any).opacity = 0.5;
         gridGroup.add(minorGrid);
 
-        const majorGrid = new THREE.GridHelper(gSize, gSize / 50, 0x999999, 0x999999);
+        const majorGrid = new THREE.GridHelper(gSize, gSize / 50, 0xaaaaaa, 0xaaaaaa);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (majorGrid.material as any).transparent = true;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (majorGrid.material as any).opacity = 0.7;
+        (majorGrid.material as any).opacity = 0.75;
         gridGroup.add(majorGrid);
 
-        // Print-bed outline (256 × 256 mm) when part footprint exceeds 120 mm
+        // Print-bed outline (256 × 256 mm) when part exceeds 120 mm
         if (boxSize.x > 120 || boxSize.z > 120) {
           const bedVerts = new Float32Array([
             -128, 0, -128,
@@ -315,39 +403,40 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         gridGroupRef.current = gridGroup;
         gridGroup.visible = showGridRef.current;
 
-        // ── 6.3  Size comparison objects ──────────────────────────────────
+        // ── Size comparison objects ─────────────────────────────────────────
         const compGroup = new THREE.Group();
         const compOffset = maxDim / 2 + 30;
-        const compBaseMat = new THREE.MeshStandardMaterial({
-          color: 0x4488ff,
-          transparent: true,
-          opacity: 0.28,
-          side: THREE.DoubleSide,
-        });
 
-        const coinMesh = new THREE.Mesh(
-          new THREE.CylinderGeometry(12.5, 12.5, 2, 32),
-          compBaseMat.clone(),
+        const solidMat = new THREE.MeshStandardMaterial({ color: 0xf5f0dc, roughness: 0.9, metalness: 0.0 });
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x444444, transparent: true, opacity: 0.7 });
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const addCompare = (geo: any, key: string, x: number, y: number, z: number) => {
+          const m = new THREE.Mesh(geo, solidMat.clone());
+          m.position.set(x, y, z);
+          m.userData.compareKey = key;
+          compGroup.add(m);
+          const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat.clone());
+          edges.position.set(x, y, z);
+          edges.userData.compareKey = key;
+          compGroup.add(edges);
+        };
+
+        addCompare(
+          new THREE.CylinderGeometry(11.625, 11.625, 2.2, 32),
+          "coin",
+          compOffset + 11.625, 1.1, 0,
         );
-        coinMesh.position.set(compOffset + 12.5, -boxSize.y / 2 + 1, 0);
-        coinMesh.userData.compareKey = "coin";
-        compGroup.add(coinMesh);
-
-        const cardMesh = new THREE.Mesh(
+        addCompare(
           new THREE.BoxGeometry(85.6, 0.76, 54),
-          compBaseMat.clone(),
+          "card",
+          compOffset + 42.8, 0.38, 0,
         );
-        cardMesh.position.set(compOffset + 42.8, -boxSize.y / 2 + 0.38, 0);
-        cardMesh.userData.compareKey = "card";
-        compGroup.add(cardMesh);
-
-        const a4Mesh = new THREE.Mesh(
+        addCompare(
           new THREE.BoxGeometry(210, 0.1, 297),
-          compBaseMat.clone(),
+          "a4",
+          compOffset + 105, 0.05, 0,
         );
-        a4Mesh.position.set(compOffset + 105, -boxSize.y / 2, 0);
-        a4Mesh.userData.compareKey = "a4";
-        compGroup.add(a4Mesh);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         compGroup.children.forEach((child: any) => { child.visible = false; });
@@ -358,8 +447,22 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         setIsLoading(false);
         onReady?.();
 
-        // ResizeObserver — debounced with rAF + same-size guard to prevent the
-        // "ResizeObserver loop completed with undelivered notifications" error.
+        // ── OrbitControls ──────────────────────────────────────────────────
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.copy(partCenter);
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.minDistance = dist * 0.25;
+        controls.maxDistance = dist * 4;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.5;
+        controls.addEventListener("start", () => { controls.autoRotate = false; });
+        controls.saveState();
+        controls.update();
+        controlsRef.current = controls;
+
+        // ResizeObserver
         let roRafId: number | null = null;
         let roLastW = 0, roLastH = 0;
         const ro = new ResizeObserver(() => {
@@ -379,71 +482,17 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         });
         ro.observe(cont);
 
-        let isDragging = false;
-        let prevMouseX = 0;
-        let prevMouseY = 0;
-        let touchPrevX = 0;
-        let touchPrevY = 0;
-
-        const onMouseDown = (e: MouseEvent) => {
-          isDragging = true;
-          prevMouseX = e.clientX;
-          prevMouseY = e.clientY;
-          canvas.style.cursor = "grabbing";
-        };
-
-        const onMouseMove = (e: MouseEvent) => {
-          if (!isDragging) return;
-          const dx = e.clientX - prevMouseX;
-          const dy = e.clientY - prevMouseY;
-          mesh.rotation.y += dx * 0.005;
-          mesh.rotation.x += dy * 0.004;
-          prevMouseX = e.clientX;
-          prevMouseY = e.clientY;
-        };
-
-        const onMouseUp = () => {
-          isDragging = false;
-          canvas.style.cursor = "grab";
-        };
-
-        const onTouchStart = (e: TouchEvent) => {
-          if (e.touches.length !== 1) return;
-          isDragging = true;
-          touchPrevX = e.touches[0].clientX;
-          touchPrevY = e.touches[0].clientY;
-        };
-
-        const onTouchMove = (e: TouchEvent) => {
-          if (!isDragging || e.touches.length !== 1) return;
-          e.preventDefault();
-          const dx = e.touches[0].clientX - touchPrevX;
-          const dy = e.touches[0].clientY - touchPrevY;
-          mesh.rotation.y += dx * 0.005;
-          mesh.rotation.x += dy * 0.004;
-          touchPrevX = e.touches[0].clientX;
-          touchPrevY = e.touches[0].clientY;
-        };
-
-        const onTouchEnd = () => { isDragging = false; };
-
-        canvas.addEventListener("mousedown",  onMouseDown);
-        window.addEventListener("mousemove",  onMouseMove);
-        window.addEventListener("mouseup",    onMouseUp);
-        canvas.addEventListener("touchstart", onTouchStart, { passive: true });
-        canvas.addEventListener("touchmove",  onTouchMove,  { passive: false });
-        canvas.addEventListener("touchend",   onTouchEnd,   { passive: true });
-
-        // Reusable vector avoids per-frame allocation during label projection
+        // Reusable vector for label projection
         const _tmp = new THREE.Vector3();
         const projectLabel = (
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          srcPt: any, el: HTMLSpanElement | null,
+          worldPt: any, el: HTMLSpanElement | null, visible: boolean,
         ) => {
           if (!el || !containerRef.current) return;
+          if (!visible) { el.style.display = "none"; return; }
           const cW = containerRef.current.clientWidth;
           const cH = containerRef.current.clientHeight;
-          _tmp.copy(srcPt).applyMatrix4(mesh.matrixWorld);
+          _tmp.copy(worldPt);
           _tmp.project(camera);
           if (_tmp.z >= 1) { el.style.display = "none"; return; }
           el.style.display = "block";
@@ -454,14 +503,15 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         let frameId: number;
         const animate = () => {
           frameId = requestAnimationFrame(animate);
-          if (!isDragging) mesh.rotation.y += 0.005;
+          controls.update();
           renderer.render(scene, camera);
-          // Update projected dimension labels every frame
           const pd = projDataRef.current;
           if (pd) {
-            projectLabel(pd.xPt, xLabelRef.current);
-            projectLabel(pd.yPt, yLabelRef.current);
-            projectLabel(pd.zPt, zLabelRef.current);
+            const showD = showDimsRef.current;
+            projectLabel(pd.xPt, xLabelRef.current, showD);
+            projectLabel(pd.yPt, yLabelRef.current, showD);
+            projectLabel(pd.zPt, zLabelRef.current, showD);
+            projectLabel(pd.comparePt, compareLabelRef.current, compareModeRef.current !== "off");
           }
         };
         animate();
@@ -469,12 +519,7 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         cleanupFn = () => {
           cancelAnimationFrame(frameId);
           ro.disconnect();
-          canvas.removeEventListener("mousedown",  onMouseDown);
-          window.removeEventListener("mousemove",  onMouseMove);
-          window.removeEventListener("mouseup",    onMouseUp);
-          canvas.removeEventListener("touchstart", onTouchStart);
-          canvas.removeEventListener("touchmove",  onTouchMove);
-          canvas.removeEventListener("touchend",   onTouchEnd);
+          controls.dispose();
           geometry.dispose();
           material.dispose();
           wire.geometry.dispose();
@@ -497,13 +542,15 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
             c.geometry?.dispose();
             c.material?.dispose();
           });
-          compBaseMat.dispose();
+          solidMat.dispose();
+          edgeMat.dispose();
           renderer.dispose();
           if (cont.contains(canvas)) cont.removeChild(canvas);
           materialRef.current = null;
           rendererRef.current = null;
           sceneRef.current = null;
           cameraRef.current = null;
+          controlsRef.current = null;
           gridGroupRef.current = null;
           compareGroupRef.current = null;
           projDataRef.current = null;
@@ -525,22 +572,20 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
     };
   }, [isMounted, file, size]);
 
-  // Update canvas touch-action when prop changes (without reloading the geometry)
+  // Update touch-action without reloading geometry
   useEffect(() => {
     const renderer = rendererRef.current;
     if (!renderer?.domElement) return;
     renderer.domElement.style.touchAction = touchAction ?? "";
   }, [touchAction]);
 
-  // Separate effect: update material colour whenever `colour` prop changes.
-  // Does NOT reload the file — runs independently of the geometry effect.
+  // Update material colour without reloading geometry
   useEffect(() => {
     const mat = materialRef.current;
     const renderer = rendererRef.current;
     const scene = sceneRef.current;
     const camera = cameraRef.current;
     if (!mat || !renderer || !scene || !camera) return;
-
     import("three").then((THREE) => {
       const preview = colourToPreview(colour);
       mat.color.set(preview.hex);
@@ -559,6 +604,16 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
 
   if (hasError) return null;
 
+  // Apply external scale factor for display
+  const s = scaleFactor;
+  const dimsMm = rawDimsMm
+    ? { x: rawDimsMm.x * s, y: rawDimsMm.y * s, z: rawDimsMm.z * s }
+    : null;
+
+  const compareCaptions: Record<CompareMode, string> = {
+    off: "", coin: tv("coinLabel", language), card: tv("cardLabel", language), a4: tv("a4Label", language),
+  };
+
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <div ref={containerRef} style={{ width: "100%", height: "100%", borderRadius: 8, overflow: "hidden" }} />
@@ -567,40 +622,127 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
         <div style={{ position: "absolute", inset: 0, background: "#f0f0f0", borderRadius: 8 }} />
       )}
 
-      {/* Projected X / Y / Z dimension labels — positioned by animation loop */}
+      {/* X dimension label — red */}
       {dimsMm && (
-        <>
-          <span ref={xLabelRef} style={LABEL_STYLE} aria-hidden="true">X {dimsMm.x}</span>
-          <span ref={yLabelRef} style={LABEL_STYLE} aria-hidden="true">Y {dimsMm.y}</span>
-          <span ref={zLabelRef} style={LABEL_STYLE} aria-hidden="true">Z {dimsMm.z}</span>
-        </>
+        <span
+          ref={xLabelRef}
+          style={{ ...LABEL_STYLE, color: "#cc3333", borderLeft: "3px solid #cc3333" }}
+          aria-hidden="true"
+        >
+          {fmtMm(dimsMm.x)}
+        </span>
+      )}
+      {/* Y dimension label — green */}
+      {dimsMm && (
+        <span
+          ref={yLabelRef}
+          style={{ ...LABEL_STYLE, color: "#2a8a2a", borderLeft: "3px solid #2a8a2a" }}
+          aria-hidden="true"
+        >
+          {fmtMm(dimsMm.y)}
+        </span>
+      )}
+      {/* Z dimension label — blue */}
+      {dimsMm && (
+        <span
+          ref={zLabelRef}
+          style={{ ...LABEL_STYLE, color: "#2255cc", borderLeft: "3px solid #2255cc" }}
+          aria-hidden="true"
+        >
+          {fmtMm(dimsMm.z)}
+        </span>
       )}
 
-      {/* Toggle controls — bottom right */}
+      {/* Comparison object caption */}
+      <span
+        ref={compareLabelRef}
+        style={{ ...LABEL_STYLE, display: "none", color: "#444", fontWeight: 600 }}
+        aria-hidden="true"
+      >
+        {compareCaptions[compareMode]}
+      </span>
+
+      {/* Toggle controls — top right */}
       {!isLoading && !hasError && (
-        <div style={{ position: "absolute", bottom: 8, right: 8, display: "flex", gap: 3 }}>
+        <div style={{ position: "absolute", top: 8, right: 8, display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
           <button
-            onClick={handleGridToggle}
-            title={showGrid ? "Hide grid" : "Show grid"}
-            style={overlayBtn(showGrid)}
+            onClick={handleDimsToggle}
+            title={tv("dims", language)}
+            style={pillBtn(showDims)}
           >
-            ⊞
+            {tv("dims", language)}
           </button>
           <button
             onClick={handleCompareToggle}
-            title={compareMode === "off" ? "Show size comparison" : `Showing: ${compareMode}`}
-            style={overlayBtn(compareMode !== "off")}
+            title={tv("compare", language)}
+            style={pillBtn(compareMode !== "off")}
           >
-            {COMPARE_LABEL[compareMode]}
+            {tv("compare", language)}
+          </button>
+          <button
+            onClick={handleResetView}
+            title={tv("reset", language)}
+            style={{ ...pillBtn(false), padding: "3px 7px" }}
+          >
+            ↺
           </button>
         </div>
       )}
 
-      {/* Dimension text line — bottom centre; acts as screen-reader label */}
+      {/* Scale control — shown in advanced mode */}
+      {showScaleControl && !isLoading && !hasError && (
+        <div style={{
+          position: "absolute", bottom: 48, left: 8, right: 8,
+          background: "rgba(255,255,255,0.92)", borderRadius: 8,
+          padding: "8px 12px", boxShadow: "0 1px 6px rgba(0,0,0,.12)",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: "#333" }}>{tv("scaleLabel", language)}</span>
+            <input
+              type="range"
+              min={25} max={400} step={5}
+              value={localScale}
+              onChange={e => handleScaleSlider(Number(e.target.value))}
+              style={{ flex: 1, height: 20 }}
+            />
+            <input
+              type="number"
+              min={25} max={400} step={5}
+              value={localScale}
+              onChange={e => handleScaleSlider(Number(e.target.value))}
+              style={{ width: 52, fontSize: 11, padding: "2px 4px", border: "1px solid #ccc", borderRadius: 4, textAlign: "center" }}
+            />
+            <span style={{ fontSize: 11, color: "#666" }}>%</span>
+          </div>
+          <div style={{ display: "flex", gap: 4 }}>
+            {[
+              { label: tv("cmChip", language), scale: 1000 },
+              { label: tv("inChip", language), scale: 2540 },
+              { label: tv("origChip", language), scale: 100 },
+            ].map(({ label, scale }) => (
+              <button
+                key={scale}
+                onClick={() => handleScaleSlider(scale)}
+                style={{
+                  fontSize: 10, padding: "2px 7px", borderRadius: 10,
+                  border: `1px solid ${localScale === scale ? "#e05050" : "#ccc"}`,
+                  background: localScale === scale ? "#fff0f0" : "#f8f8f8",
+                  color: localScale === scale ? "#cc3333" : "#555",
+                  cursor: "pointer", whiteSpace: "nowrap",
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Dimension summary line + screen-reader label */}
       {dimsMm && !isLoading && (
         <div
           role="text"
-          aria-label={`Part dimensions: ${dimsMm.x} by ${dimsMm.y} by ${dimsMm.z} millimetres`}
+          aria-label={`Part dimensions: ${fmtMm(dimsMm.x)} × ${fmtMm(dimsMm.y)} × ${fmtMm(dimsMm.z)}${massGrams ? `, about ${Math.round(massGrams)} grams` : ""}`}
           style={{
             position: "absolute",
             bottom: 8,
@@ -608,25 +750,25 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
             transform: "translateX(-50%)",
             fontSize: 10,
             color: "#444",
-            background: "rgba(255,255,255,0.82)",
+            background: "rgba(255,255,255,0.85)",
             borderRadius: 3,
             padding: "1px 7px",
             pointerEvents: "none",
             whiteSpace: "nowrap",
           }}
         >
-          {dimsMm.x} × {dimsMm.y} × {dimsMm.z} mm
+          {fmtMm(dimsMm.x)} × {fmtMm(dimsMm.y)} × {fmtMm(dimsMm.z)}
+          {massGrams ? ` · ~${Math.round(massGrams)} g` : ""}
         </div>
       )}
 
-      {/* 6.4 Unit sanity warning */}
+      {/* Unit sanity warning */}
       {unitWarning && !isLoading && (
         <div
           style={{
             position: "absolute",
             top: 8,
-            left: "50%",
-            transform: "translateX(-50%)",
+            left: 8,
             fontSize: 10,
             color: "#856404",
             background: "rgba(255,243,205,0.96)",
@@ -635,7 +777,27 @@ export default function StlViewer({ file, size = 240, onError, onReady, colour, 
             whiteSpace: "nowrap",
           }}
         >
-          {unitWarning === "unit-small" ? "⚠ <3 mm — check units" : "⚠ >600 mm — check units"}
+          {unitWarning === "unit-small"
+            ? "⚠ Part < 3 mm"
+            : "⚠ Part > 600 mm"}
+          {showScaleControl && (
+            <span style={{ marginLeft: 6 }}>
+              {" · "}
+              <button
+                onClick={() => handleScaleSlider(1000)}
+                style={{ background: "none", border: "none", color: "#856404", cursor: "pointer", fontSize: 10, textDecoration: "underline", padding: 0 }}
+              >
+                {tv("cmChip", language)}
+              </button>
+              {" · "}
+              <button
+                onClick={() => handleScaleSlider(2540)}
+                style={{ background: "none", border: "none", color: "#856404", cursor: "pointer", fontSize: 10, textDecoration: "underline", padding: 0 }}
+              >
+                {tv("inChip", language)}
+              </button>
+            </span>
+          )}
         </div>
       )}
     </div>

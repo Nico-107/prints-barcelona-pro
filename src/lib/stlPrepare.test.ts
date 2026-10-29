@@ -4,6 +4,7 @@ import {
   trianglesToBinaryStl,
   countBinaryStlTriangles,
   prepareStl,
+  scaleStlBuffer,
 } from "./stlPrepare";
 import { stlToTriangles, analyzeTriangles } from "./estimator/core";
 
@@ -147,5 +148,43 @@ describe("prepareStl: no-op for small binary STL", () => {
     expect(result.ascii_converted).toBe(false);
     expect(result.simplified).toBe(false);
     expect(result.final_bytes).toBe(buf.byteLength);
+  });
+});
+
+describe("scaleStlBuffer", () => {
+  it("scale=1 returns the same reference", () => {
+    const buf = makeTetrahedronStl();
+    const result = scaleStlBuffer(buf, 1);
+    expect(result).toBe(buf);
+  });
+
+  it("scale=10 multiplies all vertex coordinates by 10", () => {
+    const tris = cubeTris();
+    const buf = makeBinaryStl(tris);
+    const scaled = scaleStlBuffer(buf, 10);
+
+    const origAnalysis = analyzeTriangles(stlToTriangles(buf));
+    const scaledAnalysis = analyzeTriangles(stlToTriangles(scaled));
+
+    expect(scaledAnalysis.boundsMm[0]).toBeCloseTo(origAnalysis.boundsMm[0] * 10, 2);
+    expect(scaledAnalysis.boundsMm[1]).toBeCloseTo(origAnalysis.boundsMm[1] * 10, 2);
+    expect(scaledAnalysis.boundsMm[2]).toBeCloseTo(origAnalysis.boundsMm[2] * 10, 2);
+  });
+
+  it("scale=0.1 reduces volume by 1000x", () => {
+    const buf = makeBinaryStl(cubeTris());
+    const scaled = scaleStlBuffer(buf, 0.1);
+
+    const origAnalysis = analyzeTriangles(stlToTriangles(buf));
+    const scaledAnalysis = analyzeTriangles(stlToTriangles(scaled));
+
+    expect(scaledAnalysis.volumeMm3).toBeCloseTo(origAnalysis.volumeMm3 * 0.001, 3);
+  });
+
+  it("preserves triangle count", () => {
+    const buf = makeTetrahedronStl();
+    const scaled = scaleStlBuffer(buf, 2.5);
+    expect(countBinaryStlTriangles(scaled)).toBe(countBinaryStlTriangles(buf));
+    expect(isBinaryStl(scaled)).toBe(true);
   });
 });
