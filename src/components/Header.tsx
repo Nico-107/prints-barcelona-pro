@@ -12,14 +12,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import LanguageSelector from "@/components/LanguageSelector";
+import LanguageSelector, { LANG_HUB } from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 
 const XP_LANGS = ["es", "en", "ca"];
 
-const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boolean }) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
@@ -74,8 +74,8 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
       <div className="container px-4">
         <div className="flex items-center h-16">
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
+          {/* Logo — goes to language hub, not always / */}
+          <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
               <g transform="translate(6,12) scale(0.88)" fill="none">
                 <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
@@ -226,7 +226,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
               </span>
             </div>
 
-            {!hideLanguageSelector && <LanguageSelector landingTopicSlugs={landingTopicSlugs} />}
+            <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
             <Button asChild variant="ghost" size="sm">
               <Link to="/track" className="gap-1.5 whitespace-nowrap">
                 <PackageSearch className="w-4 h-4" />
@@ -247,7 +247,7 @@ const Header = ({ hideLanguageSelector = false }: { hideLanguageSelector?: boole
 
           {/* Mobile controls */}
           <div className="xl:hidden ml-auto flex items-center gap-3">
-            {!hideLanguageSelector && <LanguageSelector landingTopicSlugs={landingTopicSlugs} />}
+            <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
             <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

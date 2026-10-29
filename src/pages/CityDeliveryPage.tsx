@@ -294,7 +294,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         )}
       </Helmet>
 
-      <Header hideLanguageSelector={["fr", "de", "it", "pt"].includes(config.articleInLanguage ?? "")} />
+      <Header />
 
       <main className="pt-16">
         {/* Hero */}

@@ -59,6 +59,13 @@ const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
 
   const handleChange = (lang: Language) => {
     setOpen(false);
+    // Mark the language being LEFT so the suggestion bar never re-suggests it (STEP 4.3)
+    try {
+      const LS_KEY = "dim3d-lang-suggest-dismissed";
+      const existing = JSON.parse(localStorage.getItem(LS_KEY) ?? "{}");
+      existing[language] = true;
+      localStorage.setItem(LS_KEY, JSON.stringify(existing));
+    } catch { /* localStorage unavailable */ }
     setLanguage(lang);
 
     // City delivery pages

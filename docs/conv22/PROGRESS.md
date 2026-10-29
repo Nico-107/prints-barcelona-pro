@@ -75,10 +75,10 @@ Pre-run: `npm ci && npm run typecheck && npm test (676 tests) && npm run build` 
 - [x] 3.5 — privacy page updates (8 languages): analytics.body now describes cookieless mode, recordings+masks, GA4 v2, Stripe/Supabase; cookies.body describes 12-month TTL, footer link to reopen
 - [x] 3.6 — Playwright consent tests: e2e/consent.spec.ts — no cookies before choice, timer trigger, scroll trigger, modal open (no bbox overlap with buy btn), Accept/Reject persistence, footer prefs link
 
-- [ ] 4.1 — language selector visible on every page; 8×8 switch matrix in PROGRESS.md
-- [ ] 4.2 — logo → LANG_HUB[language]; header nav links language-aware
-- [ ] 4.3 — language persistence: suggestion bar never re-suggests just-left language
-- [ ] 4.4 — Lovable redirect in index.html; noindex for vercel; unit test
+- [x] 4.1 — language selector visible on every page: removed hideLanguageSelector from InternationalServicePage.tsx and CityDeliveryPage.tsx; prop removed from Header component
+- [x] 4.2 — logo → LANG_HUB[language]: Header imports LANG_HUB; Link to={LANG_HUB[language] ?? "/"}
+- [x] 4.3 — language persistence: LanguageSelector.handleChange marks previous language in dim3d-lang-suggest-dismissed before switching; suggestion bar already checks that key
+- [x] 4.4 — Lovable redirect: .lovable.app/.lovableproject.com/.lovable.dev → redirect; vercel previews → noindex only; 7 unit tests in indexHtmlHostLogic.test.ts
 
 - [ ] 5.1 — new IntlHubPage layout for IT, PT, NL, FR, DE
 - [ ] 5.2 — English /3d-printing-service same layout

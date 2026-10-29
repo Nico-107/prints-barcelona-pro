@@ -127,7 +127,7 @@ const InternationalServicePage = () => {
       <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
     </Helmet>
 
-    <Header hideLanguageSelector={true} />
+    <Header />
 
     <main className="pt-16">
       {/* Hero */}
