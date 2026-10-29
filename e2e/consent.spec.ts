@@ -3,6 +3,11 @@
  * Run with: npx playwright test e2e/consent.spec.ts
  */
 import { test, expect } from "@playwright/test";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 test.describe("Consent banner", () => {
   test.beforeEach(async ({ page }) => {
@@ -71,7 +76,7 @@ test.describe("Consent banner", () => {
 
     // Open calculator modal by uploading a file
     const fileInput = page.locator('input[type="file"]').first();
-    const filePath = require("path").resolve(__dirname, "../qa/fixtures/small-cube.stl");
+    const filePath = path.resolve(__dirname, "../qa/fixtures/small-cube.stl");
     await fileInput.setInputFiles(filePath);
 
     // Wait for the buy button to appear

@@ -107,6 +107,7 @@ export function DefaultSettings({
           onChange={e => onColorChange(e.target.value)}
           placeholder={t("calc.color.placeholder")}
           disabled={disabled}
+          data-ph-unmask
           className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
         />
       </div>

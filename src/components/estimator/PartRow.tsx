@@ -201,6 +201,7 @@ export function PartRow({
               }}
               placeholder={t("calc.color.placeholder")}
               disabled={disabled}
+              data-ph-unmask
               className="w-full h-8 rounded-md border border-input bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-60"
             />
           </div>

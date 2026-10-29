@@ -6,6 +6,10 @@
 import { test, expect, Page } from "@playwright/test";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const CUBE_STL = path.resolve(__dirname, "../qa/fixtures/small-cube.stl");
 
@@ -22,8 +26,13 @@ async function uploadFileAndWaitForBuyButton(page: Page, filePath: string) {
   const fileInput = page.locator('input[type="file"]').first();
   await fileInput.setInputFiles(filePath);
 
-  // Wait for the modal to open and the Buy button to appear
-  const buyBtn = page.locator('[data-testid="buy-now-btn"]').first();
+  // CheckoutDialog renders two buy buttons: one in the hidden desktop column (first in DOM),
+  // one in the visible mobile sticky footer (last in DOM). Pick by viewport width.
+  const viewportWidth = page.viewportSize()?.width ?? 1280;
+  const buyBtn = viewportWidth < 1024
+    ? page.locator('[data-testid="buy-now-btn"]').last()
+    : page.locator('[data-testid="buy-now-btn"]').first();
+
   await expect(buyBtn).toBeVisible({ timeout: 10000 });
   await expect(buyBtn).toBeEnabled({ timeout: 10000 });
   return buyBtn;
@@ -49,7 +58,10 @@ test("Buy button visible on / — Advanced mode", async ({ page }) => {
     await advancedToggle.click();
   }
 
-  const buyBtn = page.locator('[data-testid="buy-now-btn"]').first();
+  const viewportWidth = page.viewportSize()?.width ?? 1280;
+  const buyBtn = viewportWidth < 1024
+    ? page.locator('[data-testid="buy-now-btn"]').last()
+    : page.locator('[data-testid="buy-now-btn"]').first();
   await expect(buyBtn).toBeVisible({ timeout: 10000 });
   await expect(buyBtn).toBeEnabled({ timeout: 10000 });
 });
@@ -67,8 +79,11 @@ test("Buy button click initiates checkout (no real Stripe session)", async ({ pa
   await page.goto("/");
   const buyBtn = await uploadFileAndWaitForBuyButton(page, CUBE_STL);
 
-  // Select fulfillment before clicking
-  const shippingBtn = page.locator('[data-testid="compact-fulfillment-shipping"]').first();
+  // Select fulfillment before clicking (same two-copies-in-DOM issue as buy button)
+  const vw = page.viewportSize()?.width ?? 1280;
+  const shippingBtn = vw < 1024
+    ? page.locator('[data-testid="compact-fulfillment-shipping"]').last()
+    : page.locator('[data-testid="compact-fulfillment-shipping"]').first();
   if (await shippingBtn.isVisible()) {
     await shippingBtn.click();
   }
