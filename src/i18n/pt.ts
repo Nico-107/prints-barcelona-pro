@@ -679,7 +679,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Dia seguinte",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Encomendas acima de €100 ou impressões multicolor são revistas primeiro pela nossa equipa — receberá um orçamento confirmado em 1 hora.",
+  "calc.actions.quoteOnlyWhy": "Impressões multicolor ou materiais especiais são revistos primeiro pela nossa equipa — receberá um orçamento confirmado em 1 hora.",
   "calc.color.name.any": "Qualquer cor",
   "calc.color.name.White": "Branco",
   "calc.color.name.Black": "Preto",
@@ -875,7 +875,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.autumn.line": "Desconto de outono −10 %",
   "calc.autumn.nudge": "Adicione mais {amount} e poupe 10 %",
 
-  "calc.actions.quoteOnly.over-limit": "Encomendas acima de 100 € são revistas manualmente — enviamos o preço final em menos de 1 h.",
+  "calc.actions.quoteOnly.over-limit": "Encomendas grandes (acima de 200 €) são revistas manualmente — enviamos o preço final em menos de 1 h.",
   "calc.actions.quoteOnly.oversize": "Uma peça é maior que a nossa impressora (256 mm). Revemo-la e sugerimos como dividi-la.",
   "calc.actions.quoteOnly.material": "Confirmamos este material manualmente antes de imprimir.",
   "calc.actions.quoteOnly.multicolour": "As peças multicolor são confirmadas manualmente.",

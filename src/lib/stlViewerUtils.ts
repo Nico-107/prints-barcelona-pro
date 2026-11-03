@@ -8,8 +8,11 @@ export function getUnitWarning(dims: { x: number; y: number; z: number }): 'unit
   return null;
 }
 
-export function gridSizeForPart(maxDim: number): number {
-  return Math.max(200, Math.ceil(maxDim / 100) * 100);
+/** Build plate is fixed at 256 × 256 mm (Bambu X2D). Grid NEVER scales with the model —
+ *  only the model mesh is scaled, so a 280% model visibly exceeds the plate. */
+export const BUILD_PLATE_MM = 256;
+export function gridSizeForPart(_maxDim: number): number {
+  return BUILD_PLATE_MM;
 }
 
 export const COMPARE_NEXT: Record<CompareMode, CompareMode> = {

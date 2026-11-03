@@ -35,14 +35,27 @@ const LanguageSuggestionBar = ({ equivSlug }: Props) => {
   const [targetLang, setTargetLang] = useState<Language | null>(null);
   const [targetSlug, setTargetSlug] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   // Only render after hydration to avoid SSR mismatch
   useEffect(() => {
     setHydrated(true);
   }, []);
 
+  // Suppress the suggest banner while the estimator / checkout modal is open (R12: no distractions in checkout)
   useEffect(() => {
     if (!hydrated) return;
+    const sync = () => setModalOpen(document.body.hasAttribute("data-estimator-open"));
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["data-estimator-open"] });
+    return () => observer.disconnect();
+  }, [hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    // Don't initialise (and don't fire lang_suggest_shown) while the order modal is open
+    if (document.body.hasAttribute("data-estimator-open")) return;
 
     const detected = getBrowserLang();
     if (!detected) return;
@@ -67,7 +80,7 @@ const LanguageSuggestionBar = ({ equivSlug }: Props) => {
     setShow(true);
 
     capture("lang_suggest_shown", { from: language, to: detected });
-  }, [hydrated, language, equivSlug]);
+  }, [hydrated, language, equivSlug, modalOpen]);
 
   const handleSwitch = () => {
     if (!targetLang || !targetSlug) return;
@@ -88,7 +101,7 @@ const LanguageSuggestionBar = ({ equivSlug }: Props) => {
     setShow(false);
   };
 
-  if (!show || !hydrated) return null;
+  if (!show || !hydrated || modalOpen) return null;
 
   return (
     <div className="w-full bg-muted/80 border-b border-border/50 text-sm">

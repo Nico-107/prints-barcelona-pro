@@ -679,7 +679,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Volgende dag",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Bestellingen boven €100 of meerkleurige prints worden eerst door ons team beoordeeld — je ontvangt binnen 1 uur een bevestigde offerte.",
+  "calc.actions.quoteOnlyWhy": "Meerkleurige prints of speciale materialen worden eerst door ons team beoordeeld — je ontvangt binnen 1 uur een bevestigde offerte.",
   "calc.color.name.any": "Willekeurige kleur",
   "calc.color.name.White": "Wit",
   "calc.color.name.Black": "Zwart",
@@ -875,7 +875,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.autumn.line": "Herfstkorting −10 %",
   "calc.autumn.nudge": "Voeg nog {amount} toe en bespaar 10 %",
 
-  "calc.actions.quoteOnly.over-limit": "Bestellingen boven €100 worden handmatig beoordeeld — we sturen je de definitieve prijs binnen 1 uur.",
+  "calc.actions.quoteOnly.over-limit": "Grotere bestellingen (boven €200) worden handmatig beoordeeld — we sturen je de definitieve prijs binnen 1 uur.",
   "calc.actions.quoteOnly.oversize": "Een onderdeel is groter dan onze printer (256 mm). We beoordelen het en stellen voor hoe het gesplitst kan worden.",
   "calc.actions.quoteOnly.material": "We bevestigen dit materiaal handmatig voor het printen.",
   "calc.actions.quoteOnly.multicolour": "Meerkeurige onderdelen worden handmatig bevestigd.",

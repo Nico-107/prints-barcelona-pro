@@ -331,6 +331,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     flagReady: CHECKOUT_V3_READY,
     forceQuoteOnly,
     showManualReview,
+    totalAfterDiscountEur: bundle ? bundle.order.totalCents / 100 : undefined,
   });
   const instantBuyEligible = instantBuyStatus.eligible;
   const ineligibleReasons = instantBuyStatus.reasons;
@@ -504,6 +505,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           flagReady: CHECKOUT_V3_READY,
           forceQuoteOnly,
           showManualReview: false,
+          totalAfterDiscountEur: nextBundle.order.totalCents / 100,
         });
         capture("estimate_shown", {
           price_eur_bucket: priceBucket as "<15" | "15-30" | "30-60" | "60-100" | ">100",
