@@ -409,6 +409,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Printklaar: past in de printer, geen fouten",
   "calc.printability.oversize": "⚠ Te groot voor één stuk — we splitsen en controleren het (gratis offerte)",
   "calc.printability.parseError": "⚠ Bestand kan niet gelezen worden. Controleer het of vraag ons om hulp.",
+  "calc.exitToast.sure": "Zeker? Je onderdeel staat klaar.",
+  "calc.exitToast.back": "Terug naar bestelling",
   "calc.instantBuy.manualReview": "Laat ons team het eerst controleren",
   "calc.instantBuy.manualReview.short": "Gratis beoordeling",
   "calc.instantBuy.fulfillment.pickup.short": "Ophalen (gratis)",

@@ -409,6 +409,8 @@ export const itTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ File stampabile: entra nella stampante, senza errori",
   "calc.printability.oversize": "⚠ Troppo grande in un pezzo — lo dividiamo e lo revisioniamo (preventivo gratuito)",
   "calc.printability.parseError": "⚠ File non leggibile. Controllalo o chiedici aiuto.",
+  "calc.exitToast.sure": "Sicuro? Il tuo pezzo è pronto.",
+  "calc.exitToast.back": "Torna all'ordine",
   "calc.instantBuy.manualReview": "Fallo revisionare prima dal nostro team",
   "calc.instantBuy.manualReview.short": "Revisione gratuita",
   "calc.instantBuy.fulfillment.pickup.short": "Ritiro (gratis)",

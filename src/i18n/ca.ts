@@ -437,6 +437,8 @@ export const caTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Arxiu imprimible: cap a la impressora, sense errors",
   "calc.printability.oversize": "⚠ Massa gran per a una peça — la dividim i revisem (pressupost gratis)",
   "calc.printability.parseError": "⚠ No hem pogut llegir l'arxiu. Revisa'l o demana'ns ajuda.",
+  "calc.exitToast.sure": "Segur? La teva peça està llesta.",
+  "calc.exitToast.back": "Tornar a la comanda",
   "calc.instantBuy.manualReview": "Que ho revisi el nostre equip primer",
   "calc.instantBuy.manualReview.short": "Revisió gratis",
   "calc.instantBuy.fulfillment.pickup.short": "Recollida (gratis)",

@@ -437,6 +437,8 @@ export const enTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Ready to print: fits the printer, no errors",
   "calc.printability.oversize": "⚠ Too large for one piece — we'll split it and review for you (free quote)",
   "calc.printability.parseError": "⚠ We couldn't read this file. Check it or ask us for help.",
+  "calc.exitToast.sure": "Sure? Your part is ready.",
+  "calc.exitToast.back": "Back to order",
   "calc.instantBuy.manualReview": "Have our team review it first",
   "calc.instantBuy.manualReview.short": "Free review",
   "calc.instantBuy.fulfillment.pickup.short": "Pickup (free)",

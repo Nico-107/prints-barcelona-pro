@@ -31,7 +31,9 @@ import { summarizeParts } from "@/lib/summarizeParts";
 import type { TablesInsert, Json } from "@/integrations/supabase/types";
 import { checkContact, isValidEmail } from "@/lib/contactValidation";
 import type { UseCase } from "@/lib/materialGuide";
+import { toast as sonnerToast } from "sonner";
 import { OrderPanel } from "./estimator/OrderPanel";
+import { formatShipDate, computeShipDate, shipDateLine } from "@/lib/shipDate";
 import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
@@ -2417,9 +2419,33 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   const variant = (instantBuyEligible && instantTotalPrice !== null) ? 'priced'
                     : validFiles.length > 0 ? 'quote' : 'failed';
                   exitIntentTimerRef.current = setTimeout(() => {
-                    setExitPopupVariant(variant);
-                    setShowExitIntent(true);
                     try { sessionStorage.setItem("dim3d-exit-intent-shown", "1"); } catch {}
+                    // Prompt 25 §7: when the user closes the modal with a priced
+                    // eligible part, show an inline toast instead of the full
+                    // exit-intent dialog. Only the 'priced' variant goes to the
+                    // lightweight path; 'quote' and 'failed' keep the old flow.
+                    if (variant === 'priced') {
+                      capture('exit_intent_shown');
+                      capture('exit_popup_shown', { variant: 'priced', page_type: window.location.pathname, lang: language });
+                      const shipDate = computeShipDate(new Date(), urgency);
+                      const formatted = formatShipDate(shipDate, language);
+                      const ship = shipDateLine(formatted, language, fulfillment ?? 'shipping', true);
+                      const priceStr = instantTotalPrice != null ? formatEUR(instantTotalPrice, language) : "";
+                      sonnerToast(`${priceStr} · ${ship}`, {
+                        description: t("calc.exitToast.sure"),
+                        action: {
+                          label: t("calc.exitToast.back"),
+                          onClick: () => {
+                            capture('exit_intent_recovered');
+                            setMobileModalOpen(true);
+                          },
+                        },
+                        duration: 10_000,
+                      });
+                    } else {
+                      setExitPopupVariant(variant);
+                      setShowExitIntent(true);
+                    }
                   }, 500);
                 }
               }

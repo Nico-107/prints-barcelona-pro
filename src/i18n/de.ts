@@ -409,6 +409,8 @@ export const deTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Druckbereit: passt in den Drucker, keine Fehler",
   "calc.printability.oversize": "⚠ Zu groß für ein Teil — wir teilen und prüfen es (kostenloses Angebot)",
   "calc.printability.parseError": "⚠ Datei konnte nicht gelesen werden. Prüf sie oder frag uns.",
+  "calc.exitToast.sure": "Sicher? Dein Teil ist bereit.",
+  "calc.exitToast.back": "Zurück zur Bestellung",
   "calc.instantBuy.manualReview": "Unser Team soll es zuerst prüfen",
   "calc.instantBuy.manualReview.short": "Kostenlose Prüfung",
   "calc.instantBuy.fulfillment.pickup.short": "Abholung (kostenlos)",
