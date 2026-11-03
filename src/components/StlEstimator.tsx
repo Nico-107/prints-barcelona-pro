@@ -2345,8 +2345,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 }
               }
               if (!open && parsedFiles.length > 0 && checkoutResult !== "success" && !showManualReview && !isSubmittedQuote && !isCheckingOut) {
+                // Mobile guards (touch + ≤640px): never within first 45s of page
+                // load, never for QR visitors, never more than once per session.
+                const isTouchMobile = typeof window !== "undefined"
+                  && window.matchMedia("(hover: none) and (pointer: coarse)").matches
+                  && window.innerWidth < 640;
+                const since = typeof performance !== "undefined" && performance.now ? performance.now() : 0;
+                // Playwright specs seed `window.__dim3dSkipMobileExitGate__ = true`
+                // before triggering the popup; in production this flag is never set.
+                const bypassGate = typeof window !== "undefined"
+                  && (window as unknown as { __dim3dSkipMobileExitGate__?: boolean }).__dim3dSkipMobileExitGate__ === true;
+                const tooEarly = isTouchMobile && !bypassGate && since < 45000;
+                const qrVisitor = typeof window !== "undefined"
+                  && /[?&]utm_medium=qr\b/.test(window.location.search);
                 const alreadyShown = (() => { try { return !!sessionStorage.getItem("dim3d-exit-intent-shown"); } catch { return false; } })();
-                if (!alreadyShown) {
+                if (!alreadyShown && !tooEarly && !qrVisitor) {
                   if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
                   const variant = (instantBuyEligible && instantTotalPrice !== null) ? 'priced'
                     : validFiles.length > 0 ? 'quote' : 'failed';
@@ -2386,7 +2399,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   }
 
   return (
-    <section id="calculator" className="py-20 md:py-28 bg-secondary/30">
+    <section id="calculator" className="py-12 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-10">
           <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">

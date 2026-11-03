@@ -120,7 +120,7 @@ const BlogPrototiposBcn = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
         <section className="py-16 md:py-20 hero-gradient">

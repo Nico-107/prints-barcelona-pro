@@ -252,7 +252,7 @@ const PartPage = ({ part }: Props) => {
       </Helmet>
       <SocialMeta title={metaTitle} description={metaDescription} path={part.slug} />
       <Header />
-      <main className="min-h-screen bg-background pt-20 pb-28 md:pb-20">
+      <main className="min-h-screen bg-background pt-[var(--header-h)] pb-28 md:pb-20">
         <div className="container px-4">
           <div className="max-w-5xl mx-auto space-y-16">
 

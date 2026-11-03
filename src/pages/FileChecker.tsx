@@ -135,7 +135,7 @@ const FileChecker = () => {
 
       <Header />
 
-      <main className="min-h-screen bg-background pt-24 pb-20">
+      <main className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4 max-w-2xl">
 
           {/* Hero */}

@@ -528,7 +528,7 @@ const Makers = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ──────────────────────────────────────────────── */}
         <section className="relative py-24 md:py-32 hero-gradient overflow-hidden">
@@ -549,7 +549,7 @@ const Makers = () => {
                 <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
                   {c.eyebrow}
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
+                <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
                   {c.titleLine1}
                   <br />
                   <span className="text-cta">{c.titleLine2}</span>

@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    /* Mobile header height — kept in sync with Header component and all main offsets. */
+    --header-h: 56px;
+
     --background: 210 20% 98%;
     --foreground: 220 25% 10%;
 
@@ -64,6 +67,21 @@
     --sidebar-ring: 220 15% 15%;
   }
 
+  @media (min-width: 640px) {
+    :root {
+      --header-h: 64px;
+    }
+  }
+
+  /* Hero sections that sit directly under <main> extend behind the fixed
+     header so there is no white strip between header-bottom and hero-top.
+     Pages that put a breadcrumb before the hero are unaffected (not :first-child). */
+  main > section.hero-gradient:first-child,
+  main > section.hero-gradient-madrid:first-child {
+    margin-top: calc(-1 * var(--header-h));
+    padding-top: var(--header-h);
+  }
+
   .dark {
     --background: 220 20% 6%;
     --foreground: 220 10% 95%;
@@ -107,6 +125,23 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
+  }
+
+  /* Mobile overflow guard — the hero decorative blobs and offset elements can
+     push the body width past the viewport. Clip the horizontal axis on narrow
+     screens; nothing in the layout relies on horizontal page scroll. */
+  html, body {
+    overflow-x: clip;
+  }
+
+  @media (max-width: 639.98px) {
+    /* iOS WebKit zooms any form field below 16px — enforce 16px baseline. */
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      font-size: 16px;
+    }
+
   }
 }
 
@@ -208,6 +243,19 @@
    CSS runs before React hydrates. Inactive slots get display:none which also
    removes them from the accessibility tree. The pre-paint script sets
    data-xp-{id} on <html>; when absent (SSR / bots) control (A) is shown.   */
+
+/* ── Mobile: shift floating WhatsApp above the cookie sheet while it is visible
+   and above the quote sticky-bar when the Buy bar is docked at the bottom.
+   On ≥640px (sm) these utilities don't trigger — WA float sits in its normal
+   bottom-6/right-6 spot. */
+@media (max-width: 639.98px) {
+  body[data-cookie-visible="true"] a[data-whatsapp-float="true"] {
+    bottom: calc(120px + env(safe-area-inset-bottom)) !important;
+  }
+  body[data-sticky-buy="true"] a[data-whatsapp-float="true"] {
+    display: none !important;
+  }
+}
 
 /* header_btn_r2 */
 html:not([data-xp-header-btn-r2]) [data-xp-slot="header_btn_r2"][data-xp-v="B"],

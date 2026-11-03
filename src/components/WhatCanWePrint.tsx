@@ -14,7 +14,7 @@ const WhatCanWePrint = () => {
   ];
 
   return (
-    <section id="servicios" className="py-20 md:py-28 bg-section-dark section-dark-texture">
+    <section id="servicios" className="py-12 md:py-28 bg-section-dark section-dark-texture">
       <div className="container relative z-10 px-4">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-section-dark-fg mb-4">

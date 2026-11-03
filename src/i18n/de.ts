@@ -54,6 +54,8 @@ export const deTranslations: Record<string, string> = {
   "hero.subtitle": "Maßgefertigte Teile, Prototypen und schnelle Lieferzeiten. Erhalten Sie Ihr Angebot in unter 1 Stunde.",
   "hero.cta.upload": "Datei hochladen",
   "hero.cta.getQuote": "Sofortiges Angebot",
+  "hero.cta.getPriceShort": "Preis anzeigen",
+  "hero.pill.shortMobile": "Ab 10 € · Keine Mindestmenge · Echte Person",
   "hero.cta.whatsapp": "Kontakt über WhatsApp",
   "hero.speedPromise": "Kostenloses Angebot · in unter 1 Stunde · von einem Experten geprüft",
   "hero.trust.location": "Standort {city} {flag}",

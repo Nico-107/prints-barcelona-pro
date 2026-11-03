@@ -54,6 +54,8 @@ export const ptTranslations: Record<string, string> = {
   "hero.subtitle": "Peças personalizadas, protótipos e entrega rápida. Receba o seu orçamento em menos de 1 hora.",
   "hero.cta.upload": "Enviar ficheiro",
   "hero.cta.getQuote": "Orçamento instantâneo",
+  "hero.cta.getPriceShort": "Ver o meu preço",
+  "hero.pill.shortMobile": "Desde 10 € · Sem mínimo · Pessoa real",
   "hero.cta.whatsapp": "Contactar pelo WhatsApp",
   "hero.speedPromise": "Orçamento gratuito · em menos de 1 hora · verificado por um especialista",
   "hero.trust.location": "Sediado em {city} {flag}",

@@ -285,7 +285,7 @@ const Index = () => {
       </Helmet>
       <LaunchOfferBanner />
       <Header />
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
         <div ref={heroRef}><Hero onScrollToCalc={handleScrollToCalc} /></div>
         <div ref={howItWorksRef}><HowItWorks /></div>
         <div ref={calculatorRef}><StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} /></div>

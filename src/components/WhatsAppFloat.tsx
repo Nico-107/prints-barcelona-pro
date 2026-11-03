@@ -16,13 +16,18 @@ const WhatsAppFloat = () => {
       target="_blank"
       rel="noopener noreferrer"
       data-ph-name="whatsapp-floating"
+      data-whatsapp-float="true"
       onClick={() => capture('whatsapp_click', { source: 'float_button', location: 'floating', path: window.location.pathname })}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 rounded-full bg-whatsapp text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 px-5 py-3.5 group"
-      aria-label={t("whatsapp.tooltip")}
+      style={{
+        bottom: "calc(16px + env(safe-area-inset-bottom))",
+        right: "16px",
+      }}
+      className="fixed sm:bottom-6 sm:right-6 z-50 flex items-center justify-center sm:gap-2.5 rounded-full bg-whatsapp text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 w-14 h-14 sm:w-auto sm:h-auto sm:px-5 sm:py-3.5 group"
+      aria-label={t("whatsapp.float.label")}
     >
       <span className="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-20" />
       <MessageCircle className="w-6 h-6 shrink-0 relative" />
-      <span className="text-sm font-semibold relative">
+      <span className="hidden sm:inline text-sm font-semibold relative">
         {t("whatsapp.float.label")}
       </span>
     </a>

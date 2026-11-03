@@ -20,7 +20,7 @@ const ReturnPolicy = () => {
       </Helmet>
       <SocialMeta title={t("returns.meta.title")} description={t("returns.meta.description")} path="/politica-devoluciones" />
       <Header />
-      <main className="min-h-screen bg-background pt-24 pb-20">
+      <main className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4 max-w-2xl mx-auto">
           <Link to="/" className="text-sm text-muted-foreground hover:text-foreground block mb-8">
             {t("returns.back")}

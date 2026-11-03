@@ -54,6 +54,8 @@ export const nlTranslations: Record<string, string> = {
   "hero.subtitle": "Professioneel 3D printen in Barcelona. Levering in Nederland in 3–4 werkdagen.",
   "hero.cta.upload": "Bestand uploaden",
   "hero.cta.getQuote": "Directe prijsopgave",
+  "hero.cta.getPriceShort": "Zie mijn prijs",
+  "hero.pill.shortMobile": "Vanaf € 10 · Geen minimum · Echt persoon",
   "hero.cta.whatsapp": "Neem contact op via WhatsApp",
   "hero.speedPromise": "Gratis offerte · binnen 1 uur · gecontroleerd door een expert",
   "hero.trust.location": "Gevestigd in {city} {flag}",

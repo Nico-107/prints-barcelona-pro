@@ -619,7 +619,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       {showLaunchBanner && <LaunchOfferBanner />}
       <Header />
 
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ── */}
         <section ref={heroRef} className="hero-gradient py-14 md:py-20">
@@ -635,10 +635,10 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                   <Building2 className="w-3 h-3" aria-hidden="true" />
                   {c.breadcrumbBusiness}
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground leading-tight mb-4">
+                <h1 className="text-[28px] sm:text-4xl md:text-5xl font-bold text-primary-foreground leading-[1.15] sm:leading-tight mb-4 [text-wrap:balance]">
                   {c.h1}
                 </h1>
-                <p className="text-base md:text-lg text-primary-foreground/90 font-medium mb-2">
+                <p className="text-[15px] sm:text-base md:text-lg text-primary-foreground/90 font-medium mb-2">
                   {c.heroPromise}
                 </p>
                 <p className="text-sm text-primary-foreground/70 mb-6">

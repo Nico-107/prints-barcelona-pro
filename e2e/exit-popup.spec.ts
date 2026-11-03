@@ -69,7 +69,10 @@ test.use({ viewport: { width: 390, height: 844 } }); // iPhone 14 – triggers m
 test("Exit popup appears — / (es) · priced variant", async ({ page }) => {
   // Clear sessionStorage so popup can fire
   await page.goto("/");
-  await page.evaluate(() => sessionStorage.removeItem("dim3d-exit-intent-shown"));
+  await page.evaluate(() => {
+    sessionStorage.removeItem("dim3d-exit-intent-shown");
+    (window as unknown as { __dim3dSkipMobileExitGate__?: boolean }).__dim3dSkipMobileExitGate__ = true;
+  });
   await triggerExitPopup(page, CUBE_STL);
 
   const popup = page.locator('[data-testid="exit-popup"]');
@@ -78,7 +81,10 @@ test("Exit popup appears — / (es) · priced variant", async ({ page }) => {
 
 test("Exit popup dismisses — / (es)", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate(() => sessionStorage.removeItem("dim3d-exit-intent-shown"));
+  await page.evaluate(() => {
+    sessionStorage.removeItem("dim3d-exit-intent-shown");
+    (window as unknown as { __dim3dSkipMobileExitGate__?: boolean }).__dim3dSkipMobileExitGate__ = true;
+  });
   await triggerExitPopup(page, CUBE_STL);
 
   const popup = page.locator('[data-testid="exit-popup"]');
@@ -91,7 +97,10 @@ test("Exit popup dismisses — / (es)", async ({ page }) => {
 
 test("Exit popup — /it/stampa-3d-online (it) · quote or priced", async ({ page }) => {
   await page.goto("/it/stampa-3d-online");
-  await page.evaluate(() => sessionStorage.removeItem("dim3d-exit-intent-shown"));
+  await page.evaluate(() => {
+    sessionStorage.removeItem("dim3d-exit-intent-shown");
+    (window as unknown as { __dim3dSkipMobileExitGate__?: boolean }).__dim3dSkipMobileExitGate__ = true;
+  });
   await triggerExitPopup(page, CUBE_STL);
 
   const popup = page.locator('[data-testid="exit-popup"]');
@@ -100,7 +109,10 @@ test("Exit popup — /it/stampa-3d-online (it) · quote or priced", async ({ pag
 
 test("Exit popup — / (es) · failed variant (invalid file)", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate(() => sessionStorage.removeItem("dim3d-exit-intent-shown"));
+  await page.evaluate(() => {
+    sessionStorage.removeItem("dim3d-exit-intent-shown");
+    (window as unknown as { __dim3dSkipMobileExitGate__?: boolean }).__dim3dSkipMobileExitGate__ = true;
+  });
 
   const fileInput = page.locator('input[type="file"]').first();
   await fileInput.setInputFiles(INVALID_STL);

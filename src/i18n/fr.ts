@@ -54,6 +54,8 @@ export const frTranslations: Record<string, string> = {
   "hero.subtitle": "Impression 3D professionnelle à Barcelone. Livraison en France en 3–4 jours ouvrables.",
   "hero.cta.upload": "Envoyer votre fichier",
   "hero.cta.getQuote": "Devis gratuit instantané",
+  "hero.cta.getPriceShort": "Voir mon prix",
+  "hero.pill.shortMobile": "Dès 10 € · Sans minimum · Personne réelle",
   "hero.cta.whatsapp": "Nous contacter sur WhatsApp",
   "hero.speedPromise": "Devis gratuit · en moins d'1 heure · vérifié par un expert",
   "hero.trust.location": "Basé à {city} {flag}",
