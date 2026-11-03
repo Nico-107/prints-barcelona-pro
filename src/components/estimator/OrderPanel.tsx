@@ -7,7 +7,7 @@ import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/l
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { useXpExposure } from "@/lib/experiments";
-import { AUTUMN_DISCOUNT } from "@/config/policies";
+import { AUTUMN_DISCOUNT, PAYMENT_CAPTURE_MODE } from "@/config/policies";
 import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
@@ -422,6 +422,12 @@ export function OrderPanel({
                         : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                     }
                   </Button>
+                  {/* Guarantee line (R3/R4) — directly under the button, 14 px, bold-ish */}
+                  <p className="text-sm font-medium text-foreground leading-snug text-center">
+                    {PAYMENT_CAPTURE_MODE === 'after_review'
+                      ? t("calc.guarantee.afterReview")
+                      : t("calc.guarantee.default")}
+                  </p>
                   <p className="text-[11px] text-center text-muted-foreground leading-tight">
                     {t("calc.trust.promise")}
                   </p>
