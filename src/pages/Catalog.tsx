@@ -80,7 +80,7 @@ const Catalog = () => {
         path="/catalogo"
       />
       <Header />
-      <main className="min-h-screen bg-background pt-24 pb-20">
+      <main className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4">
           <div className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">

@@ -74,7 +74,7 @@ const Footer = () => {
     <footer className="bg-foreground text-background">
       <div className="container px-4 py-12">
 
-        <div className="grid md:grid-cols-4 gap-8 mb-10 pb-10 border-b border-background/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 pb-10 border-b border-background/10">
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
               <MapPin className="w-4 h-4 text-accent" />
@@ -121,7 +121,7 @@ const Footer = () => {
         </div>
 
         {/* SEO links: Services / Materials / For Business / Specialties / Guides */}
-        <div className="grid md:grid-cols-4 gap-8 mb-10 pb-10 border-b border-background/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 pb-10 border-b border-background/10">
           {SERVICES_MENU.filter((g) => g.labelEn !== "Guides").map((group) => (
             <div key={group.labelEn}>
               <p className="font-medium text-sm mb-3">{tGroupLabel(group)}</p>

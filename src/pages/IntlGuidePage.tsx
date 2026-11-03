@@ -116,7 +116,7 @@ const IntlGuidePage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
         {/* Hero */}
         <section className="relative overflow-hidden hero-gradient py-20">
           <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />

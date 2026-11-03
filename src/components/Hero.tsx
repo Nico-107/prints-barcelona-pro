@@ -155,12 +155,18 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
     { icon: UserCheck, text: t("hero.trust.expert") },
   ];
 
-  const pillClass = "inline-flex items-center gap-2 bg-cta/10 border border-cta/30 text-cta rounded-full px-5 py-2 text-sm font-semibold";
-  const headingClass = "text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-fade-in-up leading-tight";
-  const subtitleClass = "text-lg md:text-xl text-primary-foreground/90 mb-6 animate-fade-in-delay max-w-2xl mx-auto";
+  const pillClass = "inline-flex items-center gap-2 bg-cta/10 border border-cta/30 text-cta rounded-full px-3 sm:px-5 py-1.5 sm:py-2 text-[12px] sm:text-sm font-semibold whitespace-nowrap max-w-full";
+  const headingClass = "text-[28px] sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] sm:leading-tight font-bold text-primary-foreground mb-4 sm:mb-6 animate-fade-in-up [text-wrap:balance]";
+  const subtitleClass = "text-[15px] sm:text-lg md:text-xl text-primary-foreground/90 mb-5 sm:mb-6 animate-fade-in-delay max-w-2xl mx-auto leading-relaxed";
+
+  // Shorter mobile CTA label — the "from €10" is already in the pill above.
+  const ctaFullLabel = isXpLang ? t("xp.hero.v4.button") : t("hero.cta.getQuote");
+  const ctaShortLabel = t("hero.cta.getPriceShort") || ctaFullLabel;
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden hero-gradient">
+    <section
+      className="relative flex items-center justify-center overflow-hidden hero-gradient -mt-[var(--header-h)] pt-[calc(var(--header-h)+2rem)] sm:pt-[calc(var(--header-h)+2.5rem)] min-h-[88svh] sm:min-h-[90svh]"
+    >
       <div className="absolute inset-0 opacity-[0.025]">
         <div className="absolute inset-0" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
@@ -182,9 +188,9 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
         </svg>
       </div>
 
-      <div className="container relative z-10 px-4 pb-28 md:pb-20">
+      <div className="container relative z-10 px-4 sm:px-6 pb-24 sm:pb-28 md:pb-20">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm uppercase tracking-widest text-primary-foreground/75 mb-4 animate-fade-in font-medium">
+          <p className="text-[11px] sm:text-sm uppercase tracking-widest text-primary-foreground/75 mb-3 sm:mb-4 animate-fade-in font-medium">
             Dimension3D {ACTIVE_CITY.cityName}
           </p>
 
@@ -195,21 +201,27 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
           <p className={subtitleClass}>
             {geoSubtitle ?? (isXpLang ? t("xp.hero.v4.subtitle") : t("hero.subtitle"))}
           </p>
-          <div className="flex justify-center mb-8 animate-fade-in-delay">
+          <div className="flex justify-center mb-6 sm:mb-8 animate-fade-in-delay px-2">
             <div className={pillClass}>
-              <Zap className="w-4 h-4 flex-shrink-0" />
-              {isXpLang ? t("xp.hero.v4.pill") : t("hero.speedPromise")}
+              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="hidden sm:inline">
+                {isXpLang ? t("xp.hero.v4.pill") : t("hero.speedPromise")}
+              </span>
+              <span className="inline sm:hidden">
+                {t("hero.pill.shortMobile") || (isXpLang ? t("xp.hero.v4.pill") : t("hero.speedPromise"))}
+              </span>
             </div>
           </div>
-          <div className="flex justify-center animate-fade-in-delay-2">
+          <div className="flex justify-center animate-fade-in-delay-2 px-2">
             <Button
               variant="cta"
               size="xl"
               onClick={handleScrollToUpload}
-              className="shadow-lg px-12 py-5 text-lg h-auto whitespace-normal text-center"
+              className="shadow-lg w-full sm:w-auto sm:px-12 h-14 sm:h-auto sm:py-5 text-[17px] sm:text-lg font-semibold whitespace-nowrap"
             >
               <Upload className="w-5 h-5 flex-shrink-0" />
-              {isXpLang ? t("xp.hero.v4.button") : t("hero.cta.getQuote")}
+              <span className="sm:hidden">{ctaShortLabel}</span>
+              <span className="hidden sm:inline">{ctaFullLabel}</span>
             </Button>
           </div>
           {isXpLang && (
@@ -230,17 +242,17 @@ const Hero = ({ onScrollToCalc }: HeroProps) => {
           </p>
 
           {/* Trust indicators */}
-          <div className="mt-12 flex flex-wrap justify-center gap-6 text-primary-foreground/85 text-sm animate-fade-in-delay-2">
+          <div className="mt-8 sm:mt-12 flex flex-wrap justify-center gap-x-4 gap-y-2 sm:gap-6 text-primary-foreground/85 text-[12px] sm:text-sm animate-fade-in-delay-2">
             {trustItems.map((item, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <item.icon className="w-4 h-4 text-accent" />
+              <div key={index} className="flex items-center gap-1.5 sm:gap-2">
+                <item.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
                 <span>{item.text}</span>
               </div>
             ))}
           </div>
 
           {/* Highlighted review quotes — horizontal scroll-snap on mobile, row on desktop */}
-          <div className="mt-10 flex flex-row gap-4 overflow-x-auto snap-x snap-mandatory md:overflow-visible md:justify-center md:flex-wrap animate-fade-in-delay-2 pb-1 -mx-4 px-4 md:mx-0 md:px-0">
+          <div className="mt-6 sm:mt-10 flex flex-row gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory md:overflow-visible md:justify-center md:flex-wrap animate-fade-in-delay-2 pb-1 -mx-4 px-4 md:mx-0 md:px-0">
             {[t("hero.quote1"), t("hero.quote2"), t("hero.quote3")].map((quote, i) => (
               <div
                 key={i}

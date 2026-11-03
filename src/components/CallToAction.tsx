@@ -21,7 +21,7 @@ const CallToAction = () => {
   };
 
   return (
-    <section className="py-20 md:py-28 hero-gradient">
+    <section className="py-12 md:py-28 hero-gradient">
       <div className="container px-4">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">

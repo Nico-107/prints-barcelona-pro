@@ -5,7 +5,7 @@ const ExpressPrinting = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="express" className="py-16 md:py-20 bg-section-dark section-dark-texture">
+    <section id="express" className="py-12 md:py-20 bg-section-dark section-dark-texture">
       <div className="container relative z-10 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-section-dark-surface rounded-2xl p-8 md:p-10 border border-accent/30">

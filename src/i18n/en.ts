@@ -54,6 +54,8 @@ export const enTranslations: Record<string, string> = {
   "hero.subtitle": "Custom parts, prototypes, and fast turnaround. Get your quote in under 1 hour.",
   "hero.cta.upload": "Upload Your File",
   "hero.cta.getQuote": "Get a free quote instantly",
+  "hero.cta.getPriceShort": "Get my price",
+  "hero.pill.shortMobile": "From €10 · No minimum · Real person",
   "hero.cta.whatsapp": "Contact on WhatsApp",
   "xp.hero.v2.title": "3D printing in Barcelona",
   "xp.hero.v2.subtitle": "Upload your file. Get your price in 1 hour.",

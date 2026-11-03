@@ -54,6 +54,8 @@ export const caTranslations: Record<string, string> = {
   "hero.subtitle": "Peces a mida, prototips i lliurament ràpid. Rep el teu pressupost en menys d'1 hora.",
   "hero.cta.upload": "Puja el teu arxiu",
   "hero.cta.getQuote": "Pressupost gratuït al instant",
+  "hero.cta.getPriceShort": "Veure el meu preu",
+  "hero.pill.shortMobile": "Des de 10 € · Sense mínim · Persona real",
   "hero.cta.whatsapp": "Contacta per WhatsApp",
   "xp.hero.v2.title": "Impressió 3D a Barcelona",
   "xp.hero.v2.subtitle": "Puja el teu arxiu. Rep el preu en 1 hora.",

@@ -54,6 +54,8 @@ export const itTranslations: Record<string, string> = {
   "hero.subtitle": "Stampa 3D professionale a Barcellona. Consegna in Italia in 3–4 giorni lavorativi.",
   "hero.cta.upload": "Carica il tuo file",
   "hero.cta.getQuote": "Preventivo istantaneo",
+  "hero.cta.getPriceShort": "Vedi il mio prezzo",
+  "hero.pill.shortMobile": "Da 10 € · Nessun minimo · Persona reale",
   "hero.cta.whatsapp": "Contattaci su WhatsApp",
   "hero.speedPromise": "Preventivo gratuito · in meno di 1 ora · verificato da un esperto",
   "hero.trust.location": "Con sede a {city} {flag}",

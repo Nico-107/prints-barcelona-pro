@@ -41,6 +41,21 @@ const Header = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMenuOpen]);
 
+  // Lock body scroll + close on Escape while the mobile sheet is open.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [isMenuOpen]);
+
   const isEs = language === "es";
   const isCa = language === "ca";
   const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
@@ -70,9 +85,12 @@ const Header = () => {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="container px-4">
-        <div className="flex items-center h-16">
+    <header
+      className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50"
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
+    >
+      <div className="container px-4 sm:px-6">
+        <div className="flex items-center h-[var(--header-h)]">
 
           {/* Logo — goes to language hub, not always / */}
           <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
@@ -248,14 +266,18 @@ const Header = () => {
           {/* Mobile controls */}
           <div className="xl:hidden ml-auto flex items-center gap-3">
             <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
-            <button className="p-2 text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+            <button
+              className="p-2 text-foreground inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
 
         {isMenuOpen && (
-          <nav className="xl:hidden py-4 border-t border-border/50 max-h-[80vh] overflow-y-auto">
+          <nav className="xl:hidden py-4 border-t border-border/50 max-h-[calc(100svh-var(--header-h))] overflow-y-auto">
             <div className="flex flex-col gap-2">
               {/* For Business — top of mobile menu */}
               {(() => {

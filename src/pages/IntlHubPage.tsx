@@ -198,7 +198,7 @@ const IntlHubPage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
         {/* Hero */}
         <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient">
           <div className="absolute inset-0 opacity-[0.03]">
@@ -226,7 +226,7 @@ const IntlHubPage = ({ content }: Props) => {
                 {content.eyebrow}
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
+              <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
                 {content.h1}
               </h1>
 

@@ -273,7 +273,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
       <Header />
 
-      <main className="pt-16">
+      <main className="pt-[var(--header-h)]">
         {/* Breadcrumb */}
         <nav className="container px-4 pt-8 text-sm text-muted-foreground">
           <ol className="flex items-center gap-1.5 flex-wrap">
@@ -302,10 +302,10 @@ const LandingPage = ({ page: pageProp }: Props) => {
               <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-5 border ${isMadrid ? "bg-orange-400/20 text-orange-200 border-orange-400/30" : "bg-white/10 text-white border-white/20"}`}>
                 <MapPin className="w-3.5 h-3.5" /> {pageCity.cityName}
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground tracking-tight mb-5">
+              <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] sm:leading-tight font-bold text-primary-foreground tracking-tight mb-4 sm:mb-5 [text-wrap:balance]">
                 {page.h1}
               </h1>
-              <p className="text-lg md:text-xl text-primary-foreground/90 leading-relaxed mb-8">
+              <p className="text-[15px] sm:text-lg md:text-xl text-primary-foreground/90 leading-relaxed mb-6 sm:mb-8">
                 {page.intro}
               </p>
               {isMaker ? (

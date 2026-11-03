@@ -110,6 +110,15 @@ const CookieConsentBanner = () => {
     return () => document.removeEventListener("cookie-prefs-open", reopen);
   }, [showBanner]);
 
+  // Flag body so the WhatsApp float / sticky bars can shift above the sheet on mobile.
+  useEffect(() => {
+    const shouldFlag = hydrated && consent === null && visible;
+    if (shouldFlag) {
+      document.body.setAttribute("data-cookie-visible", "true");
+      return () => document.body.removeAttribute("data-cookie-visible");
+    }
+  }, [hydrated, consent, visible]);
+
   if (!hydrated || consent !== null || !visible) return null;
 
   const accept = () => {
@@ -165,29 +174,29 @@ const CookieConsentBanner = () => {
   }
 
   if (effectivePlacement === "sheet") {
-    // Mobile: slim bottom sheet, ≤96px, safe-area aware
+    // Mobile: slim bottom sheet, capped at 35% of the viewport, safe-area aware.
     return (
       <div
         role="dialog"
         aria-label={t("cookie.banner.accept")}
-        className="fixed bottom-0 left-0 right-0 z-[60] border-t border-border bg-background shadow-lg"
+        className="fixed bottom-0 left-0 right-0 z-[60] border-t border-border bg-background shadow-lg max-h-[35svh] overflow-y-auto"
         style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
         onKeyDown={e => { if (e.key === "Escape") e.stopPropagation(); }}
       >
         <div className="px-4 pt-2 pb-1">
           <div className="flex items-center gap-2">
-            <p className="flex-1 text-xs text-muted-foreground leading-snug">
+            <p className="flex-1 text-[12px] text-muted-foreground leading-snug">
               {t("cookie.banner.message")}{" "}
               <Link to={privacyPath} className="underline underline-offset-2 hover:text-foreground whitespace-nowrap">
                 {t("cookie.banner.moreInfo")}
               </Link>
             </p>
           </div>
-          <div className="flex gap-2 mt-1.5">
-            <Button variant="outline" size="sm" className="flex-1 h-9" onClick={reject} data-ph-name="cookie-reject">
+          <div className="flex gap-2 mt-2">
+            <Button variant="outline" size="sm" className="flex-1 h-10" onClick={reject} data-ph-name="cookie-reject">
               {t("cookie.banner.reject")}
             </Button>
-            <Button variant="accent" size="sm" className="flex-1 h-9" onClick={accept} data-ph-name="cookie-accept">
+            <Button variant="accent" size="sm" className="flex-1 h-10" onClick={accept} data-ph-name="cookie-accept">
               {t("cookie.banner.accept")}
             </Button>
           </div>
