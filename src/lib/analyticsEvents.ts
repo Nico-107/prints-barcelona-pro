@@ -433,6 +433,35 @@ export interface EventMap {
   // Consent (STEP 3.4)
   consent_prompt_shown: { placement: 'card' | 'sheet' | 'top-docked'; trigger: 'scroll' | 'click' | 'timer' };
   consent_decision: { decision: 'accept' | 'reject'; seconds_to_decision: number; page_type: string };
+
+  // Prompt 25 — checkout redesign tracking
+  /** Fires before Stripe redirect — one row per completed checkout session start. */
+  checkout_started: {
+    total: number; instant_eligible: boolean; material: string; delivery: string;
+    page_type: string; country_page: string | null; device: 'mobile' | 'desktop';
+  };
+  /** Fires when the user opens the "¿Lo revisan primero?" path instead of Buy. */
+  quote_path_chosen: { reason: string; total: number };
+  /** Fires when "Ajustes avanzados" accordion is opened for the first time per session. */
+  advanced_opened: { via: 'simple' | 'advanced' | 'per_part' };
+  /** Fires when the "+12" extra colours chip is expanded. */
+  more_colors_opened: Record<string, never>;
+  /** Fires when "Más materiales" (ASA / Nylon + quote-only) is expanded. */
+  more_materials_opened: Record<string, never>;
+  /** Fires when "Enviarme este presupuesto" is submitted — saves a quote. */
+  quote_saved: { email_hash: string; total: number; material: string };
+  /** Fires when a shared quote link re-opens the modal with its config. */
+  quote_link_opened: { restored_file: boolean };
+  /** Fires when the live-colour swatch actually updates the viewer material. */
+  color_changed_preview: { colour: string };
+  /** Fires with every impression of the cutoff line so we can prove it swaps at 14:00. */
+  cutoff_shown: { before_cutoff: boolean };
+  /** Fires on every impression / interaction of the price view (R5). */
+  price_viewed: {
+    total: number; instant_eligible: boolean; ineligible_reason?: string;
+    material: string; delivery: string; page_type: string;
+    country_page: string | null; device: 'mobile' | 'desktop';
+  };
 }
 
 export type EventName = keyof EventMap;

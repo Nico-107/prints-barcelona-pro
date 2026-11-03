@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { capture } from "@/lib/analytics";
 
 // owner: edit/remove colours here
 export const COLOUR_OPTIONS: { key: string; hex: string }[] = [
@@ -51,6 +52,8 @@ export function ColourPicker({ value, onChange, disabled = false, t }: ColourPic
 
   const handleCustomClick = () => {
     setCustomMode(true);
+    // Prompt §8: fires once per session when the extra-colours input is expanded.
+    capture("more_colors_opened", {});
     // Do NOT call onChange — leave the stored value unchanged
   };
 

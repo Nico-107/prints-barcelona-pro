@@ -161,7 +161,11 @@ export function CheckoutConfigurator({
             {t("calc.mode.simple")}
           </button>
           <button type="button" role="radio" aria-checked={advancedMode}
-            onClick={() => { onAdvancedModeChange(true); capture("config_mode_changed", { mode: "advanced" }); }}
+            onClick={() => {
+              onAdvancedModeChange(true);
+              capture("config_mode_changed", { mode: "advanced" });
+              capture("advanced_opened", { via: "advanced" });
+            }}
             className={`flex-1 py-2 px-3 border-l border-border transition-colors ${advancedMode ? "bg-accent text-accent-foreground font-semibold" : "bg-background text-muted-foreground hover:bg-muted/30"}`}>
             {t("calc.mode.advanced")}
           </button>
@@ -303,7 +307,12 @@ export function CheckoutConfigurator({
           })}
         </div>
         {quoteOnlyMaterials.length > 0 && (
-          <details className="mt-1.5">
+          <details
+            className="mt-1.5"
+            onToggle={(e) => {
+              if ((e.currentTarget as HTMLDetailsElement).open) capture("more_materials_opened", {});
+            }}
+          >
             <summary className="text-xs text-muted-foreground cursor-pointer select-none hover:text-foreground">
               {t("calc.mat.more")}
             </summary>

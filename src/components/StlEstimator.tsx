@@ -874,7 +874,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const handleMaterialChange = (v: string) => { setMaterialKey(v); capture('config_changed', { field: 'material', value: v }); };
   const handleUrgencyChange = (v: "standard" | "express" | "urgent") => { setUrgency(v); capture('config_changed', { field: 'urgency', value: v }); };
-  const handleColorChange = (v: string) => { setColorPref(v); capture('config_changed', { field: 'colour', value: v }); };
+  const handleColorChange = (v: string) => {
+    setColorPref(v);
+    capture('config_changed', { field: 'colour', value: v });
+    // R2 / Prompt §8: the viewer mesh material colour follows the swatch live.
+    // Fire color_changed_preview so we can prove the live-preview loop is working.
+    capture('color_changed_preview', { colour: v });
+  };
   const handleQualityChange = (v: typeof quality) => { setQuality(v); capture('config_changed', { field: 'quality', value: v }); };
 
   const clearFieldFromAllParts = (field: keyof PartSettings): number => {
@@ -1063,6 +1069,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         quality: uniformQuality,
       });
       capture('stripe_redirect', { price_eur: chargedPrice, fulfillment: fulfillment ?? undefined });
+      capture('checkout_started', {
+        total: chargedPrice,
+        instant_eligible: true,
+        material: materialKey,
+        delivery: urgency,
+        page_type: window.location.pathname === "/" || window.location.pathname === "/ca" ? "home" : "page",
+        country_page: /^\/(de|nl|fr|it|pt)\b/.test(window.location.pathname) ? window.location.pathname.slice(1, 3) : null,
+        device: window.innerWidth < 1024 ? "mobile" : "desktop",
+      });
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
@@ -1075,6 +1090,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const handleManualReview = () => {
     capture('review_clicked', { source: 'modal' });
+    capture('quote_path_chosen', {
+      reason: ineligibleReasons[0] ?? 'user_requested',
+      total: bundle ? bundle.orderResult.chargedPrintCents / 100 : 0,
+    });
     const cc = checkContact(contactEmail, contactPhone);
     setContactTouched(true);
     if (!cc.ok) {
