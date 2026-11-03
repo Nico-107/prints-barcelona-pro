@@ -102,6 +102,8 @@ interface OrderPanelProps {
   supportHeavy?: boolean;
   /** Current urgency selection — passed to DeliveryPromise for transit estimate */
   urgency?: string;
+  /** When true, hide the pickup button entirely (international pages: ship-only). */
+  shippingOnly?: boolean;
 }
 
 export function OrderPanel({
@@ -160,6 +162,7 @@ export function OrderPanel({
   ineligibleReasons = [],
   supportHeavy = false,
   urgency = "standard",
+  shippingOnly = false,
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -354,44 +357,51 @@ export function OrderPanel({
           <div className="space-y-2" ref={actionsExposureRef}>
             {instantBuyEligible && !showManualReview ? (
               <>
-                {/* Compact fulfillment picker — same across all variants */}
-                <div
-                  className="flex gap-2"
-                  data-testid="compact-fulfillment-picker"
-                  ref={fulfillmentPickerRef}
-                  tabIndex={-1}
-                >
-                  <button
-                    type="button"
-                    data-testid="compact-fulfillment-pickup"
-                    data-ph-name="pickup-option"
-                    onClick={() => onFulfillmentChange("pickup")}
-                    disabled={isCheckingOut}
-                    className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
-                      fulfillment === "pickup"
-                        ? "border-accent bg-accent/8 text-foreground font-medium"
-                        : "border-input bg-background text-foreground hover:border-accent/60"
-                    }`}
-                  >
-                    {t("calc.instantBuy.fulfillment.pickup.short")}
-                  </button>
-                  <button
-                    type="button"
-                    data-testid="compact-fulfillment-shipping"
-                    data-ph-name="shipping-option"
-                    onClick={() => onFulfillmentChange("shipping")}
-                    disabled={isCheckingOut}
-                    className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
-                      fulfillment === "shipping"
-                        ? "border-accent bg-accent/8 text-foreground font-medium"
-                        : "border-input bg-background text-foreground hover:border-accent/60"
-                    }`}
-                  >
-                    {t("calc.instantBuy.fulfillment.shipping.short").replace("{price}", shippingFormatted)}
-                  </button>
-                </div>
-                {fulfillmentAttempted && fulfillment === null && (
-                  <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
+                {/* Compact fulfillment picker — same across all variants.
+                    Hidden on international pages where pickup isn't offered. */}
+                {!shippingOnly ? (
+                  <>
+                    <div
+                      className="flex gap-2"
+                      data-testid="compact-fulfillment-picker"
+                      ref={fulfillmentPickerRef}
+                      tabIndex={-1}
+                    >
+                      <button
+                        type="button"
+                        data-testid="compact-fulfillment-pickup"
+                        data-ph-name="pickup-option"
+                        onClick={() => onFulfillmentChange("pickup")}
+                        disabled={isCheckingOut}
+                        className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
+                          fulfillment === "pickup"
+                            ? "border-accent bg-accent/8 text-foreground font-medium"
+                            : "border-input bg-background text-foreground hover:border-accent/60"
+                        }`}
+                      >
+                        {t("calc.instantBuy.fulfillment.pickup.short")}
+                      </button>
+                      <button
+                        type="button"
+                        data-testid="compact-fulfillment-shipping"
+                        data-ph-name="shipping-option"
+                        onClick={() => onFulfillmentChange("shipping")}
+                        disabled={isCheckingOut}
+                        className={`flex-1 text-center rounded-lg border px-2 py-2 text-xs transition-colors disabled:opacity-60 whitespace-nowrap ${
+                          fulfillment === "shipping"
+                            ? "border-accent bg-accent/8 text-foreground font-medium"
+                            : "border-input bg-background text-foreground hover:border-accent/60"
+                        }`}
+                      >
+                        {t("calc.instantBuy.fulfillment.shipping.short").replace("{price}", shippingFormatted)}
+                      </button>
+                    </div>
+                    {fulfillmentAttempted && fulfillment === null && (
+                      <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
+                    )}
+                  </>
+                ) : (
+                  <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef} className="sr-only" />
                 )}
 
                 {/* Big Buy button · trust line · payment badges · two small buttons */}

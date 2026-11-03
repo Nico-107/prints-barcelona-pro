@@ -233,7 +233,7 @@ const IntlCityPage = ({ content }: Props) => {
         {/* Calculator — immediately after hero so upload CTA is near top */}
         <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
           <div className="container px-4 max-w-5xl mx-auto">
-            <StlEstimator />
+            <StlEstimator shippingOnly />
           </div>
         </section>
 

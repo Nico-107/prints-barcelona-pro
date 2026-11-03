@@ -97,9 +97,13 @@ interface Props {
   refPickupAvailable?: boolean;
   /** When true, disables instant checkout (e.g. for countries outside SHIP_COUNTRIES) */
   forceQuoteOnly?: boolean;
+  /** When true, hides the pickup fulfillment option and defaults to shipping.
+   *  Set from international hub / city / part pages where in-person pickup
+   *  in Barcelona isn't offered. */
+  shippingOnly?: boolean;
 }
 
-export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false }: Props) {
+export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false, shippingOnly = false }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
@@ -243,7 +247,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [preUploadDone, setPreUploadDone] = useState(false);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   const [showManualReview, setShowManualReview] = useState(false);
-  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
+  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(shippingOnly ? "shipping" : null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const fulfillmentPickerRef = useRef<HTMLDivElement>(null);
   const [showExitIntent, setShowExitIntent] = useState(false);
@@ -2026,6 +2030,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           ineligibleReasons,
           supportHeavy: bundle?.supportHeavy ?? false,
           urgency,
+          shippingOnly,
         } as const;
 
         const leftSlot = (

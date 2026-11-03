@@ -208,7 +208,7 @@ const InternationalServicePage = () => {
 
       {/* Calculator */}
       <section id="calculator" className="container px-4 py-10">
-        <StlEstimator />
+        <StlEstimator shippingOnly />
       </section>
 
       {/* Content sections */}
