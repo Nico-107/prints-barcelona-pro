@@ -152,28 +152,21 @@ export function CheckoutConfigurator({
 
   return (
     <div className="space-y-4">
-      {/* Mode switch */}
-      <div>
-        <div className="flex rounded-lg border border-border overflow-hidden text-sm" role="radiogroup" aria-label="Configurator mode">
-          <button type="button" role="radio" aria-checked={!advancedMode}
+      {/* Mode switch — removed from default view per Prompt 25 §1. Advanced is
+          now reached through the "Ajustes avanzados" accordion lower down;
+          this button is kept as a small fallback to preserve admin / power-user
+          access and stays out of the default flow. */}
+      {advancedMode && (
+        <div className="flex justify-end">
+          <button
+            type="button"
             onClick={() => { onAdvancedModeChange(false); capture("config_mode_changed", { mode: "simple" }); }}
-            className={`flex-1 py-2 px-3 transition-colors ${!advancedMode ? "bg-accent text-accent-foreground font-semibold" : "bg-background text-muted-foreground hover:bg-muted/30"}`}>
+            className="text-xs text-muted-foreground hover:text-foreground underline"
+          >
             {t("calc.mode.simple")}
           </button>
-          <button type="button" role="radio" aria-checked={advancedMode}
-            onClick={() => {
-              onAdvancedModeChange(true);
-              capture("config_mode_changed", { mode: "advanced" });
-              capture("advanced_opened", { via: "advanced" });
-            }}
-            className={`flex-1 py-2 px-3 border-l border-border transition-colors ${advancedMode ? "bg-accent text-accent-foreground font-semibold" : "bg-background text-muted-foreground hover:bg-muted/30"}`}>
-            {t("calc.mode.advanced")}
-          </button>
         </div>
-        <p className="text-xs text-muted-foreground mt-1">
-          {advancedMode ? t("calc.mode.advancedHint") : t("calc.mode.simpleHint")}
-        </p>
-      </div>
+      )}
 
       {/* Simple mode: overrides hint */}
       {!advancedMode && hasAnyOverrides && (
@@ -237,9 +230,12 @@ export function CheckoutConfigurator({
         </p>
       )}
 
-      {/* Use case chips (Simple mode, scope=all only) */}
+      {/* Use-case chips — hidden by default. Prompt §1 keeps them reachable
+          through "¿No sabes cuál elegir?" below the material grid, so we wrap
+          them in a <details> that renders nothing until the user asks. */}
       {!advancedMode && (
-        <div>
+        <details data-testid="use-case-chips" className="sr-only [&[open]]:not-sr-only">
+          <summary className="hidden"></summary>
           <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.use.title")}</p>
           <div className="flex flex-wrap gap-1.5">
             {USE_CASES.map(u => (
@@ -267,7 +263,7 @@ export function CheckoutConfigurator({
               </button>
             </p>
           )}
-        </div>
+        </details>
       )}
 
       {/* Advanced group header: Material & colour */}
@@ -328,6 +324,19 @@ export function CheckoutConfigurator({
               ))}
             </div>
           </details>
+        )}
+        {/* "¿No sabes cuál elegir?" — reveals the use-case chips inline per Prompt §1 */}
+        {!advancedMode && (
+          <button
+            type="button"
+            onClick={() => {
+              const details = document.querySelector('[data-testid="use-case-chips"]') as HTMLDetailsElement | null;
+              if (details) details.open = !details.open;
+            }}
+            className="mt-1.5 text-xs text-accent underline"
+          >
+            {t("calc.use.title")}
+          </button>
         )}
       </div>
 
