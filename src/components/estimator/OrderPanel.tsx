@@ -8,6 +8,8 @@ import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { useXpExposure } from "@/lib/experiments";
 import { AUTUMN_DISCOUNT, PAYMENT_CAPTURE_MODE } from "@/config/policies";
+import { computeShipDate, formatShipDate, cutoffLine, isBeforeCutoff } from "@/lib/shipDate";
+import { capture } from "@/lib/analytics";
 import { EST } from "@/lib/estimator/core";
 import { PICKUP_ADDRESS } from "@/config/cities";
 import { PartRow } from "./PartRow";
@@ -20,6 +22,14 @@ import { formatEUR } from "@/lib/formatPrice";
 import type { Language } from "@/lib/pathLanguage";
 
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"];
+
+/** Cutoff line (R7). Fires `cutoff_shown` once per mount. */
+function CutoffLine({ line, beforeCutoff }: { line: string; beforeCutoff: boolean }) {
+  useEffect(() => { capture("cutoff_shown", { before_cutoff: beforeCutoff }); }, [beforeCutoff]);
+  return (
+    <p data-testid="cutoff-line" className="text-xs text-muted-foreground text-center">{line}</p>
+  );
+}
 
 interface OrderPanelProps {
   // Parts
@@ -403,6 +413,20 @@ export function OrderPanel({
                 ) : (
                   <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef} className="sr-only" />
                 )}
+
+                {/* Cutoff line (R7) — "Pide antes de las 14:00 → …" */}
+                {(() => {
+                  const now = new Date();
+                  const ship = computeShipDate(now, urgency);
+                  const beforeCutoff = isBeforeCutoff(now);
+                  // Fire cutoff_shown exactly once per mount
+                  return (
+                    <CutoffLine
+                      line={cutoffLine(formatShipDate(ship, language), language, beforeCutoff)}
+                      beforeCutoff={beforeCutoff}
+                    />
+                  );
+                })()}
 
                 {/* Big Buy button · trust line · payment badges · two small buttons */}
                 <div className="space-y-2">
