@@ -44,10 +44,22 @@ const IntlCityPage = ({ content }: Props) => {
       type: "calculator",
     });
     const el = document.getElementById("calculator");
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top, behavior: "smooth" });
+    // Open the native file picker on the same user gesture so the CTA isn't a dead click.
+    const clickFileInput = () => {
+      const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
+      if (fileInput) { fileInput.click(); return true; }
+      return false;
+    };
+    if (clickFileInput()) return;
+    let tries = 0;
+    const retry = () => {
+      if (clickFileInput() || tries++ > 10) return;
+      requestAnimationFrame(retry);
+    };
+    requestAnimationFrame(retry);
   };
 
   useEffect(() => {

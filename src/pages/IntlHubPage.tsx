@@ -81,12 +81,25 @@ const IntlHubPage = ({ content }: Props) => {
   const scrollToCalc = (section: string) => {
     capture("international_cta_click", { market: content.countryCode, lang: content.lang, section });
     const el = document.getElementById("calculator");
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: "smooth" });
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top, behavior: "smooth" });
+    // The StlEstimator mounts lazily; the file <input> may not exist yet on
+    // first click (that's the deadclick 14 IT users hit on /it/stampa-3d-online).
+    // Try immediately AND once the lazy chunk resolves — synchronous call keeps
+    // the user-gesture context for the native file picker.
+    const clickFileInput = () => {
       const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
-      fileInput?.click();
-    }
+      if (fileInput) { fileInput.click(); return true; }
+      return false;
+    };
+    if (clickFileInput()) return;
+    let tries = 0;
+    const retry = () => {
+      if (clickFileInput() || tries++ > 10) return;
+      requestAnimationFrame(retry);
+    };
+    requestAnimationFrame(retry);
   };
 
   useEffect(() => {
