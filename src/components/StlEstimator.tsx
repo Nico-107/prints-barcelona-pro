@@ -2103,6 +2103,33 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               );
             })()}
 
+            {/* Printability chip (R11) — green ok / amber reason, under the viewer */}
+            {stepperFile && !stepperFile.imageFile && !stepperFile.linkFile && (() => {
+              const idx = validFiles.indexOf(stepperFile);
+              const est = bundle?.estimates?.[idx];
+              const fits = est ? est.fitsPlate : true;
+              const parseError = !!stepperFile.parseError;
+              if (parseError) {
+                return (
+                  <p data-testid="printability-chip" data-state="error" className="shrink-0 inline-flex self-start items-center gap-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 px-2.5 py-1 text-xs font-medium">
+                    {t("calc.printability.parseError")}
+                  </p>
+                );
+              }
+              if (!fits) {
+                return (
+                  <p data-testid="printability-chip" data-state="oversize" className="shrink-0 inline-flex self-start items-center gap-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 px-2.5 py-1 text-xs font-medium">
+                    {t("calc.printability.oversize")}
+                  </p>
+                );
+              }
+              return (
+                <p data-testid="printability-chip" data-state="ok" className="shrink-0 inline-flex self-start items-center gap-1 rounded-full bg-green-50 border border-green-200 text-green-900 px-2.5 py-1 text-xs font-medium">
+                  {t("calc.printability.ok")}
+                </p>
+              );
+            })()}
+
             {/* Image design-request cards */}
             {parsedFiles.filter(f => f.imageFile).map(f => (
               <div key={f.id} className="shrink-0 rounded-xl border border-border bg-accent/5 p-4">
