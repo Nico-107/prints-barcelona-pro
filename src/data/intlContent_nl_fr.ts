@@ -501,7 +501,7 @@ export const frHub: IntlHubContent = {
   trustChips: ["Dès 10 €", "Devis en 1 heure", "Livraison 5,90 € suivie", "Sans douane dans l'UE"],
   orgAlternateNames: ["Dimension3D France", "Dimension 3D Prints France", "Dimension 3D France"],
   promise: "Devis en moins d'1 heure les jours ouvrables (heure espagnole). Pas de frais de mise en route. Expédition 5,90 €. Commande minimum de 10 €.",
-  howItWorks: `Comment ça fonctionne ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou WhatsApp. Les jours ouvrables, nous répondons en général dans l'heure avec un prix exact. Pour les commandes jusqu'à 100 €, un tarif instantané est également disponible en ligne. Une fois le devis accepté, nous lançons la fabrication dans notre atelier à Barcelone. Votre colis est expédié le jour même ou le lendemain et arrive en France habituellement sous 2–4 jours ouvrables. L'ensemble du trajet reste dans l'Union européenne — aucune formalité douanière, aucune taxe supplémentaire.`,
+  howItWorks: `Comment ça fonctionne ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou WhatsApp. Les jours ouvrables, nous répondons en général dans l'heure avec un prix exact. Pour les commandes jusqu'à 200 €, un tarif instantané est également disponible en ligne. Une fois le devis accepté, nous lançons la fabrication dans notre atelier à Barcelone. Votre colis est expédié le jour même ou le lendemain et arrive en France habituellement sous 2–4 jours ouvrables. L'ensemble du trajet reste dans l'Union européenne — aucune formalité douanière, aucune taxe supplémentaire.`,
   whatWePrint: `Que peut-on faire imprimer ? Les applications sont nombreuses : pièces de rechange pour appareils ou machines dont les composants ne sont plus disponibles, prototypes fonctionnels pour le développement de produits, boîtiers et adaptateurs pour l'électronique, supports et fixations sur mesure pour l'industrie ou le milieu amateur, maquettes et modèles architecturaux, et objets personnalisés ou décoratifs. L'impression FDM convient particulièrement aux pièces mécaniquement sollicitées, exposées à l'extérieur ou devant résister à la chaleur. Vous n'êtes pas sûr(e) que votre idée soit imprimable ? Envoyez une photo ou une description via WhatsApp — nous vous conseillons gratuitement.`,
   materialsText: `Nous imprimons en PLA, PETG, ABS, ASA, TPU (flexible), Nylon (PA12/PA6) et composites fibres de carbone. Le PLA est le choix le plus accessible : prix compétitif, beau rendu de surface, adapté à la plupart des applications d'intérieur. Le PETG offre résistance mécanique et imperméabilité — idéal pour les pièces fonctionnelles. L'ABS et l'ASA résistent à la chaleur jusqu'à environ 90–100 °C et aux UV ; parfaits pour les pièces automobiles ou les applications extérieures. Le Nylon est choisi lorsque la résistance maximale et la tenue à l'usure sont requises. Notre Bambu Lab X2D dispose d'une chambre fermée et chauffée — ce qui garantit des conditions d'impression stables pour tous les matériaux, y compris les plus exigeants techniquement.`,
   fileFormatsText: `Nous acceptons les formats STL, OBJ, 3MF et STEP. Les exports directs depuis Fusion 360, SolidWorks, Onshape, FreeCAD et la plupart des autres logiciels de CAO fonctionnent sans conversion. Vous n'avez qu'un dessin, une photo ou une pièce cassée ? Envoyez-nous le tout — nous étudierons les options ensemble.`,
@@ -512,7 +512,7 @@ export const frHub: IntlHubContent = {
     },
     {
       q: "Dans quel délai recevrai-je mon devis ?",
-      a: "Les jours ouvrables, habituellement dans l'heure (heure de bureau espagnole). Pour les commandes jusqu'à 100 €, un tarif instantané est disponible via la calculatrice en ligne.",
+      a: "Les jours ouvrables, habituellement dans l'heure (heure de bureau espagnole). Pour les commandes jusqu'à 200 €, un tarif instantané est disponible via la calculatrice en ligne.",
     },
     {
       q: "Y a-t-il des droits de douane sur les envois depuis l'Espagne ?",
@@ -812,7 +812,7 @@ export const frGuidePrice: IntlGuideContent = {
   sections: [
     {
       heading: "Comment le prix est-il calculé ?",
-      body: "Le prix de base se compose du coût matériau et du coût machine. Le poids est déterminé par le volume de votre modèle, le taux de remplissage (infill) choisi et l'épaisseur des parois. Le temps d'impression dépend de la géométrie, de la hauteur de couche sélectionnée et de la quantité de supports nécessaires. Le PLA est le matériau le moins cher ; le PETG est légèrement plus onéreux ; l'ABS et le Nylon coûtent davantage en raison de temps d'impression plus longs et d'un prix matière plus élevé. Pour les commandes jusqu'à 100 €, un tarif instantané est disponible en ligne. Au-delà, nous établissons un devis manuel — habituellement en moins d'une heure.",
+      body: "Le prix de base se compose du coût matériau et du coût machine. Le poids est déterminé par le volume de votre modèle, le taux de remplissage (infill) choisi et l'épaisseur des parois. Le temps d'impression dépend de la géométrie, de la hauteur de couche sélectionnée et de la quantité de supports nécessaires. Le PLA est le matériau le moins cher ; le PETG est légèrement plus onéreux ; l'ABS et le Nylon coûtent davantage en raison de temps d'impression plus longs et d'un prix matière plus élevé. Pour les commandes jusqu'à 200 €, un tarif instantané est disponible en ligne. Au-delà, nous établissons un devis manuel — habituellement en moins d'une heure.",
     },
     {
       heading: "L'influence du taux de remplissage et de l'épaisseur de paroi",
@@ -872,7 +872,7 @@ export const frGuidePrice: IntlGuideContent = {
     },
     {
       q: "Dans quel délai reçois-je mon devis ?",
-      a: "Pour les commandes jusqu'à 100 €, un tarif instantané est disponible en ligne. Au-delà, ou pour des projets complexes, vous recevez habituellement un devis manuel en moins d'1 heure les jours ouvrables.",
+      a: "Pour les commandes jusqu'à 200 €, un tarif instantané est disponible en ligne. Au-delà, ou pour des projets complexes, vous recevez habituellement un devis manuel en moins d'1 heure les jours ouvrables.",
     },
   ],
   hubLink: { to: "/fr/impression-3d-en-ligne", label: "Retour à Impression 3D en Ligne" },

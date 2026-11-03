@@ -28,12 +28,12 @@ export const itHub: IntlHubContent = {
 
 Il nostro parco macchine è interamente basato su stampanti Bambu Lab X2D con camera chiusa e piatto riscaldato. Questa architettura garantisce la stabilità termica necessaria per stampare correttamente materiali tecnici come PETG, ABS e Nylon, riducendo al minimo i difetti da warping che affliggono le macchine aperte entry-level. Il risultato sono pezzi con migliore adesione tra gli strati, superfici più consistenti e dimensioni finali più vicine al nominale.
 
-I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più tempo macchina, senza costi di setup e senza sorprese. Per ordini fino a 100 € ottieni un prezzo istantaneo non appena carichi il file. Sopra tale soglia un tecnico revisiona la geometria e ti risponde entro un'ora lavorativa. L'ordine minimo è di 10 €. La spedizione è una tariffa piatta di 5,90 € indipendentemente dal peso o dalla destinazione in Italia.`,
+I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più tempo macchina, senza costi di setup e senza sorprese. Per ordini fino a 200 € ottieni un prezzo istantaneo non appena carichi il file. Sopra tale soglia un tecnico revisiona la geometria e ti risponde entro un'ora lavorativa. L'ordine minimo è di 10 €. La spedizione è una tariffa piatta di 5,90 € indipendentemente dal peso o dalla destinazione in Italia.`,
 
   howItWorks: `**Come funziona il servizio di stampa 3D online**
 
 1. **Carica il file** — accettiamo STL, OBJ, STEP e 3MF. Se il tuo software esporta altro, scrivici su WhatsApp prima di caricare.
-2. **Ricevi il preventivo** — per ordini ≤ 100 € il prezzo appare immediatamente dopo l'analisi automatica del modello. Sopra soglia ricevi risposta entro un'ora nei giorni lavorativi.
+2. **Ricevi il preventivo** — per ordini ≤ 200 € il prezzo appare immediatamente dopo l'analisi automatica del modello. Sopra soglia ricevi risposta entro un'ora nei giorni lavorativi.
 3. **Scegli materiale e finitura** — PLA per prototipi veloci ed economici, PETG per pezzi funzionali resistenti all'umidità, ABS per applicazioni ad alta temperatura, Nylon per componenti flessibili e resistenti all'usura.
 4. **Approva e paga** — il pagamento avviene online in sicurezza. Non ti chiediamo depositi o costi aggiuntivi.
 5. **Ricevi la spedizione** — il pacco parte da Barcellona e arriva solitamente in 3–5 giorni lavorativi. Ricevi il numero di tracciatura non appena il corriere ritira il pacco.`,
@@ -65,7 +65,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
   faqs: [
     {
       q: "Quanto costa far stampare in 3D un oggetto?",
-      a: "Il prezzo dipende principalmente dal peso del materiale e dal tempo di stampa. Come riferimento rapido: pezzi piccoli (20–50 g, 1–2 ore) costano di solito tra 10 e 20 €; pezzi medi (100–200 g, 4–6 ore) tra 25 e 45 €. Carica il file per un preventivo esatto — per ordini ≤ 100 € il prezzo è immediato. Ordine minimo 10 €.",
+      a: "Il prezzo dipende principalmente dal peso del materiale e dal tempo di stampa. Come riferimento rapido: pezzi piccoli (20–50 g, 1–2 ore) costano di solito tra 10 e 20 €; pezzi medi (100–200 g, 4–6 ore) tra 25 e 45 €. Carica il file per un preventivo esatto — per ordini ≤ 200 € il prezzo è immediato. Ordine minimo 10 €.",
     },
     {
       q: "Quanto ci vuole per ricevere il pacco in Italia?",
@@ -206,7 +206,7 @@ Torino è anche un polo aerospaziale rilevante: l'ecosistema di fornitori e spin
 
 La logistica è semplice: la Spagna è nell'Unione Europea come l'Italia, quindi non ci sono dazi né pratiche doganali. Il pacco parte da Barcellona e arriva solitamente in 3–5 giorni lavorativi a Torino. La tariffa di spedizione è piatta a 5,90 € indipendentemente dal numero di pezzi o dal peso. Ricevi tracciatura in tempo reale.
 
-Per iniziare basta caricare il file sul sito. Per ordini fino a 100 € il preventivo è immediato. Se hai bisogno di un consiglio prima di procedere — sul materiale, sulla geometria, sulla fattibilità FDM del tuo progetto — puoi scriverci su WhatsApp. Rispondiamo nelle ore lavorative spagnole, che coincidono con quelle italiane.`,
+Per iniziare basta caricare il file sul sito. Per ordini fino a 200 € il preventivo è immediato. Se hai bisogno di un consiglio prima di procedere — sul materiale, sulla geometria, sulla fattibilità FDM del tuo progetto — puoi scriverci su WhatsApp. Rispondiamo nelle ore lavorative spagnole, che coincidono con quelle italiane.`,
 
   deliveryNote:
     "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Torino. Nessuna dogana UE. Tariffa piatta 5,90 €.",
@@ -274,7 +274,7 @@ Gli studi di architettura e urbanistica romani, che lavorano su concorsi interna
 
 Dal punto di vista logistico, Roma è una destinazione ben servita dai corrieri europei. Grazie al mercato unico UE, la spedizione da Barcellona non comporta dogana né oneri aggiuntivi. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è piatta a 5,90 € indipendentemente dal numero di pezzi. Non ci sono costi di setup né ordini minimi oltre i 10 €.
 
-Per inviare il file e ricevere il preventivo — immediato per ordini ≤ 100 €, entro un'ora lavorativa per ordini più complessi — è sufficiente accedere al sito e caricare il file STL, OBJ, STEP o 3MF. Se preferisci un confronto preliminare, il team è raggiungibile su WhatsApp nelle ore lavorative.`,
+Per inviare il file e ricevere il preventivo — immediato per ordini ≤ 200 €, entro un'ora lavorativa per ordini più complessi — è sufficiente accedere al sito e caricare il file STL, OBJ, STEP o 3MF. Se preferisci un confronto preliminare, il team è raggiungibile su WhatsApp nelle ore lavorative.`,
 
   deliveryNote:
     "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Roma. Nessuna dogana UE. Tariffa piatta 5,90 €.",
@@ -343,7 +343,7 @@ export const itGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Come ottenere il preventivo",
-      body: `Per ordini fino a 100 €, il prezzo è immediato: carichi il file STL, OBJ, STEP o 3MF, selezioni materiale e colore, e il sistema calcola automaticamente il preventivo. Per ordini superiori ai 100 € un tecnico rivede il file e risponde entro un'ora nei giorni lavorativi (orario spagnolo, identico a quello italiano). Puoi anche contattarci su WhatsApp per un preventivo preliminare prima di caricare il file.`,
+      body: `Per ordini fino a 200 €, il prezzo è immediato: carichi il file STL, OBJ, STEP o 3MF, selezioni materiale e colore, e il sistema calcola automaticamente il preventivo. Per ordini superiori ai 200 € un tecnico rivede il file e risponde entro un'ora nei giorni lavorativi (orario spagnolo, identico a quello italiano). Puoi anche contattarci su WhatsApp per un preventivo preliminare prima di caricare il file.`,
     },
     {
       heading: "Consigli per ridurre il costo",
@@ -556,7 +556,7 @@ export const ptHub: IntlHubContent = {
   flag: "🇵🇹",
   metaTitle: "Impressão 3D Online · Envio para Portugal | Dimension3D",
   metaDescription:
-    "Imprimir em 3D de forma rápida e transparente. Estúdio FDM em Barcelona, preço impressão 3D imediato até 100 €, orçamento em 1 hora nos dias úteis.",
+    "Imprimir em 3D de forma rápida e transparente. Estúdio FDM em Barcelona, preço impressão 3D imediato até 200 €, orçamento em 1 hora nos dias úteis.",
   eyebrow: "🇵🇹 Impressão 3D de Barcelona · Envio para Portugal",
   h1: "Serviço de Impressão 3D Online com Envio para Portugal",
   heroSubtitle: "Carrega o ficheiro, orçamento em 1 hora, envio para Portugal em 2–4 dias úteis. A partir de 10 €, sem encomenda mínima.",
@@ -568,12 +568,12 @@ export const ptHub: IntlHubContent = {
 
 O nosso parque de máquinas é integralmente composto por impressoras Bambu Lab X2D com câmara fechada e cama aquecida. Esta arquitectura assegura a estabilidade térmica necessária para imprimir correctamente materiais técnicos como PETG, ABS e Nylon, reduzindo ao mínimo os defeitos de warping comuns em máquinas abertas de entrada de gama. O resultado são peças com melhor adesão entre camadas, superfícies mais consistentes e dimensões finais mais próximas do nominal.
 
-O preço impressão 3D é calculado de forma transparente: peso do material mais tempo de máquina, sem custos de configuração e sem surpresas. Para encomendas até 100 € obtém um preço imediato assim que carrega o ficheiro. Acima desse limiar, um técnico revê a geometria e responde em até uma hora útil. A encomenda mínima é de 10 €. O envio tem uma tarifa fixa de 5,90 € independentemente do peso ou do destino em Portugal.`,
+O preço impressão 3D é calculado de forma transparente: peso do material mais tempo de máquina, sem custos de configuração e sem surpresas. Para encomendas até 200 € obtém um preço imediato assim que carrega o ficheiro. Acima desse limiar, um técnico revê a geometria e responde em até uma hora útil. A encomenda mínima é de 10 €. O envio tem uma tarifa fixa de 5,90 € independentemente do peso ou do destino em Portugal.`,
 
   howItWorks: `**Como funciona o serviço de impressão 3D online**
 
 1. **Carregue o ficheiro** — aceitamos STL, OBJ, STEP e 3MF. Caso o seu software exporte outro formato, contacte-nos via WhatsApp antes de carregar.
-2. **Receba o orçamento** — para encomendas ≤ 100 € o preço aparece imediatamente após a análise automática do modelo. Acima desse valor recebe resposta em até uma hora nos dias úteis.
+2. **Receba o orçamento** — para encomendas ≤ 200 € o preço aparece imediatamente após a análise automática do modelo. Acima desse valor recebe resposta em até uma hora nos dias úteis.
 3. **Escolha o material e o acabamento** — PLA para protótipos rápidos e económicos, PETG para peças funcionais resistentes à humidade, ABS para aplicações a alta temperatura, Nylon para componentes flexíveis e resistentes ao desgaste.
 4. **Aprove e pague** — o pagamento é efectuado online em segurança. Não exigimos depósitos nem custos adicionais.
 5. **Receba a encomenda** — a encomenda parte de Barcelona e chega habitualmente em 2–4 dias úteis. Receberá o número de rastreio assim que o transportador recolher o pacote.`,
@@ -605,7 +605,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
   faqs: [
     {
       q: "Quanto custa imprimir em 3D um objecto?",
-      a: "O preço depende principalmente do peso do material e do tempo de impressão. Como referência rápida: peças pequenas (20–50 g, 1–2 horas) custam geralmente entre 10 e 20 €; peças médias (100–200 g, 4–6 horas) entre 25 e 45 €. Carregue o ficheiro para obter um orçamento exacto — para encomendas ≤ 100 € o preço é imediato. Encomenda mínima de 10 €.",
+      a: "O preço depende principalmente do peso do material e do tempo de impressão. Como referência rápida: peças pequenas (20–50 g, 1–2 horas) custam geralmente entre 10 e 20 €; peças médias (100–200 g, 4–6 horas) entre 25 e 45 €. Carregue o ficheiro para obter um orçamento exacto — para encomendas ≤ 200 € o preço é imediato. Encomenda mínima de 10 €.",
     },
     {
       q: "Quanto tempo demora a encomenda a chegar a Portugal?",
@@ -678,7 +678,7 @@ A transferência de tecnologia das universidades lisboetas para o sector privado
 
 A vantagem logística ibérica é relevante: Lisboa está entre as cidades europeias com melhor ligação de transporte à Península Ibérica. A proximidade geográfica com Barcelona — comparativamente a outras capitais europeias — contribui para que os tempos de envio sejam habitualmente de 2–4 dias úteis, mais rápidos do que para muitas outras origens europeias. Não há alfândega nem taxas adicionais: Espanha e Portugal partilham o mercado único da UE.
 
-O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para encomendas até 100 € o orçamento é imediato. Para projectos mais complexos ou encomendas de maior valor, um técnico responde em até uma hora nos dias úteis. A tarifa de envio é fixa em 5,90 € independentemente do número de peças. A encomenda mínima é de 10 €, sem custos de configuração.`,
+O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para encomendas até 200 € o orçamento é imediato. Para projectos mais complexos ou encomendas de maior valor, um técnico responde em até uma hora nos dias úteis. A tarifa de envio é fixa em 5,90 € independentemente do número de peças. A encomenda mínima é de 10 €, sem custos de configuração.`,
 
   deliveryNote:
     "Envio de Barcelona, habitualmente 2–4 dias úteis para Lisboa. Sem alfândega UE. Tarifa fixa 5,90 €.",
@@ -738,11 +738,11 @@ O ecossistema de fornecedores industriais do Norte de Portugal inclui empresas q
 
 O WOW — World of Wine — no coração de Vila Nova de Gaia, é um exemplo de como o Porto tem atraído projectos culturais e criativos de grande escala que combinam arquitectura, design e tecnologia. Estúdios de design de interiores, ateliers de arquitectura e agências criativas da região utilizam a impressão 3D para produzir modelos em escala, peças de sinalética personalizada, componentes de exposição e acessórios únicos. A possibilidade de encomendar uma única peça ou uma pequena série sem custos de configuração — encomenda mínima de 10 € — torna o serviço acessível para projectos criativos de todas as dimensões.
 
-O corredor Porto–Braga–Guimarães concentra uma das maiores densidades europeias de PME industriais em sectores como moldes, ferramentas de corte e componentes de precisão. Muitas destas empresas têm departamentos de R&D que trabalham com prototipagem rápida para validar novos produtos antes de avançar para produção. A combinação de orçamento rápido (imediato até 100 €, em até uma hora para valores superiores), câmara fechada para materiais técnicos e envio em 2–4 dias úteis cobre bem as necessidades de ciclos curtos de desenvolvimento.
+O corredor Porto–Braga–Guimarães concentra uma das maiores densidades europeias de PME industriais em sectores como moldes, ferramentas de corte e componentes de precisão. Muitas destas empresas têm departamentos de R&D que trabalham com prototipagem rápida para validar novos produtos antes de avançar para produção. A combinação de orçamento rápido (imediato até 200 €, orçamento manual em uma hora útil acima desse valor), câmara fechada para materiais técnicos e envio em 2–4 dias úteis cobre bem as necessidades de ciclos curtos de desenvolvimento.
 
 A vantagem logística da proximidade ibérica é relevante para o Porto: Barcelona fica a menos de duas horas de voo, e os corredores de transporte terrestre e logístico entre as duas cidades são bem desenvolvidos. Graças ao mercado único europeu, não há alfândega nem taxas adicionais. A tarifa de envio é fixa em 5,90 € independentemente do número de peças ou do peso. Habitualmente a encomenda chega em 2–4 dias úteis a partir da aprovação.
 
-O processo começa pelo carregamento do ficheiro no site. O sistema aceita STL, OBJ, STEP e 3MF. Para encomendas até 100 € o orçamento é imediato; para valores superiores um técnico responde em até uma hora nos dias úteis. Se tiver dúvidas sobre o material mais adequado para a sua aplicação, a equipa está disponível via WhatsApp nos horários laborais espanhóis, que coincidem com os portugueses.`,
+O processo começa pelo carregamento do ficheiro no site. O sistema aceita STL, OBJ, STEP e 3MF. Para encomendas até 200 € o orçamento é imediato; para valores superiores um técnico responde em até uma hora nos dias úteis. Se tiver dúvidas sobre o material mais adequado para a sua aplicação, a equipa está disponível via WhatsApp nos horários laborais espanhóis, que coincidem com os portugueses.`,
 
   deliveryNote:
     "Envio de Barcelona, habitualmente 2–4 dias úteis para o Porto. Sem alfândega UE. Tarifa fixa 5,90 €.",
@@ -808,7 +808,7 @@ export const ptGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Como obter o orçamento",
-      body: `Para encomendas até 100 €, o preço é imediato: carregue o ficheiro STL, OBJ, STEP ou 3MF, seleccione o material e a cor, e o sistema calcula automaticamente o orçamento. Para encomendas superiores a 100 € um técnico revê o ficheiro e responde em até uma hora nos dias úteis (horário espanhol, coincidente com o português). Pode também contactar-nos via WhatsApp para um orçamento preliminar antes de carregar o ficheiro.`,
+      body: `Para encomendas até 200 €, o preço é imediato: carregue o ficheiro STL, OBJ, STEP ou 3MF, seleccione o material e a cor, e o sistema calcula automaticamente o orçamento. Para encomendas superiores a 200 € um técnico revê o ficheiro e responde em até uma hora nos dias úteis (horário espanhol, coincidente com o português). Pode também contactar-nos via WhatsApp para um orçamento preliminar antes de carregar o ficheiro.`,
     },
     {
       heading: "Conselhos para reduzir o custo",

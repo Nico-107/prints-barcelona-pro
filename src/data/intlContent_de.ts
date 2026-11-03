@@ -28,7 +28,7 @@ export const DE_HUB: IntlHubContent = {
 
   promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 10 €.`,
 
-  howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 100 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 5,90 €, egal wie viele Teile Sie bestellen.`,
+  howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 200 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 5,90 €, egal wie viele Teile Sie bestellen.`,
 
   whatWePrint: `Als 3D-Druck Dienstleister drucken wir für ein breites Spektrum an Anwendungen: Funktionsprototypen und Iterationsmodelle für Produktentwickler und Ingenieure, Ersatzteile für Maschinen, Haushaltsgeräte oder Oldtimer – gerade wenn Originalteile nicht mehr lieferbar sind. Wir fertigen Gehäuse und Halterungen für Elektronikprojekte, Steuergeräte und Embedded-Systeme, Kleinserien für Messen und Produktlaunches sowie maßgefertigte Einsätze für industrielle Vorrichtungen und Haltevorrichtungen im Automotive-Umfeld. Auch im Maker- und Hobbybereich sind wir gefragt: Brettspiel-Erweiterungen, Cosplay-Requisiten, Modellbau-Zubehör und personalisierte Geschenke werden regelmäßig bei uns gedruckt. Kurz gesagt: Wenn Sie eine Datei haben – oder auch nur ein Foto oder eine Skizze –, finden wir einen Weg, Ihr Teil umzusetzen.`,
 
@@ -59,7 +59,7 @@ export const DE_HUB: IntlHubContent = {
     },
     {
       q: "Wie schnell erhalte ich ein Angebot?",
-      a: "Bei Bestellungen bis 100 € erhalten Sie direkt im Kalkulator einen Sofortpreis. Bei größeren oder komplexeren Aufträgen erstellen wir ein manuelles Angebot und melden uns in der Regel innerhalb einer Stunde – an Werktagen zu Barceloner Geschäftszeiten.",
+      a: "Bei Bestellungen bis 200 € erhalten Sie direkt im Kalkulator einen Sofortpreis. Bei größeren oder komplexeren Aufträgen erstellen wir ein manuelles Angebot und melden uns in der Regel innerhalb einer Stunde – an Werktagen zu Barceloner Geschäftszeiten.",
     },
     {
       q: "Kann ich mehrere Materialien in einer Bestellung kombinieren?",
@@ -370,7 +370,7 @@ Der Stundensatz beträgt 4,95 €/h für die ersten 3 Stunden und 3,85 €/h fü
 
 Konkret bedeutet das: Je leichter und kompakter Ihr Teil ist, desto stärker bestimmt die Druckzeit den Preis. Bei großen, massiven Teilen dominiert das Materialgewicht. Durch die Wahl eines geringeren Infill-Anteils (z. B. 15 % statt 40 %) lässt sich bei Nicht-Funktionsteilen Material sparen, ohne die äußere Geometrie zu verändern.
 
-Für Bestellungen bis 100 € erhalten Sie im Kalkulator auf unserer Website einen Sofortpreis. Bei größeren oder besonders komplexen Aufträgen erstellen wir ein manuelles Angebot und melden uns in der Regel innerhalb einer Stunde (an Werktagen, Barceloner Zeit).`,
+Für Bestellungen bis 200 € erhalten Sie im Kalkulator auf unserer Website einen Sofortpreis. Bei größeren oder besonders komplexen Aufträgen erstellen wir ein manuelles Angebot und melden uns in der Regel innerhalb einer Stunde (an Werktagen, Barceloner Zeit).`,
       },
       {
         heading: "Drei Rechenbeispiele",
@@ -448,7 +448,7 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
       },
       {
         q: "Wie bekomme ich ein genaues Angebot?",
-        a: "Laden Sie Ihre Datei im Kalkulator hoch. Bestellungen bis 100 € erhalten einen Sofortpreis; darüber hinaus melden wir uns in der Regel innerhalb einer Stunde mit einem manuellen Angebot.",
+        a: "Laden Sie Ihre Datei im Kalkulator hoch. Bestellungen bis 200 € erhalten einen Sofortpreis; darüber hinaus melden wir uns in der Regel innerhalb einer Stunde mit einem manuellen Angebot.",
       },
       {
         q: "Warum ist Nylon teurer als PLA?",
