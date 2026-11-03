@@ -228,7 +228,7 @@ const RepuestoDescatalogado = () => {
                   {
                     step: "04",
                     title: "Recoges o enviamos a toda España",
-                    body: "Recogida sin coste en nuestro taller de Rambla del Brasil, 53, Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 5,90€.",
+                    body: "Recogida sin coste en nuestro taller de Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 5,90€.",
                   },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">

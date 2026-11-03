@@ -311,7 +311,7 @@ const SinPedidoMinimo = () => {
                   { step: "01", title: "Envía el archivo o una foto", body: "Por WhatsApp o el formulario web. Si tienes el STL, el presupuesto es inmediato. Si solo tienes la pieza o unas fotos, lo revisamos y te respondemos en menos de 1 hora." },
                   { step: "02", title: "Recibe el presupuesto en menos de 1 hora", body: "Precio exacto, material recomendado y plazo de entrega. Sin sorpresas ni cargos ocultos. El presupuesto es siempre gratuito." },
                   { step: "03", title: "Confirma y arrancamos", body: "Con tu confirmación, la pieza entra en producción. Para pedidos urgentes, empezamos en horas, no días." },
-                  { step: "04", title: "Recoge o recibe en 24–48 horas", body: "Recogida sin coste en Rambla del Brasil, 53, Barcelona, con cita previa. Envío a toda España peninsular por 5,90€." },
+                  { step: "04", title: "Recoge o recibe en 24–48 horas", body: "Recogida sin coste en nuestro taller de Barcelona, con cita previa. Envío a toda España peninsular por 5,90€." },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
