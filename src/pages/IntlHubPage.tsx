@@ -117,7 +117,6 @@ const IntlHubPage = ({ content }: Props) => {
     telephone: "+34 672 051 147",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Rambla del Brasil, 53",
       addressLocality: "Barcelona",
       postalCode: "08028",
       addressRegion: "Cataluña",
