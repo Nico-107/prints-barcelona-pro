@@ -34,6 +34,7 @@ import type { UseCase } from "@/lib/materialGuide";
 import { toast as sonnerToast } from "sonner";
 import { OrderPanel } from "./estimator/OrderPanel";
 import { formatShipDate, computeShipDate, shipDateLine } from "@/lib/shipDate";
+import { decodeQuoteHash } from "@/lib/quoteLink";
 import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
@@ -150,10 +151,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [prepareProgress, setPrepareProgress] = useState<{ name: string; pct: number; stage: string } | null>(null);
   const gzippedOriginalsRef = useRef<Array<{ id: string; gzName: string; buf: ArrayBuffer }>>([]);
   const [error, setError] = useState<string | null>(null);
-  const [materialKey, setMaterialKey] = useState("PLA");
+  // Prompt §10: hydrate initial state from a shared quote-link hash so
+  // opening /?q=<encoded> re-opens the modal with its config pre-selected.
+  const _initialHash = typeof window !== "undefined" ? decodeQuoteHash(window.location.hash) : null;
+  const [materialKey, setMaterialKey] = useState(_initialHash?.material ?? "PLA");
   const [infillPct, setInfillPct] = useState(15);
   const [wallLoops, setWallLoops] = useState(2);
-  const [urgency, setUrgency] = useState<"standard" | "express" | "urgent">("standard");
+  const [urgency, setUrgency] = useState<"standard" | "express" | "urgent">(
+    (_initialHash?.urgency === 'express' || _initialHash?.urgency === 'urgent')
+      ? _initialHash.urgency as "standard" | "express" | "urgent"
+      : "standard"
+  );
   const [multicolour, setMulticolour] = useState(false);
   // Advanced-only global defaults
   const [quality, setQuality] = useState<QualityKey>("standard");
@@ -199,7 +207,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [contactName, setContactName] = useState("");
-  const [colorPref, setColorPref] = useState("");
+  const [colorPref, setColorPref] = useState(_initialHash?.colour ?? "");
   const [isSubmittingQuote, setIsSubmittingQuote] = useState(false);
   const [isSubmittedQuote, setIsSubmittedQuote] = useState(false);
   const [quoteError, setQuoteError] = useState<string | null>(null);
@@ -238,6 +246,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
     return () => { document.body.removeAttribute("data-estimator-open"); };
   }, [mobileModalOpen]);
+
+  // Prompt §10: fire quote_link_opened once when the modal mounts with a
+  // decoded hash. We don't restore the file (storage path requires a signed
+  // URL round-trip); the config is seeded above and the user re-uploads.
+  useEffect(() => {
+    if (_initialHash) {
+      capture("quote_link_opened", { restored_file: !!_initialHash.fileId });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "slow" | "done" | "failed">("idle");
   const [hasSubmitted, setHasSubmitted] = useState(false);
