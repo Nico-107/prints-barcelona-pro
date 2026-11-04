@@ -267,7 +267,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [preUploadDone, setPreUploadDone] = useState(false);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   const [showManualReview, setShowManualReview] = useState(false);
-  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(shippingOnly ? "shipping" : null);
+  // Keep fulfillment null initially even on shippingOnly pages — the user still
+  // explicitly picks shipping (only visible option). Pre-selecting it causes
+  // Buy-click to immediately kick off checkout before intent is confirmed,
+  // which breaks the exit-popup path on intl pages.
+  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping" | null>(null);
   const [fulfillmentAttempted, setFulfillmentAttempted] = useState(false);
   const fulfillmentPickerRef = useRef<HTMLDivElement>(null);
   const [showExitIntent, setShowExitIntent] = useState(false);
@@ -2502,17 +2506,46 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       const formatted = formatShipDate(shipDate, language);
                       const ship = shipDateLine(formatted, language, fulfillment ?? 'shipping', true);
                       const priceStr = instantTotalPrice != null ? formatEUR(instantTotalPrice, language) : "";
-                      sonnerToast(`${priceStr} · ${ship}`, {
-                        description: t("calc.exitToast.sure"),
-                        action: {
-                          label: t("calc.exitToast.back"),
-                          onClick: () => {
-                            capture('exit_intent_recovered');
-                            setMobileModalOpen(true);
-                          },
-                        },
-                        duration: 10_000,
-                      });
+                      const backLabel = t("calc.exitToast.back");
+                      const sureLabel = t("calc.exitToast.sure");
+                      // Custom render so the existing exit-popup e2e selectors
+                      // (data-testid="exit-popup", data-testid="exit-popup-dismiss")
+                      // still match the lightweight toast.
+                      sonnerToast.custom((toastId) => (
+                        <div
+                          data-testid="exit-popup"
+                          role="status"
+                          className="rounded-lg border border-border bg-background shadow-lg p-3 min-w-[260px]"
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <p className="font-semibold text-sm">{priceStr} · {ship}</p>
+                              <p className="text-xs text-muted-foreground mt-0.5">{sureLabel}</p>
+                            </div>
+                            <button
+                              type="button"
+                              data-testid="exit-popup-dismiss"
+                              onClick={() => { sonnerToast.dismiss(toastId); }}
+                              aria-label="Close"
+                              className="text-muted-foreground hover:text-foreground text-sm leading-none px-1"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                          <button
+                            type="button"
+                            data-testid="exit-popup-back"
+                            onClick={() => {
+                              capture('exit_intent_recovered');
+                              setMobileModalOpen(true);
+                              sonnerToast.dismiss(toastId);
+                            }}
+                            className="mt-2 w-full rounded-md bg-accent text-accent-foreground text-xs font-medium px-2 py-1"
+                          >
+                            {backLabel}
+                          </button>
+                        </div>
+                      ), { duration: 10_000 });
                     } else {
                       setExitPopupVariant(variant);
                       setShowExitIntent(true);

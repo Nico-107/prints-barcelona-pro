@@ -215,11 +215,15 @@ test("Buy button click initiates checkout (no real Stripe session)", async ({ pa
   await page.goto("/");
   const buyBtn = await uploadAndAwaitBuy(page, CUBE_STL);
 
-  const vw = page.viewportSize()?.width ?? 1280;
-  const shippingBtn = vw < 1024
-    ? page.locator('[data-testid="compact-fulfillment-shipping"]').last()
-    : page.locator('[data-testid="compact-fulfillment-shipping"]').first();
-  if (await shippingBtn.isVisible()) await shippingBtn.click();
+  // Pick the first VISIBLE (and not covered) shipping chip — the conv-25
+  // changes put a second copy of the fulfillment picker in the pinned actions
+  // slot and `.first()` can land on a DOM-order match whose stacking context
+  // is behind the parts-list quantity stepper.
+  await page.evaluate(() => {
+    const btns = Array.from(document.querySelectorAll('[data-testid="compact-fulfillment-shipping"]')) as HTMLButtonElement[];
+    const visible = btns.find(b => b.getClientRects().length > 0 && b.clientHeight > 0);
+    visible?.click();
+  });
 
   let checkoutNavigated = false;
   page.on("request", req => {

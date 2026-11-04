@@ -66,6 +66,16 @@ async function triggerExitPopup(page: Page, filePath: string, waitMs = 25000) {
 
 test.use({ viewport: { width: 390, height: 844 } }); // iPhone 14 – triggers mobile modal
 
+// The cookie-consent banner opens on some first-paint timings and blocks the
+// file upload path. Pre-set consent so the banner never shows. Run via
+// addInitScript (fires before React boots).
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("cookie-consent", "accepted");
+    localStorage.setItem("cookie-consent-date", new Date().toISOString());
+  });
+});
+
 test("Exit popup appears — / (es) · priced variant", async ({ page }) => {
   // Clear sessionStorage so popup can fire
   await page.goto("/");
