@@ -7,7 +7,7 @@ const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
 const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
 
 // owner: edit here; flat 590 shipping loses money to far countries (RO about 14 EUR real cost)
-const SHIP_COUNTRIES = ["ES","PT","FR","DE","IT","NL","BE","LU","AT","IE","PL","DK","SE","FI"] as const;
+import { MAX_CHARGE_CENTS, applyCheckoutPolicy, chargeAllowed, decodePreviewPng, shippingChargeCents } from "./checkout-policy.ts";
 
 // PostHog capture helper — 3s timeout, never throws
 async function capturePostHog(
@@ -44,7 +44,7 @@ const corsHeaders = {
 };
 
 const ALLOWED_MATERIALS = ["PLA", "PETG", "ABS", "TPU"];
-const MAX_PRICE = 56.5;
+const MAX_PRICE = MAX_CHARGE_CENTS / 100;
 
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW_MS = 60000;
@@ -645,11 +645,25 @@ function buildStripeLineItems(
 }
 // PRICING-END
 
-// Map page language to Stripe locale (Stripe supports: es, ca→es, en, de, fr, it, nl, pt)
-function stripeLocale(lang: string): string {
-  const l = (lang ?? "").toLowerCase().split("-")[0];
-  const map: Record<string, string> = { es: "es", ca: "es", en: "en", de: "de", fr: "fr", it: "it", nl: "nl", pt: "pt" };
-  return map[l] ?? "en";
+// Checkout policy stays outside the shared print-pricing blocks.
+export function evaluateCheckoutV3(body: any, analyses: MeshAnalysis[]): V3Result<{ body: V3Body; priced: V3Priced }> {
+  const validated = validateV3(body);
+  if (!validated.ok || !validated.value) return fail(validated.error ?? "INVALID_PRICE");
+  const val = validated.value;
+  if (analyses.length !== val.pieces.length) return fail("INVALID_PIECES");
+  const priced = priceV3(val, analyses);
+  if (priced.order.reasons.some(reason => reason.startsWith("oversize"))) return fail("OVERSIZE_PART");
+  if (priced.order.reasons.some(reason => reason !== "over-limit")) return fail("INSTANT_NOT_AVAILABLE");
+  if (Math.abs(Math.round(val.exactPrice * 100) - priced.order.totalCents) > 2) return fail("PRICE_MISMATCH");
+  return { ok: true, value: { body: val, priced } };
+}
+
+async function uploadCheckoutPreview(client: ReturnType<typeof createClient>, preview: Uint8Array | null): Promise<string | undefined> {
+  if (!preview) return undefined;
+  const path = `checkout-previews/${crypto.randomUUID()}.png`;
+  const { error } = await client.storage.from("order-photos").upload(path, preview, { contentType: "image/png", upsert: false });
+  if (error) throw new Error("PREVIEW_UPLOAD_FAILED");
+  return client.storage.from("order-photos").getPublicUrl(path).data.publicUrl;
 }
 
 serve(async (req: Request) => {
@@ -666,6 +680,9 @@ serve(async (req: Request) => {
     }
 
     const body = await req.json();
+    let preview: Uint8Array | null;
+    try { preview = decodePreviewPng(body?.preview_png); }
+    catch { return json({ error: "INVALID_PREVIEW_PNG" }, 400); }
 
     const rawReturnPath = typeof body?.returnPath === "string" ? body.returnPath : "";
     const validReturnPath = /^\/[a-z0-9\-/]{0,120}$/.test(rawReturnPath) ? rawReturnPath : "";
@@ -713,14 +730,18 @@ serve(async (req: Request) => {
         analyses.push(analysis);
       }
 
-      const evalResult = evaluateV3(body, analyses);
+      const evalResult = evaluateCheckoutV3(body, analyses);
       if (!evalResult.ok) return json({ error: evalResult.error }, 400);
-      const { body: vBody, priced, shippingCents: v3ShipCents, chargeCents } = evalResult.value!;
+      if (!evalResult.value) return json({ error: "INVALID_PRICE" }, 400);
+      const { body: vBody, priced } = evalResult.value;
 
       // Autumn discount — applied after protected pricing block, server is the source of truth
       const v3PrintSubtotal = priced.order.chargedPrintCents;
       const v3AutumnDiscountCents = computeAutumnDiscount(v3PrintSubtotal);
-      const v3ChargeWithDiscount = chargeCents - v3AutumnDiscountCents;
+      const v3DiscountedSubtotal = priced.order.totalCents - v3AutumnDiscountCents;
+      if (!chargeAllowed(v3DiscountedSubtotal, vBody.fulfillment)) return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
+      const v3ShipCents = shippingChargeCents(vBody.fulfillment, v3DiscountedSubtotal);
+      const v3ChargeWithDiscount = v3DiscountedSubtotal + v3ShipCents;
 
       // Enriched pieces for DB (server-computed grams)
       const v3Pieces = vBody.pieces.map((p, i) => ({
@@ -751,7 +772,7 @@ serve(async (req: Request) => {
       }).join("; ");
 
       const v3Notes = [
-        "Instant checkout v3 (self-service, ≤ €100).",
+        "Instant checkout v3 (self-service, charge ≤ €206).",
         `Material: ${v3IsUniform ? v3UniqueMats[0] : `Mixed (${v3UniqueMats.join(", ")})`}.`,
         `Qty ${v3TotalQty}, urgency ${vBody.urgency}, fulfillment ${vBody.fulfillment}.`,
         `Precio calculado: EUR ${v3TotalEur}.`,
@@ -794,7 +815,7 @@ serve(async (req: Request) => {
       const v3Params = new URLSearchParams({ "mode": "payment" });
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      v3Params.set("locale", stripeLocale(v3LangStr));
+      
       v3Lines.forEach((line, i) => {
         v3Params.set(`line_items[${i}][quantity]`, "1");
         v3Params.set(`line_items[${i}][price_data][currency]`, "eur");
@@ -826,17 +847,8 @@ serve(async (req: Request) => {
       if (typeof source_path === "string" && source_path.trim()) v3Params.set("metadata[source_path]", source_path.trim().slice(0, 200));
       if (typeof page_language === "string" && page_language.trim()) v3Params.set("metadata[page_language]", page_language.trim().slice(0, 20));
 
-      if (vBody.fulfillment === "shipping") {
-        SHIP_COUNTRIES.forEach((c, i) => v3Params.set(`shipping_address_collection[allowed_countries][${i}]`, c));
-        v3Params.set("phone_number_collection[enabled]", "true");
-        const isEs3 = v3LangStr.toLowerCase().startsWith("es");
-        const isCa3 = v3LangStr.toLowerCase().startsWith("ca");
-        const v3ShipLabel = isEs3 ? "Envío estándar" : isCa3 ? "Enviament estàndard" : "Standard shipping";
-        v3Params.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-        v3Params.set("shipping_options[0][shipping_rate_data][display_name]", v3ShipLabel);
-        v3Params.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(EST.shippingCents));
-        v3Params.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "eur");
-      }
+      applyCheckoutPolicy(v3Params, vBody.fulfillment, v3DiscountedSubtotal, v3Lines.length,
+        await uploadCheckoutPreview(supabaseV3, preview));
 
       if (typeof body.contactEmail === "string" && body.contactEmail.trim()) {
         v3Params.set("customer_email", body.contactEmail.trim());
@@ -947,7 +959,7 @@ serve(async (req: Request) => {
 
       const order = computeOrder(piecesForCalc, urgency);
 
-      if (!order.eligible || order.totalCents > 5250) {
+      if (!chargeAllowed(order.chargedPrintCents, fulfillment)) {
         return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
       }
 
@@ -998,7 +1010,7 @@ serve(async (req: Request) => {
       const uniformInfill = allInfill.length === 1;
       const uniformWalls  = allWalls.length === 1;
 
-      const shippingCentsV2 = fulfillment === "shipping" ? 600 : 0;
+      const shippingCentsV2 = shippingChargeCents(fulfillment, order.chargedPrintCents);
       const totalPaidEuros = ((order.chargedPrintCents + shippingCentsV2) / 100).toFixed(2);
 
       let notes: string;
@@ -1088,7 +1100,7 @@ serve(async (req: Request) => {
       const params = new URLSearchParams({ "mode": "payment" });
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      params.set("locale", stripeLocale(langStr));
+      
 
       for (let i = 0; i < lineItems.length; i++) {
         params.set(`line_items[${i}][quantity]`, "1");
@@ -1116,17 +1128,8 @@ serve(async (req: Request) => {
       if (typeof product_type === "string" && product_type.trim()) params.set("metadata[product_type]", product_type.trim().slice(0, 100));
       if (typeof customer_ref === "string" && customer_ref.trim()) params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
 
-      if (fulfillment === "shipping") {
-        SHIP_COUNTRIES.forEach((c, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, c));
-        params.set("phone_number_collection[enabled]", "true");
-        const isEs2 = langStr.toLowerCase().startsWith("es");
-        const isCa2 = langStr.toLowerCase().startsWith("ca");
-        const shippingLabel = isEs2 ? "Envío estándar" : isCa2 ? "Enviament estàndard" : "Standard shipping";
-        params.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-        params.set("shipping_options[0][shipping_rate_data][display_name]", shippingLabel);
-        params.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", "600");
-        params.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "eur");
-      }
+      applyCheckoutPolicy(params, fulfillment, order.chargedPrintCents, lineItems.length,
+        await uploadCheckoutPreview(supabase, preview));
 
       if (typeof contactEmail === "string" && contactEmail.trim()) {
         params.set("customer_email", contactEmail.trim());
@@ -1172,7 +1175,6 @@ serve(async (req: Request) => {
       filePaths, fileNames, exactPrice, contactEmail, contactPhone, language,
       fulfillment,
       productName,       // optional: human-readable product name (parts pages)
-      shippingRateEuros, // optional: add a separate shipping_option line (parts pages)
       pieces,
       // B1: visitor identity threaded from client for Stripe metadata
       ph_distinct_id, ph_session_id,
@@ -1184,7 +1186,7 @@ serve(async (req: Request) => {
     if (!Number.isFinite(price) || price <= 0) {
       return json({ error: "INVALID_PRICE" }, 400);
     }
-    if (price > MAX_PRICE) {
+    if (price > MAX_PRICE || !chargeAllowed(Math.round(price * 100), fulfillment)) {
       console.warn(`Rejected instant checkout: price ${price} exceeds ceiling (IP: ${clientIP})`);
       return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
     }
@@ -1214,7 +1216,7 @@ serve(async (req: Request) => {
       contactEmail ? `Email: ${contactEmail}.` : "",
       `Material: ${material}${color ? ` / ${color}` : ""}.`,
       `Infill: ${infill ?? "n/a"}, ${wallLoops ?? "n/a"} walls, qty ${qty}.`,
-      `Total price: €${price.toFixed(2)}.`,
+      `Total price: €${((Math.round(price * 100) + shippingChargeCents(fulfillment, Math.round(price * 100))) / 100).toFixed(2)}.`,
       names.length ? `Files: ${names.join(", ")}.` : "",
       paths.length ? `Paths: ${paths.join(", ")}.` : "",
       language ? `Language: ${language}.` : "",
@@ -1254,7 +1256,7 @@ serve(async (req: Request) => {
       "mode": "payment",
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      "locale": stripeLocale(typeof language === "string" ? language : ""),
+      "locale": "auto",
       "line_items[0][quantity]": "1",
       "line_items[0][price_data][currency]": "eur",
       "line_items[0][price_data][unit_amount]": String(Math.round(price * 100)),
@@ -1276,20 +1278,9 @@ serve(async (req: Request) => {
     if (typeof product_type === "string" && product_type.trim()) params.set("metadata[product_type]", product_type.trim().slice(0, 100));
     if (typeof part_slug === "string" && part_slug.trim()) params.set("metadata[part_slug]", part_slug.trim().slice(0, 200));
     if (typeof customer_ref === "string" && customer_ref.trim()) params.set("metadata[customer_ref]", customer_ref.trim().slice(0, 100));
-    if (fulfillment === "shipping") {
-      SHIP_COUNTRIES.forEach((c, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, c));
-      params.set("phone_number_collection[enabled]", "true");
-    }
-    const shippingCents =
-      typeof shippingRateEuros === "number" && shippingRateEuros > 0
-        ? Math.round(shippingRateEuros * 100)
-        : 0;
-    if (shippingCents > 0) {
-      params.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-      params.set("shipping_options[0][shipping_rate_data][display_name]", "Envío estándar");
-      params.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(shippingCents));
-      params.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "eur");
-    }
+    applyCheckoutPolicy(params, fulfillment, Math.round(price * 100), 1,
+      await uploadCheckoutPreview(supabase, preview));
+
     if (typeof contactEmail === "string" && contactEmail.trim()) {
       params.set("customer_email", contactEmail.trim());
     }
