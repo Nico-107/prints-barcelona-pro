@@ -86,7 +86,7 @@ export const EST = {
   // ---- pricing (EUR) ----
   setupEur: 0, minimumEur: 10, plasticEurPerG: 0.055,
   timeTiers: [ { upToH: 3, eurPerH: 4.95 }, { upToH: 8, eurPerH: 3.85 }, { upToH: Infinity, eurPerH: 2.75 } ] as readonly { upToH: number; eurPerH: number }[],
-  instantMaxCents: 10000, shippingCents: 590,
+  instantMaxCents: 20000, shippingCents: 590,
   // ---- printer ----
   plate: { x: 256, y: 256, z: 261, packAreaMm2: 37000, gapMm: 4 },
   // ---- materials / quality / urgency ----
@@ -468,7 +468,7 @@ export const AUTUMN_DISCOUNT = {
 const SETUP_FEE = 8;
 const RATE_PER_GRAM = 0.22;
 const MIN_PRICE = 10;
-const INSTANT_BUY_MAX = 52.5;
+const INSTANT_BUY_MAX = 200;
 
 const MATERIALS: Record<string, { density: number; multiplier: number }> = {
   PLA:      { density: 1.24, multiplier: 1.0 },
@@ -574,8 +574,8 @@ function computeOrder(pieces: PricePiece[], urgency: string): OrderResult {
   const eligible = totalCents <= pricingRound(INSTANT_BUY_MAX * 100);
 
   let capShaveCents = 0;
-  if (eligible && totalCents > 5000) {
-    capShaveCents = totalCents - 5000;
+  if (eligible && totalCents > 20000) {
+    capShaveCents = totalCents - 20000;
     // Subtract cap from the largest line (after residual)
     let maxIdx = 0;
     for (let i = 1; i < partCents.length; i++) {

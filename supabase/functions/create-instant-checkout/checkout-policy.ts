@@ -1,4 +1,4 @@
-export const MAX_CHARGE_CENTS = 20600;
+export const MAX_CHARGE_CENTS = 20590;
 export const SHIPPING_COUNTRIES = ["ES", "PT", "FR", "IT", "DE", "NL", "BE", "AT", "IE", "LU", "PL"] as const;
 
 export function shippingChargeCents(fulfillment: string, discountedSubtotalCents: number): number {
