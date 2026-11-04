@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 import ts from "typescript";
 import { MAX_CHARGE_CENTS, applyCheckoutPolicy, chargeAllowed, decodePreviewPng, shippingChargeCents } from "../../supabase/functions/create-instant-checkout/checkout-policy";
 import { isSuccessfulCheckout } from "../../supabase/functions/stripe-webhook/payment-policy";
+import { analyzeTriangles } from "./estimator/core";
+import { boxMesh } from "./estimator/fixtures";
 
 function checkoutHarness() {
   let handler: (request: Request) => Promise<Response> = async () => new Response();
@@ -29,6 +31,25 @@ function checkoutHarness() {
 const base = { material: "PLA", exactPrice: 25, fulfillment: "shipping", quantity: 1 };
 
 describe("deployed checkout policies", () => {
+  it("v2 accepts an €81.38 computed price above its former ceiling without repricing", async () => {
+    const h = checkoutHarness();
+    const response = await h.invoke({ pricingVersion: 2, urgency: "standard", fulfillment: "shipping", exactPrice: 81.38,
+      pieces: [{ name: "box.stl", material: "PLA", infill: 15, wallLoops: 2, quantity: 1, volumeMm3: 1000000 }] });
+    expect(response.status).toBe(200);
+    expect([...h.params()].filter(([key]) => key.endsWith("[unit_amount]")).reduce((sum, [, value]) => sum + Number(value), 0)).toBe(8138 + 590);
+  });
+  it("v3 allows orders above the former €100 limit while retaining mesh pricing and other guards", () => {
+    const h = checkoutHarness();
+    const analyses = [analyzeTriangles(boxMesh(40, 40, 40))];
+    const body = { pricingVersion: 3, urgency: "standard", fulfillment: "shipping", exactPrice: 0,
+      pieces: [{ name: "box.stl", path: "box.stl", material: "PLA", infill: 15, wallLoops: 2, quality: "standard", supports: false, orientation: "auto", quantity: 20 }] };
+    body.exactPrice = h.exports.priceV3(body, analyses).order.totalCents / 100;
+    expect(body.exactPrice).toBeGreaterThan(100);
+    const result = h.exports.evaluateCheckoutV3(body, analyses);
+    expect(result.ok).toBe(true);
+    expect(result.value.priced.order.totalCents).toBe(Math.round(body.exactPrice * 100));
+    expect(h.exports.evaluateCheckoutV3({ ...body, exactPrice: 1 }, analyses).error).toBe("PRICE_MISMATCH");
+  });
   it("allows €206 but rejects €206.01", async () => {
     const h = checkoutHarness();
     expect((await h.invoke({ ...base, exactPrice: 206, fulfillment: "pickup" })).status).toBe(200);
