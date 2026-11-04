@@ -67,12 +67,17 @@ async function triggerExitPopup(page: Page, filePath: string, waitMs = 25000) {
 test.use({ viewport: { width: 390, height: 844 } }); // iPhone 14 – triggers mobile modal
 
 // The cookie-consent banner opens on some first-paint timings and blocks the
-// file upload path. Pre-set consent so the banner never shows. Run via
-// addInitScript (fires before React boots).
+// file upload path; the LanguageSuggestionBar opens as a non-blocking notice
+// but can race with our initial clicks. Pre-set consent + dismissed-languages
+// so neither shows before the test's flow starts.
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("cookie-consent", "accepted");
     localStorage.setItem("cookie-consent-date", new Date().toISOString());
+    // Pre-dismiss the lang-suggest banner for every language so it never flashes.
+    localStorage.setItem("dim3d-lang-suggest-dismissed", JSON.stringify({
+      es: true, ca: true, en: true, de: true, fr: true, nl: true, it: true, pt: true,
+    }));
   });
 });
 
