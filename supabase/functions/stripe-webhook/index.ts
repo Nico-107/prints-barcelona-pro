@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
+import { isSuccessfulCheckout } from "./payment-policy.ts";
+
 const STRIPE_WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
 const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
 const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
@@ -144,7 +146,7 @@ serve(async (req: Request) => {
   const event = JSON.parse(body);
   console.log("Stripe webhook received:", event.type);
 
-  if (event.type === "checkout.session.completed") {
+  if (isSuccessfulCheckout(event.type, event.data.object.payment_status)) {
     const session = event.data.object;
     const orderId = session.metadata?.order_id;
     const orderNumber = session.metadata?.order_number;
