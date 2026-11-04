@@ -3,7 +3,8 @@
  * Tests that the exit-intent popup fires on every tested page/variant.
  * Run with: npx playwright test e2e/exit-popup.spec.ts
  */
-import { test, expect, Page } from "@playwright/test";
+import { type Page } from "@playwright/test";
+import { test, expect } from "./_fixtures";
 import path from "path";
 import fs from "fs";
 import os from "os";
@@ -66,20 +67,7 @@ async function triggerExitPopup(page: Page, filePath: string, waitMs = 25000) {
 
 test.use({ viewport: { width: 390, height: 844 } }); // iPhone 14 – triggers mobile modal
 
-// The cookie-consent banner opens on some first-paint timings and blocks the
-// file upload path; the LanguageSuggestionBar opens as a non-blocking notice
-// but can race with our initial clicks. Pre-set consent + dismissed-languages
-// so neither shows before the test's flow starts.
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => {
-    localStorage.setItem("cookie-consent", "accepted");
-    localStorage.setItem("cookie-consent-date", new Date().toISOString());
-    // Pre-dismiss the lang-suggest banner for every language so it never flashes.
-    localStorage.setItem("dim3d-lang-suggest-dismissed", JSON.stringify({
-      es: true, ca: true, en: true, de: true, fr: true, nl: true, it: true, pt: true,
-    }));
-  });
-});
+// Cookie consent + lang-suggest dismissal is now provided by ./_fixtures.
 
 test("Exit popup appears — / (es) · priced variant", async ({ page }) => {
   // Clear sessionStorage so popup can fire

@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
+import type { EventMap } from "@/lib/analyticsEvents";
 import { ExitReasonCard, hasExitSurveyBeenShown, markLeadSubmitted, hasLeadBeenSubmitted } from "@/components/ExitReasonCard";
 import { useXpExposure } from "@/lib/experiments";
 import { getStoredUTM } from "@/lib/utm";
@@ -72,6 +73,42 @@ const materialOptions: MaterialOption[] = Object.entries(MATERIAL_UI).map(
 
 function stripUploadPrefix(name: string): string {
   return name.replace(/^\d+-/, "");
+}
+
+// ─── Upload pipeline instrumentation (Prompt 26 §3) ───────────────────────────
+// Lightweight detection — only used for the `upload_pipeline_stage` event properties.
+function detectDeviceBrowser(): { device: 'mobile' | 'desktop' | 'unknown'; browser: string } {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+    return { device: 'unknown', browser: 'unknown' };
+  }
+  const ua = navigator.userAgent || '';
+  const device: 'mobile' | 'desktop' = window.innerWidth < 1024 ? 'mobile' : 'desktop';
+  let browser = 'other';
+  if (/Edg\//.test(ua))             browser = 'edge';
+  else if (/OPR\//.test(ua))        browser = 'opera';
+  else if (/Firefox\//.test(ua))    browser = 'firefox';
+  else if (/Chrome\//.test(ua) && !/Chromium/.test(ua)) browser = 'chrome';
+  else if (/CriOS\//.test(ua))      browser = 'chrome-ios';
+  else if (/FxiOS\//.test(ua))      browser = 'firefox-ios';
+  else if (/Safari\//.test(ua))     browser = 'safari';
+  return { device, browser };
+}
+
+const UPLOAD_PIPELINE_PREPARE_TIMEOUT_MS = 8_000;
+
+/** Race a promise against a hard timeout. Resolves with `{ ok: true, value }` or
+ *  `{ ok: false, reason: 'timeout' }` after `ms` milliseconds. Never rejects. */
+async function withTimeout<T>(p: Promise<T>, ms: number): Promise<{ ok: true; value: T } | { ok: false; reason: 'timeout' }> {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  const timeoutPromise = new Promise<{ ok: false; reason: 'timeout' }>((resolve) => {
+    timer = setTimeout(() => resolve({ ok: false, reason: 'timeout' }), ms);
+  });
+  try {
+    const value = await Promise.race([p.then((v) => ({ ok: true as const, value: v })), timeoutPromise]);
+    return value;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
 }
 
 // ─── Section heading — action-oriented copy per language ──────────────────────
@@ -359,7 +396,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     flagReady: CHECKOUT_V3_READY,
     forceQuoteOnly,
     showManualReview,
-    totalAfterDiscountEur: bundle ? bundle.order.totalCents / 100 : undefined,
   });
   const instantBuyEligible = instantBuyStatus.eligible;
   const ineligibleReasons = instantBuyStatus.reasons;
@@ -446,42 +482,96 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
       try {
         const rawBuf = convertedStlBuf ?? await fileToAnalyze.arrayBuffer();
+        const fileMb = Math.round((rawBuf.byteLength / (1024 * 1024)) * 100) / 100;
+        const { device: ulDevice, browser: ulBrowser } = detectDeviceBrowser();
+        const emitStage = (stage: EventMap['upload_pipeline_stage']['stage'], error?: unknown) => {
+          const payload: EventMap['upload_pipeline_stage'] = {
+            stage,
+            file_mb: fileMb,
+            ms_since_upload: Date.now() - uploadStartMs,
+            device: ulDevice,
+            browser: ulBrowser,
+          };
+          if (error != null) {
+            const msg = error instanceof Error ? error.message : String(error);
+            payload.error_message = msg.slice(0, 200);
+          }
+          capture('upload_pipeline_stage', payload);
+        };
+        emitStage('read');
 
         // STL preparation: ASCII→binary and/or simplify if > 28 MB so the server's
         // 30 MB per-file re-measure always passes (HARD RULE 7).
         let checkoutBuf = rawBuf;
+        let prepareFailed = false;
         const needsConvert = !isBinaryStl(rawBuf);
         const needsSimplify = rawBuf.byteLength > CHECKOUT_MAX_BYTES;
         if (needsConvert || needsSimplify) {
           setPrepareProgress({ name: f.name, pct: 0, stage: "converting" });
+          emitStage('prepare_import');
           try {
-            const { prepareStl } = await import("@/lib/stlPrepare");
-            const prep = await prepareStl(rawBuf, (p) => {
-              setPrepareProgress({ name: f.name, pct: p.pct, stage: p.stage });
-            });
-            checkoutBuf = prep.checkoutBuf;
-            if (prep.originalGzipped) {
-              gzippedOriginalsRef.current.push({
-                id,
-                gzName: f.name.replace(/\.[^.]+$/, `.original.stl.gz`),
-                buf: prep.originalGzipped,
+            // 8s timeout covers BOTH the dynamic import and the simplification run —
+            // mobile WebKit sometimes stalls on either step; without the timeout the
+            // user is left spinning with no price and no quote path.
+            const prepResult = await withTimeout(
+              (async () => {
+                // e2e hook — `window.__e2eForcePrepareFail` triggers the failure
+                // branch so the Playwright suite can exercise the fallback path
+                // even though stlPrepare is bundled into the main chunk.
+                if (typeof window !== 'undefined'
+                    && (window as unknown as { __e2eForcePrepareFail?: boolean }).__e2eForcePrepareFail) {
+                  throw new Error('e2e forced prepare failure');
+                }
+                const { prepareStl } = await import("@/lib/stlPrepare");
+                return prepareStl(rawBuf, (p) => {
+                  setPrepareProgress({ name: f.name, pct: p.pct, stage: p.stage });
+                });
+              })(),
+              UPLOAD_PIPELINE_PREPARE_TIMEOUT_MS,
+            );
+            if (prepResult.ok) {
+              const prep = prepResult.value;
+              checkoutBuf = prep.checkoutBuf;
+              if (prep.originalGzipped) {
+                gzippedOriginalsRef.current.push({
+                  id,
+                  gzName: f.name.replace(/\.[^.]+$/, `.original.stl.gz`),
+                  buf: prep.originalGzipped,
+                });
+              }
+              capture("file_prepared", {
+                original_bytes: prep.original_bytes,
+                format: prep.format,
+                ascii_converted: prep.ascii_converted,
+                simplified: prep.simplified,
+                triangles_before: prep.triangles_before,
+                triangles_after: prep.triangles_after,
+                final_bytes: prep.final_bytes,
+                ms: prep.ms,
               });
+              emitStage('prepare_done');
+            } else {
+              prepareFailed = true;
+              emitStage('prepare_timeout', `stlPrepare timed out after ${UPLOAD_PIPELINE_PREPARE_TIMEOUT_MS}ms`);
+              console.warn(`[StlEstimator] STL preparation timed out for ${f.name}`);
             }
-            capture("file_prepared", {
-              original_bytes: prep.original_bytes,
-              format: prep.format,
-              ascii_converted: prep.ascii_converted,
-              simplified: prep.simplified,
-              triangles_before: prep.triangles_before,
-              triangles_after: prep.triangles_after,
-              final_bytes: prep.final_bytes,
-              ms: prep.ms,
-            });
           } catch (prepErr) {
+            prepareFailed = true;
+            emitStage('prepare_failed', prepErr);
             console.warn("[StlEstimator] STL preparation failed:", prepErr);
             // checkoutBuf stays as rawBuf
           }
           setPrepareProgress(null);
+        }
+
+        // Fallback when preparation failed and the raw buffer is already small enough
+        // to pass the server's 30 MB re-measure: send it as-is (the user still gets
+        // an instant price). Otherwise, route to the "Te lo revisamos gratis" quote
+        // path with the file attached — never leave the user without a next step.
+        if (prepareFailed && checkoutBuf.byteLength > V3_VERIFY_MAX_BYTES) {
+          capture("file_parsed", { status: "link", size_kb: Math.round(f.size / 1024), ext: "stl", reason: "prepare_fallback_too_large" });
+          results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, file: f, linkFile: true });
+          continue;
         }
 
         // If prepared checkout copy is still > 50 MB (very rare): show link card
@@ -533,7 +623,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           flagReady: CHECKOUT_V3_READY,
           forceQuoteOnly,
           showManualReview: false,
-          totalAfterDiscountEur: nextBundle.order.totalCents / 100,
         });
         capture("estimate_shown", {
           price_eur_bucket: priceBucket as "<15" | "15-30" | "30-60" | "60-100" | ">100",
@@ -542,6 +631,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           instant_eligible: nextStatus.eligible,
           ineligible_reasons: nextStatus.reasons.join(","),
         });
+        // Prompt 26 §3 — terminal stage of the upload pipeline.
+        {
+          const pricedFiles = nextFiles.filter((x) => !x.parseError && !x.imageFile && !x.linkFile);
+          const totalBytes = pricedFiles.reduce((s, x) => s + x.sizeBytes, 0);
+          const { device: psDevice, browser: psBrowser } = detectDeviceBrowser();
+          capture('upload_pipeline_stage', {
+            stage: 'price_shown',
+            file_mb: Math.round((totalBytes / (1024 * 1024)) * 100) / 100,
+            ms_since_upload: Date.now() - uploadStartMs,
+            device: psDevice,
+            browser: psBrowser,
+          });
+        }
         estimateShownRef.current = true;
         capture('estimate_generated', {
           material: materialKey,
@@ -1030,6 +1132,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         sourcePath: window.location.pathname,
         pageLanguage: language,
       });
+      const measureFileMb = (() => {
+        const bytes = validFiles.reduce((s, x) => s + x.sizeBytes, 0);
+        return Math.round((bytes / (1024 * 1024)) * 100) / 100;
+      })();
+      const { device: measureDevice, browser: measureBrowser } = detectDeviceBrowser();
+      const measureStartMs = Date.now();
+      capture('upload_pipeline_stage', {
+        stage: 'server_measure_sent',
+        file_mb: measureFileMb,
+        ms_since_upload: 0,
+        device: measureDevice,
+        browser: measureBrowser,
+      });
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: checkoutBodyPayload,
       });
@@ -1046,6 +1161,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             console.error("create-instant-checkout error:", code, json);
           }
         } catch { console.error("checkout error (raw):", (error as any)?.message); }
+        capture('upload_pipeline_stage', {
+          stage: 'server_measure_failed',
+          file_mb: measureFileMb,
+          ms_since_upload: Date.now() - measureStartMs,
+          device: measureDevice,
+          browser: measureBrowser,
+          error_message: `${code} (${httpStatus})`.slice(0, 200),
+        });
         capture('checkout_failed', { code, http_status: httpStatus, price_eur: chargedPrice, file_count: validFiles.length });
         setIsCheckingOut(false);
         setCheckoutErrorCode(code);
@@ -1055,12 +1178,27 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         return;
       }
       if (!data?.checkoutUrl) {
+        capture('upload_pipeline_stage', {
+          stage: 'server_measure_failed',
+          file_mb: measureFileMb,
+          ms_since_upload: Date.now() - measureStartMs,
+          device: measureDevice,
+          browser: measureBrowser,
+          error_message: 'NO_URL (200)',
+        });
         capture('checkout_failed', { code: 'NO_URL', http_status: 200, price_eur: chargedPrice, file_count: validFiles.length });
         setIsCheckingOut(false);
         setCheckoutErrorCode("NO_URL");
         setCheckoutError(t("calc.checkout.error.default"));
         return;
       }
+      capture('upload_pipeline_stage', {
+        stage: 'server_measure_ok',
+        file_mb: measureFileMb,
+        ms_since_upload: Date.now() - measureStartMs,
+        device: measureDevice,
+        browser: measureBrowser,
+      });
       try {
         sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({
           value: chargedPrice,

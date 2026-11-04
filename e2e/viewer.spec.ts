@@ -4,7 +4,8 @@
  * comparison/grid controls work.
  * Run with: npx playwright test e2e/viewer.spec.ts
  */
-import { test, expect, Page } from "@playwright/test";
+import { type Page } from "@playwright/test";
+import { test, expect } from "./_fixtures";
 import path from "path";
 import { fileURLToPath } from "url";
 

@@ -60,7 +60,10 @@ const UI = {
   pickupLabel:   { es: "Recoger en Barcelona",          en: "Pick up in Barcelona",                 ca: "Recollida a Barcelona" },
   pickupFree:    { es: "Gratis",                        en: "Free",                                 ca: "Gratis" },
   pickupNext:    { es: "Disponible mañana",             en: "Available next day",                   ca: "Disponible demà" },
-  pickupAddr:    { es: "Rambla del Brasil, 53, Barcelona",  en: "Rambla del Brasil, 53, Barcelona",          ca: "Rambla del Brasil, 53, Barcelona" },
+  // Pickup copy — address intentionally omitted from the DOM. The exact street
+  // is kept in the site-wide LocalBusiness JSON-LD (see src/seo/entities.ts) and
+  // handed to the customer only after a confirmed booking.
+  pickupAddr:    { es: "Recogida gratis en Barcelona (con cita)", en: "Free pickup in Barcelona (by appointment)", ca: "Recollida gratuïta a Barcelona (amb cita)" },
   shippingLabel: { es: "Envío a domicilio",             en: "Home delivery",                        ca: "Enviament a domicili" },
   shippingZone:  { es: "España peninsular",             en: "Spain (mainland)",                     ca: "Espanya peninsular" },
   otherParts:    { es: "Otras piezas a medida",         en: "Other custom parts",                   ca: "Altres peces a mida" },
@@ -79,7 +82,10 @@ const PartPage = ({ part }: Props) => {
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
-  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping">("pickup");
+  // Pickup is Spain-local only — non-Spanish visitors default to shipping and
+  // never see the pickup choice.
+  const pickupAvailable = lang === "es";
+  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping">(pickupAvailable ? "pickup" : "shipping");
 
   // A6: part_page_view on mount
   useEffect(() => {
@@ -281,26 +287,28 @@ const PartPage = ({ part }: Props) => {
                   {L(part.problemStatement)}
                 </p>
 
-                {/* Fulfillment choice */}
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setFulfillment("pickup");
-                      capture("part_fulfillment_selected", { part_slug: part.slug, fulfillment: "pickup" });
-                    }}
-                    className={`rounded-xl border p-3 text-left transition-all ${
-                      fulfillment === "pickup"
-                        ? "border-accent bg-accent/5"
-                        : "border-border hover:border-accent/40"
-                    }`}
-                  >
-                    <p className="text-xs font-semibold text-foreground leading-snug">
-                      {L(UI.pickupLabel)}
-                    </p>
-                    <p className="text-sm font-bold text-accent">{L(UI.pickupFree)}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{L(UI.pickupNext)}</p>
-                  </button>
+                {/* Fulfillment choice — pickup rendered only on Spanish pages */}
+                <div className={`grid gap-2 ${pickupAvailable ? "grid-cols-2" : "grid-cols-1"}`}>
+                  {pickupAvailable && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFulfillment("pickup");
+                        capture("part_fulfillment_selected", { part_slug: part.slug, fulfillment: "pickup" });
+                      }}
+                      className={`rounded-xl border p-3 text-left transition-all ${
+                        fulfillment === "pickup"
+                          ? "border-accent bg-accent/5"
+                          : "border-border hover:border-accent/40"
+                      }`}
+                    >
+                      <p className="text-xs font-semibold text-foreground leading-snug">
+                        {L(UI.pickupLabel)}
+                      </p>
+                      <p className="text-sm font-bold text-accent">{L(UI.pickupFree)}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{L(UI.pickupNext)}</p>
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => {

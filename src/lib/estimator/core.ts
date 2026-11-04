@@ -16,7 +16,7 @@ export const EST = {
   // ---- pricing (EUR) ----
   setupEur: 0, minimumEur: 10, plasticEurPerG: 0.055,
   timeTiers: [ { upToH: 3, eurPerH: 4.95 }, { upToH: 8, eurPerH: 3.85 }, { upToH: Infinity, eurPerH: 2.75 } ] as readonly { upToH: number; eurPerH: number }[],
-  instantMaxCents: 10000, shippingCents: 590,
+  instantMaxCents: 20000, shippingCents: 590,
   // ---- printer ----
   plate: { x: 256, y: 256, z: 261, packAreaMm2: 37000, gapMm: 4 },
   // ---- materials / quality / urgency ----

@@ -93,7 +93,9 @@ describe("E3 — [S] standard minimum price", () => {
   });
 });
 
-describe("E4 — [big] standard cap", () => {
+describe("E4 — [big] standard eligible under €200 limit", () => {
+  // With INSTANT_BUY_MAX = 200 and cap threshold 20000, a €51 order is eligible
+  // and not capped (totalCents 5100 < 20000).
   const e4 = computeOrder(
     [{ volumeMm3: 505200, quantity: 1, material: "PLA", infill: 20, wallLoops: 2 }],
     "standard",
@@ -101,15 +103,12 @@ describe("E4 — [big] standard cap", () => {
 
   it("gramsPerUnit[0] ≈ 195.4518", () => expect(e4.parts[0].gramsPerUnit).toBeCloseTo(195.4518, 2));
   it("totalCents = 5100", () => expect(e4.totalCents).toBe(5100));
-  it("chargedPrintCents = 5000", () => expect(e4.chargedPrintCents).toBe(5000));
-  it("capShaveCents = 100",       () => expect(e4.capShaveCents).toBe(100));
-  it("parts[0].costCents = 4200", () => expect(e4.parts[0].costCents).toBe(4200));
+  it("chargedPrintCents = 5100", () => expect(e4.chargedPrintCents).toBe(5100));
+  it("capShaveCents = 0",         () => expect(e4.capShaveCents).toBe(0));
   it("setupCents = 800",   () => expect(e4.setupCents).toBe(800));
   it("minAdjCents = 0",    () => expect(e4.minAdjCents).toBe(0));
   it("expressCents = 0",   () => expect(e4.expressCents).toBe(0));
-  it("4200 + 800 = 5000 = chargedPrintCents", () => {
-    expect(e4.parts[0].costCents + e4.setupCents).toBe(5000);
-  });
+  it("eligible = true",    () => expect(e4.eligible).toBe(true));
   it("line invariant", () => {
     const sum = e4.parts.reduce((s, p) => s + p.costCents, 0)
       + e4.setupCents + e4.minAdjCents + e4.expressCents;
@@ -165,24 +164,23 @@ describe("MIN_PRICE floor", () => {
   });
 });
 
-// ─── Cap window (50–52.5) ────────────────────────────────────────────────────
+// ─── Cap window (200–205.90) ─────────────────────────────────────────────────
 
 describe("cap window", () => {
-  it("chargedPrintCents <= 5000 when totalCents is between 5001 and 5250", () => {
-    // A medium-large PLA print that lands in the cap window
+  it("in-range order between €50 and €200 is eligible and not capped", () => {
+    // €80 PETG part — the Admin-calculator parity test
     const r = computeOrder(
-      [{ volumeMm3: 260000, quantity: 1, material: "PLA", infill: 20, wallLoops: 2 }],
+      [{ volumeMm3: 400000, quantity: 1, material: "PETG", infill: 20, wallLoops: 2 }],
       "standard",
     );
-    if (r.eligible && r.totalCents > 5000) {
-      expect(r.chargedPrintCents).toBeLessThanOrEqual(5000);
-      expect(r.capShaveCents).toBe(r.totalCents - 5000);
-    }
+    expect(r.eligible).toBe(true);
+    expect(r.capShaveCents).toBe(0);
+    expect(r.chargedPrintCents).toBe(r.totalCents);
   });
 
-  it("ineligible order (>5250) is not capped", () => {
+  it("ineligible order (>€200) is not capped", () => {
     const r = computeOrder(
-      [{ volumeMm3: 700000, quantity: 1, material: "PLA", infill: 50, wallLoops: 4 }],
+      [{ volumeMm3: 2000000, quantity: 1, material: "PLA", infill: 50, wallLoops: 4 }],
       "standard",
     );
     expect(r.eligible).toBe(false);
@@ -229,9 +227,11 @@ describe("legacy equivalence — 10000 single-material random orders", () => {
     const total = base * um;
     const baseCents  = legacyRound(base * 100);
     const totalCents = legacyRound(total * 100);
-    const eligible   = totalCents <= 5250;
+    // Instant-buy limit raised from €52.5 to €200 (see src/lib/instantBuy.ts INSTANT_LIMIT_EUR).
+    // Cap-shave threshold tracks the limit — set to 20000 cents so cap effectively never fires.
+    const eligible   = totalCents <= 20000;
     let capShave = 0;
-    if (eligible && totalCents > 5000) capShave = totalCents - 5000;
+    if (eligible && totalCents > 20000) capShave = totalCents - 20000;
     return { totalCents, chargedPrintCents: totalCents - capShave };
   }
 

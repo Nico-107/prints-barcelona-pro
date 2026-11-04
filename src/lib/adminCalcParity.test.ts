@@ -47,4 +47,21 @@ describe("admin vs consumer parity — same computeBundleV3 path", () => {
     expect(consumer!.order.instantEligible).toBe(admin!.order.instantEligible);
     expect(consumer!.order.reasons).toEqual(admin!.order.reasons);
   });
+
+  it("€80 PETG part is instant-eligible under the €200 limit", () => {
+    // Prompt 26 §1 parity check: Admin calculator must show a €80 PETG part as instant-eligible.
+    // A ~900 cm³ PETG box lands above €80 standard — well inside the €200 ceiling.
+    const bigAnalysis = analyzeTriangles(boxMesh(120, 120, 60));
+    const parts: ParsedFileForPricing[] = [
+      { id: "big-petg", volumeMm3: bigAnalysis.volumeMm3, qty: 1, analysis: bigAnalysis },
+    ];
+    const petgDefaults: PartDefaults = { ...defaults, material: "PETG", infill: 20, wallLoops: 2 };
+    const res = computeBundleV3(parts, petgDefaults, "standard");
+    expect(res).not.toBeNull();
+    const eur = res!.order.totalCents / 100;
+    expect(eur).toBeGreaterThan(50);
+    expect(eur).toBeLessThan(200);
+    expect(res!.order.instantEligible).toBe(true);
+    expect(res!.order.reasons).not.toContain('over-limit');
+  });
 });

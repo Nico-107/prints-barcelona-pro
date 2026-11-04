@@ -462,6 +462,18 @@ export interface EventMap {
     material: string; delivery: string; page_type: string;
     country_page: string | null; device: 'mobile' | 'desktop';
   };
+  /** Prompt 26 §3 — one row per stage of the upload → prepare → measure → price pipeline.
+   *  Lets us see where mobile uploads actually stall without guessing. */
+  upload_pipeline_stage: {
+    stage: 'read' | 'prepare_import' | 'prepare_done' | 'prepare_failed' | 'prepare_timeout'
+      | 'server_measure_sent' | 'server_measure_ok' | 'server_measure_failed' | 'price_shown';
+    file_mb: number;
+    ms_since_upload: number;
+    device: 'mobile' | 'desktop' | 'unknown';
+    browser: string;
+    /** First 200 characters of the underlying error, when the stage reports a failure. */
+    error_message?: string;
+  };
 }
 
 export type EventName = keyof EventMap;

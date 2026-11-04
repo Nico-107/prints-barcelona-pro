@@ -20,7 +20,8 @@
  * under qa/fixtures/ also exists but we prefer the tests/fixtures copy so a
  * fresh clone can `npm run build && npx playwright test prompt-25` cold.
  */
-import { test, expect, Page } from "@playwright/test";
+import { type Page } from "@playwright/test";
+import { test, expect } from "./_fixtures";
 import path from "path";
 import { fileURLToPath } from "url";
 

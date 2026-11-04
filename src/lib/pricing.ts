@@ -2,7 +2,7 @@
 const SETUP_FEE = 8;
 const RATE_PER_GRAM = 0.22;
 const MIN_PRICE = 10;
-const INSTANT_BUY_MAX = 52.5;
+const INSTANT_BUY_MAX = 200;
 
 export const MATERIALS: Record<string, { density: number; multiplier: number }> = {
   PLA:      { density: 1.24, multiplier: 1.0 },
@@ -108,8 +108,8 @@ export function computeOrder(pieces: PricePiece[], urgency: string): OrderResult
   const eligible = totalCents <= pricingRound(INSTANT_BUY_MAX * 100);
 
   let capShaveCents = 0;
-  if (eligible && totalCents > 5000) {
-    capShaveCents = totalCents - 5000;
+  if (eligible && totalCents > 20000) {
+    capShaveCents = totalCents - 20000;
     // Subtract cap from the largest line (after residual)
     let maxIdx = 0;
     for (let i = 1; i < partCents.length; i++) {

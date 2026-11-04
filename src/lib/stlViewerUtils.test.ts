@@ -23,18 +23,17 @@ describe("getUnitWarning", () => {
 });
 
 describe("gridSizeForPart", () => {
-  it("returns 200 for tiny parts", () => {
-    expect(gridSizeForPart(5)).toBe(200);
+  // Grid is fixed at the Bambu X2D build-plate size (256 mm) regardless of model size;
+  // the scaled model mesh is what grows past the plate when it's too large.
+  it("returns 256 for tiny parts", () => {
+    expect(gridSizeForPart(5)).toBe(256);
   });
-  it("rounds up to next 100", () => {
-    expect(gridSizeForPart(201)).toBe(300);
+  it("returns 256 for parts at the plate size", () => {
+    expect(gridSizeForPart(200)).toBe(256);
+    expect(gridSizeForPart(256)).toBe(256);
   });
-  it("returns exact value when maxDim is a multiple of 100", () => {
-    expect(gridSizeForPart(200)).toBe(200);
-    expect(gridSizeForPart(400)).toBe(400);
-  });
-  it("works for large parts", () => {
-    expect(gridSizeForPart(450)).toBe(500);
+  it("returns 256 for parts that exceed the plate", () => {
+    expect(gridSizeForPart(450)).toBe(256);
   });
 });
 

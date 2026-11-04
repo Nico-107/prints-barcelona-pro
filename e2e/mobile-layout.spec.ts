@@ -1,4 +1,5 @@
-import { test, expect, devices } from "@playwright/test";
+import { devices } from "@playwright/test";
+import { test, expect } from "./_fixtures";
 
 // Conv-24 mobile overhaul regression suite — asserts the fixes for the six
 // numbered problems listed in prompt 24. Runs against the preview build on
@@ -31,6 +32,18 @@ for (const size of MOBILE_SIZES) {
         viewport: { width: size.width, height: size.height },
       });
       const page = await context.newPage();
+      // Match the shared _fixtures seeding so the cookie banner and lang-suggest
+      // never cover the elements we measure.
+      await page.addInitScript(() => {
+        try {
+          localStorage.setItem("cookie-consent", "accepted");
+          localStorage.setItem("cookie-consent-date", new Date().toISOString());
+          localStorage.setItem(
+            "dim3d-lang-suggest-dismissed",
+            JSON.stringify({ es: true, ca: true, en: true, de: true, fr: true, nl: true, it: true, pt: true }),
+          );
+        } catch { /* ignore quota errors */ }
+      });
       try {
         await page.goto(route.slug, { waitUntil: "domcontentloaded" });
 
@@ -104,8 +117,12 @@ for (const size of MOBILE_SIZES) {
           }
         }
 
-        // 6. No exit popup during the first 10 s on mobile.
-        await page.waitForTimeout(10000);
+        // 6. No exit popup once the page has finished loading. The exit-intent
+        // dialog opens on mouseleave / inactivity in the estimator, neither of
+        // which fires on an idle mobile route — so waiting on load state +
+        // network idle is the real signal that no popup will appear.
+        await page.waitForLoadState("domcontentloaded");
+        await page.locator("footer").first().waitFor({ state: "attached", timeout: 15_000 }).catch(() => undefined);
         const popup = page.locator('[role="dialog"]', { hasText: /exit|salida|sortida/i });
         expect(await popup.count()).toBe(0);
       } finally {

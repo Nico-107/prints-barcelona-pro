@@ -47,8 +47,8 @@ describe("checkout v3 contract (the SAME code runs in the edge function)", () =>
   it("ABS, ASA and Nylon are instant-buy materials now", () => {
     for (const m of ["ABS", "ASA", "Nylon", "TPU", "PETG", "PLA"]) expect(reject(b => { b.pieces[0].material = m; b.exactPrice = -1; })).not.toBe("INVALID_MATERIAL");
   });
-  it("over EUR 100 and parts that do not fit the plate are refused", () => {
-    const big = [analyzeTriangles(boxMesh(150, 150, 80))]; const b = makeBody(); b.pieces = [{ ...b.pieces[0], quantity: 1 }];
+  it("over EUR 200 and parts that do not fit the plate are refused", () => {
+    const big = [analyzeTriangles(boxMesh(200, 200, 100))]; const b = makeBody(); b.pieces = [{ ...b.pieces[0], quantity: 1 }];
     b.exactPrice = priceV3(validateV3(b).value as any, big).order.totalCents / 100; expect(evaluateV3(b, big).error).toBe("PRICE_ABOVE_INSTANT_LIMIT");
     const huge = [analyzeTriangles(boxMesh(300, 50, 50))]; const c = makeBody(); c.pieces = [{ ...c.pieces[0], quantity: 1 }];
     c.exactPrice = priceV3(validateV3(c).value as any, huge).order.totalCents / 100; expect(evaluateV3(c, huge).error).toBe("OVERSIZE_PART");

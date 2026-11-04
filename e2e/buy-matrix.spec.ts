@@ -3,7 +3,8 @@
  * Uploads files across pages/modes and asserts the Buy button is visible and enabled.
  * Run with: npx playwright test e2e/buy-matrix.spec.ts
  */
-import { test, expect, Page } from "@playwright/test";
+import { type Page } from "@playwright/test";
+import { test, expect } from "./_fixtures";
 import path from "path";
 import os from "os";
 import fs from "fs";

@@ -73,8 +73,12 @@ describe("estimates and prices (golden values from the validated reference imple
     r = single(blk, S('PLA'), 1, 'urgent');  expect(r.p.totalCents).toBe(3167); expect(r.p.expressCents).toBe(1188);
     r = single(blk, S('PLA'), 4); expect(r.p.totalCents).toBe(6155); expect(r.p.plates).toBe(2); near(r.p.orderHours, 13.472, 0.002);
   });
-  it("limits: over EUR100 and oversize are not instant-buyable", () => {
-    let r = single(boxMesh(150, 150, 80), S('PLA')); expect(r.p.instantEligible).toBe(false); expect(r.p.reasons).toContain('over-limit'); expect(r.p.totalCents).toBe(11645);
+  it("limits: over EUR200 and oversize are not instant-buyable", () => {
+    // €116.45 is now within the €200 limit — still eligible on PLA.
+    let r = single(boxMesh(150, 150, 80), S('PLA')); expect(r.p.instantEligible).toBe(true); expect(r.p.totalCents).toBe(11645);
+    // A larger PLA block pushes past €200 — ineligible as over-limit.
+    r = single(boxMesh(200, 200, 100), S('PLA')); expect(r.p.instantEligible).toBe(false); expect(r.p.reasons).toContain('over-limit');
+    // Oversize still ineligible by plate fit.
     r = single(boxMesh(300, 50, 50), S('PLA')); expect(r.p.instantEligible).toBe(false); expect(r.p.reasons.some(x => x.startsWith('oversize'))).toBe(true);
     expect(single(boxMesh(10, 10, 10), S('HIPS')).p.instantEligible).toBe(false);
   });
@@ -89,7 +93,8 @@ describe("estimates and prices (golden values from the validated reference imple
     expect(std.totalCents).toBe(9688); expect(std.parts.map(x => x.costCents)).toEqual([1228, 369, 8091]); expect(std.setupCents).toBe(0);
     expect(exp.totalCents).toBe(12110); expect(exp.expressCents).toBe(2422); expect(exp.plates).toBe(1);
     for (const o of [std, exp]) expect(o.setupCents + o.minAdjCents + o.expressCents + o.parts.reduce((s, x) => s + x.costCents, 0)).toBe(o.totalCents);
-    expect(exp.instantEligible).toBe(false); expect(exp.reasons).toContain('over-limit');
+    // €121.10 express is within the €200 instant-buy limit — eligible.
+    expect(exp.instantEligible).toBe(true);
   });
   it("random orders: invariants hold (lines sum to total, nothing negative, minimum respected)", () => {
     let seed = 12345; const rnd = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
@@ -106,7 +111,7 @@ describe("estimates and prices (golden values from the validated reference imple
   });
   it("calibration constants are the agreed business decisions", () => {
     expect(EST.setupEur).toBe(0); expect(EST.minimumEur).toBe(10); expect(EST.plasticEurPerG).toBe(0.055);
-    expect(EST.timeTiers.map(t => t.eurPerH)).toEqual([4.95, 3.85, 2.75]); expect(EST.instantMaxCents).toBe(10000); expect(EST.shippingCents).toBe(590);
+    expect(EST.timeTiers.map(t => t.eurPerH)).toEqual([4.95, 3.85, 2.75]); expect(EST.instantMaxCents).toBe(20000); expect(EST.shippingCents).toBe(590);
     for (const m of ['PLA', 'PETG', 'ABS', 'ASA', 'TPU', 'Nylon']) expect(EST.materials[m].instant).toBe(true);
   });
 });
