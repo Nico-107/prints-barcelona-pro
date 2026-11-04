@@ -189,8 +189,8 @@ console.log("✅ E1–E4 pass");
 const LEGACY_RATE      = 0.22;
 const LEGACY_SETUP     = 8;
 const LEGACY_MIN       = 10;
-const LEGACY_CAP       = 5000;
-const LEGACY_MAX_CENTS = 5250;
+const LEGACY_CAP       = 20000;
+const LEGACY_MAX_CENTS = 20000;
 
 const LEGACY_MATERIALS = {
   PLA:  { density: 1.24, multiplier: 1.0 },
