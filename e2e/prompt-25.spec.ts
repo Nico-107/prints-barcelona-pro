@@ -150,17 +150,45 @@ test("7 · selecting Rojo updates the viewer mesh material colour (red hex)", as
 });
 
 // ─── Check 8: "Enviarme este presupuesto" triggers the quote submission ──────
-//
-// The save-quote inline row isn't shipped yet in this pass (see Phase 3 todo
-// in the PR). When it lands, intercept the quote-requests insert and assert
-// the request body includes the `[PRESUPUESTO GUARDADO]` note prefix.
-test.skip("8 · save-quote (quote_saved) triggers the existing quote-requests insert", async () => {
-  /* todo: implement once the inline save-quote row renders in OrderPanel */
+
+test("8 · save-quote triggers a quote_requests insert with the [PRESUPUESTO GUARDADO] note", async ({ page }) => {
+  // Intercept the supabase REST POST and assert the note prefix without actually inserting.
+  let intercepted: { note?: string; email?: string } | null = null;
+  await page.route(/\/rest\/v1\/quote_requests\?/, async (route) => {
+    try {
+      const body = JSON.parse(route.request().postData() ?? "[]");
+      const row = Array.isArray(body) ? body[0] : body;
+      const note = row?.pieces?.[0]?.note as string | undefined;
+      intercepted = { note, email: row?.contact_email };
+    } catch { /* fall through to success */ }
+    await route.fulfill({ status: 201, contentType: "application/json", body: "[]" });
+  });
+
+  await page.goto("/");
+  await uploadCubeAndWaitForPrice(page);
+  await page.getByTestId("save-quote-link").click();
+  await page.getByTestId("save-quote-email").fill("test@example.com");
+  await page.getByTestId("save-quote-submit").click();
+  await page.waitForTimeout(400);
+  expect(intercepted?.email).toBe("test@example.com");
+  expect(intercepted?.note ?? "").toContain("[PRESUPUESTO GUARDADO");
 });
 
 // ─── Check 9: shared quote link restores material / colour / quantity ────────
-test.skip("9 · shared quote link re-opens the modal with its config", async () => {
-  /* todo: implement once hash-based quote-link encoder ships in Phase 3 */
+
+test("9 · shared quote link re-opens the modal with its config", async ({ page }) => {
+  // Encode a hash that selects PETG + Red + qty=3 at urgency=express
+  const hash = "#q=" + Buffer.from(JSON.stringify({
+    m: "PETG", c: "Red", q: 3, u: "express", s: 1, f: null,
+  })).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  await page.goto("/" + hash);
+  // Check that quote_link_opened fires — proxy: the material-chip for PETG should be the selected one.
+  // uploadCube first so the modal mounts
+  await uploadCubeAndWaitForPrice(page);
+  const petg = page.locator('[data-ph-name="material-chip"]').filter({ hasText: "PETG" }).first();
+  // Selected material chip carries the accent border in the current component — check via class contains "border-accent"
+  const classes = await petg.getAttribute("class");
+  expect(classes).toContain("border-accent");
 });
 
 // ─── Check 10: cutoff line skips weekends ────────────────────────────────────
