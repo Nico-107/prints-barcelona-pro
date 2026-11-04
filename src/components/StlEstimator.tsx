@@ -1108,6 +1108,51 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
+  /** Save-quote (R10 / Prompt §10). Reuses the quote_requests table with a
+   *  distinctive [PRESUPUESTO GUARDADO] prefix in the notes field so Nico
+   *  can follow up inside 24 h without confusing these with normal reviews. */
+  const handleSaveQuote = async (email: string): Promise<void> => {
+    if (!bundle || !validFiles.length) return;
+    const storedUtm = getStoredUTM();
+    const noteBody = (notesText ?? "").trim();
+    const note = `[PRESUPUESTO GUARDADO — sin revisión pedida]${noteBody ? `\n\n${noteBody}` : ""}`;
+    try {
+      // Fire-and-forget hash, so quote_saved doesn't expose the raw email in PostHog
+      let emailHash = "";
+      try {
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email.toLowerCase().trim()));
+        emailHash = Array.from(new Uint8Array(buf)).slice(0, 8).map(b => b.toString(16).padStart(2, "0")).join("");
+      } catch { /* hash-less event is still useful */ }
+      const insertPayload: TablesInsert<"quote_requests"> = {
+        contact_email: email.trim(),
+        color: colorPref || null,
+        material: materialKey,
+        infill: String(infillPct),
+        wall_loops: wallLoops,
+        urgency,
+        quantity: bundle.totalUnits,
+        estimated_grams: bundle.totalGrams,
+        estimated_hours: bundle.totalHours,
+        estimated_price_low: parseFloat(bundle.total.toFixed(2)),
+        estimated_price_high: parseFloat(bundle.total.toFixed(2)),
+        status: "pending",
+        multicolour,
+        utm_source: storedUtm?.utm_source ?? null,
+        utm_medium: storedUtm?.utm_medium ?? null,
+        utm_content: storedUtm?.utm_content ?? null,
+        pieces: [{ note }] as Json,
+      };
+      await supabaseAnon.from("quote_requests").insert(insertPayload);
+      capture("quote_saved", {
+        email_hash: emailHash,
+        total: bundle.total,
+        material: materialKey,
+      });
+    } catch (err) {
+      console.warn("[StlEstimator] save-quote failed:", err);
+    }
+  };
+
   const handleManualReview = () => {
     capture('review_clicked', { source: 'modal' });
     capture('quote_path_chosen', {
@@ -2070,6 +2115,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           supportHeavy: bundle?.supportHeavy ?? false,
           urgency,
           shippingOnly,
+          onSaveQuote: handleSaveQuote,
+          saveQuoteConfig: {
+            material: materialKey,
+            colour: colorPref,
+            qty: validFiles.reduce((s, f) => s + f.qty, 0) || 1,
+            urgency,
+            scale: validFiles[0] ? (scaleByFileId[validFiles[0].id] ?? 1) : 1,
+          },
         } as const;
 
         const leftSlot = (

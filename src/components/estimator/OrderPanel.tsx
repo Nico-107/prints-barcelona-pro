@@ -1,4 +1,6 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { toast as sonnerToast } from "sonner";
+import { buildQuoteLink } from "@/lib/quoteLink";
 import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import type { IneligibleReason } from "@/lib/instantBuy";
 import { REVIEW_EMPHASIS, REVIEW_EMPHASIS_MATERIALS, REVIEW_EMPHASIS_MAX_DIM_MM, REVIEW_EMPHASIS_MIN_QTY } from "@/config/checkoutUx";
@@ -28,6 +30,83 @@ function CutoffLine({ line, beforeCutoff }: { line: string; beforeCutoff: boolea
   useEffect(() => { capture("cutoff_shown", { before_cutoff: beforeCutoff }); }, [beforeCutoff]);
   return (
     <p data-testid="cutoff-line" className="text-xs text-muted-foreground text-center">{line}</p>
+  );
+}
+
+/** Save-quote inline row (R10 / Prompt §10).
+ *  Renders two small links:
+ *    - "Enviarme este presupuesto" → opens an email input, submits via onSaveQuote
+ *    - "Copiar enlace"             → copies the shareable hash URL to clipboard
+ *  The onSaveQuote callback is responsible for the quote_requests insert. */
+function SaveQuoteRow({
+  onSaveQuote,
+  config,
+  t,
+}: {
+  onSaveQuote: (email: string) => Promise<void>;
+  config: { material: string; colour: string; qty: number; urgency: string; scale: number };
+  t: (key: string) => string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || submitting) return;
+    setSubmitting(true);
+    try {
+      await onSaveQuote(email.trim());
+      setSubmitted(true);
+      sonnerToast(t("calc.saveQuote.success"));
+      setTimeout(() => { setOpen(false); setSubmitted(false); setEmail(""); }, 1500);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleCopyLink = async () => {
+    if (typeof window === "undefined") return;
+    const link = buildQuoteLink(window.location.origin, window.location.pathname, config);
+    try {
+      await navigator.clipboard.writeText(link);
+      sonnerToast(t("calc.saveQuote.copied"));
+    } catch { /* ignore clipboard rejection on insecure contexts */ }
+  };
+
+  return (
+    <div className="space-y-1.5" data-testid="save-quote-row">
+      <div className="flex gap-3 justify-center text-xs">
+        <button type="button" onClick={() => setOpen(v => !v)} className="text-accent underline" data-testid="save-quote-link">
+          {t("calc.saveQuote.link")}
+        </button>
+        <button type="button" onClick={handleCopyLink} className="text-muted-foreground underline" data-testid="copy-quote-link">
+          {t("calc.saveQuote.copyLink")}
+        </button>
+      </div>
+      {open && !submitted && (
+        <form onSubmit={handleSubmit} className="flex gap-1.5 items-center">
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder={t("calc.saveQuote.placeholder")}
+            data-testid="save-quote-email"
+            className="flex-1 rounded-md border border-input bg-background px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+          <button
+            type="submit"
+            disabled={submitting}
+            data-testid="save-quote-submit"
+            className="shrink-0 px-2.5 py-1 rounded-md bg-accent text-accent-foreground text-xs font-medium disabled:opacity-50"
+          >
+            {t("calc.saveQuote.send")}
+          </button>
+        </form>
+      )}
+    </div>
   );
 }
 
@@ -114,6 +193,10 @@ interface OrderPanelProps {
   urgency?: string;
   /** When true, hide the pickup button entirely (international pages: ship-only). */
   shippingOnly?: boolean;
+  /** Save-quote callback (R10). Returns once the quote_requests insert settles. */
+  onSaveQuote?: (email: string) => Promise<void>;
+  /** Current configurator values — encoded into the copyable share link. */
+  saveQuoteConfig?: { material: string; colour: string; qty: number; urgency: string; scale: number };
 }
 
 export function OrderPanel({
@@ -173,6 +256,8 @@ export function OrderPanel({
   supportHeavy = false,
   urgency = "standard",
   shippingOnly = false,
+  onSaveQuote,
+  saveQuoteConfig,
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -478,6 +563,10 @@ export function OrderPanel({
                       {t("calc.result.whatsapp.short")}
                     </button>
                   </div>
+                  {/* Save-quote inline row (R10) — email the price + copy the shareable link */}
+                  {onSaveQuote && saveQuoteConfig && (
+                    <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
+                  )}
                 </div>
               </>
             ) : (
