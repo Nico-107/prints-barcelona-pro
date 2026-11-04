@@ -1,0 +1,3 @@
+- [ ] Update checkout ceiling, automatic methods, shipping and previews without changing print pricing.
+- [ ] Handle delayed payment success safely in the webhook.
+- [ ] Test and deploy the two changed functions; keep immediate charging.
