@@ -162,19 +162,20 @@ check("E3 minAdjCents",           e3.minAdjCents,           178);
 check("E3 expressCents",          e3.expressCents,          0);
 check("E3 capShaveCents",         e3.capShaveCents,         0);
 
-// E4 — cap case
+// E4 — over-limit case (above the €200 instant cap: not eligible, no shave)
 const e4 = computeOrder([
-  { volumeMm3: 505200, quantity: 1, material: "PLA", infill: 20, wallLoops: 2 },
+  { volumeMm3: 567000, quantity: 4, material: "PLA", infill: 20, wallLoops: 2 },
 ], "standard");
 
-checkApprox("E4 gramsPerUnit[0]", e4.parts[0].gramsPerUnit, 195.4518, 0.001);
-check("E4 totalCents",            e4.totalCents,            5100);
-check("E4 chargedPrintCents",     e4.chargedPrintCents,     5000);
-check("E4 capShaveCents",         e4.capShaveCents,         100);
-check("E4 parts[0].costCents",    e4.parts[0].costCents,    4200);
+checkApprox("E4 gramsPerUnit[0]", e4.parts[0].gramsPerUnit, 219.361, 0.001);
+check("E4 totalCents",            e4.totalCents,            20104);
+check("E4 chargedPrintCents",     e4.chargedPrintCents,     20104);
+check("E4 capShaveCents",         e4.capShaveCents,         0);
+check("E4 parts[0].costCents",    e4.parts[0].costCents,    19304);
 check("E4 setupCents",            e4.setupCents,            800);
 check("E4 minAdjCents",           e4.minAdjCents,           0);
 check("E4 expressCents",          e4.expressCents,          0);
+check("E4 eligible",              e4.eligible,              false);
 
 if (failures.length > 0) {
   console.error("❌ E1–E4 FAILED:");
