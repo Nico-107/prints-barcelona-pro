@@ -774,8 +774,11 @@ export function OrderPanel({
 
       {renderForm && !adminMode && (
         <>
-          {/* Fulfillment */}
+          {/* Fulfillment — pickup button hidden on international (ship-only) pages
+              so the "Rambla del Brasil, 53, 08028 Barcelona" address never
+              renders in a non-Spain DOM. */}
           <div className="space-y-2">
+            {!shippingOnly && (
             <button
               type="button"
               onClick={() => { onFulfillmentChange("pickup"); }}
@@ -793,6 +796,7 @@ export function OrderPanel({
                 — {t("calc.fulfillment.free")} · {t("calc.fulfillment.byAppointment")}
               </span>
             </button>
+            )}
 
             <button
               type="button"

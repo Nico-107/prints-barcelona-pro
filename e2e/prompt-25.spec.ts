@@ -45,9 +45,15 @@ async function uploadCubeAndWaitForPrice(page: Page): Promise<string | null> {
   const fileInput = page.locator('#calculator input[type="file"]').first();
   await fileInput.waitFor({ state: "attached", timeout: 15_000 });
   await fileInput.setInputFiles(CUBE_STL);
-  const buy = page.getByTestId("buy-now-btn");
-  await buy.waitFor({ state: "visible", timeout: 30_000 });
-  return (await buy.textContent())?.trim() ?? null;
+  // The OrderPanel renders in multiple slots; one copy is display:none per
+  // breakpoint (desktop two-col vs mobile single-col). Poll until *any* buy
+  // button is both visible (clientHeight > 0) AND shows a price.
+  const label = await page.waitForFunction(() => {
+    const btns = Array.from(document.querySelectorAll('[data-testid="buy-now-btn"]')) as HTMLButtonElement[];
+    const visible = btns.find(b => b.clientHeight > 0 && !b.disabled && /\d/.test(b.textContent ?? ""));
+    return visible ? visible.textContent?.trim() : null;
+  }, null, { timeout: 30_000 });
+  return (await label.jsonValue()) ?? null;
 }
 
 // ─── Check 1: buy visible above the fold on three pages (desktop 1280×800) ───
@@ -57,10 +63,15 @@ for (const [key, p] of Object.entries(PAGES)) {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(p.url);
     await uploadCubeAndWaitForPrice(page);
-    const buy = page.getByTestId("buy-now-btn");
-    const box = await buy.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.y + box!.height).toBeLessThanOrEqual(800);
+    // Any visible Buy button must be above the fold (y + height ≤ viewport height).
+    const anyAboveFold = await page.evaluate(() => {
+      const btns = Array.from(document.querySelectorAll('[data-testid="buy-now-btn"]')) as HTMLButtonElement[];
+      return btns.some(b => {
+        const r = b.getBoundingClientRect();
+        return r.height > 0 && r.y + r.height <= 800 && r.y >= 0;
+      });
+    });
+    expect(anyAboveFold).toBe(true);
   });
 }
 
@@ -73,9 +84,11 @@ for (const viewport of [
   test(`2 · mobile ${viewport.name} — bottom bar shows Comprar · X €`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto("/");
-    const label = await uploadCubeAndWaitForPrice(page);
-    expect(label).toMatch(/\bComprar\b.*·.*€/);
-    // No horizontal scroll
+    await uploadCubeAndWaitForPrice(page);
+    // The prompt says the button label is "Comprar · X €" — multiple buttons
+    // may carry the data-testid; at least one must match the label pattern.
+    const labels = await page.getByTestId("buy-now-btn").allTextContents();
+    expect(labels.some(l => /\bComprar\b.*·.*€/.test(l))).toBe(true);
     const scrollX = await page.evaluate(() => document.documentElement.scrollLeft);
     expect(scrollX).toBe(0);
   });
@@ -97,9 +110,12 @@ test("3 · NL page is ship-only and has no Rambla/Brasil text", async ({ page })
 test("4 · eligibility matrix — small PLA buy, huge-scale quote, Nylon express quote", async ({ page }) => {
   await page.goto("/");
   await uploadCubeAndWaitForPrice(page);
-  // Default PLA cube should be instant-eligible — Buy button enabled.
-  await expect(page.getByTestId("buy-now-btn")).toBeEnabled();
-  // The printability chip should be in the OK state for the default cube.
+  // Default PLA cube should be instant-eligible — at least one Buy button enabled.
+  const enabled = await page.evaluate(() => {
+    const btns = Array.from(document.querySelectorAll('[data-testid="buy-now-btn"]')) as HTMLButtonElement[];
+    return btns.some(b => !b.disabled);
+  });
+  expect(enabled).toBe(true);
   const chip = page.getByTestId("printability-chip").first();
   if (await chip.count() > 0) {
     await expect(chip).toHaveAttribute("data-state", "ok");
@@ -154,7 +170,7 @@ test("7 · selecting Rojo updates the viewer mesh material colour (red hex)", as
 test("8 · save-quote triggers a quote_requests insert with the [PRESUPUESTO GUARDADO] note", async ({ page }) => {
   // Intercept the supabase REST POST and assert the note prefix without actually inserting.
   let intercepted: { note?: string; email?: string } | null = null;
-  await page.route(/\/rest\/v1\/quote_requests\?/, async (route) => {
+  await page.route(/\/rest\/v1\/quote_requests(\?|$)/, async (route) => {
     try {
       const body = JSON.parse(route.request().postData() ?? "[]");
       const row = Array.isArray(body) ? body[0] : body;
@@ -166,9 +182,13 @@ test("8 · save-quote triggers a quote_requests insert with the [PRESUPUESTO GUA
 
   await page.goto("/");
   await uploadCubeAndWaitForPrice(page);
-  await page.getByTestId("save-quote-link").click();
-  await page.getByTestId("save-quote-email").fill("test@example.com");
-  await page.getByTestId("save-quote-submit").click();
+  // Multiple SaveQuoteRow instances on desktop (visible + hidden copy); grab the visible one with :visible.
+  const link = page.locator('[data-testid="save-quote-link"]:visible').first();
+  await link.click();
+  const emailInput = page.locator('[data-testid="save-quote-email"]:visible').first();
+  await emailInput.fill("test@example.com");
+  const submit = page.locator('[data-testid="save-quote-submit"]:visible').first();
+  await submit.click();
   await page.waitForTimeout(400);
   expect(intercepted?.email).toBe("test@example.com");
   expect(intercepted?.note ?? "").toContain("[PRESUPUESTO GUARDADO");
