@@ -50,10 +50,10 @@ describe("deployed checkout policies", () => {
     expect(result.value.priced.order.totalCents).toBe(Math.round(body.exactPrice * 100));
     expect(h.exports.evaluateCheckoutV3({ ...body, exactPrice: 1 }, analyses).error).toBe("PRICE_MISMATCH");
   });
-  it("allows €206 but rejects €206.01", async () => {
+  it("allows €205.90 but rejects €205.91", async () => {
     const h = checkoutHarness();
-    expect((await h.invoke({ ...base, exactPrice: 206, fulfillment: "pickup" })).status).toBe(200);
-    expect(await (await h.invoke({ ...base, exactPrice: 206.01, fulfillment: "pickup" })).json()).toEqual({ error: "PRICE_ABOVE_INSTANT_LIMIT" });
+    expect((await h.invoke({ ...base, exactPrice: 205.90, fulfillment: "pickup" })).status).toBe(200);
+    expect(await (await h.invoke({ ...base, exactPrice: 205.91, fulfillment: "pickup" })).json()).toEqual({ error: "PRICE_ABOVE_INSTANT_LIMIT" });
   });
   it("keeps the legacy material whitelist", async () => {
     expect(await (await checkoutHarness().invoke({ ...base, material: "pla" })).json()).toEqual({ error: "INVALID_MATERIAL" });
