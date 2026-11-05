@@ -16,7 +16,7 @@ export function applyCheckoutPolicy(params: URLSearchParams, fulfillment: string
   params.set("phone_number_collection[enabled]", "true");
   if (previewUrl) params.set("line_items[0][price_data][product_data][images][0]", previewUrl);
   if (fulfillment !== "shipping") return;
-  SHIPPING_COUNTRIES.forEach((country, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, country));
+  SHIP_COUNTRIES.forEach((country, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, country));
   params.set(`line_items[${lineCount}][quantity]`, "1");
   params.set(`line_items[${lineCount}][price_data][currency]`, "eur");
   params.set(`line_items[${lineCount}][price_data][unit_amount]`, String(shippingChargeCents(fulfillment, subtotalCents)));

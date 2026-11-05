@@ -9,6 +9,10 @@ const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
 // owner: edit here; flat 590 shipping loses money to far countries (RO about 14 EUR real cost)
 import { MAX_CHARGE_CENTS, applyCheckoutPolicy, chargeAllowed, decodePreviewPng, shippingChargeCents } from "./checkout-policy.ts";
 
+// Must match SHIP_COUNTRIES in src/lib/instantBuy.ts and checkout-policy.ts exactly —
+// scripts/check-ship-countries.mjs parses this file before every build.
+const SHIP_COUNTRIES = ["ES","PT","FR","DE","IT","NL","BE","LU","AT","IE","PL","DK","SE","FI"] as const;
+
 // PostHog capture helper — 3s timeout, never throws
 async function capturePostHog(
   event: string,
