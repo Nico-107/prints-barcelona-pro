@@ -156,14 +156,20 @@ test("6 · capture desktop + mobile screenshots for review", async ({ page }) =>
 test("7 · selecting Rojo updates the viewer mesh material colour (red hex)", async ({ page }) => {
   await page.goto("/");
   await uploadCubeAndWaitForPrice(page);
-  // Any of the Red swatch variants — ColourPicker exposes key="Red" with aria-label from i18n.
-  const red = page.getByRole("radio", { name: /red|rojo|vermell|rot|rouge|rood|rosso|vermelho/i }).first();
+  // conv-27: ColourPicker is now a closed dropdown — open it first, then pick Red from the panel.
+  const triggers = page.getByTestId("colour-picker-trigger");
+  const tIdx = await triggers.evaluateAll(els =>
+    els.findIndex(el => (el as HTMLElement).offsetParent !== null),
+  );
+  await triggers.nth(tIdx >= 0 ? tIdx : 0).click();
+  const panel = page.getByTestId("colour-picker-panel").first();
+  await expect(panel).toBeVisible();
+  const red = panel.locator("button", { hasText: /red|rojo|vermell|rot|rouge|rood|rosso|vermelho/i }).first();
   await red.click();
-  // Wait for the colour_changed_preview event — a short settle gives three.js time to update.
   await page.waitForTimeout(200);
-  // The StlViewer renders into a canvas inside #calculator; we can't inspect the three.js
-  // material directly without a hook, so assert the swatch is now checked.
-  await expect(red).toHaveAttribute("aria-checked", "true");
+  // Trigger now shows the Red swatch name.
+  const trigger = triggers.nth(tIdx >= 0 ? tIdx : 0);
+  await expect(trigger).toContainText(/red|rojo|vermell|rot|rouge|rood|rosso|vermelho/i);
 });
 
 // ─── Check 8: "Enviarme este presupuesto" triggers the quote submission ──────

@@ -2063,6 +2063,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       key={`${stepperFile.id}-admin`}
                       file={stepperFile.file}
                       colour={viewerColour}
+                      material={effectivePartSettings(stepperFile, defaults).material}
                       language={language}
                       scaleFactor={scaleByFileId[stepperFile.id] ?? 1}
                     />
@@ -2290,6 +2291,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       key={`${stepperFile.id}-dialog`}
                       file={stepperFile.file}
                       colour={viewerColour}
+                      material={eff.material}
                       touchAction={mobileViewerExpanded ? undefined : "pan-y"}
                       onReady={() => setViewerStateInModal("ready")}
                       onError={() => setViewerStateInModal("failed")}

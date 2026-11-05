@@ -111,38 +111,8 @@ test("Viewer — label positions change after rotation (OrbitControls)", async (
   expect(moved).toBe(true);
 });
 
-test("Viewer — compare toggle shows comparison caption label", async ({ page }) => {
-  await page.goto("/");
-  await uploadAndWaitForViewer(page);
-
-  const compareLabel = page.locator('[data-testid="viewer-compare-label"]').first();
-  // Compare label starts hidden (compareMode="off" → display:none)
-  await expect(compareLabel).toBeAttached();
-  await expect(compareLabel).toBeHidden();
-
-  // Click compare toggle → compareMode != "off" → label becomes visible
-  await page.locator('[data-testid="viewer-compare-toggle"]').first().click();
-  await page.waitForTimeout(200);
-
-  await expect(compareLabel).toBeVisible();
-});
-
-test("Viewer — compare label position changes after rotation", async ({ page }) => {
-  await page.goto("/");
-  await uploadAndWaitForViewer(page);
-
-  await page.locator('[data-testid="viewer-compare-toggle"]').first().click();
-  await page.waitForTimeout(200);
-
-  const before = await getLabelPos(page, "viewer-compare-label");
-
-  await rotateView(page);
-
-  const after = await getLabelPos(page, "viewer-compare-label");
-
-  const moved = Math.abs(after.top - before.top) > 1 || Math.abs(after.left - before.left) > 1;
-  expect(moved).toBe(true);
-});
+// Compare toggle removed from the UI in conv-27 (toolbar is Medidas/Reset/Expand).
+// The compare-toggle and compare-label tests were deleted along with the button.
 
 test("Viewer — reset button restores initial camera position", async ({ page }) => {
   await page.goto("/");
