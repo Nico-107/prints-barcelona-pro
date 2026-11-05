@@ -108,42 +108,47 @@ export function shipDateLine(
 
 /**
  * Cutoff line shown above the buy button (R7):
- *   - Before 14:00: "Pide antes de las 14:00 → lo imprimimos hoy y sale el {fecha}"
- *   - After 14:00:  "Imprimimos mañana y sale el {fecha}"  (no fake urgency)
+ *   - Before 14:00: "Pide antes de las 14:00 · sale el {fecha}"
+ *   - After 14:00:  "Imprimimos mañana · sale el {fecha}"  (no fake urgency)
+ *
+ * We dropped "lo imprimimos hoy" (conv-27) — standard orders take 3 production
+ * days, so "we print it today" misled users who read it as "you get it today".
+ * The arrow `→` was also removed; some webfonts render it clipped next to "el"
+ * (the "ël" artefact reported in prod).
  */
 export function cutoffLine(shipDateFormatted: string, language: string, beforeCutoff: boolean): string {
   switch (language) {
     case "es":
       return beforeCutoff
-        ? `Pide antes de las 14:00 → lo imprimimos hoy y sale el ${shipDateFormatted}`
-        : `Imprimimos mañana y sale el ${shipDateFormatted}`;
+        ? `Pide antes de las 14:00 · sale el ${shipDateFormatted}`
+        : `Imprimimos mañana · sale el ${shipDateFormatted}`;
     case "ca":
       return beforeCutoff
-        ? `Demana abans de les 14:00 → l'imprimim avui i surt el ${shipDateFormatted}`
-        : `L'imprimim demà i surt el ${shipDateFormatted}`;
+        ? `Demana abans de les 14:00 · surt el ${shipDateFormatted}`
+        : `Imprimim demà · surt el ${shipDateFormatted}`;
     case "pt":
       return beforeCutoff
-        ? `Peça antes das 14:00 → imprimimos hoje e segue a ${shipDateFormatted}`
-        : `Imprimimos amanhã e segue a ${shipDateFormatted}`;
+        ? `Peça antes das 14:00 · segue a ${shipDateFormatted}`
+        : `Imprimimos amanhã · segue a ${shipDateFormatted}`;
     case "fr":
       return beforeCutoff
-        ? `Commandez avant 14:00 → imprimé aujourd'hui, expédié le ${shipDateFormatted}`
-        : `Imprimé demain, expédié le ${shipDateFormatted}`;
+        ? `Commandez avant 14:00 · expédié le ${shipDateFormatted}`
+        : `Imprimé demain · expédié le ${shipDateFormatted}`;
     case "de":
       return beforeCutoff
-        ? `Bis 14:00 bestellen → heute gedruckt, Versand am ${shipDateFormatted}`
-        : `Morgen gedruckt, Versand am ${shipDateFormatted}`;
+        ? `Bis 14:00 bestellen · Versand am ${shipDateFormatted}`
+        : `Morgen gedruckt · Versand am ${shipDateFormatted}`;
     case "nl":
       return beforeCutoff
-        ? `Bestel vóór 14:00 → vandaag geprint, verzending op ${shipDateFormatted}`
-        : `Morgen geprint, verzending op ${shipDateFormatted}`;
+        ? `Bestel vóór 14:00 · verzending op ${shipDateFormatted}`
+        : `Morgen geprint · verzending op ${shipDateFormatted}`;
     case "it":
       return beforeCutoff
-        ? `Ordina entro le 14:00 → stampato oggi, spedito il ${shipDateFormatted}`
-        : `Stampato domani, spedito il ${shipDateFormatted}`;
+        ? `Ordina entro le 14:00 · spedito il ${shipDateFormatted}`
+        : `Stampato domani · spedito il ${shipDateFormatted}`;
     default:
       return beforeCutoff
-        ? `Order before 14:00 → printed today, shipped ${shipDateFormatted}`
-        : `Printed tomorrow, shipped ${shipDateFormatted}`;
+        ? `Order before 14:00 · shipped ${shipDateFormatted}`
+        : `Printed tomorrow · shipped ${shipDateFormatted}`;
   }
 }

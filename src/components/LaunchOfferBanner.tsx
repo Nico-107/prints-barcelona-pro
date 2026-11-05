@@ -11,7 +11,7 @@ const LaunchOfferBanner = () => {
   if (!ACTIVE_CITY.launchOffer.enabled || dismissed) return null;
 
   return (
-    <div className="relative z-50 bg-cta text-cta-foreground text-sm font-medium text-center py-2.5 px-10">
+    <div data-launch-offer-banner="true" className="relative z-50 bg-cta text-cta-foreground text-sm font-medium text-center py-2.5 px-10">
       <span>{ACTIVE_CITY.launchOffer.text}</span>
       <button
         onClick={() => { capture('banner dismissed'); setDismissed(true); }}

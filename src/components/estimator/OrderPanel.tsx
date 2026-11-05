@@ -76,17 +76,26 @@ function SaveQuoteRow({
   };
 
   return (
-    <div className="space-y-1.5" data-testid="save-quote-row">
-      <div className="flex gap-3 justify-center text-xs">
-        <button type="button" onClick={() => setOpen(v => !v)} className="text-accent underline" data-testid="save-quote-link">
-          {t("calc.saveQuote.link")}
-        </button>
-        <button type="button" onClick={handleCopyLink} className="text-muted-foreground underline" data-testid="copy-quote-link">
-          {t("calc.saveQuote.copyLink")}
-        </button>
-      </div>
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        className="text-slate-500 hover:text-slate-900 underline"
+        data-testid="save-quote-link"
+      >
+        {t("calc.saveQuote.link")}
+      </button>
+      <span className="text-slate-300">·</span>
+      <button
+        type="button"
+        onClick={handleCopyLink}
+        className="text-slate-500 hover:text-slate-900 underline"
+        data-testid="copy-quote-link"
+      >
+        {t("calc.saveQuote.copyLink")}
+      </button>
       {open && !submitted && (
-        <form onSubmit={handleSubmit} className="flex gap-1.5 items-center">
+        <form onSubmit={handleSubmit} className="basis-full flex gap-1.5 items-center mt-1.5">
           <input
             type="email"
             required
@@ -94,7 +103,7 @@ function SaveQuoteRow({
             onChange={e => setEmail(e.target.value)}
             placeholder={t("calc.saveQuote.placeholder")}
             data-testid="save-quote-email"
-            className="flex-1 rounded-md border border-input bg-background px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-ring"
+            className="flex-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-accent/50"
           />
           <button
             type="submit"
@@ -106,7 +115,7 @@ function SaveQuoteRow({
           </button>
         </form>
       )}
-    </div>
+    </>
   );
 }
 
@@ -513,12 +522,12 @@ export function OrderPanel({
                   );
                 })()}
 
-                {/* Big Buy button · trust line · payment badges · two small buttons */}
+                {/* Big Buy button · trust line · payment badges · text links */}
                 <div className="space-y-2">
                   <Button
                     variant="cta"
                     size="xl"
-                    className="w-full gap-2 text-lg font-semibold max-lg:h-[60px]"
+                    className="w-full gap-2 text-base font-semibold h-[52px] max-lg:h-[60px]"
                     data-testid="buy-now-btn"
                     data-ph-name="buy-now"
                     onClick={onInstantBuy}
@@ -531,42 +540,42 @@ export function OrderPanel({
                         : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                     }
                   </Button>
-                  {/* Guarantee line (R3/R4) — directly under the button, 14 px, bold-ish */}
-                  <p className="text-sm font-medium text-foreground leading-snug text-center">
+                  {/* Trust line — one 12px grey line (conv-27): ship date · review · refund */}
+                  <p className="text-xs text-center text-slate-500 leading-snug">
                     {PAYMENT_CAPTURE_MODE === 'after_review'
                       ? t("calc.guarantee.afterReview")
                       : t("calc.guarantee.default")}
                   </p>
-                  <p className="text-[11px] text-center text-muted-foreground leading-tight">
-                    {t("calc.trust.promise")}
-                  </p>
                   <PaymentBadges language={language} />
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={onManualReview}
-                      disabled={isCheckingOut}
-                      className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-accent text-accent text-xs font-medium hover:bg-accent/10 transition-colors disabled:opacity-50 px-3"
-                      data-ph-name="free-review"
-                    >
-                      <Send className="w-3 h-3 shrink-0" />
-                      {t("calc.instantBuy.manualReview.short")}
-                    </button>
+                  {/* conv-27 §bug 9 — Review + WhatsApp are low-contrast text links,
+                      not full-size outlined buttons that compete with Comprar. */}
+                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px]">
                     <button
                       type="button"
                       onClick={onWhatsApp}
                       disabled={isCheckingOut}
-                      className="flex-1 flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors disabled:opacity-50 px-3"
+                      className="text-slate-500 hover:text-slate-900 underline disabled:opacity-50"
                       data-ph-name="whatsapp-calculator"
                     >
-                      <MessageCircle className="w-3 h-3 shrink-0" />
                       {t("calc.result.whatsapp.short")}
                     </button>
+                    <span className="text-slate-300">·</span>
+                    <button
+                      type="button"
+                      onClick={onManualReview}
+                      disabled={isCheckingOut}
+                      className="text-slate-500 hover:text-slate-900 underline disabled:opacity-50"
+                      data-ph-name="free-review"
+                    >
+                      {t("calc.instantBuy.manualReview.short")}
+                    </button>
+                    {onSaveQuote && saveQuoteConfig && (
+                      <>
+                        <span className="text-slate-300">·</span>
+                        <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
+                      </>
+                    )}
                   </div>
-                  {/* Save-quote inline row (R10) — email the price + copy the shareable link */}
-                  {onSaveQuote && saveQuoteConfig && (
-                    <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
-                  )}
                 </div>
               </>
             ) : (
@@ -712,45 +721,8 @@ export function OrderPanel({
         </>
       )}
 
-      {/* Order summary */}
-      {renderForm && bundle && (
-        <div className="rounded-lg border border-border bg-muted/20 px-3 py-2 space-y-1 text-sm">
-          {bundle.orderResult.setupCents > 0 && (
-            <div className="flex justify-between text-muted-foreground">
-              <span>{t("calc.summary.setup")}</span>
-              <span>{formatEUR(bundle.orderResult.setupCents / 100, lang)}</span>
-            </div>
-          )}
-          {bundle.orderResult.minAdjCents > 0 && (
-            <div className="flex justify-between text-muted-foreground">
-              <span>{t("calc.summary.minAdjust")}</span>
-              <span>+{formatEUR(bundle.orderResult.minAdjCents / 100, lang)}</span>
-            </div>
-          )}
-          {bundle.orderResult.expressCents > 0 && (
-            <div className="flex justify-between text-muted-foreground">
-              <span>{t("calc.summary.express")}</span>
-              <span>+{formatEUR(bundle.orderResult.expressCents / 100, lang)}</span>
-            </div>
-          )}
-          {fulfillment === "shipping" && (
-            <div className="flex justify-between text-muted-foreground">
-              <span>{t("calc.summary.shipping")}</span>
-              <span>+{shippingFormatted}</span>
-            </div>
-          )}
-          <div className="flex justify-between font-semibold border-t border-border pt-1 mt-1">
-            <span>{t("calc.summary.total")}</span>
-            <span>
-              {instantBuyEligible && instantTotalPrice !== null
-                ? formatEUR(instantTotalPrice, lang)
-                : formatEUR(bundle.total, lang)}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Why this price? */}
+      {/* Order summary moved to the pinned actions bar (conv-27 §bug 5).
+          "Why this price?" stays as a collapsible — it's informational, not a duplicate. */}
       {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} language={lang} />}
 
       {/* Notes */}

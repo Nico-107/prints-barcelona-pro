@@ -591,6 +591,13 @@ export const nlTranslations: Record<string, string> = {
   "calc.error.checkout": "We konden de betaling niet starten. Controleer de instellingen of vraag ons team het te beoordelen.",
 
   // Checkout redesign — Part G keys
+  "calc.simple.qty": "Aantal",
+  "calc.simple.plazo": "Levertijd",
+  "calc.simple.urgent": "Spoed",
+  "calc.simple.shipsOn": "verzending op {date}",
+  "calc.simple.perUnit": " /st",
+  "calc.simple.addNote": "Notitie toevoegen",
+
   "calc.mode.simpleHint": "Kies een materiaal en vertel ons waarvoor het dient.",
   "calc.mode.advancedHint": "Volledige controle: kwaliteit, sterkte, supports, oriëntatie.",
   "calc.adv.group.material": "Materiaal & kleur",
@@ -663,7 +670,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.validate.email": "Dit e-mailadres ziet er niet correct uit.",
   "calc.validate.phone": "Dit telefoonnummer ziet er niet correct uit.",
   "calc.validate.fulfillment": "Kies afhalen of bezorging om door te gaan.",
-  "calc.checkout.title": "Jouw bestelling",
+  "calc.checkout.title": "Jouw onderdeel",
   "calc.checkout.close": "Sluiten",
   "calc.checkout.reopen": "Doorgaan naar betaling",
   "calc.checkout.parts": "Jouw onderdelen",

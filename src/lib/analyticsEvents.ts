@@ -448,6 +448,14 @@ export interface EventMap {
   more_colors_opened: Record<string, never>;
   /** Fires when "Más materiales" (ASA / Nylon + quote-only) is expanded. */
   more_materials_opened: Record<string, never>;
+  /** conv-27 — fires when the viewer is expanded (mobile) or enters fullscreen. */
+  viewer_expanded: { on?: boolean };
+  /** conv-27 — fires when the colour dropdown trigger is opened. */
+  color_dropdown_opened: Record<string, never>;
+  /** conv-27 — fires when the "Más materiales" details is opened (replaces more_materials_opened as the preferred name). */
+  material_more_opened: Record<string, never>;
+  /** conv-27 — fires when the "Añadir nota" link expands the Simple-mode note textarea. */
+  note_opened: Record<string, never>;
   /** Fires when "Enviarme este presupuesto" is submitted — saves a quote. */
   quote_saved: { email_hash: string; total: number; material: string };
   /** Fires when a shared quote link re-opens the modal with its config. */

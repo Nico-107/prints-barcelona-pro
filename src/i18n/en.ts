@@ -688,6 +688,14 @@ export const enTranslations: Record<string, string> = {
   "calc.mixed.note": "Some materials need a quick review by our team before we can charge you.",
   "calc.error.checkout": "We couldn't start the payment. Check the settings or ask our team to review it.",
 
+  // conv-27 — Simple mode row labels
+  "calc.simple.qty": "Quantity",
+  "calc.simple.plazo": "Lead time",
+  "calc.simple.urgent": "Urgent",
+  "calc.simple.shipsOn": "ships {date}",
+  "calc.simple.perUnit": " /unit",
+  "calc.simple.addNote": "Add a note",
+
   // Checkout redesign — Part G keys
   "calc.mode.simpleHint": "Pick a material and tell us what it's for.",
   "calc.mode.advancedHint": "Full control: quality, strength, supports, orientation.",
@@ -761,7 +769,7 @@ export const enTranslations: Record<string, string> = {
   "calc.validate.email": "That email doesn't look right.",
   "calc.validate.phone": "That phone number doesn't look right.",
   "calc.validate.fulfillment": "Choose pickup or shipping to continue.",
-  "calc.checkout.title": "Your order",
+  "calc.checkout.title": "Your part",
   "calc.checkout.close": "Close",
   "calc.checkout.reopen": "Continue to checkout",
   "calc.checkout.parts": "Your parts",

@@ -257,6 +257,16 @@
   }
 }
 
+/* conv-27 §bug 7 — while the checkout modal is open, hide every floating
+   widget (WhatsApp float, launch-offer banner, exit popup, student-discount
+   banner) so they can't bleed through or over the modal. */
+html[data-modal-open="true"] a[data-whatsapp-float="true"],
+html[data-modal-open="true"] [data-launch-offer-banner="true"],
+html[data-modal-open="true"] [data-exit-popup="true"],
+html[data-modal-open="true"] [data-floating-widget="true"] {
+  display: none !important;
+}
+
 /* header_btn_r2 */
 html:not([data-xp-header-btn-r2]) [data-xp-slot="header_btn_r2"][data-xp-v="B"],
 html[data-xp-header-btn-r2="A"]  [data-xp-slot="header_btn_r2"][data-xp-v="B"],

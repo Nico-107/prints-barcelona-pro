@@ -591,6 +591,13 @@ export const deTranslations: Record<string, string> = {
   "calc.error.checkout": "Wir konnten die Zahlung nicht starten. Überprüfe die Einstellungen oder bitte unser Team um eine Überprüfung.",
 
   // Checkout redesign — Part G keys
+  "calc.simple.qty": "Menge",
+  "calc.simple.plazo": "Lieferzeit",
+  "calc.simple.urgent": "Dringend",
+  "calc.simple.shipsOn": "Versand am {date}",
+  "calc.simple.perUnit": " /Stk",
+  "calc.simple.addNote": "Notiz hinzufügen",
+
   "calc.mode.simpleHint": "Wählen Sie ein Material und erklären Sie uns, wofür es gedacht ist.",
   "calc.mode.advancedHint": "Volle Kontrolle: Qualität, Stärke, Stützen, Ausrichtung.",
   "calc.adv.group.material": "Material & Farbe",
@@ -663,7 +670,7 @@ export const deTranslations: Record<string, string> = {
   "calc.validate.email": "Diese E-Mail sieht nicht korrekt aus.",
   "calc.validate.phone": "Diese Telefonnummer sieht nicht korrekt aus.",
   "calc.validate.fulfillment": "Wählen Sie Abholung oder Versand, um fortzufahren.",
-  "calc.checkout.title": "Deine Bestellung",
+  "calc.checkout.title": "Dein Teil",
   "calc.checkout.close": "Schließen",
   "calc.checkout.reopen": "Weiter zur Kasse",
   "calc.checkout.parts": "Deine Teile",

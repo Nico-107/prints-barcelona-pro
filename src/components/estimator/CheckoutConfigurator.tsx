@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { ParsedFile, PartDefaults, MaterialOption, PartSettings } from "@/lib/pricing";
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { QualityKey } from "@/lib/estimator/core";
@@ -11,6 +11,8 @@ import { capture } from "@/lib/analytics";
 import { ColourPicker } from "./ColourPicker";
 import { PartScopeBar } from "./PartScopeBar";
 import type { Scope } from "./PartScopeBar";
+import { computeShipDate, formatShipDate } from "@/lib/shipDate";
+import { formatEUR } from "@/lib/formatPrice";
 
 const INSTANT_MATERIALS = ["PLA", "PETG", "ABS", "ASA", "Nylon", "TPU"];
 
@@ -54,6 +56,9 @@ interface CheckoutConfiguratorProps {
   onApplyToAll?: (id: string) => void;
   onClearFieldFromAllParts?: (field: keyof PartSettings) => number;
   replacedCount?: number | null;
+  /** Selected (scoped or first) part — used to drive the Simple-mode qty stepper. */
+  activeFileId?: string;
+  onQtyChange?: (id: string, qty: number) => void;
 }
 
 export function CheckoutConfigurator({
@@ -63,11 +68,13 @@ export function CheckoutConfigurator({
   quality, onQualityChange, infillPct, wallLoops, onInfillChange, onWallLoopsChange,
   supports, onSupportsChange,
   orientation, onOrientationChange,
-  urgency, onUrgencyChange, materialOptions, disabled, t,
+  urgency, onUrgencyChange, materialOptions, disabled, t, language,
   scope = "all", onScopeChange, costByFileId = {},
   onPartSettingsChange, onResetPartSettings, onApplyToAll,
   onClearFieldFromAllParts, replacedCount,
+  activeFileId, onQtyChange,
 }: CheckoutConfiguratorProps) {
+  const [noteOpen, setNoteOpen] = useState(!!notesText && notesText.length > 0);
 
   // Determine if we're in a per-part scope
   const scopedFile = scope !== "all" ? validFiles.find(f => f.id === scope) : null;
@@ -150,23 +157,53 @@ export function CheckoutConfigurator({
   const hasAnyOverrides = validFiles.some(f => isPartCustomized(f));
   const overrideCount = validFiles.filter(f => isPartCustomized(f)).length;
 
+  // Simple-mode qty target — the active part (scope) or first valid file
+  const simpleQtyFile = (() => {
+    if (activeFileId) return validFiles.find(f => f.id === activeFileId) ?? validFiles[0];
+    return validFiles[0];
+  })();
+  const simpleQty = simpleQtyFile?.qty ?? 1;
+
+  // Ship-date labels for the Plazo pills (Simple mode)
+  const now = new Date();
+  const shipStd = formatShipDate(computeShipDate(now, "standard"), language);
+  const shipExp = formatShipDate(computeShipDate(now, "express"), language);
+  const unitPriceStr = (() => {
+    if (!simpleQtyFile || simpleQty <= 1) return null;
+    const cents = costByFileId[simpleQtyFile.id];
+    if (!cents) return null;
+    return formatEUR((cents / simpleQty) / 100, language as Parameters<typeof formatEUR>[1]);
+  })();
+
   return (
     <div className="space-y-4">
-      {/* Mode switch — removed from default view per Prompt 25 §1. Advanced is
-          now reached through the "Ajustes avanzados" accordion lower down;
-          this button is kept as a small fallback to preserve admin / power-user
-          access and stays out of the default flow. */}
-      {advancedMode && (
-        <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={() => { onAdvancedModeChange(false); capture("config_mode_changed", { mode: "simple" }); }}
-            className="text-xs text-muted-foreground hover:text-foreground underline"
-          >
-            {t("calc.mode.simple")}
-          </button>
-        </div>
-      )}
+      {/* Mode toggle at the very top of the right column (conv-27) */}
+      <div
+        className="inline-flex p-0.5 rounded-[10px] bg-slate-100 text-xs font-medium"
+        role="tablist"
+        aria-label={t("calc.mode.simple") + " / " + t("calc.mode.advanced")}
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={!advancedMode}
+          data-testid="mode-simple"
+          onClick={() => { if (advancedMode) { onAdvancedModeChange(false); capture("config_mode_changed", { mode: "simple" }); } }}
+          className={`px-3 py-1.5 rounded-[8px] transition-colors ${!advancedMode ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+        >
+          {t("calc.mode.simple")}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={advancedMode}
+          data-testid="mode-advanced"
+          onClick={() => { if (!advancedMode) { onAdvancedModeChange(true); capture("config_mode_changed", { mode: "advanced" }); } }}
+          className={`px-3 py-1.5 rounded-[8px] transition-colors ${advancedMode ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+        >
+          {t("calc.mode.advanced")}
+        </button>
+      </div>
 
       {/* Simple mode: overrides hint */}
       {!advancedMode && hasAnyOverrides && (
@@ -281,7 +318,6 @@ export function CheckoutConfigurator({
           {INSTANT_MATERIALS.map(mat => {
             const opt = materialOptions.find(m => m.key === mat);
             if (!opt) return null;
-            const delta = deltas.materials[mat];
             return (
               <button key={mat} type="button"
                 data-ph-name="material-chip"
@@ -291,13 +327,10 @@ export function CheckoutConfigurator({
                   effMaterial === mat ? "border-accent bg-accent/8" : "border-border bg-background hover:border-accent/60"
                 }`}
               >
-                <div className="flex items-center justify-between gap-1 min-w-0">
-                  <span className="font-semibold truncate">{mat}</span>
-                  {delta && delta !== "Included" && (
-                    <span className={`shrink-0 text-[10px] font-medium ${delta.startsWith("+") ? "text-amber-600" : "text-green-600"}`}>{delta}</span>
-                  )}
-                </div>
-                <p className="text-muted-foreground truncate mt-0.5">{t(opt.descriptorKey)}</p>
+                <span className="font-semibold truncate block">{mat}</span>
+                {effMaterial === mat && (
+                  <p className="text-muted-foreground truncate mt-0.5">{t(opt.descriptorKey)}</p>
+                )}
               </button>
             );
           })}
@@ -306,7 +339,7 @@ export function CheckoutConfigurator({
           <details
             className="mt-1.5"
             onToggle={(e) => {
-              if ((e.currentTarget as HTMLDetailsElement).open) capture("more_materials_opened", {});
+              if ((e.currentTarget as HTMLDetailsElement).open) capture("material_more_opened", {});
             }}
           >
             <summary className="text-xs text-muted-foreground cursor-pointer select-none hover:text-foreground">
@@ -496,15 +529,104 @@ export function CheckoutConfigurator({
         </div>
       )}
 
-      {/* Notes (Simple mode) */}
+      {/* Simple mode: Cantidad + Plazo + Note link (conv-27 §bug 8) */}
       {!advancedMode && (
-        <div>
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.notes.label")}</label>
-          <textarea value={notesText} onChange={e => onNotesChange(e.target.value)} placeholder={t("calc.notes.placeholder")}
-            disabled={disabled} rows={3} data-ph-mask
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60 resize-none" />
-          <p className="text-xs text-muted-foreground mt-1">{t("calc.notes.reviewHint")}</p>
-        </div>
+        <>
+          {/* Cantidad */}
+          {simpleQtyFile && onQtyChange && (
+            <div>
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("calc.simple.qty")}</p>
+              <div className="flex items-center gap-3">
+                <div
+                  className="inline-flex items-center h-10 rounded-[10px] border border-slate-200 bg-white overflow-hidden"
+                  data-testid="simple-qty-stepper"
+                >
+                  <button
+                    type="button"
+                    onClick={() => { onQtyChange(simpleQtyFile.id, simpleQty - 1); capture("part_settings_changed", { field: "qty", material: effMaterial }); }}
+                    disabled={simpleQty <= 1 || disabled}
+                    className="w-10 h-full flex items-center justify-center text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                    aria-label="−"
+                  >−</button>
+                  <span className="w-10 text-center text-sm font-medium tabular-nums select-none">{simpleQty}</span>
+                  <button
+                    type="button"
+                    onClick={() => { onQtyChange(simpleQtyFile.id, simpleQty + 1); capture("part_settings_changed", { field: "qty", material: effMaterial }); }}
+                    disabled={simpleQty >= 999 || disabled}
+                    className="w-10 h-full flex items-center justify-center text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                    aria-label="+"
+                  >+</button>
+                </div>
+                {unitPriceStr && (
+                  <span className="text-xs text-slate-500 tabular-nums">{unitPriceStr}{t("calc.simple.perUnit")}</span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Plazo — Estándar / Urgente (+25%) */}
+          <div>
+            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("calc.simple.plazo")}</p>
+            <div className="grid grid-cols-2 gap-1.5" role="radiogroup" data-testid="simple-plazo">
+              <button
+                type="button"
+                role="radio"
+                aria-checked={urgency === "standard"}
+                data-testid="plazo-standard"
+                onClick={() => onUrgencyChange("standard")}
+                disabled={disabled}
+                className={`text-left px-3 py-2 rounded-[10px] border text-xs transition-colors disabled:opacity-50 ${
+                  urgency === "standard" ? "border-accent bg-accent/8" : "border-slate-200 bg-white hover:border-slate-300"
+                }`}
+              >
+                <span className="font-medium block">{t("calc.urgency.standard.label")}</span>
+                <span className="text-slate-500 block mt-0.5">{t("calc.simple.shipsOn").replace("{date}", shipStd)}</span>
+              </button>
+              <button
+                type="button"
+                role="radio"
+                aria-checked={urgency === "express"}
+                data-testid="plazo-express"
+                onClick={() => onUrgencyChange("express")}
+                disabled={disabled}
+                className={`text-left px-3 py-2 rounded-[10px] border text-xs transition-colors disabled:opacity-50 ${
+                  urgency === "express" ? "border-accent bg-accent/8" : "border-slate-200 bg-white hover:border-slate-300"
+                }`}
+              >
+                <span className="font-medium block">{t("calc.simple.urgent")} <span className="text-slate-500 font-normal">+25%</span></span>
+                <span className="text-slate-500 block mt-0.5">{t("calc.simple.shipsOn").replace("{date}", shipExp)}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Note — collapsed by default */}
+          <div>
+            {!noteOpen ? (
+              <button
+                type="button"
+                onClick={() => { setNoteOpen(true); capture("note_opened", {}); }}
+                className="text-xs text-accent underline"
+                data-testid="add-note-link"
+              >
+                + {t("calc.simple.addNote")}
+              </button>
+            ) : (
+              <>
+                <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">{t("calc.notes.label")}</label>
+                <textarea
+                  value={notesText}
+                  onChange={e => onNotesChange(e.target.value)}
+                  placeholder={t("calc.notes.placeholder")}
+                  disabled={disabled}
+                  rows={2}
+                  data-ph-mask
+                  autoFocus
+                  className="w-full rounded-[10px] border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-60 resize-none"
+                />
+              </>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

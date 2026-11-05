@@ -14,53 +14,70 @@ function mount(element: React.ReactElement): HTMLDivElement {
   return container;
 }
 
+function openPanel(container: HTMLElement) {
+  const trigger = container.querySelector('[data-testid="colour-picker-trigger"]') as HTMLButtonElement;
+  act(() => { trigger.click(); });
+}
+
 describe("ColourPicker", () => {
-  it("renders every COLOUR_OPTIONS entry", () => {
+  it("renders closed by default: trigger visible, panel absent, fewer than 8 swatches visible", () => {
     const container = mount(<ColourPicker value="" onChange={() => {}} t={t} />);
+    expect(container.querySelector('[data-testid="colour-picker-trigger"]')).not.toBeNull();
+    expect(container.querySelector('[data-testid="colour-picker-panel"]')).toBeNull();
+    // Trigger shows one SwatchDot, nothing else
+    const spans = container.querySelectorAll('[data-testid="colour-picker"] span.rounded-full');
+    expect(spans.length).toBeLessThan(8);
+  });
+
+  it("opening the panel shows every COLOUR_OPTIONS entry plus Any + Custom", () => {
+    const container = mount(<ColourPicker value="" onChange={() => {}} t={t} />);
+    openPanel(container);
+    const panel = container.querySelector('[data-testid="colour-picker-panel"]')!;
     for (const opt of COLOUR_OPTIONS) {
-      const btn = container.querySelector(`[aria-label="calc.color.name.${opt.key}"]`);
-      expect(btn, `swatch ${opt.key} missing`).not.toBeNull();
+      // each option is a button whose text includes the translated key fallback
+      const found = Array.from(panel.querySelectorAll("button")).some(
+        b => b.textContent?.includes(`calc.color.name.${opt.key}`),
+      );
+      expect(found, `swatch ${opt.key} missing in open panel`).toBe(true);
     }
+    const anyFound = Array.from(panel.querySelectorAll("button")).some(
+      b => b.textContent?.includes("calc.color.name.any"),
+    );
+    expect(anyFound).toBe(true);
   });
 
-  it("renders 'Any colour' swatch", () => {
-    const container = mount(<ColourPicker value="" onChange={() => {}} t={t} />);
-    expect(container.querySelector('[aria-label="calc.color.name.any"]')).not.toBeNull();
-  });
-
-  it("renders 'Custom colour' swatch", () => {
-    const container = mount(<ColourPicker value="" onChange={() => {}} t={t} />);
-    expect(container.querySelector('[aria-label="calc.color.name.Custom"]')).not.toBeNull();
-  });
-
-  it("selecting a named swatch calls onChange with the English key", () => {
+  it("selecting a named swatch calls onChange with the English key and closes the panel", () => {
     const onChange = vi.fn();
     const container = mount(<ColourPicker value="" onChange={onChange} t={t} />);
-    const blueBtn = container.querySelector('[aria-label="calc.color.name.Blue"]') as HTMLButtonElement;
-    expect(blueBtn).not.toBeNull();
+    openPanel(container);
+    const panel = container.querySelector('[data-testid="colour-picker-panel"]')!;
+    const blueBtn = Array.from(panel.querySelectorAll("button")).find(
+      b => b.textContent?.includes("calc.color.name.Blue"),
+    ) as HTMLButtonElement;
+    expect(blueBtn).not.toBeUndefined();
     act(() => { blueBtn.click(); });
     expect(onChange).toHaveBeenCalledWith("Blue");
+    expect(container.querySelector('[data-testid="colour-picker-panel"]')).toBeNull();
   });
 
   it("selecting 'Any colour' calls onChange with empty string", () => {
     const onChange = vi.fn();
     const container = mount(<ColourPicker value="Blue" onChange={onChange} t={t} />);
-    const anyBtn = container.querySelector('[aria-label="calc.color.name.any"]') as HTMLButtonElement;
+    openPanel(container);
+    const panel = container.querySelector('[data-testid="colour-picker-panel"]')!;
+    const anyBtn = Array.from(panel.querySelectorAll("button")).find(
+      b => b.textContent?.includes("calc.color.name.any"),
+    ) as HTMLButtonElement;
     act(() => { anyBtn.click(); });
     expect(onChange).toHaveBeenCalledWith("");
   });
 
-  it("named colour swatches do not show a free-text input", () => {
+  it("named colour value does not render a free-text input while closed", () => {
     const container = mount(<ColourPicker value="Blue" onChange={() => {}} t={t} />);
     expect(container.querySelector("input[type=text]")).toBeNull();
   });
 
-  it("'Any colour' value does not show a free-text input", () => {
-    const container = mount(<ColourPicker value="" onChange={() => {}} t={t} />);
-    expect(container.querySelector("input[type=text]")).toBeNull();
-  });
-
-  it("custom (non-named) value shows a free-text input with that value", () => {
+  it("custom (non-named) value shows the free-text input with that value", () => {
     const container = mount(<ColourPicker value="my custom colour" onChange={() => {}} t={t} />);
     const input = container.querySelector("input[type=text]") as HTMLInputElement | null;
     expect(input).not.toBeNull();
@@ -72,7 +89,6 @@ describe("ColourPicker", () => {
     const container = mount(<ColourPicker value="old" onChange={onChange} t={t} />);
     const input = container.querySelector("input[type=text]") as HTMLInputElement;
     act(() => {
-      // Use native setter so React detects the value change on the controlled input
       const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!;
       nativeSetter.call(input, "dark teal");
       input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -81,62 +97,50 @@ describe("ColourPicker", () => {
   });
 });
 
-// ─── FIX 1: customMode state behaviour ───────────────────────────────────────
-
 describe("ColourPicker customMode", () => {
-  it("clicking Custom with value='' enters custom mode without calling onChange", () => {
+  it("clicking Custom in the open panel enters custom mode without calling onChange", () => {
     const onChange = vi.fn();
     const container = mount(<ColourPicker value="" onChange={onChange} t={t} />);
-    const customBtn = container.querySelector('[aria-label="calc.color.name.Custom"]') as HTMLButtonElement;
+    openPanel(container);
+    const panel = container.querySelector('[data-testid="colour-picker-panel"]')!;
+    const customBtn = Array.from(panel.querySelectorAll("button")).find(
+      b => b.textContent?.includes("calc.color.name.Custom"),
+    ) as HTMLButtonElement;
     act(() => { customBtn.click(); });
-    expect(customBtn.getAttribute("aria-checked")).toBe("true");
-    const anyBtn = container.querySelector('[aria-label="calc.color.name.any"]') as HTMLButtonElement;
-    expect(anyBtn.getAttribute("aria-checked")).toBe("false");
     expect(container.querySelector("input[type=text]")).not.toBeNull();
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it("typing in custom input after entering custom mode calls onChange with typed text", () => {
-    const onChange = vi.fn();
-    const container = mount(<ColourPicker value="" onChange={onChange} t={t} />);
-    const customBtn = container.querySelector('[aria-label="calc.color.name.Custom"]') as HTMLButtonElement;
-    act(() => { customBtn.click(); });
-    const input = container.querySelector("input[type=text]") as HTMLInputElement;
-    act(() => {
-      const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!;
-      nativeSetter.call(input, "dark teal");
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-    });
-    expect(onChange).toHaveBeenCalledWith("dark teal");
-    // Custom swatch stays selected
-    expect(customBtn.getAttribute("aria-checked")).toBe("true");
-  });
-
-  it("clicking Grey from custom mode calls onChange('Grey') and hides the input", () => {
+  it("clicking a named colour from custom mode calls onChange with the key and hides the input", () => {
     const onChange = vi.fn();
     const container = mount(<ColourPicker value="my custom" onChange={onChange} t={t} />);
     // Verify we start in custom mode
     expect(container.querySelector("input[type=text]")).not.toBeNull();
-    const greyBtn = container.querySelector('[aria-label="calc.color.name.Grey"]') as HTMLButtonElement;
+    openPanel(container);
+    const panel = container.querySelector('[data-testid="colour-picker-panel"]')!;
+    const greyBtn = Array.from(panel.querySelectorAll("button")).find(
+      b => b.textContent?.includes("calc.color.name.Grey"),
+    ) as HTMLButtonElement;
     act(() => { greyBtn.click(); });
     expect(onChange).toHaveBeenCalledWith("Grey");
     expect(container.querySelector("input[type=text]")).toBeNull();
   });
 
-  it("value='dark teal' passed in renders Custom selected with text prefilled", () => {
+  it("value='dark teal' renders Custom mode with text prefilled", () => {
     const container = mount(<ColourPicker value="dark teal" onChange={() => {}} t={t} />);
-    const customBtn = container.querySelector('[aria-label="calc.color.name.Custom"]') as HTMLButtonElement;
-    expect(customBtn.getAttribute("aria-checked")).toBe("true");
     const input = container.querySelector("input[type=text]") as HTMLInputElement | null;
     expect(input).not.toBeNull();
     expect(input!.value).toBe("dark teal");
   });
 
-  it("clicking Any while in custom mode turns off custom mode", () => {
+  it("clicking Any from custom mode turns off custom mode", () => {
     const onChange = vi.fn();
     const container = mount(<ColourPicker value="my custom" onChange={onChange} t={t} />);
-    // Start in custom mode
-    const anyBtn = container.querySelector('[aria-label="calc.color.name.any"]') as HTMLButtonElement;
+    openPanel(container);
+    const panel = container.querySelector('[data-testid="colour-picker-panel"]')!;
+    const anyBtn = Array.from(panel.querySelectorAll("button")).find(
+      b => b.textContent?.includes("calc.color.name.any"),
+    ) as HTMLButtonElement;
     act(() => { anyBtn.click(); });
     expect(onChange).toHaveBeenCalledWith("");
     expect(container.querySelector("input[type=text]")).toBeNull();

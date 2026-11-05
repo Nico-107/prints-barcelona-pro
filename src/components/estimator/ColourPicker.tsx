@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronDown } from "lucide-react";
 import { capture } from "@/lib/analytics";
 
 // owner: edit/remove colours here
@@ -30,31 +31,74 @@ interface ColourPickerProps {
   t: (key: string) => string;
 }
 
+function SwatchDot({ hexOrKey }: { hexOrKey: string }) {
+  if (hexOrKey === "Transparent") {
+    return (
+      <span
+        className="inline-block w-4 h-4 rounded-full border border-slate-300 bg-[repeating-conic-gradient(#ccc_0%_25%,#fff_0%_50%)] bg-[length:6px_6px] shrink-0"
+      />
+    );
+  }
+  if (hexOrKey === "Custom") {
+    return <span className="inline-block w-4 h-4 rounded-full border border-slate-300 bg-gradient-to-br from-red-400 via-blue-400 to-green-400 shrink-0" />;
+  }
+  if (hexOrKey === "Any") {
+    return <span className="inline-block w-4 h-4 rounded-full border-2 border-dashed border-slate-400 shrink-0" />;
+  }
+  return (
+    <span
+      className="inline-block w-4 h-4 rounded-full border border-slate-300 shrink-0"
+      style={{ backgroundColor: hexOrKey }}
+    />
+  );
+}
+
 export function ColourPicker({ value, onChange, disabled = false, t }: ColourPickerProps) {
+  const [open, setOpen] = useState(false);
   const [customMode, setCustomMode] = useState(() => isExternalCustom(value));
   const [customText, setCustomText] = useState(() => isExternalCustom(value) ? value : "");
+  const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // Sync when value prop changes externally (e.g. scope switch, "Reset to defaults")
+  // Sync when value prop changes externally
   useEffect(() => {
     if (isExternalCustom(value)) {
       setCustomMode(true);
       setCustomText(value);
     } else {
       setCustomMode(false);
-      // keep customText so it's ready if user clicks Custom again
     }
   }, [value]);
 
-  const handleSwatch = (key: string) => {
+  // Close on outside click / Esc
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      const p = panelRef.current, t = triggerRef.current;
+      if (p && !p.contains(e.target as Node) && t && !t.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  const openPanel = () => {
+    if (disabled) return;
+    const next = !open;
+    setOpen(next);
+    if (next) capture("color_dropdown_opened", {});
+  };
+
+  const handleSelect = (key: string) => {
     setCustomMode(false);
     onChange(key);
+    setOpen(false);
   };
 
   const handleCustomClick = () => {
     setCustomMode(true);
-    // Prompt §8: fires once per session when the extra-colours input is expanded.
     capture("more_colors_opened", {});
-    // Do NOT call onChange — leave the stored value unchanged
   };
 
   const handleCustomInput = (v: string) => {
@@ -62,94 +106,92 @@ export function ColourPicker({ value, onChange, disabled = false, t }: ColourPic
     onChange(v);
   };
 
-  const SWATCH_SIZE = 36;
+  // Compute the trigger label
+  let triggerSwatch: string = "Any";
+  let triggerLabel = t("calc.color.name.any");
+  if (customMode) {
+    triggerSwatch = "Custom";
+    triggerLabel = customText || t("calc.color.name.Custom");
+  } else if (value && NAMED_KEYS.includes(value)) {
+    const opt = COLOUR_OPTIONS.find(o => o.key === value)!;
+    triggerSwatch = opt.key === "Transparent" ? "Transparent" : opt.hex;
+    triggerLabel = t(`calc.color.name.${opt.key}`);
+  }
 
   return (
-    <div>
-      <div
-        role="radiogroup"
-        aria-label={t("calc.color.title")}
-        className="grid grid-cols-4 min-[420px]:grid-cols-5 sm:grid-cols-6 gap-x-2 gap-y-3"
+    <div className="relative" data-testid="colour-picker">
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={openPanel}
+        disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        data-testid="colour-picker-trigger"
+        className="w-full h-10 flex items-center justify-between gap-2 px-3 rounded-[10px] border border-slate-200 bg-white text-sm text-slate-900 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50 transition-colors"
       >
-        {/* Any colour — dashed neutral circle */}
-        <div className="min-w-0 flex flex-col items-center gap-1">
-          <button
-            type="button"
-            role="radio"
-            aria-checked={!customMode && value === ""}
-            aria-label={t("calc.color.name.any")}
-            onClick={() => handleSwatch("")}
-            disabled={disabled}
-            style={{ width: SWATCH_SIZE, height: SWATCH_SIZE }}
-            className={`rounded-full border-2 border-dashed flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 ${
-              !customMode && value === "" ? "border-accent ring-2 ring-accent ring-offset-1" : "border-border hover:border-accent/60"
-            }`}
-          >
-            {!customMode && value === "" && <span className="w-2 h-2 rounded-full bg-accent" />}
-          </button>
-          <span className="w-full text-center text-[11px] text-muted-foreground leading-tight break-words">{t("calc.color.name.any")}</span>
+        <span className="flex items-center gap-2 min-w-0">
+          <SwatchDot hexOrKey={triggerSwatch} />
+          <span className="truncate">{triggerLabel}</span>
+        </span>
+        <ChevronDown className={`w-4 h-4 shrink-0 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div
+          ref={panelRef}
+          data-testid="colour-picker-panel"
+          className="absolute left-0 right-0 top-full mt-1 z-40 rounded-[10px] border border-slate-200 bg-white shadow-lg p-2 max-h-[280px] overflow-y-auto"
+          role="listbox"
+        >
+          <div className="grid grid-cols-2 gap-1">
+            {/* Any — "más rápido" tag */}
+            <button
+              type="button"
+              onClick={() => handleSelect("")}
+              className={`flex items-center gap-2 px-2 py-2 rounded-md text-sm text-left hover:bg-slate-50 ${
+                !customMode && value === "" ? "bg-accent/8 text-foreground" : "text-slate-700"
+              }`}
+              role="option"
+              aria-selected={!customMode && value === ""}
+            >
+              <SwatchDot hexOrKey="Any" />
+              <span className="truncate">{t("calc.color.name.any")}</span>
+            </button>
+            {COLOUR_OPTIONS.map(opt => {
+              const selected = !customMode && value === opt.key;
+              return (
+                <button
+                  key={opt.key}
+                  type="button"
+                  onClick={() => handleSelect(opt.key)}
+                  className={`flex items-center gap-2 px-2 py-2 rounded-md text-sm text-left hover:bg-slate-50 ${
+                    selected ? "bg-accent/8 text-foreground" : "text-slate-700"
+                  }`}
+                  role="option"
+                  aria-selected={selected}
+                >
+                  <SwatchDot hexOrKey={opt.key === "Transparent" ? "Transparent" : opt.hex} />
+                  <span className="truncate">{t(`calc.color.name.${opt.key}`)}</span>
+                </button>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => { handleCustomClick(); setOpen(false); }}
+              className={`col-span-2 flex items-center gap-2 px-2 py-2 rounded-md text-sm text-left hover:bg-slate-50 ${
+                customMode ? "bg-accent/8 text-foreground" : "text-slate-700"
+              }`}
+              role="option"
+              aria-selected={customMode}
+            >
+              <SwatchDot hexOrKey="Custom" />
+              <span className="truncate">{t("calc.color.name.Custom")}</span>
+            </button>
+          </div>
         </div>
+      )}
 
-        {/* Named colour swatches */}
-        {COLOUR_OPTIONS.map(opt => {
-          const selected = !customMode && value === opt.key;
-          const swatchStyle: React.CSSProperties = { width: SWATCH_SIZE, height: SWATCH_SIZE };
-          if (opt.key !== "Transparent") swatchStyle.backgroundColor = opt.hex;
-          return (
-            <div key={opt.key} className="min-w-0 flex flex-col items-center gap-1">
-              <button
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                aria-label={t(`calc.color.name.${opt.key}`)}
-                onClick={() => handleSwatch(opt.key)}
-                disabled={disabled}
-                style={swatchStyle}
-                className={`rounded-full border-2 flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 ${
-                  selected ? "ring-2 ring-accent ring-offset-1 border-accent" : "border-border hover:border-accent/60"
-                } ${opt.key === "Transparent" ? "bg-[repeating-conic-gradient(#ccc_0%_25%,#fff_0%_50%)] bg-[length:12px_12px]" : ""}`}
-              >
-                {selected && opt.key !== "Transparent" && (
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="drop-shadow-sm">
-                    <path d="M2 7L5.5 10.5L12 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                )}
-                {selected && opt.key === "Transparent" && (
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="drop-shadow-sm">
-                    <path d="M2 7L5.5 10.5L12 3" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                )}
-              </button>
-              <span className="w-full text-center text-[11px] text-muted-foreground leading-tight break-words">{t(`calc.color.name.${opt.key}`)}</span>
-            </div>
-          );
-        })}
-
-        {/* Custom colour */}
-        <div className="min-w-0 flex flex-col items-center gap-1">
-          <button
-            type="button"
-            role="radio"
-            aria-checked={customMode}
-            aria-label={t("calc.color.name.Custom")}
-            onClick={handleCustomClick}
-            disabled={disabled}
-            style={{ width: SWATCH_SIZE, height: SWATCH_SIZE }}
-            className={`rounded-full border-2 flex items-center justify-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 bg-gradient-to-br from-red-400 via-blue-400 to-green-400 ${
-              customMode ? "ring-2 ring-accent ring-offset-1 border-accent" : "border-border hover:border-accent/60"
-            }`}
-          >
-            {customMode && (
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="drop-shadow-sm">
-                <path d="M2 7L5.5 10.5L12 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            )}
-          </button>
-          <span className="w-full text-center text-[11px] text-muted-foreground leading-tight break-words">{t("calc.color.name.Custom")}</span>
-        </div>
-      </div>
-
-      {/* Custom colour text input — visible when customMode */}
       {customMode && (
         <input
           type="text"
@@ -157,8 +199,8 @@ export function ColourPicker({ value, onChange, disabled = false, t }: ColourPic
           onChange={e => handleCustomInput(e.target.value)}
           placeholder={t("calc.color.customPlaceholder")}
           disabled={disabled}
-          className="mt-2 w-full h-9 rounded-md border border-input bg-background px-3 text-xs focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-          autoFocus
+          className="mt-2 w-full h-9 rounded-md border border-slate-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-60"
+          data-testid="colour-picker-custom-input"
         />
       )}
     </div>

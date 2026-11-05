@@ -689,6 +689,13 @@ export const caTranslations: Record<string, string> = {
   "calc.error.checkout": "No hem pogut iniciar el pagament. Revisa els ajustos o demana que ho revisi el nostre equip.",
 
   // Checkout redesign — Part G keys
+  "calc.simple.qty": "Quantitat",
+  "calc.simple.plazo": "Termini",
+  "calc.simple.urgent": "Urgent",
+  "calc.simple.shipsOn": "surt el {date}",
+  "calc.simple.perUnit": " /u",
+  "calc.simple.addNote": "Afegir nota",
+
   "calc.mode.simpleHint": "Tria material i explica'ns per a què és.",
   "calc.mode.advancedHint": "Control total: qualitat, resistència, suports, orientació.",
   "calc.adv.group.material": "Material i color",
@@ -761,7 +768,7 @@ export const caTranslations: Record<string, string> = {
   "calc.validate.email": "Aquest email no sembla correcte.",
   "calc.validate.phone": "Aquest telèfon no sembla correcte.",
   "calc.validate.fulfillment": "Tria recollida o enviament per continuar.",
-  "calc.checkout.title": "La teva comanda",
+  "calc.checkout.title": "La teva peça",
   "calc.checkout.close": "Tancar",
   "calc.checkout.reopen": "Continuar al pagament",
   "calc.checkout.parts": "Les teves peces",

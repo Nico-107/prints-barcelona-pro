@@ -2280,12 +2280,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               const isMulti = eff.multicolour;
               const viewerColour = isMulti ? undefined : (eff.color || undefined);
               return (
-                <div className={`relative rounded-xl border border-border bg-muted/20 overflow-hidden transition-all ${
+                <div className={`relative rounded-xl overflow-hidden transition-all bg-white ${
                   mobileViewerExpanded
-                    ? "flex-1 min-h-[200px] max-h-[340px]"
-                    : "lg:flex-1 lg:min-h-[200px] lg:max-h-[340px] max-lg:h-[140px] shrink-0"
+                    ? "flex-1 min-h-[220px]"
+                    : "lg:flex-1 lg:min-h-[400px] max-lg:h-[40vh] max-lg:min-h-[220px] shrink-0"
                 }`}>
-                  <Suspense fallback={<div className="w-full h-full bg-muted/20 animate-pulse" />}>
+                  <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
                     <StlViewer
                       key={`${stepperFile.id}-dialog`}
                       file={stepperFile.file}
@@ -2300,19 +2300,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       showScaleControl={advancedMode}
                     />
                   </Suspense>
-                  {viewerStateInModal === "ready" && (
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                      <span className="text-[11px] text-muted-foreground bg-background/75 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap pointer-events-none">
-                        {isMulti ? t("calc.viewer.multicolourCaption") : t("calc.modal.dragHint")}
+                  {viewerStateInModal === "ready" && isMulti && (
+                    /* conv-27 §bug 6 — drag hint bubble removed to stop overlapping the
+                       dim line. Multicolour caption remains since it carries extra info. */
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none">
+                      <span className="text-[11px] text-slate-500 bg-white/80 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap">
+                        {t("calc.viewer.multicolourCaption")}
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => setMobileViewerExpanded(v => !v)}
-                        className="lg:hidden text-[11px] text-accent bg-background/90 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap"
-                      >
-                        {mobileViewerExpanded ? "↑" : t("calc.viewer.expand")}
-                      </button>
                     </div>
+                  )}
+                  {viewerStateInModal === "ready" && (
+                    <button
+                      type="button"
+                      onClick={() => { setMobileViewerExpanded(v => !v); capture("viewer_expanded", { on: !mobileViewerExpanded }); }}
+                      className="lg:hidden absolute top-2 right-2 text-[11px] text-accent bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full whitespace-nowrap shadow-sm"
+                      data-testid="viewer-expand-mobile"
+                    >
+                      {mobileViewerExpanded ? "↑" : t("calc.viewer.expand")}
+                    </button>
                   )}
                 </div>
               );
@@ -2571,6 +2576,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               onApplyToAll={handleApplyToAll}
               onClearFieldFromAllParts={clearFieldFromAllParts}
               replacedCount={replacedCount}
+              activeFileId={stepperFile?.id}
+              onQtyChange={updateQty}
             />
             <OrderPanel
               {...sharedOrderPanelProps}
@@ -2696,6 +2703,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             }}
             title={t("calc.checkout.title")}
             closeLabel={t("calc.checkout.close")}
+            fileName={stepperFile?.name ?? null}
             leftSlot={leftSlot}
             rightSlot={rightSlot}
             actionSlot={actionSlot}
