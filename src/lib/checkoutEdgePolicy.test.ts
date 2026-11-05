@@ -80,9 +80,9 @@ describe("deployed checkout policies", () => {
     expect([...h.params().keys()].some(key => key.startsWith("payment_method_types"))).toBe(false);
     expect(h.params().has("payment_intent_data[capture_method]")).toBe(false);
   });
-  it("collects shipping only for the requested 11 countries", async () => {
+  it("collects shipping for all 14 frontend countries", async () => {
     const h = checkoutHarness(); await h.invoke(base);
-    expect([...h.params()].filter(([key]) => key.startsWith("shipping_address_collection")).map(([, value]) => value)).toEqual(["ES", "PT", "FR", "IT", "DE", "NL", "BE", "AT", "IE", "LU", "PL"]);
+    expect([...h.params()].filter(([key]) => key.startsWith("shipping_address_collection")).map(([, value]) => value)).toEqual(["ES", "PT", "FR", "DE", "IT", "NL", "BE", "LU", "AT", "IE", "PL", "DK", "SE", "FI"]);
   });
   it("pickup collects phone but no shipping address or fee", async () => {
     const h = checkoutHarness(); await h.invoke({ ...base, fulfillment: "pickup" });
