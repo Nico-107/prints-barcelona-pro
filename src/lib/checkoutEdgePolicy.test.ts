@@ -50,10 +50,10 @@ describe("deployed checkout policies", () => {
     expect(result.value.priced.order.totalCents).toBe(Math.round(body.exactPrice * 100));
     expect(h.exports.evaluateCheckoutV3({ ...body, exactPrice: 1 }, analyses).error).toBe("PRICE_MISMATCH");
   });
-  it("allows €206 but rejects €206.01", async () => {
+  it("allows €205.90 but rejects €205.91", async () => {
     const h = checkoutHarness();
-    expect((await h.invoke({ ...base, exactPrice: 206, fulfillment: "pickup" })).status).toBe(200);
-    expect(await (await h.invoke({ ...base, exactPrice: 206.01, fulfillment: "pickup" })).json()).toEqual({ error: "PRICE_ABOVE_INSTANT_LIMIT" });
+    expect((await h.invoke({ ...base, exactPrice: 205.90, fulfillment: "pickup" })).status).toBe(200);
+    expect(await (await h.invoke({ ...base, exactPrice: 205.91, fulfillment: "pickup" })).json()).toEqual({ error: "PRICE_ABOVE_INSTANT_LIMIT" });
   });
   it("keeps the legacy material whitelist", async () => {
     expect(await (await checkoutHarness().invoke({ ...base, material: "pla" })).json()).toEqual({ error: "INVALID_MATERIAL" });
@@ -80,9 +80,9 @@ describe("deployed checkout policies", () => {
     expect([...h.params().keys()].some(key => key.startsWith("payment_method_types"))).toBe(false);
     expect(h.params().has("payment_intent_data[capture_method]")).toBe(false);
   });
-  it("collects shipping only for the requested 11 countries", async () => {
+  it("collects shipping for all 14 frontend countries", async () => {
     const h = checkoutHarness(); await h.invoke(base);
-    expect([...h.params()].filter(([key]) => key.startsWith("shipping_address_collection")).map(([, value]) => value)).toEqual(["ES", "PT", "FR", "IT", "DE", "NL", "BE", "AT", "IE", "LU", "PL"]);
+    expect([...h.params()].filter(([key]) => key.startsWith("shipping_address_collection")).map(([, value]) => value)).toEqual(["ES", "PT", "FR", "DE", "IT", "NL", "BE", "LU", "AT", "IE", "PL", "DK", "SE", "FI"]);
   });
   it("pickup collects phone but no shipping address or fee", async () => {
     const h = checkoutHarness(); await h.invoke({ ...base, fulfillment: "pickup" });
