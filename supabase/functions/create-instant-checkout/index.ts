@@ -740,10 +740,13 @@ serve(async (req: Request) => {
       const { body: vBody, priced } = evalResult.value;
 
       // Autumn discount — applied after protected pricing block, server is the source of truth
-      const v3PrintSubtotal = priced.order.chargedPrintCents;
+      // v3 OrderPrice has no chargedPrintCents (that field only exists on the v2 OrderResult); use totalCents.
+      const v3PrintSubtotal = priced.order.totalCents;
       const v3AutumnDiscountCents = computeAutumnDiscount(v3PrintSubtotal);
       const v3DiscountedSubtotal = priced.order.totalCents - v3AutumnDiscountCents;
-      if (!chargeAllowed(v3DiscountedSubtotal, vBody.fulfillment)) return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
+      if (!chargeAllowed(v3DiscountedSubtotal, vBody.fulfillment)) {
+        return json({ error: "PRICE_ABOVE_INSTANT_LIMIT", totalCents: v3DiscountedSubtotal + shippingChargeCents(vBody.fulfillment, v3DiscountedSubtotal), limitCents: MAX_CHARGE_CENTS }, 400);
+      }
       const v3ShipCents = shippingChargeCents(vBody.fulfillment, v3DiscountedSubtotal);
       const v3ChargeWithDiscount = v3DiscountedSubtotal + v3ShipCents;
 
@@ -964,7 +967,7 @@ serve(async (req: Request) => {
       const order = computeOrder(piecesForCalc, urgency);
 
       if (!chargeAllowed(order.chargedPrintCents, fulfillment)) {
-        return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
+        return json({ error: "PRICE_ABOVE_INSTANT_LIMIT", totalCents: order.chargedPrintCents + shippingChargeCents(fulfillment, order.chargedPrintCents), limitCents: MAX_CHARGE_CENTS }, 400);
       }
 
       const exactPriceCents = pricingRound(Number(exactPrice) * 100);
@@ -1192,7 +1195,8 @@ serve(async (req: Request) => {
     }
     if (price > MAX_PRICE || !chargeAllowed(Math.round(price * 100), fulfillment)) {
       console.warn(`Rejected instant checkout: price ${price} exceeds ceiling (IP: ${clientIP})`);
-      return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
+      const legacyCents = Math.round(price * 100);
+      return json({ error: "PRICE_ABOVE_INSTANT_LIMIT", totalCents: legacyCents + shippingChargeCents(fulfillment, legacyCents), limitCents: MAX_CHARGE_CENTS }, 400);
     }
     if (typeof material !== "string" || !ALLOWED_MATERIALS.includes(material)) {
       return json({ error: "INVALID_MATERIAL" }, 400);
