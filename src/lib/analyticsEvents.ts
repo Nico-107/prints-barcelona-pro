@@ -427,6 +427,14 @@ export interface EventMap {
     part_slug?: string;
   };
   checkout_failed_send_order: { code: string };
+  instant_limit_file_too_large: {
+    file_mb: number;
+    total_file_mb?: number;
+    file_count: number;
+    trigger: "client_preflight" | "server_response";
+    device?: string;
+    country?: string;
+  };
   parse_error_free_review_click: { name: string | undefined };
 
   // File preparation (STEP 1)

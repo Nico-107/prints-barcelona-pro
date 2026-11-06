@@ -685,6 +685,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.checkout.error.priceMismatch": "De prijs is veranderd. Ververs de pagina en probeer het opnieuw.",
   "calc.checkout.error.default": "We konden de betaalpagina niet openen. Stuur ons de bestelling en we sturen je binnen 1 h een betaallink.",
   "calc.checkout.error.sendOrder": "Mijn bestelling verzenden en een betaallink ontvangen",
+  "calc.checkout.error.fileTooLarge": "Dit bestand is te groot voor directe betaling — we beoordelen het gratis en sturen binnen 1 u een offerte.",
   "calc.error.freeReview": "We konden dit bestand niet automatisch lezen — we beoordelen het gratis",
   "calc.error.freeReview.button": "Sturen voor gratis beoordeling",
   "calc.image.steps.1": "Stuur ons de foto of het bestand",

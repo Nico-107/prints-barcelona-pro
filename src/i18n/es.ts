@@ -783,6 +783,7 @@ export const esTranslations: Record<string, string> = {
   "calc.checkout.error.priceMismatch": "El precio ha cambiado. Actualiza la página e inténtalo de nuevo.",
   "calc.checkout.error.default": "No hemos podido abrir la página de pago. Envíanos el pedido y te enviamos un enlace de pago en 1 h.",
   "calc.checkout.error.sendOrder": "Enviar mi pedido y recibir un enlace de pago",
+  "calc.checkout.error.fileTooLarge": "Este archivo es demasiado grande para la compra instantánea — te lo revisamos gratis y te enviamos el presupuesto en 1 h.",
   "calc.error.freeReview": "No hemos podido leer este archivo automáticamente — lo revisamos gratis",
   "calc.error.freeReview.button": "Enviarlo para revisión gratuita",
   "calc.image.steps.1": "Envíanos la foto o el archivo",

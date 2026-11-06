@@ -685,6 +685,7 @@ export const deTranslations: Record<string, string> = {
   "calc.checkout.error.priceMismatch": "Der Preis hat sich geändert. Lade die Seite neu und versuche es erneut.",
   "calc.checkout.error.default": "Wir konnten die Zahlungsseite nicht öffnen. Sende uns deine Bestellung und wir senden dir innerhalb 1 h einen Zahlungslink.",
   "calc.checkout.error.sendOrder": "Bestellung senden und Zahlungslink erhalten",
+  "calc.checkout.error.fileTooLarge": "Diese Datei ist zu groß für den Sofortkauf — wir prüfen sie kostenlos und senden dir innerhalb 1 h ein Angebot.",
   "calc.error.freeReview": "Wir konnten diese Datei nicht automatisch lesen — wir prüfen sie kostenlos",
   "calc.error.freeReview.button": "Zur kostenlosen Prüfung senden",
   "calc.image.steps.1": "Sende uns das Foto oder die Datei",

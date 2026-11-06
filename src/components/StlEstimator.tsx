@@ -1105,6 +1105,32 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setIsCheckingOut(true);
     setCheckoutError(null);
     setCheckoutErrorCode(null);
+    // Server re-measure enforces per-file ≤ 30 MB and total ≤ 60 MB. When we
+    // already know a payload will bust those, skip the round-trip and route
+    // straight to the free-review quote path so the customer sees a helpful
+    // offer instead of the red "couldn't open payment page" fallback.
+    {
+      const SERVER_FILE_LIMIT = 30 * 1024 * 1024;
+      const SERVER_TOTAL_LIMIT = 60 * 1024 * 1024;
+      const totalBytes = validFiles.reduce((s, f) => s + f.sizeBytes, 0);
+      const largestBytes = validFiles.reduce((m, f) => Math.max(m, f.sizeBytes), 0);
+      if (largestBytes > SERVER_FILE_LIMIT || totalBytes > SERVER_TOTAL_LIMIT) {
+        const file_mb = Math.round((largestBytes / (1024 * 1024)) * 100) / 100;
+        const total_file_mb = Math.round((totalBytes / (1024 * 1024)) * 100) / 100;
+        capture('instant_limit_file_too_large', {
+          file_mb,
+          total_file_mb,
+          file_count: validFiles.length,
+          trigger: 'client_preflight',
+          device: window.innerWidth < 1024 ? 'mobile' : 'desktop',
+          country: /^\/(de|nl|fr|it|pt)\b/.test(window.location.pathname) ? window.location.pathname.slice(1, 3) : 'es',
+        });
+        setIsCheckingOut(false);
+        setCheckoutErrorCode('FILE_TOO_LARGE');
+        setCheckoutError(t('calc.checkout.error.fileTooLarge'));
+        return;
+      }
+    }
     try {
       const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : null;
@@ -1197,6 +1223,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           file_count: validFiles.length,
         });
         setIsCheckingOut(false);
+        if (code === "FILE_TOO_LARGE_FOR_INSTANT") {
+          const totalBytes = validFiles.reduce((s, f) => s + f.sizeBytes, 0);
+          const largestBytes = validFiles.reduce((m, f) => Math.max(m, f.sizeBytes), 0);
+          capture('instant_limit_file_too_large', {
+            file_mb: Math.round((largestBytes / (1024 * 1024)) * 100) / 100,
+            total_file_mb: Math.round((totalBytes / (1024 * 1024)) * 100) / 100,
+            file_count: validFiles.length,
+            trigger: 'server_response',
+            device: failDevice,
+            country: failCountry,
+          });
+          setCheckoutErrorCode("FILE_TOO_LARGE");
+          setCheckoutError(t("calc.checkout.error.fileTooLarge"));
+          return;
+        }
         setCheckoutErrorCode(code);
         if (code === "FILE_NOT_FOUND") setCheckoutError(t("calc.checkout.error.fileNotFound"));
         else if (code === "PRICE_MISMATCH") setCheckoutError(t("calc.checkout.error.priceMismatch"));

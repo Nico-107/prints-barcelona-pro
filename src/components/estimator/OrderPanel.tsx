@@ -455,7 +455,29 @@ export function OrderPanel({
         )}
 
         {/* Single action error — at most one message */}
-        {actionError && <p className="text-xs text-destructive" role="alert">{actionError}</p>}
+        {actionError && (
+          checkoutErrorCode === "FILE_TOO_LARGE" && actionError === checkoutError ? (
+            <div className="space-y-2">
+              <p
+                className="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2"
+                role="status"
+              >
+                {actionError}
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full"
+                data-ph-name="send-my-order"
+                onClick={onSendOrderAfterCheckoutFail ?? onManualReview}
+              >
+                {t("calc.error.freeReview.button")}
+              </Button>
+            </div>
+          ) : (
+            <p className="text-xs text-destructive" role="alert">{actionError}</p>
+          )
+        )}
 
         {!adminMode && (
           <div className="space-y-2" ref={actionsExposureRef}>
@@ -812,10 +834,21 @@ export function OrderPanel({
           {section === 'all' && quoteError && <p className="text-xs text-destructive" role="alert">{quoteError}</p>}
           {section === 'all' && checkoutError && instantBuyEligible && !showManualReview && (
             <div className="space-y-2">
-              <p className="text-xs text-destructive" role="alert">{checkoutError}</p>
+              {checkoutErrorCode === "FILE_TOO_LARGE" ? (
+                <p
+                  className="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2"
+                  role="status"
+                >
+                  {checkoutError}
+                </p>
+              ) : (
+                <p className="text-xs text-destructive" role="alert">{checkoutError}</p>
+              )}
               {checkoutErrorCode && checkoutErrorCode !== "UPLOADING" && onSendOrderAfterCheckoutFail && (
                 <Button variant="outline" size="sm" className="w-full" data-ph-name="send-my-order" onClick={onSendOrderAfterCheckoutFail}>
-                  {t("calc.checkout.error.sendOrder")}
+                  {checkoutErrorCode === "FILE_TOO_LARGE"
+                    ? t("calc.error.freeReview.button")
+                    : t("calc.checkout.error.sendOrder")}
                 </Button>
               )}
             </div>

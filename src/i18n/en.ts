@@ -784,6 +784,7 @@ export const enTranslations: Record<string, string> = {
   "calc.checkout.error.priceMismatch": "The price changed. Refresh and try again.",
   "calc.checkout.error.default": "We couldn't open the payment page. Send us the order and we'll send you a payment link within 1 h.",
   "calc.checkout.error.sendOrder": "Send my order and get a payment link",
+  "calc.checkout.error.fileTooLarge": "This file is too large for instant checkout — we'll review it for free and send you a quote within 1 h.",
   "calc.error.freeReview": "We couldn't read this file automatically — we'll review it for free",
   "calc.error.freeReview.button": "Send it for a free review",
   "calc.image.steps.1": "Send us the photo or file",
