@@ -213,7 +213,37 @@ const PartPage = ({ part }: Props) => {
           part_slug: part.slug,
         },
       });
-      if (error || !data?.checkoutUrl) throw new Error(error?.message ?? "No checkout URL");
+      if (error || !data?.checkoutUrl) {
+        let code = "UNKNOWN";
+        let httpStatus = 0;
+        let errorMessage = "";
+        try {
+          const ctx = (error as { context?: Response } | null)?.context;
+          if (ctx) {
+            httpStatus = ctx.status ?? 0;
+            const rawText = await ctx.clone().text().catch(() => "");
+            try {
+              const parsed = rawText ? JSON.parse(rawText) : null;
+              code = parsed?.error ?? "UNKNOWN";
+              errorMessage = (typeof parsed?.message === "string" ? parsed.message : parsed?.details ?? rawText) ?? "";
+            } catch { errorMessage = rawText; }
+          }
+        } catch { /* fall through */ }
+        if (!errorMessage) errorMessage = (error as Error | null)?.message ?? (!data?.checkoutUrl ? "empty checkoutUrl" : "");
+        if (code === "UNKNOWN" && !data?.checkoutUrl && !error) code = "NO_URL";
+        capture("checkout_failed", {
+          code,
+          http_status: httpStatus,
+          status: httpStatus,
+          error_message: String(errorMessage).slice(0, 200),
+          price_eur: part.price,
+          amount: part.price,
+          country: /^\/(de|nl|fr|it|pt)\b/.test(window.location.pathname) ? window.location.pathname.slice(1, 3) : "es",
+          device: window.innerWidth < 1024 ? "mobile" : "desktop",
+          part_slug: part.slug,
+        });
+        throw new Error((error as Error | null)?.message ?? "No checkout URL");
+      }
       // B5: stash context for instant_checkout_completed on Stripe return
       try {
         sessionStorage.setItem("dim3d-checkout-ctx", JSON.stringify({

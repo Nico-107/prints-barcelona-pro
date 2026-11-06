@@ -414,7 +414,18 @@ export interface EventMap {
   b2b_cta_click: { which: string; section: string };
 
   // Checkout error / parse error recovery
-  checkout_failed: { code: string; http_status: number; price_eur: number; file_count: number };
+  checkout_failed: {
+    code: string;
+    http_status: number;
+    status?: number;
+    error_message?: string;
+    price_eur: number;
+    amount?: number;
+    country?: string;
+    device?: string;
+    file_count?: number;
+    part_slug?: string;
+  };
   checkout_failed_send_order: { code: string };
   parse_error_free_review_click: { name: string | undefined };
 

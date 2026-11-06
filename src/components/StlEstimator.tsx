@@ -1148,19 +1148,35 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const { data, error } = await supabase.functions.invoke("create-instant-checkout", {
         body: checkoutBodyPayload,
       });
+      const failCountry = /^\/(de|nl|fr|it|pt)\b/.test(window.location.pathname)
+        ? window.location.pathname.slice(1, 3)
+        : "es";
+      const failDevice = window.innerWidth < 1024 ? "mobile" : "desktop";
       if (error) {
         // Read the actual JSON error code from the edge function response
         let code = "UNKNOWN";
         let httpStatus = 0;
+        let errorMessage = "";
         try {
           const ctx = (error as any)?.context;
           if (ctx) {
             httpStatus = (ctx as Response).status ?? 0;
-            const json = await (ctx as Response).json();
-            code = json?.error ?? "UNKNOWN";
-            console.error("create-instant-checkout error:", code, json);
+            const rawText = await (ctx as Response).clone().text().catch(() => "");
+            try {
+              const parsed = rawText ? JSON.parse(rawText) : null;
+              code = parsed?.error ?? "UNKNOWN";
+              errorMessage = (typeof parsed?.message === "string" ? parsed.message : parsed?.details ?? rawText) ?? "";
+              console.error("create-instant-checkout error:", code, parsed);
+            } catch {
+              errorMessage = rawText;
+              console.error("create-instant-checkout non-json error:", httpStatus, rawText);
+            }
           }
-        } catch { console.error("checkout error (raw):", (error as any)?.message); }
+        } catch (parseErr) {
+          errorMessage = (error as any)?.message ?? "";
+          console.error("checkout error (raw):", errorMessage);
+        }
+        if (!errorMessage) errorMessage = (error as any)?.message ?? "";
         capture('upload_pipeline_stage', {
           stage: 'server_measure_failed',
           file_mb: measureFileMb,
@@ -1169,7 +1185,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           browser: measureBrowser,
           error_message: `${code} (${httpStatus})`.slice(0, 200),
         });
-        capture('checkout_failed', { code, http_status: httpStatus, price_eur: chargedPrice, file_count: validFiles.length });
+        capture('checkout_failed', {
+          code,
+          http_status: httpStatus,
+          status: httpStatus,
+          error_message: String(errorMessage ?? "").slice(0, 200),
+          price_eur: chargedPrice,
+          amount: chargedPrice,
+          country: failCountry,
+          device: failDevice,
+          file_count: validFiles.length,
+        });
         setIsCheckingOut(false);
         setCheckoutErrorCode(code);
         if (code === "FILE_NOT_FOUND") setCheckoutError(t("calc.checkout.error.fileNotFound"));
@@ -1186,7 +1212,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           browser: measureBrowser,
           error_message: 'NO_URL (200)',
         });
-        capture('checkout_failed', { code: 'NO_URL', http_status: 200, price_eur: chargedPrice, file_count: validFiles.length });
+        capture('checkout_failed', {
+          code: 'NO_URL',
+          http_status: 200,
+          status: 200,
+          error_message: 'empty checkoutUrl in 200 response',
+          price_eur: chargedPrice,
+          amount: chargedPrice,
+          country: failCountry,
+          device: failDevice,
+          file_count: validFiles.length,
+        });
         setIsCheckingOut(false);
         setCheckoutErrorCode("NO_URL");
         setCheckoutError(t("calc.checkout.error.default"));
@@ -1243,7 +1279,21 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       if (checkoutRef) identifyUser(checkoutRef);
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
-      capture('checkout_failed', { code: 'EXCEPTION', http_status: 0, price_eur: chargedPrice, file_count: validFiles.length });
+      const exCountry = /^\/(de|nl|fr|it|pt)\b/.test(window.location.pathname)
+        ? window.location.pathname.slice(1, 3)
+        : "es";
+      const exDevice = window.innerWidth < 1024 ? "mobile" : "desktop";
+      capture('checkout_failed', {
+        code: 'EXCEPTION',
+        http_status: 0,
+        status: 0,
+        error_message: String(err?.message ?? err ?? "").slice(0, 200),
+        price_eur: chargedPrice,
+        amount: chargedPrice,
+        country: exCountry,
+        device: exDevice,
+        file_count: validFiles.length,
+      });
       setIsCheckingOut(false);
       setCheckoutErrorCode("EXCEPTION");
       setCheckoutError(t("calc.checkout.error.default"));
