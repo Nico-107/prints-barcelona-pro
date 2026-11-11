@@ -92,7 +92,7 @@ export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
               <a
                 href={`${WHATSAPP_URL}?text=${encodeURIComponent(whatsappMsg)}`}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-whatsapp font-medium hover:underline"
                 onClick={() => capture("whatsapp_from_modal", { source: "exit_survey" })}
               >

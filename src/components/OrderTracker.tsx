@@ -148,7 +148,7 @@ const OrderTracker = ({ order }: { order: Order }) => {
 
       {/* WhatsApp CTA */}
       <Button asChild variant="whatsapp" size="lg" className="w-full">
-        <a href={WHATSAPP} target="_blank" rel="noreferrer">
+        <a href={WHATSAPP} target="_blank" rel="nofollow noopener noreferrer">
           <MessageCircle className="w-5 h-5" /> {t("track.whatsapp")}
         </a>
       </Button>

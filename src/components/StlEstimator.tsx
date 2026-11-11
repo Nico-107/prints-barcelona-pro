@@ -1897,7 +1897,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <a
                   href={`${WHATSAPP_URL}?text=${encodeURIComponent(t("xp.uploadArea.b.whatsappMsg"))}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="nofollow noopener noreferrer"
                   className="text-whatsapp hover:underline"
                   onClick={() => capture("whatsapp_from_modal", { source: "upload_area_b" })}
                 >
@@ -2548,7 +2548,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     <a
                       href={WHATSAPP_URL}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="nofollow noopener noreferrer"
                       className="w-full flex items-center justify-center gap-1.5 h-8 rounded-lg border border-whatsapp text-whatsapp text-xs font-medium hover:bg-whatsapp/10 transition-colors"
                     >
                       {t("calc.result.whatsapp.short")}
@@ -3047,7 +3047,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <a
                   href={WHATSAPP_URL}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="nofollow noopener noreferrer"
                   className="w-full flex items-center justify-center gap-1.5 min-h-[40px] rounded-xl border border-whatsapp text-whatsapp text-sm font-medium hover:bg-whatsapp/10 transition-colors px-3"
                   onClick={() => capture("exit_popup_action", { action: "whatsapp" })}
                 >

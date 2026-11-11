@@ -14,7 +14,7 @@ const WhatsAppFloat = () => {
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="nofollow noopener noreferrer"
       data-ph-name="whatsapp-floating"
       data-whatsapp-float="true"
       onClick={() => capture('whatsapp_click', { source: 'float_button', location: 'floating', path: window.location.pathname })}
