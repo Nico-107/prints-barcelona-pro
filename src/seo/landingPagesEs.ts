@@ -1293,7 +1293,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Precios por gramo según material",
-        body: "Estos son los precios efectivos por gramo en Dimension3D (servicio estándar, calidad estándar):\n\n• **PLA** — TODO(nico: confirmar €/g). El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — TODO(nico: confirmar €/g). Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — TODO(nico: confirmar €/g). Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — TODO(nico: confirmar €/g). Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — TODO(nico: confirmar €/g). Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA) cuesta desde el mínimo de 10€. Usa la calculadora de arriba para tu pieza concreta."
+        body: "Estos son los precios efectivos por gramo en Dimension3D (servicio estándar, calidad estándar). La fórmula es: precio = máx(10€, 8€ preparación + gramos × tarifa/g):\n\n• **PLA** — 0,22 €/g. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — 0,24 €/g. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — 0,29 €/g. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — 0,29 €/g. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — 0,31 €/g. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA) cuesta desde el mínimo de 10€. Usa la calculadora de arriba para tu pieza concreta."
       },
       {
         heading: "Tabla de ejemplos reales de precio",
@@ -1337,12 +1337,12 @@ export const PAGES_ES: LandingContent[] = [
       caption: "Precio por gramo según material (Dimension3D, servicio estándar, Nov 2026)",
       headers: ["Material", "€/gramo", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
       rows: [
-        ["PLA",     "TODO(nico)", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
-        ["PETG",    "TODO(nico)", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
-        ["ABS",     "TODO(nico)", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
-        ["ASA",     "TODO(nico)", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
-        ["TPU",     "TODO(nico)", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
-        ["Nylon",   "TODO(nico)", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
+        ["PLA",     "0,22 €/g",  "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
+        ["PETG",    "0,24 €/g",  "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
+        ["ABS",     "0,29 €/g",  "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
+        ["ASA",     "0,29 €/g",  "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
+        ["TPU",     "0,29 €/g",  "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
+        ["Nylon",   "0,31 €/g",  "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
       ],
     },
   },
@@ -1545,7 +1545,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "Punto de recogida: Les Corts, Rambla de Brasil",
-        body: "Nuestro taller está en la Rambla de Brasil, 53 (08028 Barcelona), en el barrio de Les Corts, a 5 minutos andando del metro de Collblanc (L5) y de la Zona Universitaria (L3).\n\nA pie desde los barrios de Barcelona: 5–10 min desde Sants, Badal, La Bordeta y Can Vidalet. 10–15 min desde Esquerra de l'Eixample y Hostafrancs. Con transporte desde cualquier punto de Barcelona en 20–30 min.\n\nHorario de recogida: lunes a viernes de 9:00 a 19:00. Te avisamos por WhatsApp cuando tu pedido está listo."
+        body: "Nuestro punto de recogida con cita previa está en la Rambla de Brasil, 53 (08028 Barcelona), en el barrio de Les Corts, a 5 minutos andando del metro de Collblanc (L5) y de la Zona Universitaria (L3).\n\nA pie desde los barrios de Barcelona: 5–10 min desde Sants, Badal, La Bordeta y Can Vidalet. 10–15 min desde Esquerra de l'Eixample y Hostafrancs. Con transporte desde cualquier punto de Barcelona en 20–30 min.\n\nRecogida con cita previa: cuando tu pieza esté lista, te avisamos por WhatsApp y coordinamos la hora de recogida. Horario flexible, normalmente todos los días."
       },
       {
         heading: "Zonas de Barcelona con entrega rápida",
@@ -1569,7 +1569,7 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Puedo recoger mi pedido el mismo día?", a: "Para pedidos confirmados antes de las 12:00 en día laborable, en la mayoría de casos la pieza está lista para recoger esa misma tarde. Para garantizarlo, usa el servicio Urgente." },
       { q: "¿Cubren toda Barcelona o solo Les Corts?", a: "Podemos enviar a toda la ciudad y el área metropolitana. La recogida presencial es en Les Corts. Si necesitas entrega a domicilio dentro de Barcelona, consúltanos." },
       { q: "¿También imprimís en L'Hospitalet, Cornellà o Sant Cugat?", a: "Sí. Puedes recoger en nuestro taller de Barcelona, o te enviamos a tu dirección. El coste de envío a toda la provincia de Barcelona es 5,90€." },
-      { q: "¿Tenéis horario de tarde para recoger?", a: "Atendemos recogidas de lunes a viernes de 9:00 a 19:00. Fuera de horario, puedes dejar una reseña en el buzón o coordinar por WhatsApp." },
+      { q: "¿Tenéis horario flexible para recoger?", a: "La recogida es con cita previa, así que el horario es flexible. Cuando tu pieza esté lista te avisamos por WhatsApp y acordamos la hora que mejor te venga, normalmente todos los días." },
       { q: "¿Podéis venir a buscar mi pieza rota para copiarla?", a: "No hacemos recogida a domicilio para escaneo. Lo más práctico es traer la pieza al taller o enviarnos buenas fotos con una referencia de tamaño." },
     ],
     galleryImages: pick("custom-brackets.jpg", "curved-parts.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "blue-molds.jpg"),
@@ -1598,7 +1598,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "El fundador: Nico (Mikołaj Szczełkun)",
-        body: "Nico es el fundador y técnico principal de Dimension3D. Estudió en Polonia y se mudó a Barcelona, donde combinó su pasión por el diseño técnico con la tecnología FDM. TODO(nico: añadir cuántos años lleva con impresoras 3D y cuándo empezó el estudio), primero como hobby y luego construyendo Dimension3D como un servicio real para clientes reales.\n\nSu formación técnica y su obsesión por los detalles explican el enfoque de Dimension3D: cada pedido se revisa antes de imprimir, cada material se elige según la función real de la pieza, y cada cliente recibe una respuesta directa, no automatizada."
+        body: "Nico es el fundador y técnico principal de Dimension3D. Estudió en Polonia y se mudó a Barcelona, donde combinó su pasión por el diseño técnico con la tecnología FDM. Nico lleva 4 años trabajando con impresoras 3D y comenzó a imprimir para clientes en 2024, primero como proyecto personal y luego construyendo Dimension3D como un servicio real para clientes reales.\n\nSu formación técnica y su obsesión por los detalles explican el enfoque de Dimension3D: cada pedido se revisa antes de imprimir, cada material se elige según la función real de la pieza, y cada cliente recibe una respuesta directa, no automatizada."
       },
       {
         heading: "El taller y las máquinas",
@@ -1609,8 +1609,8 @@ export const PAGES_ES: LandingContent[] = [
         body: "Desde el primer pedido hasta hoy, hemos imprimido más de 250 encargos para particulares, startups, talleres, clínicas, diseñadores y estudiantes. Algunos patrones que vemos constantemente:\n\n• La mayoría de los clientes no tienen archivo 3D — trabajan con fotos, piezas rotas y medidas.\n• El material correcto importa más que la calidad de impresión — una pieza bien orientada en PETG supera a la misma pieza mal configurada en Nylon.\n• El soporte directo marca la diferencia — los clientes que reciben respuesta en minutos tienen mucho menos estrés que los que esperan días.\n\nEsto ha moldeado cómo trabajamos: revisión humana de cada archivo, respuesta por WhatsApp en horario laboral, y honestidad cuando un encargo no es el mejor caso de uso para FDM."
       },
       {
-        heading: "TODO(nico): añadir un hito o evento reciente de Dimension3D aquí",
-        body: "TODO(nico): describe un hito real reciente — evento en el que participaste, cliente destacado (anonimizado si necesario), proyecto de referencia, o logro del estudio. Elimina esta sección si no hay un hito específico que añadir."
+        heading: "Dimension3D en el Smart City Expo World Congress 2026",
+        body: "En noviembre de 2026, Dimension3D asistió al Smart City Expo World Congress en Barcelona, el evento mundial de referencia para ciudades inteligentes. Como servicio local de fabricación aditiva, seguimos de cerca los avances en cadenas de suministro urbanas y piezas de infraestructura."
       },
       {
         heading: "Lo que hacemos y lo que no hacemos",
@@ -1623,7 +1623,7 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Podéis hacer un NDA para proyectos confidenciales?", a: "Sí. Firmamos NDA habitualmente con startups de hardware y departamentos de I+D. Mándanos un WhatsApp o email para concretar." },
       { q: "¿En qué idiomas atendéis?", a: "Español, catalán, inglés y polaco. Podemos gestionar pedidos en cualquiera de estos idiomas." },
       { q: "¿Estáis en Barcelona físicamente o solo online?", a: "Tenemos taller físico en la Rambla de Brasil, 53 (Les Corts, Barcelona). También atendemos pedidos 100% online con envío a toda España y la UE." },
-      { q: "¿Desde cuándo está en marcha Dimension3D?", a: "TODO(nico: confirmar año de fundación). Llevamos más de 250 pedidos gestionados para particulares y empresas de toda España." },
+      { q: "¿Desde cuándo está en marcha Dimension3D?", a: "Nico lleva 4 años trabajando con impresoras 3D y comenzó a imprimir para clientes en 2024. Llevamos más de 250 pedidos gestionados para particulares y empresas de toda España." },
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
     related: [

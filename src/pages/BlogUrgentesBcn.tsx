@@ -479,7 +479,7 @@ const BlogUrgentesBcn = () => {
                       <h3 className="font-semibold text-foreground">WhatsApp directo (para urgencias reales)</h3>
                     </div>
                     <p className="text-sm leading-relaxed text-foreground/70">
-                      Si necesitas la pieza hoy o mañana a primera hora, el camino más rápido es escribirnos directamente por WhatsApp. Manda el archivo (o las fotos si no tienes STL), cuéntanos qué es y cuándo lo necesitas — respondemos en menos de 1 hora durante el horario de 9:00 a 20:00. Para urgencias extremas fuera de horario, también respondemos si podemos.
+                      Si necesitas la pieza hoy o mañana a primera hora, el camino más rápido es escribirnos directamente por WhatsApp. Manda el archivo (o las fotos si no tienes STL), cuéntanos qué es y cuándo lo necesitas — respondemos en menos de 1 hora en horario de atención (flexible, normalmente todos los días). Para urgencias extremas fuera de horario, también respondemos si podemos.
                     </p>
                   </div>
                 </div>

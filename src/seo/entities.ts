@@ -47,14 +47,6 @@ export const ORGANIZATION_SCHEMA = {
     latitude: 41.3806,
     longitude: 2.1317,
   },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "19:00",
-    },
-  ],
   priceRange: "€",
   currenciesAccepted: "EUR",
   paymentAccepted: "Credit Card, Bank Transfer",

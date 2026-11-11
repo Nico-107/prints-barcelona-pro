@@ -221,7 +221,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { title: "Envía tu STL, STEP o dibujo", body: "Sube el archivo al calculador o envíalo por WhatsApp. Aceptamos STL, STEP, IGES, OBJ y 3MF. Si solo tienes un dibujo o una foto de la pieza rota, también podemos trabajar con eso." },
       { title: "Presupuesto en 1 hora (o precio instantáneo)", body: "Las piezas con precio automático te dan un precio al instante. Para piezas más complejas, revisamos el archivo manualmente y respondemos en menos de 1 hora en horario laboral." },
       { title: "Impresión y control de calidad", body: "Imprimimos en nuestra Bambu Lab X2D con cámara cerrada y cámara climatizada. Cada pieza se revisa antes de salir del taller." },
-      { title: "Entrega en Barcelona o envío", body: "Recogida en taller con cita previa. Envío a domicilio desde €5,90 a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
+      { title: "Entrega en Barcelona o envío", body: "Recogida con cita previa en Barcelona. Envío a domicilio desde €5,90 a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
     ],
     faqs: [
       { q: "¿Cuál es el pedido mínimo para empresas?", a: "El pedido mínimo es de 10€. No hay tarifa de configuración. Desde una sola pieza, sin burocracia." },
@@ -232,7 +232,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { q: "¿Qué tolerancias podéis mantener?", a: "La precisión típica de impresión FDM es ±0,2 mm. Para características de mayor precisión ajustamos los parámetros. Dinos el requisito en el presupuesto." },
       { q: "¿Guardáis los archivos para reencargos?", a: "Sí. Una vez validada la pieza, guardamos el archivo y los parámetros de impresión. Los reencargos se preparan en minutos." },
       { q: "¿Qué formatos de archivo aceptáis?", a: "STL, STEP, IGES, OBJ y 3MF. Exportaciones directas de SolidWorks, Fusion 360, Onshape, FreeCAD y CATIA funcionan sin conversión." },
-      { q: "¿Se puede hacer recogida en el taller?", a: "Sí, con cita previa en Barcelona. El envío por mensajería está disponible desde €5,90." },
+      { q: "¿Se puede hacer recogida con cita previa?", a: "Sí, con cita previa en Barcelona (Les Corts). Cuando tu pedido esté listo, coordinas por WhatsApp la hora de recogida." },
     ],
     materialLinks: [
       { label: "PLA", href: "/impresion-pla-barcelona", desc: "Prototipos y piezas de baja carga" },
@@ -417,7 +417,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { title: "Envia el teu STL, STEP o plànol", body: "Puja l'arxiu a la calculadora o envia'l per WhatsApp. Acceptem STL, STEP, IGES, OBJ i 3MF. Si només tens un plànol o una foto de la peça trencada, també podem treballar-hi." },
       { title: "Pressupost en 1 hora (o preu instantani)", body: "Les peces amb preu automàtic obtenen un preu al moment. Per a peces més complexes, revisem l'arxiu manualment i responem en menys d'1 hora en horari laboral." },
       { title: "Impressió i control de qualitat", body: "Imprimim a la nostra Bambu Lab X2D amb cambra tancada i climatitzada. Cada peça es revisa abans de sortir del taller." },
-      { title: "Lliurament a Barcelona o enviament", body: "Recollida al taller amb cita prèvia a Barcelona. Enviament des de 5,90€ a Espanya i la UE. La majoria de comandes llestes en 2–5 dies laborables; urgent en 24–48 h (amb recàrrec)." },
+      { title: "Lliurament a Barcelona o enviament", body: "Recollida amb cita prèvia a Barcelona (Les Corts). Enviament des de 5,90€ a Espanya i la UE. La majoria de comandes llestes en 2–5 dies laborables; urgent en 24–48 h (amb recàrrec)." },
     ],
     faqs: [
       { q: "Quina és la comanda mínima per a empreses?", a: "La comanda mínima és de 10€. Sense tarifa de configuració. Des d'una sola peça, sense burocràcia." },
@@ -428,7 +428,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { q: "Quines toleràncies podeu mantenir?", a: "La precisió típica d'impressió FDM és ±0,2 mm. Per a característiques de major precisió ajustem els paràmetres. Indica'ns el requisit en el pressupost." },
       { q: "Guardeu els arxius per a recomandes?", a: "Sí. Un cop validada la peça, guardem l'arxiu i els paràmetres d'impressió. Les recomandes es preparen en minuts." },
       { q: "Quins formats d'arxiu accepteu?", a: "STL, STEP, IGES, OBJ i 3MF. Les exportacions directes de SolidWorks, Fusion 360, Onshape, FreeCAD i CATIA funcionen sense conversió." },
-      { q: "Es pot fer recollida al taller?", a: "Sí, amb cita prèvia a Barcelona. L'enviament per missatgeria està disponible des de 5,90€." },
+      { q: "Es pot fer recollida amb cita prèvia?", a: "Sí, amb cita prèvia a Barcelona (Les Corts). Quan la teva comanda estigui llesta, coordines per WhatsApp l'hora de recollida." },
     ],
     materialLinks: [
       { label: "PLA", href: "/ca/impressio-pla-barcelona", desc: "Prototips i peces de baixa càrrega" },

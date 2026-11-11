@@ -1457,7 +1457,7 @@ export const PAGES_EN: LandingContent[] = [
     sections: [
       {
         heading: "The founder: Nico (Mikołaj Szczełkun)",
-        body: "Nico is the founder and lead technician at Dimension3D. Originally from Poland, he moved to Barcelona where he combined his passion for technical design with FDM technology. He has worked professionally with 3D printers for over three years, evolving from a personal workshop into a full service for real customers.\n\nHis technical background explains the Dimension3D approach: every order is reviewed before printing, every material is chosen based on the actual function of the part, and every customer gets a direct human response — not an automated confirmation."
+        body: "Nico is the founder and lead technician at Dimension3D. Originally from Poland, he moved to Barcelona where he combined his passion for technical design with FDM technology. He has 4 years of hands-on 3D printing experience and has been printing for customers since 2024, starting as a personal project and growing into a full service for real customers.\n\nHis technical background explains the Dimension3D approach: every order is reviewed before printing, every material is chosen based on the actual function of the part, and every customer gets a direct human response — not an automated confirmation."
       },
       {
         heading: "The workshop and machines",
@@ -1469,7 +1469,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Dimension3D at Smart City Expo World Congress 2026",
-        body: "In November 2026 Dimension3D participated in the Smart City Expo World Congress in Barcelona, the world's leading smart cities event. We presented how local additive manufacturing can shorten supply chains for urban maintenance parts — from public furniture replacements to IoT sensor adapters for urban infrastructure.\n\nThe event confirmed that local 3D printing has a meaningful role in supply chain resilience, especially for low-volume, low-demand replacement parts."
+        body: "In November 2026 Dimension3D attended the Smart City Expo World Congress in Barcelona, the world's leading smart cities event. As a local additive manufacturing service, we follow developments in urban supply chains and infrastructure parts closely.\n\nThe event confirmed that local 3D printing has a meaningful role in supply chain resilience, especially for low-volume, low-demand replacement parts."
       },
       {
         heading: "What we do — and what we do not",

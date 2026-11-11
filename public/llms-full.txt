@@ -137,7 +137,7 @@ Cómo pedir: sube el archivo 3MF con asignación de colores ya definida, o comp�
 
 Taller físico en Les Corts, Barcelona. Recogida en mano en Rambla de Brasil 53, 08028 Barcelona.
 
-Horario de recogida: lunes a viernes, 9:00–19:00 h. Recogida el mismo día si el pedido se confirma antes de las 11:00 h (sujeto a disponibilidad).
+Recogida en Les Corts con cita previa. Cuando tu pieza esté lista, te avisamos por WhatsApp para coordinar la recogida. Horario flexible, normalmente todos los días.
 
 Barrios cubiertos en Barcelona (entrega local disponible):
 Les Corts, Sarrià-Sant Gervasi, Eixample, Gràcia, Sants-Montjuïc, Sant Martí, Nou Barris. Entrega en mano bajo consulta para pedidos urgentes.
@@ -155,13 +155,13 @@ WhatsApp directo con el taller: +34 672 051 147. Respuesta típica en menos de 1
 ## URL: https://www.dimension3dprints.com/sobre-nosotros
 ## Title: Sobre Nosotros — Dimension3D Barcelona
 
-Dimension3D es un servicio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun), ingeniero y maker con más de 5 años de experiencia en fabricación aditiva.
+Dimension3D es un servicio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun), ingeniero y maker con 4 años de experiencia en impresión 3D, imprimiendo para clientes desde 2024.
 
 El taller está en Les Corts, Barcelona. Contamos con varias impresoras Bambu Lab de alta precisión (incluyendo X2D con AMS para multicolor) y producimos pedidos desde 1 unidad sin mínimo de tirada.
 
 Hitos:
 - 250+ pedidos completados
-- Presentado en Smart City Expo World Congress 2026
+- Asistió al Smart City Expo World Congress 2026
 - Tiempo medio de respuesta de presupuesto: menos de 1 hora
 - Satisfacción verificada con reseñas reales de clientes
 
@@ -198,11 +198,11 @@ Contact: hola@dimension3dprints.com | WhatsApp: +34 672 051 147
 ## URL: https://www.dimension3dprints.com/about
 ## Title: About Dimension3D — Barcelona 3D Printing Workshop
 
-Dimension3D is a professional FDM 3D printing service founded in Barcelona by Nico (Mikołaj Szczełkun), an engineer and maker with 5+ years of hands-on experience in additive manufacturing.
+Dimension3D is a professional FDM 3D printing service founded in Barcelona by Nico (Mikołaj Szczełkun), an engineer and maker with 4 years of hands-on 3D printing experience, printing for customers since 2024.
 
 Workshop location: Les Corts district, Barcelona (Rambla de Brasil 53). Equipment: Bambu Lab high-precision printers including X2D with AMS for multicolour prints.
 
-Track record: 250+ orders completed. Featured at Smart City Expo World Congress 2026. Average quote response time: under 1 hour.
+Track record: 250+ orders completed. Attended Smart City Expo World Congress 2026. Average quote response time: under 1 hour.
 
 What sets us apart: transparent instant pricing, no setup fees, real express service, engineering-grade materials (Nylon PA12, CF composites, UV-stable ASA), and direct WhatsApp access to the technician printing your part.
 
