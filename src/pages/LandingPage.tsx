@@ -63,8 +63,8 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const isEs = page.lang === "es";
   const isCa = page.lang === "ca";
   const isDe = page.lang === "de";
-  const t = (en: string, es: string, de?: string) =>
-    isDe ? (de ?? en) : (isCa || isEs) ? es : en;
+  const t = (en: string, es: string, de?: string, ca?: string) =>
+    isDe ? (de ?? en) : isCa ? (ca ?? es) : isEs ? es : en;
   const url = `${SITE_URL}${page.slug}`;
   const topicSlugs = SLUGS_BY_TOPIC[page.topic] ?? {};
 
@@ -72,25 +72,25 @@ const LandingPage = ({ page: pageProp }: Props) => {
   // from it) — CTAs route to the maker network funnel instead of a print
   // quote. audience defaults to "customer", preserving old behaviour.
   const isMaker = page.audience === "maker";
-  const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks");
-  const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es");
+  const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks", "Uneix-te a la xarxa de Makers");
+  const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
   const trustBadges = [
-    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`, `Standort ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
-    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas", "Schnelle Lieferung"), iconClass: "text-accent" },
-    { icon: Award, label: t("Quality Materials", "Materiales de Calidad", "Qualitätsmaterialien"), iconClass: "text-accent" },
-    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida", "Individuelle Aufträge"), iconClass: "text-accent" },
+    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`, `Standort ${pageCity.cityName}`, `Local a ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
+    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas", "Schnelle Lieferung", "Lliuraments Ràpids"), iconClass: "text-accent" },
+    { icon: Award, label: t("Quality Materials", "Materiales de Calidad", "Qualitätsmaterialien", "Materials de Qualitat"), iconClass: "text-accent" },
+    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida", "Individuelle Aufträge", "Comandes a Mida"), iconClass: "text-accent" },
   ];
 
   // Category label per page.category, translated with the same t() helper.
   const categoryLabel =
     page.category === "material"
-      ? t("Materials", "Materiales", "Materialien")
+      ? t("Materials", "Materiales", "Materialien", "Materials")
       : page.category === "service"
-        ? t("Services", "Servicios", "Dienstleistungen")
+        ? t("Services", "Servicios", "Dienstleistungen", "Serveis")
         : page.category === "guide"
-          ? t("Guides", "Guías", "Leitfäden")
-          : t("Use Cases", "Aplicaciones", "Anwendungsfälle");
+          ? t("Guides", "Guías", "Leitfäden", "Guies")
+          : t("Use Cases", "Aplicaciones", "Anwendungsfälle", "Aplicacions");
 
   // Hub URL for the category level of the breadcrumb — points to the main
   // service page in the current language (or the materials guide for material
@@ -181,6 +181,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const datePublished = page.datePublished ?? DEFAULT_DATE_PUBLISHED;
   const dateModified = page.dateModified ?? DEFAULT_DATE_MODIFIED;
   const isGuide = GUIDE_TOPICS.has(page.topic);
+  const isBlogPost = page.topic.startsWith("blog-");
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -310,6 +311,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
               <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] sm:leading-tight font-bold text-primary-foreground tracking-tight mb-4 sm:mb-5 [text-wrap:balance]">
                 {page.h1}
               </h1>
+              {isBlogPost && (
+                <p className="text-xs text-primary-foreground/60 mb-5 flex flex-wrap gap-x-3 gap-y-1">
+                  <span>{isEs || isCa ? "Por Nico, Fundador de Dimension3D" : isDe ? "Von Nico, Gründer von Dimension3D" : "By Nico, Founder of Dimension3D"}</span>
+                  <span>·</span>
+                  <span>{isEs || isCa ? `Actualizado ${dateModified}` : isDe ? `Aktualisiert ${dateModified}` : `Updated ${dateModified}`}</span>
+                </p>
+              )}
               <p className="text-[15px] sm:text-lg md:text-xl text-primary-foreground/90 leading-relaxed mb-6 sm:mb-8">
                 {page.intro}
               </p>
@@ -332,11 +340,11 @@ const LandingPage = ({ page: pageProp }: Props) => {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button variant="accent" size="lg" className="gap-2" onClick={scrollToCalc}>
                     <Upload className="w-4 h-4" />
-                    {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern")}
+                    {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern", "Sol·licitar Pressupost")}
                   </Button>
                   <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
                     <MessageCircle className="w-4 h-4" />
-                    {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren")}
+                    {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren", "Contactar per WhatsApp")}
                   </Button>
                 </div>
               )}
@@ -393,14 +401,16 @@ const LandingPage = ({ page: pageProp }: Props) => {
                         {t(
                           "Prefer orders that come to you?",
                           "¿Prefieres que los pedidos lleguen solos?",
-                          "Lieber Aufträge, die zu dir kommen?"
+                          "Lieber Aufträge, die zu dir kommen?",
+                          "Prefereixes que les comandes arribin soles?"
                         )}
                       </h3>
                       <p className="text-muted-foreground mb-5">
                         {t(
                           "Free to join, no commission, no exclusivity — orders from your area go directly to you.",
                           "Unirse es gratis, sin comisión, sin exclusividad — los pedidos de tu zona van directamente a ti.",
-                          "Kostenloser Beitritt, keine Provision, keine Exklusivität — Aufträge aus deiner Region gehen direkt an dich."
+                          "Kostenloser Beitritt, keine Provision, keine Exklusivität — Aufträge aus deiner Region gehen direkt an dich.",
+                          "Unir-s'hi és gratuït, sense comissió, sense exclusivitat — les comandes de la teva zona van directament a tu."
                         )}
                       </p>
                       <div className="flex flex-col sm:flex-row gap-3">
@@ -462,7 +472,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <section className="bg-secondary/30 py-16 md:py-20">
             <div className="container px-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`, `Echte Drucke aus unserer Werkstatt in ${pageCity.cityName}`)}
+                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`, `Echte Drucke aus unserer Werkstatt in ${pageCity.cityName}`, `Impressions reals del nostre taller a ${pageCity.cityName}`)}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (
@@ -489,14 +499,16 @@ const LandingPage = ({ page: pageProp }: Props) => {
                   {t(
                     "Start earning with your 3D printer",
                     "Empieza a ganar con tu impresora 3D",
-                    "Verdiene Geld mit deinem 3D-Drucker"
+                    "Verdiene Geld mit deinem 3D-Drucker",
+                    "Comença a guanyar amb la teva impressora 3D"
                   )}
                 </h2>
                 <p className="text-lg text-primary-foreground/80 mb-8">
                   {t(
                     "Free to join. No fees, no commission, no exclusivity. Orders from your area go to you.",
                     "Unirse es gratis. Sin cuotas, sin comisión, sin exclusividad. Los pedidos de tu zona van para ti.",
-                    "Kostenloser Beitritt. Keine Gebühren, keine Provision, keine Exklusivität. Aufträge aus deiner Region gehen an dich."
+                    "Kostenloser Beitritt. Keine Gebühren, keine Provision, keine Exklusivität. Aufträge aus deiner Region gehen an dich.",
+                    "Unir-s'hi és gratuït. Sense quotes, sense comissió, sense exclusivitat. Les comandes de la teva zona van per a tu."
                   )}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -511,14 +523,14 @@ const LandingPage = ({ page: pageProp }: Props) => {
             ) : (
               <>
                 <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-                  {t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?")}
+                  {t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?", "Llest per iniciar el teu projecte?")}
                 </h2>
                 <p className="text-lg text-primary-foreground/80 mb-8">
-                  {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.")}
+                  {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.", "Envia el teu arxiu o descriu la teva idea. Pressupost gratis en menys d'1 hora.")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button variant="accent" size="xl" className="shadow-lg" onClick={scrollToCalc}>
-                    <Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen")}
+                    <Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen", "Pujar Arxiu")}
                   </Button>
                   <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
                     <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp", "WhatsApp")}
@@ -533,7 +545,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <section className="container px-4 py-16 md:py-20">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
-              {t("Frequently Asked Questions", "Preguntas Frecuentes", "Häufige Fragen")}
+              {t("Frequently Asked Questions", "Preguntas Frecuentes", "Häufige Fragen", "Preguntes Freqüents")}
             </h2>
             <Accordion type="single" collapsible className="w-full">
               {page.faqs.map((f, i) => (
@@ -544,15 +556,17 @@ const LandingPage = ({ page: pageProp }: Props) => {
               ))}
               <AccordionItem value="f-guarantee">
                 <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">
-                  {t("What if there's a problem with my print?", "¿Qué pasa si hay algún problema con mi impresión?")}
+                  {t("What if there's a problem with my print?", "¿Qué pasa si hay algún problema con mi impresión?", undefined, "Què passa si hi ha algun problema amb la meva impressió?")}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
                   {t(
                     "If it's a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost.",
-                    "Si hay un defecto o no coincide con lo presupuestado, comunícalo en 7 días desde la entrega y lo resolvemos sin coste."
+                    "Si hay un defecto o no coincide con lo presupuestado, comunícalo en 7 días desde la entrega y lo resolvemos sin coste.",
+                    undefined,
+                    "Si hi ha un defecte o no coincideix amb el pressupost, comunica'ns-ho en 7 dies des del lliurament i ho resolem sense cost."
                   )}{" "}
                   <Link to="/politica-devoluciones" className="text-accent underline hover:text-accent/80">
-                    {t("See our full quality guarantee.", "Ver nuestra garantía de calidad completa.")}
+                    {t("See our full quality guarantee.", "Ver nuestra garantía de calidad completa.", undefined, "Veure la nostra garantia de qualitat completa.")}
                   </Link>
                 </AccordionContent>
               </AccordionItem>
@@ -566,7 +580,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {/* Related pages */}
         <section className="container px-4 py-16 md:py-20 border-t border-border/40">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-            {t("Related services", "Servicios relacionados", "Weiterführende Themen")}
+            {t("Related services", "Servicios relacionados", "Weiterführende Themen", "Serveis relacionats")}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {page.related.map((r) => (

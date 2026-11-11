@@ -463,7 +463,7 @@ const Index = () => {
                   ) : language === "ca" ? (
                     <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent hover:underline">Explora el catàleg de peces i repuestos</Link>.</>
                   ) : (
-                    <>¿Repuesto disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Catálogo</Link>. ¿Descatalogado? <Link to="/repuesto-descatalogado" className="text-accent hover:underline">Lo reproducimos</Link>. ¿Eres empresa? <Link to="/impresion-3d-empresas-barcelona" className="text-accent hover:underline">Servicio para empresas</Link>.</>
+                    <>¿Repuesto disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Catálogo</Link>. ¿Descatalogado? <Link to="/repuesto-descatalogado" className="text-accent hover:underline">Lo reproducimos</Link>. ¿Eres empresa? <Link to="/impresion-3d-empresas-barcelona" className="text-accent hover:underline">Servicio para empresas</Link>. También enviamos a toda España — <Link to="/impresion-3d" className="text-accent hover:underline">servicio de impresión 3D online</Link>.</>
                   )}
                 </p>
               </div>

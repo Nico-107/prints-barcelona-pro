@@ -46,7 +46,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Cómo se Calcula el Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Custom Parts (EN)", slug: "/custom-parts-barcelona" },
-      { label: "Peces Personalitzades (CA)", slug: "/ca/peces-personalitzades-3d-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Piezas Personalizadas 3D Barcelona"
   },
@@ -93,7 +93,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Servicio Express y Mismo Día", slug: "/impresion-3d-urgente-barcelona" },
       { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Prototype Printing (EN)", slug: "/prototype-printing-barcelona" },
-      { label: "Prototips 3D (CA)", slug: "/ca/prototips-3d-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Prototipado Rápido Barcelona"
   },
@@ -140,7 +140,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Iteración de Prototipos", slug: "/prototipos-3d-barcelona" },
       { label: "Recargos y Precios Express", slug: "/precio-impresion-3d-barcelona" },
       { label: "Urgent Printing (EN)", slug: "/urgent-3d-printing-barcelona" },
-      { label: "Impressió Urgent (CA)", slug: "/ca/impressio-3d-urgent-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Impresión 3D Urgente Barcelona"
   },
@@ -234,7 +234,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
       { label: "Estructura del Precio", slug: "/precio-impresion-3d-barcelona" },
       { label: "Replacement Parts (EN)", slug: "/replacement-parts-barcelona" },
-      { label: "Recanvis (CA)", slug: "/ca/recanvis-impressio-3d-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Recambios Impresos 3D Barcelona"
   },
@@ -281,7 +281,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Elegir el Material Adecuado", slug: "/guia-materiales-impresion-3d" },
       { label: "Cómo Preparar tu Archivo STL", slug: "/como-preparar-archivo-impresion-3d" },
       { label: "PLA Printing (EN)", slug: "/pla-printing-barcelona" },
-      { label: "Impressió PLA (CA)", slug: "/ca/impressio-pla-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Impresión PLA Barcelona"
   },
@@ -328,7 +328,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Guía Completa de Materiales", slug: "/guia-materiales-impresion-3d" },
       { label: "Preparar Archivos para FDM", slug: "/como-preparar-archivo-impresion-3d" },
       { label: "PETG Printing (EN)", slug: "/petg-printing-barcelona" },
-      { label: "Impressió PETG (CA)", slug: "/ca/impressio-petg-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Impresión PETG Barcelona"
   },
@@ -375,7 +375,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Tabla Comparativa de Materiales", slug: "/guia-materiales-impresion-3d" },
       { label: "Modelado y Grosor de Paredes", slug: "/como-preparar-archivo-impresion-3d" },
       { label: "TPU Printing (EN)", slug: "/tpu-printing-barcelona" },
-      { label: "Impressió TPU (CA)", slug: "/ca/impressio-tpu-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Impresión TPU Barcelona"
   },
@@ -422,7 +422,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Qué Servicio Encaja Mejor", slug: "/mejor-servicio-impresion-3d-barcelona" },
       { label: "Precios por Lote y Cantidad", slug: "/precio-impresion-3d-barcelona" },
       { label: "Miniatures (EN)", slug: "/miniatures-barcelona" },
-      { label: "Miniatures (CA)", slug: "/ca/miniatures-3d-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Miniaturas 3D Barcelona"
   },
@@ -471,7 +471,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Prototipos de Validación", slug: "/prototipos-3d-barcelona" },
       { label: "PETG para Carcasas Industriales", slug: "/impresion-petg-barcelona" },
       { label: "For Business (EN)", slug: "/3d-printing-for-business-barcelona" },
-      { label: "Per a Empreses (CA)", slug: "/ca/impressio-3d-empreses-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Impresión 3D para Empresas Barcelona"
   },
@@ -520,7 +520,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Prototipos Únicos y Series", slug: "/prototipos-3d-barcelona" },
       { label: "Guía de Selección de Materiales", slug: "/guia-materiales-impresion-3d" },
       { label: "Rapid Prototyping (EN)", slug: "/rapid-prototyping-barcelona" },
-      { label: "Prototipatge Ràpid (CA)", slug: "/ca/prototipatge-rapid-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Prototipado Rápido Barcelona"
   },
@@ -569,7 +569,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "PETG para Carga y Exterior", slug: "/impresion-petg-barcelona" },
       { label: "Nylon, ABS, ASA Explicados", slug: "/guia-materiales-impresion-3d" },
       { label: "Functional Parts (EN)", slug: "/functional-parts-barcelona" },
-      { label: "Peces Funcionals (CA)", slug: "/ca/peces-funcionals-barcelona" }
+      { label: "Impresión 3D en Barcelona", slug: "/" }
     ],
     schemaServiceName: "Piezas Funcionales 3D Barcelona"
   },
@@ -1267,7 +1267,7 @@ export const PAGES_ES: LandingContent[] = [
       { label: "Comparativa de Materiales", slug: "/comparativa-materiales-impresion-3d" },
       { label: "Piezas Funcionales Barcelona", slug: "/piezas-funcionales-barcelona" },
       { label: "Precios Transparentes", slug: "/precio-impresion-3d-barcelona" },
-      { label: "Short-Run Production (EN)", slug: "/short-run-3d-printing-barcelona" },
+      { label: "Impresión 3D en Barcelona", slug: "/" },
     ],
     schemaServiceName: "Tiradas Cortas de Impresión 3D Barcelona",
     datePublished: "2026-10-11",
@@ -1289,11 +1289,11 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "¿Qué determina el precio de una impresión 3D?",
-        body: "Tres factores principales marcan el coste:\n\n**1. Material** — el plástico más económico es el PLA (desde ~0,055€/g). PETG y TPU tienen un pequeño recargo. Nylon y materiales con fibra de carbono son los más premium.\n**2. Tamaño y tiempo de máquina** — una pieza más grande usa más material y ocupa la impresora más horas. Las piezas pequeñas (5–30 g) a menudo se agrupan en la misma cama para reducir el tiempo por unidad.\n**3. Plazo** — el servicio estándar (2–5 días hábiles) es el más económico. El servicio Express (1–2 días) lleva un recargo del 25%. El servicio Urgente (mismo día) lleva un recargo del 60%.\n\nEl precio incluye siempre: revisión del archivo, laminado, material, tiempo de máquina y acabado básico (retirada de soportes, limpieza). No hay setup fee ni cargo por pieza."
+        body: "Tres factores principales marcan el coste:\n\n**1. Material** — el plástico más económico es el PLA. PETG y TPU tienen un pequeño recargo. Nylon y materiales con fibra de carbono son los más premium.\n**2. Tamaño y tiempo de máquina** — una pieza más grande usa más material y ocupa la impresora más horas. Las piezas pequeñas (5–30 g) a menudo se agrupan en la misma cama para reducir el tiempo por unidad.\n**3. Plazo** — el servicio estándar (2–5 días hábiles) es el más económico. El servicio Express (1–2 días) lleva un recargo del 25%. El servicio Urgente (mismo día) lleva un recargo del 60%.\n\nEl precio incluye siempre: revisión del archivo, laminado, material, tiempo de máquina y acabado básico (retirada de soportes, limpieza). No hay setup fee ni cargo por pieza."
       },
       {
         heading: "Precios por gramo según material",
-        body: "Estos son los precios efectivos por gramo en Dimension3D (servicio estándar, calidad estándar):\n\n• **PLA** — ~0,055€/g. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — ~0,061€/g. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — ~0,072€/g. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — ~0,072€/g. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — ~0,077€/g. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA) tiene un coste de material de ~1,10€. El mínimo de pedido es 10€ — lo que cubre también la gestión del pedido."
+        body: "Estos son los precios efectivos por gramo en Dimension3D (servicio estándar, calidad estándar):\n\n• **PLA** — TODO(nico: confirmar €/g). El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — TODO(nico: confirmar €/g). Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — TODO(nico: confirmar €/g). Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — TODO(nico: confirmar €/g). Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — TODO(nico: confirmar €/g). Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA) cuesta desde el mínimo de 10€. Usa la calculadora de arriba para tu pieza concreta."
       },
       {
         heading: "Tabla de ejemplos reales de precio",
@@ -1309,12 +1309,12 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Diseño y modelado 3D: coste adicional",
-        body: "Si no tienes el archivo 3D, Dimension3D puede diseñarlo. El coste de diseño depende de la complejidad:\n\n• **Piezas sencillas** (copia de una pieza rota a partir de foto y medidas): desde 20–40€ de diseño.\n• **Piezas moderadas** (accesorio funcional con tolerancias, varios cuerpos): 50–120€.\n• **Proyectos de producto** (prototipo de hardware, encargo de ingeniería): presupuesto personalizado.\n\nEl diseño se cotiza por separado y siempre se confirma antes de comenzar."
+        body: "Si no tienes el archivo 3D, Dimension3D puede diseñarlo. El coste de diseño depende de la complejidad de la pieza y se cotiza por separado. Siempre se confirma antes de comenzar. Envíanos una foto o descripción por WhatsApp y te damos un precio en menos de 1 hora."
       },
     ],
     faqs: [
       { q: "¿Cuánto cuesta imprimir en 3D en España?", a: "En Dimension3D el mínimo es 10€ por pedido. Piezas pequeñas estándar (5–30 g en PLA) suelen salir entre 10 y 18€. Piezas medianas (50–150 g) entre 20 y 50€. El envío a España cuesta 5,90€." },
-      { q: "¿Cuánto cuesta imprimir en 3D por gramo?", a: "Con PLA el precio efectivo es de aproximadamente 0,055€/g. PETG es ~0,061€/g. ABS/ASA y TPU ~0,072€/g. Nylon ~0,077€/g. A eso se suma el tiempo de máquina (€/hora)." },
+      { q: "¿Cuánto cuesta imprimir en 3D por gramo?", a: "El precio final depende del material, el tamaño y el plazo. Sube tu archivo a la calculadora de esta página para ver el precio exacto en segundos." },
       { q: "¿Hay tarifa de setup o pedido mínimo?", a: "No hay tarifa de setup. El pedido mínimo es 10€ por pieza. Puedes pedir una sola pieza sin coste extra." },
       { q: "¿Cuánto tarda el servicio Express?", a: "El servicio Express sale en 24–48h desde la confirmación del pedido y lleva un recargo del 25%. El servicio Urgente (mismo día o siguiente) lleva un recargo del 60% y no está disponible para todos los materiales." },
       { q: "¿Cómo obtengo un presupuesto exacto?", a: "Sube tu archivo STL, 3MF, OBJ o STEP en la calculadora de esta página. El precio aparece en segundos. Para piezas sin archivo, envíanos una foto por WhatsApp y te respondemos en menos de 1 hora en horario laboral." },
@@ -1337,12 +1337,12 @@ export const PAGES_ES: LandingContent[] = [
       caption: "Precio por gramo según material (Dimension3D, servicio estándar, Nov 2026)",
       headers: ["Material", "€/gramo", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
       rows: [
-        ["PLA",     "~0,055€", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
-        ["PETG",    "~0,061€", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
-        ["ABS",     "~0,072€", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
-        ["ASA",     "~0,072€", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
-        ["TPU",     "~0,072€", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
-        ["Nylon",   "~0,077€", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
+        ["PLA",     "TODO(nico)", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
+        ["PETG",    "TODO(nico)", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
+        ["ABS",     "TODO(nico)", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
+        ["ASA",     "TODO(nico)", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
+        ["TPU",     "TODO(nico)", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
+        ["Nylon",   "TODO(nico)", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
       ],
     },
   },
@@ -1598,7 +1598,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "El fundador: Nico (Mikołaj Szczełkun)",
-        body: "Nico es el fundador y técnico principal de Dimension3D. Estudió en Polonia y se mudó a Barcelona, donde combinó su pasión por el diseño técnico con la tecnología FDM. Lleva más de tres años trabajando con impresoras 3D profesionales, primero como hobby y luego construyendo Dimension3D como un servicio real para clientes reales.\n\nSu formación técnica y su obsesión por los detalles explican el enfoque de Dimension3D: cada pedido se revisa antes de imprimir, cada material se elige según la función real de la pieza, y cada cliente recibe una respuesta directa, no automatizada."
+        body: "Nico es el fundador y técnico principal de Dimension3D. Estudió en Polonia y se mudó a Barcelona, donde combinó su pasión por el diseño técnico con la tecnología FDM. TODO(nico: añadir cuántos años lleva con impresoras 3D y cuándo empezó el estudio), primero como hobby y luego construyendo Dimension3D como un servicio real para clientes reales.\n\nSu formación técnica y su obsesión por los detalles explican el enfoque de Dimension3D: cada pedido se revisa antes de imprimir, cada material se elige según la función real de la pieza, y cada cliente recibe una respuesta directa, no automatizada."
       },
       {
         heading: "El taller y las máquinas",
@@ -1609,8 +1609,8 @@ export const PAGES_ES: LandingContent[] = [
         body: "Desde el primer pedido hasta hoy, hemos imprimido más de 250 encargos para particulares, startups, talleres, clínicas, diseñadores y estudiantes. Algunos patrones que vemos constantemente:\n\n• La mayoría de los clientes no tienen archivo 3D — trabajan con fotos, piezas rotas y medidas.\n• El material correcto importa más que la calidad de impresión — una pieza bien orientada en PETG supera a la misma pieza mal configurada en Nylon.\n• El soporte directo marca la diferencia — los clientes que reciben respuesta en minutos tienen mucho menos estrés que los que esperan días.\n\nEsto ha moldeado cómo trabajamos: revisión humana de cada archivo, respuesta por WhatsApp en horario laboral, y honestidad cuando un encargo no es el mejor caso de uso para FDM."
       },
       {
-        heading: "Dimension3D en Smart City Expo World Congress 2026",
-        body: "En noviembre de 2026 Dimension3D participó en el Smart City Expo World Congress en Barcelona, el mayor evento de ciudades inteligentes del mundo. Presentamos cómo la fabricación aditiva local puede acortar las cadenas de suministro de piezas de mantenimiento urbano — desde recambios de mobiliario público hasta adaptadores para sensores IoT en infraestructura urbana.\n\nEl evento fue una confirmación de que la impresión 3D local tiene un papel relevante en la resiliencia de la cadena de suministro, especialmente para piezas pequeñas de baja o media demanda."
+        heading: "TODO(nico): añadir un hito o evento reciente de Dimension3D aquí",
+        body: "TODO(nico): describe un hito real reciente — evento en el que participaste, cliente destacado (anonimizado si necesario), proyecto de referencia, o logro del estudio. Elimina esta sección si no hay un hito específico que añadir."
       },
       {
         heading: "Lo que hacemos y lo que no hacemos",
@@ -1623,7 +1623,7 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Podéis hacer un NDA para proyectos confidenciales?", a: "Sí. Firmamos NDA habitualmente con startups de hardware y departamentos de I+D. Mándanos un WhatsApp o email para concretar." },
       { q: "¿En qué idiomas atendéis?", a: "Español, catalán, inglés y polaco. Podemos gestionar pedidos en cualquiera de estos idiomas." },
       { q: "¿Estáis en Barcelona físicamente o solo online?", a: "Tenemos taller físico en la Rambla de Brasil, 53 (Les Corts, Barcelona). También atendemos pedidos 100% online con envío a toda España y la UE." },
-      { q: "¿Desde cuándo está en marcha Dimension3D?", a: "El proyecto empezó en 2024 y lleva más de 250 pedidos gestionados. TODO: añadir año exacto de fundación cuando esté confirmado." },
+      { q: "¿Desde cuándo está en marcha Dimension3D?", a: "TODO(nico: confirmar año de fundación). Llevamos más de 250 pedidos gestionados para particulares y empresas de toda España." },
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
     related: [
@@ -1668,7 +1668,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "¿Cuál es más económico?",
-        body: "El PLA cuesta aproximadamente un 10% menos que el PETG en Dimension3D (precio efectivo ~0,055€/g vs ~0,061€/g). Para una pieza de 100 g, la diferencia es de menos de 1€. Para la mayoría de pedidos, el diferencial de precio es menor que el diferencial de prestaciones, así que si tienes dudas, el PETG suele merecer el pequeño extra."
+        body: "El PLA cuesta algo menos que el PETG en Dimension3D — la diferencia en una pieza de 100 g es de menos de 1€. Para la mayoría de pedidos, el diferencial de precio es menor que el diferencial de prestaciones, así que si tienes dudas, el PETG suele merecer el pequeño extra. Usa la calculadora para ver el precio exacto de tu pieza en cada material."
       },
       {
         heading: "Tabla comparativa PLA vs PETG",
