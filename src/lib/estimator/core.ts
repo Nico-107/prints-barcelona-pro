@@ -196,7 +196,7 @@ export interface OrderPrice {
 }
 const rnd = (x: number) => Math.floor(x + 0.5);
 
-/** Price an order (all parts) — no setup fee; EUR 10 minimum is folded into the part lines, long-job time tiers on the ORDER's print hours, one line per part. */
+/** Price an order (all parts) — no setup fee; EUR 10 minimum surfaces as a separate minAdjCents line, long-job time tiers on the ORDER's print hours, one line per part. */
 export function priceOrder(parts: OrderPartInput[], urgency: string): OrderPrice {
   const reasons: string[] = [];
   const up = EST.urgency[urgency] ?? 1;
@@ -220,18 +220,14 @@ export function priceOrder(parts: OrderPartInput[], urgency: string): OrderPrice
   const total = base * up;
   const baseCents = rnd(base * 100), totalCents = rnd(total * 100);
   const setupCents = rnd(EST.setupEur * 100);
+  const rawTotalCents = rnd(rawTotal * 100);
   const partCents = raw.map(r => rnd(r * 100));
-  const residual = baseCents - (setupCents + partCents.reduce((a, b) => a + b, 0));
-  const minAdjCents = 0;   // the EUR 10 minimum is folded INTO the part lines (never a separate line / fee)
+  // EUR 10 minimum surfaces as an explicit Stripe line; parts stay at their raw values.
+  const minAdjCents = rawTotal < EST.minimumEur ? baseCents - rawTotalCents : 0;
   if (partCents.length) {
     const bi = partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0);
-    if (rawTotal < EST.minimumEur && residual > 0) {
-      const sum = partCents.reduce((a, b) => a + b, 0);
-      let given = 0;
-      const share = partCents.map(c => { const g = sum > 0 ? Math.floor(residual * c / sum) : Math.floor(residual / partCents.length); given += g; return g; });
-      share.forEach((g, i) => { partCents[i] += g; });
-      partCents[bi] += residual - given;
-    } else partCents[bi] += residual;
+    // Absorb only the per-cent rounding residual into the largest part.
+    partCents[bi] += rawTotalCents - setupCents - partCents.reduce((a, b) => a + b, 0);
   }
   const expressCents = totalCents - baseCents;
   let instantEligible = totalCents <= EST.instantMaxCents;

@@ -67,7 +67,7 @@ describe("estimates and prices (golden values from the validated reference imple
   });
   it("tube, minimum price, express/urgent, long-job tiers, plates", () => {
     let r = single(prismMesh(15, 60, 96, 13), S('PLA')); near(r.e.grams, 11.247, 0.002); expect(r.p.totalCents).toBe(1000);
-    r = single(boxMesh(15, 15, 15), S('PLA')); expect(r.p.totalCents).toBe(1000); expect(r.p.minAdjCents).toBe(0);
+    r = single(boxMesh(15, 15, 15), S('PLA')); expect(r.p.totalCents).toBe(1000); expect(r.p.minAdjCents).toBeGreaterThan(0);
     const blk = boxMesh(100, 100, 20);
     r = single(blk, S('PLA'), 1, 'express'); expect(r.p.totalCents).toBe(2474); expect(r.p.expressCents).toBe(495);
     r = single(blk, S('PLA'), 1, 'urgent');  expect(r.p.totalCents).toBe(3167); expect(r.p.expressCents).toBe(1188);
@@ -106,7 +106,7 @@ describe("estimates and prices (golden values from the validated reference imple
       const o = priceOrder(parts, us[Math.floor(rnd() * 3)]);
       expect(o.setupCents + o.minAdjCents + o.expressCents + o.parts.reduce((s, x) => s + x.costCents, 0)).toBe(o.totalCents);
       expect(o.parts.every(x => x.costCents >= 0)).toBe(true); expect(o.totalCents).toBeGreaterThanOrEqual(1000);
-      expect(o.setupCents).toBe(0); expect(o.minAdjCents).toBe(0);
+      expect(o.setupCents).toBe(0); expect(o.minAdjCents).toBeGreaterThanOrEqual(0);
     }
   });
   it("calibration constants are the agreed business decisions", () => {
@@ -116,7 +116,7 @@ describe("estimates and prices (golden values from the validated reference imple
   });
 });
 
-describe("minimum distribution (T1-T4): EUR 10 minimum folded into part lines, never a separate line", () => {
+describe("minimum distribution (T1-T4): EUR 10 minimum surfaces as explicit minAdjCents line", () => {
   const mkPart = (grams: number, timeSec: number): import('./core').PartEstimate => ({
     orientation: 0, orientationName: 'z-up',
     plasticCm3: 0, supportCm3: 0, grams,
@@ -124,31 +124,33 @@ describe("minimum distribution (T1-T4): EUR 10 minimum folded into part lines, n
     sizeXMm: 20, sizeYMm: 20, heightMm: 20, fitsPlate: true,
   });
 
-  it("T1: single tiny part hits minimum — residual folded into part, no separate min line", () => {
+  it("T1: single tiny part hits minimum — part at raw value, explicit minAdjCents line", () => {
     const r = priceOrder([{ name: 'T1', quantity: 1, material: 'PLA', estimate: mkPart(10, 3600) }], 'standard');
     expect(r.totalCents).toBe(1000);
     expect(r.setupCents).toBe(0);
-    expect(r.minAdjCents).toBe(0);
-    expect(r.parts[0].costCents).toBe(1000);
+    expect(r.minAdjCents).toBe(450);       // 1000 - 550 raw cents
+    expect(r.parts[0].costCents).toBe(550); // raw value, not inflated
   });
 
-  it("T2: two parts below minimum — residual split proportionally into part lines", () => {
+  it("T2: two parts below minimum — parts at raw values, single minAdjCents line", () => {
     const r = priceOrder([
       { name: 'A', quantity: 1, material: 'PLA', estimate: mkPart(10, 3600) },
       { name: 'B', quantity: 1, material: 'PLA', estimate: mkPart(20, 1800) },
     ], 'standard');
     expect(r.totalCents).toBe(1000);
-    expect(r.minAdjCents).toBe(0);
+    expect(r.minAdjCents).toBe(93);         // 1000 - 907 raw cents (3.575*100 rounds down)
     expect(r.setupCents).toBe(0);
-    expect(r.parts[0].costCents + r.parts[1].costCents).toBe(1000);
+    expect(r.parts[0].costCents).toBe(549);
+    expect(r.parts[1].costCents).toBe(358);
+    expect(r.setupCents + r.minAdjCents + r.parts.reduce((s, x) => s + x.costCents, 0)).toBe(r.totalCents);
     near(r.orderHours, 1.5, 0.001);
   });
 
-  it("T3: single part at minimum + express — express is a separate cents delta on top", () => {
+  it("T3: single part at minimum + express — minAdjCents on base, express on top", () => {
     const r = priceOrder([{ name: 'T3', quantity: 1, material: 'PLA', estimate: mkPart(10, 3600) }], 'express');
     expect(r.totalCents).toBe(1250);
     expect(r.expressCents).toBe(250);
-    expect(r.minAdjCents).toBe(0);
+    expect(r.minAdjCents).toBe(450);
     expect(r.setupCents).toBe(0);
   });
 

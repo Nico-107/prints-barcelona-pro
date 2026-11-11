@@ -1293,7 +1293,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Precios por gramo según material",
-        body: "Estos son los precios efectivos por gramo en Dimension3D (servicio estándar, calidad estándar). La fórmula es: precio = máx(10€, 8€ preparación + gramos × tarifa/g):\n\n• **PLA** — 0,22 €/g. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — 0,24 €/g. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — 0,29 €/g. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — 0,29 €/g. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — 0,31 €/g. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA) cuesta desde el mínimo de 10€. Usa la calculadora de arriba para tu pieza concreta."
+        body: "El precio en Dimension3D se calcula como: plástico (gramos × 0,055 €/g × multiplicador de material) + tiempo de máquina (4,95 €/h las primeras 3 h, 3,85 €/h hasta 8 h, 2,75 €/h a partir de ahí). Sin setup fee ni cargo por preparación. El mínimo de 10€ se aplica una sola vez al pedido completo, no por pieza.\n\n• **PLA** — multiplicador ×1,0. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — multiplicador ×1,1. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — multiplicador ×1,3. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — multiplicador ×1,3. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — multiplicador ×1,4. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA con ~30 min de máquina) cuesta en torno a 3–4€ de material + 2–3€ de tiempo; como es menos de 10€, el pedido sale a 10€. Usa la calculadora de arriba para ver el precio exacto de tu pieza."
       },
       {
         heading: "Tabla de ejemplos reales de precio",
@@ -1334,15 +1334,15 @@ export const PAGES_ES: LandingContent[] = [
     datePublished: "2026-11-11",
     dateModified: "2026-11-11",
     comparisonTable: {
-      caption: "Precio por gramo según material (Dimension3D, servicio estándar, Nov 2026)",
-      headers: ["Material", "€/gramo", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
+      caption: "Plástico (€/g) según material — más tiempo de máquina (4,95 €/h). Mínimo 10€ por pedido. (Dimension3D, Nov 2026)",
+      headers: ["Material", "Plástico €/g", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
       rows: [
-        ["PLA",     "0,22 €/g",  "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
-        ["PETG",    "0,24 €/g",  "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
-        ["ABS",     "0,29 €/g",  "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
-        ["ASA",     "0,29 €/g",  "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
-        ["TPU",     "0,29 €/g",  "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
-        ["Nylon",   "0,31 €/g",  "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
+        ["PLA",     "0,055 €/g", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
+        ["PETG",    "0,061 €/g", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
+        ["ABS",     "0,072 €/g", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
+        ["ASA",     "0,072 €/g", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
+        ["TPU",     "0,072 €/g", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
+        ["Nylon",   "0,077 €/g", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
       ],
     },
   },
