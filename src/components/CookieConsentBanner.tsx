@@ -174,13 +174,16 @@ const CookieConsentBanner = () => {
   }
 
   if (effectivePlacement === "sheet") {
-    // Mobile: slim bottom sheet, capped at 35% of the viewport, safe-area aware.
+    // Mobile: slim bottom sheet above sticky bar when present, safe-area aware.
+    const stickyOffset = typeof document !== "undefined" && document.body.hasAttribute("data-sticky-bar")
+      ? "calc(56px + env(safe-area-inset-bottom))"
+      : "0px";
     return (
       <div
         role="dialog"
         aria-label={t("cookie.banner.accept")}
-        className="fixed bottom-0 left-0 right-0 z-[60] border-t border-border bg-background shadow-lg max-h-[35svh] overflow-y-auto"
-        style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
+        className="fixed left-0 right-0 z-[60] border-t border-border bg-background shadow-lg max-h-[35svh] overflow-y-auto"
+        style={{ bottom: stickyOffset, paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
         onKeyDown={e => { if (e.key === "Escape") e.stopPropagation(); }}
       >
         <div className="px-4 pt-2 pb-1">

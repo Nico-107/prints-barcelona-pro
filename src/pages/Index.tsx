@@ -19,6 +19,7 @@ import FAQ from "@/components/FAQ";
 import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import MobileStickyBar from "@/components/MobileStickyBar";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
@@ -862,6 +863,7 @@ const Index = () => {
 
       <Footer />
       <WhatsAppFloat />
+      <MobileStickyBar heroCTARef={heroRef} onUploadClick={handleScrollToCalc} />
     </div>
   );
 };

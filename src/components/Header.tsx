@@ -16,11 +16,13 @@ import LanguageSelector, { LANG_HUB } from "@/components/LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
+import { cn } from "@/lib/utils";
 
 const XP_LANGS = ["es", "en", "ca"];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,9 +32,17 @@ const Header = () => {
     : undefined;
   const desktopSlotRef = useRef<HTMLButtonElement>(null);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // Text depends only on language — same on server and first client render.
   const xpHeaderText = (key: string): string =>
     XP_LANGS.includes(language) ? t(key) : t("nav.requestQuote");
+
+  const isActivePath = (href: string) => location.pathname === href || location.pathname === href + "/";
 
   useXpExposure(desktopSlotRef, "header_btn_r2", () => ({ placement: "desktop" }));
 
@@ -85,309 +95,371 @@ const Header = () => {
   );
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50"
-      style={{ paddingTop: "env(safe-area-inset-top)" }}
-    >
-      <div className="container px-4 sm:px-6">
-        <div className="flex items-center h-[var(--header-h)]">
+    <>
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-40 bg-white border-b border-[#E3E8F0] transition-shadow duration-200",
+          scrolled && "shadow-[0_1px_8px_rgba(15,23,42,0.08)]"
+        )}
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
+        <div className="container px-4 sm:px-6">
+          <div className="flex items-center h-[var(--header-h)]">
 
-          {/* Logo — goes to language hub, not always / */}
-          <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
-              <g transform="translate(6,12) scale(0.88)" fill="none">
-                <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
-                  <line x1="66" y1="14" x2="60" y2="42"/>
-                  <line x1="54" y1="108" x2="60" y2="42"/>
-                  <line x1="60" y1="42" x2="22" y2="62"/>
-                  <line x1="60" y1="42" x2="98" y2="62"/>
+            {/* Logo */}
+            <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
+                <g transform="translate(6,12) scale(0.88)" fill="none">
+                  <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
+                    <line x1="66" y1="14" x2="60" y2="42"/>
+                    <line x1="54" y1="108" x2="60" y2="42"/>
+                    <line x1="60" y1="42" x2="22" y2="62"/>
+                    <line x1="60" y1="42" x2="98" y2="62"/>
+                  </g>
+                  <g stroke="#0f172a" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M66 14 L22 62"/><path d="M66 14 L98 62"/><path d="M66 14 L60 82"/>
+                    <path d="M54 108 L22 62"/><path d="M54 108 L98 62"/><path d="M54 108 L60 82"/>
+                    <path d="M22 62 L60 82 L98 62"/>
+                  </g>
+                  <circle cx="60" cy="42" r="4.5" fill="#0f172a" opacity="0.4"/>
+                  <circle cx="22" cy="62" r="7" fill="#0f172a"/>
+                  <circle cx="98" cy="62" r="7" fill="#0f172a"/>
+                  <circle cx="60" cy="82" r="7" fill="#0f172a"/>
+                  <circle cx="54" cy="108" r="7" fill="#0f172a"/>
+                  <circle cx="66" cy="14" r="9" fill="#F5A524"/>
                 </g>
-                <g stroke="#0f172a" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M66 14 L22 62"/><path d="M66 14 L98 62"/><path d="M66 14 L60 82"/>
-                  <path d="M54 108 L22 62"/><path d="M54 108 L98 62"/><path d="M54 108 L60 82"/>
-                  <path d="M22 62 L60 82 L98 62"/>
-                </g>
-                <circle cx="60" cy="42" r="4.5" fill="#0f172a" opacity="0.4"/>
-                <circle cx="22" cy="62" r="7" fill="#0f172a"/>
-                <circle cx="98" cy="62" r="7" fill="#0f172a"/>
-                <circle cx="60" cy="82" r="7" fill="#0f172a"/>
-                <circle cx="54" cy="108" r="7" fill="#0f172a"/>
-                <circle cx="66" cy="14" r="9" fill="#f59e0b"/>
-              </g>
-            </svg>
-            <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm text-foreground" style={{ fontFamily: "'Space Grotesk', system-ui, -apple-system, sans-serif" }}>
-              Dimension<span className="text-amber-500">3D</span>
-            </span>
-          </Link>
-
-          {/* Desktop primary nav — ml-3 gives gap-3 from logo, matching inter-item spacing */}
-          <nav className="hidden xl:flex items-center gap-3 ml-3 mr-auto">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-              >
-                {item.label}
-              </button>
-            ))}
-            {/* For Business — top-level segment entry with subtle accent */}
-            {(() => {
-              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
-              return (
-                <Link
-                  to={businessHref}
-                  onClick={() => capture("nav_click", { menu: "main", label_key: "business", href: businessHref })}
-                  className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors whitespace-nowrap border border-accent/30 hover:border-accent/60 rounded-full px-3 py-1"
-                >
-                  {t("nav.forBusiness")}
-                </Link>
-              );
-            })()}
-            <Link
-              to="/catalogo"
-              onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-            >
-              {t("nav.catalog")}
-            </Link>
-            <Link
-              to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
-              onClick={() => capture("nav_click", { menu: "main", label_key: "custom-design", href: isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part" })}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
-            >
-              {t("nav.customDesign")}
-            </Link>
-
-            {/* Services menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
-                {t("nav.services")}
-                <ChevronDown className="w-3.5 h-3.5" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56 bg-background z-50">
-                {servicesGroup.items.map((item) => {
-                  const href = slugForLang(item, language as any);
-                  return (
-                    <DropdownMenuItem key={item.slugEn} asChild>
-                      <Link
-                        to={href}
-                        onClick={() => capture("nav_click", { menu: "services", label_key: item.slugEn, href })}
-                        className="cursor-pointer"
-                      >
-                        {itemLabel(item)}
-                      </Link>
-                    </DropdownMenuItem>
-                  );
-                })}
-                <DropdownMenuSeparator />
-                <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
-                  {t("nav.tools")}
-                </DropdownMenuLabel>
-                <DropdownMenuItem asChild>
-                  <Link
-                    to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-                    onClick={() => capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
-                    className="cursor-pointer"
-                  >
-                    {t("nav.fileChecker")}
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Resources menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors outline-none whitespace-nowrap">
-                {t("nav.resources")}
-                <ChevronDown className="w-3.5 h-3.5" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-64 bg-background z-50">
-                {resourcesGroups.map((group, gi) => (
-                  <div key={group.labelEn}>
-                    {gi > 0 && <DropdownMenuSeparator />}
-                    <DropdownMenuLabel className="text-xs uppercase tracking-wide text-muted-foreground">
-                      {groupLabel(group)}
-                    </DropdownMenuLabel>
-                    {group.items.map((item) => {
-                      const href = slugForLang(item, language as any);
-                      return (
-                        <DropdownMenuItem key={item.slugEn} asChild>
-                          <Link
-                            to={href}
-                            onClick={() => capture("nav_click", { menu: "resources", label_key: item.slugEn, href })}
-                            className="cursor-pointer"
-                          >
-                            {itemLabel(item)}
-                          </Link>
-                        </DropdownMenuItem>
-                      );
-                    })}
-                  </div>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </nav>
-
-          {/* Desktop utility nav */}
-          <div className="hidden xl:flex items-center gap-3">
-            <div className="hidden 2xl:flex items-center gap-1.5 text-sm">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
-                ))}
-              </div>
-              <span className="text-muted-foreground font-medium whitespace-nowrap">
-                {t("nav.headerRating")
-                  .replace("{rating}", formatRating(language))
-                  .replace("{count}", String(GOOGLE_RATING.count))}
+              </svg>
+              <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm text-[#0F172A]" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif" }}>
+                Dimension<span style={{ color: '#F5A524' }}>3D</span>
               </span>
-            </div>
+            </Link>
 
-            <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/track" className="gap-1.5 whitespace-nowrap">
-                <PackageSearch className="w-4 h-4" />
-                {t("nav.trackOrder")}
-              </Link>
-            </Button>
-            <Button
-              ref={desktopSlotRef}
-              variant="cta"
-              size="sm"
-              onClick={() => { capture("quote_cta_click", { location: "header" }); scrollToSection("calculator"); }}
-              className="whitespace-nowrap"
-            >
-              <span data-xp-slot="header_btn_r2" data-xp-v="A" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
-              <span data-xp-slot="header_btn_r2" data-xp-v="B" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
-            </Button>
-          </div>
-
-          {/* Mobile controls */}
-          <div className="xl:hidden ml-auto flex items-center gap-3">
-            <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
-            <button
-              className="p-2 text-foreground inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-
-        {isMenuOpen && (
-          <nav className="xl:hidden py-4 border-t border-border/50 max-h-[calc(100svh-var(--header-h))] overflow-y-auto">
-            <div className="flex flex-col gap-2">
-              {/* For Business — top of mobile menu */}
+            {/* Desktop primary nav */}
+            <nav className="hidden xl:flex items-center gap-3 ml-3 mr-auto">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className="text-sm font-medium text-[#5B6577] hover:text-[#0F172A] transition-colors whitespace-nowrap"
+                >
+                  {item.label}
+                </button>
+              ))}
               {(() => {
                 const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
+                const active = isActivePath(businessHref);
                 return (
                   <Link
                     to={businessHref}
-                    onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "business", href: businessHref }); }}
-                    className="py-2.5 px-3 rounded-lg bg-accent/10 text-accent font-semibold text-sm"
+                    onClick={() => capture("nav_click", { menu: "main", label_key: "business", href: businessHref })}
+                    className={cn(
+                      "text-sm font-semibold transition-colors whitespace-nowrap border rounded-full px-3 py-1",
+                      active
+                        ? "text-[#2F5BEA] border-[#2F5BEA]/60 bg-[#2F5BEA]/5"
+                        : "text-[#2F5BEA] border-[#2F5BEA]/30 hover:border-[#2F5BEA]/60"
+                    )}
                   >
                     {t("nav.forBusiness")}
                   </Link>
                 );
               })()}
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="text-left py-2 text-foreground font-medium"
-                >
-                  {item.label}
-                </button>
-              ))}
-              <Link
-                to="/catalogo"
-                onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" }); }}
-                className="text-left py-2 text-foreground font-medium"
-              >
-                {t("nav.catalog")}
-              </Link>
-              <Link
-                to={isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part"}
-                onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "custom-design", href: isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part" }); }}
-                className="text-left py-2 text-foreground font-medium"
-              >
-                {t("nav.customDesign")}
-              </Link>
-              <Link
-                to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-                onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" }); }}
-                className="text-left py-2 text-foreground font-medium"
-              >
-                {t("nav.fileChecker")}
-              </Link>
+              {(() => {
+                const active = isActivePath("/catalogo");
+                return (
+                  <Link
+                    to="/catalogo"
+                    onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
+                    className={cn(
+                      "text-sm font-medium transition-colors whitespace-nowrap",
+                      active ? "text-[#0F172A] font-semibold" : "text-[#5B6577] hover:text-[#0F172A]"
+                    )}
+                  >
+                    {t("nav.catalog")}
+                  </Link>
+                );
+              })()}
+              {(() => {
+                const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+                const active = isActivePath(href);
+                return (
+                  <Link
+                    to={href}
+                    onClick={() => capture("nav_click", { menu: "main", label_key: "custom-design", href })}
+                    className={cn(
+                      "text-sm font-medium transition-colors whitespace-nowrap",
+                      active ? "text-[#0F172A] font-semibold" : "text-[#5B6577] hover:text-[#0F172A]"
+                    )}
+                  >
+                    {t("nav.customDesign")}
+                  </Link>
+                );
+              })()}
 
-              {/* Services section */}
-              <div className="pt-2">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
+              {/* Services dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-[#5B6577] hover:text-[#0F172A] transition-colors outline-none whitespace-nowrap">
                   {t("nav.services")}
-                </p>
-                {servicesGroup.items.map((item) => {
-                  const href = slugForLang(item, language as any);
-                  return (
-                    <Link
-                      key={item.slugEn}
-                      to={href}
-                      onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: item.slugEn, href }); }}
-                      className="block py-1.5 text-sm text-foreground"
-                    >
-                      {itemLabel(item)}
-                    </Link>
-                  );
-                })}
-              </div>
-
-              {/* Recursos section */}
-              <div className="pt-2">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground py-1">
-                  {t("nav.resources")}
-                </p>
-                {resourcesGroups.map((group) => (
-                  <div key={group.labelEn} className="mb-2">
-                    <p className="text-xs text-muted-foreground/60 py-1 pl-2">
-                      {groupLabel(group)}
-                    </p>
-                    {group.items.map((item) => {
-                      const href = slugForLang(item, language as any);
-                      return (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-56 bg-white border-[#E3E8F0] z-50">
+                  {servicesGroup.items.map((item) => {
+                    const href = slugForLang(item, language as any);
+                    return (
+                      <DropdownMenuItem key={item.slugEn} asChild>
                         <Link
-                          key={item.slugEn}
                           to={href}
-                          onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "resources", label_key: item.slugEn, href }); }}
-                          className="block py-1 pl-2 text-sm text-foreground"
+                          onClick={() => capture("nav_click", { menu: "services", label_key: item.slugEn, href })}
+                          className="cursor-pointer"
                         >
                           {itemLabel(item)}
                         </Link>
-                      );
-                    })}
-                  </div>
-                ))}
+                      </DropdownMenuItem>
+                    );
+                  })}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577]">
+                    {t("nav.tools")}
+                  </DropdownMenuLabel>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
+                      onClick={() => capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
+                      className="cursor-pointer"
+                    >
+                      {t("nav.fileChecker")}
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Resources dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-[#5B6577] hover:text-[#0F172A] transition-colors outline-none whitespace-nowrap">
+                  {t("nav.resources")}
+                  <ChevronDown className="w-3.5 h-3.5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-64 bg-white border-[#E3E8F0] z-50">
+                  {resourcesGroups.map((group, gi) => (
+                    <div key={group.labelEn}>
+                      {gi > 0 && <DropdownMenuSeparator />}
+                      <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577]">
+                        {groupLabel(group)}
+                      </DropdownMenuLabel>
+                      {group.items.map((item) => {
+                        const href = slugForLang(item, language as any);
+                        return (
+                          <DropdownMenuItem key={item.slugEn} asChild>
+                            <Link
+                              to={href}
+                              onClick={() => capture("nav_click", { menu: "resources", label_key: item.slugEn, href })}
+                              className="cursor-pointer"
+                            >
+                              {itemLabel(item)}
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </nav>
+
+            {/* Desktop utility nav */}
+            <div className="hidden xl:flex items-center gap-3">
+              <div className="hidden 2xl:flex items-center gap-1.5 text-sm">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
+                  ))}
+                </div>
+                <span className="text-[#5B6577] font-medium whitespace-nowrap">
+                  {t("nav.headerRating")
+                    .replace("{rating}", formatRating(language))
+                    .replace("{count}", String(GOOGLE_RATING.count))}
+                </span>
               </div>
 
-              <Button asChild variant="outline" className="mt-3 w-full">
-                <Link to="/track" onClick={() => setIsMenuOpen(false)}>
-                  <PackageSearch className="w-4 h-4" /> {t("nav.trackOrder")}
+              <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
+              <Button asChild variant="ghost" size="sm" className="text-[#5B6577] hover:text-[#0F172A]">
+                <Link to="/track" className="gap-1.5 whitespace-nowrap">
+                  <PackageSearch className="w-4 h-4" />
+                  {t("nav.trackOrder")}
                 </Link>
               </Button>
               <Button
+                ref={desktopSlotRef}
                 variant="cta"
-                className="w-full"
-                onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); scrollToSection("calculator"); }}
+                size="sm"
+                onClick={() => { capture("quote_cta_click", { location: "header" }); scrollToSection("calculator"); }}
+                className="whitespace-nowrap"
               >
-                <span data-xp-slot="header_btn_r2" data-xp-v="A">{xpHeaderText("xp.header.v3")}</span>
-                <span data-xp-slot="header_btn_r2" data-xp-v="B">{xpHeaderText("xp.header.v4")}</span>
+                <span data-xp-slot="header_btn_r2" data-xp-v="A" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
+                <span data-xp-slot="header_btn_r2" data-xp-v="B" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
               </Button>
             </div>
-          </nav>
-        )}
-      </div>
-    </header>
+
+            {/* Mobile controls */}
+            <div className="xl:hidden ml-auto flex items-center gap-2">
+              <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
+              <button
+                className="p-2 text-[#0F172A] inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMenuOpen}
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile full-screen sheet */}
+      {isMenuOpen && (
+        <div
+          className="xl:hidden fixed inset-0 z-30 bg-white overflow-y-auto"
+          style={{ paddingTop: "calc(var(--header-h) + env(safe-area-inset-top))", paddingBottom: "env(safe-area-inset-bottom)" }}
+        >
+          <div className="px-4 pb-8 pt-6 flex flex-col gap-1">
+            {/* Primary CTA */}
+            <Button
+              variant="cta"
+              className="w-full mb-4 h-12 text-base"
+              onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); scrollToSection("calculator"); }}
+            >
+              <span data-xp-slot="header_btn_r2" data-xp-v="A">{xpHeaderText("xp.header.v3")}</span>
+              <span data-xp-slot="header_btn_r2" data-xp-v="B">{xpHeaderText("xp.header.v4")}</span>
+            </Button>
+
+            {/* For Business */}
+            {(() => {
+              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
+              const active = isActivePath(businessHref);
+              return (
+                <Link
+                  to={businessHref}
+                  onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "business", href: businessHref }); }}
+                  className={cn(
+                    "flex items-center min-h-[52px] px-4 rounded-xl text-base font-semibold transition-colors",
+                    active ? "bg-[#2F5BEA]/10 text-[#2F5BEA]" : "text-[#2F5BEA] hover:bg-[#2F5BEA]/5"
+                  )}
+                >
+                  {t("nav.forBusiness")}
+                </Link>
+              );
+            })()}
+
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="flex items-center min-h-[52px] px-4 rounded-xl text-base font-medium text-[#0F172A] hover:bg-[#F6F8FC] text-left transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+
+            <Link
+              to="/catalogo"
+              onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" }); }}
+              className={cn(
+                "flex items-center min-h-[52px] px-4 rounded-xl text-base font-medium transition-colors",
+                isActivePath("/catalogo") ? "bg-[#F6F8FC] text-[#0F172A] font-semibold" : "text-[#0F172A] hover:bg-[#F6F8FC]"
+              )}
+            >
+              {t("nav.catalog")}
+            </Link>
+
+            {(() => {
+              const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+              return (
+                <Link
+                  to={href}
+                  onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "custom-design", href }); }}
+                  className={cn(
+                    "flex items-center min-h-[52px] px-4 rounded-xl text-base font-medium transition-colors",
+                    isActivePath(href) ? "bg-[#F6F8FC] text-[#0F172A] font-semibold" : "text-[#0F172A] hover:bg-[#F6F8FC]"
+                  )}
+                >
+                  {t("nav.customDesign")}
+                </Link>
+              );
+            })()}
+
+            <Link
+              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
+              onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
+              }
+              className="flex items-center min-h-[52px] px-4 rounded-xl text-base font-medium text-[#0F172A] hover:bg-[#F6F8FC] transition-colors"
+            >
+              {t("nav.fileChecker")}
+            </Link>
+
+            {/* Services section */}
+            <div className="pt-4 border-t border-[#E3E8F0] mt-2">
+              <p className="text-xs font-mono uppercase tracking-widest text-[#5B6577] px-4 pb-2">
+                {t("nav.services")}
+              </p>
+              {servicesGroup.items.map((item) => {
+                const href = slugForLang(item, language as any);
+                return (
+                  <Link
+                    key={item.slugEn}
+                    to={href}
+                    onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: item.slugEn, href }); }}
+                    className={cn(
+                      "flex items-center min-h-[48px] px-4 rounded-xl text-sm font-medium transition-colors",
+                      isActivePath(href) ? "bg-[#F6F8FC] text-[#0F172A] font-semibold" : "text-[#0F172A] hover:bg-[#F6F8FC]"
+                    )}
+                  >
+                    {itemLabel(item)}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Resources section */}
+            <div className="pt-4 border-t border-[#E3E8F0] mt-2">
+              <p className="text-xs font-mono uppercase tracking-widest text-[#5B6577] px-4 pb-2">
+                {t("nav.resources")}
+              </p>
+              {resourcesGroups.map((group) => (
+                <div key={group.labelEn} className="mb-3">
+                  <p className="text-xs text-[#5B6577] px-4 pb-1">{groupLabel(group)}</p>
+                  {group.items.map((item) => {
+                    const href = slugForLang(item, language as any);
+                    return (
+                      <Link
+                        key={item.slugEn}
+                        to={href}
+                        onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "resources", label_key: item.slugEn, href }); }}
+                        className={cn(
+                          "flex items-center min-h-[44px] px-4 rounded-xl text-sm font-medium transition-colors",
+                          isActivePath(href) ? "bg-[#F6F8FC] text-[#0F172A] font-semibold" : "text-[#0F172A] hover:bg-[#F6F8FC]"
+                        )}
+                      >
+                        {itemLabel(item)}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {/* Track order */}
+            <div className="pt-4 border-t border-[#E3E8F0] mt-2">
+              <Button asChild variant="outline" className="w-full h-12 border-[#E3E8F0] text-base">
+                <Link to="/track" onClick={() => setIsMenuOpen(false)}>
+                  <PackageSearch className="w-5 h-5 mr-2" />
+                  {t("nav.trackOrder")}
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
