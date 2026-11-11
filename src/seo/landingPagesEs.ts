@@ -1640,4 +1640,409 @@ export const PAGES_ES: LandingContent[] = [
       { lang: "en", slug: "/about" },
     ],
   },
+
+  // ── BLOG POSTS (Nov 2026) ───────────────────────────────────────────────
+
+  {
+    slug: "/blog/pla-vs-petg",
+    topic: "blog-pla-vs-petg",
+    altSlug: "/blog/pla-vs-petg",
+    lang: "es",
+    category: "guide",
+    metaTitle: "PLA vs PETG: ¿Qué material elegir para tu impresión 3D?",
+    metaDescription: "Comparativa completa PLA vs PETG: resistencia, temperatura, precio, exterior, imprimibilidad. Cuándo usar cada uno según el uso real de la pieza.",
+    h1: "PLA vs PETG: diferencias clave y cuándo usar cada material",
+    intro: "PLA y PETG son los dos materiales FDM más usados en Dimension3D. El PLA es más económico, más fácil de imprimir y suficiente para el 60% de los pedidos. El PETG aguanta más temperatura, humedad y esfuerzo mecánico, y es nuestra recomendación para piezas funcionales. Esta guía explica cuándo usar cada uno con ejemplos reales.",
+    sections: [
+      {
+        heading: "¿Qué es el PLA y para qué sirve?",
+        body: "El PLA (ácido poliláctico) es el plástico FDM más común. Deriva del almidón de maíz, es biodegradable en compostaje industrial y se imprime con facilidad a temperaturas bajas (190–220°C). Captura bien el detalle, está disponible en decenas de colores y es el material más económico de nuestra gama.\n\nLimitaciones del PLA: se deforma a partir de ~55–60°C. No es adecuado para el interior de un coche, para exteriores en verano o para piezas sometidas a carga continua. Tampoco tolera bien la humedad prolongada."
+      },
+      {
+        heading: "¿Qué es el PETG y para qué sirve?",
+        body: "El PETG (polietileno tereftalato glicol) combina propiedades del PET (la resistencia y la claridad) con una mayor facilidad de impresión. Aguanta hasta ~75–80°C, tolera la humedad y el exterior, y tiene mejor resistencia al impacto que el PLA.\n\nEl PETG es nuestra recomendación por defecto para piezas funcionales: soportes, piezas de coche, recambios para electrodomésticos, piezas de exterior, contenedores en contacto con líquidos. Su único inconveniente frente al PLA es que cuesta algo más y requiere un poco más de cuidado en la impresión (más tendencia a las hebras de filamento)."
+      },
+      {
+        heading: "¿Cuál es más resistente, PLA o PETG?",
+        body: "Depende del tipo de resistencia:\n\n• **Rigidez** — el PLA es más rígido (módulo de Young más alto). Las piezas en PLA ceden menos ante la misma carga.\n• **Resistencia al impacto** — el PETG absorbe mejor los golpes y es menos quebradizo. El PLA tiende a romperse limpiamente bajo impacto.\n• **Temperatura** — el PETG gana claramente. El PLA se deforma a 55°C; el PETG aguanta hasta 75–80°C.\n• **Exterior / UV** — el PETG tolera mejor la lluvia y la humedad. Para UV prolongado, ABS o ASA son superiores a ambos.\n• **Tensión a rotura** — similares, el PETG tiene ligera ventaja.\n\nResumen: para piezas decorativas y prototipos de forma, el PLA es suficiente. Para piezas que aguantan carga, calor o exterior, el PETG es más seguro."
+      },
+      {
+        heading: "¿Cuál es más económico?",
+        body: "El PLA cuesta aproximadamente un 10% menos que el PETG en Dimension3D (precio efectivo ~0,055€/g vs ~0,061€/g). Para una pieza de 100 g, la diferencia es de menos de 1€. Para la mayoría de pedidos, el diferencial de precio es menor que el diferencial de prestaciones, así que si tienes dudas, el PETG suele merecer el pequeño extra."
+      },
+      {
+        heading: "Tabla comparativa PLA vs PETG",
+        body: "Resumen de las diferencias clave para elegir el material según el uso:"
+      },
+      {
+        heading: "¿Cuándo NO usar PLA?",
+        body: "Evita el PLA en estas situaciones:\n\n• Interior de un coche (el sol puede calentarlo a 70–80°C, demasiado para PLA).\n• Piezas en exteriores en verano (mismo problema de temperatura).\n• Piezas que soportan peso o tensión continua durante semanas (riesgo de creep).\n• Piezas en contacto con agua caliente (lavaplatos, lavavajillas, ducha).\n• Recambios de electrodomésticos con calor (carcasa de secadora, piezas de horno)."
+      },
+      {
+        heading: "¿Cuándo NO usar PETG?",
+        body: "El PETG tiene buenas prestaciones en la mayoría de usos, pero hay excepciones:\n\n• Piezas con exposición prolongada a UV directo — el ASA aguanta mejor.\n• Piezas que necesitan alta rigidez sin flexión — el PLA o el ABS pueden ser mejores.\n• Acabado superficial muy fino — el PLA imprime con mejor calidad superficial en impresoras bien calibradas."
+      },
+    ],
+    faqs: [
+      { q: "¿Es el PETG más resistente que el PLA?", a: "Depende del tipo de resistencia. El PETG aguanta mejor el impacto, la temperatura (75°C vs 55°C) y la humedad. El PLA es más rígido. Para piezas funcionales, el PETG suele ser la mejor opción." },
+      { q: "¿Puedo imprimir PETG en cualquier impresora FDM?", a: "El PETG necesita temperaturas algo más altas que el PLA (230–245°C) y se beneficia de una cama caliente (70–80°C). La mayoría de impresoras modernas lo admiten sin problema." },
+      { q: "¿Cuánto más cuesta el PETG que el PLA?", a: "En Dimension3D, el PETG tiene un recargo de aproximadamente el 10% sobre el PLA. Para una pieza de 100 g, la diferencia es menor de 1€." },
+      { q: "¿PLA o PETG para piezas de exterior?", a: "PETG para exteriores con lluvia y humedad. Para exposición directa al sol durante años, el ASA es superior a ambos." },
+      { q: "¿Qué material es mejor para recambios de electrodomésticos?", a: "Generalmente PETG: aguanta el calor moderado (lavaplatos, lavadoras), es resistente al impacto y no se deforma con la humedad. Para recambios de secadoras u hornos, podría ser necesario ABS/ASA." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Comparativa Completa de Materiales", slug: "/comparativa-materiales-impresion-3d" },
+      { label: "Precio Impresión 3D — Calculadora", slug: "/precio-impresion-3d" },
+      { label: "Recambios Impresión 3D Barcelona", slug: "/recambios-impresion-3d-barcelona" },
+      { label: "Impresión 3D Online", slug: "/impresion-3d-online" },
+      { label: "Guía de Materiales de Impresión 3D", slug: "/guia-materiales-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "PLA vs PETG — Guía de Materiales",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+    comparisonTable: {
+      caption: "PLA vs PETG — comparativa de propiedades clave para impresión 3D FDM",
+      headers: ["Propiedad", "PLA", "PETG"],
+      rows: [
+        ["Temperatura máx.", "~55°C", "~75°C"],
+        ["Resistencia al impacto", "Baja (quebradizo)", "Media-alta"],
+        ["Exterior / humedad", "No recomendado", "Sí"],
+        ["UV directo", "No", "Aceptable (no ideal)"],
+        ["Flexibilidad", "Rígido", "Semirígido"],
+        ["Precio relativo", "€", "€ (+10%)"],
+        ["Facilidad de impresión", "Muy alta", "Alta"],
+        ["Detalle superficial", "Excelente", "Muy bueno"],
+        ["Mejor para", "Prototipos, decoración", "Piezas funcionales, recambios"],
+      ],
+    },
+  },
+
+  {
+    slug: "/blog/como-imprimir-en-3d-sin-impresora",
+    topic: "blog-imprimir-sin-impresora",
+    altSlug: "/blog/como-imprimir-en-3d-sin-impresora",
+    lang: "es",
+    category: "guide",
+    metaTitle: "Cómo Imprimir en 3D sin Impresora — Guía para Principiantes",
+    metaDescription: "Tienes un modelo 3D (STL, OBJ, 3MF) y quieres imprimirlo pero no tienes impresora. Opciones: servicio online, bibliotecas, makers locales. Guía paso a paso.",
+    h1: "Cómo imprimir en 3D sin tener una impresora: opciones y precios",
+    intro: "Tienes un archivo STL descargado de Makerworld o diseñado en Tinkercad, y quieres verlo impreso. No necesitas comprarte una impresora. Esta guía explica las tres opciones principales para imprimir en 3D sin impresora: servicios online como Dimension3D, bibliotecas y makerspaces, y plataformas de makers locales.",
+    sections: [
+      {
+        heading: "Opción 1: servicio de impresión 3D online",
+        body: "La forma más práctica para la mayoría de personas. Subes el archivo a un servicio como Dimension3D, recibes el precio, pagas y te llega la pieza a casa.\n\nVentajas:\n• Sin desplazamientos, sin esperas, sin aprendizaje técnico.\n• Materiales de calidad profesional (PETG, Nylon, TPU) que las impresoras de entrada no siempre pueden usar bien.\n• Alguien revisa tu archivo antes de imprimir — si hay problemas, te avisan.\n• Envío a toda España en 2–5 días por 5,90€.\n\nDesventajas:\n• No es gratis. El mínimo es 10€ por pieza + 5,90€ de envío.\n• Si necesitas la pieza en 30 minutos, un servicio online no es la opción."
+      },
+      {
+        heading: "¿Cómo enviar tu archivo a un servicio de impresión?",
+        body: "El proceso en Dimension3D es simple:\n\n1. **Prepara tu archivo** — STL, 3MF, OBJ o STEP. Los archivos descargados de Makerworld, Printables, Cults3D o Thingiverse ya están en el formato correcto.\n2. **Sube el archivo** — usa la calculadora en la web o mándalo por WhatsApp.\n3. **Elige material y color** — PLA para decoración, PETG para piezas funcionales. Hay decenas de colores.\n4. **Recibe el presupuesto** — en menos de 1 hora en horario laboral.\n5. **Confirma y paga** — el pedido se pone en cola de impresión.\n6. **Recibe la pieza** — en casa o recógela en Barcelona."
+      },
+      {
+        heading: "Opción 2: bibliotecas y makerspaces",
+        body: "Muchas bibliotecas públicas y centros cívicos en Barcelona y otras ciudades tienen impresoras 3D disponibles para uso gratuito o a bajo coste. Los makerspaces (espacios de makers compartidos) también ofrecen acceso.\n\nVentajas: bajo coste o gratuito. Contacto directo con expertos.\nDesventajas: hay que aprender a usar el software (slicer), los tiempos de espera pueden ser largos, y la calidad del resultado depende del estado de la máquina y tu experiencia.\n\nEn Barcelona: Fab Lab Barcelona, Espai Jove La Fontana, y algunos centros cívicos del Ayuntamiento tienen acceso a impresoras para ciudadanos."
+      },
+      {
+        heading: "Opción 3: encargarlo a un maker local",
+        body: "Plataformas como 3DHubs (ahora Protolabs) o Craftcloud conectan usuarios con makers y estudios locales. También existen comunidades en Reddit (r/3Dprinting), Facebook y Discord donde los makers imprimen piezas para otros a cambio de una compensación.\n\nVentaja: puede ser más barato para tiradas pequeñas con makers aficionados.\nDesventaja: la calidad, los plazos y la comunicación son variables. No hay garantía de servicio profesional ni atención al cliente formal."
+      },
+      {
+        heading: "¿Qué pasa si no tengo el archivo?",
+        body: "Muchos clientes de Dimension3D no tienen archivo 3D. No es necesario tenerlo. Tienes tres opciones:\n\n• **Enviar una foto** — de la pieza que quieres imprimir o copiar, con una referencia de tamaño (regla, moneda). Muchas veces podemos modelar la pieza a partir de fotos.\n• **Dar medidas** — si conoces las dimensiones exactas, podemos modelar la pieza desde cero.\n• **Describir lo que necesitas** — para piezas sencillas (soportes, adaptadores, organizadores), la descripción es suficiente para hacer un presupuesto.\n\nEl diseño tiene un coste adicional (desde 20€) que se cotiza antes de empezar."
+      },
+    ],
+    faqs: [
+      { q: "¿Puedo imprimir un archivo STL descargado de internet?", a: "Sí. Si has descargado un modelo de Makerworld, Printables, Cults3D u otra plataforma, puedes enviarlo a Dimension3D y lo imprimimos. Verificamos que el archivo sea correcto antes de imprimir." },
+      { q: "¿Cuánto cuesta imprimir un modelo descargado?", a: "Desde 10€ (mínimo) + 5,90€ de envío. El precio depende del tamaño y el material. Sube el archivo a nuestra calculadora para ver el precio exacto." },
+      { q: "¿Puedo imprimir en 3D en la biblioteca?", a: "En Barcelona, algunas bibliotecas y centros cívicos tienen impresoras 3D disponibles. El acceso suele ser gratuito o muy económico, pero hay que aprender el proceso y los tiempos de espera pueden ser largos." },
+      { q: "¿Es legal imprimir modelos descargados de internet?", a: "Depende de la licencia del modelo. Los modelos en Makerworld, Printables y la mayoría de plataformas tienen licencias Creative Commons para uso personal no comercial. Para uso comercial, revisa siempre la licencia del modelo específico." },
+      { q: "¿Qué formato de archivo necesito para imprimir en 3D?", a: "STL es el formato más universal. También aceptamos 3MF, OBJ y STEP. Los archivos exportados desde Tinkercad, Fusion 360, FreeCAD o cualquier software CAD estándar funcionan directamente." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "curved-parts.jpg", "red-adapter.jpg", "intake-manifold.jpg", "blue-molds.jpg", "black-intake.jpg"),
+    related: [
+      { label: "Impresión 3D Online — Envío España", slug: "/impresion-3d-online" },
+      { label: "Precio Impresión 3D", slug: "/precio-impresion-3d" },
+      { label: "Impresión 3D Cerca de Mí", slug: "/impresion-3d-cerca-de-mi" },
+      { label: "Modelos de Makerworld y Printables", slug: "/blog/imprimir-modelos-makerworld-printables-cults3d" },
+      { label: "Cómo Preparar tu Archivo", slug: "/como-preparar-archivo-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Impresión 3D sin Impresora — Guía",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
+
+  {
+    slug: "/blog/imprimir-modelos-makerworld-printables-cults3d",
+    topic: "blog-modelos-descargados",
+    altSlug: "/blog/imprimir-modelos-makerworld-printables-cults3d",
+    lang: "es",
+    category: "guide",
+    metaTitle: "Imprimir Modelos de Makerworld, Printables y Cults3D — Guía",
+    metaDescription: "Descargaste un modelo 3D de Makerworld, Printables o Cults3D y quieres imprimirlo. Guía paso a paso: formato, licencias, cómo pedirlo en Dimension3D.",
+    h1: "Cómo imprimir modelos descargados de Makerworld, Printables o Cults3D",
+    intro: "Makerworld, Printables y Cults3D son las principales plataformas para descargar modelos 3D gratuitos o de pago. Si has encontrado la pieza perfecta pero no tienes impresora, Dimension3D la imprime por ti desde 10€. Esta guía explica cómo funciona: formatos, licencias y cómo enviarnos el archivo.",
+    sections: [
+      {
+        heading: "Las principales plataformas de modelos 3D",
+        body: "Hay tres plataformas que concentran la mayor parte de los modelos 3D disponibles para descargar:\n\n• **Makerworld** — la plataforma oficial de Bambu Lab. Muchos modelos de alta calidad con previsualizaciones realistas. Especialmente activa para figuras, miniaturas y objetos decorativos.\n• **Printables** — plataforma de Prusa Research. Gran comunidad, miles de modelos técnicos (recambios, adaptadores, herramientas, organizadores) y filtros avanzados por categoría y popularidad.\n• **Cults3D** — comunidad francesa con muchos modelos creativos, artísticos y de diseño industrial. También incluye modelos de pago de diseñadores profesionales.\n\nTodas ellas permiten descargar los archivos en formato STL o 3MF, que son los formatos que aceptamos en Dimension3D."
+      },
+      {
+        heading: "Paso 1: descarga el modelo en el formato correcto",
+        body: "Cuando descargues el modelo, busca el archivo en formato STL o 3MF. STL es el más universal y está disponible en todas las plataformas. 3MF es más moderno e incluye información de colores y materiales cuando el diseñador lo ha especificado.\n\nSi el modelo tiene múltiples partes (p.ej. un personaje con ropa por piezas separadas), descarga todos los archivos STL que lo componen. Cuando nos lo envíes, especifica qué partes van en qué color."
+      },
+      {
+        heading: "Paso 2: comprueba la licencia",
+        body: "Antes de pedir la impresión, comprueba la licencia del modelo:\n\n• **CC BY, CC BY-SA, CC0 (uso público)** — puedes imprimirlo para uso personal y en muchos casos comercial (lee la variante específica).\n• **CC BY-NC** — solo uso personal, no comercial.\n• **Licencia propietaria / All rights reserved** — necesitas permiso explícito del diseñador.\n\nPara uso personal (imprimir una pieza para tu casa), la mayoría de licencias lo permiten. Si vas a vender la pieza impresa, comprueba que la licencia lo autorice."
+      },
+      {
+        heading: "Paso 3: envíanos el archivo y pide presupuesto",
+        body: "Una vez tienes el archivo descargado:\n\n1. Sube el STL/3MF en nuestra calculadora o mándalo por WhatsApp.\n2. Dinos el material que quieres (PLA para decoración, PETG para piezas funcionales) y el color.\n3. Si el modelo tiene partes ensambladas, indica cuáles van en cada color.\n4. Recibe el presupuesto en menos de 1 hora.\n\nRevisamos el archivo antes de imprimir: comprobamos grosor de pared, voladizos problemáticos y orientación óptima. Si hay algo mejorable, te lo comunicamos antes de cobrar."
+      },
+      {
+        heading: "Modelos típicos que imprimimos de estas plataformas",
+        body: "Algunas de las categorías más frecuentes que llegan vía Makerworld y Printables:\n\n• Figuras de personajes (videojuegos, películas, anime)\n• Organizadores para cajones, cables y herramientas\n• Recambios para muebles IKEA y otros muebles estándar\n• Adaptadores para mangueras, ventiladores y electrónica doméstica\n• Piezas para Raspberry Pi, Arduino y otros proyectos de maker\n• Maquetas arquitectónicas y decoración de hogar\n• Accesorios para bicicleta y vehículos"
+      },
+    ],
+    faqs: [
+      { q: "¿Puedo enviaros un modelo de Makerworld para que lo imprimáis?", a: "Sí. Descarga el archivo STL o 3MF y súbelo en nuestra calculadora o mándalo por WhatsApp. Lo revisamos y te damos precio en menos de 1 hora." },
+      { q: "¿Los modelos de estas plataformas se pueden imprimir directamente?", a: "En la mayoría de casos sí, aunque a veces necesitan pequeños ajustes de orientación o escala. Revisamos el archivo antes de imprimir y te avisamos si hay que cambiar algo." },
+      { q: "¿Podéis imprimir modelos con múltiples partes en diferentes colores?", a: "Sí. Con nuestro sistema multicolor (Bambu Lab X2D + AMS) podemos imprimir hasta 4 colores en la misma pieza. Para piezas separadas ensambladas, imprimimos cada parte en el color que elijas." },
+      { q: "¿Qué pasa si el modelo tiene errores (archivos STL rotos)?", a: "Lo detectamos en la revisión previa y te lo comunicamos antes de cobrar. En muchos casos podemos reparar el archivo automáticamente; si no, sugerimos descargar una versión alternativa o ajustar el modelo." },
+      { q: "¿Podéis escalar el modelo a un tamaño diferente al original?", a: "Sí. Al pedir, especifica la escala o las dimensiones finales que necesitas. Consideramos el grosor de pared mínimo al escalar piezas muy pequeñas." },
+    ],
+    galleryImages: pick("lion-king-figures.jpg", "lion-king-scene.jpg", "halloween-set.jpg", "stranger-things-diorama.jpg", "purple-figures.jpg", "ferrari-key-holder.jpg"),
+    related: [
+      { label: "Impresión 3D Online", slug: "/impresion-3d-online" },
+      { label: "Impresión 3D Multicolor", slug: "/impresion-3d-multicolor" },
+      { label: "Cómo Imprimir sin Impresora", slug: "/blog/como-imprimir-en-3d-sin-impresora" },
+      { label: "Precio Impresión 3D", slug: "/precio-impresion-3d" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+    ],
+    schemaServiceName: "Imprimir Modelos Descargados — Guía",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
+
+  {
+    slug: "/blog/cuanto-tarda-imprimir-en-3d",
+    topic: "blog-cuanto-tarda",
+    altSlug: "/blog/cuanto-tarda-imprimir-en-3d",
+    lang: "es",
+    category: "guide",
+    metaTitle: "¿Cuánto Tarda una Impresión 3D? Tiempos Reales por Tamaño",
+    metaDescription: "¿Cuánto tarda imprimir en 3D? Guía con tiempos reales por tamaño: piezas pequeñas (1–3h), medianas (3–8h), grandes (8–24h+). Plazos de entrega con Dimension3D.",
+    h1: "¿Cuánto tarda una impresión 3D? Tiempos reales y plazos de entrega",
+    intro: "El tiempo de impresión 3D depende principalmente del tamaño de la pieza, la altura de capa elegida y el material. Una pieza pequeña (20–30 g) puede imprimirse en 1–3 horas; una pieza grande (300+ g) puede tardar 20–30 horas. Esta guía explica qué factores influyen y cuál es el plazo de entrega real desde que pides hasta que recibes.",
+    sections: [
+      {
+        heading: "¿Qué determina el tiempo de impresión?",
+        body: "Los cinco factores principales que marcan el tiempo de máquina:\n\n1. **Volumen de plástico** — a más gramos, más tiempo. Una pieza de 10 g tarda 30–60 min; una de 300 g puede tardar 10–15 h.\n2. **Altura de capa** — capa más fina (0,10–0,15 mm) = más tiempo pero mejor calidad. Capa estándar (0,20 mm) equilibra velocidad y acabado.\n3. **Densidad de relleno** — relleno del 10% es mucho más rápido que relleno del 30%. Para piezas decorativas, 10–15% es suficiente.\n4. **Soportes** — voladizos complejos necesitan soportes que añaden tiempo y material.\n5. **Orientación** — la misma pieza orientada de forma diferente puede tardar un 30–50% más o menos."
+      },
+      {
+        heading: "Tiempos de impresión orientativos por tamaño",
+        body: "Estos son tiempos de máquina típicos en nuestra Bambu Lab X2D a calidad estándar (0,20 mm, PLA, 15% relleno):\n\n• **Pieza pequeña** (5×5×5 cm, ~15–30 g): 1–3 horas.\n• **Pieza mediana** (10×8×8 cm, ~50–100 g): 3–7 horas.\n• **Pieza funcional grande** (15×12×10 cm, ~150–200 g): 7–14 horas.\n• **Pieza muy grande / casco** (25×20×20 cm, ~300–500 g): 15–30 horas.\n\nEstos tiempos se calculan automáticamente cuando subes el archivo a nuestra calculadora."
+      },
+      {
+        heading: "Plazo de entrega total: de pedido a puerta",
+        body: "El tiempo de impresión es solo una parte del plazo total. El ciclo completo desde que confirmas el pedido hasta que recibes la pieza:\n\n• **Revisión del archivo**: normalmente menos de 1 hora en horario laboral.\n• **Cola de impresión**: según la carga del taller, de inmediato a 24h.\n• **Impresión**: según la pieza, de 1 a 30 horas.\n• **Acabado y control de calidad**: 30–60 min (retirada de soportes, limpieza).\n• **Preparación del envío**: mismo día si termina antes de las 16:00.\n• **Tránsito**: 1–2 días laborables para Península.\n\n**En total (servicio estándar)**: 2–5 días laborables desde la confirmación."
+      },
+      {
+        heading: "Servicio Express: 24–48 horas",
+        body: "Si necesitas la pieza antes, el servicio Express (recargo 25%) garantiza que tu pedido entra en la cola prioritaria y se envía en 24–48h desde la confirmación. Para pedidos urgentes (mismo día o siguiente), el recargo es del 60% y la disponibilidad es limitada.\n\nPara gestionar un pedido urgente correctamente, escríbenos por WhatsApp antes de hacerlo — así confirmamos disponibilidad y plazo real antes de comprometerse."
+      },
+      {
+        heading: "¿Puedo ver el progreso de mi impresión?",
+        body: "Para pedidos a través del checkout online, recibes un número de seguimiento cuando el pedido sale. No tenemos una cámara de seguimiento en tiempo real, pero si quieres una actualización del estado de tu pedido, escríbenos por WhatsApp y te respondemos en minutos."
+      },
+    ],
+    faqs: [
+      { q: "¿Cuánto tarda imprimir una pieza pequeña?", a: "Una pieza pequeña (5–30 g) tarda entre 1 y 3 horas de impresión. Con la cola de producción y el envío, el plazo total es de 2–4 días laborables." },
+      { q: "¿Cuánto tarda imprimir una figura de tamaño mediano?", a: "Una figura de 10–15 cm de altura tarda entre 4 y 10 horas de impresión. Puede tardar más con soporte complejo o calidad fina." },
+      { q: "¿Es posible recibir la pieza el mismo día?", a: "Para pedidos confirmados antes de las 10:00 y recogida en Barcelona, es posible en muchos casos. Para envío urgente, podemos garantizar el día siguiente con nuestro servicio Urgente (recargo 60%)." },
+      { q: "¿Qué es más rápido, PLA o PETG?", a: "PLA y PETG tienen tiempos de impresión muy similares con nuestra Bambu Lab X2D. La diferencia es marginal (<5%) para la mayoría de piezas." },
+      { q: "¿Puedo acelerar la impresión reduciendo la calidad?", a: "Sí. Con calidad 'fast' (capa 0,25–0,30 mm) el tiempo puede reducirse un 20–30% a costa de un acabado con líneas más visibles. Para piezas funcionales, es una buena opción." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "curved-parts.jpg", "black-intake.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Impresión 3D Urgente Barcelona", slug: "/impresion-3d-urgente-barcelona" },
+      { label: "Precio Impresión 3D", slug: "/precio-impresion-3d" },
+      { label: "Impresión 3D Online", slug: "/impresion-3d-online" },
+      { label: "Impresión 3D Cerca de Mí", slug: "/impresion-3d-cerca-de-mi" },
+      { label: "Prototipado Rápido Barcelona", slug: "/prototipado-rapido-barcelona" },
+    ],
+    schemaServiceName: "¿Cuánto Tarda Imprimir en 3D? — Guía",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
+
+  {
+    slug: "/blog/que-se-puede-imprimir-en-3d",
+    topic: "blog-que-se-puede-imprimir",
+    altSlug: "/blog/que-se-puede-imprimir-en-3d",
+    lang: "es",
+    category: "guide",
+    metaTitle: "¿Qué se Puede Imprimir en 3D? Ideas y Aplicaciones Reales",
+    metaDescription: "¿Qué se puede imprimir en 3D? Recambios, figuras, prototipos, piezas de coche, organizadores y mucho más. 20 ideas con ejemplos reales de Dimension3D.",
+    h1: "¿Qué se puede imprimir en 3D? 20 aplicaciones reales con ejemplos",
+    intro: "La impresión 3D FDM puede fabricar cualquier objeto sólido que cabe en la cama de impresión (25×25 cm) y no requiera propiedades imposibles en plástico. Desde recambios de electrodomésticos hasta figuras de colección, pasando por prototipos de ingeniería y piezas de coche. Esta guía muestra las 20 aplicaciones más frecuentes en Dimension3D con ejemplos reales.",
+    sections: [
+      {
+        heading: "Recambios y piezas descatalogadas",
+        body: "Es nuestra categoría más frecuente. La impresión 3D brilla cuando el fabricante ya no vende la pieza o cobra un precio absurdo por un trozo de plástico.\n\nEjemplos reales de pedidos en Dimension3D:\n• Rueda de cesta de lavavajillas Bosch — imprimida en PETG, disponible en nuestro catálogo.\n• Embudo dosificador de café 58mm — para portafiltros estándar.\n• Adaptador de manguera Gardena 3/4\" — compatible con reguladores de jardín.\n• Adaptador VESA para monitor — para soportes no estándar.\n• Tirador de cajón roto — copiado de uno original.\n• Guía de persiana rota — a partir de foto y medidas."
+      },
+      {
+        heading: "Figuras, miniaturas y coleccionables",
+        body: "Las figuras y miniaturas son uno de los usos más creativos de la impresión 3D. Se descargan modelos de plataformas como Makerworld y Printables y se imprimen en PLA a alta calidad.\n\nEjemplos:\n• Personajes de videojuegos y películas.\n• Figuras para juegos de mesa y rol.\n• Esculturas y decoración.\n• Bustos y retratos en 3D.\n• Réplicas de monumentos."
+      },
+      {
+        heading: "Piezas de coche y moto",
+        body: "La FDM en ABS/ASA o PETG puede reproducir muchas piezas interiores del coche que se rompen con el tiempo: embellecedores, clips de tapicería, soportes de dashboard, tapas de fusibles y carcasas de retrovisores.\n\nConsideraciones: las piezas del habitáculo del coche no superan normalmente 70°C (excepto las zonas cerca del motor). ABS/ASA son los materiales de referencia para estas aplicaciones."
+      },
+      {
+        heading: "Prototipos y desarrollo de producto",
+        body: "Las startups, ingenieros freelance y estudiantes son usuarios frecuentes. La FDM permite pasar de un archivo CAD a una pieza física en 24–72 horas, validar forma y ajuste, y hacer la siguiente iteración.\n\nTipos de prototipos frecuentes:\n• Validación de forma (fit-and-finish prototype)\n• Piezas funcionales para pruebas mecánicas\n• Modelos para presentación a clientes o inversores\n• Utillajes y herramientas de producción"
+      },
+      {
+        heading: "Organizadores y accesorios de hogar",
+        body: "Un área en auge: soportes para cables, organizadores de cajones, porta-especias, soportes para el móvil en la ducha, bases para dispositivos, fundas para mandos a distancia.\n\nLo bueno de este tipo de piezas es que la mayoría ya existen en Makerworld o Printables — solo hay que descargar e imprimir."
+      },
+      {
+        heading: "Piezas para makers y electrónica",
+        body: "Carcasas para Raspberry Pi, Arduino y ESP32. Soportes para sensores, cámaras y módulos. Clips para perfil de aluminio 20×20 y 40×40. La comunidad maker crea y comparte miles de modelos específicos para proyectos de DIY y domótica."
+      },
+      {
+        heading: "¿Qué NO se puede imprimir en 3D?",
+        body: "Para ser honestos, hay aplicaciones donde la FDM no es la herramienta adecuada:\n\n• **Piezas con alta temperatura** (>100°C): el PLA y PETG se deforman. Pueden usarse materiales especiales como PC o Nylon-CF, pero con limitaciones.\n• **Piezas con detalle muy fino** (<0,5 mm): la FDM tiene un límite de resolución de ~0,4 mm. Para joyería y dental, la resina es mejor.\n• **Producción en miles de unidades**: el moldeo por inyección es más económico a partir de cierta escala.\n• **Objetos sellados herméticamente**: la FDM no es hermética por naturaleza (aunque se puede hacer con postprocesado)."
+      },
+    ],
+    faqs: [
+      { q: "¿Se puede imprimir en 3D cualquier objeto?", a: "Casi cualquier objeto sólido que cabe en 25×25 cm puede imprimirse. Las limitaciones principales son el tamaño, el detalle muy fino y las propiedades de temperatura del plástico." },
+      { q: "¿Cuántos colores puede tener un objeto impreso en 3D?", a: "Con nuestro sistema multicolor Bambu Lab X2D + AMS, hasta 4 colores en la misma impresión. Para más colores, habría que pintar o ensamblar partes." },
+      { q: "¿Podéis imprimir objetos transparentes?", a: "Sí. PETG natural tiene una traslucidez suave. No es completamente transparente como el vidrio, pero permite ver el interior. Para transparencia mayor, existen filamentos de PETG especiales." },
+      { q: "¿La impresión 3D FDM es resistente?", a: "Sí para la mayoría de usos domésticos y profesionales. Piezas de PETG, ABS o Nylon pueden igualar o superar plásticos moldeados equivalentes en resistencia mecánica." },
+      { q: "¿Se pueden imprimir piezas de metal en 3D?", a: "No con FDM estándar. Hay sistemas de impresión 3D de metal (DMLS, SLM) pero son industriales y muy caros. Para piezas de metal, generalmente es mejor mecanizado CNC o fundición." },
+    ],
+    galleryImages: pick("lion-king-figures.jpg", "custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "blue-molds.jpg", "stranger-things-diorama.jpg"),
+    related: [
+      { label: "Recambios Impresión 3D Barcelona", slug: "/recambios-impresion-3d-barcelona" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Impresión 3D Multicolor", slug: "/impresion-3d-multicolor" },
+      { label: "Impresión 3D — Qué es y Cómo Funciona", slug: "/impresion-3d" },
+      { label: "Prototipos 3D Barcelona", slug: "/prototipos-3d-barcelona" },
+    ],
+    schemaServiceName: "¿Qué se Puede Imprimir en 3D? — Guía",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
+
+  {
+    slug: "/blog/convertir-foto-en-modelo-3d",
+    topic: "blog-convertir-foto-3d",
+    altSlug: "/blog/convertir-foto-en-modelo-3d",
+    lang: "es",
+    category: "guide",
+    metaTitle: "Convertir Foto en Modelo 3D: Opciones y Cómo Enviarnos una Foto",
+    metaDescription: "¿Cómo convertir una foto en un modelo 3D para imprimir? Escáneres 3D, fotogrametría, modelado manual. Y la opción más práctica: mandarnos la foto.",
+    h1: "Convertir una foto en modelo 3D: opciones, herramientas y cómo lo hacemos",
+    intro: "No todo el mundo tiene un modelo 3D listo para imprimir. Muchas personas tienen una foto de la pieza que necesitan: una pieza rota, un objeto que quieren replicar, o un diseño de referencia. Esta guía explica cómo pasar de una foto a una pieza impresa en 3D, qué herramientas existen y cuándo tiene sentido encargarnos el diseño directamente.",
+    sections: [
+      {
+        heading: "¿Se puede imprimir directamente desde una foto?",
+        body: "No directamente. Las impresoras 3D necesitan un archivo con geometría 3D (STL, 3MF, OBJ, STEP) — una foto solo tiene información 2D de píxeles. Para imprimir desde una foto necesitas primero convertirla en un modelo 3D.\n\nHay tres métodos para hacerlo, con distinta complejidad y resultado."
+      },
+      {
+        heading: "Método 1: fotogrametría (escaneado a partir de fotos)",
+        body: "La fotogrametría convierte múltiples fotos tomadas desde distintos ángulos en un modelo 3D. Softwares como RealityCapture, Meshroom (gratuito) o aplicaciones móviles como Polycam o Luma AI automatizan el proceso.\n\n**Funciona bien para**: objetos irregulares o artísticos, esculturas, figuras, superficies orgánicas.\n**No funciona bien para**: objetos pequeños, superficies muy reflectantes, geometrías con partes ocultas.\n\nEl resultado es un modelo de malla con alta fidelidad visual pero que puede necesitar limpieza (Meshmixer, Blender) antes de imprimir."
+      },
+      {
+        heading: "Método 2: modelado paramétrico a partir de medidas",
+        body: "Para piezas técnicas (recambios, soportes, adaptadores), el mejor resultado se obtiene modelando la pieza desde cero con un software CAD (Fusion 360, FreeCAD, OpenSCAD) a partir de las medidas reales.\n\n**Funciona bien para**: recambios con geometría definida, piezas de ingeniería, copias exactas.\n**Requiere**: saber modelar en CAD, o encargárselo a alguien que sepa.\n\nEs el método que usamos en Dimension3D cuando un cliente nos manda una pieza rota y medidas. El resultado es un modelo paramétrico preciso, no una malla aproximada."
+      },
+      {
+        heading: "Método 3: escáner 3D dedicado",
+        body: "Los escáneres 3D (Revopoint, Creality Raptor, escáneres industriales) generan nubes de puntos muy precisas de un objeto. Son más rápidos y precisos que la fotogrametría para objetos medianos.\n\n**Funciona bien para**: piezas mecánicas, ingeniería inversa profesional.\n**Desventaja**: los buenos escáneres cuestan cientos o miles de euros. No es una opción para el usuario casual."
+      },
+      {
+        heading: "La opción más práctica: mandarnos la foto",
+        body: "Para la mayoría de los casos — especialmente recambios de piezas rotas — no necesitas ninguna de las opciones anteriores. En Dimension3D modelamos la pieza desde cero a partir de:\n\n• **Fotos claras** de la pieza desde varios ángulos, con una referencia de tamaño (regla, moneda).\n• **Medidas** de las dimensiones críticas si las tienes.\n• **La pieza original** (si es posible traerla al taller para tomarle medidas exactas).\n\nEl diseño tiene un coste adicional (desde 20€ para piezas sencillas) que se cotiza antes de empezar. Para piezas sencillas con geometría clara (clips, tiradores, soportes simétricos), solemos poder modelar desde una buena foto."
+      },
+      {
+        heading: "Herramientas gratuitas para convertir fotos en 3D",
+        body: "Si quieres intentarlo tú mismo:\n\n• **Polycam** — app iOS/Android para fotogrametría con el móvil. Gratuita (con límites).\n• **Luma AI** — fotogrametría en la nube a partir de un vídeo del móvil. Gratuita.\n• **Meshroom** — fotogrametría desktop open-source. Requiere GPU.\n• **Blender** — para limpiar y reparar modelos de malla. Curva de aprendizaje pronunciada.\n\nEl proceso típico: múltiples fotos → fotogrametría → malla 3D → limpieza en Blender → export STL → impresión."
+      },
+    ],
+    faqs: [
+      { q: "¿Podéis imprimir una pieza a partir de una foto?", a: "En muchos casos sí. Mándanos fotos claras de la pieza desde varios ángulos y con una referencia de tamaño. Para piezas con geometría sencilla, podemos modelar e imprimir a partir de fotos. El diseño tiene un coste adicional (desde 20€)." },
+      { q: "¿Cuánto cuesta que modeléis una pieza desde cero?", a: "Desde 20€ para piezas sencillas (copia de una pieza rota con geometría clara). Piezas complejas pueden costar 50–120€. Siempre cotizamos antes de empezar." },
+      { q: "¿Qué es la fotogrametría?", a: "Fotogrametría es el proceso de convertir múltiples fotos tomadas desde distintos ángulos en un modelo 3D. Aplicaciones como Polycam o Luma AI lo hacen de forma casi automática desde el móvil." },
+      { q: "¿Funciona bien la fotogrametría para piezas pequeñas?", a: "No muy bien. La fotogrametría funciona mejor para objetos de 10–50 cm con superficies no reflectantes. Para piezas pequeñas y técnicas, el modelado paramétrico da mejores resultados." },
+      { q: "¿Podéis diseñar una pieza completamente nueva que no existe?", a: "Sí. Si describes qué necesitas (funciones, dimensiones, cómo encaja con otras piezas), diseñamos la pieza desde cero. El coste depende de la complejidad." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "red-adapter.jpg", "intake-manifold.jpg", "curved-parts.jpg", "black-intake.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
+      { label: "Recambios Impresión 3D Barcelona", slug: "/recambios-impresion-3d-barcelona" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Impresión 3D Online", slug: "/impresion-3d-online" },
+      { label: "Cómo Imprimir sin Impresora", slug: "/blog/como-imprimir-en-3d-sin-impresora" },
+    ],
+    schemaServiceName: "Convertir Foto en Modelo 3D — Guía",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
+
+  {
+    slug: "/blog/piezas-de-recambio-impresas-3d",
+    topic: "blog-piezas-recambio",
+    altSlug: "/blog/piezas-de-recambio-impresas-3d",
+    lang: "es",
+    category: "guide",
+    metaTitle: "Piezas de Recambio Impresas en 3D: Ejemplos Reales y Precios",
+    metaDescription: "Adaptador VESA, rueda de lavavajillas Bosch, adaptador Gardena, embudo de café. Piezas de recambio reales impresas en 3D por Dimension3D en Barcelona.",
+    h1: "Piezas de recambio impresas en 3D: 5 ejemplos reales con precios",
+    intro: "La impresión 3D FDM es especialmente útil para recambios: piezas descatalogadas, piezas que el fabricante vende a precio absurdo, o piezas de un producto económico que no vale la pena reparar por el canal oficial. Esta guía muestra 5 ejemplos reales de recambios que hemos imprimido en Dimension3D, con materiales, precios orientativos y dónde encontrar más.",
+    sections: [
+      {
+        heading: "Adaptador VESA para monitor",
+        body: "Uno de los pedidos más frecuentes: el soporte VESA del monitor no encaja con el brazo porque el monitor usa un patrón no estándar. El adaptador VESA impreso en 3D resuelve el problema sin comprar un brazo nuevo.\n\nMaterial recomendado: PETG (aguanta el peso del monitor sin deformarse). Precio orientativo: 15–25€ según el modelo. Disponible en nuestro catálogo para los modelos más comunes, o imprimimos a medida a partir del patrón concreto del monitor."
+      },
+      {
+        heading: "Rueda de cesta de lavavajillas Bosch",
+        body: "Las ruedas de las cestas del lavavajillas son una de las piezas que más se rompen y que el fabricante ya no vende (o cobra 15–20€ por dos pequeños rollos de plástico). La impresión en PETG reproduce exactamente la geometría original.\n\nMaterial: PETG (resistente al agua caliente y detergentes). Precio: desde 10€ para un juego de 4 ruedas. Disponible en nuestro catálogo para los modelos Bosch más comunes."
+      },
+      {
+        heading: "Adaptador de manguera Gardena 3/4\"",
+        body: "Los conectores de manguera Gardena son propietarios y no siempre compatibles con otros sistemas de riego. El adaptador impreso en PETG o TPU (semirígido para un sellado mejor) permite conectar cualquier manguera estándar 3/4\" al sistema Gardena sin goteras.\n\nMaterial: PETG o TPU según el diseño. Precio: 10–15€. Disponible en catálogo."
+      },
+      {
+        heading: "Embudo dosificador de café 58mm",
+        body: "Para los que usan un molino de café que no tiene embudo, o cuyo embudo se ha roto. El embudo dosificador de 58mm encaja en la portafiltro estándar de la mayoría de máquinas de espresso domésticas y semiprofesionales.\n\nMaterial: PETG (apto para contacto con alimentos en su versión certificada food-safe). Precio: 10–15€. Disponible en catálogo."
+      },
+      {
+        heading: "Recambios que no están en catálogo",
+        body: "Estos son cuatro ejemplos de un catálogo que crece continuamente. Pero la mayoría de pedidos de recambios son piezas únicas — el tirón de una persiana, la guía de un cajón, el clip de una rejilla, el tirador de un mueble descatalogado.\n\nSi tienes una pieza rota que necesitas reproducir y no está en nuestro catálogo, mándanos una foto con una referencia de tamaño. En la mayoría de casos podemos dar precio antes de crear el modelo. El proceso habitual es: foto → valoración gratuita → confirmación → diseño (si es necesario) → impresión → entrega."
+      },
+      {
+        heading: "Materiales para recambios: cuándo usar qué",
+        body: "La elección del material determina si el recambio funciona a largo plazo:\n\n• **PETG** — el estándar para recambios. Aguanta agua, detergentes, calor moderado (<80°C) y es resistente al impacto.\n• **ABS/ASA** — para recambios del coche, piezas con calor (hasta 90°C) o exterior con UV.\n• **TPU** — para piezas que necesitan ser flexibles: juntas, tapones, piezas de sellado.\n• **PLA** — solo para recambios puramente estéticos sin carga ni calor (embellecedores, tapas).\n• **Nylon** — para recambios de alta resistencia mecánica y desgaste (engranajes, poleas, ruedas con carga)."
+      },
+    ],
+    faqs: [
+      { q: "¿Qué recambios tenéis en catálogo?", a: "Adaptador VESA para monitor, rueda de cesta de lavavajillas Bosch, adaptador de manguera Gardena y embudo dosificador de café 58mm. Estamos ampliando el catálogo continuamente." },
+      { q: "¿Podéis fabricar un recambio que no está en catálogo?", a: "Sí. Mándanos una foto de la pieza con una referencia de tamaño y te decimos si es viable. Para piezas con geometría clara, podemos modelar e imprimir sin catálogo." },
+      { q: "¿Cuánto dura un recambio impreso en 3D?", a: "Un recambio bien diseñado en el material adecuado dura años. PETG para lavavajillas, TPU para juntas flexibles, ABS/ASA para piezas de coche expuestas al calor. Muchos de nuestros clientes llevan años usando los recambios que les imprimimos." },
+      { q: "¿Los recambios impresos en 3D son aptos para contacto con alimentos?", a: "PETG estándar no tiene certificación food-safe. Para piezas en contacto directo con alimentos, usamos PETG food-safe certificado (puede suponer un pequeño recargo) o recomendamos un sellador adecuado." },
+      { q: "¿Qué es mejor, PETG o ABS para recambios de electrodomésticos?", a: "Depende de la temperatura. Para lavavajillas, lavadoras y frigoríficos, PETG es suficiente. Para secadoras, hornos o piezas cerca del motor del coche, ABS o ASA son más seguros." },
+    ],
+    galleryImages: pick("red-adapter.jpg", "intake-manifold.jpg", "custom-brackets.jpg", "curved-parts.jpg", "ferrari-key-holder.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Recambios Impresión 3D Barcelona", slug: "/recambios-impresion-3d-barcelona" },
+      { label: "Adaptador VESA Monitor", slug: "/adaptador-vesa-monitor" },
+      { label: "Rueda Lavavajillas Bosch", slug: "/rueda-cesto-lavavajillas-bosch" },
+      { label: "Adaptador Manguera Gardena", slug: "/adaptador-manguera-gardena" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+    ],
+    schemaServiceName: "Piezas de Recambio Impresas en 3D — Guía",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
 ];

@@ -88,7 +88,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
       ? t("Materials", "Materiales", "Materialien")
       : page.category === "service"
         ? t("Services", "Servicios", "Dienstleistungen")
-        : t("Use Cases", "Aplicaciones", "Anwendungsfälle");
+        : page.category === "guide"
+          ? t("Guides", "Guías", "Leitfäden")
+          : t("Use Cases", "Aplicaciones", "Anwendungsfälle");
 
   // Hub URL for the category level of the breadcrumb — points to the main
   // service page in the current language (or the materials guide for material

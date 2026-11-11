@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
-import { ArrowRight, BookOpen, Clock, GraduationCap, Settings2, Wrench, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Camera, Clock, GraduationCap, Package, Settings2, Timer, Wrench, Zap } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -56,6 +56,69 @@ const POSTS = [
     readTime: "3 min",
     tags: ["Estudiantes", "Descuento", "Universitarios"],
   },
+  {
+    slug: "/blog/pla-vs-petg",
+    icon: BookOpen,
+    title: "PLA vs PETG: ¿Qué material elegir para tu impresión 3D?",
+    subtitle: "Comparativa de materiales",
+    description: "Tabla comparativa completa: resistencia, temperatura, exterior, precio y facilidad de impresión. Cuándo usar PLA y cuándo PETG según el uso real de la pieza.",
+    readTime: "7 min",
+    tags: ["PLA", "PETG", "Materiales"],
+  },
+  {
+    slug: "/blog/como-imprimir-en-3d-sin-impresora",
+    icon: Zap,
+    title: "Cómo imprimir en 3D sin tener una impresora",
+    subtitle: "Guía para principiantes",
+    description: "Tienes un STL descargado y quieres imprimirlo pero no tienes máquina. Opciones: servicio online, bibliotecas, makers locales. Guía paso a paso con precios.",
+    readTime: "6 min",
+    tags: ["Principiantes", "Online", "Sin Impresora"],
+  },
+  {
+    slug: "/blog/imprimir-modelos-makerworld-printables-cults3d",
+    icon: Package,
+    title: "Imprimir modelos de Makerworld, Printables y Cults3D",
+    subtitle: "Modelos descargados",
+    description: "Descargaste un modelo de Makerworld o Printables y quieres imprimirlo. Guía: formatos, licencias, cómo enviarnos el archivo y qué esperar del resultado.",
+    readTime: "5 min",
+    tags: ["Makerworld", "Printables", "Modelos"],
+  },
+  {
+    slug: "/blog/cuanto-tarda-imprimir-en-3d",
+    icon: Timer,
+    title: "¿Cuánto tarda una impresión 3D? Tiempos reales",
+    subtitle: "Plazos de producción y entrega",
+    description: "Tiempos de impresión reales por tamaño de pieza y plazo de entrega total. Piezas pequeñas: 1–3h. Piezas medianas: 3–8h. Express: 24–48h.",
+    readTime: "6 min",
+    tags: ["Plazos", "Express", "Tiempos"],
+  },
+  {
+    slug: "/blog/que-se-puede-imprimir-en-3d",
+    icon: Settings2,
+    title: "¿Qué se puede imprimir en 3D? 20 aplicaciones reales",
+    subtitle: "Ideas y aplicaciones",
+    description: "Recambios, figuras, piezas de coche, prototipos, organizadores, piezas para makers. 20 aplicaciones con ejemplos reales de pedidos de Dimension3D.",
+    readTime: "8 min",
+    tags: ["Ideas", "Aplicaciones", "Recambios"],
+  },
+  {
+    slug: "/blog/convertir-foto-en-modelo-3d",
+    icon: Camera,
+    title: "Convertir una foto en modelo 3D: opciones y cómo lo hacemos",
+    subtitle: "Foto a pieza impresa",
+    description: "Fotogrametría, modelado paramétrico o mandarnos la foto. Cómo pasar de una imagen a una pieza impresa en 3D. Coste y qué información necesitamos.",
+    readTime: "7 min",
+    tags: ["Diseño", "Foto", "Modelado"],
+  },
+  {
+    slug: "/blog/piezas-de-recambio-impresas-3d",
+    icon: Wrench,
+    title: "Piezas de recambio impresas en 3D: 5 ejemplos reales",
+    subtitle: "Adaptador VESA, lavavajillas, Gardena...",
+    description: "Adaptador VESA, rueda de lavavajillas Bosch, adaptador Gardena, embudo de café. Recambios reales impresos en Dimension3D con materiales y precios.",
+    readTime: "7 min",
+    tags: ["Recambios", "PETG", "Catálogo"],
+  },
 ];
 
 const breadcrumbSchema = {
@@ -77,7 +140,7 @@ const blogArticleSchema = {
   author: AUTHOR_REF,
   publisher: PUBLISHER_REF,
   datePublished: "2026-08-01",
-  dateModified: "2026-09-03",
+  dateModified: "2026-11-11",
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/blog` },
   image: SOCIAL_IMAGE_URL,
 };

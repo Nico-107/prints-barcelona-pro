@@ -37,7 +37,14 @@ export type LandingTopic =
   | "pillar"
   | "near-me"
   | "about"
-  | "stats";
+  | "stats"
+  | "blog-pla-vs-petg"
+  | "blog-imprimir-sin-impresora"
+  | "blog-modelos-descargados"
+  | "blog-cuanto-tarda"
+  | "blog-que-se-puede-imprimir"
+  | "blog-convertir-foto-3d"
+  | "blog-piezas-recambio";
 
 export interface LandingFAQ {
   q: string;
@@ -54,7 +61,7 @@ export interface LandingContent {
   altSlug: string;         // legacy single-counterpart slug (kept for back-compat)
   topic: LandingTopic;     // shared key across EN/ES/CA versions
   lang: Lang;
-  category: "service" | "material" | "use-case";
+  category: "service" | "material" | "use-case" | "guide";
   // Who the page speaks to. Undefined = "customer" for back-compat, so no
   // existing page changes behaviour. "maker" flips CTAs to the network
   // recruitment funnel (/makers, /maker-guide) instead of a print quote.
