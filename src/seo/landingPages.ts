@@ -1436,4 +1436,59 @@ export const PAGES_EN: LandingContent[] = [
     datePublished: "2026-10-11",
     dateModified: "2026-10-11",
   },
+
+  {
+    slug: "/about",
+    topic: "about",
+    altSlug: "/sobre-nosotros",
+    lang: "en",
+    category: "service",
+    metaTitle: "About Dimension3D — 3D Printing Studio in Barcelona",
+    metaDescription: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). 250+ orders, Bambu Lab X2D, shipping to Spain and EU.",
+    h1: "About Dimension3D: the studio behind every print",
+    intro: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). We make custom parts, prototypes and replacement parts for individuals and businesses across Spain and Europe. From our workshop in Les Corts we have completed over 250 orders — and we still work the same way we did on day one: manual review of every file, response within 1 hour, and parts that actually work.",
+    sections: [
+      {
+        heading: "The founder: Nico (Mikołaj Szczełkun)",
+        body: "Nico is the founder and lead technician at Dimension3D. Originally from Poland, he moved to Barcelona where he combined his passion for technical design with FDM technology. He has worked professionally with 3D printers for over three years, evolving from a personal workshop into a full service for real customers.\n\nHis technical background explains the Dimension3D approach: every order is reviewed before printing, every material is chosen based on the actual function of the part, and every customer gets a direct human response — not an automated confirmation."
+      },
+      {
+        heading: "The workshop and machines",
+        body: "Our main workshop is at Rambla de Brasil, 53, in the Les Corts neighbourhood of Barcelona. We work with a fleet of FDM printers centred on the Bambu Lab X2D with AMS (Automatic Material System), which enables multicolour printing with up to 4 filaments in a single part.\n\nWe work exclusively with FDM — we do not print in resin or SLS. FDM is the most versatile technology for functional parts, replacement parts and short-run production in technical materials like PETG, ABS/ASA, TPU and Nylon. When FDM is not the right fit for a job, we say so clearly."
+      },
+      {
+        heading: "250+ orders and what we have learned",
+        body: "Since the first order, we have printed over 250 jobs for individuals, startups, workshops, clinics, designers and students. A few recurring patterns:\n\n• Most customers do not have a 3D file — they come with photos, broken parts and rough measurements.\n• The right material matters more than print quality — a well-orientated PETG part outperforms a poorly configured Nylon part.\n• Direct support makes a difference — customers who get a reply in minutes are far less stressed than those who wait days.\n\nThis has shaped how we work: human review of every file, WhatsApp response during business hours, and honesty when a job is not the best use case for FDM."
+      },
+      {
+        heading: "Dimension3D at Smart City Expo World Congress 2026",
+        body: "In November 2026 Dimension3D participated in the Smart City Expo World Congress in Barcelona, the world's leading smart cities event. We presented how local additive manufacturing can shorten supply chains for urban maintenance parts — from public furniture replacements to IoT sensor adapters for urban infrastructure.\n\nThe event confirmed that local 3D printing has a meaningful role in supply chain resilience, especially for low-volume, low-demand replacement parts."
+      },
+      {
+        heading: "What we do — and what we do not",
+        body: "We do:\n• FDM printing in PLA, PETG, ABS/ASA, TPU, Nylon and carbon-fibre composites.\n• File review (STL, 3MF, OBJ, STEP) before every print.\n• 3D modelling for customers without a file (from photos, measurements or descriptions).\n• Short-run production (1 unit to several hundred).\n• Urgent and same-day service for Barcelona customers with real deadlines.\n\nWe do not:\n• Resin printing (SLA/MSLA) — specialised providers do this better.\n• SLS/MJF — for large industrial runs, industrial providers are better placed.\n• Advanced surface finishing (painting, chroming, metallising) — basic sanding on request.\n• Mass production in thousands of units — that calls for injection moulding."
+      },
+    ],
+    faqs: [
+      { q: "Who runs Dimension3D?", a: "Dimension3D is run by Nico (Mikołaj Szczełkun), founder and lead technician, working from a workshop in Barcelona." },
+      { q: "How many orders have you completed?", a: "Over 250 orders, for individuals, startups, workshops, clinics and students." },
+      { q: "Do you sign NDAs for confidential projects?", a: "Yes. We sign NDAs regularly for hardware startups and R&D departments. Send us a WhatsApp or email to arrange this." },
+      { q: "What languages do you work in?", a: "Spanish, Catalan, English and Polish." },
+      { q: "Are you a physical studio or online only?", a: "Both. We have a physical workshop at Rambla de Brasil, 53 (Les Corts, Barcelona) for local pickup. We also ship to all of Spain and the EU." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
+    related: [
+      { label: "3D Printing Service", slug: "/3d-printing-service" },
+      { label: "Pricing", slug: "/3d-printing-price-barcelona" },
+      { label: "Custom Parts Barcelona", slug: "/custom-parts-barcelona" },
+      { label: "Rapid Prototyping Barcelona", slug: "/rapid-prototyping-barcelona" },
+      { label: "Sobre Nosotros (ES)", slug: "/sobre-nosotros" },
+    ],
+    schemaServiceName: "Dimension3D — FDM 3D Printing Studio Barcelona",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+    extraHreflang: [
+      { lang: "es", slug: "/sobre-nosotros" },
+    ],
+  },
 ];

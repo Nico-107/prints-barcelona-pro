@@ -1584,4 +1584,60 @@ export const PAGES_ES: LandingContent[] = [
     datePublished: "2026-11-11",
     dateModified: "2026-11-11",
   },
+
+  {
+    slug: "/sobre-nosotros",
+    topic: "about",
+    altSlug: "/about",
+    lang: "es",
+    category: "service",
+    metaTitle: "Sobre Nosotros — Dimension3D Barcelona | Impresión 3D FDM",
+    metaDescription: "Dimension3D es un estudio de impresión 3D FDM en Barcelona fundado por Nico (Mikołaj Szczełkun). 250+ pedidos, Bambu Lab X2D, servicio online a toda España.",
+    h1: "Sobre Dimension3D: el estudio detrás de cada pieza",
+    intro: "Dimension3D es un estudio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun). Fabricamos piezas a medida, prototipos y recambios para particulares y empresas de toda España. Desde nuestro taller en Les Corts hemos completado más de 250 pedidos, y seguimos haciendo lo mismo que al principio: revisar cada encargo manualmente, responder en menos de 1 hora y entregar piezas que funcionan.",
+    sections: [
+      {
+        heading: "El fundador: Nico (Mikołaj Szczełkun)",
+        body: "Nico es el fundador y técnico principal de Dimension3D. Estudió en Polonia y se mudó a Barcelona, donde combinó su pasión por el diseño técnico con la tecnología FDM. Lleva más de tres años trabajando con impresoras 3D profesionales, primero como hobby y luego construyendo Dimension3D como un servicio real para clientes reales.\n\nSu formación técnica y su obsesión por los detalles explican el enfoque de Dimension3D: cada pedido se revisa antes de imprimir, cada material se elige según la función real de la pieza, y cada cliente recibe una respuesta directa, no automatizada."
+      },
+      {
+        heading: "El taller y las máquinas",
+        body: "El taller principal está en la Rambla de Brasil, 53, barrio de Les Corts, Barcelona. Trabajamos con una flota de impresoras FDM centradas en la Bambu Lab X2D con sistema AMS (Automatic Material System), que permite impresión multicolor de hasta 4 filamentos en la misma pieza.\n\nUsamos exclusivamente tecnología FDM — no fabricamos en resina ni en SLS. FDM es la tecnología más versátil para piezas funcionales, recambios y producción a corto plazo con materiales técnicos como PETG, ABS/ASA, TPU y Nylon. Para aplicaciones que requieren mayor detalle superficial o materiales especiales que FDM no cubre, lo comunicamos abiertamente y remitimos a quien puede ayudar mejor."
+      },
+      {
+        heading: "250+ pedidos y lo que hemos aprendido",
+        body: "Desde el primer pedido hasta hoy, hemos imprimido más de 250 encargos para particulares, startups, talleres, clínicas, diseñadores y estudiantes. Algunos patrones que vemos constantemente:\n\n• La mayoría de los clientes no tienen archivo 3D — trabajan con fotos, piezas rotas y medidas.\n• El material correcto importa más que la calidad de impresión — una pieza bien orientada en PETG supera a la misma pieza mal configurada en Nylon.\n• El soporte directo marca la diferencia — los clientes que reciben respuesta en minutos tienen mucho menos estrés que los que esperan días.\n\nEsto ha moldeado cómo trabajamos: revisión humana de cada archivo, respuesta por WhatsApp en horario laboral, y honestidad cuando un encargo no es el mejor caso de uso para FDM."
+      },
+      {
+        heading: "Dimension3D en Smart City Expo World Congress 2026",
+        body: "En noviembre de 2026 Dimension3D participó en el Smart City Expo World Congress en Barcelona, el mayor evento de ciudades inteligentes del mundo. Presentamos cómo la fabricación aditiva local puede acortar las cadenas de suministro de piezas de mantenimiento urbano — desde recambios de mobiliario público hasta adaptadores para sensores IoT en infraestructura urbana.\n\nEl evento fue una confirmación de que la impresión 3D local tiene un papel relevante en la resiliencia de la cadena de suministro, especialmente para piezas pequeñas de baja o media demanda."
+      },
+      {
+        heading: "Lo que hacemos y lo que no hacemos",
+        body: "Hacemos:\n• Impresión FDM en PLA, PETG, ABS/ASA, TPU, Nylon y materiales de fibra de carbono.\n• Revisión de archivos STL, 3MF, OBJ y STEP antes de imprimir.\n• Diseño y modelado 3D para clientes sin archivo (a partir de fotos, medidas o descripciones).\n• Tiradas cortas de producción (1 unidad a varios cientos).\n• Servicio urgente y same-day para clientes en Barcelona con plazo real.\n\nNo hacemos:\n• Impresión en resina (SLA/MSLA) — el mercado tiene mejores opciones especializadas.\n• Impresión SLS/MJF — para series industriales grandes, hay proveedores industriales más adecuados.\n• Acabados superficiales avanzados (pintura, cromado, metalizado) — sí hacemos lijado básico a petición.\n• Producción en miles de unidades — para eso hay que hablar de inyección."
+      },
+    ],
+    faqs: [
+      { q: "¿Quién hay detrás de Dimension3D?", a: "Dimension3D es un estudio fundado por Nico (Mikołaj Szczełkun), con taller en Barcelona. Revisamos y gestionamos cada pedido directamente, sin intermediarios." },
+      { q: "¿Cuántos pedidos habéis hecho?", a: "Más de 250 pedidos desde la apertura, para particulares, startups, talleres, clínicas y estudiantes." },
+      { q: "¿Podéis hacer un NDA para proyectos confidenciales?", a: "Sí. Firmamos NDA habitualmente con startups de hardware y departamentos de I+D. Mándanos un WhatsApp o email para concretar." },
+      { q: "¿En qué idiomas atendéis?", a: "Español, catalán, inglés y polaco. Podemos gestionar pedidos en cualquiera de estos idiomas." },
+      { q: "¿Estáis en Barcelona físicamente o solo online?", a: "Tenemos taller físico en la Rambla de Brasil, 53 (Les Corts, Barcelona). También atendemos pedidos 100% online con envío a toda España y la UE." },
+      { q: "¿Desde cuándo está en marcha Dimension3D?", a: "El proyecto empezó en 2024 y lleva más de 250 pedidos gestionados. TODO: añadir año exacto de fundación cuando esté confirmado." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
+    related: [
+      { label: "Impresión 3D Online", slug: "/impresion-3d-online" },
+      { label: "Precio Impresión 3D", slug: "/precio-impresion-3d" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Prototipos 3D Barcelona", slug: "/prototipos-3d-barcelona" },
+      { label: "Impresión 3D para Empresas", slug: "/impresion-3d-empresas-barcelona" },
+    ],
+    schemaServiceName: "Dimension3D — Estudio de Impresión 3D Barcelona",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+    extraHreflang: [
+      { lang: "en", slug: "/about" },
+    ],
+  },
 ];

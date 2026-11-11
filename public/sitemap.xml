@@ -93,6 +93,24 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/impresion-3d-cerca-de-mi"/>
   </url>
 
+  <!-- SOBRE NOSOTROS / ABOUT -->
+  <url>
+    <loc>https://www.dimension3dprints.com/sobre-nosotros</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/sobre-nosotros"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/sobre-nosotros"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/about</loc>
+    <lastmod>2026-11-11</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/sobre-nosotros"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/sobre-nosotros"/>
+  </url>
+
   <!-- BLOG INDEX -->
   <url>
     <loc>https://www.dimension3dprints.com/blog</loc>
