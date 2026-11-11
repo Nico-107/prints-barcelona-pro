@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { engineCents } from '../../../scripts/price-examples';
-import { landingPagesEs } from '../../seo/landingPagesEs';
+import { PAGES_ES as landingPagesEs } from '../../seo/landingPagesEs';
 
 // Published example prices must equal the real V3 engine output.
 describe('published price examples match the V3 engine', () => {
