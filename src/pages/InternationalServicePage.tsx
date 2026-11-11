@@ -100,7 +100,7 @@ const InternationalServicePage = () => {
         content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain &amp; EU. 250+ orders, from €10, no setup fee."
       />
       <link rel="canonical" href={PAGE_URL} />
-      <link rel="alternate" hrefLang="es" href={`${SITE_URL}/`} />
+      <link rel="alternate" hrefLang="es" href={`${SITE_URL}/impresion-3d-online`} />
       <link rel="alternate" hrefLang="ca" href={`${SITE_URL}/ca/`} />
       <link rel="alternate" hrefLang="en" href={PAGE_URL} />
       <link rel="alternate" hrefLang="de" href={`${SITE_URL}/de/3d-druck-service`} />

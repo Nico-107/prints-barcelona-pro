@@ -252,6 +252,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
               : null)
         )}
         {topicSlugs.de && <link rel="alternate" hrefLang="de" href={`${SITE_URL}${topicSlugs.de}`} />}
+        {page.extraHreflang?.map((h) => (
+          <link key={h.lang} rel="alternate" hrefLang={h.lang} href={`${SITE_URL}${h.slug}`} />
+        ))}
         {topicSlugs.en && <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${topicSlugs.en}`} />}
         <meta property="og:title" content={page.metaTitle} />
         <meta property="og:description" content={page.metaDescription} />

@@ -30,7 +30,14 @@ export type LandingTopic =
   | "materials-comparison"
   | "turnaround-comparison"
   | "technology-comparison"
-  | "short-run";
+  | "short-run"
+  | "pricing-national"
+  | "online-service"
+  | "multicolor"
+  | "pillar"
+  | "near-me"
+  | "about"
+  | "stats";
 
 export interface LandingFAQ {
   q: string;
@@ -76,6 +83,8 @@ export interface LandingContent {
     rows: string[][];
     caption?: string;
   };
+  // Extra hreflang pairs not covered by SLUGS_BY_TOPIC (e.g. fr/it/nl/pt intl hubs).
+  extraHreflang?: { lang: string; slug: string }[];
 }
 
 const ALL_IMAGES = [

@@ -1273,4 +1273,315 @@ export const PAGES_ES: LandingContent[] = [
     datePublished: "2026-10-11",
     dateModified: "2026-10-11",
   },
+
+  // ── NEW MONEY PAGES (Nov 2026) ──────────────────────────────────────────
+
+  {
+    slug: "/precio-impresion-3d",
+    topic: "pricing-national",
+    altSlug: "/precio-impresion-3d-barcelona",
+    lang: "es",
+    category: "service",
+    metaTitle: "Precio Impresión 3D 2026: Calcula tu Pieza al Instante desde 10€",
+    metaDescription: "¿Cuánto cuesta imprimir en 3D? Tabla de precios reales por material y tamaño, calculadora instantánea. Desde 10€, envío a España por 5,90€.",
+    h1: "¿Cuánto cuesta imprimir en 3D? Precios reales y calculadora",
+    intro: "Dimension3D cobra desde 10€ por pieza, el presupuesto llega en menos de 1 hora y el envío a cualquier punto de España cuesta 5,90€. El precio final depende del material elegido, el tamaño de la pieza y el plazo. Esta página explica exactamente cómo se calcula, con ejemplos reales y una tabla de precios por material.",
+    sections: [
+      {
+        heading: "¿Qué determina el precio de una impresión 3D?",
+        body: "Tres factores principales marcan el coste:\n\n**1. Material** — el plástico más económico es el PLA (desde ~0,055€/g). PETG y TPU tienen un pequeño recargo. Nylon y materiales con fibra de carbono son los más premium.\n**2. Tamaño y tiempo de máquina** — una pieza más grande usa más material y ocupa la impresora más horas. Las piezas pequeñas (5–30 g) a menudo se agrupan en la misma cama para reducir el tiempo por unidad.\n**3. Plazo** — el servicio estándar (2–5 días hábiles) es el más económico. El servicio Express (1–2 días) lleva un recargo del 25%. El servicio Urgente (mismo día) lleva un recargo del 60%.\n\nEl precio incluye siempre: revisión del archivo, laminado, material, tiempo de máquina y acabado básico (retirada de soportes, limpieza). No hay setup fee ni cargo por pieza."
+      },
+      {
+        heading: "Precios por gramo según material",
+        body: "Estos son los precios efectivos por gramo en Dimension3D (servicio estándar, calidad estándar):\n\n• **PLA** — ~0,055€/g. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — ~0,061€/g. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — ~0,072€/g. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — ~0,072€/g. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — ~0,077€/g. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA) tiene un coste de material de ~1,10€. El mínimo de pedido es 10€ — lo que cubre también la gestión del pedido."
+      },
+      {
+        heading: "Tabla de ejemplos reales de precio",
+        body: "Estos son precios orientativos calculados con nuestra calculadora real (material PLA, calidad estándar, sin urgencia, sin diseño):\n\n• **Clip de cajón roto** (3×2×1 cm, ~5 g): desde 10€ (mínimo).\n• **Soporte para estantería** (8×4×3 cm, ~25 g): ~12–15€.\n• **Figura decorativa mediana** (10×8×15 cm, ~90 g): ~22–28€.\n• **Adaptador VESA de monitor** (10×7×3 cm, ~40 g): ~16–20€.\n• **Pieza de recambio lavaplatos** (8×6×4 cm, ~35 g en PETG): ~18–22€.\n• **Prototipo funcional mediano** (15×10×8 cm, ~150 g en PETG): ~40–55€.\n• **Figura grande / casco decorativo** (25×20×15 cm, ~350 g): ~75–120€.\n\nPara piezas con geometría compleja, muchos soportes o materiales especiales, el presupuesto puede salir más alto. Súbe tu archivo para ver el precio exacto."
+      },
+      {
+        heading: "Envío a España y recogida en Barcelona",
+        body: "El envío estándar a cualquier punto de la Península, Baleares o Canarias cuesta 5,90€. Los pedidos salen en 24–48 horas desde que se confirma el encargo, y el tiempo de tránsito es de 1–2 días laborables para Península.\n\nSi estás en Barcelona o alrededores (Les Corts, L'Hospitalet, Esplugues, Sant Just, Cornellà, Badalona, Sant Cugat) puedes recoger sin coste de envío en nuestro taller de la Rambla de Brasil, 53."
+      },
+      {
+        heading: "¿Cómo hacer más barata tu impresión?",
+        body: "Estos ajustes bajan el precio sin comprometer la calidad para la mayoría de usos:\n\n• **Elige PLA si no es para exterior ni calor** — es el material más económico y más que suficiente para el 70% de los pedidos.\n• **Reduce el relleno al 15–20%** — el relleno estándar para piezas decorativas o no estructurales puede ser del 10–15%.\n• **Ajusta la calidad a 'estándar'** — la capa de 0,20 mm da un acabado excelente a menor tiempo que calidad fina.\n• **Pide en plazo estándar** — el recargo Express es del 25% y el Urgente del 60%.\n• **Agrupa varias piezas en un pedido** — las piezas comparten cama de impresión, lo que reduce el tiempo de máquina por pieza.\n• **Si pagas el diseño, pide un archivo optimizado** — un modelo mal orientado o con exceso de soportes puede costar el doble que el mismo diseño bien preparado."
+      },
+      {
+        heading: "Diseño y modelado 3D: coste adicional",
+        body: "Si no tienes el archivo 3D, Dimension3D puede diseñarlo. El coste de diseño depende de la complejidad:\n\n• **Piezas sencillas** (copia de una pieza rota a partir de foto y medidas): desde 20–40€ de diseño.\n• **Piezas moderadas** (accesorio funcional con tolerancias, varios cuerpos): 50–120€.\n• **Proyectos de producto** (prototipo de hardware, encargo de ingeniería): presupuesto personalizado.\n\nEl diseño se cotiza por separado y siempre se confirma antes de comenzar."
+      },
+    ],
+    faqs: [
+      { q: "¿Cuánto cuesta imprimir en 3D en España?", a: "En Dimension3D el mínimo es 10€ por pedido. Piezas pequeñas estándar (5–30 g en PLA) suelen salir entre 10 y 18€. Piezas medianas (50–150 g) entre 20 y 50€. El envío a España cuesta 5,90€." },
+      { q: "¿Cuánto cuesta imprimir en 3D por gramo?", a: "Con PLA el precio efectivo es de aproximadamente 0,055€/g. PETG es ~0,061€/g. ABS/ASA y TPU ~0,072€/g. Nylon ~0,077€/g. A eso se suma el tiempo de máquina (€/hora)." },
+      { q: "¿Hay tarifa de setup o pedido mínimo?", a: "No hay tarifa de setup. El pedido mínimo es 10€ por pieza. Puedes pedir una sola pieza sin coste extra." },
+      { q: "¿Cuánto tarda el servicio Express?", a: "El servicio Express sale en 24–48h desde la confirmación del pedido y lleva un recargo del 25%. El servicio Urgente (mismo día o siguiente) lleva un recargo del 60% y no está disponible para todos los materiales." },
+      { q: "¿Cómo obtengo un presupuesto exacto?", a: "Sube tu archivo STL, 3MF, OBJ o STEP en la calculadora de esta página. El precio aparece en segundos. Para piezas sin archivo, envíanos una foto por WhatsApp y te respondemos en menos de 1 hora en horario laboral." },
+      { q: "¿El precio incluye el IVA?", a: "Los precios mostrados en la calculadora son sin IVA. El IVA (21% para particulares en España) se añade en el checkout." },
+      { q: "¿Podéis hacer descuento por volumen?", a: "Sí. Las tiradas de 5 piezas o más iguales se benefician de precio por unidad más bajo porque la preparación se amortiza. Para tiradas de 50 piezas o más, pide presupuesto por WhatsApp." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg", "black-intake.jpg"),
+    related: [
+      { label: "Precio Impresión 3D Barcelona (recogida)", slug: "/precio-impresion-3d-barcelona" },
+      { label: "Impresión 3D Online — Envío a España", slug: "/impresion-3d-online" },
+      { label: "Impresión 3D Cerca de Mí", slug: "/impresion-3d-cerca-de-mi" },
+      { label: "Comparativa de Materiales", slug: "/comparativa-materiales-impresion-3d" },
+      { label: "Impresión 3D Multicolor", slug: "/impresion-3d-multicolor" },
+      { label: "Piezas Funcionales Barcelona", slug: "/piezas-funcionales-barcelona" },
+    ],
+    schemaServiceName: "Impresión 3D — Precio Nacional",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+    comparisonTable: {
+      caption: "Precio por gramo según material (Dimension3D, servicio estándar, Nov 2026)",
+      headers: ["Material", "€/gramo", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
+      rows: [
+        ["PLA",     "~0,055€", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
+        ["PETG",    "~0,061€", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
+        ["ABS",     "~0,072€", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
+        ["ASA",     "~0,072€", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
+        ["TPU",     "~0,072€", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
+        ["Nylon",   "~0,077€", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
+      ],
+    },
+  },
+
+  {
+    slug: "/impresion-3d-online",
+    topic: "online-service",
+    altSlug: "/3d-printing-service",
+    lang: "es",
+    category: "service",
+    metaTitle: "Impresión 3D Online: Sube tu STL, Precio al Instante y Envío a toda España",
+    metaDescription: "Servicio de impresión 3D online sin pedido mínimo. Sube STL, 3MF, OBJ o STEP, recibe precio en 1h, envío a toda España por 5,90€. Desde 10€.",
+    h1: "Impresión 3D online, sin pedido mínimo y con envío a casa",
+    intro: "Dimension3D es un servicio de impresión 3D online desde Barcelona. Sube tu archivo, recibe un precio en menos de 1 hora, y recibe la pieza en casa en 2–5 días laborables en cualquier punto de España. No hay pedido mínimo, no hay setup fee, y un humano revisa cada pedido antes de imprimir.",
+    sections: [
+      {
+        heading: "¿Cómo funciona el pedido online?",
+        body: "El proceso tiene cuatro pasos y no requiere registro previo:\n\n**1. Sube tu archivo** — STL, 3MF, OBJ o STEP. La calculadora te muestra el precio estimado de inmediato.\n**2. Confirma los detalles** — material, color, cantidad y plazo. Si tienes dudas, escríbenos por WhatsApp.\n**3. Revisión humana** — antes de imprimir, revisamos el archivo: grosor de pared, voladizos, orientación óptima. Si hay algún problema te avisamos antes de cobrar.\n**4. Impresión y envío** — imprimimos tu pieza y la enviamos por mensajería urgente. Recibes un número de seguimiento cuando sale."
+      },
+      {
+        heading: "Formatos de archivo aceptados",
+        body: "Aceptamos los formatos más habituales de CAD y diseño 3D:\n\n• **STL** — el estándar universal, compatible con cualquier software de modelado.\n• **3MF** — el formato moderno de Bambu Studio, PrusaSlicer y otros slicers. Incluye color y materiales.\n• **OBJ** — habitual en diseño artístico, juegos y escaneos 3D.\n• **STEP / STP** — el formato profesional de ingeniería: más preciso que STL para piezas técnicas.\n\n¿No tienes archivo? No es un problema. Mándanos una foto de la pieza que necesitas (con una regla o moneda como referencia) y en menos de 1 hora en horario laboral te confirmamos si podemos reproducirla y el precio."
+      },
+      {
+        heading: "Sin archivo: diseñamos tu pieza",
+        body: "Muchos de nuestros clientes no tienen archivo 3D. Lo resolvemos de tres formas:\n\n• **Foto + medidas**: para recambios, copias de piezas rotas o piezas sencillas. Manda una foto clara con una referencia de tamaño.\n• **Croquis o planos**: si tienes un dibujo técnico, lo modelamos.\n• **Descripción**: para piezas estándar (soportes, adaptadores, organizadores), descríbenos qué necesitas y lo modelamos desde cero.\n\nEl diseño se cotiza por separado y siempre se confirma antes de empezar. El coste de diseño oscila entre 20€ para piezas sencillas y 120€ para piezas complejas."
+      },
+      {
+        heading: "Materiales disponibles online",
+        body: "Todos nuestros materiales están disponibles para pedidos online:\n\n• **PLA** — el más económico. Perfecto para prototipos de forma, figuras y decoración.\n• **PETG** — resistente al exterior, la humedad y el calor moderado. Nuestra recomendación para piezas funcionales.\n• **ABS / ASA** — para piezas con exposición al calor o UV exterior (ASA es mejor que ABS para exterior).\n• **TPU** — flexible y resistente al impacto. Para juntas, fundas y protecciones.\n• **Nylon** — alta resistencia mecánica. Para piezas de ingeniería y desgaste.\n\nTambién trabajamos con Nylon-CF y PETG-CF bajo presupuesto personalizado."
+      },
+      {
+        heading: "Plazos de entrega por zona",
+        body: "Los plazos son orientativos desde la confirmación del pedido:\n\n• **Barcelona y área metropolitana**: envío en D+1–2, llegada en D+2–3 (posible recogida misma jornada).\n• **Resto de Península**: impresión 2–5 días hábiles + 1–2 días de tránsito.\n• **Baleares**: igual que Península + 1 día de tránsito adicional.\n• **Canarias**: 2–3 días de tránsito adicionales.\n• **UE (zona euro)**: envío disponible. Consultar plazos por país.\n\nEl servicio Express reduce el plazo de producción a 24–48h con un recargo del 25%."
+      },
+      {
+        heading: "Comparación con las grandes plataformas online",
+        body: "Las grandes plataformas de impresión 3D online automatizadas tienen ventajas claras: capacidad infinita, algoritmos de precio instantáneo y varias tecnologías (SLS, MJF, resina). Pero tienen limitaciones:\n\n• No hay nadie que revise si tu archivo tiene problemas antes de imprimir.\n• No ofrecen ayuda con el diseño si no tienes archivo.\n• El precio mínimo suele ser mucho más alto que 10€.\n• El soporte es por ticket, no por WhatsApp con una respuesta en minutos.\n\nDimension3D es un estudio pequeño y experto. Revisamos cada pedido manualmente, damos soporte por WhatsApp en castellano, catalán, inglés y polaco, y el mínimo es 10€ sin setup fee."
+      },
+    ],
+    faqs: [
+      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. No hay pedido mínimo de unidades. El mínimo es 10€ por pieza. Imprimimos piezas únicas constantemente." },
+      { q: "¿Qué pasa si mi archivo tiene problemas?", a: "Revisamos el archivo antes de imprimir. Si hay problemas de grosor de pared, voladizos problemáticos u otros errores, te lo comunicamos antes de cobrar y sugerimos soluciones." },
+      { q: "¿Podéis imprimir un modelo descargado de Makerworld, Printables o Cults3D?", a: "Sí. Si has descargado un modelo gratuito de cualquier plataforma y quieres que lo imprimamos, súbe el archivo STL directamente. Verificamos que sea imprimible y te damos precio." },
+      { q: "¿Cuánto cuesta el envío a España?", a: "5,90€ por pedido a cualquier punto de Península, Baleares o Canarias. Los pedidos que superen cierto importe tienen envío gratuito (ver calculadora)." },
+      { q: "¿Podéis imprimir en varios colores en una sola pieza?", a: "Sí. Nuestra Bambu Lab X2D con AMS permite hasta 4 colores en una misma pieza. Consulta nuestra página de impresión 3D multicolor para más detalles." },
+      { q: "¿Aceptáis pedidos urgentes online?", a: "Sí. Al pedir puedes seleccionar el plazo Express (recargo 25%) o Urgente (recargo 60%). Los pedidos urgentes se gestionan en horario laboral y tienen disponibilidad limitada." },
+      { q: "¿Sois un servicio online o físico?", a: "Los dos. Podemos enviar a toda España y Europa. Si estás en Barcelona, también puedes recoger en nuestro taller de la Rambla de Brasil, 53 (Les Corts)." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "curved-parts.jpg", "intake-manifold.jpg", "red-adapter.jpg", "blue-molds.jpg", "black-intake.jpg"),
+    related: [
+      { label: "Precio Impresión 3D — Calculadora", slug: "/precio-impresion-3d" },
+      { label: "Impresión 3D Cerca de Mí", slug: "/impresion-3d-cerca-de-mi" },
+      { label: "Impresión 3D Multicolor", slug: "/impresion-3d-multicolor" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Impresión 3D Urgente Barcelona", slug: "/impresion-3d-urgente-barcelona" },
+      { label: "Recambios Impresión 3D", slug: "/recambios-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Impresión 3D Online — Envío España",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+    extraHreflang: [
+      { lang: "fr", slug: "/fr/impression-3d-en-ligne" },
+      { lang: "it", slug: "/it/stampa-3d-online" },
+      { lang: "nl", slug: "/nl/3d-printen-laten-maken" },
+      { lang: "pt", slug: "/pt/impressao-3d-online" },
+    ],
+  },
+
+  {
+    slug: "/impresion-3d-multicolor",
+    topic: "multicolor",
+    altSlug: "/3d-printing-service",
+    lang: "es",
+    category: "service",
+    metaTitle: "Impresión 3D Multicolor: hasta 4 Colores en una Pieza — Envío a España",
+    metaDescription: "Impresión 3D multicolor FDM con Bambu Lab X2D + AMS. Hasta 4 colores en una pieza. Logos, señalética, figuras, placas. Envío a toda España desde 5,90€.",
+    h1: "Impresión 3D Multicolor: logos, figuras y piezas en varios colores",
+    intro: "Dimension3D imprime en varios colores en una misma pieza gracias a la Bambu Lab X2D con sistema AMS (Automatic Material System). Podemos combinar hasta 4 colores de PLA o PETG en un solo objeto, sin pintar ni pegar. Perfecto para logos, señalética, placas personalizadas, figuras y prototipos con partes codificadas por color.",
+    sections: [
+      {
+        heading: "¿Qué es la impresión 3D multicolor FDM?",
+        body: "La impresión 3D multicolor FDM (Fused Deposition Modeling) usa una impresora equipada con un sistema de cambio automático de filamento — en nuestro caso, el AMS (Automatic Material System) de Bambu Lab. La máquina puede cambiar entre hasta 4 bobinas de filamento durante la misma impresión, deposibando cada color exactamente donde debe ir.\n\nEl resultado es una pieza compacta y de una sola vez, sin juntas, sin pegar partes por separado y sin pintura manual. Los colores son sólidos en toda la sección de la pieza, no solo en la superficie."
+      },
+      {
+        heading: "¿Para qué es ideal la impresión multicolor?",
+        body: "Las aplicaciones más habituales:\n\n• **Logos y señalética** — texto o icono en un color diferente al fondo. Ideal para placas de empresa, letreros para ferias o decoración de oficina.\n• **Placas personalizadas** — nombre, número de habitación, placa de mascota, dirección. El texto sobresale en un color contrastante.\n• **Figuras y coleccionables** — personajes con ropa de varios colores, dragones bicolor, esculturas multicolor.\n• **Llaveros y accesorios** — diseños bicolor con detalle fino.\n• **Prototipos con partes codificadas** — donde los ingenieros usan colores para identificar partes del ensamblaje a simple vista.\n• **Maquetas y maquetas arquitectónicas** — elementos diferenciados por color sin postprocesado."
+      },
+      {
+        heading: "Límites por pieza y preparación del archivo",
+        body: "Algunas consideraciones técnicas antes de pedir:\n\n• **Máximo 4 colores por pieza** con el AMS actual. Para más colores necesitarías pintura o piezas ensambladas.\n• **El residuo de purga** — al cambiar de color, la impresora purga unos gramos de filamento de transición. Esto tiene un pequeño coste adicional (~2–5€ por cambio de color activo) que se refleja en el presupuesto.\n• **El archivo** — necesitas un fichero 3MF con los cuerpos pintados por color (compatible con Bambu Studio, PrusaSlicer o OrcaSlicer), o un archivo STL con cuerpos separados por color. No basta con un STL único pintado solo en la visualización.\n• **Resolución mínima** — las transiciones de color son al nivel de capa (0,20 mm). Los detalles muy finos (<0,8 mm de ancho) pueden no reproducirse con precisión en color."
+      },
+      {
+        heading: "¿Cuánto cuesta la impresión multicolor?",
+        body: "El precio se calcula igual que cualquier pieza, con dos añadidos:\n\n1. El **recargo por purga** (~2–5€ por cambio de color activo, dependiendo del volumen de purga).\n2. Algo más de **tiempo de máquina**, porque los cambios de filamento añaden minutos.\n\nUna placa pequeña bicolor (8×5 cm) suele costar entre 15 y 22€ todo incluido. Una figura mediana con 3–4 colores puede costar entre 30 y 60€ según el tamaño. Sube tu archivo 3MF o STL multicolor para obtener un precio exacto."
+      },
+      {
+        heading: "Materiales disponibles en multicolor",
+        body: "Para impresión multicolor usamos principalmente:\n\n• **PLA** — disponible en la gama más amplia de colores y acabados (mate, seda, metalizado, fluorescente). La opción estándar para cualquier pieza decorativa o no estructural.\n• **PETG** — para multicolor en piezas funcionales que necesitan algo más de resistencia o exposición al exterior.\n\nLa combinación de materiales diferentes en la misma impresión (p.ej. PLA + TPU) no es posible con el sistema AMS actual — todos los colores deben ser del mismo tipo de material."
+      },
+    ],
+    faqs: [
+      { q: "¿Cuántos colores puedo tener en una misma pieza?", a: "Hasta 4 colores con nuestro sistema AMS actual. Para más colores, habría que pintar manualmente o ensamblar piezas por separado." },
+      { q: "¿Puedo mezclar PLA y PETG en la misma pieza multicolor?", a: "No. Todos los filamentos en una impresión multicolor deben ser del mismo tipo de material (todos PLA o todos PETG) para que las temperaturas de impresión sean compatibles." },
+      { q: "¿Cómo preparo el archivo para multicolor?", a: "La forma más fácil es con Bambu Studio o PrusaSlicer: importas el modelo, usas la herramienta de pintura para asignar colores por zona y exportas como 3MF. También puedes enviarnos STLs separados por cuerpo/color y nosotros hacemos el montaje." },
+      { q: "¿Podéis imprimir un logo en mi pieza?", a: "Sí. Podemos añadir un logo en relieve y en color diferente a una pieza existente. Mándanos tu pieza en STL y el logo en SVG o como referencia, y hacemos la adaptación del modelo." },
+      { q: "¿La impresión multicolor es más cara que la monocolor?", a: "Ligeramente. El recargo principal es el residuo de purga (~2–5€ por cambio de color activo). El resto del cálculo es igual que una pieza normal." },
+      { q: "¿Tenéis muestras de colores disponibles?", a: "Sí. Mándanos un WhatsApp y te enviamos una foto de los colores actuales disponibles en PLA y PETG." },
+      { q: "¿Es posible imprimir una figura de varios colores a partir de una foto?", a: "Para figuras bicolor sencillas (siluetas, placas con nombre, escudos) sí podemos partir de una referencia. Para figuras complejas con degradados o muchos colores se necesita un modelo 3D preparado." },
+    ],
+    galleryImages: pick("lion-king-figures.jpg", "lion-king-scene.jpg", "halloween-set.jpg", "stranger-things-diorama.jpg", "purple-figures.jpg", "cookie-cutters.jpg"),
+    related: [
+      { label: "Impresión 3D Online — Pide Ahora", slug: "/impresion-3d-online" },
+      { label: "Piezas Personalizadas 3D", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Catálogo de Productos", slug: "/catalogo" },
+      { label: "Precio Impresión 3D", slug: "/precio-impresion-3d" },
+      { label: "Materiales PLA Barcelona", slug: "/pla-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Impresión 3D Multicolor FDM",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
+
+  {
+    slug: "/impresion-3d",
+    topic: "pillar",
+    altSlug: "/3d-printing-service",
+    lang: "es",
+    category: "service",
+    metaTitle: "Impresión 3D: Servicio Online y en Barcelona — Presupuesto en 1 Hora",
+    metaDescription: "Qué es la impresión 3D, cómo funciona FDM, materiales, precios y cómo pedir. Servicio desde Barcelona con envío a toda España. Desde 10€.",
+    h1: "Impresión 3D: todo lo que necesitas saber para imprimir tu pieza",
+    intro: "Dimension3D es un servicio de impresión 3D en Barcelona con envío a toda España y Europa. Fabricamos piezas a medida, prototipos, recambios y objetos decorativos usando tecnología FDM en materiales como PLA, PETG, TPU, ABS/ASA y Nylon. El pedido mínimo es 10€, el presupuesto llega en menos de 1 hora y el envío cuesta 5,90€.",
+    sections: [
+      {
+        heading: "¿Qué es la impresión 3D y cómo funciona?",
+        body: "La impresión 3D (también llamada fabricación aditiva) construye objetos físicos capa a capa a partir de un archivo digital. En lugar de tallar o moldear el material, lo deposita exactamente donde hace falta.\n\nLa tecnología más usada en nuestro estudio es la **FDM (Fused Deposition Modeling)**: la máquina funde un filamento de plástico y lo deposita en capas de 0,15–0,30 mm de grosor. Las capas se funden entre sí formando una pieza sólida. El proceso es controlado por un fichero de instrucciones llamado G-code, generado por un software llamado slicer a partir de tu modelo 3D."
+      },
+      {
+        heading: "Tipos de impresión 3D: FDM vs resina vs SLS",
+        body: "FDM es la tecnología que usamos. ¿En qué se diferencia de las otras?\n\n• **FDM** — la más versatil y económica. Amplia gama de materiales técnicos (PETG, ABS, Nylon, TPU, CF). Ideal para prototipos funcionales, piezas mecánicas, recambios y producciones cortas. Acabado de capa visible pero aceptable para la mayoría de usos industriales y decorativos.\n• **Resina (SLA/MSLA)** — mayor resolución superficial y detalle fino. Excelente para joyería, figuras miniatura y piezas dentales. Más frágil mecánicamente y más cara. Piezas huecas frecuentes.\n• **SLS / MJF** — para series industriales, geometrías complejas sin soportes y materiales como Nylon 12. Mucho más cara. Para lotes de producción serios.\n\nPara la mayoría de los pedidos que recibimos — recambios, piezas funcionales, prototipos, decoración — FDM es la opción más práctica."
+      },
+      {
+        heading: "¿Qué materiales usamos?",
+        body: "Trabajamos con los plásticos FDM más habituales:\n\n• **PLA** — el más económico y fácil de imprimir. Perfecto para prototipos de forma, decoración, figuras. Sensible al calor (>55°C).\n• **PETG** — resistente a la humedad y al exterior, fácil de imprimir, buen equilibrio precio/resistencia. La recomendación para piezas funcionales.\n• **ABS / ASA** — más resistente al calor que PLA y PETG. ASA también resiste UV. Perfecto para piezas de coche y exteriores.\n• **TPU** — flexible y resistente al impacto. Fundas, juntas, ruedas, amortiguadores.\n• **Nylon** — alta resistencia mecánica y al desgaste. Engranajes, piezas de ingeniería, bisagras.\n• **Nylon-CF / PETG-CF** — reforzados con fibra de carbono, para piezas de alta resistencia estructural."
+      },
+      {
+        heading: "¿Para qué se usa la impresión 3D?",
+        body: "Las aplicaciones más frecuentes en nuestros 250+ pedidos:\n\n• **Recambios y piezas descatalogadas** — ruedas de lavavajillas, clips de coche, tiradores, guías, fijaciones.\n• **Prototipos** — validar forma, ajuste y función antes de producción en serie.\n• **Personalización** — logos, placas con nombre, keychains, decoración de hogar.\n• **Piezas funcionales** — soportes, adaptadores, herramientas, utillajes.\n• **Modelos y maquetas** — arquitectura, juegos de mesa, figuras.\n• **Tiradas cortas** — pequeños lotes de piezas para startups, talleres y clínicas."
+      },
+      {
+        heading: "¿Cómo pedir una impresión 3D?",
+        body: "El proceso es sencillo:\n\n1. **Sube tu archivo** (STL, 3MF, OBJ, STEP) en la calculadora. El precio aparece al instante.\n2. **Elige material, color, cantidad y plazo**.\n3. **Confirma el pedido** — un técnico revisa el archivo y te confirma en menos de 1 hora.\n4. **Recibe la pieza** — enviamos a toda España (5,90€) o puedes recoger en Barcelona.\n\nSi no tienes archivo, mándanos una foto y medidas por WhatsApp. En la mayoría de casos podemos dar precio antes de crear el modelo."
+      },
+      {
+        heading: "¿Cuánto cuesta imprimir en 3D?",
+        body: "El mínimo es 10€ por pedido (sin setup fee ni cobro por número de piezas). Los precios varían según material, tamaño y plazo:\n\n• Piezas pequeñas (5–30 g): desde 10€.\n• Piezas medianas (50–150 g): 20–50€.\n• Piezas grandes (200–500 g): 60–150€.\n\nEl envío a España cuesta 5,90€. Para piezas especiales, multicolor o con diseño, el precio puede ser mayor. Consulta la calculadora o la página de precios para más detalle."
+      },
+    ],
+    faqs: [
+      { q: "¿Qué es la impresión 3D FDM?", a: "FDM (Fused Deposition Modeling) es la tecnología de impresión 3D más común. Funde un filamento de plástico y lo deposita capa a capa para construir un objeto sólido. Es la mejor opción para piezas funcionales, recambios y prototipos." },
+      { q: "¿Cuánto tarda una impresión 3D?", a: "El tiempo depende del tamaño y la complejidad. Piezas pequeñas pueden imprimirse en 1–3 horas. Piezas grandes pueden tardar 12–24 horas. El plazo total de entrega (desde pedido hasta recepción) es de 2–7 días laborables." },
+      { q: "¿Puedo pedir una pieza sin tener un archivo 3D?", a: "Sí. Si tienes una pieza rota, una foto y medidas, o una descripción de lo que necesitas, podemos modelar y imprimir la pieza. El diseño tiene un coste adicional según la complejidad." },
+      { q: "¿Es la impresión 3D tan resistente como las piezas de fábrica?", a: "Depende del material y la aplicación. Piezas de PETG, ABS o Nylon pueden igualar o superar la resistencia de plásticos moldeados equivalentes. Para aplicaciones de alta carga o temperatura, te asesoramos sobre el material más adecuado." },
+      { q: "¿Podéis imprimir en cualquier color?", a: "Tenemos una amplia gama de colores en PLA y PETG. Para colores exactos (Pantone o RAL), mándanos la referencia y la buscamos en nuestra gama. No hacemos mezcla de colores personalizados." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "red-adapter.jpg", "blue-molds.jpg", "lion-king-figures.jpg", "curved-parts.jpg"),
+    related: [
+      { label: "Precio Impresión 3D — Calculadora", slug: "/precio-impresion-3d" },
+      { label: "Impresión 3D Online", slug: "/impresion-3d-online" },
+      { label: "Impresión 3D Multicolor", slug: "/impresion-3d-multicolor" },
+      { label: "Impresión 3D Cerca de Mí", slug: "/impresion-3d-cerca-de-mi" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Recambios Impresión 3D", slug: "/recambios-impresion-3d-barcelona" },
+    ],
+    schemaServiceName: "Impresión 3D FDM — Servicio Nacional",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+    comparisonTable: {
+      caption: "Comparativa de tecnologías de impresión 3D (FDM vs resina vs SLS)",
+      headers: ["Tecnología", "Materiales", "Detalle", "Resistencia", "Coste", "Mejor para"],
+      rows: [
+        ["FDM",   "PLA, PETG, ABS, TPU, Nylon", "Medio",   "Alta",   "€",    "Funcional, recambios, series"],
+        ["Resina","Fotopolímero",                "Muy alta","Baja",   "€€",   "Joyería, dental, figuras finas"],
+        ["SLS",   "Nylon 12, PA",               "Alta",    "Muy alta","€€€", "Series industriales, geometría compleja"],
+      ],
+    },
+  },
+
+  {
+    slug: "/impresion-3d-cerca-de-mi",
+    topic: "near-me",
+    altSlug: "/3d-printing-service",
+    lang: "es",
+    category: "service",
+    metaTitle: "Impresión 3D Cerca de Mí en Barcelona — Recogida en Les Corts o Envío",
+    metaDescription: "Busca impresión 3D cerca de ti en Barcelona. Recoge en Les Corts (Rambla de Brasil 53) o recibe en casa. Cobertura: Les Corts, Eixample, Gràcia, Sarrià, L'Hospitalet y más.",
+    h1: "Impresión 3D cerca de ti en Barcelona — recogida en Les Corts o envío a tu puerta",
+    intro: "Si buscas impresión 3D cerca de ti en Barcelona, Dimension3D está en el barrio de Les Corts, Rambla de Brasil 53. Podemos imprimir tu pieza y tenerla lista para recoger en el mismo día o enviarla a cualquier dirección de Barcelona y del resto de España. No hay pedido mínimo de distancia ni de cantidad.",
+    sections: [
+      {
+        heading: "Punto de recogida: Les Corts, Rambla de Brasil",
+        body: "Nuestro taller está en la Rambla de Brasil, 53 (08028 Barcelona), en el barrio de Les Corts, a 5 minutos andando del metro de Collblanc (L5) y de la Zona Universitaria (L3).\n\nA pie desde los barrios de Barcelona: 5–10 min desde Sants, Badal, La Bordeta y Can Vidalet. 10–15 min desde Esquerra de l'Eixample y Hostafrancs. Con transporte desde cualquier punto de Barcelona en 20–30 min.\n\nHorario de recogida: lunes a viernes de 9:00 a 19:00. Te avisamos por WhatsApp cuando tu pedido está listo."
+      },
+      {
+        heading: "Zonas de Barcelona con entrega rápida",
+        body: "Para pedidos urgentes dentro de Barcelona o el área metropolitana, coordinar una entrega rápida es posible. Zonas habituales:\n\n• **Barcelona ciudad**: Les Corts, Eixample, Gràcia, Sarrià-Sant Gervasi, Horta-Guinardó, Nou Barris, Sant Andreu, Sant Martí, Sants-Montjuïc, Ciutat Vella.\n• **Área metropolitana sur**: L'Hospitalet de Llobregat, Cornellà de Llobregat, Esplugues de Llobregat, Sant Just Desvern, Sant Feliu de Llobregat.\n• **Área metropolitana norte**: Badalona, Sant Adrià de Besòs, Santa Coloma de Gramenet.\n• **Área metropolitana noroeste**: Sant Cugat del Vallès, Rubí, Mollet del Vallès.\n\nPara entrega en día el mismo día en Barcelona ciudad, escríbenos por WhatsApp antes de las 10:00."
+      },
+      {
+        heading: "Opciones de entrega urgente en Barcelona",
+        body: "Cuando necesitas la pieza lo antes posible:\n\n• **Recogida misma jornada** — para pedidos confirmados antes de las 12:00 en día laborable, en la mayoría de casos la pieza está lista para recoger esa misma tarde.\n• **Servicio Express** — plazo de 24–48h desde la confirmación, con un recargo del 25%.\n• **Servicio Urgente** — para emergencias reales: same-day o next-day, con un recargo del 60% y disponibilidad limitada a PLA, PETG y TPU.\n\nPara discutir un plazo específico, mándanos un WhatsApp antes de hacer el pedido."
+      },
+      {
+        heading: "Envío si no estás en Barcelona",
+        body: "Si estás fuera de Barcelona o prefieres recibir la pieza en casa, el envío cuesta 5,90€ a cualquier punto de España (Península, Baleares, Canarias). El tiempo de tránsito es de 1–2 días laborables para Península.\n\nPara el resto de España, el proceso es 100% online: sube el archivo, paga y recibe en casa. No necesitas pasar por Barcelona."
+      },
+      {
+        heading: "¿Cómo encontrar el taller desde Google Maps?",
+        body: "El taller está en la Rambla de Brasil, 53, 08028 Barcelona. Puedes llegar:\n\n• **Metro**: Collblanc (L5) o Zona Universitària (L3), ambas a ~5 min andando.\n• **Bus**: varias líneas paran en la Travessera de les Corts / Rambla del Brasil.\n• **Coche**: hay aparcamiento en la misma calle y en el parking de Mas Guitart cercano.\n\nAnte cualquier duda de localización, mándanos un WhatsApp y te ayudamos."
+      },
+    ],
+    faqs: [
+      { q: "¿Dónde está el taller de impresión 3D en Barcelona?", a: "En la Rambla de Brasil, 53 (Les Corts, Barcelona 08028). A 5 minutos del metro Collblanc (L5)." },
+      { q: "¿Puedo recoger mi pedido el mismo día?", a: "Para pedidos confirmados antes de las 12:00 en día laborable, en la mayoría de casos la pieza está lista para recoger esa misma tarde. Para garantizarlo, usa el servicio Urgente." },
+      { q: "¿Cubren toda Barcelona o solo Les Corts?", a: "Podemos enviar a toda la ciudad y el área metropolitana. La recogida presencial es en Les Corts. Si necesitas entrega a domicilio dentro de Barcelona, consúltanos." },
+      { q: "¿También imprimís en L'Hospitalet, Cornellà o Sant Cugat?", a: "Sí. Puedes recoger en nuestro taller de Barcelona, o te enviamos a tu dirección. El coste de envío a toda la provincia de Barcelona es 5,90€." },
+      { q: "¿Tenéis horario de tarde para recoger?", a: "Atendemos recogidas de lunes a viernes de 9:00 a 19:00. Fuera de horario, puedes dejar una reseña en el buzón o coordinar por WhatsApp." },
+      { q: "¿Podéis venir a buscar mi pieza rota para copiarla?", a: "No hacemos recogida a domicilio para escaneo. Lo más práctico es traer la pieza al taller o enviarnos buenas fotos con una referencia de tamaño." },
+    ],
+    galleryImages: pick("custom-brackets.jpg", "curved-parts.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "blue-molds.jpg"),
+    related: [
+      { label: "Impresión 3D Online — Envío España", slug: "/impresion-3d-online" },
+      { label: "Precio Impresión 3D", slug: "/precio-impresion-3d" },
+      { label: "Impresión 3D Urgente Barcelona", slug: "/impresion-3d-urgente-barcelona" },
+      { label: "Piezas Personalizadas 3D Barcelona", slug: "/piezas-personalizadas-3d-barcelona" },
+      { label: "Impresión 3D para Empresas Barcelona", slug: "/impresion-3d-empresas-barcelona" },
+    ],
+    schemaServiceName: "Impresión 3D Cerca de Mí — Barcelona",
+    datePublished: "2026-11-11",
+    dateModified: "2026-11-11",
+  },
 ];
