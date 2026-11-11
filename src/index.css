@@ -1,3 +1,8 @@
+@import "@fontsource/inter-tight/700.css";
+@import "@fontsource/inter-tight/800.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,33 +12,39 @@
     /* Mobile header height — kept in sync with Header component and all main offsets. */
     --header-h: 56px;
 
-    --background: 210 20% 98%;
-    --foreground: 220 25% 10%;
+    --background: 0 0% 100%;
+    --foreground: 216 61% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 10%;
+    --card-foreground: 216 61% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 10%;
+    --popover-foreground: 216 61% 11%;
 
-    --primary: 220 15% 15%;
+    --primary: 216 61% 11%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 10% 94%;
-    --secondary-foreground: 220 25% 10%;
+    --secondary: 220 60% 98%;
+    --secondary-foreground: 216 61% 11%;
 
-    --muted: 220 10% 96%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 220 40% 96%;
+    --muted-foreground: 214 15% 37%;
 
-    --accent: 215 90% 52%;
+    --accent: 224 81% 56%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 215 90% 52%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 224 81% 56%;
+
+    /* DS extra tokens */
+    --ds-navy-deep: #0B1120;
+    --ds-on-dark-muted: #B8C4DA;
+    --ds-on-dark-soft: #D5DCEA;
+    --ds-surface-blue: #F3F6FF;
 
     --radius: 0.625rem;
 
@@ -54,8 +65,8 @@
     --section-dark-muted: 220 10% 60%;
 
     /* CTA accent — warm amber, distinct from link-blue */
-    --cta: 38 96% 52%;
-    --cta-foreground: 220 25% 10%;
+    --cta: 38 90% 55%;
+    --cta-foreground: 216 61% 11%;
 
     --sidebar-background: 220 10% 97%;
     --sidebar-foreground: 220 25% 10%;
@@ -114,6 +125,10 @@
 }
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
   * {
     @apply border-border;
   }
@@ -169,6 +184,109 @@
     background-clip: text;
   }
 
+  /* ── Design System: shared layout utilities ─────────────────── */
+
+  /* Dark grid background — 44 px grid, matches V1/V2 reference */
+  .ds-grid-bg {
+    background-color: #0F172A;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  /* Section vertical padding */
+  .ds-section {
+    padding-top: 84px;
+    padding-bottom: 84px;
+  }
+  @media (max-width: 639px) {
+    .ds-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+  }
+
+  /* Max width container (1240px, 24px gutters) */
+  .ds-container {
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  @media (max-width: 479px) {
+    .ds-container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  /* Long-form prose styles */
+  .ds-prose h1,
+  .ds-prose h2,
+  .ds-prose h3,
+  .ds-prose h4 {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+  }
+  .ds-prose h2 { font-size: 28px; }
+  .ds-prose h3 { font-size: 22px; }
+  .ds-prose h4 { font-size: 18px; }
+  .ds-prose p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #334155;
+    margin-bottom: 1em;
+  }
+  .ds-prose a { color: #2F5BEA; text-decoration: none; }
+  .ds-prose a:hover { text-decoration: underline; }
+  .ds-prose ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1em; }
+  .ds-prose ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1em; }
+  .ds-prose li { margin-bottom: 0.5em; color: #334155; font-size: 17px; }
+  .ds-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+    overflow-x: auto;
+    display: block;
+  }
+  .ds-prose thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5B6577;
+    border-bottom: 2px solid #0F172A;
+    padding: 10px 12px;
+    text-align: left;
+  }
+  .ds-prose tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #E3E8F0;
+    font-size: 15px;
+    color: #334155;
+  }
+  .ds-prose blockquote {
+    border-left: 3px solid #F5A524;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #334155;
+    margin: 1.5em 0;
+  }
+  .ds-prose .callout {
+    background: #F3F6FF;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 1.5em;
+  }
+
   /* Dark sections with subtle techy grid overlay */
   .section-dark-texture {
     position: relative;
@@ -191,14 +309,14 @@
      in useEffect after hydration, so there is zero hydration mismatch. */
   .sr-hidden {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(12px);
     transition: none !important;
   }
   .sr-revealed {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .animate-fade-in {
@@ -293,3 +411,9 @@ html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"]
 html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"],
 html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
 html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"] { display:none; }
+
+/* home_v2 — A=V1 (control), B=V2 (split-image hero).
+   Bots and SSR (no attribute) always see V1. No layout jump: decided before first paint. */
+html:not([data-xp-home-v2]) .xp-home-v2-only,
+html[data-xp-home-v2="A"]  .xp-home-v2-only { display:none !important; }
+html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }

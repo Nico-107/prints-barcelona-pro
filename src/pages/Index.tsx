@@ -1,34 +1,39 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, Building2, GraduationCap, Package, Star, Wrench, Zap } from "lucide-react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { ArrowRight, BookOpen, GraduationCap, Package, Star, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { useSectionView } from "@/hooks/usePageTracking";
 import { useXpExposure } from "@/lib/experiments";
 import { STATS } from "@/config/b2bFacts";
 import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
-import WhatCanWePrint from "@/components/WhatCanWePrint";
 import Materials from "@/components/Materials";
 import StlEstimator from "@/components/StlEstimator";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ExpressPrinting from "@/components/ExpressPrinting";
-import BusinessCTA from "@/components/BusinessCTA";
 import Projects from "@/components/Projects";
 import PricingInfo from "@/components/PricingInfo";
 import ServiceInfo from "@/components/ServiceInfo";
 import FAQ from "@/components/FAQ";
-import CallToAction from "@/components/CallToAction";
 import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
-import { Button } from "@/components/ui/button";
 import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { capture } from "@/lib/analytics";
+import {
+  Hero as DsHero,
+  StepCards,
+  LinkCardGrid,
+  B2BCards,
+  FounderSection,
+  ImageBand,
+  QuoteFeature,
+  FactsStrip,
+  PathCards,
+} from "@/components/ds";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -135,10 +140,6 @@ const GOOGLE_REVIEWS_COPY: Record<string, { heading: string; aggregate: string; 
   },
 };
 
-// These are the English machine-translations that Google itself displays on
-// the Business Profile — not a back-translation from the original language.
-// Displaying the same English text for all site languages (ES/EN/CA) until
-// the real original-language text can be collected from the business owner.
 const GOOGLE_REVIEWS_DATA = [
   {
     name: "Sara Dospassos",
@@ -166,8 +167,49 @@ const GOOGLE_REVIEWS_DATA = [
   },
 ];
 
+// What we print cards per language
+const WHAT_WE_PRINT: Record<string, { href: string; title: string; description: string }[]> = {
+  es: [
+    { href: "/prototipos-3d-barcelona", title: "Prototipos funcionales", description: "Valida tu diseño antes de producir" },
+    { href: "/recambios-impresion-3d-barcelona", title: "Piezas de repuesto", description: "Electrodomésticos, máquinas, vehículos" },
+    { href: "/piezas-personalizadas-3d-barcelona", title: "Soportes y adaptadores", description: "Montajes y soluciones a medida" },
+    { href: "/piezas-funcionales-barcelona", title: "Piezas técnicas", description: "RC, drones, automoción y mecánica" },
+    { href: "/piezas-personalizadas-3d-barcelona", title: "Proyectos personalizados", description: "Hobby, decoración o uso personal" },
+    { href: "/disena-tu-pieza-3d", title: "Diseños originales", description: "Si lo puedes imaginar, lo podemos imprimir" },
+  ],
+  en: [
+    { href: "/prototype-printing-barcelona", title: "Functional prototypes", description: "Validate your design before production" },
+    { href: "/replacement-parts-barcelona", title: "Replacement parts", description: "Appliances, machines, vehicles" },
+    { href: "/custom-parts-barcelona", title: "Brackets & adaptors", description: "Mounts and custom solutions" },
+    { href: "/functional-parts-barcelona", title: "Technical parts", description: "RC, drones, automotive and mechanical" },
+    { href: "/custom-parts-barcelona", title: "Custom projects", description: "Hobby, décor or personal use" },
+    { href: "/design-your-3d-part", title: "Original designs", description: "If you can imagine it, we can print it" },
+  ],
+  ca: [
+    { href: "/ca/prototips-3d-barcelona", title: "Prototips funcionals", description: "Valida el teu disseny abans de produir" },
+    { href: "/ca/recanvis-impressio-3d-barcelona", title: "Peces de recanvi", description: "Electrodomèstics, màquines, vehicles" },
+    { href: "/ca/peces-personalitzades-3d-barcelona", title: "Suports i adaptadors", description: "Muntatges i solucions a mida" },
+    { href: "/ca/peces-funcionals-barcelona", title: "Peces tècniques", description: "RC, drones, automoció i mecànica" },
+    { href: "/ca/peces-personalitzades-3d-barcelona", title: "Projectes personalitzats", description: "Hobby, decoració o ús personal" },
+    { href: "/dissenya-la-teva-peca-3d", title: "Dissenys originals", description: "Si ho pots imaginar, ho podem imprimir" },
+  ],
+};
+
+// Ordered star counts label
+const ORDERS_LABEL: Record<string, string> = {
+  es: "250+ PEDIDOS ENTREGADOS",
+  en: "250+ ORDERS DELIVERED",
+  ca: "250+ COMANDES LLIURADES",
+  de: "250+ BESTELLUNGEN GELIEFERT",
+  fr: "250+ COMMANDES LIVRÉES",
+  it: "250+ ORDINI CONSEGNATI",
+  nl: "250+ BESTELLINGEN GELEVERD",
+  pt: "250+ ENCOMENDAS ENTREGUES",
+};
+
 const Index = () => {
   const { language, setLanguage, t } = useLanguage();
+  const navigate = useNavigate();
   const meta = HOME_META[language] ?? HOME_META.es;
   const { pathname } = useLocation();
   const isCa = pathname === "/ca" || pathname === "/ca/";
@@ -175,7 +217,6 @@ const Index = () => {
   const refCity = searchParams.get("ref") ?? undefined;
   const refDays = searchParams.get("days") ?? undefined;
 
-  // Shared calculator highlight — toggled by any primary quote CTA click
   const [calcHighlight, setCalcHighlight] = useState(false);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -195,6 +236,7 @@ const Index = () => {
   useSectionView(faqRef, "faq");
   useSectionView(b2bRef, "b2b");
   useXpExposure(reviewsRef, "home_proof_r1");
+  useXpExposure(heroRef, "home_v2");
 
   useEffect(() => {
     return () => {
@@ -230,7 +272,14 @@ const Index = () => {
       setCalcHighlight(false);
       highlightTimerRef.current = null;
     }, 1500);
+    capture("upload_entry_click", { source: "hero", page_path: pathname });
   };
+
+  const handleNoFile = () => {
+    const url = language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "en" ? "/design-your-3d-part" : "/disena-tu-pieza-3d";
+    navigate(url);
+  };
+
   const faqs = HOME_FAQS[language] ?? HOME_FAQS.es;
 
   const serviceSchema = {
@@ -258,6 +307,51 @@ const Index = () => {
     })),
   };
 
+  // V1 hero star line
+  const heroStarLine = (
+    <>
+      <span style={{ color: "#F5A524" }}>★★★★★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}</span>
+      <span>{ORDERS_LABEL[language] ?? ORDERS_LABEL.es}</span>
+      <span>Barcelona</span>
+    </>
+  );
+
+  // V1 hero H1 with amber underline on "Barcelona."
+  const v1H1 = (
+    <>
+      {t("home.h1").replace("Barcelona.", "")}
+      <span style={{ boxShadow: "inset 0 -0.16em 0 #F5A524" }}>Barcelona.</span>
+    </>
+  );
+
+  // V2 hero H1: "Impresión 3D de [alta calidad] en Barcelona."
+  const v2H1 = language === "ca"
+    ? <>Impressió 3D de <span style={{ color: "#F5A524" }}>alta qualitat</span> a Barcelona.</>
+    : language === "en"
+    ? <>Quality <span style={{ color: "#F5A524" }}>3D printing</span> in Barcelona.</>
+    : <>Impresión 3D de <span style={{ color: "#F5A524" }}>alta calidad</span> en Barcelona.</>;
+
+  // Facts strip items (V1 hero + V2 standalone)
+  const factsItems = [
+    { value: "Desde 10 €", label: t("home.facts.minOrder.label") },
+    { value: "24–48 h", label: t("home.facts.delivery.label") },
+    { value: "±0,2 mm", label: t("home.facts.tolerance.label") },
+    { value: t("home.facts.quote.text"), label: t("home.facts.quote.attribution") },
+  ];
+
+  // V2 facts strip (simpler, 4 items on navy)
+  const v2FactsItems = [
+    { value: "Desde 10 €", label: t("home.facts.minOrder.label") },
+    { value: "<1 h", label: language === "ca" ? "RESPOSTA AL PRESSUPOST" : language === "en" ? "QUOTE TURNAROUND" : "RESPUESTA AL PRESUPUESTO" },
+    { value: "24–48 h", label: t("home.facts.delivery.label") },
+    { value: "4,8/5", label: language === "ca" ? "EN RESSENYES" : language === "en" ? "IN REVIEWS" : "EN RESEÑAS" },
+  ];
+
+  const whatWePrint = WHAT_WE_PRINT[language] ?? WHAT_WE_PRINT.es;
+
+  const designRequestUrl = language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "en" ? "/design-your-3d-part" : "/disena-tu-pieza-3d";
+  const b2bUrl = "/impresion-3d-empresas-barcelona";
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
@@ -283,39 +377,173 @@ const Index = () => {
         <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
         <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
       </Helmet>
+
       <LaunchOfferBanner />
       <Header />
-      <main className="pt-[var(--header-h)]">
-        <div ref={heroRef}><Hero onScrollToCalc={handleScrollToCalc} /></div>
-        <div ref={howItWorksRef}><HowItWorks /></div>
-        <div ref={calculatorRef}><StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} /></div>
 
-        {/* No-file alternative path */}
-        <section className="py-14 md:py-16 bg-foreground text-background">
-          <div className="container px-4 max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-              {t("design.hero.badge")}
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold text-background mb-4">
-              {t("nofile.heading")}
+      <main>
+        {/* ── HERO V1 (default / A variant) ── */}
+        <div ref={heroRef} className="xp-home-v1-only">
+          <DsHero
+            variant="centered"
+            starLine={heroStarLine}
+            h1={v1H1}
+            paragraph={t("home.hero.p")}
+            primaryButton={{
+              label: (
+                <>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M12 16V4" /><path d="M7 9l5-5 5 5" /><path d="M4 16v4h16v-4" />
+                  </svg>
+                  {language === "ca" ? "Veure el meu preu — des de 10 €" : language === "en" ? "Get my price — from €10" : "Ver mi precio — desde 10 €"}
+                </>
+              ),
+              onClick: handleScrollToCalc,
+            }}
+            reassuranceItems={t("home.hero.reassurance").split(" · ")}
+            noFileLink={{ label: t("home.hero.nofile"), onClick: handleNoFile }}
+            factsItems={factsItems}
+          />
+        </div>
+
+        {/* ── HERO V2 (B variant) ── */}
+        <div className="xp-home-v2-only">
+          <DsHero
+            variant="split-image"
+            starLine={
+              <span style={{ color: "#8FB0FF" }}>
+                ★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}{" "}
+                {language === "ca" ? "en ressenyes" : language === "en" ? "in reviews" : "en reseñas"} · Barcelona
+              </span>
+            }
+            h1={v2H1}
+            paragraph={t("home.hero.p")}
+            primaryButton={{
+              label: language === "ca" ? "Pujar arxiu i veure preu" : language === "en" ? "Upload file and get price" : "Subir archivo y ver precio",
+              onClick: handleScrollToCalc,
+            }}
+            reassuranceItems={[
+              language === "ca" ? "O arrossega el fitxer a qualsevol lloc de la pàgina" : language === "en" ? "Or drag the file anywhere on the page" : "O arrastra el archivo a cualquier parte de la página",
+            ]}
+            noFileLink={{
+              label: language === "ca" ? "No tinc arxiu →" : language === "en" ? "I don't have a file →" : "No tengo archivo →",
+              onClick: handleNoFile,
+            }}
+            splitImage={{
+              src: "/img/x2d/x2d-inside.jpg",
+              alt: language === "ca" ? "Impressora Bambu Lab X2D" : language === "en" ? "Bambu Lab X2D printer printing a part" : "Impresora Bambu Lab X2D imprimiendo una pieza",
+            }}
+          />
+          {/* V2 Facts Strip on navy */}
+          <FactsStrip items={v2FactsItems} variant="dark" />
+        </div>
+
+        {/* ── HOW IT WORKS ── */}
+        <div ref={howItWorksRef}>
+          <section style={{ background: "#F6F8FC" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+              <h2
+                style={{
+                  margin: "0 0 10px",
+                  fontFamily: "'Inter Tight', system-ui, sans-serif",
+                  fontWeight: 800,
+                  fontSize: "clamp(30px, 3.6vw, 44px)",
+                  lineHeight: 1.05,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {t("how.title")}
+              </h2>
+              <p style={{ margin: "0 0 30px", color: "#5B6577" }}>{t("how.subtitle")}</p>
+              <StepCards
+                steps={[
+                  {
+                    number: 1,
+                    title: t("how.step1.title"),
+                    description: t("how.step1.desc"),
+                    cta: {
+                      label: language === "ca" ? "Seleccionar arxiu →" : language === "en" ? "Select file →" : "Seleccionar archivo →",
+                      onClick: () => { capture("upload_entry_click", { source: "step_card", page_path: pathname }); handleScrollToCalc(); },
+                    },
+                  },
+                  { number: 2, title: t("how.step2.title"), description: t("how.step2.desc") },
+                  { number: 3, title: t("how.step3.title"), description: t("how.step3.desc") },
+                  { number: 4, title: t("how.step4.title"), description: t("how.step4.desc") },
+                ]}
+              />
+            </div>
+          </section>
+        </div>
+
+        {/* ── V2 PATH CARDS ── */}
+        <div className="xp-home-v2-only">
+          <section style={{ background: "#FFFFFF" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+              <PathCards
+                heading={language === "ca" ? "Per on comencem?" : language === "en" ? "Where do we start?" : "¿Por dónde empezamos?"}
+                cards={[
+                  {
+                    variant: "amber",
+                    heading: language === "ca" ? "Tinc l'arxiu 3D" : language === "en" ? "I have the 3D file" : "Tengo el archivo 3D",
+                    description: language === "ca" ? "STL, OBJ, 3MF o GLB — preu en 10 segons" : language === "en" ? "STL, OBJ, 3MF or GLB — price in 10 seconds" : "STL, OBJ, 3MF o GLB — precio en 10 segundos",
+                    cta: language === "ca" ? "Calcular preu →" : language === "en" ? "Calculate price →" : "Calcular precio →",
+                    onClick: () => { capture("upload_entry_click", { source: "path_card", page_path: pathname }); handleScrollToCalc(); },
+                  },
+                  {
+                    variant: "blue",
+                    heading: language === "ca" ? "Tinc una foto o peça trencada" : language === "en" ? "I have a photo or broken part" : "Tengo una foto o una pieza rota",
+                    description: language === "ca" ? "Dissenyem i imprimim per tu" : language === "en" ? "We design and print for you" : "Diseñamos e imprimimos por ti",
+                    cta: language === "ca" ? "Sol·licitar disseny →" : language === "en" ? "Request design →" : "Solicitar diseño →",
+                    href: designRequestUrl,
+                  },
+                  {
+                    variant: "dark",
+                    heading: language === "ca" ? "Prototips en 48 h o sèries" : language === "en" ? "Prototypes in 48 h or series" : "Prototipos en 48 h o series",
+                    description: language === "ca" ? "Empreses i equips d'enginyeria" : language === "en" ? "Businesses and engineering teams" : "Empresas y equipos de ingeniería",
+                    cta: language === "ca" ? "Veure serveis per a empreses →" : language === "en" ? "See business services →" : "Ver servicios para empresas →",
+                    href: b2bUrl,
+                  },
+                ]}
+              />
+            </div>
+          </section>
+        </div>
+
+        {/* ── CALCULATOR ── */}
+        <div ref={calculatorRef}>
+          <StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} />
+        </div>
+
+        {/* ── QUÉ IMPRIMIMOS ── */}
+        <section style={{ background: "#FFFFFF" }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <h2
+              style={{
+                margin: "0 0 10px",
+                fontFamily: "'Inter Tight', system-ui, sans-serif",
+                fontWeight: 800,
+                fontSize: "clamp(30px, 3.6vw, 44px)",
+                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {t("home.whatwep.heading")}
             </h2>
-            <p className="text-background/70 leading-relaxed mb-8 max-w-lg mx-auto">
-              {t("nofile.subheading")}
-            </p>
-            <Button asChild variant="cta" size="lg">
-              <Link to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "en" ? "/design-your-3d-part" : "/disena-tu-pieza-3d"}>
-                {t("nofile.cta")}
-              </Link>
-            </Button>
+            <p style={{ margin: "0 0 30px", color: "#5B6577" }}>{t("home.whatwep.subheading")}</p>
+            <LinkCardGrid items={whatWePrint} />
           </div>
         </section>
 
-        <WhatCanWePrint />
+        {/* ── MATERIALS ── */}
         <div ref={materialsRef}><Materials /></div>
+
+        {/* ── WHY CHOOSE US ── */}
         <WhyChooseUs />
+
+        {/* ── PROJECTS ── */}
         <Projects />
 
-        {/* ── GOOGLE REVIEWS / home_proof_r1 ── */}
+        {/* ── REVIEWS / home_proof_r1 experiment ── */}
         {(() => {
           const copy = GOOGLE_REVIEWS_COPY[language] ?? GOOGLE_REVIEWS_COPY.es;
           const periodCopy = STATS.totalOrdersPeriod[language as keyof typeof STATS.totalOrdersPeriod] ?? STATS.totalOrdersPeriod.es;
@@ -354,7 +582,7 @@ const Index = () => {
           return (
             <section ref={reviewsRef} className="py-14 md:py-16 bg-secondary/30">
               <div className="container px-4 max-w-5xl mx-auto">
-                {/* Variant A (control): current 3 review quotes */}
+                {/* Variant A (control) */}
                 <div data-xp-slot="home_proof_r1" data-xp-v="A">
                   <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-2 mb-2">
@@ -363,12 +591,10 @@ const Index = () => {
                     </div>
                   </div>
                   <ReviewCards />
-                  <p className="text-sm text-center text-foreground/55 mt-6">
-                    {copy.aggregate}
-                  </p>
+                  <p className="text-sm text-center text-foreground/55 mt-6">{copy.aggregate}</p>
                 </div>
 
-                {/* Variant B: rating badge + same quotes */}
+                {/* Variant B: rating badge */}
                 <div data-xp-slot="home_proof_r1" data-xp-v="B">
                   <div className="text-center mb-8">
                     {ratingOk ? (
@@ -385,9 +611,7 @@ const Index = () => {
                     <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
                   </div>
                   <ReviewCards />
-                  <p className="text-sm text-center text-foreground/55 mt-6">
-                    {copy.aggregate}
-                  </p>
+                  <p className="text-sm text-center text-foreground/55 mt-6">{copy.aggregate}</p>
                 </div>
 
                 {/* Variant C: print photos strip + stats */}
@@ -409,22 +633,92 @@ const Index = () => {
                       <img key={src} src={src} alt={alt} className="w-full aspect-square object-cover rounded-lg border border-border" loading="lazy" />
                     ))}
                   </div>
-                  <p className="text-sm text-center text-foreground/55 mt-2">
-                    {copy.aggregate}
-                  </p>
+                  <p className="text-sm text-center text-foreground/55 mt-2">{copy.aggregate}</p>
                 </div>
               </div>
             </section>
           );
         })()}
 
-        <div ref={b2bRef}><BusinessCTA /></div>
+        {/* ── B2B CARDS ── */}
+        <div ref={b2bRef}>
+          <section style={{ background: "#FFFFFF" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+              <B2BCards
+                heading={t("home.b2b.heading")}
+                cards={[
+                  {
+                    variant: "dark",
+                    label: t("home.b2b.card1.label"),
+                    heading: t("home.b2b.card1.heading"),
+                    description: t("home.b2b.card1.desc"),
+                    cta: t("home.b2b.card1.cta"),
+                    href: designRequestUrl,
+                  },
+                  {
+                    variant: "blue",
+                    label: t("home.b2b.card2.label"),
+                    heading: t("home.b2b.card2.heading"),
+                    description: t("home.b2b.card2.desc"),
+                    cta: t("home.b2b.card2.cta"),
+                    href: b2bUrl,
+                  },
+                ]}
+              />
+            </div>
+          </section>
+        </div>
+
+        {/* ── FOUNDER SECTION ── */}
+        <FounderSection
+          imageSrc="/img/x2d/x2d-room.jpg"
+          imageAlt={
+            language === "ca"
+              ? "Impressora Bambu Lab X2D imprimint una peça en un estudi"
+              : language === "en"
+              ? "Bambu Lab X2D printer in a studio setting"
+              : "Impresora Bambu Lab X2D imprimiendo una pieza en un estudio"
+          }
+          label={t("home.founder.label")}
+          heading={t("home.founder.heading")}
+          body={t("home.founder.body")}
+          specs={[t("home.founder.spec1"), t("home.founder.spec2"), t("home.founder.spec3")]}
+          cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
+        />
+
+        {/* ── PRICING INFO ── */}
         <PricingInfo />
+
+        {/* ── SERVICE INFO ── */}
         <ServiceInfo />
+
+        {/* ── EXPRESS ── */}
         <ExpressPrinting />
+
+        {/* ── FAQ ── */}
         <div ref={faqRef}><FAQ /></div>
+
+        {/* ── LOCATION ── */}
         <LocationMap />
-        <CallToAction />
+
+        {/* ── FINAL IMAGE BAND ── */}
+        <ImageBand
+          imageSrc="/img/x2d/x2d-nozzles.jpg"
+          imageAlt={
+            language === "ca"
+              ? "Boquilles de la impressora Bambu Lab X2D"
+              : language === "en"
+              ? "Bambu Lab X2D dual nozzles close-up"
+              : "Boquillas de la impresora Bambu Lab X2D de cerca"
+          }
+          fadeDirection="left"
+          heading={t("home.final.heading")}
+          cta={{
+            label: language === "ca" ? "Veure el meu preu — des de 10 €" : language === "en" ? "Get my price — from €10" : "Ver mi precio — desde 10 €",
+            onClick: () => { capture("upload_entry_click", { source: "final_band", page_path: pathname }); handleScrollToCalc(); },
+          }}
+          reassurance={t("home.hero.reassurance")}
+        />
 
         {/* ── GUIDES ── */}
         {(() => {
@@ -452,7 +746,8 @@ const Index = () => {
                         <p className="text-xs text-foreground/55 leading-relaxed">{desc}</p>
                       </div>
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-auto">
-                        Leer más <ArrowRight className="w-3 h-3" />
+                        {language === "ca" ? "Llegir més" : language === "en" ? "Read more" : "Leer más"}{" "}
+                        <ArrowRight className="w-3 h-3" />
                       </span>
                     </Link>
                   ))}
@@ -470,7 +765,8 @@ const Index = () => {
             </section>
           );
         })()}
-        {/* ── SERVICIOS & ENVÍOS INTERNACIONALES GRID ── */}
+
+        {/* ── SERVICES & INTERNATIONAL GRID ── */}
         <section className="py-12 md:py-14 bg-background border-t border-border/50">
           <div className="container px-4 max-w-5xl mx-auto">
             <h2 className="text-base font-semibold text-foreground/70 uppercase tracking-widest mb-6 text-center">
@@ -563,6 +859,7 @@ const Index = () => {
           </div>
         </section>
       </main>
+
       <Footer />
       <WhatsAppFloat />
     </div>

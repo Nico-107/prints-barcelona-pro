@@ -19,8 +19,22 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ["'Inter Tight'", 'system-ui', 'sans-serif'],
+        mono: ["'JetBrains Mono'", 'monospace'],
       },
       colors: {
+        ds: {
+          navy:            '#0F172A',
+          'navy-deep':     '#0B1120',
+          amber:           '#F5A524',
+          blue:            '#2F5BEA',
+          surface:         '#F6F8FC',
+          'surface-blue':  '#F3F6FF',
+          line:            '#E3E8F0',
+          'text-muted':    '#5B6577',
+          'on-dark-muted': '#B8C4DA',
+          'on-dark-soft':  '#D5DCEA',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
