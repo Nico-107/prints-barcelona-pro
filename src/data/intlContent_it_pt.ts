@@ -360,25 +360,25 @@ export const itGuidePrice: IntlGuideContent = {
       material: "PLA",
       price: "~10 €",
       description:
-        "Supporto per cavo o piccolo bracket decorativo. Calcolo: 30 × 0,055 × 1,0 + 0,5 × 4,95 = 1,65 + 2,48 = 4,13 € → arrotondato al minimo d'ordine di 10 €.",
+        "Supporto per cavo o piccolo bracket decorativo. Calcolo: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → arrotondato al minimo d'ordine di 10 €.",
     },
     {
       name: "Connettore funzionale in PETG",
       grams: 80,
       hours: 2,
       material: "PETG",
-      price: "~15 €",
+      price: "15,73 €",
       description:
-        "Raccordo o giunzione funzionale in PETG per applicazioni con esposizione all'umidità. Calcolo: 80 × 0,055 × 1,1 + 2 × 4,95 = 4,84 + 9,90 = 14,74 € → ~15 €.",
+        "Raccordo o giunzione funzionale in PETG per applicazioni con esposizione all'umidità. Calcolo: (80 g × 0,055 €/g + 2 h × 4,95 €/h) × 1,1 = 15,73 €.",
     },
     {
       name: "Involucro tecnico in ABS",
       grams: 200,
       hours: 5,
       material: "ABS",
-      price: "~37 €",
+      price: "43,61 €",
       description:
-        "Carcassa o alloggiamento per elettronica o componente meccanico soggetto a calore. Calcolo: 200 × 0,055 × 1,3 + 5 × 3,85 = 14,30 + 19,25 = 33,55 € — ma le prime 3 ore a 4,95 €: 200 × 0,055 × 1,3 + 3 × 4,95 + 2 × 3,85 = 14,30 + 14,85 + 7,70 = 36,85 € → ~37 €.",
+        "Carcassa o alloggiamento per elettronica o componente meccanico soggetto a calore. Calcolo: (200 g × 0,055 €/g + 3 h × 4,95 €/h + 2 h × 3,85 €/h) × 1,3 = 43,61 €.",
     },
   ],
 
@@ -826,25 +826,25 @@ export const ptGuidePrice: IntlGuideContent = {
       material: "PLA",
       price: "~10 €",
       description:
-        "Suporte para cabo ou pequeno bracket decorativo. Cálculo: 30 × 0,055 × 1,0 + 0,5 × 4,95 = 1,65 + 2,48 = 4,13 € → arredondado para o mínimo de encomenda de 10 €.",
+        "Suporte para cabo ou pequeno bracket decorativo. Cálculo: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → arredondado para o mínimo de encomenda de 10 €.",
     },
     {
       name: "Conector funcional em PETG",
       grams: 80,
       hours: 2,
       material: "PETG",
-      price: "~15 €",
+      price: "15,73 €",
       description:
-        "Ligação ou junção funcional em PETG para aplicações com exposição à humidade. Cálculo: 80 × 0,055 × 1,1 + 2 × 4,95 = 4,84 + 9,90 = 14,74 € → ~15 €.",
+        "Ligação ou junção funcional em PETG para aplicações com exposição à humidade. Cálculo: (80 g × 0,055 €/g + 2 h × 4,95 €/h) × 1,1 = 15,73 €.",
     },
     {
       name: "Carcaça técnica em ABS",
       grams: 200,
       hours: 5,
       material: "ABS",
-      price: "~37 €",
+      price: "43,61 €",
       description:
-        "Carcaça ou alojamento para electrónica ou componente mecânico sujeito a calor. Cálculo: 200 × 0,055 × 1,3 + 3 × 4,95 + 2 × 3,85 = 14,30 + 14,85 + 7,70 = 36,85 € → ~37 €.",
+        "Carcaça ou alojamento para electrónica ou componente mecânico sujeito a calor. Cálculo: (200 g × 0,055 €/g + 3 h × 4,95 €/h + 2 h × 3,85 €/h) × 1,3 = 43,61 €.",
     },
   ],
 

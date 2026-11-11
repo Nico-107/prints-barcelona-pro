@@ -421,25 +421,25 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
         material: "PLA",
         price: "10,00 €",
         description:
-          "30 g × 0,055 × 1,0 + 0,5 × 4,95 = 4,12 € → Mindestbestellwert 10 €",
+          "(30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → Mindestbestellwert 10 €",
       },
       {
         name: "Funktionshalterung",
         grams: 80,
         hours: 2,
         material: "PETG",
-        price: "ca. 15,00 €",
+        price: "15,73 €",
         description:
-          "80 g × 0,055 × 1,1 + 2 × 4,95 = 4,84 + 9,90 = 14,74 € → ca. 15 €",
+          "(80 g × 0,055 €/g + 2 h × 4,95 €/h) × 1,1 = 15,73 €",
       },
       {
         name: "Elektronikgehäuse",
         grams: 200,
         hours: 5,
         material: "ABS",
-        price: "ca. 37,00 €",
+        price: "43,61 €",
         description:
-          "200 g × 0,055 × 1,3 + 3 × 4,95 + 2 × 3,85 = 14,30 + 14,85 + 7,70 = 36,85 € → ca. 37 €",
+          "(200 g × 0,055 €/g + 3 h × 4,95 €/h + 2 h × 3,85 €/h) × 1,3 = 43,61 €",
       },
     ],
 
