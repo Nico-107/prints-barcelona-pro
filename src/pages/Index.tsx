@@ -382,7 +382,7 @@ const Index = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main>
+      <main id="main-content">
         {/* ── HERO V1 (default / A variant) ── */}
         <div ref={heroRef} className="xp-home-v1-only">
           <DsHero

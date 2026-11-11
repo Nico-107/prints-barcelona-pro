@@ -5,7 +5,7 @@ interface HeroProps {
   starLine?: ReactNode;
   h1: ReactNode;
   paragraph: string;
-  primaryButton: { label: ReactNode; onClick: () => void };
+  primaryButton?: { label: ReactNode; onClick: () => void };
   reassuranceItems?: string[];
   noFileLink?: { label: string; onClick: () => void };
   factsItems?: { value: string; label: string }[];
@@ -85,27 +85,29 @@ function CenteredHero({
             {paragraph}
           </p>
 
-          <button
-            type="button"
-            onClick={primaryButton.onClick}
-            style={{
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 12,
-              background: '#F5A524',
-              color: '#0F172A',
-              fontWeight: 700,
-              fontSize: 22,
-              padding: '22px 40px',
-              borderRadius: 12,
-              border: 0,
-              cursor: 'pointer',
-              fontFamily: "'Inter', system-ui, sans-serif",
-            }}
-          >
-            {primaryButton.label}
-          </button>
+          {primaryButton && (
+            <button
+              type="button"
+              onClick={primaryButton.onClick}
+              style={{
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 12,
+                background: '#F5A524',
+                color: '#0F172A',
+                fontWeight: 700,
+                fontSize: 22,
+                padding: '22px 40px',
+                borderRadius: 12,
+                border: 0,
+                cursor: 'pointer',
+                fontFamily: "'Inter', system-ui, sans-serif",
+              }}
+            >
+              {primaryButton.label}
+            </button>
+          )}
 
           {reassuranceItems.length > 0 && (
             <div

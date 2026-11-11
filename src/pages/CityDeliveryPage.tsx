@@ -297,19 +297,9 @@ const CityDeliveryPage = ({ config }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient">
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
-          </div>
-          <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-16 right-12 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">

@@ -622,7 +622,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       <main className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ── */}
-        <section ref={heroRef} className="hero-gradient py-14 md:py-20">
+        <section ref={heroRef} className="ds-grid-bg py-14 md:py-20">
           <div className="container px-4 max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>

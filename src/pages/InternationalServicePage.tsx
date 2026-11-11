@@ -133,9 +133,9 @@ const InternationalServicePage = () => {
 
     <Header />
 
-    <main className="pt-[var(--header-h)]">
+    <main id="main-content" className="pt-[var(--header-h)]">
       {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient">
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
         <div className="absolute inset-0 opacity-[0.03]">
           <div
             className="absolute inset-0"

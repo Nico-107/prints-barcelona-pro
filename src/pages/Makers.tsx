@@ -7,9 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion } from "@/components/ds";
 import {
   CheckCircle, Loader2, Send, MessageCircle, ArrowRight,
   Users, Shield, Gift, DollarSign, BookOpen, Globe, CheckCircle2, X as XIcon, HelpCircle,
@@ -528,10 +526,10 @@ const Makers = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ──────────────────────────────────────────────── */}
-        <section className="relative py-24 md:py-32 hero-gradient overflow-hidden">
+        <section className="relative py-24 md:py-32 ds-grid-bg overflow-hidden">
           {/* Diagonal amber stripe decoration (right half) */}
           <div
             className="absolute inset-y-0 right-0 w-1/2 pointer-events-none"
@@ -539,7 +537,6 @@ const Makers = () => {
               backgroundImage: "repeating-linear-gradient(-55deg, rgba(245,158,11,0.06) 0, rgba(245,158,11,0.06) 1px, transparent 0, transparent 22px)",
             }}
           />
-          <div className="absolute top-20 left-8 w-40 h-40 bg-accent/8 rounded-full blur-3xl pointer-events-none" />
 
           <div className="container relative z-10 px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
@@ -676,7 +673,7 @@ const Makers = () => {
         </section>
 
         {/* ── 4. WHY US (comparison) ───────────────────────────────── */}
-        <section className="py-20 md:py-28 hero-gradient">
+        <section className="py-20 md:py-28 ds-grid-bg">
           <div className="container px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-3">{c.whyHeading}</h2>
@@ -945,22 +942,10 @@ const Makers = () => {
         </section>
 
         {/* ── 8. FAQ ───────────────────────────────────────────────── */}
-        <section className="py-20 md:py-28 bg-background">
+        <section className="py-20 md:py-28 bg-[#F6F8FC]">
           <div className="container px-4">
             <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">{c.faqHeading}</h2>
-              <Accordion type="single" collapsible className="w-full">
-                {c.faqs.map((faq, i) => (
-                  <AccordionItem key={i} value={`faq-${i}`}>
-                    <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground leading-relaxed">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <FAQAccordion items={c.faqs.map(f => ({ question: f.q, answer: f.a }))} />
               <div className="mt-10 text-center">
                 <Button variant="cta" size="lg" onClick={scrollToForm} className="gap-2">
                   {c.ctaJoin}

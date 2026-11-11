@@ -13,7 +13,7 @@ const NotFound = () => {
         <meta name="description" content="La página que buscas no existe. Vuelve al inicio o usa la calculadora para obtener un presupuesto de impresión 3D." />
       </Helmet>
       <Header />
-      <main className="flex-1 flex items-center justify-center py-20">
+      <main id="main-content" className="flex-1 flex items-center justify-center py-20">
         <div className="container px-4 max-w-lg mx-auto text-center">
           <p className="text-7xl font-bold text-accent mb-4">404</p>
           <h1 className="text-2xl font-bold text-foreground mb-3">

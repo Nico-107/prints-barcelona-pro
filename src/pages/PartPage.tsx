@@ -8,12 +8,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion } from "@/components/ds";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PUBLISHER_REF } from "@/seo/entities";
@@ -288,7 +283,7 @@ const PartPage = ({ part }: Props) => {
       </Helmet>
       <SocialMeta title={metaTitle} description={metaDescription} path={part.slug} />
       <Header />
-      <main className="min-h-screen bg-background pt-[var(--header-h)] pb-28 md:pb-20">
+      <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-28 md:pb-20">
         <div className="container px-4">
           <div className="max-w-5xl mx-auto space-y-16">
 
@@ -528,23 +523,7 @@ const PartPage = ({ part }: Props) => {
 
             {/* FAQ — accordion */}
             <section>
-              <h2 className="text-2xl font-bold text-foreground mb-4">{L(UI.faq)}</h2>
-              <Accordion type="single" collapsible className="border border-border rounded-2xl px-2">
-                {allFaqs.map((faq, i) => (
-                  <AccordionItem
-                    key={i}
-                    value={`faq-${i}`}
-                    className="last:border-0"
-                  >
-                    <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline">
-                      {L(faq.q)}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground leading-relaxed">
-                      {L(faq.a)}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <FAQAccordion items={allFaqs.map(faq => ({ question: L(faq.q), answer: L(faq.a) }))} />
             </section>
 
           </div>

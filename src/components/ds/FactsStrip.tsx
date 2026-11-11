@@ -38,7 +38,7 @@ export function FactsStrip({ items, variant = 'dark', className }: FactsStripPro
                 fontWeight: 800,
                 fontSize: 28,
                 lineHeight: 1.15,
-                color: '#FFFFFF',
+                color: isDark ? '#FFFFFF' : '#0F172A',
               }}
             >
               {item.value}

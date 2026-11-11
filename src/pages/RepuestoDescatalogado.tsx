@@ -2,9 +2,7 @@ import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, MessageCircle, Package, Wrench } from "lucide-react";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -115,10 +113,10 @@ const RepuestoDescatalogado = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 hero-gradient">
+        <section className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
@@ -345,18 +343,7 @@ const RepuestoDescatalogado = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">
                 Preguntas frecuentes sobre repuestos descatalogados
               </h2>
-              <Accordion type="single" collapsible className="border border-border rounded-2xl px-2">
-                {FAQS.map((faq, i) => (
-                  <AccordionItem key={i} value={`faq-${i}`} className="border-b border-border/60 last:border-0">
-                    <AccordionTrigger className="text-left font-semibold text-foreground py-4 hover:no-underline">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-foreground/75 leading-relaxed pb-4">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <FAQAccordion items={FAQS.map(f => ({ question: f.q, answer: f.a }))} />
             </article>
 
             {/* 6. Related links */}

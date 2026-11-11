@@ -111,7 +111,7 @@ const IntlGuidePage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
         <DsHero
           variant="centered"

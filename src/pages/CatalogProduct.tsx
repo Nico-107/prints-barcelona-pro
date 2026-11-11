@@ -171,7 +171,7 @@ const CatalogProduct = () => {
       </Helmet>
       <SocialMeta title={`${productName}`} description={productDescription} path={`/catalogo/${product.slug}`} />
       <Header />
-      <main className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
+      <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-10 items-start">

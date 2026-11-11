@@ -96,6 +96,12 @@ const Header = () => {
 
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#2F5BEA] focus:text-white focus:rounded-lg focus:text-sm focus:font-medium focus:shadow-lg"
+      >
+        Skip to content
+      </a>
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-40 bg-white border-b border-[#E3E8F0] transition-shadow duration-200",
@@ -291,7 +297,7 @@ const Header = () => {
                 ref={desktopSlotRef}
                 variant="cta"
                 size="sm"
-                onClick={() => { capture("quote_cta_click", { location: "header" }); scrollToSection("calculator"); }}
+                onClick={() => { capture("quote_cta_click", { location: "header" }); capture("upload_entry_click", { source: "header", page_path: window.location.pathname }); scrollToSection("calculator"); }}
                 className="whitespace-nowrap"
               >
                 <span data-xp-slot="header_btn_r2" data-xp-v="A" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
@@ -326,7 +332,7 @@ const Header = () => {
             <Button
               variant="cta"
               className="w-full mb-4 h-12 text-base"
-              onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); scrollToSection("calculator"); }}
+              onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); capture("upload_entry_click", { source: "header", page_path: window.location.pathname }); scrollToSection("calculator"); }}
             >
               <span data-xp-slot="header_btn_r2" data-xp-v="A">{xpHeaderText("xp.header.v3")}</span>
               <span data-xp-slot="header_btn_r2" data-xp-v="B">{xpHeaderText("xp.header.v4")}</span>

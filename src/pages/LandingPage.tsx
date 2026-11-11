@@ -219,6 +219,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
   const scrollToCalc = () => {
     capture('landing_page_upload_cta_click', { slug: page.slug });
+    capture('upload_entry_click', { source: 'hero', page_path: window.location.pathname });
     setCalcHighlight(true);
     document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => setCalcHighlight(false), 3000);
@@ -280,7 +281,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero — dark grid, H1 unchanged */}
         <DsHero
           variant="centered"
