@@ -501,6 +501,12 @@ export interface EventMap {
     /** First 200 characters of the underlying error, when the stage reports a failure. */
     error_message?: string;
   };
+  /** Fires on first pageview when referrer is a known AI search/chat platform. */
+  ai_referral: {
+    ai_source: 'chatgpt' | 'perplexity' | 'gemini' | 'copilot' | 'claude' | 'other_ai';
+    referrer_url: string;
+    landing_path: string;
+  };
 }
 
 export type EventName = keyof EventMap;

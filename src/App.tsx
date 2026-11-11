@@ -103,6 +103,21 @@ function getElementLocation(target: EventTarget | null): string {
   return "page";
 }
 
+const AI_REFERRERS: { match: RegExp; source: 'chatgpt' | 'perplexity' | 'gemini' | 'copilot' | 'claude' | 'other_ai' }[] = [
+  { match: /chatgpt\.com/i, source: 'chatgpt' },
+  { match: /perplexity\.ai/i, source: 'perplexity' },
+  { match: /gemini\.google\.com/i, source: 'gemini' },
+  { match: /copilot\.microsoft\.com/i, source: 'copilot' },
+  { match: /claude\.ai/i, source: 'claude' },
+];
+
+function detectAiReferrer(referrer: string): 'chatgpt' | 'perplexity' | 'gemini' | 'copilot' | 'claude' | 'other_ai' | null {
+  for (const { match, source } of AI_REFERRERS) {
+    if (match.test(referrer)) return source;
+  }
+  return null;
+}
+
 // A5: Fire $pageview only on pathname change (not on search-param changes).
 // A2: Update page context before firing so the pageview carries the right page_type.
 function PostHogPageView() {
@@ -135,6 +150,21 @@ function OutboundContactTracker() {
   return null;
 }
 
+function AiReferralTracker() {
+  useEffect(() => {
+    const referrer = document.referrer;
+    if (!referrer) return;
+    const source = detectAiReferrer(referrer);
+    if (!source) return;
+    capture("ai_referral", {
+      ai_source: source,
+      referrer_url: referrer,
+      landing_path: window.location.pathname,
+    });
+  }, []); // only on mount — first pageload
+  return null;
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -145,6 +175,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
+          <AiReferralTracker />
           {/* LanguageNavigationSync must never be removed — it re-syncs the language context
               on every client-side navigation so language matches the URL without a full reload. */}
           <LanguageNavigationSync />
