@@ -26,7 +26,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Button } from "@/components/ui/button";
-import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA, GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
+import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { capture } from "@/lib/analytics";
 
@@ -119,18 +119,18 @@ const GUIDES_COPY: Record<string, {
 
 const GOOGLE_REVIEWS_COPY: Record<string, { heading: string; aggregate: string; viewAll: string }> = {
   es: {
-    heading: "Reseñas reales de Google",
-    aggregate: `4.8 de media en ${GOOGLE_RATING.count} reseñas de Google`,
+    heading: "Lo que dicen nuestros clientes",
+    aggregate: `${GOOGLE_RATING.count} reseñas verificadas · 4.8 de media`,
     viewAll: "Ver todas las reseñas",
   },
   en: {
-    heading: "Real Google Reviews",
-    aggregate: `4.8 average across ${GOOGLE_RATING.count} Google reviews`,
+    heading: "What Our Customers Say",
+    aggregate: `${GOOGLE_RATING.count} verified reviews · 4.8 average`,
     viewAll: "View all reviews",
   },
   ca: {
-    heading: "Ressenyes reals de Google",
-    aggregate: `4.8 de mitjana en ${GOOGLE_RATING.count} ressenyes de Google`,
+    heading: "Què diuen els nostres clients",
+    aggregate: `${GOOGLE_RATING.count} ressenyes verificades · 4.8 de mitjana`,
     viewAll: "Veure totes les ressenyes",
   },
 };
@@ -364,48 +364,30 @@ const Index = () => {
                   </div>
                   <ReviewCards />
                   <p className="text-sm text-center text-foreground/55 mt-6">
-                    <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                      {copy.aggregate} &rarr;
-                    </a>
+                    {copy.aggregate}
                   </p>
-                  <div className="text-center mt-4">
-                    <Button asChild variant="outline" size="sm" onClick={() => capture("google_review_click", { location: "home_reviews" })}>
-                      <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer">{t("reviews.writeOnGoogle")}</a>
-                    </Button>
-                  </div>
                 </div>
 
-                {/* Variant B: Google rating badge + same quotes (skips to A if data missing) */}
+                {/* Variant B: rating badge + same quotes */}
                 <div data-xp-slot="home_proof_r1" data-xp-v="B">
                   <div className="text-center mb-8">
                     {ratingOk ? (
                       <div className="inline-flex items-center gap-3 bg-background border border-border rounded-xl px-5 py-3 shadow-sm mb-4">
-                        <span className="w-8 h-8 rounded-full text-sm font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
                         <div className="text-left">
                           <div className="flex items-center gap-1">
                             {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-3.5 h-3.5 fill-gold text-gold" />)}
                             <span className="text-base font-bold text-foreground ml-1">{formatRating(language)}</span>
                           </div>
-                          <p className="text-xs text-muted-foreground">{GOOGLE_RATING.count} {language === "ca" ? "ressenyes" : language === "en" ? "reviews" : "reseñas"} · Google</p>
+                          <p className="text-xs text-muted-foreground">{GOOGLE_RATING.count} {language === "ca" ? "ressenyes verificades" : language === "en" ? "verified reviews" : "reseñas verificadas"}</p>
                         </div>
                       </div>
                     ) : null}
-                    <div className="inline-flex items-center gap-2 mb-2">
-                      <span className="w-5 h-5 rounded-full text-[10px] font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
-                    </div>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
                   </div>
                   <ReviewCards />
                   <p className="text-sm text-center text-foreground/55 mt-6">
-                    <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                      {copy.aggregate} &rarr;
-                    </a>
+                    {copy.aggregate}
                   </p>
-                  <div className="text-center mt-4">
-                    <Button asChild variant="outline" size="sm" onClick={() => capture("google_review_click", { location: "home_reviews_b" })}>
-                      <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer">{t("reviews.writeOnGoogle")}</a>
-                    </Button>
-                  </div>
                 </div>
 
                 {/* Variant C: print photos strip + stats */}
@@ -428,9 +410,7 @@ const Index = () => {
                     ))}
                   </div>
                   <p className="text-sm text-center text-foreground/55 mt-2">
-                    <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                      {copy.aggregate} &rarr;
-                    </a>
+                    {copy.aggregate}
                   </p>
                 </div>
               </div>
