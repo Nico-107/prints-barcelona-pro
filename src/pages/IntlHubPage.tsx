@@ -6,13 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { capture } from "@/lib/analytics";
+import { Hero as DsHero, FAQAccordion, FinalCta } from "@/components/ds";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -212,74 +207,24 @@ const IntlHubPage = ({ content }: Props) => {
 
       <main className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient">
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
-          </div>
-          <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-16 right-12 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
-
-          <div className="container relative z-10 px-4 py-16">
-            <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/70 mb-4">
-                <Link to="/" className="hover:text-primary-foreground/90 transition-colors">
-                  Dimension3D
-                </Link>
-                <span>/</span>
-                <span className="text-primary-foreground/85">{content.breadcrumbHub}</span>
-              </nav>
-
-              <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
-                {content.eyebrow}
-              </div>
-
-              <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
-                {content.h1}
-              </h1>
-
-              <p className="text-base md:text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto leading-relaxed">
-                {content.heroSubtitle ?? content.promise}
-              </p>
-
-              <div className="flex flex-col items-center gap-3 mb-6">
-                <Button
-                  variant="cta"
-                  size="xl"
-                  className="shadow-lg w-full sm:w-auto"
-                  data-ph-name="hub-hero-cta"
-                  onClick={() => scrollToCalc("hero")}
-                >
-                  {content.ctaLabel}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-                <p className="text-primary-foreground/60 text-sm">{content.noRegistration}</p>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
-                {content.trustChips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 80L60 70C120 60 240 40 360 35C480 30 600 40 720 45C840 50 960 50 1080 46.7C1200 43.3 1320 36.7 1380 33.3L1440 30V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z" fill="hsl(var(--background))" />
-            </svg>
-          </div>
-        </section>
+        <DsHero
+          variant="centered"
+          extendBehindHeader={false}
+          starLine={
+            <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
+              <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+              <span>/</span>
+              <span>{content.breadcrumbHub}</span>
+            </span>
+          }
+          h1={content.h1}
+          paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
+          primaryButton={{
+            label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+            onClick: () => scrollToCalc("hero"),
+          }}
+          reassuranceItems={content.trustChips}
+        />
 
         {/* Quick stats */}
         <section className="container px-4 py-12">
@@ -387,24 +332,11 @@ const IntlHubPage = ({ content }: Props) => {
         </section>
 
         {/* FAQ */}
-        <section className="py-14 md:py-20 bg-background">
+        <section className="py-14 md:py-20 bg-[#F6F8FC]">
           <div className="container px-4 max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {content.faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="border border-border rounded-lg px-4"
-                >
-                  <AccordionTrigger className="text-left font-medium py-4">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion
+              items={content.faqs.map(f => ({ question: f.q, answer: f.a }))}
+            />
           </div>
         </section>
 
@@ -456,26 +388,11 @@ const IntlHubPage = ({ content }: Props) => {
         )}
 
         {/* Final CTA band */}
-        <section className="container px-4 py-16 md:py-20">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {content.h1}
-            </h2>
-            <p className="text-muted-foreground mb-8 leading-relaxed">
-              {content.promise.split("\n\n")[0]}
-            </p>
-            <Button
-              variant="cta"
-              size="xl"
-              className="shadow-lg"
-              data-ph-name="hub-final-cta"
-              onClick={() => scrollToCalc("final")}
-            >
-              {content.ctaLabel}
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </div>
-        </section>
+        <FinalCta
+          heading={content.h1}
+          cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
+          reassurance={content.promise.split("\n\n")[0]}
+        />
       </main>
 
       <Footer />

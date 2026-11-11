@@ -10,18 +10,23 @@ interface HeroProps {
   noFileLink?: { label: string; onClick: () => void };
   factsItems?: { value: string; label: string }[];
   splitImage?: { src: string; alt: string };
+  /** When false, hero sits below the header instead of extending behind it */
+  extendBehindHeader?: boolean;
 }
 
 /** Centered (V1) hero — dark grid background, no image */
 function CenteredHero({
   starLine, h1, paragraph, primaryButton, reassuranceItems = [], noFileLink, factsItems = [],
+  extendBehindHeader = true,
 }: HeroProps) {
   return (
     <section
       className="ds-grid-bg relative text-white"
-      style={{
+      style={extendBehindHeader ? {
         marginTop: 'calc(-1 * var(--header-h))',
         paddingTop: 'calc(var(--header-h) + 92px)',
+      } : {
+        paddingTop: '84px',
       }}
     >
       <div className="ds-container" style={{ paddingBottom: 0 }}>

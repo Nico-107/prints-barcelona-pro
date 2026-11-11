@@ -1,20 +1,20 @@
 import { Fragment, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { MapPin, Zap, Award, Settings2, Upload, MessageCircle, ChevronRight, CheckCircle2, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
+import { Zap, Award, Settings2, Upload, MessageCircle, MapPin, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Reviews from "@/components/Reviews";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PAGES_BY_SLUG, SITE_URL, SOCIAL_IMAGE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
 import type { LandingContent, LandingTopic } from "@/seo/landingPages";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
+import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid } from "@/components/ds";
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -41,6 +41,7 @@ interface Props {
 
 const LandingPage = ({ page: pageProp }: Props) => {
   const params = useParams();
+  const navigate = useNavigate();
   // when used as element with explicit page prop, use it; otherwise lookup by location
   const slug = pageProp?.slug ?? `/${params["*"] ?? ""}`;
   const page = pageProp ?? PAGES_BY_SLUG[slug];
@@ -280,93 +281,47 @@ const LandingPage = ({ page: pageProp }: Props) => {
       <Header />
 
       <main className="pt-[var(--header-h)]">
-        {/* Breadcrumb */}
-        <nav className="container px-4 pt-8 text-sm text-muted-foreground">
-          <ol className="flex items-center gap-1.5 flex-wrap">
-            <li><Link to="/" className="hover:text-foreground">Dimension3D</Link></li>
-            <li><ChevronRight className="w-3.5 h-3.5" /></li>
-            <li className="text-foreground font-medium">{page.h1}</li>
-          </ol>
-        </nav>
-
-        {/* Hero */}
-        <section className={`relative overflow-hidden ${isMadrid ? "hero-gradient-madrid" : "hero-gradient"}`}>
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
-            }} />
-          </div>
-
-          <div className={`absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl ${isMadrid ? "bg-orange-400/10" : "bg-accent/10"}`} />
-          <div className={`absolute bottom-32 right-20 w-48 h-48 rounded-full blur-3xl ${isMadrid ? "bg-orange-400/10" : "bg-accent/10"}`} />
-
-          <div className="container relative z-10 px-4 pt-12 md:pt-16 pb-32 md:pb-40">
-            <div className="max-w-3xl">
-              <p className="text-sm uppercase tracking-widest text-primary-foreground/60 mb-4 font-medium">
-                Dimension3D {pageCity.cityName}
-              </p>
-              <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mb-5 border ${isMadrid ? "bg-orange-400/20 text-orange-200 border-orange-400/30" : "bg-white/10 text-white border-white/20"}`}>
-                <MapPin className="w-3.5 h-3.5" /> {pageCity.cityName}
-              </div>
-              <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] sm:leading-tight font-bold text-primary-foreground tracking-tight mb-4 sm:mb-5 [text-wrap:balance]">
-                {page.h1}
-              </h1>
-              {isBlogPost && (
-                <p className="text-xs text-primary-foreground/60 mb-5 flex flex-wrap gap-x-3 gap-y-1">
-                  <span>{isEs || isCa ? "Por Nico, Fundador de Dimension3D" : isDe ? "Von Nico, Gründer von Dimension3D" : "By Nico, Founder of Dimension3D"}</span>
-                  <span>·</span>
-                  <span>{isEs || isCa ? `Actualizado ${dateModified}` : isDe ? `Aktualisiert ${dateModified}` : `Updated ${dateModified}`}</span>
-                </p>
-              )}
-              <p className="text-[15px] sm:text-lg md:text-xl text-primary-foreground/90 leading-relaxed mb-6 sm:mb-8">
-                {page.intro}
-              </p>
-              {isMaker ? (
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button asChild variant="accent" size="lg" className="gap-2">
-                    <Link to="/makers">
-                      <Users className="w-4 h-4" />
-                      {makerJoinLabel}
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg" className="gap-2">
-                    <Link to="/maker-guide">
-                      <BookOpen className="w-4 h-4" />
-                      {makerHowLabel}
-                    </Link>
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button variant="accent" size="lg" className="gap-2" onClick={scrollToCalc}>
-                    <Upload className="w-4 h-4" />
-                    {t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern", "Sol·licitar Pressupost")}
-                  </Button>
-                  <Button variant="outline" size="lg" onClick={handleWhatsApp} className="gap-2">
-                    <MessageCircle className="w-4 h-4" />
-                    {t("Contact on WhatsApp", "Contactar por WhatsApp", "Auf WhatsApp kontaktieren", "Contactar per WhatsApp")}
-                  </Button>
-                </div>
-              )}
-
-              {/* Trust badges */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10">
-                {trustBadges.map((b) => (
-                  <div key={b.label} className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-white/10 bg-white/5">
-                    <b.icon className={`w-4 h-4 ${b.iconClass} flex-shrink-0`} />
-                    <span className="text-xs font-medium text-white">{b.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 120L60 105C120 90 240 60 360 52.5C480 45 600 60 720 67.5C840 75 960 75 1080 70C1200 65 1320 55 1380 50L1440 45V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"/>
-            </svg>
-          </div>
-        </section>
+        {/* Hero — dark grid, H1 unchanged */}
+        <DsHero
+          variant="centered"
+          extendBehindHeader={false}
+          starLine={
+            <span style={{ color: '#B8C4DA', display: 'flex', flexWrap: 'wrap', gap: '4px 10px', alignItems: 'center' }}>
+              <Breadcrumbs
+                items={[
+                  { label: 'Dimension3D', href: homeSlug },
+                  ...(includeCategoryCrumb ? [{ label: categoryLabel, href: categoryHub }] : []),
+                  { label: page.h1 },
+                ]}
+              />
+            </span>
+          }
+          h1={
+            isBlogPost
+              ? (
+                <>
+                  {page.h1}
+                  <span style={{ display: 'block', fontSize: '0.44em', fontWeight: 500, color: '#B8C4DA', marginTop: 12, letterSpacing: 0, fontFamily: "'Inter', system-ui, sans-serif" }}>
+                    {isEs || isCa ? `Nico · Actualizado ${dateModified}` : isDe ? `Nico · Aktualisiert ${dateModified}` : `Nico · Updated ${dateModified}`}
+                  </span>
+                </>
+              )
+              : page.h1
+          }
+          paragraph={page.intro}
+          primaryButton={{
+            label: (
+              <>
+                {isMaker ? <Users style={{ width: 20, height: 20 }} /> : <Upload style={{ width: 20, height: 20 }} />}
+                {isMaker
+                  ? makerJoinLabel
+                  : t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern", "Sol·licitar Pressupost")}
+              </>
+            ),
+            onClick: isMaker ? () => navigate("/makers") : scrollToCalc,
+          }}
+          reassuranceItems={trustBadges.map(b => b.label)}
+        />
 
         {/* Content sections — alternating bands with icon cards */}
         {page.sections.map((s, i) => {
@@ -490,87 +445,55 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <StlEstimator highlighted={calcHighlight} />
         )}
 
-        {/* CTA */}
-        <section className="hero-gradient py-16 md:py-20">
-          <div className="container px-4 text-center max-w-2xl mx-auto">
-            {isMaker ? (
-              <>
-                <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-                  {t(
-                    "Start earning with your 3D printer",
-                    "Empieza a ganar con tu impresora 3D",
-                    "Verdiene Geld mit deinem 3D-Drucker",
-                    "Comença a guanyar amb la teva impressora 3D"
-                  )}
-                </h2>
-                <p className="text-lg text-primary-foreground/80 mb-8">
-                  {t(
-                    "Free to join. No fees, no commission, no exclusivity. Orders from your area go to you.",
-                    "Unirse es gratis. Sin cuotas, sin comisión, sin exclusividad. Los pedidos de tu zona van para ti.",
-                    "Kostenloser Beitritt. Keine Gebühren, keine Provision, keine Exklusivität. Aufträge aus deiner Region gehen an dich.",
-                    "Unir-s'hi és gratuït. Sense quotes, sense comissió, sense exclusivitat. Les comandes de la teva zona van per a tu."
-                  )}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button asChild variant="accent" size="xl" className="shadow-lg gap-2">
-                    <Link to="/makers"><Users className="w-5 h-5" /> {makerJoinLabel}</Link>
-                  </Button>
-                  <Button asChild variant="hero-outline" size="xl" className="gap-2">
-                    <Link to="/maker-guide"><BookOpen className="w-5 h-5" /> {makerHowLabel}</Link>
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-                  {t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?", "Llest per iniciar el teu projecte?")}
-                </h2>
-                <p className="text-lg text-primary-foreground/80 mb-8">
-                  {t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.", "Envia el teu arxiu o descriu la teva idea. Pressupost gratis en menys d'1 hora.")}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button variant="accent" size="xl" className="shadow-lg" onClick={scrollToCalc}>
-                    <Upload className="w-5 h-5" /> {t("Upload File", "Subir Archivo", "Datei hochladen", "Pujar Arxiu")}
-                  </Button>
-                  <Button variant="hero-outline" size="xl" onClick={handleWhatsApp}>
-                    <MessageCircle className="w-5 h-5" /> {t("WhatsApp", "WhatsApp", "WhatsApp")}
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-        </section>
+        {/* Final CTA */}
+        {isMaker ? (
+          <section className="bg-[#0F172A] py-16 md:py-20 text-white">
+            <div className="container px-4 text-center max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif" }}>
+                {t("Start earning with your 3D printer", "Empieza a ganar con tu impresora 3D", "Verdiene Geld mit deinem 3D-Drucker", "Comença a guanyar amb la teva impressora 3D")}
+              </h2>
+              <p className="text-lg text-white/80 mb-8">
+                {t("Free to join. No fees, no commission, no exclusivity. Orders from your area go to you.", "Unirse es gratis. Sin cuotas, sin comisión, sin exclusividad. Los pedidos de tu zona van para ti.", "Kostenloser Beitritt. Keine Gebühren, keine Provision, keine Exklusivität. Aufträge aus deiner Region gehen an dich.", "Unir-s'hi és gratuït. Sense quotes, sense comissió, sense exclusivitat. Les comandes de la teva zona van per a tu.")}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button asChild variant="accent" size="xl" className="shadow-lg gap-2">
+                  <Link to="/makers"><Users className="w-5 h-5" /> {makerJoinLabel}</Link>
+                </Button>
+                <Button asChild variant="hero-outline" size="xl" className="gap-2">
+                  <Link to="/maker-guide"><BookOpen className="w-5 h-5" /> {makerHowLabel}</Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <FinalCta
+            heading={t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?", "Llest per iniciar el teu projecte?")}
+            cta={{
+              label: t("Upload File", "Subir Archivo", "Datei hochladen", "Pujar Arxiu"),
+              onClick: scrollToCalc,
+            }}
+            reassurance={t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.", "Envia el teu arxiu o descriu la teva idea. Pressupost gratis en menys d'1 hora.")}
+          />
+        )}
 
         {/* FAQ */}
-        <section className="container px-4 py-16 md:py-20">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
-              {t("Frequently Asked Questions", "Preguntas Frecuentes", "Häufige Fragen", "Preguntes Freqüents")}
-            </h2>
-            <Accordion type="single" collapsible className="w-full">
-              {page.faqs.map((f, i) => (
-                <AccordionItem key={i} value={`f-${i}`}>
-                  <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">{f.q}</AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed">{f.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-              <AccordionItem value="f-guarantee">
-                <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">
-                  {t("What if there's a problem with my print?", "¿Qué pasa si hay algún problema con mi impresión?", undefined, "Què passa si hi ha algun problema amb la meva impressió?")}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {t(
+        <section className="py-16 md:py-20 bg-[#F6F8FC]">
+          <div className="container px-4 max-w-3xl mx-auto">
+            <FAQAccordion
+              heading={t("Frequently Asked Questions", "Preguntas Frecuentes", "Häufige Fragen", "Preguntes Freqüents")}
+              items={[
+                ...page.faqs.map(f => ({ question: f.q, answer: f.a })),
+                {
+                  question: t("What if there's a problem with my print?", "¿Qué pasa si hay algún problema con mi impresión?", "Was passiert bei einem Problem?", "Què passa si hi ha algun problema?"),
+                  answer: t(
                     "If it's a defect or doesn't match what was quoted, tell us within 7 days of delivery and we'll make it right at no cost.",
                     "Si hay un defecto o no coincide con lo presupuestado, comunícalo en 7 días desde la entrega y lo resolvemos sin coste.",
-                    undefined,
-                    "Si hi ha un defecte o no coincideix amb el pressupost, comunica'ns-ho en 7 dies des del lliurament i ho resolem sense cost."
-                  )}{" "}
-                  <Link to="/politica-devoluciones" className="text-accent underline hover:text-accent/80">
-                    {t("See our full quality guarantee.", "Ver nuestra garantía de calidad completa.", undefined, "Veure la nostra garantia de qualitat completa.")}
-                  </Link>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                    "Bei einem Defekt oder wenn es nicht dem Angebot entspricht, melde es innerhalb von 7 Tagen — wir lösen es kostenlos.",
+                    "Si hi ha un defecte, comunica'ns-ho en 7 dies des del lliurament i ho resolem sense cost."
+                  ),
+                },
+              ]}
+            />
           </div>
         </section>
 
@@ -578,22 +501,18 @@ const LandingPage = ({ page: pageProp }: Props) => {
         <Reviews cityName={pageCity.cityName} />
 
         {/* Related pages */}
-        <section className="container px-4 py-16 md:py-20 border-t border-border/40">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-            {t("Related services", "Servicios relacionados", "Weiterführende Themen", "Serveis relacionats")}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-            {page.related.map((r) => (
-              <Link key={r.slug} to={r.slug} className="group p-5 rounded-xl border border-border/50 bg-card hover:border-accent hover:card-shadow-hover transition-all">
-                <div className="flex items-start justify-between mb-2">
-                  <CheckCircle2 className="w-5 h-5 text-accent" />
-                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-1 group-hover:text-accent transition-all" />
-                </div>
-                <h3 className="font-semibold text-foreground">{r.label}</h3>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {page.related.length > 0 && (
+          <section className="py-16 md:py-20 bg-[#F6F8FC]">
+            <div className="container px-4 max-w-5xl mx-auto">
+              <h2 className="text-xl font-bold text-[#0F172A] mb-8 text-center" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif" }}>
+                {t("Related services", "Servicios relacionados", "Weiterführende Themen", "Serveis relacionats")}
+              </h2>
+              <LinkCardGrid
+                items={page.related.map(r => ({ href: r.slug, title: r.label }))}
+              />
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer />

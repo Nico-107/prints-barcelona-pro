@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-interface LinkCardItem { href: string; title: string; description: string; }
+interface LinkCardItem { href: string; title: string; description?: string; }
 
 interface LinkCardGridProps {
   items: LinkCardItem[];
