@@ -54,7 +54,10 @@ interface CapturedEvent { event: string; properties: Record<string, unknown> }
 function attachCapture(page: Page, store: CapturedEvent[]) {
   page.on("request", async (req) => {
     const url = req.url();
-    if (!/eu\.i\.posthog\.com/.test(url)) return;
+    // Match the direct PostHog host OR the dimension3dprints reverse proxy
+    // (deployed since the spec was written — PostHog is now fronted by
+    // https://e.dimension3dprints.com per src/main.tsx api_host).
+    if (!/eu\.i\.posthog\.com|e\.dimension3dprints\.com\/(e|i|batch|capture)/.test(url)) return;
     try {
       const raw = req.postData();
       if (!raw) return;
