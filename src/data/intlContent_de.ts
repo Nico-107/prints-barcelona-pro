@@ -122,7 +122,7 @@ export const DE_CITIES: IntlCityContent[] = [
     metaDescription:
       "FDM 3D-Druck aus Barcelona, geliefert nach Berlin in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
 
-    h1: "3D-Druck mit Lieferung nach Berlin",
+    h1: "3D-Druck aus Barcelona: Lieferung nach Berlin in 3–5 Werktagen",
     eyebrow: "3D-Druck Service · Lieferung nach Berlin in der Regel 3–5 Werktage",
 
     introText: `Berlin ist Deutschlands kreativste Metropole – und gleichzeitig einer der dynamischsten Standorte für Hardware-Entwicklung, Produktdesign und technologische Innovation in ganz Europa. Wer in Berlin 3D-drucken lassen möchte, findet zwar lokale Anbieter, doch die Nachfrage nach schnellen, qualitativ hochwertigen FDM-Teilen übersteigt regelmäßig das Angebot. Dimension3D aus Barcelona bietet eine zuverlässige Alternative: Dateien hochladen, Angebot in einer Stunde erhalten, Teile in der Regel innerhalb von 3–5 Werktagen im Briefkasten – ohne Zoll, da Spanien und Deutschland beide zur EU gehören.

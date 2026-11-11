@@ -164,7 +164,7 @@ const CatalogProduct = () => {
   return (
     <>
       <Helmet>
-        <title>{productName}</title>
+        <title>{productName} — Impresión 3D Barcelona</title>
         <meta name="description" content={productDescription} />
         <link rel="canonical" href={`${SITE_URL}/catalogo/${slug}`} />
         <script type="application/ld+json">{JSON.stringify(productSchema)}</script>

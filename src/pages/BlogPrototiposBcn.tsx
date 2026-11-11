@@ -140,7 +140,7 @@ const BlogPrototiposBcn = () => {
               Ingeniería y prototipado
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
-              Prototipos Rápidos y Piezas Funcionales en 3D — Barcelona
+              Prototipos Rápidos en 24–72 h para Ingenieros y Startups en Barcelona
             </h1>
             <p className="text-lg text-primary-foreground/75 leading-relaxed">
               De la idea al prototipo físico en 24-48 horas. Materiales de ingeniería, tolerancias ajustadas y descuentos para tiradas cortas. Para equipos de I+D, startups de hardware, ingenieros y fabricantes en Barcelona y toda España.

@@ -436,7 +436,7 @@ export const PAGES_ES: LandingContent[] = [
     category: "use-case",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
     metaDescription: "Impresión 3D para empresas e ingenieros en Barcelona. 250+ pedidos, desde 10€, sin tarifa de configuración. Factura con IVA. Presupuesto en 1 hora.",
-    h1: "Impresión 3D para Empresas en Barcelona",
+    h1: "Impresión 3D para Empresas en Barcelona — Factura, NDA y Desde 10€",
     intro: "Dimension3D trabaja con equipos de ingeniería, departamentos de I+D, talleres y pequeños fabricantes en Barcelona que necesitan piezas 3D funcionales sin los tiempos y la burocracia de un proveedor industrial. Envía tu archivo — STL, STEP o IGES — y recibe presupuesto profesional en menos de una hora. Sin cuenta, sin concurso, sin volumen mínimo.",
     sections: [
       {
@@ -583,7 +583,7 @@ export const PAGES_ES: LandingContent[] = [
     category: "use-case",
     metaTitle: "Cómo Elegir un Servicio de Impresión 3D en Barcelona",
     metaDescription: "Guía práctica para elegir servicio de impresión 3D en Barcelona: qué preguntar antes de encargar, señales a las que prestar atención",
-    h1: "Cómo Elegir un Servicio de Impresión 3D en Barcelona",
+    h1: "Cómo Elegir el Mejor Servicio de Impresión 3D en Barcelona: 7 Criterios",
     intro: "Antes de mandar tu archivo al primer resultado de Google, dedica cinco minutos a hacer algunas preguntas concretas. Las respuestas te dicen si el precio que te van a dar refleja la pieza que realmente vas a recibir — y si el servicio que estás eligiendo encaja de verdad con tu proyecto. Esta guía repasa qué preguntar, en qué fijarte, y en qué se diferencian estructuralmente los tres modelos de servicio más comunes.",
     sections: [
       {
@@ -1472,8 +1472,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-service",
     lang: "es",
     category: "service",
-    metaTitle: "Impresión 3D FDM en Barcelona — Desde 10€, Envío España",
-    metaDescription: "Qué es la impresión 3D, cómo funciona FDM, materiales, precios y cómo pedir. Servicio desde Barcelona con envío a toda España. Desde 10€.",
+    metaTitle: "Impresión 3D FDM — Servicio Online desde 10€, Envío España",
+    metaDescription: "Qué es la impresión 3D FDM, materiales disponibles, precios reales y cómo pedir online. Envío a toda España. Desde 10€, presupuesto en 1h.",
     h1: "Impresión 3D: todo lo que necesitas saber para imprimir tu pieza",
     intro: "Dimension3D es un servicio de impresión 3D en Barcelona con envío a toda España y Europa. Fabricamos piezas a medida, prototipos, recambios y objetos decorativos usando tecnología FDM en materiales como PLA, PETG, TPU, ABS/ASA y Nylon. El pedido mínimo es 10€, el presupuesto llega en menos de 1 hora y el envío cuesta 5,90€.",
     sections: [

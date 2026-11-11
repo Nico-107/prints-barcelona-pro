@@ -436,7 +436,7 @@ export const PAGES_CA: LandingContent[] = [
     category: "use-case",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
     metaDescription: "Impressió 3D per a empreses i enginyers a Barcelona. 250+ comandes, des de 10€, factura amb IVA. Envia el teu STL/STEP — pressupost en 1 hora.",
-    h1: "Impressió 3D per a Empreses a Barcelona",
+    h1: "Impressió 3D per a Empreses a Barcelona — Factura, NDA i Prototip Gratuït",
     intro: "Dimension3D treballa amb equips d'enginyeria, departaments de R+D, tallers i petits fabricants a Barcelona que necessiten peces 3D funcionals sense els temps i la burocràcia d'un proveïdor industrial. Envia el teu arxiu — STL, STEP o IGES — i rep pressupost professional en menys d'una hora. Sense compte, sense concurs, sense volum mínim.",
     sections: [
       {

@@ -633,7 +633,7 @@ export const esTranslations: Record<string, string> = {
   "nofile.cta": "Pedir diseño personalizado",
 
   // Quality Guarantee / Returns policy page
-  "returns.meta.title": "Garantía de Calidad",
+  "returns.meta.title": "Política de Devoluciones — Dimension3D",
   "returns.meta.description": "Garantía de calidad en impresión 3D: si la pieza llega con defecto o no coincide con el presupuesto, cuéntanoslo en 7 días y lo resolvemos sin coste adicional.",
   "returns.back": "← Volver al inicio",
   "returns.title": "Garantía de Calidad",

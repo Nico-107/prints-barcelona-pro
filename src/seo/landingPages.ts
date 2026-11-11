@@ -749,7 +749,7 @@ export const PAGES_EN: LandingContent[] = [
     category: "use-case",
     metaTitle: "How to Choose a 3D Printing Service in Barcelona",
     metaDescription: "Practical buyer's guide to 3D printing services in Barcelona: what to ask before you order, red flags to watch for, and a neutral comparison of local workshops",
-    h1: "How to Choose a 3D Printing Service in Barcelona",
+    h1: "How to Choose the Best 3D Printing Service in Barcelona: 7 Things to Check",
     intro: "Before you send your file to the first Google result, take five minutes to ask a few concrete questions. The answers tell you whether the price you'll be quoted reflects the part you'll actually receive — and whether the service you're picking is genuinely suited to your project. This guide walks through what to ask, what to watch out for, and how the three common service models structurally differ.",
     sections: [
       {

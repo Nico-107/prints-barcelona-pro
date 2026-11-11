@@ -99,7 +99,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     deliveryDays: "4–6 business days",
     metaTitle: "3D Printing Service with Delivery to London",
     metaDescription: "Professional FDM 3D printing from Barcelona, delivered to London in 4–6 business days. Pricing in euros, UK shipments handled routinely.",
-    h1: "3D Printing Service with Delivery to London",
+    h1: "3D Printing from Barcelona, Delivered to London in 4–6 Business Days",
     eyebrowText: "Shipping to the UK · 4–6 Business Days",
     heroSubtitle: "Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery to London in 4–6 business days. Shipping outside the EU is quoted individually.",
     introParagraph: "London's product development and creative industries ecosystem — from the hardware accelerators in Shoreditch and the design consultancies of South Kensington to the fabrication labs at Imperial, UCL, and the RCA — places consistent demand on fast, quality FDM prototyping. UK customers in product design, engineering, and the creative sector increasingly source from European studios for access to engineering-grade materials at competitive euro-denominated rates. We handle UK shipments as a routine part of our operations: post-Brexit export documentation is prepared by us, commercial invoices are provided with every UK order, and parcels typically reach London addresses in 4–6 business days.",
