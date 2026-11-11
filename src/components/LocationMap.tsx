@@ -1,11 +1,11 @@
-import { MapPin, Calendar, Zap, ShieldCheck, ExternalLink, Navigation } from "lucide-react";
+import { MapPin, Calendar, Clock, Zap, ShieldCheck, ExternalLink, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY } from "@/config/cities";
-import { GOOGLE_BUSINESS_PROFILE_URL } from "@/seo/entities";
 
 const ADDRESS = `${ACTIVE_CITY.streetAddress}, ${ACTIVE_CITY.cityName}`;
 const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADDRESS)}`;
+const MAPS_SEARCH_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Dimension 3D BCN Barcelona")}`;
 const EMBED_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d191918.83221156645!2d1.8345951207794413!3d41.27117617257367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473f991ad968e8b7%3A0x36354261d56edcc9!2sDimension%203D%20BCN!5e0!3m2!1sen!2ses!4v1789241159804!5m2!1sen!2ses";
 
 const LocationMap = () => {
@@ -14,7 +14,7 @@ const LocationMap = () => {
   const features = [
     { icon: MapPin, key: "location.feat.based" },
     { icon: Calendar, key: "location.feat.pickup" },
-    { icon: Zap, key: "location.feat.fast" },
+    { icon: Clock, key: "location.feat.fast" },
     { icon: ShieldCheck, key: "location.feat.trusted" },
   ];
 
@@ -46,10 +46,14 @@ const LocationMap = () => {
 
             <div className="mt-auto pt-5 border-t border-border/50">
               <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1">{t("location.addressLabel")}</p>
-              <p className="text-foreground font-semibold mb-5">{ADDRESS}</p>
+              <p className="text-foreground font-semibold mb-3">{ADDRESS}</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1">{t("location.hoursLabel")}</p>
+              <p className="text-foreground font-medium mb-3">{t("location.hours")}</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1">{t("location.areasLabel")}</p>
+              <p className="text-sm text-muted-foreground mb-5">{t("location.areas")}</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button asChild variant="accent" className="gap-2 flex-1">
-                  <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+                  <a href={MAPS_SEARCH_URL} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-4 h-4" />
                     {t("location.viewMaps")}
                   </a>
