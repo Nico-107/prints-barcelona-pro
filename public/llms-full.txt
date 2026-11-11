@@ -18,12 +18,12 @@ Dimension3D ofrece impresión 3D FDM profesional en Barcelona con envío a toda 
 Qué es la impresión FDM: La tecnología FDM (Fused Deposition Modeling) deposita filamento de plástico capa a capa. Es la tecnología más extendida para piezas funcionales, recambios, prototipos y modelos. Las piezas son resistentes, ligeras y económicas.
 
 Materiales disponibles:
-- PLA: material estándar, buena resistencia mecánica, ideal para piezas interiores, prototipos y modelos. Desde 0,055 €/g.
-- PETG: más resistente a golpes y temperatura que el PLA, tolera hasta 80 °C, apto para exteriores. Desde 0,061 €/g.
-- ABS / ASA: alta resistencia mecánica y a la intemperie. ASA tolera UV sin degradarse. Desde 0,072 €/g.
-- TPU: flexible, absorbe impactos, ideal para juntas, fundas y piezas de amortiguación. Desde 0,072 €/g.
-- Nylon PA12: alta rigidez y resistencia a la fatiga, tolera hasta 120 °C. Desde 0,083 €/g.
-- Fibra de carbono (PA-CF): el más rígido del catálogo, ligero, acabado técnico. Desde 0,083 €/g.
+- PLA: material estándar, buena resistencia mecánica, ideal para piezas interiores, prototipos y modelos. Material 0,055 €/g + tiempo de máquina 4,95 €/h.
+- PETG: más resistente a golpes y temperatura que el PLA, tolera hasta 80 °C, apto para exteriores. Material 0,061 €/g + tiempo de máquina 5,45 €/h.
+- ABS / ASA: alta resistencia mecánica y a la intemperie. ASA tolera UV sin degradarse. Material 0,072 €/g + tiempo de máquina 6,44 €/h.
+- TPU: flexible, absorbe impactos, ideal para juntas, fundas y piezas de amortiguación. Material 0,072 €/g + tiempo de máquina 6,44 €/h.
+- Nylon PA12: alta rigidez y resistencia a la fatiga, tolera hasta 120 °C. Material 0,077 €/g + tiempo de máquina 6,93 €/h.
+- Fibra de carbono (PA-CF): el más rígido del catálogo, ligero, acabado técnico. Material 0,088 €/g + tiempo de máquina 7,92 €/h.
 
 Comparativa con otras tecnologías:
 | Tecnología | Coste | Resistencia | Detalles finos | Tiempo |
@@ -45,32 +45,34 @@ Pedido mínimo: 10 €. Sin tarifa de configuración. Envío por correo express:
 El coste de una impresión 3D depende de tres factores: peso de la pieza (gramos de filamento), tiempo de impresión (horas de máquina) y material elegido.
 
 Fórmula de precio:
-Precio = (peso en g × precio material €/g) + (horas de impresión × tarifa horaria €/h)
+Precio = (peso en g × 0,055 €/g + horas de impresión × tarifa horaria €/h) × multiplicador del material
+Multiplicadores: PLA 1,0 · PETG 1,1 · ABS/ASA/TPU 1,3 · Nylon 1,4 · CF 1,6 (se aplica a material y tiempo). Mínimo 10 € por pedido.
 
 Tarifa horaria escalonada:
 - 0 a 3 horas: 4,95 €/h
 - 3 a 8 horas: 3,85 €/h
 - Más de 8 horas: 2,75 €/h
+(tarifas para PLA; multiplicar por el multiplicador del material)
 
-Precios de material por gramo:
-| Material   | €/g   |
-|------------|-------|
-| PLA        | 0,055 |
-| PETG       | 0,061 |
-| ABS / ASA  | 0,072 |
-| TPU        | 0,072 |
-| Nylon PA12 | 0,083 |
-| CF Nylon   | 0,083 |
+Material + tiempo de máquina (primeras 3 h):
+| Material   | Material €/g | Máquina €/h |
+|------------|--------------|-------------|
+| PLA        | 0,055        | 4,95        |
+| PETG       | 0,061        | 5,45        |
+| ABS / ASA  | 0,072        | 6,44        |
+| TPU        | 0,072        | 6,44        |
+| Nylon PA12 | 0,077        | 6,93        |
+| CF Nylon   | 0,088        | 7,92        |
 
 Ejemplos reales de precios:
 | Pieza                    | Material | Peso  | Tiempo | Precio total |
 |--------------------------|----------|-------|--------|--------------|
-| Soporte de teléfono      | PLA      | 40 g  | 2,5 h  | 14,60 €      |
-| Rueda de lavavajillas    | PETG     | 25 g  | 1,5 h  | 8,95 € → mín 10 € |
-| Prototipo industrial     | PETG     | 120 g | 6 h    | 30,65 €      |
-| Figura decorativa        | PLA      | 200 g | 12 h   | 44,00 €      |
-| Adaptador mecánico       | Nylon    | 60 g  | 4 h    | 19,78 €      |
-| Funda flexible           | TPU      | 35 g  | 2 h    | 12,42 €      |
+| Soporte de teléfono      | PLA      | 40 g  | 2,5 h  | 14,58 €      |
+| Rueda de lavavajillas    | PETG     | 25 g  | 1,5 h  | 10,00 € (mín) |
+| Prototipo industrial     | PETG     | 120 g | 6 h    | 36,30 €      |
+| Figura decorativa        | PLA      | 200 g | 12 h   | 56,10 €      |
+| Adaptador mecánico       | Nylon    | 60 g  | 4 h    | 30,80 €      |
+| Funda flexible           | TPU      | 35 g  | 2 h    | 15,37 €      |
 
 Factores que elevan el precio: uso de soporte (añade 10–15% de material), capas muy finas (relleno 15%, capa 0,10 mm dobla el tiempo), piezas muy grandes (>8 h, tarifa baja).
 
@@ -180,7 +182,7 @@ Qué nos diferencia:
 
 Professional FDM 3D printing service based in Barcelona, Spain. We ship across Spain and to most EU countries. Minimum order €10, no setup fee. Flat shipping rate €5.90 within Spain.
 
-Materials: PLA (from €0.055/g), PETG (from €0.061/g), ABS/ASA (from €0.072/g), TPU (from €0.072/g), Nylon PA12 (from €0.083/g), Carbon-Fibre Nylon (from €0.083/g).
+Price = material + machine time (first 3 h rate): PLA €0.055/g + €4.95/h, PETG €0.061/g + €5.45/h, ABS/ASA €0.072/g + €6.44/h, TPU €0.072/g + €6.44/h, Nylon PA12 €0.077/g + €6.93/h, Carbon-Fibre Nylon €0.088/g + €7.92/h. Machine rate drops after 3 h and 8 h.
 
 Accepted file formats: STL, STEP, OBJ, 3MF, IGES.
 
@@ -240,7 +242,7 @@ PLA y PETG son los dos materiales más utilizados en impresión FDM. Aquí la co
 Tabla comparativa:
 | Característica          | PLA          | PETG         |
 |-------------------------|--------------|--------------|
-| Precio por gramo        | 0,055 €/g    | 0,061 €/g    |
+| Precio (material + máquina) | 0,055 €/g + 4,95 €/h | 0,061 €/g + 5,45 €/h |
 | Resistencia mecánica    | Media-alta   | Alta         |
 | Temperatura máx. uso    | ~60 °C       | ~80 °C       |
 | Apto para exteriores    | No (UV)      | Sí (limitado)|

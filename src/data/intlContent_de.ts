@@ -366,9 +366,9 @@ export const DE_GUIDES: IntlGuideContent[] = [
         heading: "So berechnet sich Ihr Angebot",
         body: `Die Grundformel lautet:
 
-**Preis = Gewicht (g) × 0,055 × Materialmultiplikator + Druckzeit (h) × Stundensatz**
+**Preis = (Material 0,055 €/g × Gewicht + Maschinenzeit (h) × Stundensatz) × Materialmultiplikator**
 
-Der Stundensatz beträgt 4,95 €/h für die ersten 3 Stunden und 3,85 €/h für Stunden darüber hinaus bis 8 Stunden. Das Ergebnis wird auf volle Euro oder 50-Cent-Schritte gerundet und niemals unter 10 € angesetzt.
+Der Stundensatz beträgt 4,95 €/h für die ersten 3 Stunden und 3,85 €/h für Stunden darüber hinaus bis 8 Stunden. Ab 8 Stunden gilt 2,75 €/h. Der Multiplikator gilt für Material und Maschinenzeit. Das Ergebnis wird auf den Cent genau berechnet und niemals unter 10 € angesetzt.
 
 Konkret bedeutet das: Je leichter und kompakter Ihr Teil ist, desto stärker bestimmt die Druckzeit den Preis. Bei großen, massiven Teilen dominiert das Materialgewicht. Durch die Wahl eines geringeren Infill-Anteils (z. B. 15 % statt 40 %) lässt sich bei Nicht-Funktionsteilen Material sparen, ohne die äußere Geometrie zu verändern.
 
@@ -377,21 +377,21 @@ Für Bestellungen bis 200 € erhalten Sie im Kalkulator auf unserer Website ein
       {
         heading: "Drei Rechenbeispiele",
         body: `**Beispiel 1 – Kleines Dekorationsobjekt in PLA (30 g, 0,5 h)**
-Materialkosten: 30 × 0,055 × 1,0 = 1,65 €
-Maschinenzeit: 0,5 × 4,95 = 2,47 €
-Summe: 4,12 € → Mindestbestellwert greift → **10,00 €**
+Material: 30 g × 0,055 €/g = 1,65 €
+Maschinenzeit: 0,5 h × 4,95 €/h = 2,48 €
+(1,65 + 2,48) × 1,0 = 4,13 € → Mindestbestellwert greift → **10,00 €**
 
 **Beispiel 2 – Funktionshalterung in PETG (80 g, 2 h)**
-Materialkosten: 80 × 0,055 × 1,1 = 4,84 €
-Maschinenzeit: 2 × 4,95 = 9,90 €
-Summe: 14,74 € → gerundet **ca. 15,00 €**
+Material: 80 g × 0,055 €/g = 4,40 €
+Maschinenzeit: 2 h × 4,95 €/h = 9,90 €
+(4,40 + 9,90) × 1,1 = **15,73 €**
 
 **Beispiel 3 – Elektronikgehäuse in ABS (200 g, 5 h)**
-Materialkosten: 200 × 0,055 × 1,3 = 14,30 €
-Maschinenzeit: 3 × 4,95 + 2 × 3,85 = 14,85 + 7,70 = 22,55 €
-Summe: 36,85 € → gerundet **ca. 37,00 €**
+Material: 200 g × 0,055 €/g = 11,00 €
+Maschinenzeit: 3 h × 4,95 €/h + 2 h × 3,85 €/h = 22,55 €
+(11,00 + 22,55) × 1,3 = **43,61 €**
 
-Diese Beispiele verdeutlichen die Skalierung: Ein kleines Teil kommt kaum unter den Mindestbestellwert. Ein mittelgroßes technisches Teil liegt typischerweise im Bereich 15–30 €. Große, materialdichte Gehäuse in technischen Polymeren können 35–60 € erreichen.`,
+Diese Beispiele verdeutlichen die Skalierung: Ein kleines Teil kommt kaum unter den Mindestbestellwert. Ein mittelgroßes technisches Teil liegt typischerweise im Bereich 15–30 €. Große, materialdichte Gehäuse in technischen Polymeren können 40–60 € erreichen.`,
       },
       {
         heading: "Tipps zur Kostensenkung",
@@ -421,25 +421,25 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
         material: "PLA",
         price: "10,00 €",
         description:
-          "30 g × 0,055 × 1,0 + 0,5 × 4,95 = 4,12 € → Mindestbestellwert 10 €",
+          "(30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → Mindestbestellwert 10 €",
       },
       {
         name: "Funktionshalterung",
         grams: 80,
         hours: 2,
         material: "PETG",
-        price: "ca. 15,00 €",
+        price: "15,73 €",
         description:
-          "80 g × 0,055 × 1,1 + 2 × 4,95 = 4,84 + 9,90 = 14,74 € → ca. 15 €",
+          "(80 g × 0,055 €/g + 2 h × 4,95 €/h) × 1,1 = 15,73 €",
       },
       {
         name: "Elektronikgehäuse",
         grams: 200,
         hours: 5,
         material: "ABS",
-        price: "ca. 37,00 €",
+        price: "43,61 €",
         description:
-          "200 g × 0,055 × 1,3 + 3 × 4,95 + 2 × 3,85 = 14,30 + 14,85 + 7,70 = 36,85 € → ca. 37 €",
+          "(200 g × 0,055 €/g + 3 h × 4,95 €/h + 2 h × 3,85 €/h) × 1,3 = 43,61 €",
       },
     ],
 

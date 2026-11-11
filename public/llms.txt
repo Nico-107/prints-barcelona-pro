@@ -1,11 +1,11 @@
 # Dimension 3D Prints
 
-> Professional FDM 3D printing service based in Barcelona. Address: Rambla de Brasil 53, 08028 Barcelona. WhatsApp: +34 672 051 147. Email: hola@dimension3dprints.com. Founded by Nico (Mikołaj Szczełkun). Minimum order €10, no setup fee. Shipping €5.90 flat rate across Spain and EU. Materials: PLA (from €0.055/g), PETG (from €0.061/g), ABS/ASA, TPU, Nylon, carbon-fibre composites. Turnaround: standard 2–4 days, express 24–48 h, same-day for genuine emergencies. Accepts files in STL, STEP, OBJ, 3MF. Instant quote: upload STL and get a price in under 1 minute using the online calculator. Service area: Barcelona in-person pickup + nationwide Spain shipping + EU cross-border delivery.
+> Professional FDM 3D printing service based in Barcelona. Address: Rambla de Brasil 53, 08028 Barcelona. WhatsApp: +34 672 051 147. Email: hola@dimension3dprints.com. Founded by Nico (Mikołaj Szczełkun). Minimum order €10, no setup fee. Shipping €5.90 flat rate across Spain and EU. Price = material + machine time: PLA €0.055/g + €4.95/h, PETG €0.061/g + €5.45/h (machine rate drops after 3 h and 8 h), ABS/ASA, TPU, Nylon, carbon-fibre composites. Turnaround: standard 2–4 days, express 24–48 h, same-day for genuine emergencies. Accepts files in STL, STEP, OBJ, 3MF. Instant quote: upload STL and get a price in under 1 minute using the online calculator. Service area: Barcelona in-person pickup + nationwide Spain shipping + EU cross-border delivery.
 
 ## Core Service Pages (Spanish)
 
 - [Impresión 3D](https://www.dimension3dprints.com/impresion-3d) — pillar page: qué es la impresión 3D FDM, materiales disponibles, comparativa con resina y SLS, cómo pedir
-- [Precio Impresión 3D](https://www.dimension3dprints.com/precio-impresion-3d) — tabla de precios completa: PLA desde 0,055 €/g, PETG desde 0,061 €/g, 6 ejemplos reales con precios, cálculo exprés
+- [Precio Impresión 3D](https://www.dimension3dprints.com/precio-impresion-3d) — tabla de precios completa: precio = material + tiempo de máquina (PLA 0,055 €/g + 4,95 €/h), ejemplos calculados con el motor de precios real con precios, cálculo exprés
 - [Impresión 3D Online](https://www.dimension3dprints.com/impresion-3d-online) — servicio online con envío a toda España y la UE; upload STL/STEP, pago online, seguimiento en tiempo real
 - [Impresión 3D Barcelona](https://www.dimension3dprints.com/impresion-3d-barcelona) — servicio local en Barcelona: presupuesto en 1 h, recogida en Rambla de Brasil 53, entrega 24–48 h
 - [Impresión 3D Urgente Barcelona](https://www.dimension3dprints.com/impresion-3d-urgente-barcelona) — cola prioritaria express: entrega 24–48 h o mismo día en casos urgentes reales

@@ -1292,12 +1292,12 @@ export const PAGES_ES: LandingContent[] = [
         body: "Tres factores principales marcan el coste:\n\n**1. Material** — el plástico más económico es el PLA. PETG y TPU tienen un pequeño recargo. Nylon y materiales con fibra de carbono son los más premium.\n**2. Tamaño y tiempo de máquina** — una pieza más grande usa más material y ocupa la impresora más horas. Las piezas pequeñas (5–30 g) a menudo se agrupan en la misma cama para reducir el tiempo por unidad.\n**3. Plazo** — el servicio estándar (2–5 días hábiles) es el más económico. El servicio Express (1–2 días) lleva un recargo del 25%. El servicio Urgente (mismo día) lleva un recargo del 60%.\n\nEl precio incluye siempre: revisión del archivo, laminado, material, tiempo de máquina y acabado básico (retirada de soportes, limpieza). No hay setup fee ni cargo por pieza."
       },
       {
-        heading: "Precios por gramo según material",
-        body: "El precio en Dimension3D se calcula como: plástico (gramos × 0,055 €/g × multiplicador de material) + tiempo de máquina (4,95 €/h las primeras 3 h, 3,85 €/h hasta 8 h, 2,75 €/h a partir de ahí). Sin setup fee ni cargo por preparación. El mínimo de 10€ se aplica una sola vez al pedido completo, no por pieza.\n\n• **PLA** — multiplicador ×1,0. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — multiplicador ×1,1. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — multiplicador ×1,3. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — multiplicador ×1,3. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — multiplicador ×1,4. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña (~20 g en PLA con ~30 min de máquina) cuesta en torno a 3–4€ de material + 2–3€ de tiempo; como es menos de 10€, el pedido sale a 10€. Usa la calculadora de arriba para ver el precio exacto de tu pieza."
+        heading: "Cómo se calcula: material + tiempo de máquina",
+        body: "El precio en Dimension3D se calcula como: (material 0,055 €/g × gramos + tiempo de máquina 4,95 €/h las primeras 3 h, 3,85 €/h hasta 8 h, 2,75 €/h a partir de ahí) × multiplicador del material. El multiplicador se aplica tanto al material como al tiempo de máquina. Sin setup fee ni cargo por preparación. El mínimo de 10€ se aplica una sola vez al pedido completo, no por pieza.\n\n• **PLA** — multiplicador ×1,0. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — multiplicador ×1,1. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — multiplicador ×1,3. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — multiplicador ×1,3. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — multiplicador ×1,4. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña de 30 g en PLA con 30 min de máquina sale a 1,65€ de material + 2,48€ de tiempo = 4,13€; como es menos de 10€, el pedido sale a 10€. Usa la calculadora de arriba para ver el precio exacto de tu pieza."
       },
       {
         heading: "Tabla de ejemplos reales de precio",
-        body: "Estos son precios orientativos calculados con nuestra calculadora real (material PLA, calidad estándar, sin urgencia, sin diseño):\n\n• **Clip de cajón roto** (3×2×1 cm, ~5 g): desde 10€ (mínimo).\n• **Soporte para estantería** (8×4×3 cm, ~25 g): ~12–15€.\n• **Figura decorativa mediana** (10×8×15 cm, ~90 g): ~22–28€.\n• **Adaptador VESA de monitor** (10×7×3 cm, ~40 g): ~16–20€.\n• **Pieza de recambio lavaplatos** (8×6×4 cm, ~35 g en PETG): ~18–22€.\n• **Prototipo funcional mediano** (15×10×8 cm, ~150 g en PETG): ~40–55€.\n• **Figura grande / casco decorativo** (25×20×15 cm, ~350 g): ~75–120€.\n\nPara piezas con geometría compleja, muchos soportes o materiales especiales, el presupuesto puede salir más alto. Súbe tu archivo para ver el precio exacto."
+        body: "Estos precios salen directamente de nuestro motor de precios con los gramos y horas indicados (PLA salvo indicación, calidad estándar, sin urgencia, sin envío):\n\n• **Clip de cajón roto** (5 g, 0,5 h): 10,00€ (mínimo).\n• **Soporte para estantería** (25 g, 1,5 h): 10,00€ (mínimo).\n• **Adaptador VESA de monitor** (40 g, 2 h): 12,10€.\n• **Figura decorativa mediana** (90 g, 5 h): 27,50€.\n• **Pieza de recambio lavaplatos** (35 g PETG, 1,5 h): 10,29€.\n• **Prototipo funcional mediano** (150 g PETG, 7 h): 42,35€.\n• **Figura grande / casco decorativo** (350 g, 16 h): 75,35€.\n\nPara piezas con geometría compleja, muchos soportes o materiales especiales, el presupuesto puede salir más alto. Súbe tu archivo para ver el precio exacto."
       },
       {
         heading: "Envío a España y recogida en Barcelona",
@@ -1334,15 +1334,15 @@ export const PAGES_ES: LandingContent[] = [
     datePublished: "2026-11-11",
     dateModified: "2026-11-11",
     comparisonTable: {
-      caption: "Plástico (€/g) según material — más tiempo de máquina (4,95 €/h). Mínimo 10€ por pedido. (Dimension3D, Nov 2026)",
-      headers: ["Material", "Plástico €/g", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
+      caption: "Material + tiempo de máquina según material (tarifa de las primeras 3 h; baja a partir de 3 h y 8 h). Mínimo 10€ por pedido. (Dimension3D, Nov 2026)",
+      headers: ["Material", "Material + máquina", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
       rows: [
-        ["PLA",     "0,055 €/g", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
-        ["PETG",    "0,061 €/g", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
-        ["ABS",     "0,072 €/g", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
-        ["ASA",     "0,072 €/g", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
-        ["TPU",     "0,072 €/g", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
-        ["Nylon",   "0,077 €/g", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
+        ["PLA",     "0,055 €/g + 4,95 €/h", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
+        ["PETG",    "0,061 €/g + 5,45 €/h", "75°C",   "Sí",  "No",  "Piezas funcionales, exterior, humedad"],
+        ["ABS",     "0,072 €/g + 6,44 €/h", "90°C",   "No",  "No",  "Piezas de alta temperatura interior"],
+        ["ASA",     "0,072 €/g + 6,44 €/h", "90°C",   "Sí",  "No",  "Exterior UV, automoción"],
+        ["TPU",     "0,072 €/g + 6,44 €/h", "80°C",   "Sí",  "Sí",  "Juntas, fundas, amortiguación"],
+        ["Nylon",   "0,077 €/g + 6,93 €/h", "90°C",   "No",  "No",  "Alta resistencia mecánica, desgaste"],
       ],
     },
   },
