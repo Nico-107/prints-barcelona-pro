@@ -36,6 +36,7 @@ export interface IntlCityContent {
   countryCode: string;
   city: string;
   altSlug?: string; // English equivalent for hreflang pairing
+  noindex?: boolean; // set true for thin/near-duplicate city pages
   metaTitle: string;       // ≤60 chars
   metaDescription: string; // ≤155 chars
   h1: string;

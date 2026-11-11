@@ -13,6 +13,7 @@ export interface CityPageConfig {
   // switcher navigates here instead of trying to translate the current URL
   // in place (used for Madrid: /madrid ES ↔ /3d-printing-madrid EN).
   altSlug?: string;
+  noindex?: boolean; // set true for thin/near-duplicate delivery pages
   lang: "en" | "es" | "fr";
   locale: string;
   city: string;
@@ -213,6 +214,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "Rome",
     country: "Italy",
     deliveryDays: IT_DAYS,
+    noindex: true,
     metaTitle: "3D Printing Service with Delivery to Rome — From €10",
     metaDescription: `Professional FDM 3D printing from Barcelona, delivered to Rome in ${IT_DAYS}. Upload your STL, instant quote in 1 hour. Minimum order €10.`,
     h1: "3D Printing Service with Delivery to Rome",
@@ -270,6 +272,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     city: "New York",
     country: "United States",
     deliveryDays: "7–10 business days",
+    noindex: true,
     metaTitle: "3D Printing Service with Delivery to New York",
     metaDescription: "Professional FDM 3D printing from Barcelona, delivered to New York in 7–10 business days. Upload your STL, get a quote in 1 hour. Minimum order €10.",
     h1: "3D Printing Service with Delivery to New York",

@@ -188,6 +188,7 @@ export const itCityTorino: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Torino",
+  noindex: true,
   metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 10 €",
   metaDescription:
     "Stampa 3D FDM da Barcellona, spedizione a Torino in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
@@ -724,6 +725,7 @@ export const ptCityPorto: IntlCityContent = {
   locale: "pt-PT",
   countryCode: "PT",
   city: "Porto",
+  noindex: true,
   metaTitle: "Impressão 3D Online com Envio para o Porto",
   metaDescription:
     "Impressão 3D FDM de Barcelona, envio para o Porto em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.",

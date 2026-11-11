@@ -163,6 +163,7 @@ const IntlCityPage = ({ content }: Props) => {
         <meta name="twitter:title" content={content.metaTitle} />
         <meta name="twitter:description" content={content.metaDescription} />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
+        {content.noindex && <meta name="robots" content="noindex,follow" />}
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>

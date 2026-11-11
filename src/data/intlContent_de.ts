@@ -191,6 +191,7 @@ Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher
     countryCode: "DE",
     city: "München",
     altSlug: "/3d-printing-delivery-munich",
+    noindex: true,
 
     metaTitle: "3D-Druck mit Lieferung nach München",
     metaDescription:
@@ -263,6 +264,7 @@ Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung f�
     countryCode: "DE",
     city: "Hamburg",
     altSlug: "/3d-printing-delivery-hamburg",
+    noindex: true,
 
     metaTitle: "3D-Druck mit Lieferung nach Hamburg",
     metaDescription:

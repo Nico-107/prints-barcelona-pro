@@ -285,6 +285,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <meta name="twitter:title" content={config.metaTitle} />
         <meta name="twitter:description" content={config.metaDescription} />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
+        {config.noindex && <meta name="robots" content="noindex,follow" />}
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
