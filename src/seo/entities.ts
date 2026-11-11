@@ -10,8 +10,9 @@ export const GOOGLE_BUSINESS_PROFILE_URL = "https://maps.app.goo.gl/ebXjjrXXA6bV
 const INSTAGRAM_URL = "https://www.instagram.com/dimension3dprints/";
 const TIKTOK_URL    = "https://www.tiktok.com/@dimension3dprints";
 const YOUTUBE_URL   = "https://www.youtube.com/@dimension3dprints";
+const LINKEDIN_URL  = "https://www.linkedin.com/company/dimension3dprints/";
 
-const sameAs = [GOOGLE_BUSINESS_PROFILE_URL, INSTAGRAM_URL, TIKTOK_URL, YOUTUBE_URL].filter(Boolean);
+const sameAs = [INSTAGRAM_URL, TIKTOK_URL, YOUTUBE_URL, LINKEDIN_URL].filter(Boolean);
 
 // Site-wide LocalBusiness entity.
 // @id is /#business — referenced by Service JSON-LD on city pages and
@@ -32,6 +33,7 @@ export const ORGANIZATION_SCHEMA = {
   },
   image: `${SITE_URL}/og/share-default.png`,
   telephone: "+34 672 051 147",
+  email: "hola@dimension3dprints.com",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Rambla del Brasil, 53",
@@ -45,11 +47,47 @@ export const ORGANIZATION_SCHEMA = {
     latitude: 41.3806,
     longitude: 2.1317,
   },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "19:00",
+    },
+  ],
   priceRange: "€",
-  areaServed: (SHIP_COUNTRIES as readonly string[]).map((code) => ({
-    "@type": "Country",
-    "iso6166code": code,
-  })),
+  currenciesAccepted: "EUR",
+  paymentAccepted: "Credit Card, Bank Transfer",
+  areaServed: [
+    { "@type": "City", name: "Barcelona" },
+    { "@type": "City", name: "Madrid" },
+    { "@type": "City", name: "Valencia" },
+    { "@type": "City", name: "Sevilla" },
+    { "@type": "Country", name: "Spain" },
+    ...(SHIP_COUNTRIES as readonly string[]).map((code) => ({
+      "@type": "Country",
+      "iso6166code": code,
+    })),
+  ],
+  knowsAbout: [
+    "FDM 3D printing",
+    "3D printing service",
+    "rapid prototyping",
+    "CAD design",
+    "PLA printing",
+    "PETG printing",
+    "TPU flexible printing",
+    "Nylon printing",
+    "multicolor FDM",
+    "replacement parts",
+    "functional parts",
+  ],
+  founder: {
+    "@type": "Person",
+    "@id": `${SITE_URL}/sobre-nosotros#founder`,
+    name: "Mikołaj Szczełkun",
+    jobTitle: "Founder & 3D Printing Specialist",
+  },
   ...(sameAs.length > 0 ? { sameAs } : {}),
 };
 
@@ -66,20 +104,25 @@ export const WEBSITE_SCHEMA = {
 export const PERSON_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "@id": `${SITE_URL}/creator#person`,
+  "@id": `${SITE_URL}/sobre-nosotros#founder`,
   name: "Mikołaj Szczełkun",
+  alternateName: "Nico",
   jobTitle: "Founder & 3D Printing Specialist",
-  url: `${SITE_URL}/creator`,
+  url: `${SITE_URL}/sobre-nosotros`,
   worksFor: { "@id": `${SITE_URL}/#business` },
+  sameAs: [
+    "https://www.instagram.com/dimension3dprints/",
+    "https://www.linkedin.com/company/dimension3dprints/",
+  ],
 };
 
 // A slim inline reference for embedding inside Article/HowTo `author` /
 // `publisher` fields without repeating the full object graph on every page.
 export const AUTHOR_REF = {
   "@type": "Person",
-  "@id": `${SITE_URL}/creator#person`,
+  "@id": `${SITE_URL}/sobre-nosotros#founder`,
   name: "Mikołaj Szczełkun",
-  url: `${SITE_URL}/creator`,
+  url: `${SITE_URL}/sobre-nosotros`,
 };
 
 export const PUBLISHER_REF = {
