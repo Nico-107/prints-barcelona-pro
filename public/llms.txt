@@ -1,117 +1,40 @@
 # Dimension 3D Prints
 
-> Professional FDM 3D printing service. Address: Rambla de Brasil 53, Barcelona. WhatsApp: +34 672 051 147. Website: https://www.dimension3dprints.com. Minimum order €10 (no setup fee). Shipping €5.90. Materials: PLA, PETG, ABS/ASA, TPU, Nylon, carbon-fibre Nylon composites. Instant price calculator on the homepage: upload STL/STEP/OBJ, get a quote in under 1 hour.
+> Professional FDM 3D printing service based in Barcelona. Address: Rambla de Brasil 53, 08028 Barcelona. WhatsApp: +34 672 051 147. Email: hola@dimension3dprints.com. Founded by Nico (Mikołaj Szczełkun). Minimum order €10, no setup fee. Shipping €5.90 flat rate across Spain and EU. Materials: PLA (from €0.055/g), PETG (from €0.061/g), ABS/ASA, TPU, Nylon, carbon-fibre composites. Turnaround: standard 2–4 days, express 24–48 h, same-day for genuine emergencies. Accepts files in STL, STEP, OBJ, 3MF. Instant quote: upload STL and get a price in under 1 minute using the online calculator. Service area: Barcelona in-person pickup + nationwide Spain shipping + EU cross-border delivery.
 
-## Services
+## Core Service Pages (Spanish)
 
-- [Homepage](https://www.dimension3dprints.com/) — file upload, instant quote in under 1 hour, service overview
-- [3D printing service (international)](https://www.dimension3dprints.com/3d-printing-service) — English landing for customers outside Barcelona
-- [3D printing Barcelona](https://www.dimension3dprints.com/3d-printing-barcelona) — local Barcelona service: quote in 1h, delivery in 24–48h
-- [3D printing for business (EN)](https://www.dimension3dprints.com/3d-printing-for-business-barcelona) — invoice, NDA, €10 minimum order no setup fee; batch pricing table, free prototype offer
-- [Impresión 3D para empresas (ES)](https://www.dimension3dprints.com/impresion-3d-empresas-barcelona) — misma oferta en español
-- [Impressió 3D per a empreses (CA)](https://www.dimension3dprints.com/ca/impressio-3d-empreses-barcelona) — mateixa oferta en català
-- [Short-run production (EN)](https://www.dimension3dprints.com/short-run-3d-printing-barcelona) — batches from 1 to several hundred units, tiered pricing, no setup fee
-- [Tiradas cortas (ES)](https://www.dimension3dprints.com/tiradas-cortas-impresion-3d-barcelona) — lotes de producción en tirada corta, precio por tramos
-- [Rapid prototyping](https://www.dimension3dprints.com/rapid-prototyping-barcelona) — 24–72h iteration cycle for engineers and startups
-- [Urgent / express 3D printing](https://www.dimension3dprints.com/urgent-3d-printing-barcelona) — priority queue, 24–48h and same-day delivery for genuine emergencies
-- [Custom parts](https://www.dimension3dprints.com/custom-parts-barcelona) — parts from STL/STEP file, photograph, or measurements; no minimum order
-- [Prototype printing](https://www.dimension3dprints.com/prototype-printing-barcelona) — functional prototypes for startups, engineers, and design students
-- [Replacement parts](https://www.dimension3dprints.com/replacement-parts-barcelona) — discontinued or broken plastic parts for appliances, furniture, vehicles
-- [Returns and quality policy](https://www.dimension3dprints.com/politica-devoluciones) — what is covered, how to request a reprint or refund
+- [Impresión 3D](https://www.dimension3dprints.com/impresion-3d) — pillar page: qué es la impresión 3D FDM, materiales disponibles, comparativa con resina y SLS, cómo pedir
+- [Precio Impresión 3D](https://www.dimension3dprints.com/precio-impresion-3d) — tabla de precios completa: PLA desde 0,055 €/g, PETG desde 0,061 €/g, 6 ejemplos reales con precios, cálculo exprés
+- [Impresión 3D Online](https://www.dimension3dprints.com/impresion-3d-online) — servicio online con envío a toda España y la UE; upload STL/STEP, pago online, seguimiento en tiempo real
+- [Impresión 3D Barcelona](https://www.dimension3dprints.com/impresion-3d-barcelona) — servicio local en Barcelona: presupuesto en 1 h, recogida en Rambla de Brasil 53, entrega 24–48 h
+- [Impresión 3D Urgente Barcelona](https://www.dimension3dprints.com/impresion-3d-urgente-barcelona) — cola prioritaria express: entrega 24–48 h o mismo día en casos urgentes reales
+- [Impresión 3D Cerca de Mí](https://www.dimension3dprints.com/impresion-3d-cerca-de-mi) — taller físico en Les Corts; recogida en mano, barrios cubiertos en Barcelona, opciones sin STL
+- [Impresión 3D Multicolor](https://www.dimension3dprints.com/impresion-3d-multicolor) — impresión multicolor FDM con Bambu Lab X2D + AMS; hasta 4 colores por pieza, sin coste extra de setup
+- [Impresión 3D Empresas Barcelona](https://www.dimension3dprints.com/impresion-3d-empresas-barcelona) — para empresas: factura, NDA, pedido mínimo €10, precio por volumen, prototipo gratuito en el primer pedido
+- [Prototipos Rápidos y Piezas Funcionales](https://www.dimension3dprints.com/prototipos-rapidos-piezas-funcionales-barcelona) — materiales de ingeniería, tolerancias FDM, iteración en 24–72 h para equipos de I+D y startups
+- [Recambios y Piezas Rotas](https://www.dimension3dprints.com/recambios-piezas-rotas-impresion-3d-barcelona) — reproducción de piezas rotas o descatalogadas a partir de foto, medidas o pieza original
+- [Sobre Nosotros](https://www.dimension3dprints.com/sobre-nosotros) — quiénes somos: Nico (Mikołaj Szczełkun), taller en Barcelona, 250+ pedidos completados, Smart City Expo 2026
 
-## Guides
+## Core Service Pages (English)
 
-- [How to choose a 3D printing service](https://www.dimension3dprints.com/how-to-choose-3d-printing-service-barcelona) — buyer's guide: what to ask, red flags, service-model comparison
-- [3D printing materials guide](https://www.dimension3dprints.com/3d-printing-materials-guide) — PLA, PETG, ABS, ASA, TPU, Nylon, CF composites with honest tradeoffs
-- [3D printing materials comparison (EN)](https://www.dimension3dprints.com/3d-printing-materials-comparison) — side-by-side table: cost, tensile strength, heat resistance, outdoor suitability
-- [Comparativa de materials (CA)](https://www.dimension3dprints.com/ca/comparativa-materials-impressio-3d) — taula comparativa de materials FDM en català
-- [How to prepare a file for 3D printing](https://www.dimension3dprints.com/how-to-prepare-file-for-3d-printing) — accepted formats, wall thickness, tolerances, supports, hole sizing
-- [Best 3D printing service in Barcelona](https://www.dimension3dprints.com/best-3d-printing-service-barcelona) — practical breakdown by use case, honest about when we're not the right fit
-- [3D printing pricing (blog)](https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona) — Spanish blog post explaining what drives the price of a 3D print
+- [3D Printing Service](https://www.dimension3dprints.com/3d-printing-service) — international English landing: online ordering, EU shipping, materials overview, FAQ
+- [3D Printing Barcelona](https://www.dimension3dprints.com/3d-printing-barcelona) — local service page: 1-hour quote, 24–48 h delivery, pickup at Rambla de Brasil 53
+- [Replacement Parts Barcelona](https://www.dimension3dprints.com/replacement-parts-barcelona) — discontinued or broken plastic parts reproduced from photo or measurements
+- [Rapid Prototyping Barcelona](https://www.dimension3dprints.com/rapid-prototyping-barcelona) — 24–72 h iteration cycle; engineering-grade materials, tight tolerances
+- [About](https://www.dimension3dprints.com/about) — who we are: founder Nico (Mikołaj Szczełkun), Barcelona workshop, 250+ orders, mission
 
-## For Makers
+## Blog / Guides (Spanish)
 
-- [Join the maker network](https://www.dimension3dprints.com/makers) — recruitment: free to join, no signup fee, no commission, no exclusivity
-- [Maker network — how it works](https://www.dimension3dprints.com/maker-guide) — full walkthrough: how orders reach you, quoting, direct customer payment
-- [How to make money with a 3D printer](https://www.dimension3dprints.com/how-to-make-money-with-a-3d-printer) — six income paths with realistic effort per path
-- [Is a 3D printing business profitable?](https://www.dimension3dprints.com/is-3d-printing-business-profitable) — real cost breakdown per gram, per hour, worked pricing example
-- [How to get 3D printing customers](https://www.dimension3dprints.com/how-to-get-3d-printing-customers) — customer acquisition: Google Business, marketplaces, photography, pricing, response speed
+- [¿Cuánto cuesta la Impresión 3D en Barcelona?](https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona) — tabla de precios por tamaño y peso, 6 ejemplos reales, cómo afecta el material al coste
+- [PLA vs PETG](https://www.dimension3dprints.com/blog/pla-vs-petg) — tabla comparativa completa: resistencia, temperatura, exterior, precio; cuándo usar cada material
+- [¿Cuánto tarda una impresión 3D?](https://www.dimension3dprints.com/blog/cuanto-tarda-imprimir-en-3d) — tiempos reales por tamaño de pieza y plazo de entrega total; express 24–48 h
+- [¿Qué se puede imprimir en 3D?](https://www.dimension3dprints.com/blog/que-se-puede-imprimir-en-3d) — 20 aplicaciones reales: recambios, figuras, piezas de coche, prototipos, organizadores
+- [Piezas de recambio impresas en 3D — 5 ejemplos](https://www.dimension3dprints.com/blog/piezas-de-recambio-impresas-3d) — adaptador VESA, rueda lavavajillas Bosch, adaptador Gardena, embudo café; materiales y precios
+- [Impresión 3D Urgente en Barcelona](https://www.dimension3dprints.com/blog/impresion-3d-urgente-barcelona) — cómo funciona el servicio express, materiales disponibles, casos reales en menos de 24 h
 
-## Products (ready-to-order catalogue)
+## International Language Hubs
 
-- [Product catalogue](https://www.dimension3dprints.com/catalogo) — index of customisable ready-to-order products
-- [Custom vase](https://www.dimension3dprints.com/catalogo/jarron-personalizado) — personalised 3D printed vase
-- [Custom name plate](https://www.dimension3dprints.com/catalogo/placa-nombre) — 3D printed name plate for door, desk, or shelf
-- [Phone stand](https://www.dimension3dprints.com/catalogo/soporte-telefono) — customisable 3D printed phone stand
-- [Wedding cake topper](https://www.dimension3dprints.com/catalogo/topper-boda) — personalised wedding cake topper made to order
-
-## Spare Parts
-
-- [VESA monitor adapter](https://www.dimension3dprints.com/adaptador-vesa-monitor) — 3D printed adapter for non-standard VESA monitor mounts
-- [Coffee dosing funnel 58mm](https://www.dimension3dprints.com/embudo-dosificador-cafe-58mm) — magnetic dosing funnel for 58mm portafilters, printed in PETG
-- [Dishwasher basket wheel (Bosch/Siemens/Neff)](https://www.dimension3dprints.com/rueda-cesto-lavavajillas-bosch) — set of 4 replacement wheels for lower basket, printed in PETG
-- [Gardena hose adapter](https://www.dimension3dprints.com/adaptador-manguera-gardena) — adapter for Gardena quick-connect irrigation fittings
-- [Discontinued part service](https://www.dimension3dprints.com/repuesto-descatalogado) — manufacturer no longer sells it; we reproduce from photo or original piece
-
-## Locations
-
-- [Barcelona (homepage)](https://www.dimension3dprints.com/) — main workshop; local pickup by appointment at Rambla de Brasil 53
-- [Madrid (Spanish)](https://www.dimension3dprints.com/madrid) — local Madrid workshop presence and service
-- [Madrid (English)](https://www.dimension3dprints.com/3d-printing-madrid) — English-language Madrid landing page
-- [Sevilla (Spanish)](https://www.dimension3dprints.com/impresion-3d-sevilla) — local Sevilla production and pickup
-- [Sevilla (English)](https://www.dimension3dprints.com/3d-printing-sevilla) — English-language Sevilla landing page
-- [Delivery to Valencia](https://www.dimension3dprints.com/impresion-3d-con-entrega-a-valencia) — Barcelona-produced prints shipped to Valencia
-- [Delivery to Paris](https://www.dimension3dprints.com/3d-printing-delivery-paris) — cross-border delivery from Barcelona to Paris
-- [Delivery to London](https://www.dimension3dprints.com/3d-printing-delivery-london) — cross-border delivery from Barcelona to London
-- [Delivery to Amsterdam](https://www.dimension3dprints.com/3d-printing-delivery-amsterdam) — cross-border delivery from Barcelona to Amsterdam
-- [Delivery to Berlin](https://www.dimension3dprints.com/3d-printing-delivery-berlin) — cross-border delivery from Barcelona to Berlin
-- [Delivery to Milan](https://www.dimension3dprints.com/3d-printing-delivery-milan) — cross-border delivery from Barcelona to Milan
-- [Delivery to Rome](https://www.dimension3dprints.com/3d-printing-delivery-rome) — cross-border delivery from Barcelona to Rome
-- [Delivery to Lisbon](https://www.dimension3dprints.com/3d-printing-delivery-lisbon) — cross-border delivery from Barcelona to Lisbon
-- [Delivery to New York](https://www.dimension3dprints.com/3d-printing-delivery-new-york) — international delivery from Barcelona to New York
-
-## International Native Pages
-
-- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ
-- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub
-- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub
-- [Stampa 3D online (IT)](https://www.dimension3dprints.com/it/stampa-3d-online) — Italian hub
-- [Impressão 3D online (PT)](https://www.dimension3dprints.com/pt/impressao-3d-online) — Portuguese hub
-- [3D-Druck Berlin (DE)](https://www.dimension3dprints.com/de/3d-druck-berlin) — Berlin city page in German
-- [3D-Druck München (DE)](https://www.dimension3dprints.com/de/3d-druck-muenchen) — Munich city page in German
-- [3D-Druck Hamburg (DE)](https://www.dimension3dprints.com/de/3d-druck-hamburg) — Hamburg city page in German
-- [3D printen Amsterdam (NL)](https://www.dimension3dprints.com/nl/3d-printen-amsterdam) — Amsterdam city page in Dutch
-- [3D printen Rotterdam (NL)](https://www.dimension3dprints.com/nl/3d-printen-rotterdam) — Rotterdam city page in Dutch
-- [3D printen Eindhoven (NL)](https://www.dimension3dprints.com/nl/3d-printen-eindhoven) — Eindhoven city page in Dutch
-- [Impression 3D Toulouse (FR)](https://www.dimension3dprints.com/fr/impression-3d-toulouse) — Toulouse city page in French
-- [Impression 3D Montpellier (FR)](https://www.dimension3dprints.com/fr/impression-3d-montpellier) — Montpellier city page in French
-- [Impression 3D Lyon (FR)](https://www.dimension3dprints.com/fr/impression-3d-lyon) — Lyon city page in French
-- [Impression 3D Paris (FR)](https://www.dimension3dprints.com/fr/impression-3d-paris) — Paris city page in French
-- [Stampa 3D Milano (IT)](https://www.dimension3dprints.com/it/stampa-3d-milano) — Milan city page in Italian
-- [Stampa 3D Torino (IT)](https://www.dimension3dprints.com/it/stampa-3d-torino) — Turin city page in Italian
-- [Stampa 3D Roma (IT)](https://www.dimension3dprints.com/it/stampa-3d-roma) — Rome city page in Italian
-- [Impressão 3D Lisboa (PT)](https://www.dimension3dprints.com/pt/impressao-3d-lisboa) — Lisbon city page in Portuguese
-- [Impressão 3D Porto (PT)](https://www.dimension3dprints.com/pt/impressao-3d-porto) — Porto city page in Portuguese
-- [3D-Druck Kosten (DE)](https://www.dimension3dprints.com/de/3d-druck-kosten) — German pricing guide with worked examples
-- [3D-Druck Datei vorbereiten (DE)](https://www.dimension3dprints.com/de/3d-druck-datei-vorbereiten) — German file prep guide
-- [3D-Druck Materialien (DE)](https://www.dimension3dprints.com/de/3d-druck-materialien) — German materials guide
-- [3D printen kosten (NL)](https://www.dimension3dprints.com/nl/3d-printen-kosten) — Dutch pricing guide
-- [3D printbestand voorbereiden (NL)](https://www.dimension3dprints.com/nl/3d-printbestand-voorbereiden) — Dutch file prep guide
-- [3D print materialen (NL)](https://www.dimension3dprints.com/nl/3d-print-materialen) — Dutch materials guide
-- [Prix impression 3D (FR)](https://www.dimension3dprints.com/fr/prix-impression-3d) — French pricing guide
-- [Préparer fichier impression 3D (FR)](https://www.dimension3dprints.com/fr/preparer-fichier-impression-3d) — French file prep guide
-- [Matériaux impression 3D (FR)](https://www.dimension3dprints.com/fr/materiaux-impression-3d) — French materials guide
-- [Prezzi stampa 3D (IT)](https://www.dimension3dprints.com/it/prezzi-stampa-3d) — Italian pricing guide
-- [Preparare file stampa 3D (IT)](https://www.dimension3dprints.com/it/preparare-file-stampa-3d) — Italian file prep guide
-- [Materiali stampa 3D (IT)](https://www.dimension3dprints.com/it/materiali-stampa-3d) — Italian materials guide
-- [Preço impressão 3D (PT)](https://www.dimension3dprints.com/pt/preco-impressao-3d) — Portuguese pricing guide
-- [Preparar ficheiro impressão 3D (PT)](https://www.dimension3dprints.com/pt/preparar-ficheiro-impressao-3d) — Portuguese file prep guide
-- [Materiais impressão 3D (PT)](https://www.dimension3dprints.com/pt/materiais-impressao-3d) — Portuguese materials guide
-- [VESA adapter DE](https://www.dimension3dprints.com/de/vesa-monitor-adapter) — German version of VESA monitor adapter part page
-- [Bosch dishwasher wheel DE](https://www.dimension3dprints.com/de/bosch-geschirrspuelkorb-rad) — German version of Bosch dishwasher wheel
-- [Gardena hose adapter DE](https://www.dimension3dprints.com/de/gardena-schlauch-adapter) — German version of Gardena hose adapter
-- [VESA adapter FR](https://www.dimension3dprints.com/fr/adaptateur-vesa-moniteur) — French version of VESA monitor adapter
-- [Bosch dishwasher wheel FR](https://www.dimension3dprints.com/fr/roue-panier-lave-vaisselle-bosch) — French version of Bosch dishwasher wheel
-- [VESA adapter IT](https://www.dimension3dprints.com/it/adattatore-vesa-monitor) — Italian version of VESA monitor adapter
-- [Coffee dosing funnel IT](https://www.dimension3dprints.com/it/imbuto-dosatore-caffe-58mm) — Italian version of coffee dosing funnel
-- [VESA adapter NL](https://www.dimension3dprints.com/nl/vesa-monitor-adapter) — Dutch version of VESA monitor adapter
+- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ for German-speaking customers
+- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub: order online, delivery to France
+- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub: online ordering and delivery to the Netherlands

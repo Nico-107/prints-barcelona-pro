@@ -1,0 +1,336 @@
+# Dimension 3D Prints — Full Content Index
+
+This file contains plain-text extracts of the main money pages for AI indexing purposes.
+Website: https://www.dimension3dprints.com
+Contact: hola@dimension3dprints.com | WhatsApp: +34 672 051 147
+Address: Rambla de Brasil 53, 08028 Barcelona, Spain
+Founder: Nico (Mikołaj Szczełkun)
+Last updated: 2026-11-11
+
+---
+
+## PAGE: /impresion-3d
+## URL: https://www.dimension3dprints.com/impresion-3d
+## Title: Impresión 3D — Qué es y cómo funciona el servicio FDM
+
+Dimension3D ofrece impresión 3D FDM profesional en Barcelona con envío a toda España y la UE. El proceso es simple: sube tu archivo STL, STEP u OBJ, elige material y acabado, recibe un presupuesto en menos de 1 minuto y paga online.
+
+Qué es la impresión FDM: La tecnología FDM (Fused Deposition Modeling) deposita filamento de plástico capa a capa. Es la tecnología más extendida para piezas funcionales, recambios, prototipos y modelos. Las piezas son resistentes, ligeras y económicas.
+
+Materiales disponibles:
+- PLA: material estándar, buena resistencia mecánica, ideal para piezas interiores, prototipos y modelos. Desde 0,055 €/g.
+- PETG: más resistente a golpes y temperatura que el PLA, tolera hasta 80 °C, apto para exteriores. Desde 0,061 €/g.
+- ABS / ASA: alta resistencia mecánica y a la intemperie. ASA tolera UV sin degradarse. Desde 0,072 €/g.
+- TPU: flexible, absorbe impactos, ideal para juntas, fundas y piezas de amortiguación. Desde 0,072 €/g.
+- Nylon PA12: alta rigidez y resistencia a la fatiga, tolera hasta 120 °C. Desde 0,083 €/g.
+- Fibra de carbono (PA-CF): el más rígido del catálogo, ligero, acabado técnico. Desde 0,083 €/g.
+
+Comparativa con otras tecnologías:
+| Tecnología | Coste | Resistencia | Detalles finos | Tiempo |
+|------------|-------|-------------|----------------|--------|
+| FDM        | Bajo  | Alta        | Medio          | 2–24 h |
+| Resina SLA | Medio | Media       | Muy alta       | 4–12 h |
+| SLS Nylon  | Alto  | Muy alta    | Alta           | 2–5 días |
+
+Dimensiones máximas de impresión: 256 × 256 × 256 mm por pieza. Piezas más grandes se dividen y unen.
+
+Pedido mínimo: 10 €. Sin tarifa de configuración. Envío por correo express: 5,90 €.
+
+---
+
+## PAGE: /precio-impresion-3d
+## URL: https://www.dimension3dprints.com/precio-impresion-3d
+## Title: Precio Impresión 3D — Tabla de Tarifas 2026
+
+El coste de una impresión 3D depende de tres factores: peso de la pieza (gramos de filamento), tiempo de impresión (horas de máquina) y material elegido.
+
+Fórmula de precio:
+Precio = (peso en g × precio material €/g) + (horas de impresión × tarifa horaria €/h)
+
+Tarifa horaria escalonada:
+- 0 a 3 horas: 4,95 €/h
+- 3 a 8 horas: 3,85 €/h
+- Más de 8 horas: 2,75 €/h
+
+Precios de material por gramo:
+| Material   | €/g   |
+|------------|-------|
+| PLA        | 0,055 |
+| PETG       | 0,061 |
+| ABS / ASA  | 0,072 |
+| TPU        | 0,072 |
+| Nylon PA12 | 0,083 |
+| CF Nylon   | 0,083 |
+
+Ejemplos reales de precios:
+| Pieza                    | Material | Peso  | Tiempo | Precio total |
+|--------------------------|----------|-------|--------|--------------|
+| Soporte de teléfono      | PLA      | 40 g  | 2,5 h  | 14,60 €      |
+| Rueda de lavavajillas    | PETG     | 25 g  | 1,5 h  | 8,95 € → mín 10 € |
+| Prototipo industrial     | PETG     | 120 g | 6 h    | 30,65 €      |
+| Figura decorativa        | PLA      | 200 g | 12 h   | 44,00 €      |
+| Adaptador mecánico       | Nylon    | 60 g  | 4 h    | 19,78 €      |
+| Funda flexible           | TPU      | 35 g  | 2 h    | 12,42 €      |
+
+Factores que elevan el precio: uso de soporte (añade 10–15% de material), capas muy finas (relleno 15%, capa 0,10 mm dobla el tiempo), piezas muy grandes (>8 h, tarifa baja).
+
+Descuento para estudiantes universitarios: 20% sobre el total del pedido. Sin pedido mínimo adicional.
+
+Envío: 5,90 € a toda España. Recogida gratuita en Rambla de Brasil 53, Barcelona.
+
+---
+
+## PAGE: /impresion-3d-online
+## URL: https://www.dimension3dprints.com/impresion-3d-online
+## Title: Impresión 3D Online — Envío a Toda España y la UE
+
+Servicio de impresión 3D online: sube tu archivo desde cualquier lugar de España o Europa y recibe tu pieza impresa en casa.
+
+Cómo funciona el pedido online:
+1. Sube tu archivo STL, STEP, OBJ o 3MF en la calculadora del sitio web.
+2. Elige material (PLA, PETG, ABS, TPU, Nylon…) y color.
+3. Recibe presupuesto automático en menos de 1 minuto.
+4. Paga con tarjeta. Confirmación inmediata por email.
+5. Impresión en Barcelona. Envío exprés a toda España en 24–48 h.
+6. Seguimiento del pedido en tiempo real.
+
+Tiempo de entrega desde el pedido:
+- Estándar: 2–4 días hábiles (impresión + envío)
+- Express 24 h: disponible para piezas urgentes
+- Mismo día: para emergencias reales, consulta por WhatsApp
+
+Cobertura de envío: toda España (Peninsular, Baleares). Envíos internacionales a Francia, Alemania, Italia, Países Bajos, Portugal, Reino Unido, y más destinos UE bajo consulta.
+
+Garantía: si la pieza llega dañada o con defectos de impresión, la reimprimimos sin coste adicional.
+
+Formatos aceptados: STL, STEP, OBJ, 3MF, IGES. No tienes STL: envíanos una foto y un técnico te da presupuesto por WhatsApp (+34 672 051 147).
+
+---
+
+## PAGE: /impresion-3d-multicolor
+## URL: https://www.dimension3dprints.com/impresion-3d-multicolor
+## Title: Impresión 3D Multicolor en Barcelona — Hasta 4 Colores
+
+Dimensión 3D ofrece impresión FDM multicolor usando Bambu Lab X2D con sistema AMS (Automatic Material System). Hasta 4 colores en la misma pieza sin montaje posterior.
+
+Cómo funciona la impresión multicolor:
+La impresora carga hasta 4 bobinas de filamento distintas. El software de laminación (Bambu Studio) asigna regiones de la pieza a cada color. Los cambios de filamento ocurren de forma automática durante la impresión.
+
+Casos de uso habituales:
+- Figuras y miniaturas con ropa o detalles en colores diferentes
+- Logos corporativos en dos o tres colores
+- Señalización y carteles bicolor (texto de un color, fondo de otro)
+- Piezas mecánicas con zonas funcionales marcadas visualmente
+- Regalos personalizados: placas de nombre multicolor, trofeos
+
+Precios: mismo esquema de precio que impresión normal (peso + tiempo). Sin coste extra de setup por multicolor. El purge tower (desperdicio de purga entre cambios de color) se cobra a precio de material estándar.
+
+Material disponible en multicolor: PLA en todos los colores del catálogo. PETG multicolor bajo consulta.
+
+Cómo pedir: sube el archivo 3MF con asignación de colores ya definida, o compártenos el archivo STL y la referencia de colores y lo preparamos nosotros.
+
+---
+
+## PAGE: /impresion-3d-cerca-de-mi
+## URL: https://www.dimension3dprints.com/impresion-3d-cerca-de-mi
+## Title: Impresión 3D Cerca de Mí — Taller Físico en Barcelona
+
+Taller físico en Les Corts, Barcelona. Recogida en mano en Rambla de Brasil 53, 08028 Barcelona.
+
+Horario de recogida: lunes a viernes, 9:00–19:00 h. Recogida el mismo día si el pedido se confirma antes de las 11:00 h (sujeto a disponibilidad).
+
+Barrios cubiertos en Barcelona (entrega local disponible):
+Les Corts, Sarrià-Sant Gervasi, Eixample, Gràcia, Sants-Montjuïc, Sant Martí, Nou Barris. Entrega en mano bajo consulta para pedidos urgentes.
+
+¿No tienes archivo STL? No es necesario. Opciones sin archivo digital:
+- Envíanos una foto de la pieza rota o del objeto que quieres reproducir.
+- Mándanos medidas o un croquis.
+- Trae la pieza original al taller: hacemos medición y presupuesto en el momento.
+
+WhatsApp directo con el taller: +34 672 051 147. Respuesta típica en menos de 1 hora en horario de atención.
+
+---
+
+## PAGE: /sobre-nosotros
+## URL: https://www.dimension3dprints.com/sobre-nosotros
+## Title: Sobre Nosotros — Dimension3D Barcelona
+
+Dimension3D es un servicio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun), ingeniero y maker con más de 5 años de experiencia en fabricación aditiva.
+
+El taller está en Les Corts, Barcelona. Contamos con varias impresoras Bambu Lab de alta precisión (incluyendo X2D con AMS para multicolor) y producimos pedidos desde 1 unidad sin mínimo de tirada.
+
+Hitos:
+- 250+ pedidos completados
+- Presentado en Smart City Expo World Congress 2026
+- Tiempo medio de respuesta de presupuesto: menos de 1 hora
+- Satisfacción verificada con reseñas reales de clientes
+
+Qué nos diferencia:
+- Precio transparente: calculadora online con precio inmediato, sin sorpresas
+- Sin setup fee ni mínimo de tirada
+- Materiales de ingeniería disponibles: Nylon PA12, fibra de carbono, ASA UV-estable
+- Servicio express real: no sólo lo anunciamos, lo cumplimos
+- Atención directa por WhatsApp con el técnico que imprime tu pieza
+
+---
+
+## PAGE: /3d-printing-service
+## URL: https://www.dimension3dprints.com/3d-printing-service
+## Title: 3D Printing Service Online — Ship to Spain & Europe
+
+Professional FDM 3D printing service based in Barcelona, Spain. We ship across Spain and to most EU countries. Minimum order €10, no setup fee. Flat shipping rate €5.90 within Spain.
+
+Materials: PLA (from €0.055/g), PETG (from €0.061/g), ABS/ASA (from €0.072/g), TPU (from €0.072/g), Nylon PA12 (from €0.083/g), Carbon-Fibre Nylon (from €0.083/g).
+
+Accepted file formats: STL, STEP, OBJ, 3MF, IGES.
+
+Turnaround: Standard 2–4 business days (print + shipping). Express 24–48 h available. Same-day for genuine emergencies (contact via WhatsApp).
+
+Maximum print dimensions: 256 × 256 × 256 mm per part. Larger parts can be split and bonded.
+
+How to order: upload file → automatic quote in under 1 minute → pay online → track order. No account required.
+
+Contact: hola@dimension3dprints.com | WhatsApp: +34 672 051 147
+
+---
+
+## PAGE: /about
+## URL: https://www.dimension3dprints.com/about
+## Title: About Dimension3D — Barcelona 3D Printing Workshop
+
+Dimension3D is a professional FDM 3D printing service founded in Barcelona by Nico (Mikołaj Szczełkun), an engineer and maker with 5+ years of hands-on experience in additive manufacturing.
+
+Workshop location: Les Corts district, Barcelona (Rambla de Brasil 53). Equipment: Bambu Lab high-precision printers including X2D with AMS for multicolour prints.
+
+Track record: 250+ orders completed. Featured at Smart City Expo World Congress 2026. Average quote response time: under 1 hour.
+
+What sets us apart: transparent instant pricing, no setup fees, real express service, engineering-grade materials (Nylon PA12, CF composites, UV-stable ASA), and direct WhatsApp access to the technician printing your part.
+
+---
+
+## BLOG: /blog/precio-impresion-3d-barcelona
+## URL: https://www.dimension3dprints.com/blog/precio-impresion-3d-barcelona
+## Title: ¿Cuánto cuesta la Impresión 3D en Barcelona? Guía de precios 2026
+
+Resumen de precios: en Dimension3D, una pieza pequeña de PLA (40–80 g, 2–3 h) cuesta entre 12 y 20 €. Una pieza mediana (100–200 g, 4–8 h) cuesta entre 22 y 40 €. Una pieza grande (>200 g, >8 h) a partir de 40 €.
+
+Los tres factores que determinan el precio: (1) peso del filamento, (2) tiempo de impresión, (3) material.
+
+Tabla de precios orientativos:
+| Tamaño         | Peso aprox. | Tiempo aprox. | Precio PLA | Precio PETG |
+|----------------|-------------|---------------|------------|-------------|
+| Muy pequeño    | 10–30 g     | 0,5–1,5 h     | 10–12 €    | 10–13 €     |
+| Pequeño        | 30–80 g     | 1,5–3 h       | 12–20 €    | 13–22 €     |
+| Mediano        | 80–200 g    | 3–8 h         | 20–38 €    | 22–42 €     |
+| Grande         | 200–500 g   | 8–20 h        | 38–80 €    | 42–90 €     |
+| Muy grande     | >500 g      | >20 h         | >80 €      | >90 €       |
+
+Factores que suben el precio: soporte de impresión (+10–15% material), capa muy fina (0,10 mm duplica tiempo), relleno alto (>30%), material premium (Nylon, CF).
+
+Descuentos: 20% para estudiantes universitarios. Precio por volumen en tiradas de 10+ unidades.
+
+---
+
+## BLOG: /blog/pla-vs-petg
+## URL: https://www.dimension3dprints.com/blog/pla-vs-petg
+## Title: PLA vs PETG: ¿Qué material elegir para tu impresión 3D?
+
+PLA y PETG son los dos materiales más utilizados en impresión FDM. Aquí la comparativa honesta para ayudarte a elegir.
+
+Tabla comparativa:
+| Característica          | PLA          | PETG         |
+|-------------------------|--------------|--------------|
+| Precio por gramo        | 0,055 €/g    | 0,061 €/g    |
+| Resistencia mecánica    | Media-alta   | Alta         |
+| Temperatura máx. uso    | ~60 °C       | ~80 °C       |
+| Apto para exteriores    | No (UV)      | Sí (limitado)|
+| Resistencia humedad     | Baja         | Media        |
+| Facilidad de impresión  | Muy alta     | Alta         |
+| Flexibilidad            | Rígido       | Ligeramente flexible |
+| Acabado superficial     | Mate/satinado| Satinado/brillante  |
+| Biodegradable           | Sí (parcial) | No           |
+
+Cuándo usar PLA: prototipos, modelos, piezas decorativas, piezas de interior sin carga térmica.
+
+Cuándo usar PETG: piezas funcionales, recambios, uso exterior moderado, contacto con agua, mayor resistencia mecánica.
+
+Regla práctica: si la pieza no va a estar cerca de una fuente de calor ni en exteriores, PLA es suficiente y más económico. Si va a soportar carga, temperatura o humedad, elige PETG.
+
+---
+
+## BLOG: /blog/cuanto-tarda-imprimir-en-3d
+## URL: https://www.dimension3dprints.com/blog/cuanto-tarda-imprimir-en-3d
+## Title: ¿Cuánto tarda una impresión 3D? Tiempos reales
+
+Tiempos de impresión según tamaño de pieza:
+- Piezas pequeñas (soporte de teléfono, figura pequeña): 1–3 horas
+- Piezas medianas (carcasa, prototipo industrial): 3–8 horas
+- Piezas grandes (maceta, panel): 8–24 horas
+- Piezas muy grandes o lotes: más de 24 horas
+
+Plazo total desde el pedido hasta la entrega en casa:
+- Servicio estándar: 2–4 días hábiles (impresión + envío exprés)
+- Servicio express: 24–48 horas
+- Urgencias reales: mismo día o al día siguiente, consultar disponibilidad por WhatsApp
+
+Factores que alargan el tiempo de impresión: capas finas (0,10 mm vs 0,20 mm dobla el tiempo), relleno alto (40% vs 15%), piezas con mucho soporte.
+
+Factores que acortan el tiempo: capas gruesas (0,20–0,30 mm), relleno bajo (10–15%), geometría simple.
+
+---
+
+## BLOG: /blog/que-se-puede-imprimir-en-3d
+## URL: https://www.dimension3dprints.com/blog/que-se-puede-imprimir-en-3d
+## Title: ¿Qué se puede imprimir en 3D? 20 aplicaciones reales
+
+La impresión 3D FDM puede producir cualquier objeto que quepa en el volumen de impresión (hasta 256 × 256 × 256 mm) y que sea sólido o con cavidades internas.
+
+20 aplicaciones reales de los pedidos de Dimension3D:
+
+1. Recambios para electrodomésticos (ruedas de lavavajillas, tapas de nevera)
+2. Adaptadores mecánicos (VESA, Gardena, conexiones hidráulicas)
+3. Prototipos de producto para startups
+4. Figuras y estatuillas personalizadas
+5. Piezas para coches (soportes de cámara, tapas de consola)
+6. Organizadores de escritorio y cajones
+7. Fundas y carcasas personalizadas
+8. Embellecedores y tapas decorativas
+9. Piezas para impresoras 3D y CNC (autoreparación)
+10. Accesorios para cámaras y trípodes
+11. Piezas de reparación para bicicletas
+12. Modelos arquitectónicos y maquetas
+13. Atrezo y utilería para teatro y cine
+14. Piezas para robótica y drones
+15. Accesorios de cocina (embudos, cortadores, soportes)
+16. Juguetes y piezas de juego personalizadas
+17. Señalización y carteles
+18. Herramientas y auxiliares de taller
+19. Piezas de joyería y bisutería (en PLA para molde perdido)
+20. Modelos anatómicos y educativos
+
+Lo que NO se puede imprimir bien en FDM: piezas con detalles extremadamente finos (<0,5 mm), piezas transparentes de alta calidad óptica, objetos con cavidades internas cerradas complejas.
+
+---
+
+## BLOG: /blog/piezas-de-recambio-impresas-3d
+## URL: https://www.dimension3dprints.com/blog/piezas-de-recambio-impresas-3d
+## Title: Piezas de recambio impresas en 3D: 5 ejemplos reales
+
+Dimension3D ha reproducido cientos de piezas de recambio descatalogadas o agotadas. Aquí cinco ejemplos reales con materiales y precios.
+
+Ejemplo 1 — Adaptador VESA de monitor:
+Fabricante no vendía adaptador de 100×100 mm a 75×75 mm para monitor antiguo. Modelado a partir de medidas. Material: PETG (resistencia mecánica, tornillos). Precio: 14 €.
+
+Ejemplo 2 — Rueda de cesto de lavavajillas Bosch:
+Ruedas del cesto inferior rotas. Juego de 4 ruedas modeladas a partir de la original. Material: PETG (resistencia a temperatura y agua). Precio: 12 € el set.
+
+Ejemplo 3 — Adaptador Gardena quick-connect:
+Adaptador propietario Gardena ya descatalogado. Reproducido a partir de foto y medidas. Material: PETG (exteriores, agua a presión). Precio: 10 €.
+
+Ejemplo 4 — Embudo dosificador de café 58 mm:
+Embudo magnético para portafiltros de 58 mm. Material: PETG alimentario (contacto indirecto con café). Precio: 16 €.
+
+Ejemplo 5 — Tapa de bisagra de mueble:
+Tapa decorativa de bisagra de armario de cocina, modelo descatalogado. Reproducida a partir de la pieza original. Material: PLA (interior, decorativo). Precio: 10 €.
+
+Cómo pedirlo: envía foto de la pieza rota por WhatsApp (+34 672 051 147) y recibe presupuesto en menos de 1 hora.
