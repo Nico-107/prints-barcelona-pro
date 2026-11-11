@@ -214,6 +214,10 @@ export const nlTranslations: Record<string, string> = {
   "location.feat.fast": "Snelle lokale doorlooptijd",
   "location.feat.trusted": "Betrouwbare lokale service",
   "location.addressLabel": "Adres",
+  "location.hours": "Maandag–vrijdag, 9:00–19:00",
+  "location.hoursLabel": "Ophaaluren",
+  "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
+  "location.areasLabel": "Lokale bezorggebieden",
   "location.viewMaps": "Bekijken op Google Maps",
   "location.directions": "Route plannen",
 

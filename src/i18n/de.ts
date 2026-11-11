@@ -214,6 +214,10 @@ export const deTranslations: Record<string, string> = {
   "location.feat.fast": "Schnelle lokale Lieferzeiten",
   "location.feat.trusted": "Vertrauenswürdiger lokaler Service",
   "location.addressLabel": "Adresse",
+  "location.hours": "Montag–Freitag, 9:00–19:00",
+  "location.hoursLabel": "Abholzeiten",
+  "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
+  "location.areasLabel": "Lokale Lieferbezirke",
   "location.viewMaps": "Auf Google Maps ansehen",
   "location.directions": "Route planen",
 

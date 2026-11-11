@@ -214,6 +214,10 @@ export const ptTranslations: Record<string, string> = {
   "location.feat.fast": "Prazos locais rápidos",
   "location.feat.trusted": "Serviço local de confiança",
   "location.addressLabel": "Morada",
+  "location.hours": "Segunda–sexta, 9:00–19:00",
+  "location.hoursLabel": "Horário de recolha",
+  "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
+  "location.areasLabel": "Áreas de entrega local",
   "location.viewMaps": "Ver no Google Maps",
   "location.directions": "Como chegar",
 
