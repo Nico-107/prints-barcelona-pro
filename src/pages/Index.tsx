@@ -412,7 +412,7 @@ const Index = () => {
           <DsHero
             variant="split-image"
             starLine={
-              <span style={{ color: "#8FB0FF" }}>
+              <span style={{ color: "#B8C4DA" }}>
                 ★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}{" "}
                 {language === "ca" ? "en ressenyes" : language === "en" ? "in reviews" : "en reseñas"} · Barcelona
               </span>
