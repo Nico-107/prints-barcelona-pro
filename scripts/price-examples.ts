@@ -29,7 +29,7 @@ export function engineCents(material: string, grams: number, hours: number): num
   return priceOrder([{ name: 'x', quantity: 1, material, estimate }], 'standard').totalCents;
 }
 
-if (import.meta.main) {
+if ((import.meta as { main?: boolean }).main) {
   console.log('| example | material | grams | hours | engine € |');
   for (const e of EXAMPLES) console.log(`| ${e.id} | ${e.material} | ${e.grams} | ${e.hours} | ${(engineCents(e.material, e.grams, e.hours) / 100).toFixed(2)} |`);
 }
