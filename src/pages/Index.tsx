@@ -313,10 +313,10 @@ const Index = () => {
   // V1 hero star line — explicit · separators per design spec
   const heroStarLine = (
     <>
-      <span style={{ color: "#F5A524" }}>★★★★★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}</span>
-      <span style={{ color: "#B8C4DA" }}>·</span>
+      <span className="text-amber">★★★★★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}</span>
+      <span className="text-on-dark-muted">·</span>
       <span>{ORDERS_LABEL[language] ?? ORDERS_LABEL.es}</span>
-      <span style={{ color: "#B8C4DA" }}>·</span>
+      <span className="text-on-dark-muted">·</span>
       <span>BARCELONA</span>
     </>
   );
@@ -332,7 +332,7 @@ const Index = () => {
   // V2 hero H1: prefix [highlight] post — all three parts come from i18n
   const v2H1 = (
     <>
-      {t("home.v2.h1.pre")} <span style={{ color: "#F5A524" }}>{t("home.v2.h1.highlight")}</span> {t("home.v2.h1.post")}
+      {t("home.v2.h1.pre")} <span className="text-amber">{t("home.v2.h1.highlight")}</span> {t("home.v2.h1.post")}
     </>
   );
 
@@ -416,7 +416,7 @@ const Index = () => {
           <DsHero
             variant="split-image"
             starLine={
-              <span style={{ color: "#B8C4DA" }}>
+              <span className="text-on-dark-muted">
                 ★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}{" "}
                 {t("home.v2.hero.reviews")} · Barcelona
               </span>
@@ -443,21 +443,15 @@ const Index = () => {
 
         {/* ── HOW IT WORKS ── */}
         <div ref={howItWorksRef}>
-          <section style={{ background: "#F6F8FC" }}>
+          <section className="bg-surface">
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
               <h2
-                style={{
-                  margin: "0 0 10px",
-                  fontFamily: "'Inter Tight', system-ui, sans-serif",
-                  fontWeight: 800,
-                  fontSize: "clamp(30px, 3.6vw, 44px)",
-                  lineHeight: 1.05,
-                  letterSpacing: "-0.02em",
-                }}
+                className="font-display font-extrabold tracking-tight leading-none mb-2.5"
+                style={{ fontSize: "clamp(30px, 3.6vw, 44px)" }}
               >
                 {t("how.title")}
               </h2>
-              <p style={{ margin: "0 0 30px", color: "#5B6577" }}>{t("how.subtitle")}</p>
+              <p className="text-text-muted" style={{ margin: "0 0 30px" }}>{t("how.subtitle")}</p>
               <StepCards
                 steps={[
                   {
@@ -480,7 +474,7 @@ const Index = () => {
 
         {/* ── V2 PATH CARDS ── */}
         <div className="xp-home-v2-only">
-          <section style={{ background: "#FFFFFF" }}>
+          <section className="bg-white">
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
               <PathCards
                 heading={t("home.v2.path.heading")}
@@ -518,7 +512,7 @@ const Index = () => {
         </div>
 
         {/* ── QUÉ IMPRIMIMOS ── */}
-        <section style={{ background: "#FFFFFF" }}>
+        <section className="bg-white">
           <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
             <h2
               style={{
@@ -532,7 +526,7 @@ const Index = () => {
             >
               {t("home.whatwep.heading")}
             </h2>
-            <p style={{ margin: "0 0 30px", color: "#5B6577" }}>{t("home.whatwep.subheading")}</p>
+            <p className="text-text-muted" style={{ margin: "0 0 30px" }}>{t("home.whatwep.subheading")}</p>
             <LinkCardGrid items={whatWePrint} />
           </div>
         </section>
@@ -645,7 +639,7 @@ const Index = () => {
 
         {/* ── B2B CARDS ── */}
         <div ref={b2bRef}>
-          <section style={{ background: "#FFFFFF" }}>
+          <section className="bg-white">
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
               <B2BCards
                 heading={t("home.b2b.heading")}
