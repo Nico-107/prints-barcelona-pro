@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowRight, BookOpen, GraduationCap, Package, Wrench, Zap } from "lucide-react";
+import { EST } from "@/lib/estimator/core";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { useSectionView } from "@/hooks/usePageTracking";
@@ -32,6 +33,14 @@ import {
 } from "@/components/ds";
 
 const SITE_URL = "https://www.dimension3dprints.com";
+
+function matPrice(key: string): string {
+  const m = EST.materials[key];
+  if (!m) return "";
+  const g = (EST.plasticEurPerG * m.priceMult).toFixed(3).replace(".", ",");
+  const h = (EST.timeTiers[0].eurPerH * m.priceMult).toFixed(2).replace(".", ",");
+  return `${g} €/g + ${h} €/h`;
+}
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const HOME_META: Record<string, { title: string; description: string; locale: string }> = {
@@ -370,12 +379,11 @@ const Index = () => {
     </>
   );
 
-  // Facts strip items (V1 hero + V2 standalone)
+  // Facts strip items — V1 hero (3 items for compact 3-col mobile layout per C3)
   const factsItems = [
     { value: "Desde 10 €", label: t("home.facts.minOrder.label") },
     { value: "24–48 h", label: t("home.facts.delivery.label") },
     { value: "±0,2 mm", label: t("home.facts.tolerance.label") },
-    { value: t("home.facts.quote.text"), label: t("home.facts.quote.attribution") },
   ];
 
   // V2 facts strip (simpler, 4 items on navy)
@@ -478,9 +486,8 @@ const Index = () => {
           <DsHero
             variant="split-image"
             starLine={
-              <span className="text-on-dark-muted">
-                ★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}{" "}
-                {t("home.v2.hero.reviews")} · Barcelona
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#B8C4DA' }}>
+                {t("home.v2.hero.eyebrow")}
               </span>
             }
             h1={v2H1}
@@ -699,8 +706,8 @@ const Index = () => {
           </div>
         </section>
 
-        {/* ── MATERIALS ── */}
-        <div ref={materialsRef}>
+        {/* ── MATERIALS ── (V1 only — V2 uses price tiles instead) */}
+        <div ref={materialsRef} className="xp-home-v1-only">
           <section style={{ background: '#FFFFFF' }}>
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start" }}>
               <div style={{ flex: "1 1 540px", minWidth: 0 }}>
@@ -710,11 +717,11 @@ const Index = () => {
                 <PriceTable
                   columns={{ material: t("home.materials.col.material"), use: t("home.materials.col.use"), price: t("home.materials.col.price") }}
                   rows={[
-                    { material: "PLA", useCase: t("home.materials.pla.use"), price: "0,017 €/g" },
-                    { material: "PETG", useCase: t("home.materials.petg.use"), price: "0,019 €/g" },
-                    { material: "ABS / ASA", useCase: t("home.materials.abs.use"), price: "0,021 €/g" },
-                    { material: "TPU", useCase: t("home.materials.tpu.use"), price: "0,025 €/g" },
-                    { material: "Nylon CF", useCase: t("home.materials.nylon.use"), price: "0,038 €/g" },
+                    { material: "PLA", useCase: t("home.materials.pla.use"), price: matPrice("PLA") },
+                    { material: "PETG", useCase: t("home.materials.petg.use"), price: matPrice("PETG") },
+                    { material: "ABS / ASA", useCase: t("home.materials.abs.use"), price: matPrice("ABS") },
+                    { material: "TPU", useCase: t("home.materials.tpu.use"), price: matPrice("TPU") },
+                    { material: "Nylon", useCase: t("home.materials.nylon.use"), price: matPrice("Nylon") },
                   ]}
                   button={{ label: t("home.materials.cta"), onClick: () => openFilePicker("step_card") }}
                 />
@@ -735,27 +742,29 @@ const Index = () => {
           </section>
         </div>
 
-        {/* ── WHY CHOOSE US ── */}
-        <section style={{ background: '#F6F8FC' }}>
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
-            <h2 style={{ margin: "0 0 40px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
-              {t("home.why.heading")}
-            </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
-              {[
-                { title: t("home.why.col1.title"), desc: t("home.why.col1.desc") },
-                { title: t("home.why.col2.title"), desc: t("home.why.col2.desc") },
-                { title: t("home.why.col3.title"), desc: t("home.why.col3.desc") },
-                { title: t("home.why.col4.title"), desc: t("home.why.col4.desc") },
-              ].map((col, i) => (
-                <div key={i} style={{ padding: "0 28px", borderLeft: i > 0 ? "1px solid #E3E8F0" : "none" }}>
-                  <p style={{ margin: "0 0 8px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 20 }}>{col.title}</p>
-                  <p style={{ margin: 0, color: '#5B6577', fontSize: 15 }}>{col.desc}</p>
-                </div>
-              ))}
+        {/* ── WHY CHOOSE US ── (V1 only — B3; mobile 2×2 grid fix — C6) */}
+        <div className="xp-home-v1-only">
+          <section style={{ background: '#F6F8FC' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+              <h2 style={{ margin: "0 0 40px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+                {t("home.why.heading")}
+              </h2>
+              <div className="ds-why-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+                {[
+                  { title: t("home.why.col1.title"), desc: t("home.why.col1.desc") },
+                  { title: t("home.why.col2.title"), desc: t("home.why.col2.desc") },
+                  { title: t("home.why.col3.title"), desc: t("home.why.col3.desc") },
+                  { title: t("home.why.col4.title"), desc: t("home.why.col4.desc") },
+                ].map((col, i) => (
+                  <div key={i} style={{ padding: "0 28px", borderLeft: i > 0 ? "1px solid #E3E8F0" : "none" }}>
+                    <p style={{ margin: "0 0 8px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 20 }}>{col.title}</p>
+                    <p style={{ margin: 0, color: '#5B6577', fontSize: 15 }}>{col.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
 
         {/* ── PROJECTS ── */}
         <section style={{ background: '#FFFFFF' }}>
@@ -764,7 +773,7 @@ const Index = () => {
               {t("home.projects.heading")}
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-              {["/img/x2d/x2d-print.jpg", "/img/x2d/x2d-inside.jpg", "/img/x2d/x2d-room.jpg"].map((src, i) => (
+              {["/projects/custom-brackets.jpg", "/projects/intake-manifold.jpg", "/projects/red-adapter.jpg"].map((src, i) => (
                 <div
                   key={i}
                   style={{ height: 280, borderRadius: 16, backgroundImage: `url(${src})`, backgroundSize: "cover", backgroundPosition: "center" }}
@@ -781,21 +790,23 @@ const Index = () => {
           </div>
         </section>
 
-        {/* ── REVIEWS (QuoteFeature dark grid) ── */}
-        <section ref={reviewsRef}>
-          <QuoteFeature
-            label={`★★★★★ ${formatRating(language)} · ${GOOGLE_RATING.count ?? "250+"} ${t("home.reviews.googleLabel")}`}
-            featured={{
-              text: GOOGLE_REVIEWS_DATA[0].text,
-              author: `— ${GOOGLE_REVIEWS_DATA[0].name}`,
-            }}
-            secondary={GOOGLE_REVIEWS_DATA.slice(1, 4).map((r) => ({
-              text: r.text,
-              author: `— ${r.name}`,
-            }))}
-            variant="dark"
-          />
-        </section>
+        {/* ── REVIEWS (QuoteFeature dark grid) ── (V1 only — V2 has its own review section above) */}
+        <div className="xp-home-v1-only">
+          <section ref={reviewsRef}>
+            <QuoteFeature
+              label={`★★★★★ ${formatRating(language)} · ${t("home.reviews.googleLabel")}`}
+              featured={{
+                text: GOOGLE_REVIEWS_DATA[0].text,
+                author: `— ${GOOGLE_REVIEWS_DATA[0].name}`,
+              }}
+              secondary={GOOGLE_REVIEWS_DATA.slice(1, 4).map((r) => ({
+                text: r.text,
+                author: `— ${r.name}`,
+              }))}
+              variant="dark"
+            />
+          </section>
+        </div>
 
         {/* ── B2B CARDS ── */}
         <div ref={b2bRef}>
@@ -827,58 +838,87 @@ const Index = () => {
         </div>
 
         {/* ── FOUNDER SECTION ── */}
-        <FounderSection
-          imageSrc="/img/x2d/x2d-room.jpg"
-          imageAlt={t("home.v2.hero.img.alt")}
-          label={t("home.founder.label")}
-          heading={t("home.founder.heading")}
-          body={t("home.founder.body")}
-          specs={[t("home.founder.spec1"), t("home.founder.spec2"), t("home.founder.spec3")]}
-          cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
-        />
-
-        {/* ── SERVICE INFO ── */}
-        <section style={{ background: '#F6F8FC' }}>
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 56, alignItems: "flex-start" }}>
-            <div style={{ flex: "1 1 420px", minWidth: 0 }}>
-              <h2 style={{ margin: "0 0 16px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(30px, 3.6vw, 44px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
-                {t("service.title")} {t("service.titleHighlight")}
-              </h2>
-              <p style={{ margin: 0, fontSize: 18, color: '#5B6577', lineHeight: 1.6 }}>{t("service.desc")}</p>
-            </div>
-            <div style={{ flex: "1 1 480px", minWidth: 0 }}>
-              {[
-                { title: t("service.feat.online"), desc: t("service.feat.onlineDesc") },
-                { title: t("service.feat.local"), desc: t("service.feat.localDesc") },
-                { title: t("service.feat.appointment"), desc: t("service.feat.appointmentDesc") },
-                { title: t("service.feat.shipping"), desc: t("service.feat.shippingDesc") },
-              ].map((f, i) => (
-                <div key={i} style={{ padding: "20px 0", borderTop: i === 0 ? "2px solid #0F172A" : "1px solid #E3E8F0" }}>
-                  <p style={{ margin: "0 0 4px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 18 }}>{f.title}</p>
-                  <p style={{ margin: 0, color: '#5B6577', fontSize: 15 }}>{f.desc}</p>
+        {/* V1: full image split with x2d-room */}
+        <div className="xp-home-v1-only">
+          <FounderSection
+            imageSrc="/img/x2d/x2d-room.jpg"
+            imageAlt={t("home.v2.hero.img.alt")}
+            label={t("home.founder.label")}
+            heading={t("home.founder.heading")}
+            body={t("home.founder.body")}
+            specs={[t("home.founder.spec1"), t("home.founder.spec2"), t("home.founder.spec3")]}
+            cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
+          />
+        </div>
+        {/* V2: text-only (no image — avoids x2d-room duplicate with V2 closing band per B4) */}
+        <div className="xp-home-v2-only">
+          <section style={{ background: '#F6F8FC' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start" }}>
+              <div style={{ flex: "1 1 480px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#5B6577', textTransform: "uppercase" }}>
+                  {t("home.founder.label")}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── EXPRESS ── */}
-        <section style={{ background: '#0F172A', color: '#FFFFFF' }}>
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "56px 24px", display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.08em", color: '#F5A524' }}>
-                {t("home.express.eyebrow")}
+                <h2 style={{ margin: 0, font: `800 clamp(32px, 4vw, 52px)/1.02 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.02em" }}>
+                  {t("home.founder.heading")}
+                </h2>
+                <p style={{ margin: 0, color: '#5B6577', maxWidth: 580, fontSize: 18, lineHeight: 1.6 }}>{t("home.founder.body")}</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {[t("home.founder.spec1"), t("home.founder.spec2"), t("home.founder.spec3")].map((spec, i) => (
+                    <span key={i} style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#5B6577', background: '#E3E8F0', borderRadius: 8, padding: "4px 10px" }}>{spec}</span>
+                  ))}
+                </div>
+                <a href={whatsappUrl()} style={{ alignSelf: "flex-start", textDecoration: "none", background: '#F5A524', color: '#0B1020', fontWeight: 700, padding: "16px 28px", borderRadius: 12, fontSize: 16 }}>{t("home.founder.cta")}</a>
               </div>
-              <h2 style={{ margin: 0, fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
-                {t("home.express.heading")}
-              </h2>
-              <p style={{ margin: 0, color: '#D5DCEA', fontSize: 15 }}>{t("home.express.facts")}</p>
             </div>
-            <Link to="/blog/impresion-3d-urgente-barcelona" style={{ color: '#F5A524', fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
-              {t("home.express.link")}
-            </Link>
-          </div>
-        </section>
+          </section>
+        </div>
+
+        {/* ── SERVICE INFO ── (V1 only — B3) */}
+        <div className="xp-home-v1-only">
+          <section style={{ background: '#F6F8FC' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 56, alignItems: "flex-start" }}>
+              <div style={{ flex: "1 1 420px", minWidth: 0 }}>
+                <h2 style={{ margin: "0 0 16px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(30px, 3.6vw, 44px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+                  {t("service.title")} {t("service.titleHighlight")}
+                </h2>
+                <p style={{ margin: 0, fontSize: 18, color: '#5B6577', lineHeight: 1.6 }}>{t("service.desc")}</p>
+              </div>
+              <div style={{ flex: "1 1 480px", minWidth: 0 }}>
+                {[
+                  { title: t("service.feat.online"), desc: t("service.feat.onlineDesc") },
+                  { title: t("service.feat.local"), desc: t("service.feat.localDesc") },
+                  { title: t("service.feat.appointment"), desc: t("service.feat.appointmentDesc") },
+                  { title: t("service.feat.shipping"), desc: t("service.feat.shippingDesc") },
+                ].map((f, i) => (
+                  <div key={i} style={{ padding: "20px 0", borderTop: i === 0 ? "2px solid #0F172A" : "1px solid #E3E8F0" }}>
+                    <p style={{ margin: "0 0 4px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 18 }}>{f.title}</p>
+                    <p style={{ margin: 0, color: '#5B6577', fontSize: 15 }}>{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* ── EXPRESS ── (V1 only — B3) */}
+        <div className="xp-home-v1-only">
+          <section style={{ background: '#0F172A', color: '#FFFFFF' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "56px 24px", display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.08em", color: '#F5A524' }}>
+                  {t("home.express.eyebrow")}
+                </div>
+                <h2 style={{ margin: 0, fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+                  {t("home.express.heading")}
+                </h2>
+                <p style={{ margin: 0, color: '#D5DCEA', fontSize: 15 }}>{t("home.express.facts")}</p>
+              </div>
+              <Link to="/blog/impresion-3d-urgente-barcelona" style={{ color: '#F5A524', fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
+                {t("home.express.link")}
+              </Link>
+            </div>
+          </section>
+        </div>
 
         {/* ── FAQ ── */}
         <div ref={faqRef}>
@@ -892,31 +932,35 @@ const Index = () => {
           </section>
         </div>
 
-        {/* ── LOCATION ── */}
-        <ImageSplit
-          imageSrc="/img/x2d/x2d-nozzles.jpg"
-          imageAlt={t("home.nozzles.img.alt")}
-          imagePosition="left"
-          label={t("location.addressLabel")}
-          heading={t("location.title")}
-          body={t("location.hours")}
-          specs={[t("location.areasLabel") + ": " + t("location.areas")]}
-          cta={{ label: t("location.viewMaps"), href: "https://www.google.com/maps/search/?api=1&query=Dimension+3D+BCN+Barcelona" }}
-          background="surface"
-        />
+        {/* ── LOCATION ── (V1 only — B3; customer photo per B4) */}
+        <div className="xp-home-v1-only">
+          <ImageSplit
+            imageSrc="/projects/intake-manifold.jpg"
+            imageAlt={t("home.nozzles.img.alt")}
+            imagePosition="left"
+            label={t("location.addressLabel")}
+            heading={t("location.title")}
+            body={t("location.hours")}
+            specs={[t("location.areasLabel") + ": " + t("location.areas")]}
+            cta={{ label: t("location.viewMaps"), href: "https://www.google.com/maps/search/?api=1&query=Dimension+3D+BCN+Barcelona" }}
+            background="surface"
+          />
+        </div>
 
-        {/* ── FINAL IMAGE BAND ── */}
-        <ImageBand
-          imageSrc="/img/x2d/x2d-nozzles.jpg"
-          imageAlt={t("home.nozzles.img.alt")}
-          fadeDirection="left"
-          heading={t("home.final.heading")}
-          cta={{
-            label: t("home.hero.cta"),
-            onClick: () => openFilePicker("final_band"),
-          }}
-          reassurance={t("home.hero.reassurance")}
-        />
+        {/* ── FINAL IMAGE BAND ── (V1 only — B3; x2d-nozzles per B4) */}
+        <div className="xp-home-v1-only">
+          <ImageBand
+            imageSrc="/img/x2d/x2d-nozzles.jpg"
+            imageAlt={t("home.nozzles.img.alt")}
+            fadeDirection="left"
+            heading={t("home.final.heading")}
+            cta={{
+              label: t("home.hero.cta"),
+              onClick: () => openFilePicker("final_band"),
+            }}
+            reassurance={t("home.hero.reassurance")}
+          />
+        </div>
 
         {/* ── V2 CLOSING BAND (over x2d-room with dark overlay) ── */}
         <div className="xp-home-v2-only">
@@ -1004,7 +1048,8 @@ const Index = () => {
                 <Link
                   key={to}
                   to={to}
-                  className="text-sm text-foreground/70 hover:text-accent px-3 py-2 rounded-lg border border-border/60 hover:border-accent/40 transition-colors text-center leading-snug"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.03em" }}
+                  className="text-foreground/60 hover:text-accent transition-colors leading-relaxed"
                 >
                   {label}
                 </Link>
@@ -1045,7 +1090,8 @@ const Index = () => {
                 <Link
                   key={to}
                   to={to}
-                  className="text-sm text-foreground/70 hover:text-accent px-3 py-2 rounded-lg border border-border/60 hover:border-accent/40 transition-colors text-center leading-snug"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.03em" }}
+                  className="text-foreground/60 hover:text-accent transition-colors leading-relaxed"
                 >
                   {label}
                 </Link>

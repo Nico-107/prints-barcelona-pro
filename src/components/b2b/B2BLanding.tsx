@@ -991,7 +991,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 7. PROCESS ── */}
         <section className="py-14 md:py-20">
-          <div className="container px-4 max-w-5xl mx-auto">
+          <div className="container px-4 max-w-6xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
               {c.sectionProcess}
             </h2>
@@ -1011,9 +1011,9 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
             <UploadPanel
               label={lang === "es" ? "PRECIO INSTANTÁNEO — DESDE 10 €" : lang === "ca" ? "PREU INSTANTANI — DES DE 10 €" : "INSTANT PRICE — FROM €10"}
               heading={lang === "es" ? "Sube tu archivo y ve el precio ahora." : lang === "ca" ? "Puja l'arxiu i veu el preu ara." : "Upload your file and see your price now."}
-              description={lang === "es" ? "Sin cuenta. Sin pedido mínimo absurdo. Presupuesto en menos de 1 hora." : lang === "ca" ? "Sense compte. Sense comanda mínima absurda. Pressupost en menys d'1 hora." : "No account needed. No absurd minimum. Quote within 1 hour."}
+              description={lang === "es" ? "Sin cuenta. Pedido mínimo 10 €. Presupuesto en menos de 1 hora." : lang === "ca" ? "Sense compte. Comanda mínima 10 €. Pressupost en menys d'1 hora." : "No account needed. 10 € minimum. Quote within 1 hour."}
             >
-              <StlEstimator />
+              <StlEstimator compact />
             </UploadPanel>
           </div>
         </div>

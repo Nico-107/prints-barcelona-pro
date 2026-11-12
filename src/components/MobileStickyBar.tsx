@@ -3,34 +3,42 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
 
 interface Props {
-  heroCTARef: React.RefObject<HTMLElement | null>;
+  heroCTARef?: React.RefObject<HTMLElement | null>;
   onUploadClick: () => void;
 }
 
-const MobileStickyBar = ({ heroCTARef, onUploadClick }: Props) => {
+const MobileStickyBar = ({ onUploadClick }: Props) => {
   const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [calcInView, setCalcInView] = useState(false);
   const firedRef = useRef(false);
 
+  // Show only after the hero primary button (data-hero-cta) is fully above the viewport.
+  // Using querySelector so we don't need a forwarded ref from the parent.
   useEffect(() => {
-    const heroEl = heroCTARef.current;
-    if (!heroEl) return;
+    const findAndObserve = () => {
+      const btn = document.querySelector<HTMLElement>("[data-hero-cta]");
+      if (!btn) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => setVisible(!entry.isIntersecting),
+        { threshold: 0 }
+      );
+      obs.observe(btn);
+      return obs;
+    };
 
-    const heroObs = new IntersectionObserver(
-      ([entry]) => {
-        setVisible(!entry.isIntersecting);
-      },
-      { threshold: 0 }
-    );
-    heroObs.observe(heroEl);
-    return () => heroObs.disconnect();
-  }, [heroCTARef]);
+    // The button may not be rendered until after hydration; try after a tick.
+    let obs = findAndObserve();
+    if (!obs) {
+      const t = setTimeout(() => { obs = findAndObserve(); }, 200);
+      return () => { clearTimeout(t); obs?.disconnect(); };
+    }
+    return () => obs?.disconnect();
+  }, []);
 
   useEffect(() => {
     const calcEl = document.getElementById("calculator");
     if (!calcEl) return;
-
     const calcObs = new IntersectionObserver(
       ([entry]) => setCalcInView(entry.isIntersecting),
       { threshold: 0.3 }

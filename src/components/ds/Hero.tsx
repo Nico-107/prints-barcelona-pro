@@ -28,7 +28,7 @@ function CenteredHero({
 }: HeroProps) {
   return (
     <section
-      className="ds-grid-bg relative text-white"
+      className="ds-grid-bg ds-v1-hero-section relative text-white"
       style={extendBehindHeader ? {
         marginTop: 'calc(-1 * var(--header-h))',
         paddingTop: 'calc(var(--header-h) + 92px)',
@@ -40,6 +40,7 @@ function CenteredHero({
     >
       <div className="ds-container" style={{ paddingBottom: 0 }}>
         <div
+          className="ds-v1-hero-inner"
           style={{
             maxWidth: 1040,
             margin: '0 auto',
@@ -53,6 +54,7 @@ function CenteredHero({
         >
           {starLine && (
             <div
+              className="ds-v1-hero-starline"
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -97,6 +99,7 @@ function CenteredHero({
           {primaryButton && (
             <button
               type="button"
+              data-hero-cta="true"
               onClick={primaryButton.onClick}
               style={{
                 textDecoration: 'none',
@@ -276,18 +279,20 @@ function SplitImageHero({
             flex: '1 1 560px',
             minWidth: 0,
             boxSizing: 'border-box',
-            padding: 'clamp(24px,5vw,72px) clamp(16px,4vw,40px) clamp(32px,6vw,96px)',
+            paddingTop: 'clamp(24px, 5vw, 72px)',
+            paddingRight: '40px',
+            paddingBottom: 'clamp(32px, 6vw, 96px)',
+            paddingLeft: 'max(24px, calc((100% - 1240px) / 2 + 24px))',
             display: 'flex',
             flexDirection: 'column',
             gap: 24,
             alignItems: 'flex-start',
             justifyContent: 'center',
-            maxWidth: 'calc(1240px / 2 + 24px)',
-            marginLeft: 'auto',
           }}
         >
           {starLine && (
             <div
+              className="ds-hero-split-eyebrow"
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: 13,
@@ -302,11 +307,11 @@ function SplitImageHero({
           <h1
             style={{
               margin: 0,
-              fontFamily: "'Inter Tight', system-ui, sans-serif",
+              fontFamily: "'Bricolage Grotesque', 'Inter Tight', system-ui, sans-serif",
               fontWeight: 800,
-              fontSize: 'clamp(48px, 6.4vw, 96px)',
-              lineHeight: 0.94,
-              letterSpacing: '-0.035em',
+              fontSize: 'clamp(40px, 5.6vw, 84px)',
+              lineHeight: 0.96,
+              letterSpacing: '-0.03em',
             }}
           >
             {h1}
@@ -325,6 +330,7 @@ function SplitImageHero({
 
           <button
             type="button"
+            data-hero-cta="true"
             onClick={primaryButton?.onClick}
             style={{
               display: 'inline-flex',
@@ -344,9 +350,47 @@ function SplitImageHero({
             {primaryButton?.label}
           </button>
 
+          {/* Reassurance line (mono) — desktop only on V2 (drag-and-drop doesn't exist on phones) */}
+          {reassuranceItems.length > 0 && (
+            <div
+              className="ds-hero-v2-desktop-only"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 13,
+                color: '#B8C4DA',
+                letterSpacing: '0.02em',
+              }}
+            >
+              {reassuranceItems.join(' · ')}
+            </div>
+          )}
+
+          {/* noFileLink: desktop only on V2 (no drag-and-drop on phones) */}
+          {noFileLink && (
+            <button
+              type="button"
+              className="ds-hero-v2-desktop-only"
+              onClick={noFileLink.onClick}
+              style={{
+                fontSize: 15,
+                color: '#D5DCEA',
+                background: 'none',
+                border: 0,
+                cursor: 'pointer',
+                padding: 0,
+                textAlign: 'left',
+                fontFamily: "'Inter', system-ui, sans-serif",
+              }}
+            >
+              {noFileLink.label}
+            </button>
+          )}
+
+          {/* Secondary (WhatsApp) + share link: desktop hidden on V2 (mobile only via CSS) */}
           {secondaryButton && (
             <a
               href={secondaryButton.href}
+              className="ds-v2-mobile-only"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -359,6 +403,8 @@ function SplitImageHero({
                 fontSize: 'clamp(15px, 4vw, 16.5px)' as string,
                 color: '#FFFFFF',
                 fontFamily: "'Inter', system-ui, sans-serif",
+                width: '100%',
+                boxSizing: 'border-box' as const,
               }}
             >
               {secondaryButton.label}
@@ -369,6 +415,7 @@ function SplitImageHero({
             <button
               type="button"
               onClick={sendLinkButton.onClick}
+              className="ds-v2-mobile-only"
               style={{
                 fontSize: 15,
                 color: '#D5DCEA',
@@ -381,38 +428,6 @@ function SplitImageHero({
               }}
             >
               {sendLinkButton.label}
-            </button>
-          )}
-
-          {reassuranceItems.length > 0 && (
-            <div
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 13,
-                color: '#B8C4DA',
-                letterSpacing: '0.02em',
-              }}
-            >
-              {reassuranceItems.join(' · ')}
-            </div>
-          )}
-
-          {noFileLink && (
-            <button
-              type="button"
-              onClick={noFileLink.onClick}
-              style={{
-                fontSize: 16.5,
-                color: '#D5DCEA',
-                background: 'none',
-                border: 0,
-                cursor: 'pointer',
-                padding: 0,
-                textAlign: 'left',
-                fontFamily: "'Inter', system-ui, sans-serif",
-              }}
-            >
-              {noFileLink.label}
             </button>
           )}
 

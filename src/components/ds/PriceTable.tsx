@@ -11,8 +11,9 @@ export function PriceTable({ rows, columns, button, className }: PriceTableProps
   const col = columns ?? { material: "MATERIAL", use: "PARA QUÉ", price: "MATERIAL + MÁQUINA" };
   return (
     <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ width: '100%', minWidth: 520, borderCollapse: 'collapse', fontSize: 16.5 }}>
+      {/* Desktop table (≥ 640 px) */}
+      <div className="hidden sm:block" style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16.5 }}>
           <thead>
             <tr style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12.5, color: '#5B6577', textAlign: 'left', letterSpacing: '0.06em' }}>
               <th style={{ padding: '10px 12px 10px 0', fontWeight: 500, borderBottom: '2px solid #0F172A' }}>{col.material}</th>
@@ -36,6 +37,18 @@ export function PriceTable({ rows, columns, button, className }: PriceTableProps
             ))}
           </tbody>
         </table>
+      </div>
+      {/* Mobile stacked list (< 640 px) */}
+      <div className="sm:hidden">
+        {rows.map((row, i) => (
+          <div key={i} style={{ padding: '14px 0', borderBottom: i < rows.length - 1 ? '1px solid #E3E8F0' : undefined, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+            <div>
+              <div style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 20 }}>{row.material}</div>
+              <div style={{ fontSize: 14, color: '#5B6577', marginTop: 2 }}>{row.useCase}</div>
+            </div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#0F172A', whiteSpace: 'nowrap', textAlign: 'right', flexShrink: 0 }}>{row.price}</div>
+          </div>
+        ))}
       </div>
       {button && (
         <button

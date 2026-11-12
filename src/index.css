@@ -6,6 +6,8 @@
 @import "@fontsource/inter-tight/800.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/bricolage-grotesque/700.css";
+@import "@fontsource/bricolage-grotesque/800.css";
 
 @tailwind base;
 @tailwind components;
@@ -518,10 +520,16 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
     flex-direction: column;
     gap: 0;
   }
+  /* Eyebrow removed on mobile (reference mobile-hero.html) */
+  .ds-hero-split-eyebrow { display: none !important; }
+  /* Drag-and-drop text and no-file link hidden on mobile (phones can't drag files) */
+  .ds-hero-v2-desktop-only { display: none !important; }
 }
 /* Hide mobile extras on desktop */
 @media (min-width: 768px) {
   .ds-hero-mobile-extras { display: none !important; }
+  /* V2 hero: WhatsApp + share link are mobile-only */
+  .ds-v2-mobile-only { display: none !important; }
 }
 
 /* ── StepCards: horizontal scroll-snap on mobile ─────────────────────────── */
@@ -587,6 +595,66 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
     border-bottom: 1px solid #E3E8F0 !important;
     background: transparent !important;
     box-shadow: none !important;
+  }
+}
+
+/* ── V1 centered hero: mobile layout (C3) ────────────────────────────────── */
+@media (max-width: 639px) {
+  /* Reduce top gap so primary button stays above the fold */
+  .ds-v1-hero-section {
+    padding-top: calc(var(--header-h) + 48px) !important;
+  }
+  .ds-v1-hero-inner {
+    gap: 20px !important;
+    padding-bottom: 32px !important;
+  }
+  /* Single-line star line: prevent wrapping, compact font */
+  .ds-v1-hero-starline {
+    flex-wrap: nowrap !important;
+    white-space: nowrap;
+    overflow: hidden;
+    gap: 4px 8px !important;
+    font-size: 11px !important;
+  }
+  /* 3-col facts strip on V1 (3 items only after C3 data change) */
+  .xp-home-v1-only .ds-hero-facts {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .xp-home-v1-only .ds-hero-facts > * {
+    padding: 12px 6px !important;
+    border-left: none !important;
+  }
+  .xp-home-v1-only .ds-hero-facts > *:nth-child(n+2) {
+    border-left: 1px solid rgba(255,255,255,0.14) !important;
+  }
+  .xp-home-v1-only .ds-hero-facts > *:first-child { padding-left: 0 !important; }
+  .xp-home-v1-only .ds-hero-facts > *:last-child  { padding-right: 0 !important; }
+}
+
+/* ── Upload panel: tighter padding on mobile (C5) ─────────────────────────── */
+@media (max-width: 639px) {
+  .ds-upload-panel-dark {
+    padding: 20px !important;
+    gap: 20px !important;
+  }
+  .ds-upload-panel-card {
+    padding: 12px !important;
+  }
+}
+
+/* ── Why-choose-us: 2×2 grid on mobile (C6) ──────────────────────────────── */
+@media (max-width: 639px) {
+  .ds-why-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 !important;
+  }
+  .ds-why-grid > div {
+    border-left: none !important;
+    border-top: 1px solid #E3E8F0 !important;
+    padding: 16px 12px !important;
+  }
+  .ds-why-grid > div:nth-child(2n) {
+    border-left: 1px solid #E3E8F0 !important;
   }
 }
 

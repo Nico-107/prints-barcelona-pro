@@ -560,7 +560,16 @@ const PartPage = ({ part }: Props) => {
       {/* Related catalogue pages */}
       <section className="py-10 bg-muted/30">
         <div className="container px-4 max-w-4xl mx-auto">
-          <h2 className="text-base font-bold text-foreground mb-3">More parts to explore</h2>
+          <h2 className="text-base font-bold text-foreground mb-3">
+            {language === "es" ? "Más piezas para explorar"
+              : language === "ca" ? "Més peces per explorar"
+              : language === "de" ? "Weitere Teile entdecken"
+              : language === "fr" ? "Plus de pièces à explorer"
+              : language === "it" ? "Altre parti da esplorare"
+              : language === "nl" ? "Meer onderdelen ontdekken"
+              : language === "pt" ? "Mais peças para explorar"
+              : "More parts to explore"}
+          </h2>
           <ul className="flex flex-wrap gap-3">
             {[
               { to: "/catalogo", label: "All catalogue parts" },

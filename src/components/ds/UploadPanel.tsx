@@ -11,6 +11,7 @@ interface UploadPanelProps {
 export function UploadPanel({ label, heading, description, examples, children }: UploadPanelProps) {
   return (
     <div
+      className="ds-upload-panel-dark"
       style={{
         background: '#0F172A',
         borderRadius: 24,
@@ -58,7 +59,7 @@ export function UploadPanel({ label, heading, description, examples, children }:
       </div>
 
       {/* Right: estimator slot */}
-      <div style={{ flex: '1 1 440px', minWidth: 0, background: '#FFFFFF', color: '#0F172A', borderRadius: 18, padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div className="ds-upload-panel-card" style={{ flex: '1 1 440px', minWidth: 0, background: '#FFFFFF', color: '#0F172A', borderRadius: 18, padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
         {children ?? (
           <div
             style={{

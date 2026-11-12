@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Zap, Award, Settings2, Upload, MessageCircle, MapPin, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
@@ -41,6 +41,70 @@ const LANDING_REVIEWS = [
 
 interface Props {
   page?: LandingContent;
+}
+
+function renderMarkdown(text: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  const paragraphs = text.split("\n\n");
+
+  paragraphs.forEach((para, pi) => {
+    const lines = para.split("\n");
+    const isList = lines.every((l) => l.startsWith("• ") || l.trim() === "");
+    const isTable = lines[0]?.startsWith("|");
+
+    if (isTable) {
+      const rows = lines.filter((l) => !l.match(/^\|[-| ]+\|$/));
+      nodes.push(
+        <div key={pi} style={{ overflowX: "auto", margin: "0 0 4px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 15, lineHeight: 1.4 }}>
+            <tbody>
+              {rows.map((row, ri) => {
+                const cells = row.split("|").map((c) => c.trim()).filter(Boolean);
+                const Tag = ri === 0 ? "th" : "td";
+                return (
+                  <tr key={ri} style={{ background: ri === 0 ? "#F6F8FC" : ri % 2 ? "#FAFBFD" : "#fff" }}>
+                    {cells.map((cell, ci) => (
+                      <Tag key={ci} style={{ padding: "8px 10px", borderBottom: "1px solid #E3E8F0", verticalAlign: "top", textAlign: "left", fontWeight: ri === 0 ? 600 : 400 }}>
+                        {inlineMarkdown(cell)}
+                      </Tag>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      );
+    } else if (isList) {
+      nodes.push(
+        <ul key={pi} style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
+          {lines.filter((l) => l.startsWith("• ")).map((line, li) => (
+            <li key={li} style={{ lineHeight: 1.55 }}>{inlineMarkdown(line.slice(2))}</li>
+          ))}
+        </ul>
+      );
+    } else {
+      nodes.push(<p key={pi} style={{ margin: 0, lineHeight: 1.6 }}>{inlineMarkdown(para)}</p>);
+    }
+  });
+
+  return nodes;
+}
+
+function inlineMarkdown(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  if (parts.length === 1) return text;
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <strong key={i}>{part.slice(2, -2)}</strong>
+        ) : (
+          part
+        )
+      )}
+    </>
+  );
 }
 
 const LandingPage = ({ page: pageProp }: Props) => {
@@ -332,7 +396,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {!isMaker && !GUIDE_TOPICS.has(page.topic) && (
           <FactsStrip
             items={[
-              { value: "Desde 10 €", label: t("No minimum order", "Sin pedido mínimo", "Ohne Mindestbestellung", "Sense comanda mínima") },
+              { value: "Desde 10 €", label: t("Min. 10 €, no fees", "Pedido mínimo 10 €, sin tarifas", "Mind. 10 €, keine Gebühren", "Comanda mín. 10 €, sense tarifes") },
               { value: "< 1 h", label: t("Free quote", "Presupuesto gratis", "Kostenloses Angebot", "Pressupost gratuït") },
               { value: "24–48 h", label: t("Express delivery", "Entrega express", "Expresszustellung", "Lliurament exprés") },
               { value: "±0,2 mm", label: t("Precision", "Precisión", "Präzision", "Precisió") },
@@ -362,9 +426,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
                       {s.heading}
                     </h2>
                     <div className="text-[#5B6577] leading-relaxed space-y-4" style={{ fontSize: 16.5 }}>
-                      {s.body.split("\n\n").map((p, j) => (
-                        <p key={j} className="whitespace-pre-line">{p}</p>
-                      ))}
+                      {renderMarkdown(s.body)}
                     </div>
                   </div>
                 </div>
