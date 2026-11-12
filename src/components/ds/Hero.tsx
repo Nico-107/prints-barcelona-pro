@@ -261,7 +261,7 @@ function SplitImageHero({
             style={{
               margin: 0,
               fontSize: 21,
-              color: '#E3E8F3',
+              color: '#D5DCEA',
               maxWidth: 500,
             }}
           >
@@ -276,7 +276,7 @@ function SplitImageHero({
               alignItems: 'center',
               gap: 12,
               background: '#F5A524',
-              color: '#0B1020',
+              color: '#0B1120',
               fontWeight: 700,
               fontSize: 'clamp(16px, 4.5vw, 23px)' as string,
               padding: 'clamp(16px, 4vw, 24px) clamp(24px, 6.4vw, 46px)',
@@ -294,7 +294,7 @@ function SplitImageHero({
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: 13,
-                color: '#C6CEDF',
+                color: '#B8C4DA',
                 letterSpacing: '0.02em',
               }}
             >
@@ -308,7 +308,7 @@ function SplitImageHero({
               onClick={noFileLink.onClick}
               style={{
                 fontSize: 16.5,
-                color: '#E3E8F3',
+                color: '#D5DCEA',
                 background: 'none',
                 border: 0,
                 cursor: 'pointer',

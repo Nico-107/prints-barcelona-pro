@@ -78,7 +78,7 @@ export function ImageSplit({
       >
         {heading}
       </h2>
-      <div style={{ fontSize: 18.5, color: '#334155', lineHeight: 1.5 }}>{body}</div>
+      <div style={{ fontSize: 18.5, color: '#5B6577', lineHeight: 1.5 }}>{body}</div>
       {specs && specs.length > 0 && (
         <div
           style={{

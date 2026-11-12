@@ -83,7 +83,7 @@ export function QuoteFeature({ label, featured, secondary, variant = 'dark', cla
                   borderRadius: 14,
                   padding: 20,
                   fontSize: 16,
-                  color: isDark ? '#E8ECF4' : '#26304A',
+                  color: isDark ? '#D5DCEA' : '#0F172A',
                 }}
               >
                 "{q.text}"

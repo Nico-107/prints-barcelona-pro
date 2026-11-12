@@ -81,7 +81,7 @@ export function FounderSection({
           >
             {heading}
           </h2>
-          <p style={{ margin: 0, fontSize: 18.5, color: '#334155', lineHeight: 1.5 }}>{body}</p>
+          <p style={{ margin: 0, fontSize: 18.5, color: '#5B6577', lineHeight: 1.5 }}>{body}</p>
           {specs && specs.length > 0 && (
             <div
               style={{
