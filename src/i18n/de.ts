@@ -913,6 +913,8 @@ export const deTranslations: Record<string, string> = {
   "home.hero.p": "Lade eine Datei oder ein Foto hoch und sieh deinen Preis sofort. Dein Teil fertig in 24–48 h – Abholung in Les Corts oder Versand durch ganz Spanien.",
   "home.hero.reassurance": "Keine Anmeldung · STL, OBJ, 3MF oder ein Foto · Dateien vertraulich",
   "home.hero.nofile": "Keine Datei? Wir gestalten es aus einem Foto →",
+  "home.hero.whatsapp": "WhatsApp schreiben",
+  "home.hero.sendlink": "Datei am Computer? Wir senden dir den Link →",
   "home.facts.minOrder.label": "MINDESTBESTELLUNG, KEINE GEBÜHREN",
   "home.facts.delivery.label": "ÜBLICHE LIEFERZEIT",
   "home.facts.tolerance.label": "DRUCKTOLERANZ",

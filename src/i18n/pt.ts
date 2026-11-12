@@ -918,6 +918,8 @@ export const ptTranslations: Record<string, string> = {
   "home.hero.p": "Carrega um ficheiro ou foto e vê o teu preço de imediato. A tua peça pronta em 24–48 h, para levantar em Les Corts ou envio para toda a Espanha.",
   "home.hero.reassurance": "Sem registo · STL, OBJ, 3MF ou uma foto · Ficheiros confidenciais",
   "home.hero.nofile": "Sem ficheiro? Desenhamos a partir de uma foto →",
+  "home.hero.whatsapp": "Escrever no WhatsApp",
+  "home.hero.sendlink": "Ficheiro no computador? Enviamos-te o link →",
   "home.facts.minOrder.label": "ENCOMENDA MÍNIMA, SEM TARIFAS",
   "home.facts.delivery.label": "ENTREGA HABITUAL",
   "home.facts.tolerance.label": "TOLERÂNCIA DE IMPRESSÃO",

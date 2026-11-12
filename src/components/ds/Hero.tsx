@@ -6,6 +6,10 @@ interface HeroProps {
   h1: ReactNode;
   paragraph: string;
   primaryButton?: { label: ReactNode; onClick: () => void };
+  /** Outlined secondary button (WhatsApp, etc.) — links to href */
+  secondaryButton?: { label: string; href: string };
+  /** Small text link below buttons (e.g. "send me the link") */
+  sendLinkButton?: { label: string; onClick: () => void };
   reassuranceItems?: string[];
   noFileLink?: { label: string; onClick: () => void };
   factsItems?: { value: string; label: string }[];
@@ -16,7 +20,8 @@ interface HeroProps {
 
 /** Centered (V1) hero — dark grid background, no image */
 function CenteredHero({
-  starLine, h1, paragraph, primaryButton, reassuranceItems = [], noFileLink, factsItems = [],
+  starLine, h1, paragraph, primaryButton, secondaryButton, sendLinkButton,
+  reassuranceItems = [], noFileLink, factsItems = [],
   extendBehindHeader = true,
 }: HeroProps) {
   return (
@@ -64,7 +69,7 @@ function CenteredHero({
               margin: 0,
               fontFamily: "'Inter Tight', system-ui, sans-serif",
               fontWeight: 800,
-              fontSize: 'clamp(24px, 6.5vw, 92px)',
+              fontSize: 'clamp(38px, 6.5vw, 92px)',
               lineHeight: 0.98,
               letterSpacing: '-0.035em',
               color: '#FFFFFF',
@@ -76,7 +81,7 @@ function CenteredHero({
           <p
             style={{
               margin: 0,
-              fontSize: 21,
+              fontSize: 'clamp(16.5px, 2vw, 21px)',
               lineHeight: 1.45,
               color: '#D5DCEA',
               maxWidth: 620,
@@ -93,6 +98,7 @@ function CenteredHero({
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: 12,
                 background: '#F5A524',
                 color: '#0F172A',
@@ -103,9 +109,58 @@ function CenteredHero({
                 border: 0,
                 cursor: 'pointer',
                 fontFamily: "'Inter', system-ui, sans-serif",
+                width: '100%',
+                maxWidth: 480,
+                boxSizing: 'border-box' as const,
               }}
             >
               {primaryButton.label}
+            </button>
+          )}
+
+          {secondaryButton && (
+            <a
+              href={secondaryButton.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 600,
+                fontSize: 'clamp(15px, 2vw, 16.5px)',
+                padding: 'clamp(13px, 3vw, 15px)',
+                borderRadius: 12,
+                border: '1.5px solid rgba(255,255,255,0.55)',
+                color: '#FFFFFF',
+                fontFamily: "'Inter', system-ui, sans-serif",
+                width: '100%',
+                maxWidth: 480,
+                boxSizing: 'border-box' as const,
+              }}
+            >
+              {secondaryButton.label}
+            </a>
+          )}
+
+          {sendLinkButton && (
+            <button
+              type="button"
+              onClick={sendLinkButton.onClick}
+              style={{
+                fontSize: 15,
+                color: '#D5DCEA',
+                fontWeight: 400,
+                background: 'none',
+                border: 0,
+                cursor: 'pointer',
+                padding: 0,
+                fontFamily: "'Inter', system-ui, sans-serif",
+                textAlign: 'center',
+              }}
+            >
+              {sendLinkButton.label}
             </button>
           )}
 
@@ -158,22 +213,11 @@ function CenteredHero({
             background: 'rgba(11,17,32,0.6)',
           }}
         >
-          <div
-            className="ds-container"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(auto-fit, minmax(220px, 1fr))`,
-              textAlign: 'left',
-            }}
-          >
+          <div className="ds-container ds-hero-facts">
             {factsItems.map((item, i) => (
               <div
                 key={i}
                 style={{
-                  padding: '22px',
-                  paddingLeft: i === 0 ? 0 : '22px',
-                  paddingRight: i === factsItems.length - 1 ? 0 : '22px',
-                  borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.14)' : undefined,
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: 12.5,
                   color: '#B8C4DA',
@@ -263,7 +307,7 @@ function SplitImageHero({
           <p
             style={{
               margin: 0,
-              fontSize: 21,
+              fontSize: 'clamp(16.5px, 2vw, 21px)',
               color: '#D5DCEA',
               maxWidth: 500,
             }}
@@ -273,7 +317,7 @@ function SplitImageHero({
 
           <button
             type="button"
-            onClick={primaryButton.onClick}
+            onClick={primaryButton?.onClick}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -289,7 +333,7 @@ function SplitImageHero({
               fontFamily: "'Inter', system-ui, sans-serif",
             }}
           >
-            {primaryButton.label}
+            {primaryButton?.label}
           </button>
 
           {reassuranceItems.length > 0 && (

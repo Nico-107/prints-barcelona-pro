@@ -918,6 +918,8 @@ export const nlTranslations: Record<string, string> = {
   "home.hero.p": "Upload een bestand of foto en zie je prijs direct. Je onderdeel klaar in 24–48 u, ophalen in Les Corts of verzending door heel Spanje.",
   "home.hero.reassurance": "Geen registratie · STL, OBJ, 3MF of een foto · Bestanden privé",
   "home.hero.nofile": "Geen bestand? Wij ontwerpen het vanuit een foto →",
+  "home.hero.whatsapp": "WhatsApp sturen",
+  "home.hero.sendlink": "Bestand op je computer? We sturen je de link →",
   "home.facts.minOrder.label": "MINIMUMBESTELLING, GEEN KOSTEN",
   "home.facts.delivery.label": "GEBRUIKELIJKE LEVERTIJD",
   "home.facts.tolerance.label": "PRINTTOLERANTIE",

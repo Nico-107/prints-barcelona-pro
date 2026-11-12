@@ -918,6 +918,8 @@ export const enTranslations: Record<string, string> = {
   "home.hero.p": "Upload a file or photo and get your price instantly. Your part ready in 24–48 h — collect in Les Corts or shipped across Spain.",
   "home.hero.reassurance": "No sign-up · STL, OBJ, 3MF or a photo · Files stay private",
   "home.hero.nofile": "No file? We design it from a photo →",
+  "home.hero.whatsapp": "Message us on WhatsApp",
+  "home.hero.sendlink": "File on your computer? We'll send you the link →",
   "home.facts.minOrder.label": "MINIMUM ORDER, NO FEES",
   "home.facts.delivery.label": "USUAL DELIVERY",
   "home.facts.tolerance.label": "PRINT TOLERANCE",

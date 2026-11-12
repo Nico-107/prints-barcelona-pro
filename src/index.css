@@ -433,3 +433,32 @@ html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"]
 html:not([data-xp-home-v2]) .xp-home-v2-only,
 html[data-xp-home-v2="A"]  .xp-home-v2-only { display:none !important; }
 html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
+
+/* ── Hero facts strip — responsive grid ───────────────────────────────────── */
+.ds-hero-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: left;
+}
+.ds-hero-facts > * {
+  padding: 22px;
+  border-left: 1px solid rgba(255,255,255,0.14);
+}
+.ds-hero-facts > *:first-child { padding-left: 0; border-left: none; }
+.ds-hero-facts > *:last-child  { padding-right: 0; }
+
+@media (max-width: 540px) {
+  .ds-hero-facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ds-hero-facts > * {
+    padding: 16px 12px;
+  }
+  /* Reset sequential-only borders; re-apply by column position */
+  .ds-hero-facts > * { border-left: none; }
+  .ds-hero-facts > *:nth-child(2n) { border-left: 1px solid rgba(255,255,255,0.14); }
+  /* Left column: no left padding */
+  .ds-hero-facts > *:nth-child(2n+1) { padding-left: 0; }
+  /* Right column: no right padding */
+  .ds-hero-facts > *:nth-child(2n)   { padding-right: 0; }
+}

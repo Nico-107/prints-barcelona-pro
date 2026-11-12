@@ -912,6 +912,8 @@ export const caTranslations: Record<string, string> = {
   "home.hero.p": "Puja un arxiu o una foto i veu el teu preu a l'instant. La teva peça llesta en 24–48 h, per recollir a Les Corts o amb enviament arreu d'Espanya.",
   "home.hero.reassurance": "Sense registre · STL, OBJ, 3MF o una foto · Arxius confidencials",
   "home.hero.nofile": "Sense arxiu? Ho dissenyem des d'una foto →",
+  "home.hero.whatsapp": "Escriure'ns per WhatsApp",
+  "home.hero.sendlink": "El fitxer és a l'ordinador? T'enviem l'enllaç →",
   "home.facts.minOrder.label": "COMANDA MÍNIMA, SENSE TARIFES",
   "home.facts.delivery.label": "LLIURAMENT HABITUAL",
   "home.facts.tolerance.label": "TOLERÀNCIA D'IMPRESSIÓ",

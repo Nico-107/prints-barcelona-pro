@@ -283,6 +283,16 @@ const Index = () => {
     navigate(url);
   };
 
+  const handleSendLink = async () => {
+    capture("mobile_share_link", { page_path: pathname });
+    const url = window.location.href;
+    if (navigator.share) {
+      await navigator.share({ url }).catch(() => {});
+    } else {
+      await navigator.clipboard.writeText(url).catch(() => {});
+    }
+  };
+
   const faqs = HOME_FAQS[language] ?? HOME_FAQS.es;
 
   const serviceSchema = {
@@ -405,6 +415,8 @@ const Index = () => {
               ),
               onClick: () => openFilePicker("hero"),
             }}
+            secondaryButton={{ label: t("home.hero.whatsapp"), href: whatsappUrl() }}
+            sendLinkButton={{ label: t("home.hero.sendlink"), onClick: handleSendLink }}
             reassuranceItems={t("home.hero.reassurance").split(" · ")}
             noFileLink={{ label: t("home.hero.nofile"), onClick: handleNoFile }}
             factsItems={factsItems}

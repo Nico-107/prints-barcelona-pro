@@ -912,6 +912,8 @@ export const esTranslations: Record<string, string> = {
   "home.hero.p": "Sube un archivo o una foto y ve tu precio al instante. Tu pieza lista en 24–48 h, para recoger en Les Corts o con envío a toda España.",
   "home.hero.reassurance": "Sin registro · STL, OBJ, 3MF o una foto · Archivos confidenciales",
   "home.hero.nofile": "¿No tienes archivo? Lo diseñamos desde una foto →",
+  "home.hero.whatsapp": "Escribirnos por WhatsApp",
+  "home.hero.sendlink": "¿El archivo está en tu ordenador? Te enviamos el enlace →",
   "home.facts.minOrder.label": "PEDIDO MÍNIMO, SIN TARIFAS",
   "home.facts.delivery.label": "ENTREGA HABITUAL",
   "home.facts.tolerance.label": "TOLERANCIA DE IMPRESIÓN",
