@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
   Building2, MessageCircle, ArrowRight, CheckCircle2,
-  Upload, Tag, ChevronRight,
+  Upload, Tag,
 } from "lucide-react";
+import { LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -450,6 +451,12 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     whatsAppSampleMsg: "Hola, voldria sol·licitar el prototip de mostra gratuït per a la meva empresa. Tenim un projecte real en marcha.",
   },
 };
+
+const B2B_REVIEWS = [
+  { text: "Prototype in 48 hours, invoice on the same day. Exactly what we needed for our product launch.", author: "Intercruises — event production" },
+  { text: "Super quick response, 10 identical fixtures ordered and delivered in 3 days.", author: "GS Bikes — Barcelona" },
+  { text: "NDA signed, files handled carefully, repeat orders are instant.", author: "Cultural Habits — product studio" },
+];
 
 // ---------------------------------------------------------------------------
 // Component
@@ -983,27 +990,33 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         </section>
 
         {/* ── 7. PROCESS ── */}
-        <section className="py-14 md:py-20 container px-4 max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-            {c.sectionProcess}
-          </h2>
-          <div className="space-y-6">
-            {c.processSteps.map((step, i) => (
-              <div key={step.title} className="flex gap-4">
-                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
-                  <span className="text-xs font-bold text-accent">{String(i + 1).padStart(2, "0")}</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">{step.title}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
-                </div>
-              </div>
-            ))}
+        <section className="py-14 md:py-20">
+          <div className="container px-4 max-w-5xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+              {c.sectionProcess}
+            </h2>
+            <StepCards
+              steps={c.processSteps.map((step, i) => ({
+                number: i + 1,
+                title: step.title,
+                description: step.body,
+              }))}
+            />
           </div>
         </section>
 
         {/* ── 8. CALCULATOR ── */}
-        <StlEstimator />
+        <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
+          <div style={{ maxWidth: 1240, margin: '0 auto', padding: '84px 24px' }}>
+            <UploadPanel
+              label={lang === "es" ? "PRECIO INSTANTÁNEO — DESDE 10 €" : lang === "ca" ? "PREU INSTANTANI — DES DE 10 €" : "INSTANT PRICE — FROM €10"}
+              heading={lang === "es" ? "Sube tu archivo y ve el precio ahora." : lang === "ca" ? "Puja l'arxiu i veu el preu ara." : "Upload your file and see your price now."}
+              description={lang === "es" ? "Sin cuenta. Sin pedido mínimo absurdo. Presupuesto en menos de 1 hora." : lang === "ca" ? "Sense compte. Sense comanda mínima absurda. Pressupost en menys d'1 hora." : "No account needed. No absurd minimum. Quote within 1 hour."}
+            >
+              <StlEstimator />
+            </UploadPanel>
+          </div>
+        </div>
 
         {/* ── 8b. HOW WE WORK WITH COMPANIES ── */}
         <section className="py-14 md:py-20 bg-secondary/20 border-y border-border/40">
@@ -1034,6 +1047,13 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
             </div>
           </div>
         </section>
+
+        {/* ── 8d. REVIEWS ── */}
+        <QuoteFeature
+          featured={B2B_REVIEWS[0]}
+          secondary={B2B_REVIEWS.slice(1)}
+          variant="dark"
+        />
 
         {/* ── 9. FAQ ── */}
         <section className="py-14 md:py-20 container px-4 max-w-3xl mx-auto">
@@ -1081,21 +1101,10 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         )}
 
         {/* ── Related links ── */}
-        <section className="container px-4 max-w-3xl mx-auto pb-8">
-          <div className="grid sm:grid-cols-2 gap-3">
-            {c.relatedLinks.map((r) => (
-              <Link
-                key={r.href}
-                to={r.href}
-                className="group flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:border-accent/50 transition-colors"
-              >
-                <span className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">
-                  {r.label}
-                </span>
-                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors" aria-hidden="true" />
-              </Link>
-            ))}
-          </div>
+        <section className="container px-4 max-w-5xl mx-auto pb-8">
+          <LinkCardGrid
+            items={c.relatedLinks.map((r) => ({ href: r.href, title: r.label }))}
+          />
         </section>
 
         {/* ── International hubs ── */}

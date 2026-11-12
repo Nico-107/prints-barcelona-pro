@@ -23,6 +23,7 @@ const XP_LANGS = ["es", "en", "ca"];
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isOverV2Hero, setIsOverV2Hero] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,6 +37,23 @@ const Header = () => {
     const onScroll = () => setScrolled(window.scrollY > 4);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const check = () => {
+      const isV2 = document.documentElement.dataset.xpHomeV2 === 'B';
+      if (!isV2) { setIsOverV2Hero(false); return; }
+      const heroEl = document.querySelector('[data-v2-hero]') as HTMLElement | null;
+      if (!heroEl) { setIsOverV2Hero(false); return; }
+      setIsOverV2Hero(window.scrollY < heroEl.offsetHeight - 10);
+    };
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
   }, []);
 
   // Text depends only on language — same on server and first client render.
@@ -83,6 +101,12 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
+  const handleNoFile = () => {
+    const url = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+    navigate(url);
+    setIsMenuOpen(false);
+  };
+
   const openCalculatorFilePicker = (location: string) => {
     capture("quote_cta_click", { location });
     capture("upload_entry_click", { source: "header", page_path: window.location.pathname });
@@ -121,8 +145,10 @@ const Header = () => {
       </a>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-40 bg-white border-b border-[#E3E8F0] transition-shadow duration-200",
-          scrolled && "shadow-[0_1px_8px_rgba(15,23,42,0.08)]"
+          "fixed top-0 left-0 right-0 z-40 transition-all duration-200",
+          isOverV2Hero
+            ? "bg-transparent border-b border-transparent"
+            : cn("bg-white border-b border-[#E3E8F0]", scrolled && "shadow-[0_1px_8px_rgba(15,23,42,0.08)]")
         )}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
@@ -131,34 +157,57 @@ const Header = () => {
 
             {/* Logo */}
             <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
-                <g transform="translate(6,12) scale(0.88)" fill="none">
-                  <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
-                    <line x1="66" y1="14" x2="60" y2="42"/>
-                    <line x1="54" y1="108" x2="60" y2="42"/>
-                    <line x1="60" y1="42" x2="22" y2="62"/>
-                    <line x1="60" y1="42" x2="98" y2="62"/>
+              {isOverV2Hero ? (
+                <svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true">
+                  <polygon points="60,26 94,62 60,98 26,62" fill="none" stroke="#FFFFFF" strokeWidth="8" strokeLinejoin="round"/>
+                  <line x1="26" y1="62" x2="94" y2="62" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round"/>
+                  <circle cx="60" cy="26" r="12" fill="#F5A524"/>
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 130" fill="none" aria-hidden="true" style={{ height: '36px', width: 'auto' }}>
+                  <g transform="translate(6,12) scale(0.88)" fill="none">
+                    <g stroke="#0f172a" strokeWidth="2.6" strokeLinecap="round" opacity="0.35">
+                      <line x1="66" y1="14" x2="60" y2="42"/>
+                      <line x1="54" y1="108" x2="60" y2="42"/>
+                      <line x1="60" y1="42" x2="22" y2="62"/>
+                      <line x1="60" y1="42" x2="98" y2="62"/>
+                    </g>
+                    <g stroke="#0f172a" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M66 14 L22 62"/><path d="M66 14 L98 62"/><path d="M66 14 L60 82"/>
+                      <path d="M54 108 L22 62"/><path d="M54 108 L98 62"/><path d="M54 108 L60 82"/>
+                      <path d="M22 62 L60 82 L98 62"/>
+                    </g>
+                    <circle cx="60" cy="42" r="4.5" fill="#0f172a" opacity="0.4"/>
+                    <circle cx="22" cy="62" r="7" fill="#0f172a"/>
+                    <circle cx="98" cy="62" r="7" fill="#0f172a"/>
+                    <circle cx="60" cy="82" r="7" fill="#0f172a"/>
+                    <circle cx="54" cy="108" r="7" fill="#0f172a"/>
+                    <circle cx="66" cy="14" r="9" fill="#F5A524"/>
                   </g>
-                  <g stroke="#0f172a" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M66 14 L22 62"/><path d="M66 14 L98 62"/><path d="M66 14 L60 82"/>
-                    <path d="M54 108 L22 62"/><path d="M54 108 L98 62"/><path d="M54 108 L60 82"/>
-                    <path d="M22 62 L60 82 L98 62"/>
-                  </g>
-                  <circle cx="60" cy="42" r="4.5" fill="#0f172a" opacity="0.4"/>
-                  <circle cx="22" cy="62" r="7" fill="#0f172a"/>
-                  <circle cx="98" cy="62" r="7" fill="#0f172a"/>
-                  <circle cx="60" cy="82" r="7" fill="#0f172a"/>
-                  <circle cx="54" cy="108" r="7" fill="#0f172a"/>
-                  <circle cx="66" cy="14" r="9" fill="#F5A524"/>
-                </g>
-              </svg>
-              <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm text-[#0F172A]" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif" }}>
+                </svg>
+              )}
+              <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}>
                 Dimension<span style={{ color: '#F5A524' }}>3D</span>
               </span>
             </Link>
 
-            {/* Desktop primary nav */}
-            <nav className="hidden xl:flex items-center gap-3 ml-3 mr-auto">
+            {/* Desktop primary nav — V2 black header reduced set */}
+            {isOverV2Hero && (
+              <nav className="hidden xl:flex items-center gap-6 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15.5 }}>
+                {(() => {
+                  const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+                  return (<>
+                    <button type="button" onClick={() => scrollToSection('precios')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.precios")}</button>
+                    <button type="button" onClick={() => scrollToSection('maquina')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.como")}</button>
+                    <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15.5 }}>{t("header.v2.empresas")}</Link>
+                    <button type="button" onClick={handleNoFile} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.sin")}</button>
+                  </>);
+                })()}
+              </nav>
+            )}
+
+            {/* Desktop primary nav — normal white header */}
+            <nav className={cn("items-center gap-3 ml-3 mr-auto", isOverV2Hero ? "hidden" : "hidden xl:flex")}>
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -288,8 +337,24 @@ const Header = () => {
               </DropdownMenu>
             </nav>
 
-            {/* Desktop utility nav */}
-            <div className="hidden xl:flex items-center gap-3">
+            {/* Desktop utility nav — V2 black header */}
+            {isOverV2Hero && (
+              <div className="hidden xl:flex items-center gap-5">
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF' }}>
+                  <span style={{ color: '#F5A524' }}>★</span> {t("header.v2.rating")}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => openCalculatorFilePicker("header_v2")}
+                  style={{ background: '#F5A524', color: '#0B1020', fontWeight: 600, padding: '13px 22px', borderRadius: 10, fontSize: 16, border: 0, cursor: 'pointer', fontFamily: "'Inter', system-ui, sans-serif", whiteSpace: 'nowrap' }}
+                >
+                  {t("header.v2.cta")}
+                </button>
+              </div>
+            )}
+
+            {/* Desktop utility nav — normal white header */}
+            <div className={cn("items-center gap-3", isOverV2Hero ? "hidden" : "hidden xl:flex")}>
               <div className="hidden 2xl:flex items-center gap-1.5 text-sm">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
@@ -324,9 +389,15 @@ const Header = () => {
 
             {/* Mobile controls */}
             <div className="xl:hidden ml-auto flex items-center gap-2">
+              {isOverV2Hero && (
+                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#FFFFFF' }}>
+                  <span style={{ color: '#F5A524' }}>★</span> 4,8
+                </span>
+              )}
               <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
               <button
-                className="p-2 text-[#0F172A] inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+                className="p-2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
+                style={{ color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={isMenuOpen}

@@ -463,9 +463,16 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   .ds-hero-facts > *:nth-child(2n)   { padding-right: 0; }
 }
 
-/* ── SplitImageHero: photo-on-top layout on mobile ───────────────────────── */
+/* ── SplitImageHero: photo-on-top, full-screen layout on mobile ───────────── */
 @media (max-width: 767px) {
+  /* Section fills the first screen so quote+stats land above the fold */
+  .ds-hero-split-section {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
   .ds-hero-split-wrapper {
+    flex: 1;
     flex-direction: column !important;
   }
   .ds-hero-split-img {
@@ -481,15 +488,17 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
     background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%) !important;
   }
   .ds-hero-split-text {
-    flex: none !important;
+    flex: 1 !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    padding: 0 18px 32px !important;
+    padding: 0 18px 16px !important;
     margin-top: -54px !important;
     margin-left: 0 !important;
     max-width: none !important;
-    gap: 16px !important;
+    gap: 14px !important;
     align-items: stretch !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
   .ds-hero-split-text h1 {
     font-size: 39px !important;
@@ -502,6 +511,17 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
     justify-content: center !important;
     text-align: center !important;
   }
+  /* Quote + stats pushed to bottom of hero via auto margin */
+  .ds-hero-mobile-extras {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+}
+/* Hide mobile extras on desktop */
+@media (min-width: 768px) {
+  .ds-hero-mobile-extras { display: none !important; }
 }
 
 /* ── StepCards: horizontal scroll-snap on mobile ─────────────────────────── */
@@ -561,10 +581,36 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   }
   .ds-link-card-grid > a {
     padding: 14px 0 !important;
+    min-height: 56px !important;
     border-radius: 0 !important;
     border: none !important;
     border-bottom: 1px solid #E3E8F0 !important;
     background: transparent !important;
     box-shadow: none !important;
   }
+}
+
+/* ── Footer accordion: collapsible link groups on mobile ─────────────────── */
+.ds-footer-acc-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+}
+.ds-footer-acc-icon { display: none; flex-shrink: 0; }
+
+@media (max-width: 767px) {
+  .ds-footer-acc-btn { cursor: pointer; padding: 10px 0; }
+  .ds-footer-acc-icon { display: block; }
+}
+/* On desktop: always show body regardless of React state */
+@media (min-width: 768px) {
+  .ds-footer-acc-body { display: block !important; }
 }

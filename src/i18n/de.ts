@@ -1017,4 +1017,13 @@ export const deTranslations: Record<string, string> = {
   "home.v2.closing.cta": "Datei hochladen und Preis sehen",
   "home.v2.closing.b2b": "Sie sind ein Unternehmen? Prototypen in 48 h und Serien →",
   "home.v2.closing.img.alt": "Raum mit dem Bambu Lab X2D Drucker",
+  "home.mobile.stat.delivery": "LIEFERUNG",
+  "home.mobile.stat.orders": "BESTELLUNGEN",
+  "home.mobile.stat.response": "ANTWORTZEIT",
+  "header.v2.precios": "Preise",
+  "header.v2.como": "Wie wir drucken",
+  "header.v2.empresas": "Unternehmen",
+  "header.v2.sin": "Ohne Datei",
+  "header.v2.rating": "4,8 · 250+ Bestellungen",
+  "header.v2.cta": "Preis sehen",
 };

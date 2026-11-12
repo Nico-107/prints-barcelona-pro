@@ -1022,4 +1022,13 @@ export const nlTranslations: Record<string, string> = {
   "home.v2.closing.cta": "Bestand uploaden en prijs zien",
   "home.v2.closing.b2b": "Ben je een bedrijf? Prototypes in 48 u en series →",
   "home.v2.closing.img.alt": "Ruimte met de Bambu Lab X2D printer",
+  "home.mobile.stat.delivery": "LEVERING",
+  "home.mobile.stat.orders": "BESTELLINGEN",
+  "home.mobile.stat.response": "REACTIE",
+  "header.v2.precios": "Prijzen",
+  "header.v2.como": "Hoe wij printen",
+  "header.v2.empresas": "Bedrijven",
+  "header.v2.sin": "Geen bestand",
+  "header.v2.rating": "4,8 · 250+ bestellingen",
+  "header.v2.cta": "Prijs zien",
 };

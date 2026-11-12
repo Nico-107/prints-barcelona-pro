@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle, Truck, ExternalLink } from "lucide-react";
+import { ArrowRight, CheckCircle2, MessageCircle, Truck, ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
@@ -12,7 +12,7 @@ import { capture } from "@/lib/analytics";
 import type { CityPageConfig } from "@/data/cityDeliveryPages";
 import { SHIP_COUNTRIES } from "@/lib/instantBuy";
 import { StlEstimator } from "@/components/StlEstimator";
-import { UploadPanel } from "@/components/ds";
+import { FactsStrip, LinkCardGrid, UploadPanel } from "@/components/ds";
 
 /** Map country string from cityDeliveryPages to ISO2 code for SHIP_COUNTRIES check */
 const COUNTRY_TO_ISO2: Record<string, string> = {
@@ -448,39 +448,30 @@ const CityDeliveryPage = ({ config }: Props) => {
         )}
 
         {/* Quick stats */}
-        <section className="container px-4 py-12">
-          <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-            {(isES
-              ? [
-                  { icon: Clock, label: "Tiempo de presupuesto", value: "< 1 hora" },
-                  { icon: Truck, label: `Entrega a ${config.city}`, value: config.deliveryDays },
-                  { icon: Globe, label: "Países de envío", value: "30+" },
-                  { icon: CheckCircle2, label: "Pedido mínimo", value: "€10" },
-                ]
-              : isFR
-              ? [
-                  { icon: Clock, label: "Délai de devis", value: "< 1 heure" },
-                  { icon: Truck, label: `Livraison à ${config.city}`, value: config.deliveryDays },
-                  { icon: Globe, label: "Pays livrés", value: "30+" },
-                  { icon: CheckCircle2, label: "Commande minimum", value: "10 €" },
-                ]
-              : [
-                  { icon: Clock, label: "Quote turnaround", value: "< 1 hour" },
-                  { icon: Truck, label: `Delivery to ${config.city}`, value: config.deliveryDays },
-                  { icon: Globe, label: "Countries shipped", value: "30+" },
-                  { icon: CheckCircle2, label: "Minimum order", value: "€10" },
-                ]
-            ).map(({ icon: Icon, label, value }) => (
-              <div key={label} className="text-center p-5 rounded-xl border border-border/50 bg-card">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
-                  <Icon className="w-5 h-5 text-accent" />
-                </div>
-                <p className="text-2xl font-bold text-foreground mb-1">{value}</p>
-                <p className="text-xs text-muted-foreground">{label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <FactsStrip
+          items={isES
+            ? [
+                { value: "< 1 h", label: "TIEMPO DE PRESUPUESTO" },
+                { value: config.deliveryDays, label: `ENTREGA A ${config.city.toUpperCase()}` },
+                { value: "30+", label: "PAÍSES DE ENVÍO" },
+                { value: "€10", label: "PEDIDO MÍNIMO" },
+              ]
+            : isFR
+            ? [
+                { value: "< 1 h", label: "DÉLAI DE DEVIS" },
+                { value: config.deliveryDays, label: `LIVRAISON À ${config.city.toUpperCase()}` },
+                { value: "30+", label: "PAYS LIVRÉS" },
+                { value: "10 €", label: "COMMANDE MINIMUM" },
+              ]
+            : [
+                { value: "< 1 h", label: "QUOTE TURNAROUND" },
+                { value: config.deliveryDays, label: `DELIVERY TO ${config.city.toUpperCase()}` },
+                { value: "30+", label: "COUNTRIES SHIPPED" },
+                { value: "€10", label: "MINIMUM ORDER" },
+              ]
+          }
+          variant="light"
+        />
 
         {/* Calculator */}
         <div id="calculator" style={{ background: '#F6F8FC' }}>
@@ -1180,42 +1171,20 @@ const CityDeliveryPage = ({ config }: Props) => {
               <h2 className="text-lg font-bold text-foreground mb-4">
                 {isES ? "Lectura relacionada" : isFR ? "À lire aussi" : "Related reading"}
               </h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <Link
-                  to="/3d-printing-service"
-                  className="group flex items-center gap-3 rounded-xl border border-border bg-background p-4 hover:border-accent/50 transition-colors"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-                    <Globe className="w-4 h-4 text-accent" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground text-sm leading-snug group-hover:text-accent transition-colors">
-                      {isES ? "Servicio Internacional" : isFR ? "Service de livraison internationale" : "International Shipping Service"}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {isES ? "Envíos a Europa y todo el mundo" : isFR ? "Livraison en Europe et dans le monde entier" : "Delivery across Europe and worldwide"}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
-                </Link>
-                <Link
-                  to={secondaryLinkItem.to}
-                  className="group flex items-center gap-3 rounded-xl border border-border bg-background p-4 hover:border-accent/50 transition-colors"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-                    <Package className="w-4 h-4 text-accent" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground text-sm leading-snug group-hover:text-accent transition-colors">
-                      {secondaryLinkItem.label}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {secondaryLinkItem.description}
-                    </p>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
-                </Link>
-              </div>
+              <LinkCardGrid
+                items={[
+                  {
+                    href: "/3d-printing-service",
+                    title: isES ? "Servicio Internacional" : isFR ? "Service de livraison internationale" : "International Shipping Service",
+                    description: isES ? "Envíos a Europa y todo el mundo" : isFR ? "Livraison en Europe et dans le monde entier" : "Delivery across Europe and worldwide",
+                  },
+                  {
+                    href: secondaryLinkItem.to,
+                    title: secondaryLinkItem.label,
+                    description: secondaryLinkItem.description,
+                  },
+                ]}
+              />
             </div>
           </div>
         </section>

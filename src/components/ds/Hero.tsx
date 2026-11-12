@@ -16,6 +16,8 @@ interface HeroProps {
   splitImage?: { src: string; alt: string };
   /** When false, hero sits below the header instead of extending behind it */
   extendBehindHeader?: boolean;
+  /** Mobile-only: review quote card + 3-col stats row shown below the fold on the first screen */
+  mobileExtras?: { quoteText: string; quoteAuthor: string; facts: { value: string; label: string }[] };
 }
 
 /** Centered (V1) hero — dark grid background, no image */
@@ -252,10 +254,12 @@ function CenteredHero({
 
 /** Split-image (V2) hero — black bg, image right, text left */
 function SplitImageHero({
-  starLine, h1, paragraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage,
+  starLine, h1, paragraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage, mobileExtras,
 }: HeroProps) {
   return (
     <section
+      data-v2-hero
+      className="ds-hero-split-section"
       style={{
         background: '#000000',
         color: '#FFFFFF',
@@ -410,6 +414,35 @@ function SplitImageHero({
             >
               {noFileLink.label}
             </button>
+          )}
+
+          {/* Mobile-only: quote card + stats row pinned to bottom of hero */}
+          {mobileExtras && (
+            <div className="ds-hero-mobile-extras">
+              <blockquote style={{ margin: 0, padding: '14px 16px', background: 'rgba(255,255,255,0.07)', borderRadius: 14, fontSize: 15, color: '#E8ECF4' }}>
+                <span style={{ color: '#F5A524', letterSpacing: 2, fontSize: 12 }}>★★★★★</span>
+                <br />
+                "{mobileExtras.quoteText}" <span style={{ color: '#B8C4DA', fontSize: 13 }}>— {mobileExtras.quoteAuthor}</span>
+              </blockquote>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', borderTop: '1px solid rgba(255,255,255,0.18)', fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#B8C4DA' }}>
+                {mobileExtras.facts.map((fact, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      padding: '12px 8px 0',
+                      borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.18)' : 'none',
+                      paddingLeft: i > 0 ? 12 : 0,
+                      paddingRight: i < mobileExtras.facts.length - 1 ? 8 : 0,
+                    }}
+                  >
+                    <span style={{ display: 'block', color: '#FFFFFF', fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 800, fontSize: 20, lineHeight: 1.2 }}>
+                      {fact.value}
+                    </span>
+                    {fact.label}
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 

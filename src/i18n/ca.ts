@@ -1016,4 +1016,13 @@ export const caTranslations: Record<string, string> = {
   "home.v2.closing.cta": "Pujar arxiu i veure el preu",
   "home.v2.closing.b2b": "Ets una empresa? Prototips en 48 h i sèries →",
   "home.v2.closing.img.alt": "Sala amb la impressora Bambu Lab X2D",
+  "home.mobile.stat.delivery": "LLIURAMENT",
+  "home.mobile.stat.orders": "COMANDES",
+  "home.mobile.stat.response": "RESPOSTA",
+  "header.v2.precios": "Preus",
+  "header.v2.como": "Com imprimim",
+  "header.v2.empresas": "Empreses",
+  "header.v2.sin": "Sense arxiu",
+  "header.v2.rating": "4,8 · 250+ comandes",
+  "header.v2.cta": "Veure el meu preu",
 };

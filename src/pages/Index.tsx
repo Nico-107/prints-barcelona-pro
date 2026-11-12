@@ -500,6 +500,15 @@ const Index = () => {
               src: "/img/x2d/x2d-inside.jpg",
               alt: t("home.v2.hero.img.alt"),
             }}
+            mobileExtras={{
+              quoteText: "Ready the very next morning. Absolutely fantastic.",
+              quoteAuthor: "Sara D.",
+              facts: [
+                { value: "24–48 h", label: t("home.mobile.stat.delivery") },
+                { value: "250+", label: t("home.mobile.stat.orders") },
+                { value: "<1 h", label: t("home.mobile.stat.response") },
+              ],
+            }}
           />
           {/* V2 Facts Strip on navy */}
           <FactsStrip items={v2FactsItems} variant="dark" />

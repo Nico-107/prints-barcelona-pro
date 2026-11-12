@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, CheckCircle2, ChevronRight, Clock, Globe, Package } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
-import { Hero as DsHero, FAQAccordion, FinalCta, UploadPanel } from "@/components/ds";
+import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, LinkCardGrid, QuoteFeature, UploadPanel } from "@/components/ds";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -87,6 +86,12 @@ function renderProse(text: string) {
     );
   });
 }
+
+const HUB_REVIEWS = [
+  { text: "Ready the very next morning. Absolutely fantastic quality.", author: "Sara D." },
+  { text: "Super quick response, the parts arrived in perfect condition.", author: "Lukas M." },
+  { text: "Excellent precision, our prototype fit perfectly on the first try.", author: "Isabelle R." },
+];
 
 interface Props {
   content: IntlHubContent;
@@ -249,24 +254,15 @@ const IntlHubPage = ({ content }: Props) => {
         />
 
         {/* Quick stats */}
-        <section className="container px-4 py-12">
-          <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: Clock, value: "< 1 h", label: content.trustChips[1] },
-              { icon: Package, value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
-              { icon: Globe, value: "5,90 €", label: content.trustChips[2] },
-              { icon: CheckCircle2, value: "€10", label: content.trustChips[0] },
-            ].map(({ icon: Icon, value, label }) => (
-              <div key={label} className="text-center p-5 rounded-xl border border-border/50 bg-card">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
-                  <Icon className="w-5 h-5 text-accent" />
-                </div>
-                <p className="text-lg font-bold text-foreground mb-1 leading-tight">{value}</p>
-                <p className="text-xs text-muted-foreground">{label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <FactsStrip
+          items={[
+            { value: "< 1 h", label: content.trustChips[1] },
+            { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
+            { value: "5,90 €", label: content.trustChips[2] },
+            { value: "€10", label: content.trustChips[0] },
+          ]}
+          variant="light"
+        />
 
         {/* Calculator */}
         <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
@@ -380,40 +376,23 @@ const IntlHubPage = ({ content }: Props) => {
         {/* City and guide links */}
         {(content.cityLinks.length > 0 || content.guideLinks.length > 0) && (
           <section className="py-14 bg-background">
-            <div className="container px-4 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-              {content.cityLinks.length > 0 && (
-                <ul className="space-y-2">
-                  {content.cityLinks.map((link) => (
-                    <li key={link.to}>
-                      <Link
-                        to={link.to}
-                        className="flex items-center gap-2 text-accent hover:underline text-sm"
-                      >
-                        <ChevronRight className="w-4 h-4 flex-shrink-0" />
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {content.guideLinks.length > 0 && (
-                <ul className="space-y-2">
-                  {content.guideLinks.map((link) => (
-                    <li key={link.to}>
-                      <Link
-                        to={link.to}
-                        className="flex items-center gap-2 text-accent hover:underline text-sm"
-                      >
-                        <ChevronRight className="w-4 h-4 flex-shrink-0" />
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className="container px-4 max-w-5xl mx-auto">
+              <LinkCardGrid
+                items={[
+                  ...content.cityLinks.map(l => ({ href: l.to, title: l.label })),
+                  ...content.guideLinks.map(l => ({ href: l.to, title: l.label })),
+                ]}
+              />
             </div>
           </section>
         )}
+
+        {/* Reviews */}
+        <QuoteFeature
+          featured={HUB_REVIEWS[0]}
+          secondary={HUB_REVIEWS.slice(1)}
+          variant="dark"
+        />
 
         {/* Final CTA band */}
         <FinalCta

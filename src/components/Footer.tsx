@@ -1,4 +1,5 @@
-import { MessageCircle, MapPin, Clock, Truck } from "lucide-react";
+import { useState } from 'react';
+import { MessageCircle, MapPin, Clock, Truck, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
@@ -10,6 +11,15 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const Footer = () => {
   const { t, language } = useLanguage();
   const { pathname } = useLocation();
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
+
+  const toggleGroup = (key: string) =>
+    setOpenGroups(prev => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
+
   const isInternational =
     pathname.startsWith("/3d-printing-service") ||
     pathname.startsWith("/3d-printing-delivery-") ||
@@ -25,7 +35,6 @@ const Footer = () => {
   const forBusinessLabel = t("footer.forBusiness");
   const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
 
-  // Map SERVICES_MENU labelEn → i18n key so footer group headers are translated for all 8 langs
   const tGroupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) => {
     const keyMap: Record<string, string> = {
       "Services": "nav.services",
@@ -39,8 +48,6 @@ const Footer = () => {
     return key ? t(key) : groupLabel(g);
   };
 
-  // Delivery / cities column — surfaces the city-delivery pages and the
-  // secondary landing routes (Madrid, Valencia) so they stop being orphans.
   const deliveryLinks = [
     { slug: "/madrid", label: isCa ? "Madrid" : "Madrid" },
     { slug: "/3d-printing-madrid", label: isCa ? "3D Printing Madrid" : isEs ? "Impresión 3D Madrid" : "3D Printing Madrid" },
@@ -56,8 +63,6 @@ const Footer = () => {
     { slug: isEs ? "/impresion-3d-sevilla" : "/3d-printing-sevilla", label: isCa ? "Impressió 3D Sevilla" : isEs ? "Impresión 3D Sevilla" : "3D Printing Sevilla" },
   ];
 
-  // Popular catalogue products — one inbound each was the /catalogo listing;
-  // adding them here gives the second inbound so they're no longer orphaned.
   const catalogueProducts = [
     { slug: "/catalogo/jarron-personalizado", label: isCa ? "Gerra Personalitzada" : isEs ? "Jarrón Personalizado" : "Custom Vase" },
     { slug: "/catalogo/placa-nombre", label: isCa ? "Placa de Nom" : isEs ? "Placa con Nombre" : "Custom Name Plate" },
@@ -72,7 +77,33 @@ const Footer = () => {
 
   const linkCls = "text-[#B8C4DA] text-sm hover:text-white transition-colors";
   const headingCls = "text-xs font-mono uppercase tracking-widest text-[#B8C4DA]/60 mb-3";
+  const headingAccCls = "text-xs font-mono uppercase tracking-widest text-[#B8C4DA]/60";
   const dividerCls = "border-white/10";
+
+  /* Renders an accordion group: heading is a button on mobile, plain text on desktop.
+     All children stay in the DOM (crawlable); only visually hidden on mobile when closed. */
+  const acc = (gkey: string, label: React.ReactNode, body: React.ReactNode) => {
+    const open = openGroups.has(gkey);
+    return (
+      <div>
+        <button
+          type="button"
+          className="ds-footer-acc-btn"
+          onClick={() => toggleGroup(gkey)}
+          aria-expanded={open}
+        >
+          <span className={headingAccCls}>{label}</span>
+          <ChevronDown
+            className="ds-footer-acc-icon w-4 h-4 text-[#B8C4DA]/40"
+            style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+          />
+        </button>
+        <div className="ds-footer-acc-body mt-2" style={{ display: open ? undefined : 'none' }}>
+          {body}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <footer className="bg-[#0B1120] text-white">
@@ -105,23 +136,24 @@ const Footer = () => {
             <p className="text-[#B8C4DA]/60 text-xs mt-1">{t("footer.response.express")}</p>
           </div>
           <div>
-            <span className="font-semibold text-sm block mb-2">{t("footer.quickLinks")}</span>
-            <div className="flex flex-col gap-1.5">
-              <Link to={businessSlug} className={linkCls}>{forBusinessLabel}</Link>
-              <Link to="/" className={linkCls}>{t("footer.nav.home")}</Link>
-              <Link to="/makers" className={linkCls}>{t("nav.becomeMaker")}</Link>
-              <Link to="/maker-guide" className={linkCls}>{t("footer.nav.makerGuide")}</Link>
-              <Link to="/3d-printing-service" className={linkCls}>International service</Link>
-              <Link to="/track" className={linkCls}>{t("nav.trackOrder")}</Link>
-              <Link to="/creator" className={linkCls}>{t("footer.nav.aboutCreator")}</Link>
-              <Link to="/privacy" className={linkCls}>{t("footer.nav.privacy")}</Link>
-              <button
-                type="button"
-                className={`${linkCls} text-left`}
-                onClick={() => document.dispatchEvent(new Event("cookie-prefs-open"))}
-              >{t("cookie.banner.prefs")}</button>
-              <Link to="/politica-devoluciones" className={linkCls}>{t("footer.returnPolicy")}</Link>
-            </div>
+            {acc('quicklinks', t("footer.quickLinks"),
+              <div className="flex flex-col gap-1.5">
+                <Link to={businessSlug} className={linkCls}>{forBusinessLabel}</Link>
+                <Link to="/" className={linkCls}>{t("footer.nav.home")}</Link>
+                <Link to="/makers" className={linkCls}>{t("nav.becomeMaker")}</Link>
+                <Link to="/maker-guide" className={linkCls}>{t("footer.nav.makerGuide")}</Link>
+                <Link to="/3d-printing-service" className={linkCls}>International service</Link>
+                <Link to="/track" className={linkCls}>{t("nav.trackOrder")}</Link>
+                <Link to="/creator" className={linkCls}>{t("footer.nav.aboutCreator")}</Link>
+                <Link to="/privacy" className={linkCls}>{t("footer.nav.privacy")}</Link>
+                <button
+                  type="button"
+                  className={`${linkCls} text-left`}
+                  onClick={() => document.dispatchEvent(new Event("cookie-prefs-open"))}
+                >{t("cookie.banner.prefs")}</button>
+                <Link to="/politica-devoluciones" className={linkCls}>{t("footer.returnPolicy")}</Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -129,16 +161,17 @@ const Footer = () => {
         <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 pb-10 border-b ${dividerCls}`}>
           {SERVICES_MENU.filter((g) => g.labelEn !== "Guides").map((group) => (
             <div key={group.labelEn}>
-              <p className={headingCls}>{tGroupLabel(group)}</p>
-              <ul className="flex flex-col gap-1.5">
-                {group.items.map((item) => (
-                  <li key={item.slugEn}>
-                    <Link to={slugForLang(item, language as any)} className={linkCls}>
-                      {itemLabel(item)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {acc(group.labelEn, tGroupLabel(group),
+                <ul className="flex flex-col gap-1.5">
+                  {group.items.map((item) => (
+                    <li key={item.slugEn}>
+                      <Link to={slugForLang(item, language as any)} className={linkCls}>
+                        {itemLabel(item)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
           {(() => {
@@ -146,38 +179,39 @@ const Footer = () => {
             const designSlug = isCa ? "/dissenya-la-teva-peca-3d" : isEs ? "/disena-tu-pieza-3d" : "/design-your-3d-part";
             return (
               <div>
-                <p className={headingCls}>{t("footer.guides")}</p>
-                <ul className="flex flex-col gap-1.5">
-                  {guidesGroup?.items.map((item) => (
-                    <li key={item.slugEn}>
-                      <Link to={slugForLang(item, language as any)} className={linkCls}>
-                        {itemLabel(item)}
+                {acc('Guides', t("footer.guides"),
+                  <ul className="flex flex-col gap-1.5">
+                    {guidesGroup?.items.map((item) => (
+                      <li key={item.slugEn}>
+                        <Link to={slugForLang(item, language as any)} className={linkCls}>
+                          {itemLabel(item)}
+                        </Link>
+                      </li>
+                    ))}
+                    <li><Link to={designSlug} className={linkCls}>{t("nav.customDesign")}</Link></li>
+                    <li>
+                      <Link to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : "/3d-file-checker"} className={linkCls}>
+                        {t("nav.fileChecker")}
                       </Link>
                     </li>
-                  ))}
-                  <li><Link to={designSlug} className={linkCls}>{t("nav.customDesign")}</Link></li>
-                  <li>
-                    <Link to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : "/3d-file-checker"} className={linkCls}>
-                      {t("nav.fileChecker")}
-                    </Link>
-                  </li>
-                  <li><Link to="/catalogo" className={linkCls}>{t("nav.catalog")}</Link></li>
-                  <li>
-                    <Link to={isCa ? "/como-ganar-dinero-con-impresora-3d" : isEs ? "/como-ganar-dinero-con-impresora-3d" : "/how-to-make-money-with-a-3d-printer"} className={linkCls}>
-                      {isCa ? "Guanyar diners amb impressora 3D" : isEs ? "Ganar dinero con impresora 3D" : "Make Money With a 3D Printer"}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={isCa ? "/es-rentable-negocio-impresion-3d" : isEs ? "/es-rentable-negocio-impresion-3d" : "/is-3d-printing-business-profitable"} className={linkCls}>
-                      {isCa ? "És rendible la impressió 3D?" : isEs ? "¿Es rentable la impresión 3D?" : "Is 3D Printing Profitable?"}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={isCa ? "/como-conseguir-clientes-impresion-3d" : isEs ? "/como-conseguir-clientes-impresion-3d" : "/how-to-get-3d-printing-customers"} className={linkCls}>
-                      {isCa ? "Aconseguir clients d'impressió 3D" : isEs ? "Conseguir clientes de impresión 3D" : "Getting 3D Printing Customers"}
-                    </Link>
-                  </li>
-                </ul>
+                    <li><Link to="/catalogo" className={linkCls}>{t("nav.catalog")}</Link></li>
+                    <li>
+                      <Link to={isCa ? "/como-ganar-dinero-con-impresora-3d" : isEs ? "/como-ganar-dinero-con-impresora-3d" : "/how-to-make-money-with-a-3d-printer"} className={linkCls}>
+                        {isCa ? "Guanyar diners amb impressora 3D" : isEs ? "Ganar dinero con impresora 3D" : "Make Money With a 3D Printer"}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={isCa ? "/es-rentable-negocio-impresion-3d" : isEs ? "/es-rentable-negocio-impresion-3d" : "/is-3d-printing-business-profitable"} className={linkCls}>
+                        {isCa ? "És rendible la impressió 3D?" : isEs ? "¿Es rentable la impresión 3D?" : "Is 3D Printing Profitable?"}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={isCa ? "/como-conseguir-clientes-impresion-3d" : isEs ? "/como-conseguir-clientes-impresion-3d" : "/how-to-get-3d-printing-customers"} className={linkCls}>
+                        {isCa ? "Aconseguir clients d'impressió 3D" : isEs ? "Conseguir clientes de impresión 3D" : "Getting 3D Printing Customers"}
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
             );
           })()}
@@ -186,50 +220,53 @@ const Footer = () => {
         {/* Delivery cities + popular products */}
         <div className={`grid md:grid-cols-2 gap-8 mb-10 pb-10 border-b ${dividerCls}`}>
           <div>
-            <p className={headingCls}>{t("footer.cities")}</p>
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-              {deliveryLinks.map((l) => (
-                <li key={l.slug}>
-                  <Link to={l.slug} className={linkCls}>{l.label}</Link>
-                </li>
-              ))}
-            </ul>
+            {acc('delivery', t("footer.cities"),
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                {deliveryLinks.map((l) => (
+                  <li key={l.slug}>
+                    <Link to={l.slug} className={linkCls}>{l.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div>
-            <p className={headingCls}>{t("footer.popularProducts")}</p>
-            <ul className="flex flex-col gap-1.5">
-              {catalogueProducts.map((p) => (
-                <li key={p.slug}>
-                  <Link to={p.slug} className={linkCls}>{p.label}</Link>
-                </li>
-              ))}
-            </ul>
+            {acc('popular', t("footer.popularProducts"),
+              <ul className="flex flex-col gap-1.5">
+                {catalogueProducts.map((p) => (
+                  <li key={p.slug}>
+                    <Link to={p.slug} className={linkCls}>{p.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
         {/* International */}
         <div className={`mb-10 pb-10 border-b ${dividerCls}`}>
-          <p className={headingCls}>{t("footer.countries")}</p>
-          <ul className="flex flex-col gap-2">
-            {[
-              { flag: "🇩🇪", hub: "/de/3d-druck-service", hubLabel: "3D-Druck Service", en: "/3d-printing-delivery-berlin", enLabel: "Delivery to Germany" },
-              { flag: "🇳🇱", hub: "/nl/3d-printen-laten-maken", hubLabel: "3D Printen", en: "/3d-printing-delivery-amsterdam", enLabel: "Delivery to Netherlands" },
-              { flag: "🇫🇷", hub: "/fr/impression-3d-en-ligne", hubLabel: "Impression 3D", en: "/3d-printing-delivery-paris", enLabel: "Delivery to France" },
-              { flag: "🇮🇹", hub: "/it/stampa-3d-online", hubLabel: "Stampa 3D", en: "/3d-printing-delivery-milan", enLabel: "Delivery to Italy" },
-              { flag: "🇵🇹", hub: "/pt/impressao-3d-online", hubLabel: "Impressão 3D", en: "/3d-printing-delivery-lisbon", enLabel: "Delivery to Portugal" },
-            ].map((c) => (
-              <li key={c.hub} className="flex items-center gap-3 flex-wrap">
-                <Link to={c.hub} className={linkCls}>{c.flag} {c.hubLabel}</Link>
-                <span className="text-white/20 text-xs">·</span>
-                <Link to={c.en} className="text-[#B8C4DA]/60 text-xs hover:text-[#B8C4DA] transition-colors">{c.enLabel}</Link>
+          {acc('international', t("footer.countries"),
+            <ul className="flex flex-col gap-2">
+              {[
+                { flag: "🇩🇪", hub: "/de/3d-druck-service", hubLabel: "3D-Druck Service", en: "/3d-printing-delivery-berlin", enLabel: "Delivery to Germany" },
+                { flag: "🇳🇱", hub: "/nl/3d-printen-laten-maken", hubLabel: "3D Printen", en: "/3d-printing-delivery-amsterdam", enLabel: "Delivery to Netherlands" },
+                { flag: "🇫🇷", hub: "/fr/impression-3d-en-ligne", hubLabel: "Impression 3D", en: "/3d-printing-delivery-paris", enLabel: "Delivery to France" },
+                { flag: "🇮🇹", hub: "/it/stampa-3d-online", hubLabel: "Stampa 3D", en: "/3d-printing-delivery-milan", enLabel: "Delivery to Italy" },
+                { flag: "🇵🇹", hub: "/pt/impressao-3d-online", hubLabel: "Impressão 3D", en: "/3d-printing-delivery-lisbon", enLabel: "Delivery to Portugal" },
+              ].map((c) => (
+                <li key={c.hub} className="flex items-center gap-3 flex-wrap">
+                  <Link to={c.hub} className={linkCls}>{c.flag} {c.hubLabel}</Link>
+                  <span className="text-white/20 text-xs">·</span>
+                  <Link to={c.en} className="text-[#B8C4DA]/60 text-xs hover:text-[#B8C4DA] transition-colors">{c.enLabel}</Link>
+                </li>
+              ))}
+              <li className={`flex items-center gap-3 flex-wrap pt-1 border-t ${dividerCls} mt-1`}>
+                <span className="text-[#B8C4DA]/60 text-xs font-medium">{t("footer.outsideEU") || "Outside the EU"}:</span>
+                <Link to="/3d-printing-delivery-london" className="text-[#B8C4DA]/60 text-xs hover:text-[#B8C4DA] transition-colors">🇬🇧 London</Link>
+                <Link to="/3d-printing-delivery-new-york" className="text-[#B8C4DA]/60 text-xs hover:text-[#B8C4DA] transition-colors">🇺🇸 New York</Link>
               </li>
-            ))}
-            <li className={`flex items-center gap-3 flex-wrap pt-1 border-t ${dividerCls} mt-1`}>
-              <span className="text-[#B8C4DA]/60 text-xs font-medium">{t("footer.outsideEU") || "Outside the EU"}:</span>
-              <Link to="/3d-printing-delivery-london" className="text-[#B8C4DA]/60 text-xs hover:text-[#B8C4DA] transition-colors">🇬🇧 London</Link>
-              <Link to="/3d-printing-delivery-new-york" className="text-[#B8C4DA]/60 text-xs hover:text-[#B8C4DA] transition-colors">🇺🇸 New York</Link>
-            </li>
-          </ul>
+            </ul>
+          )}
         </div>
 
         {/* Brand + WhatsApp */}

@@ -1022,4 +1022,13 @@ export const itTranslations: Record<string, string> = {
   "home.v2.closing.cta": "Carica file e vedi il prezzo",
   "home.v2.closing.b2b": "Sei un'azienda? Prototipi in 48 h e serie →",
   "home.v2.closing.img.alt": "Stanza con la stampante Bambu Lab X2D",
+  "home.mobile.stat.delivery": "CONSEGNA",
+  "home.mobile.stat.orders": "ORDINI",
+  "home.mobile.stat.response": "RISPOSTA",
+  "header.v2.precios": "Prezzi",
+  "header.v2.como": "Come stampiamo",
+  "header.v2.empresas": "Aziende",
+  "header.v2.sin": "Senza file",
+  "header.v2.rating": "4,8 · 250+ ordini",
+  "header.v2.cta": "Vedi il mio prezzo",
 };

@@ -1022,4 +1022,13 @@ export const enTranslations: Record<string, string> = {
   "home.v2.closing.cta": "Upload file and see price",
   "home.v2.closing.b2b": "Are you a business? Prototypes in 48 h and series →",
   "home.v2.closing.img.alt": "Room with the Bambu Lab X2D printer",
+  "home.mobile.stat.delivery": "DELIVERY",
+  "home.mobile.stat.orders": "ORDERS",
+  "home.mobile.stat.response": "RESPONSE",
+  "header.v2.precios": "Prices",
+  "header.v2.como": "How we print",
+  "header.v2.empresas": "Business",
+  "header.v2.sin": "No file",
+  "header.v2.rating": "4.8 · 250+ orders",
+  "header.v2.cta": "See my price",
 };

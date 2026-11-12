@@ -2,10 +2,10 @@ import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Zap, Award, Settings2, Upload, MessageCircle, MapPin, Wrench, Users, BookOpen, ArrowRight } from "lucide-react";
+// Note: Zap/Award/Settings2/Wrench kept for trustBadges; Upload for hero button; MessageCircle/MapPin for WhatsApp/location
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import Reviews from "@/components/Reviews";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { PAGES_BY_SLUG, SITE_URL, SOCIAL_IMAGE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
@@ -14,7 +14,7 @@ import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
-import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid, UploadPanel } from "@/components/ds";
+import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid, UploadPanel, FactsStrip, QuoteFeature } from "@/components/ds";
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -33,7 +33,11 @@ const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
 const DEFAULT_DATE_PUBLISHED = "2026-08-01";
 const DEFAULT_DATE_MODIFIED = "2026-08-10";
 
-const SECTION_ICONS = [Wrench, Zap, Award, Users];
+const LANDING_REVIEWS = [
+  { text: "What an amazing place! Mikolaj helped me with an urgent order on a Friday afternoon, and it was ready the very next morning. He not only delivered with a professional finish, but even came over to hand them to me.", author: "Sara D." },
+  { text: "It was fast, affordable, and worked perfectly. We needed a custom profile nobody sells — 3D printing solved it.", author: "Kirill G." },
+  { text: "The price was great, and it really saved me from a tight spot. They helped me do resized tests so the printed nut would fit perfectly.", author: "Yasser C." },
+];
 
 interface Props {
   page?: LandingContent;
@@ -324,22 +328,40 @@ const LandingPage = ({ page: pageProp }: Props) => {
           reassuranceItems={trustBadges.map(b => b.label)}
         />
 
-        {/* Content sections — alternating bands with icon cards */}
+        {/* FactsStrip after hero for service (non-guide, non-maker) pages */}
+        {!isMaker && !GUIDE_TOPICS.has(page.topic) && (
+          <FactsStrip
+            items={[
+              { value: "Desde 10 €", label: t("No minimum order", "Sin pedido mínimo", "Ohne Mindestbestellung", "Sense comanda mínima") },
+              { value: "< 1 h", label: t("Free quote", "Presupuesto gratis", "Kostenloses Angebot", "Pressupost gratuït") },
+              { value: "24–48 h", label: t("Express delivery", "Entrega express", "Expresszustellung", "Lliurament exprés") },
+              { value: "±0,2 mm", label: t("Precision", "Precisión", "Präzision", "Precisió") },
+            ]}
+            variant="dark"
+          />
+        )}
+
+        {/* Content sections — clean prose (no icon-in-square) */}
         {page.sections.map((s, i) => {
-          const Icon = SECTION_ICONS[i % SECTION_ICONS.length];
           const isAlt = i % 2 === 1;
           return (
             <Fragment key={i}>
-              <section className={`py-16 md:py-20 ${isAlt ? "bg-secondary/30" : "bg-background"}`}>
+              <section className={`py-16 md:py-20 ${isAlt ? "bg-[#F6F8FC]" : "bg-white"}`}>
                 <div className="container px-4">
                   <div className="max-w-3xl mx-auto">
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${isMadrid ? "bg-orange-50" : "bg-accent/10"}`}>
-                        <Icon className={`w-6 h-6 ${isMadrid ? "text-orange-700" : "text-accent"}`} />
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-foreground pt-1.5">{s.heading}</h2>
-                    </div>
-                    <div className="text-muted-foreground leading-relaxed space-y-4 md:pl-16">
+                    <h2
+                      style={{
+                        fontFamily: "'Inter Tight', system-ui, sans-serif",
+                        fontWeight: 700,
+                        fontSize: 'clamp(22px, 2.8vw, 30px)',
+                        color: '#0F172A',
+                        marginBottom: 16,
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {s.heading}
+                    </h2>
+                    <div className="text-[#5B6577] leading-relaxed space-y-4" style={{ fontSize: 16.5 }}>
                       {s.body.split("\n\n").map((p, j) => (
                         <p key={j} className="whitespace-pre-line">{p}</p>
                       ))}
@@ -509,7 +531,11 @@ const LandingPage = ({ page: pageProp }: Props) => {
         </section>
 
         {/* Reviews */}
-        <Reviews cityName={pageCity.cityName} />
+        <QuoteFeature
+          featured={LANDING_REVIEWS[0]}
+          secondary={LANDING_REVIEWS.slice(1)}
+          variant="dark"
+        />
 
         {/* Related pages */}
         {page.related.length > 0 && (

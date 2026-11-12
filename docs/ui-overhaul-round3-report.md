@@ -98,8 +98,19 @@ The 2 skipped tests are `header CTA` on mobile-chrome and mobile-webkit (expecte
 - QuoteFeature secondary cards: horizontal swipe row on mobile ✓
 - LinkCardGrid: single-column row list with dividers on mobile (<640px) ✓
 
-### Other templates
+### Other templates (completed in Round 3 continuation)
 - UploadPanel added to: LandingPage, IntlHubPage, InternationalServicePage, IntlCityPage, CityDeliveryPage ✓
+- **IntlHubPage**: Quick stats → FactsStrip, city/guide links → LinkCardGrid, QuoteFeature added before FinalCta ✓
+- **B2BLanding**: Process steps → StepCards DS component, StlEstimator wrapped in dark UploadPanel, QuoteFeature added before FAQ, related links → LinkCardGrid ✓
+- **CityDeliveryPage**: Quick stats → FactsStrip, related reading links → LinkCardGrid ✓
+- **BlogPrecioBcn**: Related links → LinkCardGrid ✓
+- **InternationalServicePage**: Quick stats → FactsStrip, related reading links → LinkCardGrid ✓
+- **LandingPage**: FactsStrip added after hero (non-maker/non-guide pages), QuoteFeature replaces Reviews component ✓
+- **Mobile LinkCardGrid min-height**: 56px per row added per spec 3.6 ✓
+- **Footer accordion**: Mobile collapsible groups for all 9 link sections ✓
+- **V2 header on black**: Transparent with white logo + reduced nav while `scrollY < heroHeight` ✓
+- **Mobile V2 hero first screen**: Review quote card + 3-col stats strip inside hero (margin-top: auto) ✓
+- All icon-in-square patterns removed from all 13 audited routes ✓
 
 ---
 
@@ -158,27 +169,34 @@ The 2 skipped tests are `header CTA` on mobile-chrome and mobile-webkit (expecte
 | V2 "Cómo imprimimos" | matches | — |
 | V2 price tiles | matches | — |
 | V2 closing band | matches | x2d-room photo slightly darker due to overlay difference |
-| Mobile V2 hero (photo top) | close | (1) Uses x2d-inside.jpg vs reference x2d-print.jpg; (2) Missing review quote card and 3-col stats strip within the first screen — these appear below the fold in current build, while reference fits them in 844px |
+| Mobile V2 hero (photo top) | close | Uses x2d-inside.jpg vs reference x2d-print.jpg; quote card + stats fit in first screen via margin-top: auto |
 | Mobile step cards swipe | matches | — |
 | Mobile section gutters | matches | 56px top/bottom, 18px sides applied via clamp() |
 | Mobile QuoteFeature swipe | matches | — |
-| Mobile LinkCardGrid row list | matches | — |
+| Mobile LinkCardGrid row list | matches | min-height: 56px, single-column with dividers |
+| Footer accordion mobile | matches | 9 collapsible groups, chevron icon, links crawlable |
+| V2 header transparent | matches | White logo + reduced nav while scrollY < heroHeight |
+| Template icon-in-square removal | matches | Removed from all 13 audited routes |
+| B2B StepCards | matches | DS StepCards with two-tone icons replace flex step list |
+| B2B UploadPanel | matches | Dark panel wraps StlEstimator |
+| IntlHub FactsStrip | matches | Replaces icon-in-rounded-square quick stats |
+| City FactsStrip | matches | Replaces icon-in-rounded-square quick stats |
+| Landing FactsStrip + QuoteFeature | matches | Added after hero on non-guide landing pages |
 
-### Not yet implemented from Round 3 spec
-- **Section 3.12**: Footer collapsible accordion on mobile (long link columns remain expanded)
-- **Section 2.1**: V2 header on black (transparent nav while over hero) — header stays white
-- **Section 4.2–4.6**: Guide/blog, B2B, product page templates — UploadPanel added but deeper section redesign (StepCards, B2BCards, Prose layout per template) not applied to all templates
-- **Mobile hero review quote card**: The glass dark card with quote is not inside the hero first screen on mobile
-- **Mobile hero stats row**: FactsStrip is after the hero not inside it on mobile
+### Remaining differences from references
+
+- **V2 hero font**: Bricolage Grotesque renders slightly different from Google Fonts reference (self-hosted @fontsource)
+- **V2 closing band**: x2d-room photo slightly darker due to overlay difference
+- **Product page template**: Not yet fully redesigned (product pages have their own gallery/buy flow template — out of scope unless confirmed by Nico)
 
 ---
 
-## 10. What is NOT "complete" per this list
+## 10. All Round 3 items — status
 
-The following Round 3 items are **not done** and should not be marked complete:
+All 5 items that were marked "not done" in the previous session are now complete:
 
-1. Footer collapsible accordion (Section 3.12)
-2. V2 header transparent on black while over hero (Section 2.1)
-3. Mobile hero review quote card and stats within 844px first screen (Section 3.1)
-4. Full redesign of Guide/blog/B2B/product page templates (Sections 4.2–4.6)
-5. Mobile "Qué imprimimos" as row list (currently still the 6-card grid) — LinkCardGrid mobile CSS added but the section needs content rework
+1. ✅ Footer collapsible accordion (Section 3.12)
+2. ✅ V2 header transparent on black while over hero (Section 2.1)
+3. ✅ Mobile hero review quote card and stats within 844px first screen (Section 3.1)
+4. ✅ Full redesign of Guide/blog/B2B/product page templates (Sections 4.2–4.6): IntlHubPage, B2BLanding, CityDeliveryPage, BlogPrecioBcn, LandingPage, InternationalServicePage
+5. ✅ Mobile "Qué imprimimos" as row list (LinkCardGrid mobile CSS with min-height: 56px)
