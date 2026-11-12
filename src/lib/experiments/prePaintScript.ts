@@ -37,6 +37,7 @@ export function buildPrePaintScript(experiments: PrePaintExp[]): string {
     `try{vid=localStorage.getItem(VK);if(!vid){vid=(Math.random().toString(36)+Date.now().toString(36)+Math.random().toString(36)).slice(2,20);localStorage.setItem(VK,vid);}}catch(e){vid='bot';}` +
     `var forced={},isForced=false;` +
     `try{var xpParam=new URLSearchParams(location.search).get('xp');if(xpParam){var sep=xpParam.indexOf(':');if(sep>0){forced[xpParam.slice(0,sep)]=xpParam.slice(sep+1);isForced=true;}}}catch(e){}` +
+    `try{var v2a=new URLSearchParams(location.search).get('xp_home_v2');if(v2a==='v2'){forced['home_v2']='B';isForced=true;}else if(v2a==='control'){forced['home_v2']='A';isForced=true;}}catch(e){}` +
     `if(!isForced&&h(vid+'::holdout')<0.1){document.documentElement.setAttribute('data-xp-holdout','true');return;}` +
     `var lang='es',p=location.pathname;` +
     `if(p.startsWith('/en'))lang='en';` +

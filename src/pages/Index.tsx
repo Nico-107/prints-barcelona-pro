@@ -95,7 +95,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Sin pedido mínimo, mismo servicio express." },
-      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Sin pedido mínimo — desde 1 pieza y 10€", desc: "Una sola pieza al mismo precio por unidad que un lote. Sin importe mínimo." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Pedido mínimo 10 € — desde 1 pieza", desc: "Una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 10 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Repuesto descatalogado — lo imprimimos en 3D", desc: "¿El fabricante ya no lo vende? Reproducimos desde foto o la pieza original." },
     ],
   },
@@ -106,7 +106,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Urgent 3D printing — delivery in 24-48h", desc: "How the express service works and which materials are available." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Replacement parts & broken pieces in 3D", desc: "From photo or broken part to a printed replacement in Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. No minimum order, same express service." },
-      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "No minimum order — from 1 part, €10", desc: "Print a single part at the same per-unit price as a larger batch. No minimum." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "10 € minimum order — from 1 part", desc: "Print a single part at the same per-unit price as a larger batch. Minimum order €10." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Discontinued part — we reproduce it in 3D", desc: "Manufacturer no longer sells it? We reproduce it from a photo or the original piece." },
     ],
   },
@@ -117,7 +117,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
       { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Sense comanda mínima, mateix servei express." },
-      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Sense comanda mínima — des d'1 peça i 10€", desc: "Una sola peça al mateix preu per unitat que un lot. Sense import mínim." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Comanda mínima 10 € — des d'1 peça", desc: "Una sola peça al mateix preu per unitat que un lot. Comanda mínima 10 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Recanvi descatalogat — ho imprimim en 3D", desc: "El fabricant ja no ven la peça? La reproduïm des d'una foto o la peça original." },
     ],
   },
@@ -308,12 +308,14 @@ const Index = () => {
     })),
   };
 
-  // V1 hero star line
+  // V1 hero star line — explicit · separators per design spec
   const heroStarLine = (
     <>
       <span style={{ color: "#F5A524" }}>★★★★★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}</span>
+      <span style={{ color: "#B8C4DA" }}>·</span>
       <span>{ORDERS_LABEL[language] ?? ORDERS_LABEL.es}</span>
-      <span>Barcelona</span>
+      <span style={{ color: "#B8C4DA" }}>·</span>
+      <span>BARCELONA</span>
     </>
   );
 
@@ -325,12 +327,12 @@ const Index = () => {
     </>
   );
 
-  // V2 hero H1: "Impresión 3D de [alta calidad] en Barcelona."
-  const v2H1 = language === "ca"
-    ? <>Impressió 3D de <span style={{ color: "#F5A524" }}>alta qualitat</span> a Barcelona.</>
-    : language === "en"
-    ? <>Quality <span style={{ color: "#F5A524" }}>3D printing</span> in Barcelona.</>
-    : <>Impresión 3D de <span style={{ color: "#F5A524" }}>alta calidad</span> en Barcelona.</>;
+  // V2 hero H1: prefix [highlight] post — all three parts come from i18n
+  const v2H1 = (
+    <>
+      {t("home.v2.h1.pre")} <span style={{ color: "#F5A524" }}>{t("home.v2.h1.highlight")}</span> {t("home.v2.h1.post")}
+    </>
+  );
 
   // Facts strip items (V1 hero + V2 standalone)
   const factsItems = [
@@ -343,9 +345,9 @@ const Index = () => {
   // V2 facts strip (simpler, 4 items on navy)
   const v2FactsItems = [
     { value: "Desde 10 €", label: t("home.facts.minOrder.label") },
-    { value: "<1 h", label: language === "ca" ? "RESPOSTA AL PRESSUPOST" : language === "en" ? "QUOTE TURNAROUND" : "RESPUESTA AL PRESUPUESTO" },
+    { value: "<1 h", label: t("home.v2.facts.turnaround") },
     { value: "24–48 h", label: t("home.facts.delivery.label") },
-    { value: "4,8/5", label: language === "ca" ? "EN RESSENYES" : language === "en" ? "IN REVIEWS" : "EN RESEÑAS" },
+    { value: "4,8/5", label: t("home.v2.facts.reviews") },
   ];
 
   const whatWePrint = WHAT_WE_PRINT[language] ?? WHAT_WE_PRINT.es;
@@ -396,7 +398,7 @@ const Index = () => {
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M12 16V4" /><path d="M7 9l5-5 5 5" /><path d="M4 16v4h16v-4" />
                   </svg>
-                  {language === "ca" ? "Veure el meu preu — des de 10 €" : language === "en" ? "Get my price — from €10" : "Ver mi precio — desde 10 €"}
+                  {t("home.hero.cta")}
                 </>
               ),
               onClick: handleScrollToCalc,
@@ -414,25 +416,23 @@ const Index = () => {
             starLine={
               <span style={{ color: "#B8C4DA" }}>
                 ★ {GOOGLE_RATING.value ? formatRating(language) : "4,8"}{" "}
-                {language === "ca" ? "en ressenyes" : language === "en" ? "in reviews" : "en reseñas"} · Barcelona
+                {t("home.v2.hero.reviews")} · Barcelona
               </span>
             }
             h1={v2H1}
             paragraph={t("home.hero.p")}
             primaryButton={{
-              label: language === "ca" ? "Pujar arxiu i veure preu" : language === "en" ? "Upload file and get price" : "Subir archivo y ver precio",
+              label: t("home.v2.hero.button"),
               onClick: handleScrollToCalc,
             }}
-            reassuranceItems={[
-              language === "ca" ? "O arrossega el fitxer a qualsevol lloc de la pàgina" : language === "en" ? "Or drag the file anywhere on the page" : "O arrastra el archivo a cualquier parte de la página",
-            ]}
+            reassuranceItems={[t("home.v2.hero.reassurance")]}
             noFileLink={{
-              label: language === "ca" ? "No tinc arxiu →" : language === "en" ? "I don't have a file →" : "No tengo archivo →",
+              label: t("home.v2.hero.nofile"),
               onClick: handleNoFile,
             }}
             splitImage={{
               src: "/img/x2d/x2d-inside.jpg",
-              alt: language === "ca" ? "Impressora Bambu Lab X2D" : language === "en" ? "Bambu Lab X2D printer printing a part" : "Impresora Bambu Lab X2D imprimiendo una pieza",
+              alt: t("home.v2.hero.img.alt"),
             }}
           />
           {/* V2 Facts Strip on navy */}
@@ -463,7 +463,7 @@ const Index = () => {
                     title: t("how.step1.title"),
                     description: t("how.step1.desc"),
                     cta: {
-                      label: language === "ca" ? "Seleccionar arxiu →" : language === "en" ? "Select file →" : "Seleccionar archivo →",
+                      label: t("home.step1.cta"),
                       onClick: () => { capture("upload_entry_click", { source: "step_card", page_path: pathname }); handleScrollToCalc(); },
                     },
                   },
@@ -481,27 +481,27 @@ const Index = () => {
           <section style={{ background: "#FFFFFF" }}>
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
               <PathCards
-                heading={language === "ca" ? "Per on comencem?" : language === "en" ? "Where do we start?" : "¿Por dónde empezamos?"}
+                heading={t("home.v2.path.heading")}
                 cards={[
                   {
                     variant: "amber",
-                    heading: language === "ca" ? "Tinc l'arxiu 3D" : language === "en" ? "I have the 3D file" : "Tengo el archivo 3D",
-                    description: language === "ca" ? "STL, OBJ, 3MF o GLB — preu en 10 segons" : language === "en" ? "STL, OBJ, 3MF or GLB — price in 10 seconds" : "STL, OBJ, 3MF o GLB — precio en 10 segundos",
-                    cta: language === "ca" ? "Calcular preu →" : language === "en" ? "Calculate price →" : "Calcular precio →",
+                    heading: t("home.v2.path.card1.heading"),
+                    description: t("home.v2.path.card1.desc"),
+                    cta: t("home.v2.path.card1.cta"),
                     onClick: () => { capture("upload_entry_click", { source: "path_card", page_path: pathname }); handleScrollToCalc(); },
                   },
                   {
                     variant: "blue",
-                    heading: language === "ca" ? "Tinc una foto o peça trencada" : language === "en" ? "I have a photo or broken part" : "Tengo una foto o una pieza rota",
-                    description: language === "ca" ? "Dissenyem i imprimim per tu" : language === "en" ? "We design and print for you" : "Diseñamos e imprimimos por ti",
-                    cta: language === "ca" ? "Sol·licitar disseny →" : language === "en" ? "Request design →" : "Solicitar diseño →",
+                    heading: t("home.v2.path.card2.heading"),
+                    description: t("home.v2.path.card2.desc"),
+                    cta: t("home.v2.path.card2.cta"),
                     href: designRequestUrl,
                   },
                   {
                     variant: "dark",
-                    heading: language === "ca" ? "Prototips en 48 h o sèries" : language === "en" ? "Prototypes in 48 h or series" : "Prototipos en 48 h o series",
-                    description: language === "ca" ? "Empreses i equips d'enginyeria" : language === "en" ? "Businesses and engineering teams" : "Empresas y equipos de ingeniería",
-                    cta: language === "ca" ? "Veure serveis per a empreses →" : language === "en" ? "See business services →" : "Ver servicios para empresas →",
+                    heading: t("home.v2.path.card3.heading"),
+                    description: t("home.v2.path.card3.desc"),
+                    cta: t("home.v2.path.card3.cta"),
                     href: b2bUrl,
                   },
                 ]}
@@ -673,13 +673,7 @@ const Index = () => {
         {/* ── FOUNDER SECTION ── */}
         <FounderSection
           imageSrc="/img/x2d/x2d-room.jpg"
-          imageAlt={
-            language === "ca"
-              ? "Impressora Bambu Lab X2D imprimint una peça en un estudi"
-              : language === "en"
-              ? "Bambu Lab X2D printer in a studio setting"
-              : "Impresora Bambu Lab X2D imprimiendo una pieza en un estudio"
-          }
+          imageAlt={t("home.v2.hero.img.alt")}
           label={t("home.founder.label")}
           heading={t("home.founder.heading")}
           body={t("home.founder.body")}
@@ -705,17 +699,11 @@ const Index = () => {
         {/* ── FINAL IMAGE BAND ── */}
         <ImageBand
           imageSrc="/img/x2d/x2d-nozzles.jpg"
-          imageAlt={
-            language === "ca"
-              ? "Boquilles de la impressora Bambu Lab X2D"
-              : language === "en"
-              ? "Bambu Lab X2D dual nozzles close-up"
-              : "Boquillas de la impresora Bambu Lab X2D de cerca"
-          }
+          imageAlt={t("home.nozzles.img.alt")}
           fadeDirection="left"
           heading={t("home.final.heading")}
           cta={{
-            label: language === "ca" ? "Veure el meu preu — des de 10 €" : language === "en" ? "Get my price — from €10" : "Ver mi precio — desde 10 €",
+            label: t("home.hero.cta"),
             onClick: () => { capture("upload_entry_click", { source: "final_band", page_path: pathname }); handleScrollToCalc(); },
           }}
           reassurance={t("home.hero.reassurance")}

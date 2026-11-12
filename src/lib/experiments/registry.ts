@@ -90,7 +90,8 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-11-11',
     minDays: 21,
     maxDays: 90,
-    enabled: true,
+    // Disabled until Nico approves V2 visually; forcing via ?xp=home_v2:B still works.
+    enabled: false,
   },
 ];
 

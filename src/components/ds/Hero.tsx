@@ -115,13 +115,16 @@ function CenteredHero({
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
-                gap: '6px 16px',
+                gap: '6px 10px',
                 fontSize: 15,
                 color: '#B8C4DA',
               }}
             >
               {reassuranceItems.map((item, i) => (
-                <span key={i}>{item}</span>
+                <>
+                  {i > 0 && <span key={`sep-${i}`} aria-hidden="true">·</span>}
+                  <span key={i}>{item}</span>
+                </>
               ))}
             </div>
           )}
