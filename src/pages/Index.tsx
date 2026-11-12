@@ -201,6 +201,8 @@ const Index = () => {
 
   const [calcHighlight, setCalcHighlight] = useState(false);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [pageDragOver, setPageDragOver] = useState(false);
+  const dragCounterRef = useRef(0);
 
   // Section view tracking
   const heroRef = useRef<HTMLDivElement>(null);
@@ -241,6 +243,51 @@ const Index = () => {
     }, 300);
     return () => clearTimeout(timer);
   }, [refCity]);
+
+  // Page-level drag-and-drop: show overlay, then drop file into calculator input
+  useEffect(() => {
+    const onEnter = (e: DragEvent) => {
+      if (!e.dataTransfer?.types.includes("Files")) return;
+      dragCounterRef.current += 1;
+      setPageDragOver(true);
+    };
+    const onLeave = () => {
+      dragCounterRef.current = Math.max(0, dragCounterRef.current - 1);
+      if (dragCounterRef.current === 0) setPageDragOver(false);
+    };
+    const onOver = (e: DragEvent) => { e.preventDefault(); };
+    const onDrop = (e: DragEvent) => {
+      e.preventDefault();
+      dragCounterRef.current = 0;
+      setPageDragOver(false);
+      const files = Array.from(e.dataTransfer?.files ?? []);
+      if (!files.length) return;
+      capture("upload_entry_click", { source: "page_drop", page_path: window.location.pathname });
+      const calcEl = document.getElementById("calculator");
+      if (calcEl) {
+        calcEl.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+          const fileInput = calcEl.querySelector('input[type="file"]') as HTMLInputElement | null;
+          if (fileInput) {
+            const dt = new DataTransfer();
+            files.forEach((f) => dt.items.add(f));
+            Object.defineProperty(fileInput, "files", { value: dt.files, writable: false, configurable: true });
+            fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }, 400);
+      }
+    };
+    document.addEventListener("dragenter", onEnter);
+    document.addEventListener("dragleave", onLeave);
+    document.addEventListener("dragover", onOver);
+    document.addEventListener("drop", onDrop);
+    return () => {
+      document.removeEventListener("dragenter", onEnter);
+      document.removeEventListener("dragleave", onLeave);
+      document.removeEventListener("dragover", onOver);
+      document.removeEventListener("drop", onDrop);
+    };
+  }, [pathname]);
 
   const openFilePicker = (source: string) => {
     const el = document.getElementById("calculator");
@@ -373,6 +420,32 @@ const Index = () => {
         <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
         <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
       </Helmet>
+
+      {/* Page-level drag overlay — appears when file is dragged over V2 hero */}
+      {pageDragOver && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9000,
+            background: "rgba(11,17,32,0.88)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 16,
+            pointerEvents: "none",
+          }}
+        >
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#F5A524" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 16V4" /><path d="M7 9l5-5 5 5" /><path d="M4 16v4h16v-4" />
+          </svg>
+          <p style={{ color: "#FFFFFF", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 24, margin: 0 }}>
+            {t("home.hero.cta")}
+          </p>
+        </div>
+      )}
 
       <LaunchOfferBanner />
       <Header />
