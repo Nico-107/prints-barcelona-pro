@@ -106,6 +106,14 @@ export const SERVICES_MENU: MenuGroup[] = [
     labelCa: "Per a Empreses",
     items: [
       item("business", "3D Printing for Business", "Impresión 3D para Empresas", "Impressió 3D per a Empreses"),
+      {
+        slugEn: "/en/prototyping-for-business",
+        slugEs: "/prototipos-para-empresas",
+        slugCa: "/ca/prototips-per-a-empreses",
+        labelEn: "Prototyping for Business",
+        labelEs: "Prototipos para Empresas",
+        labelCa: "Prototips per a Empreses",
+      },
       item("rapid-prototyping", "Rapid Prototyping", "Prototipado Rápido", "Prototipatge Ràpid"),
       item("short-run", "Short-Run Production", "Tiradas Cortas", "Tirades Curtes"),
       item("functional-parts", "Functional Parts", "Piezas Funcionales", "Peces Funcionals"),

@@ -517,7 +517,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (
                   <div key={img} className="aspect-square rounded-xl overflow-hidden bg-card border border-border/50">
-                    <PictureImg src={img} alt={page.h1} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                    <PictureImg src={img} alt={page.h1} loading="eager" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                   </div>
                 ))}
               </div>

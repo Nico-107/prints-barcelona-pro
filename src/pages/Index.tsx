@@ -375,7 +375,7 @@ const Index = () => {
   // V2 hero H1: prefix [highlight] post — all three parts come from i18n
   const v2H1 = (
     <>
-      {t("home.v2.h1.pre")} <span className="text-amber">{t("home.v2.h1.highlight")}</span> {t("home.v2.h1.post")}
+      {t("home.v2.h1.pre")} <span style={{ color: '#F5A524' }}>{t("home.v2.h1.highlight")}</span> {t("home.v2.h1.post")}
     </>
   );
 
@@ -499,8 +499,17 @@ const Index = () => {
             }
             h1={v2H1}
             paragraph={t("home.hero.p")}
+            mobileParagraph={t("home.v2.hero.p.mobile")}
             primaryButton={{
-              label: t("home.v2.hero.button"),
+              label: (
+                <>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M12 16V4" /><path d="M7 9l5-5 5 5" /><path d="M4 16v4h16v-4" />
+                  </svg>
+                  <span className="ds-hero-v2-desktop-only">{t("home.v2.hero.button")}</span>
+                  <span className="ds-v2-mobile-only">{t("home.v2.hero.cta.mobile")}</span>
+                </>
+              ),
               onClick: () => openFilePicker("hero"),
             }}
             secondaryButton={{ label: t("home.hero.whatsapp"), href: whatsappUrl() }}

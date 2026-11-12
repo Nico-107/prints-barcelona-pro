@@ -6,8 +6,8 @@
 @import "@fontsource/inter-tight/800.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
-@import "@fontsource/bricolage-grotesque/700.css";
-@import "@fontsource/bricolage-grotesque/800.css";
+@import "@fontsource/bricolage-grotesque/latin-700.css";
+@import "@fontsource/bricolage-grotesque/latin-800.css";
 
 @tailwind base;
 @tailwind components;
@@ -467,8 +467,12 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
 
 /* ── SplitImageHero: photo-on-top, full-screen layout on mobile ───────────── */
 @media (max-width: 767px) {
-  /* Section fills the first screen so quote+stats land above the fold */
+  /* Section fills the first screen so quote+stats land above the fold.
+     padding-top doubles the header offset so the photo starts BELOW the
+     header (matching the reference mobile-hero.html where the header is in
+     flow), which pushes the H1 below the photo's dark-gradient zone. */
   .ds-hero-split-section {
+    padding-top: calc(var(--header-h) * 2) !important;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
@@ -600,9 +604,11 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
 
 /* ── V1 centered hero: mobile layout (C3) ────────────────────────────────── */
 @media (max-width: 639px) {
-  /* Reduce top gap so primary button stays above the fold */
+  /* Extra top padding ensures the star line clears the fixed header even when
+     there is no LaunchOfferBanner pushing the main content down (adds 16px
+     safety margin below the 56px header). */
   .ds-v1-hero-section {
-    padding-top: calc(var(--header-h) + 48px) !important;
+    padding-top: calc(var(--header-h) + 72px) !important;
   }
   .ds-v1-hero-inner {
     gap: 20px !important;
@@ -623,6 +629,19 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   .xp-home-v1-only .ds-hero-facts > * {
     padding: 12px 6px !important;
     border-left: none !important;
+    font-size: 10px !important;
+  }
+  /* Value spans: 20px + nowrap so "Desde 10 €" stays on one line */
+  .xp-home-v1-only .ds-hero-facts > * > span:first-child {
+    font-size: 20px !important;
+    white-space: nowrap !important;
+  }
+  /* Labels: clamp to 2 lines */
+  .xp-home-v1-only .ds-hero-facts > * > span:last-child {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
   }
   .xp-home-v1-only .ds-hero-facts > *:nth-child(n+2) {
     border-left: 1px solid rgba(255,255,255,0.14) !important;

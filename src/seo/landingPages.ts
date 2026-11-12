@@ -255,6 +255,7 @@ export const PAGES_EN: LandingContent[] = [
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
       { label: "Rapid Prototyping — 24–72h Cycle", slug: "/rapid-prototyping-barcelona" },
+      { label: "Prototyping for Business — urgent <4h", slug: "/en/prototyping-for-business" },
       { label: "Functional Parts for Validation", slug: "/functional-parts-barcelona" },
       { label: "Same-Day & Express Turnaround", slug: "/urgent-3d-printing-barcelona" },
       { label: "We Design Your Part — No File Needed", slug: "/design-your-3d-part" },
@@ -682,6 +683,7 @@ export const PAGES_EN: LandingContent[] = [
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
       { label: "Business & R&D Prints", slug: "/3d-printing-for-business-barcelona" },
+      { label: "Prototyping for Business — urgent <4h", slug: "/en/prototyping-for-business" },
       { label: "Functional Load-Bearing Parts", slug: "/functional-parts-barcelona" },
       { label: "Single & Series Prototypes", slug: "/prototype-printing-barcelona" },
       { label: "Material Selection Guide", slug: "/3d-printing-materials-guide" },

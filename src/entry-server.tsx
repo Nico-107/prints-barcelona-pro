@@ -15,6 +15,9 @@ import Track from "./pages/Track";
 import LandingPage from "./pages/LandingPage";
 import B2BPage from "./pages/B2BPage";
 import EmpresasBcn from "./pages/EmpresasBcn";
+import PrototypingLandingEs from "./pages/PrototypingLandingEs";
+import PrototypingLandingEn from "./pages/PrototypingLandingEn";
+import PrototypingLandingCa from "./pages/PrototypingLandingCa";
 import Makers from "./pages/Makers";
 import MakerGuide from "./pages/MakerGuide";
 import BlogPrecioBcn from "./pages/BlogPrecioBcn";
@@ -88,6 +91,9 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
                 <Route path="/impresion-3d-empresas-barcelona" element={<EmpresasBcn />} />
                 <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
+                <Route path="/prototipos-para-empresas" element={<PrototypingLandingEs />} />
+                <Route path="/en/prototyping-for-business" element={<PrototypingLandingEn />} />
+                <Route path="/ca/prototips-per-a-empreses" element={<PrototypingLandingCa />} />
                 {ALL_PAGES.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
                 ))}

@@ -17,7 +17,11 @@ const MobileStickyBar = ({ onUploadClick }: Props) => {
   // Using querySelector so we don't need a forwarded ref from the parent.
   useEffect(() => {
     const findAndObserve = () => {
-      const btn = document.querySelector<HTMLElement>("[data-hero-cta]");
+      // querySelectorAll + visible check: when V2 is active, V1's button is
+      // display:none so offsetParent===null — skip it to avoid observing a
+      // hidden element (which is never intersecting, so bar shows immediately).
+      const btn = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-cta]"))
+        .find(el => el.offsetParent !== null);
       if (!btn) return null;
       const obs = new IntersectionObserver(
         ([entry]) => setVisible(!entry.isIntersecting),

@@ -386,6 +386,7 @@ export interface EventMap {
   city_cta_click: Record<string, unknown>;
   city_page_view: Record<string, unknown>;
   design_request_submitted: Record<string, unknown>;
+  b2b_brief_submitted: { turnaround: string; hasFiles: boolean; language: string; company: string };
   page_read_75pct: Record<string, unknown>;
   international_page_view: { market: string; lang: string; slug?: string };
   international_cta_click: { market: string; lang: string; section: string };

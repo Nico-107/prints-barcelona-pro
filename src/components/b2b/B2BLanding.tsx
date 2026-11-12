@@ -7,10 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
-  Building2, MessageCircle, ArrowRight, CheckCircle2,
-  Upload, Tag,
+  MessageCircle, ArrowRight,
+  Upload,
 } from "lucide-react";
-import { LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
+import { LinkCardGrid, QuoteFeature, StepCards, UploadPanel, FactsStrip } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -246,9 +246,9 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     breadcrumbBusiness: "Para empresas",
     supportLabel: "Soporte en ES · CA · EN · DE · PL",
     relatedLinks: [
+      { label: "Prototipos para empresas — entrega en <48 h", href: "/prototipos-para-empresas" },
       { label: "Prototipado rápido en Barcelona", href: "/prototipado-rapido-barcelona" },
       { label: "Comparativa de materiales", href: "/comparativa-materiales-impresion-3d" },
-      { label: "Verificador de archivo 3D", href: "/verificador-archivo-3d" },
       { label: "Lemon Printers — socio local", href: "/lemon" },
     ],
     whatsAppMsg: "Hola, me interesa el servicio de impresión 3D para mi empresa. Me gustaría hablar de un proyecto.",
@@ -344,9 +344,9 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     breadcrumbBusiness: "For business",
     supportLabel: "Support in ES · CA · EN · DE · PL",
     relatedLinks: [
+      { label: "Prototyping for business — ready in <48 h", href: "/en/prototyping-for-business" },
       { label: "Rapid prototyping in Barcelona", href: "/rapid-prototyping-barcelona" },
       { label: "Materials comparison", href: "/3d-printing-materials-comparison" },
-      { label: "3D file checker", href: "/3d-file-checker" },
       { label: "Lemon Printers — local partner", href: "/lemon" },
     ],
     whatsAppMsg: "Hi, I'm interested in 3D printing services for my business. I'd like to discuss a project.",
@@ -442,9 +442,9 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     breadcrumbBusiness: "Per a empreses",
     supportLabel: "Suport en ES · CA · EN · DE · PL",
     relatedLinks: [
+      { label: "Prototips per a empreses — lliurament en <48 h", href: "/ca/prototips-per-a-empreses" },
       { label: "Prototipatge ràpid a Barcelona", href: "/ca/prototipatge-rapid-barcelona" },
       { label: "Comparativa de materials", href: "/3d-printing-materials-comparison" },
-      { label: "Comprovador d'arxiu 3D", href: "/comprovador-arxiu-3d" },
       { label: "Lemon Printers — soci local", href: "/lemon" },
     ],
     whatsAppMsg: "Hola, m'interessa el servei d'impressió 3D per a la meva empresa. M'agradaria parlar d'un projecte.",
@@ -629,7 +629,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 1. HERO ── */}
         <section ref={heroRef} className="ds-grid-bg py-14 md:py-20">
-          <div className="container px-4 max-w-5xl mx-auto">
+          <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 24px' }}>
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>
                 <nav aria-label="breadcrumb" className="flex items-center gap-2 text-xs text-primary-foreground/50 mb-4">
@@ -637,8 +637,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                   <span>/</span>
                   <span className="text-primary-foreground/70">{c.breadcrumbBusiness}</span>
                 </nav>
-                <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest mb-4">
-                  <Building2 className="w-3 h-3" aria-hidden="true" />
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.08em", color: '#5B6577', textTransform: 'uppercase', marginBottom: 12 }}>
                   {c.breadcrumbBusiness}
                 </div>
                 <h1 className="text-[28px] sm:text-4xl md:text-5xl font-bold text-primary-foreground leading-[1.15] sm:leading-tight mb-4 [text-wrap:balance]">
@@ -691,71 +690,25 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
           </div>
         </section>
 
-        {/* ── 2. PROOF BAR (replaces thin trust bar) ── */}
-        <section className="bg-secondary/20 border-y border-border/40 py-8 md:py-10">
-          <div className="container px-4 max-w-4xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
-              {STATS.totalOrders && (
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
-                    {STATS.totalOrders}
-                  </p>
-                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarOrdersLabel}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{STATS.totalOrdersPeriod[lang]}</p>
-                </div>
-              )}
-              {STATS.responseTime && (
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
-                    {STATS.responseTime}
-                  </p>
-                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarQuoteLabel}</p>
-                </div>
-              )}
-              {STATS.leadTimeDays && (
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
-                    {STATS.leadTimeDays}
-                    <span className="text-2xl font-semibold ml-1">
-                      {lang === "es" ? "días" : lang === "ca" ? "dies" : "days"}
-                    </span>
-                  </p>
-                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarDeliveryLabel}</p>
-                </div>
-              )}
-              {STATS.minOrderEur !== null && (
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-accent tabular-nums leading-none">
-                    {lang === "en" ? `€${STATS.minOrderEur}` : `${STATS.minOrderEur} €`}
-                  </p>
-                  <p className="text-sm font-medium text-foreground/80 mt-1">{c.proofBarMinOrderLabel}</p>
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col items-center gap-3">
-              {STATS.ordersPerMonth && (
-                <p className="text-sm text-foreground/70 font-medium">{c.proofBarMonthlyLine}</p>
-              )}
-              <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-                {c.trustItems.map((item) => (
-                  <span key={item} className="flex items-center gap-1.5 text-sm text-foreground/60">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-accent/70 flex-shrink-0" aria-hidden="true" />
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* ── 2. FACTS STRIP ── */}
+        <FactsStrip
+          variant="light"
+          items={[
+            ...(STATS.totalOrders ? [{ value: STATS.totalOrders, label: c.proofBarOrdersLabel }] : []),
+            ...(STATS.responseTime ? [{ value: STATS.responseTime, label: c.proofBarQuoteLabel }] : []),
+            ...(STATS.leadTimeDays ? [{ value: `${STATS.leadTimeDays} ${lang === "es" ? "días" : lang === "ca" ? "dies" : "days"}`, label: c.proofBarDeliveryLabel }] : []),
+            ...(STATS.minOrderEur !== null ? [{ value: lang === "en" ? `€${STATS.minOrderEur}` : `${STATS.minOrderEur} €`, label: c.proofBarMinOrderLabel }] : []),
+          ]}
+        />
 
         {/* ── 3. PROOF ── */}
         <section className="py-14 md:py-20 container px-4 max-w-4xl mx-auto">
           {SHOW_LOGO_ROW ? (
             <>
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                 {c.logosHeading}
               </h2>
-              <p className="text-sm text-muted-foreground text-center mb-8">{c.logosSubline}</p>
+              <p className="text-sm text-muted-foreground mb-8">{c.logosSubline}</p>
 
               {/* Logo tiles: full colour, fixed size, clear proof */}
               <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -769,24 +722,23 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                     : (lang === "es" ? "Cliente" : lang === "ca" ? "Client" : "Client");
 
                   const tileInner = (
-                    <div className="bg-white border border-border rounded-lg flex items-center justify-center w-[136px] h-[68px] md:w-[168px] md:h-[80px]">
-                      <img
-                        src={client.logoSrc!}
-                        alt={client.logoAlt}
-                        className="ds-b2b-logo-img"
-                        style={{
-                          maxHeight: 44,
-                          maxWidth: isSquare ? 44 : 128,
-                          objectFit: "contain",
-                          width: "auto",
-                          height: "auto",
-                        }}
-                        loading="lazy"
-                        decoding="async"
-                        width={isSquare ? 44 : 128}
-                        height={44}
-                      />
-                    </div>
+                    <img
+                      src={client.logoSrc!}
+                      alt={client.logoAlt}
+                      className="ds-b2b-logo-img"
+                      style={{
+                        maxHeight: 44,
+                        maxWidth: isSquare ? 44 : 128,
+                        objectFit: "contain",
+                        width: "auto",
+                        height: "auto",
+                        display: "block",
+                      }}
+                      loading="lazy"
+                      decoding="async"
+                      width={isSquare ? 44 : 128}
+                      height={44}
+                    />
                   );
 
                   return (
@@ -813,33 +765,33 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               </div>
             </>
           ) : (
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
               {c.sectionProof}
             </h2>
           )}
 
-          {/* Descriptor cards — named clients first, anonymous after */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {ORDERED_CLIENTS.filter((cl) => cl.summary !== null).slice(0, 6).map((client) => (
+          {/* Descriptor items — named clients first, anonymous after */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {ORDERED_CLIENTS.filter((cl) => cl.summary !== null).slice(0, 6).map((client, i) => (
               <div
                 key={client.key}
-                className="rounded-xl border border-border bg-card p-4"
+                style={{ padding: '14px 0', borderTop: i > 0 ? '1px solid #E3E8F0' : undefined }}
               >
                 {client.permission === "confirmed" && client.canName && client.nameShown && (
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-foreground">{client.nameShown}</span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent font-medium uppercase tracking-wide">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 14, color: '#0F172A' }}>{client.nameShown}</span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: '0.06em', color: '#5B6577', textTransform: 'uppercase' }}>
                       {client.badge === "partner"
                         ? lang === "es" ? "Socio" : lang === "ca" ? "Soci" : "Partner"
                         : lang === "es" ? "Cliente" : lang === "ca" ? "Client" : "Client"}
                     </span>
                   </div>
                 )}
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p style={{ fontSize: 13, color: '#5B6577', lineHeight: 1.5, margin: 0 }}>
                   {client.descriptor[lang]}
                 </p>
                 {client.summary && (
-                  <p className="text-xs text-foreground/70 mt-2 leading-relaxed">
+                  <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.5, margin: '4px 0 0' }}>
                     {client.summary[lang]}
                   </p>
                 )}
@@ -850,13 +802,10 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 3b. FREE SAMPLE ── */}
         {FREE_SAMPLE.enabled && (
-          <section className="container px-4 max-w-3xl mx-auto mb-14 md:mb-20">
-            <div className="rounded-xl border border-accent/30 bg-accent/5 p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <Tag className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <h2 className="text-lg font-bold text-foreground">{c.sectionFreeSample}</h2>
-              </div>
-              <p className="text-sm text-foreground/75 leading-relaxed mb-4">
+          <section style={{ maxWidth: 1240, margin: '0 auto', padding: '0 24px 56px' }}>
+            <div style={{ background: '#F6F8FC', borderRadius: 14, padding: '28px 32px', borderLeft: '3px solid #F5A524' }}>
+              <h2 style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 18, color: '#0F172A', margin: '0 0 8px' }}>{c.sectionFreeSample}</h2>
+              <p style={{ fontSize: 14, color: '#5B6577', lineHeight: 1.6, margin: '0 0 20px' }}>
                 {FREE_SAMPLE.wording[lang]}
               </p>
               <Button
@@ -874,22 +823,21 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         {/* ── 4. WHAT WE MAKE ── */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4 max-w-5xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               {c.sectionWhatWeMake}
             </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {c.whatWeMakeCards.map((card) => (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {c.whatWeMakeCards.map((card, i) => (
                 <div
                   key={card.title}
-                  className="rounded-xl bg-card p-5"
-                  style={{ borderLeft: '3px solid #2F5BEA' }}
+                  style={{ padding: '14px 0', borderTop: i > 0 ? '1px solid #E3E8F0' : undefined, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}
                 >
-                  <h3 className="font-semibold text-foreground mb-1.5 text-sm">{card.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-3">{card.example}</p>
-                  <div className="flex items-center gap-2 text-xs text-foreground/50">
-                    <span>{card.material}</span>
-                    <span>·</span>
-                    <span>{card.time}</span>
+                  <div>
+                    <h3 style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: '#0F172A', margin: '0 0 4px' }}>{card.title}</h3>
+                    <p style={{ fontSize: 13, color: '#5B6577', lineHeight: 1.5, margin: 0 }}>{card.example}</p>
+                  </div>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: '#5B6577', textAlign: 'right', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                    {card.material}<br />{card.time}
                   </div>
                 </div>
               ))}
@@ -899,10 +847,10 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 5. SCALE + BATCH TABLE ── */}
         <section className="py-14 md:py-20 container px-4 max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
             {c.sectionScale}
           </h2>
-          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-muted-foreground mb-8 max-w-2xl">
             {lang === "es"
               ? "El precio por unidad baja cuando se imprimen varias piezas idénticas a la vez — las placas se organizan eficientemente y el tiempo de máquina se amortiza. Guardamos el archivo validado para que los reencargos sean inmediatos. Para piezas más grandes que la cama, las dividimos y ensamblamos, o las producimos a través de nuestra red de socios."
               : lang === "ca"
@@ -978,15 +926,24 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         <section className="bg-secondary/20 py-12 border-y border-border/40">
           <div className="container px-4 max-w-4xl mx-auto">
             <h2 className="text-lg font-bold text-foreground mb-4">{c.sectionMaterials}</h2>
-            <div className="flex flex-wrap gap-3">
-              {c.materialLinks.map((m) => (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {c.materialLinks.map((m, i) => (
                 <Link
                   key={m.label}
                   to={m.href}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card hover:border-accent/50 hover:bg-accent/5 transition-colors text-sm"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 0',
+                    borderTop: i > 0 ? '1px solid #E3E8F0' : undefined,
+                    textDecoration: 'none',
+                    color: 'inherit',
+                  }}
+                  className="hover:opacity-70 transition-opacity"
                 >
-                  <span className="font-medium text-foreground">{m.label}</span>
-                  <span className="text-muted-foreground text-xs">{m.desc}</span>
+                  <span style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 15, color: '#0F172A' }}>{m.label}</span>
+                  <span style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: 13, color: '#5B6577' }}>{m.desc}</span>
                 </Link>
               ))}
             </div>
@@ -1005,7 +962,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         {/* ── 7. PROCESS ── */}
         <section className="py-14 md:py-20">
           <div className="container px-4 max-w-6xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               {c.sectionProcess}
             </h2>
             <StepCards
@@ -1034,7 +991,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         {/* ── 8b. HOW WE WORK WITH COMPANIES ── */}
         <section className="py-14 md:py-20 bg-secondary/20 border-y border-border/40">
           <div className="container px-4 max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
               {c.howWeWorkTitle}
             </h2>
             <div className="grid sm:grid-cols-3 gap-4">
@@ -1070,7 +1027,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 9. FAQ ── */}
         <section className="py-14 md:py-20 container px-4 max-w-3xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
             {c.sectionFaq}
           </h2>
           <Accordion type="single" collapsible className="border border-border rounded-2xl px-2">

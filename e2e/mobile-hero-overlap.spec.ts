@@ -78,6 +78,15 @@ for (const { name, width, height } of [
       const primaryBox = await primaryBtn.boundingBox();
       expect(primaryBox, "primary button must be in the DOM").not.toBeNull();
 
+      // H1 top edge must be below the fixed header bottom edge.
+      const headerBottom = await page.evaluate(() => {
+        const h = document.querySelector("header");
+        return h ? h.getBoundingClientRect().bottom : 56;
+      });
+      expect(h1Box!.y, `H1 top must be below header on ${name}`).toBeGreaterThanOrEqual(headerBottom);
+      // H1 must be fully inside the viewport (not clipped above).
+      expect(h1Box!.y, `H1 must be inside viewport on ${name}`).toBeGreaterThanOrEqual(0);
+
       // Collect visible elements and check for pairwise overlap.
       const elements: Array<{ label: string; box: { x: number; y: number; width: number; height: number } | null }> = [
         { label: "H1", box: h1Box },
@@ -97,6 +106,49 @@ for (const { name, width, height } of [
           ).toBe(false);
         }
       }
+    } finally {
+      await context.close();
+    }
+  });
+}
+
+// C3: Sticky bar must NOT be visible on the first screen, but MUST appear after scrolling 1200px.
+// Tested on both V1 (default) and V2 to guard against the hidden-button observer bug.
+for (const { label, url } of [
+  { label: "V1", url: "/" },
+  { label: "V2", url: "/?xp=home_v2:B" },
+]) {
+  test(`Sticky bar hidden on first screen, visible after 1200px scroll — ${label}`, async ({ browser }) => {
+    const context = await browser.newContext({
+      ...devices["iPhone 13"],
+      viewport: { width: 390, height: 844 },
+    });
+    const page = await context.newPage();
+    await page.addInitScript(() => {
+      try {
+        localStorage.setItem("cookie-consent", "accepted");
+        localStorage.setItem("cookie-consent-date", new Date().toISOString());
+        localStorage.setItem(
+          "dim3d-lang-suggest-dismissed",
+          JSON.stringify({ es: true, ca: true, en: true, de: true, fr: true, nl: true, it: true, pt: true }),
+        );
+      } catch { /* ignore */ }
+    });
+    try {
+      await page.goto(url, { waitUntil: "domcontentloaded" });
+      await page.waitForLoadState("networkidle");
+
+      // On load: sticky bar attribute must NOT be on body.
+      const hasBarOnLoad = await page.evaluate(() => document.body.hasAttribute("data-sticky-bar"));
+      expect(hasBarOnLoad, `Sticky bar must not appear on first screen — ${label}`).toBe(false);
+
+      // Scroll past the hero button (exits viewport ~400px) but before the
+      // calculator section enters viewport (~1800px for V1, ~2000px for V2).
+      // 800px is safely between those two thresholds for both variants.
+      await page.evaluate(() => window.scrollTo({ top: 800, behavior: "instant" }));
+      await page.waitForFunction(() => document.body.hasAttribute("data-sticky-bar"), { timeout: 4000 });
+      const hasBarAfterScroll = await page.evaluate(() => document.body.hasAttribute("data-sticky-bar"));
+      expect(hasBarAfterScroll, `Sticky bar must appear after scrolling — ${label}`).toBe(true);
     } finally {
       await context.close();
     }

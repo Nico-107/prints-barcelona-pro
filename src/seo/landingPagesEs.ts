@@ -89,6 +89,7 @@ export const PAGES_ES: LandingContent[] = [
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
       { label: "Prototipado Rápido 24–72h", slug: "/prototipado-rapido-barcelona" },
+      { label: "Prototipos para Empresas — urgente <4h", slug: "/prototipos-para-empresas" },
       { label: "Piezas Funcionales para Validar", slug: "/piezas-funcionales-barcelona" },
       { label: "Servicio Express y Mismo Día", slug: "/impresion-3d-urgente-barcelona" },
       { label: "Diseñamos tu Pieza — Sin Archivo", slug: "/disena-tu-pieza-3d" },
@@ -516,6 +517,7 @@ export const PAGES_ES: LandingContent[] = [
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "black-intake.jpg", "red-adapter.jpg", "blue-molds.jpg", "curved-parts.jpg"),
     related: [
       { label: "Impresión 3D para Empresas", slug: "/impresion-3d-empresas-barcelona" },
+      { label: "Prototipos para Empresas — urgente <4h", slug: "/prototipos-para-empresas" },
       { label: "Piezas Funcionales con Carga", slug: "/piezas-funcionales-barcelona" },
       { label: "Prototipos Únicos y Series", slug: "/prototipos-3d-barcelona" },
       { label: "Guía de Selección de Materiales", slug: "/guia-materiales-impresion-3d" },

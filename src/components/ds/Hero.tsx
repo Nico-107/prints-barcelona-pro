@@ -5,6 +5,8 @@ interface HeroProps {
   starLine?: ReactNode;
   h1: ReactNode;
   paragraph: string;
+  /** Mobile-only paragraph override (shown instead of paragraph on ≤767px) */
+  mobileParagraph?: string;
   primaryButton?: { label: ReactNode; onClick: () => void };
   /** Outlined secondary button (WhatsApp, etc.) — links to href */
   secondaryButton?: { label: string; href: string };
@@ -257,7 +259,7 @@ function CenteredHero({
 
 /** Split-image (V2) hero — black bg, image right, text left */
 function SplitImageHero({
-  starLine, h1, paragraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage, mobileExtras,
+  starLine, h1, paragraph, mobileParagraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage, mobileExtras,
 }: HeroProps) {
   return (
     <section
@@ -279,7 +281,7 @@ function SplitImageHero({
             flex: '1 1 560px',
             minWidth: 0,
             boxSizing: 'border-box',
-            paddingTop: 'clamp(24px, 5vw, 72px)',
+            paddingTop: 'clamp(64px, 7vw, 112px)',
             paddingRight: '40px',
             paddingBottom: 'clamp(32px, 6vw, 96px)',
             paddingLeft: 'max(24px, calc((100% - 1240px) / 2 + 24px))',
@@ -317,7 +319,9 @@ function SplitImageHero({
             {h1}
           </h1>
 
+          {/* Desktop paragraph */}
           <p
+            className={mobileParagraph ? 'ds-hero-v2-desktop-only' : undefined}
             style={{
               margin: 0,
               fontSize: 'clamp(16.5px, 2vw, 21px)',
@@ -327,6 +331,20 @@ function SplitImageHero({
           >
             {paragraph}
           </p>
+
+          {/* Mobile paragraph (if different from desktop) */}
+          {mobileParagraph && (
+            <p
+              className="ds-v2-mobile-only"
+              style={{
+                margin: 0,
+                fontSize: 16.5,
+                color: '#D5DCEA',
+              }}
+            >
+              {mobileParagraph}
+            </p>
+          )}
 
           <button
             type="button"
