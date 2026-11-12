@@ -449,6 +449,8 @@ export const deTranslations: Record<string, string> = {
   "calc.exitPopup.failed.linkPlaceholder": "WeTransfer-, Drive- oder ähnlicher Link",
   "calc.dropzone.noFile": "Keine 3D-Datei?",
   "calc.dropzone.noFile.cta": "Wir gestalten es aus einem Foto oder einer Idee",
+  "calc.chooseFiles": "Dateien auswählen",
+  "calc.settingsOptional": "Einstellungen (optional)",
 
   // File Checker
   "checker.meta.title": "Ist Deine 3D-Datei Druckbereit? Kostenloser STL-Checker",

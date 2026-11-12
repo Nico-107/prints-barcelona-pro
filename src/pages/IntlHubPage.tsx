@@ -350,7 +350,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Promise / intro text */}
         {content.heroSubtitle && (
           <section className="py-12 bg-background">
-            <div className="container px-4 max-w-4xl mx-auto prose prose-sm md:prose-base max-w-none">
+            <div className="container px-4 max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none">
               {renderProse(content.promise)}
             </div>
           </section>
@@ -359,7 +359,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* How it works */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-[720px] mx-auto">
               <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
                 {renderHowItWorks(content.howItWorks)}
               </div>
@@ -387,7 +387,7 @@ const IntlHubPage = ({ content }: Props) => {
 
         {/* Price table */}
         <section className="py-14 md:py-20 bg-background">
-          <div className="container px-4 max-w-4xl mx-auto">
+          <div className="container px-4 max-w-[720px] mx-auto">
             <p className="text-sm text-muted-foreground mb-4">{content.priceTableCaption}</p>
             <div className="overflow-x-auto rounded-lg border border-border">
               <table className="w-full text-sm">
@@ -420,14 +420,14 @@ const IntlHubPage = ({ content }: Props) => {
 
         {/* File formats */}
         <section className="py-14 bg-secondary/20">
-          <div className="container px-4 max-w-4xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+          <div className="container px-4 max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
             {renderProse(content.fileFormatsText)}
           </div>
         </section>
 
         {/* FAQ */}
         <section className="py-14 md:py-20 bg-[#F6F8FC]">
-          <div className="container px-4 max-w-4xl mx-auto">
+          <div className="container px-4 max-w-[720px] mx-auto">
             <FAQAccordion
               items={content.faqs.map(f => ({ question: f.q, answer: f.a }))}
             />

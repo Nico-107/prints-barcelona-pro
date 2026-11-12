@@ -20,7 +20,7 @@ export const DE_HUB: IntlHubContent = {
 
   h1: "3D-Druck Service – online bestellen, nach Deutschland geliefert",
 
-  heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Ab 10 €, kein Mindestvolumen.",
+  heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Mindestbestellwert 10 €, schon ab 1 Teil.",
   ctaLabel: "Datei hochladen und Preis sehen",
   noRegistration: "Ohne Registrierung · Ohne Verpflichtung",
   trustChips: ["Ab 10 €", "Angebot in 1 Stunde", "Versand 5,90 € verfolgt", "Kein Zoll in der EU"],
@@ -127,7 +127,7 @@ export const DE_CITIES: IntlCityContent[] = [
 
     introText: `Berlin ist Deutschlands kreativste Metropole – und gleichzeitig einer der dynamischsten Standorte für Hardware-Entwicklung, Produktdesign und technologische Innovation in ganz Europa. Wer in Berlin 3D-drucken lassen möchte, findet zwar lokale Anbieter, doch die Nachfrage nach schnellen, qualitativ hochwertigen FDM-Teilen übersteigt regelmäßig das Angebot. Dimension3D aus Barcelona bietet eine zuverlässige Alternative: Dateien hochladen, Angebot in einer Stunde erhalten, Teile in der Regel innerhalb von 3–5 Werktagen im Briefkasten – ohne Zoll, da Spanien und Deutschland beide zur EU gehören.
 
-Berlins Startup-Ökosystem zählt zu den größten auf dem Kontinent. Im und um den Bezirk Mitte, Prenzlauer Berg, Kreuzberg und Friedrichshain haben sich hunderte Hardware-Startups angesiedelt, die von der Rapid-Prototyping-Welle profitieren. Gründerinnen und Gründer, die an smarten Geräten, Medizintechnik-Gadgets, Wearables oder IoT-Produkten arbeiten, benötigen regelmäßig Funktionsprototypen in kleinen Stückzahlen – oft genug für ein Pitch-Deck oder eine Investoren-Demo. Genau hier ist ein 3D-Druck Dienstleister wie Dimension3D wertvoll: kein Mindestvolumen außer 10 €, keine Einrichtungsgebühr, schnelle Lieferung.
+Berlins Startup-Ökosystem zählt zu den größten auf dem Kontinent. Im und um den Bezirk Mitte, Prenzlauer Berg, Kreuzberg und Friedrichshain haben sich hunderte Hardware-Startups angesiedelt, die von der Rapid-Prototyping-Welle profitieren. Gründerinnen und Gründer, die an smarten Geräten, Medizintechnik-Gadgets, Wearables oder IoT-Produkten arbeiten, benötigen regelmäßig Funktionsprototypen in kleinen Stückzahlen – oft genug für ein Pitch-Deck oder eine Investoren-Demo. Genau hier ist ein 3D-Druck Dienstleister wie Dimension3D wertvoll: Mindestbestellwert 10 €, keine Einrichtungsgebühr, schnelle Lieferung.
 
 Die Technische Universität Berlin und die Beuth Hochschule (heute Berliner Hochschule für Technik) sind zwei der forschungsstärksten Ingenieurhochschulen Deutschlands. Studentinnen und Studenten aus Maschinenbau, Elektrotechnik, Produktdesign und Architektur greifen regelmäßig auf 3D-Druck zurück – für Semesterarbeiten, Abschlussarbeiten und Wettbewerbsprojekte. Wer keine Hochschullizenz für die campuseigenen Drucker hat oder größere Stückzahlen benötigt, kann unkompliziert bei uns bestellen.
 

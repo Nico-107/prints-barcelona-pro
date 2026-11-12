@@ -94,6 +94,26 @@ describe("i18n: header.menu keys present in all languages", () => {
   });
 });
 
+describe("Review excerpts are verbatim substrings of translations", () => {
+  const LANGS = ["es", "ca", "en", "de", "fr", "it", "nl", "pt"];
+
+  it("every excerpt (before trailing …) appears verbatim in that language's translation", () => {
+    const failures: string[] = [];
+    for (const review of REVIEWS) {
+      for (const lang of LANGS) {
+        const excerpt = review.excerpt[lang];
+        const translation = review.translations[lang];
+        if (!excerpt || !translation) continue;
+        const needle = excerpt.endsWith("…") ? excerpt.slice(0, -1) : excerpt;
+        if (!translation.includes(needle)) {
+          failures.push(`${review.name} [${lang}]: "${needle}" not found in translation`);
+        }
+      }
+    }
+    expect(failures).toEqual([]);
+  });
+});
+
 describe("ES and CA home pages show reviews in the correct language", () => {
   it("ES home page contains Kirill's Spanish review excerpt", () => {
     const html = readFileSync(join(DIST, "index.html"), "utf-8");

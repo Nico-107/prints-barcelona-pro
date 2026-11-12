@@ -477,6 +477,8 @@ export const caTranslations: Record<string, string> = {
   "calc.exitPopup.failed.linkPlaceholder": "Enllaç de WeTransfer, Drive o similar",
   "calc.dropzone.noFile": "Sense arxiu 3D?",
   "calc.dropzone.noFile.cta": "Ho dissenyem des d'una foto o idea",
+  "calc.chooseFiles": "Triar arxius",
+  "calc.settingsOptional": "Ajustos (opcional)",
 
   // File Checker
   "checker.meta.title": "Comprova el Teu Arxiu 3D — Comprovador STL Gratuït",
