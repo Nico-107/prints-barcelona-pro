@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, GraduationCap, Package, Star, Wrench, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, Package, Wrench, Zap } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { useSectionView } from "@/hooks/usePageTracking";
@@ -120,24 +120,6 @@ const GUIDES_COPY: Record<string, {
       { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Comanda mínima 10 € — des d'1 peça", desc: "Una sola peça al mateix preu per unitat que un lot. Comanda mínima 10 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Recanvi descatalogat — ho imprimim en 3D", desc: "El fabricant ja no ven la peça? La reproduïm des d'una foto o la peça original." },
     ],
-  },
-};
-
-const GOOGLE_REVIEWS_COPY: Record<string, { heading: string; aggregate: string; viewAll: string }> = {
-  es: {
-    heading: "Lo que dicen nuestros clientes",
-    aggregate: `${GOOGLE_RATING.count} reseñas verificadas · 4.8 de media`,
-    viewAll: "Ver todas las reseñas",
-  },
-  en: {
-    heading: "What Our Customers Say",
-    aggregate: `${GOOGLE_RATING.count} verified reviews · 4.8 average`,
-    viewAll: "View all reviews",
-  },
-  ca: {
-    heading: "Què diuen els nostres clients",
-    aggregate: `${GOOGLE_RATING.count} ressenyes verificades · 4.8 de mitjana`,
-    viewAll: "Veure totes les ressenyes",
   },
 };
 
@@ -552,102 +534,21 @@ const Index = () => {
         {/* ── PROJECTS ── */}
         <Projects />
 
-        {/* ── REVIEWS / home_proof_r1 experiment ── */}
-        {(() => {
-          const copy = GOOGLE_REVIEWS_COPY[language] ?? GOOGLE_REVIEWS_COPY.es;
-          const periodCopy = STATS.totalOrdersPeriod[language as keyof typeof STATS.totalOrdersPeriod] ?? STATS.totalOrdersPeriod.es;
-          const ratingOk = GOOGLE_RATING.value != null && GOOGLE_RATING.count != null;
-
-          const ReviewCards = () => (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {GOOGLE_REVIEWS_DATA.map((review) => (
-                <div
-                  key={review.name}
-                  className="bg-background rounded-xl p-5 border border-border hover:border-accent/20 hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex gap-0.5">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} className="w-4 h-4 fill-gold text-gold" />
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-1.5 text-xs font-medium" style={{ color: "#4285F4" }}>
-                      <span
-                        className="w-3.5 h-3.5 rounded-full text-[8px] font-bold inline-flex items-center justify-center flex-shrink-0"
-                        style={{ background: "#4285F4", color: "#fff" }}
-                      >
-                        G
-                      </span>
-                      Google
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">"{review.text}"</p>
-                  <span className="font-semibold text-foreground text-sm">{review.name}</span>
-                </div>
-              ))}
-            </div>
-          );
-
-          return (
-            <section ref={reviewsRef} className="py-14 md:py-16 bg-secondary/30">
-              <div className="container px-4 max-w-5xl mx-auto">
-                {/* Variant A (control) */}
-                <div data-xp-slot="home_proof_r1" data-xp-v="A">
-                  <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 mb-2">
-                      <span className="w-5 h-5 rounded-full text-[10px] font-bold inline-flex items-center justify-center flex-shrink-0" style={{ background: "#4285F4", color: "#fff" }}>G</span>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
-                    </div>
-                  </div>
-                  <ReviewCards />
-                  <p className="text-sm text-center text-foreground/55 mt-6">{copy.aggregate}</p>
-                </div>
-
-                {/* Variant B: rating badge */}
-                <div data-xp-slot="home_proof_r1" data-xp-v="B">
-                  <div className="text-center mb-8">
-                    {ratingOk ? (
-                      <div className="inline-flex items-center gap-3 bg-background border border-border rounded-xl px-5 py-3 shadow-sm mb-4">
-                        <div className="text-left">
-                          <div className="flex items-center gap-1">
-                            {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-3.5 h-3.5 fill-gold text-gold" />)}
-                            <span className="text-base font-bold text-foreground ml-1">{formatRating(language)}</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground">{GOOGLE_RATING.count} {language === "ca" ? "ressenyes verificades" : language === "en" ? "verified reviews" : "reseñas verificadas"}</p>
-                        </div>
-                      </div>
-                    ) : null}
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground">{copy.heading}</h2>
-                  </div>
-                  <ReviewCards />
-                  <p className="text-sm text-center text-foreground/55 mt-6">{copy.aggregate}</p>
-                </div>
-
-                {/* Variant C: print photos strip + stats */}
-                <div data-xp-slot="home_proof_r1" data-xp-v="C">
-                  <div className="text-center mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-1">
-                      {STATS.totalOrders && `${STATS.totalOrders} ${language === "ca" ? "comandes" : language === "en" ? "orders" : "pedidos"} ${periodCopy}`}
-                    </h2>
-                  </div>
-                  <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mb-6">
-                    {[
-                      { src: "/projects/curved-parts.webp", alt: language === "en" ? "Custom curved parts" : language === "ca" ? "Peces corbes a mida" : "Piezas curvas a medida" },
-                      { src: "/projects/custom-brackets.webp", alt: language === "en" ? "Custom brackets" : language === "ca" ? "Suports personalitzats" : "Soportes personalizados" },
-                      { src: "/projects/blue-molds.webp", alt: language === "en" ? "Blue molds" : language === "ca" ? "Motlles blaus" : "Moldes azules" },
-                      { src: "/projects/intake-manifold.webp", alt: language === "en" ? "Intake manifold part" : language === "ca" ? "Peça d'admissió" : "Pieza de admisión" },
-                      { src: "/projects/big-ben-tower.webp", alt: language === "en" ? "Big Ben tower model" : language === "ca" ? "Model de Big Ben" : "Modelo de Big Ben" },
-                      { src: "/projects/purple-detail.webp", alt: language === "en" ? "Detailed purple part" : language === "ca" ? "Peça porpra detallada" : "Pieza morada detallada" },
-                    ].map(({ src, alt }) => (
-                      <img key={src} src={src} alt={alt} className="w-full aspect-square object-cover rounded-lg border border-border" loading="lazy" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-center text-foreground/55 mt-2">{copy.aggregate}</p>
-                </div>
-              </div>
-            </section>
-          );
-        })()}
+        {/* ── REVIEWS (QuoteFeature dark grid) ── */}
+        <section ref={reviewsRef}>
+          <QuoteFeature
+            label={`★★★★★ ${formatRating(language)} · ${GOOGLE_RATING.count ?? "250+"} ${language === "ca" ? "RESSENYES GOOGLE" : language === "en" ? "GOOGLE REVIEWS" : "RESEÑAS GOOGLE"}`}
+            featured={{
+              text: GOOGLE_REVIEWS_DATA[0].text,
+              author: `— ${GOOGLE_REVIEWS_DATA[0].name}`,
+            }}
+            secondary={GOOGLE_REVIEWS_DATA.slice(1, 4).map((r) => ({
+              text: r.text,
+              author: `— ${r.name}`,
+            }))}
+            variant="dark"
+          />
+        </section>
 
         {/* ── B2B CARDS ── */}
         <div ref={b2bRef}>
