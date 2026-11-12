@@ -114,24 +114,40 @@ Services and international link columns in `Index.tsx` restyled as plain mono te
 
 ## E. Verification
 
-### E1 — Screenshots
-Not taken in this session — requires a running browser. Manual verification recommended at 1440 and 390 for V1/V2/B2B/price page/product page with cookie banner open and dismissed.
+### E1 — Screenshots ✓
+30 PNGs in `docs/screens/` captured by `e2e/screenshots.spec.ts` (Playwright chromium, Vite preview):
+
+| Page | 1440 first | 1440 full | 390 first | 390 full |
+|------|-----------|-----------|----------|----------|
+| V1 home (banner open) | ✓ | — | ✓ | — |
+| V1 home (banner dismissed) | ✓ | ✓ | ✓ | ✓ |
+| V2 home (?xp=home_v2:B, banner open) | ✓ | — | ✓ | — |
+| V2 home (banner dismissed) | ✓ | ✓ | ✓ | ✓ |
+| B2B page (banner open) | ✓ | — | ✓ | — |
+| B2B page (banner dismissed) | ✓ | ✓ | ✓ | ✓ |
+| Price page (banner open) | ✓ | — | ✓ | — |
+| Price page (banner dismissed) | ✓ | ✓ | ✓ | ✓ |
+| Product page (banner open) | ✓ | — | ✓ | — |
+| Product page (banner dismissed) | ✓ | ✓ | ✓ | ✓ |
 
 ### E2 — This document ✓
 
-### E3 — Build results
-- `npm run build`: 0 violations, 167 pages OK, 0 broken links (last clean build at commit `876f08d`; re-build required after round 4 additions)
+### E3 — Build and test results ✓
+- `npm run build`: 0 violations, 167 pages OK, 0 broken links
 - Unit tests: 5/5 pass (`materials-table.test.ts`)
-- Playwright overlap test: written (`e2e/mobile-hero-overlap.spec.ts`) — requires `npm run preview` to run
+- Playwright **mobile-hero-overlap** (C1): 6/6 green (chromium + mobile-chrome + mobile-webkit at 390×844 and 360×780)
+- Playwright **mobile-layout**: 42/42 green (chromium + mobile-webkit across 3 device sizes × 7 routes)
+- Playwright **upload-entries**: 21/21 green (chromium + mobile-webkit) — fixed sticky bar scroll from 1200→700px
+- Playwright **consent** (mobile-webkit): 5 pre-existing failures (`mouse.wheel` not supported in Playwright mobile WebKit + footer accordion collapsed on mobile); same failures on main branch, unrelated to this PR
 - i18n: all 8 languages updated for A4 (reviews label) and V2 hero eyebrow
 
-### E4 — Commit
-On `ui-overhaul` branch. Not merged to main.
+### E4 — Commit ✓
+Branch: `ui-overhaul`. Commits: `876f08d` (round4 main), `2f19140` (C1/C3/D1 open items), `d8d3057` (E1 screenshots + E3 test fixes). Not merged to main.
 
 ---
 
 ## Open items for Nico
 
 1. **Frozen SEO titles with banned wording** (A3): pages listed in the table above — these are `<title>`/meta/H1 strings that require deliberate SEO copy decisions before changing
-2. **Screenshots E1**: full-page and first-screen at 1440 and 390 for V1/V2/B2B/price page/product page with cookie banner open and dismissed
-3. **C7 full audit**: remaining V1/V2 sections not fully audited for mobile squeeze
+2. **C7 full audit**: remaining V1/V2 sections not fully audited for mobile squeeze
+3. **consent.spec.ts mobile-webkit** (pre-existing): `mouse.wheel` API not supported in Playwright mobile WebKit — tests need to use `page.evaluate(() => window.scrollBy(...))` or `touchscreen.tap` instead; unrelated to this PR
