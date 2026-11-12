@@ -65,6 +65,12 @@ export function buildPrePaintScript(experiments: PrePaintExp[]): string {
     `else{var vIdx=Math.floor(h(vid+'::'+exp.id)*exp.variants.length);variant=exp.variants[Math.min(vIdx,exp.variants.length-1)];}` +
     `document.documentElement.setAttribute(exp.attr,variant);` +
     `});` +
+    `Object.keys(forced).forEach(function(id){` +
+    `var attr='data-xp-'+id.replace(/_/g,'-');` +
+    `if(!document.documentElement.getAttribute(attr)){` +
+    `document.documentElement.setAttribute(attr,forced[id]);` +
+    `document.documentElement.setAttribute('data-xp-forced','true');` +
+    `}});` +
     `}catch(err){` +
     `var F=${fallback};` +
     `for(var k=0;k<F.length;k++){try{document.documentElement.setAttribute(F[k][0],F[k][1]);}catch(s){}}` +

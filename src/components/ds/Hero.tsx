@@ -30,8 +30,10 @@ function CenteredHero({
       style={extendBehindHeader ? {
         marginTop: 'calc(-1 * var(--header-h))',
         paddingTop: 'calc(var(--header-h) + 92px)',
+        contain: 'layout',
       } : {
         paddingTop: '84px',
+        contain: 'layout',
       }}
     >
       <div className="ds-container" style={{ paddingBottom: 0 }}>
@@ -259,6 +261,7 @@ function SplitImageHero({
         color: '#FFFFFF',
         marginTop: 'calc(-1 * var(--header-h))',
         paddingTop: 'var(--header-h)',
+        contain: 'layout',
       }}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch' }}>

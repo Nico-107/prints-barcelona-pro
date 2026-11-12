@@ -7,9 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
-  Building2, MessageCircle, ArrowRight, CheckCircle2, Clock,
-  Package, RefreshCw, Upload, Layers,
-  Wrench, Tag, ChevronRight, Box, Factory, FileCheck, Users, Receipt,
+  Building2, MessageCircle, ArrowRight, CheckCircle2,
+  Upload, Tag, ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -871,27 +870,21 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               {c.sectionWhatWeMake}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {c.whatWeMakeCards.map((card, i) => {
-                const icons = [Factory, Wrench, Box, RefreshCw, Tag, Layers];
-                const Icon = icons[i % icons.length];
-                return (
-                  <div key={card.title} className="rounded-xl border border-border bg-card p-5">
-                    <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center mb-3">
-                      <Icon className="w-4 h-4 text-accent" aria-hidden="true" />
-                    </div>
-                    <h3 className="font-semibold text-foreground mb-1 text-sm">{card.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed mb-2">{card.example}</p>
-                    <div className="flex items-center gap-3 text-xs text-foreground/50">
-                      <span className="flex items-center gap-1">
-                        <Package className="w-3 h-3" aria-hidden="true" />{card.material}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" aria-hidden="true" />{card.time}
-                      </span>
-                    </div>
+              {c.whatWeMakeCards.map((card) => (
+                <div
+                  key={card.title}
+                  className="rounded-xl bg-card p-5"
+                  style={{ borderLeft: '3px solid #2F5BEA' }}
+                >
+                  <h3 className="font-semibold text-foreground mb-1.5 text-sm">{card.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed mb-3">{card.example}</p>
+                  <div className="flex items-center gap-2 text-xs text-foreground/50">
+                    <span>{card.material}</span>
+                    <span>·</span>
+                    <span>{card.time}</span>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1019,18 +1012,25 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               {c.howWeWorkTitle}
             </h2>
             <div className="grid sm:grid-cols-3 gap-4">
-              {c.howWeWorkItems.map((item, i) => {
-                const icons = [Users, FileCheck, Receipt];
-                const Icon = icons[i] ?? FileCheck;
-                return (
-                  <div key={i} className="rounded-xl border border-border bg-card p-5 flex gap-4 items-start">
-                    <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-4 h-4 text-accent" aria-hidden="true" />
-                    </div>
-                    <p className="text-sm text-foreground/80 leading-relaxed">{item}</p>
-                  </div>
-                );
-              })}
+              {c.howWeWorkItems.map((item, i) => (
+                <div key={i} className="rounded-xl border border-border bg-card p-5 flex gap-3 items-start">
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      fontFamily: "'Inter Tight', system-ui, sans-serif",
+                      fontWeight: 800,
+                      fontSize: 28,
+                      lineHeight: 1,
+                      color: '#2F5BEA',
+                      flexShrink: 0,
+                      marginTop: 2,
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                  <p className="text-sm text-foreground/80 leading-relaxed">{item}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

@@ -87,11 +87,11 @@ for (const size of MOBILE_SIZES) {
             const rect = el.getBoundingClientRect();
             return { fontSize, lineHeight, height: rect.height };
           });
-          // DS Hero CenteredHero uses clamp(24px, 6.5vw, 92px); check that no regression inflates it.
+          // DS Hero CenteredHero uses clamp(38px, 6.5vw, 92px); check that no regression inflates it.
           expect(metrics.fontSize, `H1 font-size on ${route.slug} @ ${size.name}`).toBeLessThanOrEqual(50);
-          // Allow 1 extra wrap on 360px for longer-translation locales (ca, long es titles);
-          // the base target of ≤3 lines holds at 390px and 412px.
-          const maxLines = size.width <= 360 ? 4 : 3;
+          // A7 raised the minimum from 24px to 38px so long English H1s wrap to 4 lines on mobile.
+          // The fontSize guard (≤50px) is the primary check; 4 lines is acceptable at all mobile widths.
+          const maxLines = 4;
           const lines = Math.round(metrics.height / metrics.lineHeight);
           expect(lines, `H1 line count on ${route.slug} @ ${size.name}`).toBeLessThanOrEqual(maxLines);
         }
