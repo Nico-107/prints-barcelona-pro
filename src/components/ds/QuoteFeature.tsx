@@ -67,6 +67,7 @@ export function QuoteFeature({ label, featured, secondary, variant = 'dark', cla
         </blockquote>
         {secondary && secondary.length > 0 && (
           <div
+            className="ds-quote-secondary-row"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',

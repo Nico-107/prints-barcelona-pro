@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
+import { UploadPanel } from "@/components/ds";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -207,9 +208,17 @@ const InternationalServicePage = () => {
       </section>
 
       {/* Calculator */}
-      <section id="calculator" className="container px-4 py-10">
-        <StlEstimator shippingOnly />
-      </section>
+      <div id="calculator" style={{ background: '#F6F8FC' }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+          <UploadPanel
+            label="INSTANT PRICE — FROM €10"
+            heading="Upload your files and see the price now."
+            description="No account required. €10 minimum order, no setup fee. Shipping calculated at checkout."
+          >
+            <StlEstimator compact shippingOnly />
+          </UploadPanel>
+        </div>
+      </div>
 
       {/* Content sections */}
       <section className="bg-secondary/20 py-14 md:py-20">

@@ -141,9 +141,12 @@ interface Props {
    *  Set from international hub / city / part pages where in-person pickup
    *  in Barcelona isn't offered. */
   shippingOnly?: boolean;
+  /** When true, strips the outer section padding/bg and heading so the caller can embed
+   *  the calculator inside a custom dark panel (UploadPanel). The id="calculator" is kept. */
+  compact?: boolean;
 }
 
-export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false, shippingOnly = false }: Props) {
+export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false, shippingOnly = false, compact = false }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
 
@@ -2821,8 +2824,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   }
 
   return (
-    <section id="calculator" className="py-12 md:py-28 bg-secondary/30">
-      <div className="container px-4">
+    <section id="calculator" className={compact ? "" : "py-12 md:py-28 bg-secondary/30"}>
+      <div className={compact ? "" : "container px-4"}>
+        {!compact && (
         <div className="text-center mb-10">
           <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
             {t("calc.title")}
@@ -2833,6 +2837,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto">{t("calc.subtitle")}</p>
         </div>
+        )}
         {checkoutResult === "success" && (
           <div className="max-w-xl mx-auto mb-6 rounded-xl bg-whatsapp/10 border border-whatsapp/25 px-5 py-4 flex items-start gap-3">
             <CheckCircle className="w-5 h-5 text-whatsapp shrink-0 mt-0.5" />

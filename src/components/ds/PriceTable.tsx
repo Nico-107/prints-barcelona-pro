@@ -2,20 +2,22 @@ interface PriceRow { material: string; useCase: string; price: string; }
 
 interface PriceTableProps {
   rows: PriceRow[];
+  columns?: { material: string; use: string; price: string };
   button?: { label: string; onClick: () => void };
   className?: string;
 }
 
-export function PriceTable({ rows, button, className }: PriceTableProps) {
+export function PriceTable({ rows, columns, button, className }: PriceTableProps) {
+  const col = columns ?? { material: "MATERIAL", use: "PARA QUÉ", price: "MATERIAL + MÁQUINA" };
   return (
     <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', minWidth: 520, borderCollapse: 'collapse', fontSize: 16.5 }}>
           <thead>
             <tr style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12.5, color: '#5B6577', textAlign: 'left', letterSpacing: '0.06em' }}>
-              <th style={{ padding: '10px 12px 10px 0', fontWeight: 500, borderBottom: '2px solid #0F172A' }}>MATERIAL</th>
-              <th style={{ padding: '10px 12px', fontWeight: 500, borderBottom: '2px solid #0F172A' }}>PARA QUÉ</th>
-              <th style={{ padding: '10px 0 10px 12px', fontWeight: 500, borderBottom: '2px solid #0F172A', textAlign: 'right' }}>MATERIAL + MÁQUINA</th>
+              <th style={{ padding: '10px 12px 10px 0', fontWeight: 500, borderBottom: '2px solid #0F172A' }}>{col.material}</th>
+              <th style={{ padding: '10px 12px', fontWeight: 500, borderBottom: '2px solid #0F172A' }}>{col.use}</th>
+              <th style={{ padding: '10px 0 10px 12px', fontWeight: 500, borderBottom: '2px solid #0F172A', textAlign: 'right' }}>{col.price}</th>
             </tr>
           </thead>
           <tbody>

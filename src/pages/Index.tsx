@@ -7,15 +7,7 @@ import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { useSectionView } from "@/hooks/usePageTracking";
 import { useXpExposure } from "@/lib/experiments";
 import Header from "@/components/Header";
-import Materials from "@/components/Materials";
 import StlEstimator from "@/components/StlEstimator";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import ExpressPrinting from "@/components/ExpressPrinting";
-import Projects from "@/components/Projects";
-import PricingInfo from "@/components/PricingInfo";
-import ServiceInfo from "@/components/ServiceInfo";
-import FAQ from "@/components/FAQ";
-import LocationMap from "@/components/LocationMap";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import MobileStickyBar from "@/components/MobileStickyBar";
@@ -33,6 +25,10 @@ import {
   QuoteFeature,
   FactsStrip,
   PathCards,
+  UploadPanel,
+  PriceTable,
+  ImageSplit,
+  FAQAccordion,
 } from "@/components/ds";
 
 const SITE_URL = "https://www.dimension3dprints.com";
@@ -493,6 +489,8 @@ const Index = () => {
               label: t("home.v2.hero.button"),
               onClick: () => openFilePicker("hero"),
             }}
+            secondaryButton={{ label: t("home.hero.whatsapp"), href: whatsappUrl() }}
+            sendLinkButton={{ label: t("home.hero.sendlink"), onClick: handleSendLink }}
             reassuranceItems={[t("home.v2.hero.reassurance")]}
             noFileLink={{
               label: t("home.v2.hero.nofile"),
@@ -507,17 +505,17 @@ const Index = () => {
           <FactsStrip items={v2FactsItems} variant="dark" />
         </div>
 
-        {/* ── HOW IT WORKS ── */}
-        <div ref={howItWorksRef}>
-          <section className="bg-surface">
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+        {/* ── HOW IT WORKS (V1 only — V2 uses PathCards instead) ── */}
+        <div ref={howItWorksRef} className="xp-home-v1-only">
+          <section className="bg-white">
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
               <h2
                 className="font-display font-extrabold tracking-tight leading-none mb-2.5"
-                style={{ fontSize: "clamp(30px, 3.6vw, 44px)" }}
+                style={{ fontSize: "clamp(30px, 3.6vw, 44px)", textAlign: "center" }}
               >
                 {t("how.title")}
               </h2>
-              <p className="text-text-muted" style={{ margin: "0 0 30px" }}>{t("how.subtitle")}</p>
+              <p className="text-text-muted" style={{ margin: "0 0 30px", textAlign: "center" }}>{t("how.subtitle")}</p>
               <StepCards
                 steps={[
                   {
@@ -541,7 +539,7 @@ const Index = () => {
         {/* ── V2 PATH CARDS ── */}
         <div className="xp-home-v2-only">
           <section className="bg-white">
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
               <PathCards
                 heading={t("home.v2.path.heading")}
                 cards={[
@@ -572,14 +570,109 @@ const Index = () => {
           </section>
         </div>
 
-        {/* ── CALCULATOR ── */}
-        <div ref={calculatorRef}>
-          <StlEstimator highlighted={calcHighlight} refCity={refCity} refDays={refDays} />
+        {/* ── CALCULATOR (dark upload panel) ── */}
+        <div ref={calculatorRef} style={{ background: '#F6F8FC' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <UploadPanel
+              label={t("home.upload.label")}
+              heading={t("home.upload.heading")}
+              description={t("home.upload.desc")}
+              examples={[
+                { text: `${t("home.upload.example1")} ${t("home.upload.example1price")}` },
+                { text: `${t("home.upload.example2")} ${t("home.upload.example2price")}` },
+              ]}
+            >
+              <StlEstimator compact highlighted={calcHighlight} refCity={refCity} refDays={refDays} />
+            </UploadPanel>
+          </div>
+        </div>
+
+        {/* ── V2 REVIEWS (white section — after calculator) ── */}
+        <div className="xp-home-v2-only">
+          <section style={{ background: '#FFFFFF' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px) clamp(40px,5vw,56px)", display: "flex", flexDirection: "column", gap: 26 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#2F5BEA' }}>
+                {t("home.v2.reviews.label")}
+              </div>
+              <blockquote style={{ margin: 0, font: `600 clamp(28px, 3.6vw, 48px)/1.12 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.015em", maxWidth: 1080 }}>
+                "{GOOGLE_REVIEWS_DATA[0].text}"
+                <footer style={{ marginTop: 16, font: "500 15px 'Inter', sans-serif", color: '#5B6577' }}>{GOOGLE_REVIEWS_DATA[0].name}</footer>
+              </blockquote>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
+                {GOOGLE_REVIEWS_DATA.slice(1, 4).map((r) => (
+                  <blockquote key={r.name} style={{ margin: 0, background: '#F3F6FF', borderRadius: 16, padding: 22, fontSize: 16, color: '#26304A' }}>
+                    "{r.text}"
+                    <footer style={{ marginTop: 10, fontSize: 14, color: '#5B6577' }}>{r.name}</footer>
+                  </blockquote>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* ── V2 HOW WE PRINT (black section with nozzles fade) ── */}
+        <div id="maquina" className="xp-home-v2-only">
+          <section style={{ background: '#000000', color: '#FFFFFF' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 24px", display: "flex", flexWrap: "wrap", alignItems: "stretch" }}>
+              <div style={{ flex: "1 1 380px", minWidth: 0, padding: "88px 40px 88px 0", display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#F5A524' }}>
+                  {t("home.v2.how.eyebrow")}
+                </div>
+                <h2 style={{ margin: 0, font: `800 clamp(32px, 4vw, 54px)/1 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.02em" }}>
+                  {t("home.v2.how.heading")}
+                </h2>
+                <p style={{ margin: 0, color: '#D5DCEA', maxWidth: 440 }}>{t("home.v2.how.body")}</p>
+                <a
+                  href="#calculator"
+                  onClick={(e) => { e.preventDefault(); document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" }); }}
+                  style={{ alignSelf: "flex-start", textDecoration: "none", border: "1.5px solid #FFFFFF", borderRadius: 10, padding: "14px 22px", fontWeight: 600, color: "#FFFFFF" }}
+                >
+                  {t("home.v2.how.cta")}
+                </a>
+              </div>
+              <div
+                role="img"
+                aria-label={t("home.v2.how.img.alt")}
+                style={{
+                  flex: "1.4 1 520px",
+                  minWidth: 0,
+                  minHeight: 520,
+                  background: "linear-gradient(90deg,#000 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0) 80%,#000 100%), linear-gradient(0deg,#000 0%,rgba(0,0,0,0) 34%), #000 url(/img/x2d/x2d-nozzles.jpg) center/cover no-repeat",
+                }}
+              />
+            </div>
+          </section>
+        </div>
+
+        {/* ── V2 REAL PRICES (price tiles) ── */}
+        <div id="precios" className="xp-home-v2-only">
+          <section style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48 }}>
+            <div style={{ flex: "1 1 520px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
+              <h2 style={{ margin: 0, font: `800 clamp(32px, 4vw, 52px)/1.02 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.02em" }}>
+                {t("home.v2.prices.heading")}
+              </h2>
+              <p style={{ margin: 0, color: '#5B6577', maxWidth: 520 }}>{t("home.v2.prices.desc")}</p>
+            </div>
+            <div style={{ flex: "1 1 520px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12 }}>
+              {[
+                { price: "10,00 €", label: "Clip de cajón", spec: "PLA · 5 g" },
+                { price: "12,10 €", label: "Adaptador VESA", spec: "PLA · 40 g" },
+                { price: "27,50 €", label: "Figura mediana", spec: "PLA · 90 g" },
+                { price: "42,35 €", label: "Prototipo funcional", spec: "PETG · 150 g" },
+              ].map((tile) => (
+                <div key={tile.label} style={{ background: '#F3F6FF', borderRadius: 16, padding: 20 }}>
+                  <div style={{ font: `800 34px/1 'Bricolage Grotesque', sans-serif` }}>{tile.price}</div>
+                  <div style={{ marginTop: 6 }}>{tile.label}</div>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#5B6577' }}>{tile.spec}</div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
 
         {/* ── QUÉ IMPRIMIMOS ── */}
-        <section className="bg-white">
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+        <section className="bg-surface">
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
             <h2
               style={{
                 margin: "0 0 10px",
@@ -598,18 +691,91 @@ const Index = () => {
         </section>
 
         {/* ── MATERIALS ── */}
-        <div ref={materialsRef}><Materials /></div>
+        <div ref={materialsRef}>
+          <section style={{ background: '#FFFFFF' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start" }}>
+              <div style={{ flex: "1 1 540px", minWidth: 0 }}>
+                <h2 style={{ margin: "0 0 28px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(30px, 3.6vw, 44px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+                  {t("home.materials.heading")}
+                </h2>
+                <PriceTable
+                  columns={{ material: t("home.materials.col.material"), use: t("home.materials.col.use"), price: t("home.materials.col.price") }}
+                  rows={[
+                    { material: "PLA", useCase: t("home.materials.pla.use"), price: "0,017 €/g" },
+                    { material: "PETG", useCase: t("home.materials.petg.use"), price: "0,019 €/g" },
+                    { material: "ABS / ASA", useCase: t("home.materials.abs.use"), price: "0,021 €/g" },
+                    { material: "TPU", useCase: t("home.materials.tpu.use"), price: "0,025 €/g" },
+                    { material: "Nylon CF", useCase: t("home.materials.nylon.use"), price: "0,038 €/g" },
+                  ]}
+                  button={{ label: t("home.materials.cta"), onClick: () => openFilePicker("step_card") }}
+                />
+                <p style={{ marginTop: 16, fontSize: 14, color: '#5B6577' }}>
+                  {t("home.materials.help")}{" "}
+                  <a href={whatsappUrl()} style={{ color: '#2F5BEA' }}>WhatsApp</a>
+                </p>
+                <div style={{ marginTop: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#5B6577', letterSpacing: "0.06em" }}>
+                  {t("home.materials.spec")}
+                </div>
+              </div>
+              <div
+                role="img"
+                aria-label={t("home.materials.img.alt")}
+                style={{ flex: "1 1 360px", minWidth: 0, height: 400, borderRadius: 20, backgroundImage: "url(/img/x2d/x2d-desk.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+              />
+            </div>
+          </section>
+        </div>
 
         {/* ── WHY CHOOSE US ── */}
-        <WhyChooseUs />
+        <section style={{ background: '#F6F8FC' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <h2 style={{ margin: "0 0 40px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+              {t("home.why.heading")}
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+              {[
+                { title: t("home.why.col1.title"), desc: t("home.why.col1.desc") },
+                { title: t("home.why.col2.title"), desc: t("home.why.col2.desc") },
+                { title: t("home.why.col3.title"), desc: t("home.why.col3.desc") },
+                { title: t("home.why.col4.title"), desc: t("home.why.col4.desc") },
+              ].map((col, i) => (
+                <div key={i} style={{ padding: "0 28px", borderLeft: i > 0 ? "1px solid #E3E8F0" : "none" }}>
+                  <p style={{ margin: "0 0 8px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 20 }}>{col.title}</p>
+                  <p style={{ margin: 0, color: '#5B6577', fontSize: 15 }}>{col.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── PROJECTS ── */}
-        <Projects />
+        <section style={{ background: '#FFFFFF' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <h2 style={{ margin: "0 0 32px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+              {t("home.projects.heading")}
+            </h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+              {["/img/x2d/x2d-print.jpg", "/img/x2d/x2d-inside.jpg", "/img/x2d/x2d-room.jpg"].map((src, i) => (
+                <div
+                  key={i}
+                  style={{ height: 280, borderRadius: 16, backgroundImage: `url(${src})`, backgroundSize: "cover", backgroundPosition: "center" }}
+                  role="img"
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
+            <div style={{ marginTop: 24, textAlign: "center" }}>
+              <a href={whatsappUrl()} style={{ display: "inline-block", border: "1.5px solid #0F172A", borderRadius: 10, padding: "14px 26px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 600, color: "#0F172A", textDecoration: "none", fontSize: 15 }}>
+                {t("home.projects.cta")}
+              </a>
+            </div>
+          </div>
+        </section>
 
         {/* ── REVIEWS (QuoteFeature dark grid) ── */}
         <section ref={reviewsRef}>
           <QuoteFeature
-            label={`★★★★★ ${formatRating(language)} · ${GOOGLE_RATING.count ?? "250+"} ${language === "ca" ? "RESSENYES GOOGLE" : language === "en" ? "GOOGLE REVIEWS" : "RESEÑAS GOOGLE"}`}
+            label={`★★★★★ ${formatRating(language)} · ${GOOGLE_RATING.count ?? "250+"} ${t("home.reviews.googleLabel")}`}
             featured={{
               text: GOOGLE_REVIEWS_DATA[0].text,
               author: `— ${GOOGLE_REVIEWS_DATA[0].name}`,
@@ -625,7 +791,7 @@ const Index = () => {
         {/* ── B2B CARDS ── */}
         <div ref={b2bRef}>
           <section className="bg-white">
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
               <B2BCards
                 heading={t("home.b2b.heading")}
                 cards={[
@@ -662,20 +828,73 @@ const Index = () => {
           cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
         />
 
-        {/* ── PRICING INFO ── */}
-        <PricingInfo />
-
         {/* ── SERVICE INFO ── */}
-        <ServiceInfo />
+        <section style={{ background: '#F6F8FC' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 56, alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 420px", minWidth: 0 }}>
+              <h2 style={{ margin: "0 0 16px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(30px, 3.6vw, 44px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+                {t("service.title")} {t("service.titleHighlight")}
+              </h2>
+              <p style={{ margin: 0, fontSize: 18, color: '#5B6577', lineHeight: 1.6 }}>{t("service.desc")}</p>
+            </div>
+            <div style={{ flex: "1 1 480px", minWidth: 0 }}>
+              {[
+                { title: t("service.feat.online"), desc: t("service.feat.onlineDesc") },
+                { title: t("service.feat.local"), desc: t("service.feat.localDesc") },
+                { title: t("service.feat.appointment"), desc: t("service.feat.appointmentDesc") },
+                { title: t("service.feat.shipping"), desc: t("service.feat.shippingDesc") },
+              ].map((f, i) => (
+                <div key={i} style={{ padding: "20px 0", borderTop: i === 0 ? "2px solid #0F172A" : "1px solid #E3E8F0" }}>
+                  <p style={{ margin: "0 0 4px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 700, fontSize: 18 }}>{f.title}</p>
+                  <p style={{ margin: 0, color: '#5B6577', fontSize: 15 }}>{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── EXPRESS ── */}
-        <ExpressPrinting />
+        <section style={{ background: '#0F172A', color: '#FFFFFF' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "56px 24px", display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.08em", color: '#F5A524' }}>
+                {t("home.express.eyebrow")}
+              </div>
+              <h2 style={{ margin: 0, fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+                {t("home.express.heading")}
+              </h2>
+              <p style={{ margin: 0, color: '#D5DCEA', fontSize: 15 }}>{t("home.express.facts")}</p>
+            </div>
+            <Link to="/blog/impresion-3d-urgente-barcelona" style={{ color: '#F5A524', fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
+              {t("home.express.link")}
+            </Link>
+          </div>
+        </section>
 
         {/* ── FAQ ── */}
-        <div ref={faqRef}><FAQ /></div>
+        <div ref={faqRef}>
+          <section style={{ background: '#FFFFFF' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+              <FAQAccordion
+                heading={t("faq.title")}
+                items={faqs.slice(0, 5).map((f) => ({ question: f.q, answer: f.a }))}
+              />
+            </div>
+          </section>
+        </div>
 
         {/* ── LOCATION ── */}
-        <LocationMap />
+        <ImageSplit
+          imageSrc="/img/x2d/x2d-nozzles.jpg"
+          imageAlt={t("home.nozzles.img.alt")}
+          imagePosition="left"
+          label={t("location.addressLabel")}
+          heading={t("location.title")}
+          body={t("location.hours")}
+          specs={[t("location.areasLabel") + ": " + t("location.areas")]}
+          cta={{ label: t("location.viewMaps"), href: "https://www.google.com/maps/search/?api=1&query=Dimension+3D+BCN+Barcelona" }}
+          background="surface"
+        />
 
         {/* ── FINAL IMAGE BAND ── */}
         <ImageBand
@@ -690,57 +909,54 @@ const Index = () => {
           reassurance={t("home.hero.reassurance")}
         />
 
+        {/* ── V2 CLOSING BAND (over x2d-room with dark overlay) ── */}
+        <div className="xp-home-v2-only">
+          <section
+            style={{ background: "#111 url(/img/x2d/x2d-room.jpg) center/cover no-repeat", color: '#FFFFFF' }}
+          >
+            <div style={{ background: "rgba(5,8,16,0.66)" }}>
+              <div style={{ maxWidth: 1240, margin: "0 auto", padding: "120px 24px", display: "flex", flexDirection: "column", gap: 22, alignItems: "flex-start" }}>
+                <h2 style={{ margin: 0, font: `800 clamp(40px, 6vw, 84px)/0.96 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.03em", maxWidth: 820 }}>
+                  {t("home.v2.closing.heading")}
+                </h2>
+                <button
+                  onClick={() => openFilePicker("final_band")}
+                  style={{ background: '#F5A524', color: '#0B1020', fontWeight: 700, fontSize: 21, padding: "22px 40px", borderRadius: 14, border: "none", cursor: "pointer" }}
+                >
+                  {t("home.v2.closing.cta")}
+                </button>
+                <a href={b2bUrl} style={{ fontWeight: 600, color: '#FFFFFF' }}>{t("home.v2.closing.b2b")}</a>
+              </div>
+            </div>
+          </section>
+        </div>
+
         {/* ── GUIDES ── */}
         {(() => {
           const guides = GUIDES_COPY[language] ?? GUIDES_COPY.es;
           return (
-            <section className="py-14 md:py-16 bg-secondary/30">
-              <div className="container px-4 max-w-5xl mx-auto">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground text-center mb-8">
+            <section style={{ background: '#F6F8FC' }}>
+              <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+                <h2 style={{ margin: "0 0 32px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
                   {guides.heading}
                 </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {guides.posts.map(({ slug, icon: Icon, title, desc }) => (
-                    <Link
-                      key={slug}
-                      to={slug}
-                      className="group flex flex-col gap-3 rounded-xl border border-border bg-background p-5 hover:border-accent/50 transition-colors"
-                    >
-                      <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-                        <Icon className="w-4 h-4 text-accent" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                          {title}
-                        </p>
-                        <p className="text-xs text-foreground/55 leading-relaxed">{desc}</p>
-                      </div>
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-auto">
-                        {language === "ca" ? "Llegir més" : language === "en" ? "Read more" : "Leer más"}{" "}
-                        <ArrowRight className="w-3 h-3" />
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-                <p className="text-sm text-center text-foreground/55 mt-6">
-                  {language === "en" ? (
-                    <>Looking for a ready-made part or replacement? <Link to="/catalogo" className="text-accent underline">Browse our parts &amp; accessories catalog</Link>.</>
-                  ) : language === "ca" ? (
-                    <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent underline">Explora el catàleg de peces i repuestos</Link>.</>
-                  ) : (
-                    <>¿Repuesto disponible ya? <Link to="/catalogo" className="text-accent underline">Catálogo</Link>. ¿Descatalogado? <Link to="/repuesto-descatalogado" className="text-accent underline">Lo reproducimos</Link>. ¿Eres empresa? <Link to="/impresion-3d-empresas-barcelona" className="text-accent underline">Servicio para empresas</Link>. También enviamos a toda España — <Link to="/impresion-3d" className="text-accent underline">servicio de impresión 3D online</Link>.</>
-                  )}
-                </p>
+                <LinkCardGrid
+                  items={guides.posts.map(({ slug, title, desc }) => ({
+                    href: slug,
+                    title,
+                    description: desc,
+                  }))}
+                />
               </div>
             </section>
           );
         })()}
 
         {/* ── SERVICES & INTERNATIONAL GRID ── */}
-        <section className="py-12 md:py-14 bg-background border-t border-border/50">
-          <div className="container px-4 max-w-5xl mx-auto">
-            <h2 className="text-base font-semibold text-foreground/70 uppercase tracking-widest mb-6 text-center">
-              {language === "en" ? "Barcelona 3D Printing Services" : language === "ca" ? "Serveis d'impressió 3D a Barcelona" : "Servicios de Impresión 3D en Barcelona"}
+        <section style={{ background: '#FFFFFF', borderTop: '1px solid #E3E8F0' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "56px 24px" }}>
+            <h2 style={{ margin: "0 0 20px", fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.08em", color: '#5B6577', textTransform: "uppercase", textAlign: "center" }}>
+              {t("home.services.heading")}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-8">
               {(language === "en" ? [
@@ -786,8 +1002,8 @@ const Index = () => {
               ))}
             </div>
 
-            <h2 className="text-base font-semibold text-foreground/70 uppercase tracking-widest mb-4 text-center">
-              {language === "en" ? "International Shipping" : language === "ca" ? "Enviaments Internacionals" : "Envíos Internacionales"}
+            <h2 style={{ margin: "32px 0 16px", fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: "0.08em", color: '#5B6577', textTransform: "uppercase", textAlign: "center" }}>
+              {t("home.intl.heading")}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {(language === "en" ? [

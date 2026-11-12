@@ -11,7 +11,7 @@ import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import type { IntlCityContent } from "@/data/intlTypes";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Hero as DsHero, FAQAccordion } from "@/components/ds";
+import { Hero as DsHero, FAQAccordion, UploadPanel } from "@/components/ds";
 
 import { StlEstimator } from "@/components/StlEstimator";
 
@@ -191,11 +191,17 @@ const IntlCityPage = ({ content }: Props) => {
         />
 
         {/* Calculator — immediately after hero so upload CTA is near top */}
-        <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
-          <div className="container px-4 max-w-5xl mx-auto">
-            <StlEstimator shippingOnly />
+        <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <UploadPanel
+              label="INSTANT PRICE — FROM €10"
+              heading="Upload your files and see the price now."
+              description="No account required. €10 minimum order, no setup fee. Shipping calculated at checkout."
+            >
+              <StlEstimator compact shippingOnly />
+            </UploadPanel>
           </div>
-        </section>
+        </div>
 
         {/* Intro body text — moved below calculator; hero already shows button above fold */}
         <section className="py-16 bg-background">

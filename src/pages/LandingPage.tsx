@@ -14,7 +14,7 @@ import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
-import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid } from "@/components/ds";
+import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid, UploadPanel } from "@/components/ds";
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -443,7 +443,17 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
         {/* Calculator */}
         {!isMaker && (
-          <StlEstimator highlighted={calcHighlight} />
+          <div style={{ background: '#F6F8FC' }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+              <UploadPanel
+                label={t("INSTANT PRICE — FROM €10", "PRECIO AL INSTANTE — DESDE 10 €", "SOFORTPREIS — AB 10 €", "PREU AL INSTANT — DES DE 10 €")}
+                heading={t("Upload your files and see the price now.", "Sube tus archivos y ve el precio ahora.", "Lade deine Dateien hoch und sieh den Preis sofort.", "Puja els teus arxius i veu el preu ara.")}
+                description={t("No account required. €10 minimum order, no setup fee.", "Sin cuenta y sin compromiso. Pedido mínimo 10 € por pedido, sin tarifa de preparación.", "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr.", "Sense compte i sense compromís. Comanda mínima 10 € per comanda, sense tarifa de preparació.")}
+              >
+                <StlEstimator compact highlighted={calcHighlight} />
+              </UploadPanel>
+            </div>
+          </div>
         )}
 
         {/* Final CTA */}

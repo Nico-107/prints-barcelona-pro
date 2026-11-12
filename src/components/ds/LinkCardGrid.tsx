@@ -10,7 +10,7 @@ interface LinkCardGridProps {
 export function LinkCardGrid({ items, className }: LinkCardGridProps) {
   return (
     <div
-      className={className}
+      className={`ds-link-card-grid${className ? ` ${className}` : ''}`}
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',

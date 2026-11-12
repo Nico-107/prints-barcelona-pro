@@ -86,6 +86,12 @@ test("V2 hero CTA opens file chooser with source=hero", async ({ page }) => {
 // ── Entry point: header upload button (desktop) ───────────────────────────────
 
 test("header CTA opens file chooser with source=header", async ({ page }) => {
+  const viewport = page.viewportSize();
+  // The amber header CTA is desktop-only (xl:flex hidden on mobile nav)
+  if (viewport && viewport.width < 1280) {
+    test.skip(true, "Header amber CTA is desktop-only (hidden below xl breakpoint)");
+    return;
+  }
   const getCaptures = await spyOnCapture(page);
   await page.goto("/");
 
@@ -111,8 +117,8 @@ test("step card CTA opens file chooser with source=step_card", async ({ page }) 
   const getCaptures = await spyOnCapture(page);
   await page.goto("/");
 
-  // Step card 1 CTA: "Seleccionar archivo →"
-  const stepCardBtn = page.locator("button", { hasText: /Seleccionar archivo/i }).first();
+  // Step card 1 CTA: "Elegir archivo ahora →"
+  const stepCardBtn = page.locator("button", { hasText: /Elegir archivo ahora/i }).first();
   await stepCardBtn.scrollIntoViewIfNeeded();
 
   const [fileChooser] = await Promise.all([

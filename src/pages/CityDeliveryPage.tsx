@@ -12,6 +12,7 @@ import { capture } from "@/lib/analytics";
 import type { CityPageConfig } from "@/data/cityDeliveryPages";
 import { SHIP_COUNTRIES } from "@/lib/instantBuy";
 import { StlEstimator } from "@/components/StlEstimator";
+import { UploadPanel } from "@/components/ds";
 
 /** Map country string from cityDeliveryPages to ISO2 code for SHIP_COUNTRIES check */
 const COUNTRY_TO_ISO2: Record<string, string> = {
@@ -482,13 +483,20 @@ const CityDeliveryPage = ({ config }: Props) => {
         </section>
 
         {/* Calculator */}
-        <section id="calculator" className="container px-4 py-10">
-          {(() => {
+        <div id="calculator" style={{ background: '#F6F8FC' }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <UploadPanel
+              label="INSTANT PRICE — FROM €10"
+              heading="Upload your files and see the price now."
+              description="No account required. €10 minimum order, no setup fee. Shipping calculated at checkout."
+            >
+            {(() => {
             const iso2 = COUNTRY_TO_ISO2[config.country];
             const inShipCountries = !iso2 || (SHIP_COUNTRIES as readonly string[]).includes(iso2);
             return (
               <>
                 <StlEstimator
+                  compact
                   refCity={config.city}
                   refDays={config.deliveryDays}
                   refPickupAvailable={!!config.localPickup}
@@ -502,7 +510,9 @@ const CityDeliveryPage = ({ config }: Props) => {
               </>
             );
           })()}
-        </section>
+            </UploadPanel>
+          </div>
+        </div>
 
         {/* Native language callout — hidden when the page is already rendering in that language */}
         {config.nativeSection && !isNative && (

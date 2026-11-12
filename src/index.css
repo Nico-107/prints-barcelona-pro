@@ -462,3 +462,109 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   /* Right column: no right padding */
   .ds-hero-facts > *:nth-child(2n)   { padding-right: 0; }
 }
+
+/* ── SplitImageHero: photo-on-top layout on mobile ───────────────────────── */
+@media (max-width: 767px) {
+  .ds-hero-split-wrapper {
+    flex-direction: column !important;
+  }
+  .ds-hero-split-img {
+    order: -1;
+    flex: none !important;
+    width: 100% !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+  }
+  .ds-hero-split-img img,
+  .ds-hero-split-img picture { width: 100%; height: 100%; display: block; }
+  .ds-hero-split-fade {
+    background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%) !important;
+  }
+  .ds-hero-split-text {
+    flex: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 18px 32px !important;
+    margin-top: -54px !important;
+    margin-left: 0 !important;
+    max-width: none !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+  }
+  .ds-hero-split-text h1 {
+    font-size: 39px !important;
+    line-height: 0.98 !important;
+  }
+  /* Full-width buttons on mobile */
+  .ds-hero-split-text > button,
+  .ds-hero-split-text > a {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+
+/* ── StepCards: horizontal scroll-snap on mobile ─────────────────────────── */
+@media (max-width: 767px) {
+  .ds-step-cards {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    padding-inline: 20px !important;
+    padding-bottom: 16px;
+    gap: 14px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Negate the parent's side padding so the row bleeds full-width */
+    margin-inline: -24px;
+  }
+  .ds-step-cards::-webkit-scrollbar { display: none; }
+  .ds-step-cards > * {
+    flex: 0 0 78% !important;
+    scroll-snap-align: start;
+    min-height: 220px;
+  }
+}
+
+/* ── Section gutters: 56 px top/bottom, 18-20 px side on mobile ───────────── */
+@media (max-width: 767px) {
+  .ds-section-pad {
+    padding: 56px 18px !important;
+  }
+}
+
+/* ── QuoteFeature secondary-card row: horizontal swipe on mobile ─────────── */
+@media (max-width: 767px) {
+  .ds-quote-secondary-row {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    padding-inline: 18px;
+    gap: 12px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: -18px;
+  }
+  .ds-quote-secondary-row::-webkit-scrollbar { display: none; }
+  .ds-quote-secondary-row > * {
+    flex: 0 0 82% !important;
+    scroll-snap-align: start;
+  }
+}
+
+/* ── LinkCardGrid: compact row list on mobile ────────────────────────────── */
+@media (max-width: 639px) {
+  .ds-link-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ds-link-card-grid > a {
+    padding: 14px 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #E3E8F0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}

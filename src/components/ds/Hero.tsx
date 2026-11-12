@@ -252,7 +252,7 @@ function CenteredHero({
 
 /** Split-image (V2) hero — black bg, image right, text left */
 function SplitImageHero({
-  starLine, h1, paragraph, primaryButton, reassuranceItems = [], noFileLink, splitImage,
+  starLine, h1, paragraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage,
 }: HeroProps) {
   return (
     <section
@@ -264,9 +264,10 @@ function SplitImageHero({
         contain: 'layout',
       }}
     >
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch' }}>
+      <div className="ds-hero-split-wrapper" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch' }}>
         {/* Text column */}
         <div
+          className="ds-hero-split-text"
           style={{
             flex: '1 1 560px',
             minWidth: 0,
@@ -339,6 +340,46 @@ function SplitImageHero({
             {primaryButton?.label}
           </button>
 
+          {secondaryButton && (
+            <a
+              href={secondaryButton.href}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textDecoration: 'none',
+                border: '1.5px solid rgba(255,255,255,0.55)',
+                borderRadius: 14,
+                padding: 'clamp(13px, 3.5vw, 15px) clamp(16px, 4vw, 24px)',
+                fontWeight: 600,
+                fontSize: 'clamp(15px, 4vw, 16.5px)' as string,
+                color: '#FFFFFF',
+                fontFamily: "'Inter', system-ui, sans-serif",
+              }}
+            >
+              {secondaryButton.label}
+            </a>
+          )}
+
+          {sendLinkButton && (
+            <button
+              type="button"
+              onClick={sendLinkButton.onClick}
+              style={{
+                fontSize: 15,
+                color: '#D5DCEA',
+                background: 'none',
+                border: 0,
+                cursor: 'pointer',
+                padding: 0,
+                textAlign: 'center',
+                fontFamily: "'Inter', system-ui, sans-serif",
+              }}
+            >
+              {sendLinkButton.label}
+            </button>
+          )}
+
           {reassuranceItems.length > 0 && (
             <div
               style={{
@@ -375,11 +416,13 @@ function SplitImageHero({
         {/* Image column */}
         {splitImage && (
           <div
+            className="ds-hero-split-img"
             style={{ flex: '1 1 520px', minWidth: 0, position: 'relative', minHeight: 'clamp(240px, 50vw, 640px)' }}
           >
-            {/* Fade overlay — left edge fades to black */}
+            {/* Fade overlay — left edge fades to black (desktop) / bottom fades to black (mobile) */}
             <div
               aria-hidden="true"
+              className="ds-hero-split-fade"
               style={{
                 position: 'absolute',
                 inset: 0,
