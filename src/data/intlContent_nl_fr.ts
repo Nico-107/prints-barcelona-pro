@@ -233,7 +233,7 @@ DAF Trucks, ook in Eindhoven gevestigd, vertegenwoordigt de zware industrie. In 
 
 Brainport Eindhoven als geheel — de samenwerking tussen bedrijfsleven, overheid en kennisinstellingen rondom de Eindhovense technologieclusters — stimuleert ook een brede ondernemerschapscultuur. Technische startups en spin-offs die met een minimale investering een eerste werkend product willen bouwen, zijn een natuurlijke doelgroep voor on-demand printdiensten. Dimension3D biedt die laagdrempeligheid: geen lange contracten, geen minimale afnames, gewoon een bestand opsturen en een eerlijke prijs ontvangen.
 
-Hoe werkt het vanuit Eindhoven? Je stuurt je bestand — STL, OBJ, 3MF of STEP — via het formulier of WhatsApp. Op werkdagen ontvang je in de regel binnen 1 uur een offerte. Er zijn geen opstartkosten en geen bestandscontrolekosten. De minimumbestelling is € 10 en er is geen minimum afnamehoeveelheid. Verzending van Barcelona naar Eindhoven kost € 5,90 vast. Binnen de EU zijn er geen douaneformaliteiten. Levering in de regel in 3–5 werkdagen.
+Hoe werkt het vanuit Eindhoven? Je stuurt je bestand — STL, OBJ, 3MF of STEP — via het formulier of WhatsApp. Op werkdagen ontvang je in de regel binnen 1 uur een offerte. Er zijn geen opstartkosten en geen bestandscontrolekosten. De minimumbestelling is € 10 — al vanaf 1 onderdeel. Verzending van Barcelona naar Eindhoven kost € 5,90 vast. Binnen de EU zijn er geen douaneformaliteiten. Levering in de regel in 3–5 werkdagen.
 
 We drukken op een Bambu Lab X2D met gesloten, verwarmde kamer — dat borgt stabiele printcondities voor technische materialen. We bieden PLA, PETG, ABS, ASA, TPU, Nylon en koolstofvezel-composieten. Heb je twijfels over het beste materiaal voor jouw toepassing? Beschrijf het gebruik en we adviseren je gratis.`,
   faqs: [
@@ -498,7 +498,7 @@ export const frHub: IntlHubContent = {
   metaDescription: "Faire imprimer en 3D depuis la France : devis en moins d'1 heure, livraison 9,90 € fixe, en général 2–4 jours ouvrables. Pas de droits de douane (UE).",
   eyebrow: "🇫🇷 Impression 3D de Barcelone · Livraison en France",
   h1: "Impression 3D en Ligne — Devis en 1 Heure, Livré en France",
-  heroSubtitle: "Importez le fichier, devis en 1 heure, livraison en France en 2–4 jours ouvrables. Dès 10 €, sans commande minimum.",
+  heroSubtitle: "Importez le fichier, devis en 1 heure, livraison en France en 2–4 jours ouvrables. Dès 10 €, même pour une seule pièce.",
   ctaLabel: "Importer le fichier et voir le prix",
   noRegistration: "Sans inscription · Sans engagement",
   trustChips: ["Dès 10 €", "Devis en 1 heure", "Livraison 5,90 € suivie", "Sans douane dans l'UE"],

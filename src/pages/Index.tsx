@@ -541,8 +541,8 @@ const Index = () => {
               alt: t("home.v2.hero.img.alt"),
             }}
             mobileExtras={{
-              quoteText: "Ready the very next morning. Absolutely fantastic.",
-              quoteAuthor: "Sara D.",
+              quoteText: reviewExcerpt(REVIEWS[0], language),
+              quoteAuthor: REVIEWS[0].name.split(" ").map((p, i, a) => i === a.length - 1 ? p[0] + "." : p).join(" "),
               facts: [
                 { value: "24–48 h", label: t("home.mobile.stat.delivery") },
                 { value: "250+", label: t("home.mobile.stat.orders") },

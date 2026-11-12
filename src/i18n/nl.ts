@@ -449,6 +449,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.exitPopup.failed.linkPlaceholder": "WeTransfer-, Drive- of vergelijkbare link",
   "calc.dropzone.noFile": "Geen 3D-bestand?",
   "calc.dropzone.noFile.cta": "We ontwerpen het van een foto of idee",
+  "calc.chooseFiles": "Bestanden kiezen",
+  "calc.settingsOptional": "Instellingen (optioneel)",
 
   // File Checker
   "checker.meta.title": "Is Jouw 3D-Bestand Printklaar? Gratis STL-Checker",

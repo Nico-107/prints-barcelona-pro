@@ -43,6 +43,7 @@ export function B2BCards({ heading, cards, className }: B2BCardsProps) {
             <a
               key={i}
               href={card.href}
+              className="ds-b2b-card"
               style={{
                 textDecoration: 'none',
                 background: isDark ? '#0F172A' : '#2F5BEA',
@@ -53,6 +54,15 @@ export function B2BCards({ heading, cards, className }: B2BCardsProps) {
                 flexDirection: 'column',
                 gap: 12,
                 minHeight: 240,
+                transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-4px)';
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 12px 32px rgba(0,0,0,0.22)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLAnchorElement).style.transform = '';
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = '';
               }}
             >
               <div
@@ -84,14 +94,21 @@ export function B2BCards({ heading, cards, className }: B2BCardsProps) {
               >
                 {card.description}
               </p>
-              <div
-                style={{
-                  marginTop: 'auto',
-                  fontWeight: 700,
-                  color: isDark ? '#F5A524' : '#FFFFFF',
-                }}
-              >
-                {card.cta}
+              <div style={{ marginTop: 'auto' }}>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    background: isDark ? '#F5A524' : 'rgba(255,255,255,0.18)',
+                    color: isDark ? '#0F172A' : '#FFFFFF',
+                    borderRadius: 999,
+                    padding: '8px 20px',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    backdropFilter: 'blur(4px)',
+                  }}
+                >
+                  {card.cta}
+                </span>
               </div>
             </a>
           );

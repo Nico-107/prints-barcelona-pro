@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send } from "lucide-react";
+import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -1861,13 +1861,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 {...dragHandlers}
                 data-ph-name="upload"
                 onClick={() => inputRef.current?.click()}
-                className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
-                  isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
-                }`}
+                className="relative rounded-xl p-10 text-center cursor-pointer transition-all select-none"
+                style={isDragging
+                  ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
+                  : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
+                onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
+                onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
               >
-                <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
+                <Upload className="w-10 h-10 text-[#2E5BFF] mx-auto mb-3" />
                 <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
-                <p className="text-sm text-muted-foreground">{t("calc.dropSub")}</p>
+                <p className="text-sm text-muted-foreground mb-3">{t("calc.dropSub")}</p>
+                <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none">
+                  {t("calc.chooseFiles")}
+                </span>
               </div>
               <p className="text-center text-sm text-muted-foreground mt-2">
                 {t("calc.dropzone.noFile")}{" "}
@@ -1886,14 +1892,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 {...dragHandlers}
                 data-ph-name="upload"
                 onClick={() => inputRef.current?.click()}
-                className={`relative border-[3px] border-dashed rounded-xl p-12 text-center cursor-pointer transition-all select-none ${
-                  isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
-                }`}
+                className="relative rounded-xl p-12 text-center cursor-pointer transition-all select-none"
+                style={isDragging
+                  ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
+                  : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
+                onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
+                onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
               >
-                <Calculator className="w-14 h-14 text-accent mx-auto mb-3" />
+                <Upload className="w-14 h-14 text-[#2E5BFF] mx-auto mb-3" />
                 <p className="text-lg font-semibold text-foreground mb-1">{t("calc.drop")}</p>
                 <p className="text-sm text-muted-foreground mb-2">{t("calc.dropSub")}</p>
-                <p className="text-xs font-mono text-accent/80 tracking-wider">STL · 3MF · OBJ · STEP</p>
+                <p className="text-xs font-mono text-[#2E5BFF]/80 tracking-wider mb-3">STL · 3MF · OBJ · STEP</p>
+                <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none">
+                  {t("calc.chooseFiles")}
+                </span>
               </div>
               <p className="text-center text-sm text-muted-foreground mt-3">
                 {t("xp.uploadArea.b.noFile")}{" "}
@@ -1914,13 +1926,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               <div
                 {...dragHandlers}
                 onClick={() => inputRef.current?.click()}
-                className={`relative border-[3px] border-dashed rounded-xl p-10 text-center cursor-pointer transition-all select-none ${
-                  isDragging ? "border-accent bg-accent/10" : "border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/8"
-                }`}
+                className="relative rounded-xl p-10 text-center cursor-pointer transition-all select-none"
+                style={isDragging
+                  ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
+                  : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
+                onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
+                onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
               >
-                <Calculator className="w-12 h-12 text-accent mx-auto mb-3" />
+                <Upload className="w-12 h-12 text-[#2E5BFF] mx-auto mb-3" />
                 <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
                 <p className="text-sm text-muted-foreground mb-3">{t("calc.dropSub")}</p>
+                <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none mb-3">
+                  {t("calc.chooseFiles")}
+                </span>
                 <div className="flex justify-center gap-4 text-xs text-muted-foreground">
                   <span>1 {t("xp.uploadArea.c.step1")}</span>
                   <span>·</span>
@@ -1960,27 +1978,33 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
 
         {/* Default settings */}
-        <div className="mt-4">
-          <DefaultSettings
-            materialKey={materialKey}
-            colorPref={colorPref}
-            infillPct={infillPct}
-            wallLoops={wallLoops}
-            multicolour={multicolour}
-            urgency={urgency}
-            advancedMode={advancedMode}
-            disabled={isCheckingOut || isSubmittingQuote}
-            t={t}
-            materialOptions={materialOptions}
-            onMaterialChange={handleMaterialChange}
-            onColorChange={handleColorChange}
-            onInfillChange={setInfillPct}
-            onWallLoopsChange={setWallLoops}
-            onMulticolourChange={setMulticolour}
-            onUrgencyChange={handleUrgencyChange}
-            onAdvancedModeChange={setAdvancedMode}
-          />
-        </div>
+        <details className="mt-4 group">
+          <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground transition-colors list-none flex items-center gap-1 select-none">
+            {t("calc.settingsOptional")}
+            <span className="text-xs group-open:rotate-180 transition-transform inline-block">▾</span>
+          </summary>
+          <div className="mt-3">
+            <DefaultSettings
+              materialKey={materialKey}
+              colorPref={colorPref}
+              infillPct={infillPct}
+              wallLoops={wallLoops}
+              multicolour={multicolour}
+              urgency={urgency}
+              advancedMode={advancedMode}
+              disabled={isCheckingOut || isSubmittingQuote}
+              t={t}
+              materialOptions={materialOptions}
+              onMaterialChange={handleMaterialChange}
+              onColorChange={handleColorChange}
+              onInfillChange={setInfillPct}
+              onWallLoopsChange={setWallLoops}
+              onMulticolourChange={setMulticolour}
+              onUrgencyChange={handleUrgencyChange}
+              onAdvancedModeChange={setAdvancedMode}
+            />
+          </div>
+        </details>
 
         {/* Top-level error */}
         {error && (

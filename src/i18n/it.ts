@@ -449,6 +449,8 @@ export const itTranslations: Record<string, string> = {
   "calc.exitPopup.failed.linkPlaceholder": "Link WeTransfer, Drive o simile",
   "calc.dropzone.noFile": "Nessun file 3D?",
   "calc.dropzone.noFile.cta": "Lo progettiamo da una foto o un'idea",
+  "calc.chooseFiles": "Scegli file",
+  "calc.settingsOptional": "Impostazioni (opzionale)",
 
   // File Checker
   "checker.meta.title": "Il Tuo File 3D È Pronto per la Stampa? Verifica STL Gratuita",

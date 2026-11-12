@@ -477,6 +477,8 @@ export const enTranslations: Record<string, string> = {
   "calc.exitPopup.failed.linkPlaceholder": "WeTransfer, Drive or similar link",
   "calc.dropzone.noFile": "No 3D file?",
   "calc.dropzone.noFile.cta": "We'll design it from a photo or idea",
+  "calc.chooseFiles": "Choose files",
+  "calc.settingsOptional": "Settings (optional)",
 
   // File Checker
   "checker.meta.title": "Is Your 3D File Ready to Print? Free STL Checker",
