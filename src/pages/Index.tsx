@@ -261,19 +261,21 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, [refCity]);
 
-  const handleScrollToCalc = () => {
+  const openFilePicker = (source: string) => {
     const el = document.getElementById("calculator");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: "smooth" });
     }
+    capture("upload_entry_click", { source, page_path: pathname });
     if (highlightTimerRef.current !== null) clearTimeout(highlightTimerRef.current);
     setCalcHighlight(true);
     highlightTimerRef.current = setTimeout(() => {
       setCalcHighlight(false);
       highlightTimerRef.current = null;
-    }, 1500);
-    capture("upload_entry_click", { source: "hero", page_path: pathname });
+      const fileInput = document.getElementById("calculator")?.querySelector('input[type="file"]') as HTMLInputElement | null;
+      fileInput?.click();
+    }, 400);
   };
 
   const handleNoFile = () => {
@@ -401,7 +403,7 @@ const Index = () => {
                   {t("home.hero.cta")}
                 </>
               ),
-              onClick: handleScrollToCalc,
+              onClick: () => openFilePicker("hero"),
             }}
             reassuranceItems={t("home.hero.reassurance").split(" · ")}
             noFileLink={{ label: t("home.hero.nofile"), onClick: handleNoFile }}
@@ -423,7 +425,7 @@ const Index = () => {
             paragraph={t("home.hero.p")}
             primaryButton={{
               label: t("home.v2.hero.button"),
-              onClick: handleScrollToCalc,
+              onClick: () => openFilePicker("hero"),
             }}
             reassuranceItems={[t("home.v2.hero.reassurance")]}
             noFileLink={{
@@ -464,7 +466,7 @@ const Index = () => {
                     description: t("how.step1.desc"),
                     cta: {
                       label: t("home.step1.cta"),
-                      onClick: () => { capture("upload_entry_click", { source: "step_card", page_path: pathname }); handleScrollToCalc(); },
+                      onClick: () => openFilePicker("step_card"),
                     },
                   },
                   { number: 2, title: t("how.step2.title"), description: t("how.step2.desc") },
@@ -488,7 +490,7 @@ const Index = () => {
                     heading: t("home.v2.path.card1.heading"),
                     description: t("home.v2.path.card1.desc"),
                     cta: t("home.v2.path.card1.cta"),
-                    onClick: () => { capture("upload_entry_click", { source: "path_card", page_path: pathname }); handleScrollToCalc(); },
+                    onClick: () => openFilePicker("path_card"),
                   },
                   {
                     variant: "blue",
@@ -704,7 +706,7 @@ const Index = () => {
           heading={t("home.final.heading")}
           cta={{
             label: t("home.hero.cta"),
-            onClick: () => { capture("upload_entry_click", { source: "final_band", page_path: pathname }); handleScrollToCalc(); },
+            onClick: () => openFilePicker("final_band"),
           }}
           reassurance={t("home.hero.reassurance")}
         />
@@ -851,7 +853,7 @@ const Index = () => {
 
       <Footer />
       <WhatsAppFloat />
-      <MobileStickyBar heroCTARef={heroRef} onUploadClick={handleScrollToCalc} />
+      <MobileStickyBar heroCTARef={heroRef} onUploadClick={() => openFilePicker("sticky_bar")} />
     </div>
   );
 };

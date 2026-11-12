@@ -83,6 +83,23 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
+  const openCalculatorFilePicker = (location: string) => {
+    capture("quote_cta_click", { location });
+    capture("upload_entry_click", { source: "header", page_path: window.location.pathname });
+    const el = document.getElementById("calculator");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false);
+      setTimeout(() => {
+        const fileInput = el.querySelector('input[type="file"]') as HTMLInputElement | null;
+        fileInput?.click();
+      }, 400);
+    } else {
+      navigate("/#calculator");
+      setIsMenuOpen(false);
+    }
+  };
+
   const navItems = [
     { label: t("nav.howItWorks"), id: "como-funciona" },
   ];
@@ -297,7 +314,7 @@ const Header = () => {
                 ref={desktopSlotRef}
                 variant="cta"
                 size="sm"
-                onClick={() => { capture("quote_cta_click", { location: "header" }); capture("upload_entry_click", { source: "header", page_path: window.location.pathname }); scrollToSection("calculator"); }}
+                onClick={() => openCalculatorFilePicker("header")}
                 className="whitespace-nowrap"
               >
                 <span data-xp-slot="header_btn_r2" data-xp-v="A" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
@@ -332,7 +349,7 @@ const Header = () => {
             <Button
               variant="cta"
               className="w-full mb-4 h-12 text-base"
-              onClick={() => { capture("quote_cta_click", { location: "header_mobile" }); capture("upload_entry_click", { source: "header", page_path: window.location.pathname }); scrollToSection("calculator"); }}
+              onClick={() => openCalculatorFilePicker("header_mobile")}
             >
               <span data-xp-slot="header_btn_r2" data-xp-v="A">{xpHeaderText("xp.header.v3")}</span>
               <span data-xp-slot="header_btn_r2" data-xp-v="B">{xpHeaderText("xp.header.v4")}</span>

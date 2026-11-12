@@ -66,10 +66,7 @@ const MobileStickyBar = ({ heroCTARef, onUploadClick }: Props) => {
       }}
     >
       <button
-        onClick={() => {
-          capture("upload_entry_click", { source: "sticky_bar", page_path: window.location.pathname });
-          onUploadClick();
-        }}
+        onClick={onUploadClick}
         className="h-11 w-full rounded-xl bg-[#F5A524] text-[#0F172A] font-semibold text-sm shadow-lg hover:bg-[#F5A524]/90 transition-colors"
         aria-label={t("xp.header.v2")}
       >
