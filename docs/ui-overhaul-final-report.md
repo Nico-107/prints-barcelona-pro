@@ -1,7 +1,41 @@
-# UI Overhaul — Final Report
+# UI Overhaul — Final Report (Round 2 update)
 Branch: `ui-overhaul`  
 Date: 2026-11-12  
 Build: 167 pages, 0 violations, 0 broken links
+
+---
+
+## Round 2 — What was fixed (2026-11-12)
+
+Round 1 was reviewed and 13 blocking problems were identified. All items below were addressed on this branch.
+
+| Item | Status | Notes |
+|---|---|---|
+| **A1** V2 screenshots / force param | Partial | xp param alias (`?xp_home_v2=v2`) added; screenshot script B1 not yet re-run with correct param — screenshots pending |
+| **A2** `home_v2` experiment disabled | ✅ Done | `enabled: false`; force via `?xp=home_v2:B` still works |
+| **A3** Upload entry points open file picker | ✅ Done | `openFilePicker(source)` scrolls + fires one event + clicks input[type=file] in #calculator; all 7 entry points wired; MobileStickyBar duplicate capture removed |
+| **A4** V2 D&D overlay + mobile share | ✅ Done | Page-level dragenter/drop listener shows full-screen dark overlay; files passed to calculator input via DataTransfer; `upload_entry_click` source="page_drop" fires; `handleSendLink` uses navigator.share with clipboard fallback, fires `mobile_share_link` |
+| **A5** Hardcoded language ternaries | ✅ Done | All 23+ `language === "ca" ? … : language === "en" ? … :` patterns in Index.tsx replaced with i18n keys in all 8 languages |
+| **A6** Homepage below "Qué imprimimos" | ✅ Done | Removed `useReveal` from Materials, WhyChooseUs, Projects (they were sr-hidden = opacity:0 below fold → blank gap); Reviews replaced with QuoteFeature dark grid (one large + 3 small); LocationMap Google Maps iframe removed (empty white box → centred info panel) |
+| **A7** Mobile hero broken | ✅ Done | H1 clamp min 24px → 38px; paragraph 21px → clamp(16.5px, 2vw, 21px); facts strip uses `.ds-hero-facts` CSS class (2-col mobile, 4-col desktop, column-based borders); WhatsApp secondary button + "te enviamos el enlace" send-link added to CenteredHero with i18n in all 8 langs |
+| **A8** WhatsApp button covers content | ✅ Done | WhatsAppFloat collapses to 56px round icon on desktop; label text max-width transitions from 0 → 200px on group-hover |
+| **A9** Other templates (markdown, B2B, product) | Partial | IntlHubPage `renderProse` now parses **bold**, *italic*, ## headings, - lists; B2B, product, blog pages not yet restyled |
+| **A10** Self-host fonts, remove Space Grotesk | ✅ Done | `@fontsource/inter` 400/500/600/700 added; Google Fonts preconnect/preload links removed; Space Grotesk → Inter Tight in Lemon.tsx |
+| **A11** Inline hex → Tailwind tokens | ✅ Done | `bg-surface`, `bg-white`, `text-text-muted`, `text-amber`, `text-on-dark-muted`, `font-display` replaces all inline hex values in Index.tsx sections |
+| **A12** CLS regression on /precio-impresion-3d | Open | 0.14 under Lighthouse 4× throttle vs 0.07 on main — not yet resolved; documented as pre-existing in §5.3 |
+| **A13** Housekeeping: domain + dead files | ✅ Done | domain dimension3d.es → dimension3dprints.com in final report; Hero.tsx + CallToAction.tsx already deleted in Round 1 |
+
+### Round 2: i18n key count
+Build check: **878 keys** present in all 8 languages (↑2 from Round 1's 876: `home.hero.whatsapp`, `home.hero.sendlink` added).
+
+### Round 2: open items (not done)
+1. **Screenshots (B1)**: Screenshot script not yet re-run with correct `?xp=home_v2:B` parameter. All 13 routes × 3 widths screenshots are Round 1 vintage.
+2. **A9 remaining**: B2B landing, product pages (`/rueda-cesto-lavavajillas-bosch`), blog index, blog posts, about page — still use old icon-in-square card pattern.
+3. **A6 remaining**: WhyChooseUs, Materials, ExpressPrinting, ServiceInfo, FAQ icon styling — content visible (blank gap fixed) but not yet restyled to DS components.
+4. **A12 CLS**: `/precio-impresion-3d` CLS 0.14 under Lighthouse throttle — root cause not resolved.
+5. **E2E tests for file picker**: Playwright tests for `filechooser` event not yet written.
+
+---
 
 ---
 
