@@ -773,17 +773,18 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                       <img
                         src={client.logoSrc!}
                         alt={client.logoAlt}
+                        className="ds-b2b-logo-img"
                         style={{
-                          maxHeight: isSquare ? 56 : 48,
-                          maxWidth: isSquare ? 56 : 148,
+                          maxHeight: 44,
+                          maxWidth: isSquare ? 44 : 128,
                           objectFit: "contain",
                           width: "auto",
                           height: "auto",
                         }}
                         loading="lazy"
                         decoding="async"
-                        width={isSquare ? 56 : 148}
-                        height={isSquare ? 56 : 48}
+                        width={isSquare ? 44 : 128}
+                        height={44}
                       />
                     </div>
                   );
@@ -796,12 +797,12 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                           rel="noopener noreferrer"
                           target={isExternal ? "_blank" : undefined}
                           aria-label={client.logoAlt}
-                          className="block rounded-lg transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                          className="block rounded-lg transition-all hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ds-b2b-logo-tile"
                         >
                           {tileInner}
                         </a>
                       ) : (
-                        tileInner
+                        <div className="ds-b2b-logo-tile">{tileInner}</div>
                       )}
                       <span className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
                         {badgeLabel}
@@ -909,46 +910,58 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               : "Per-unit price falls when multiple identical parts are printed together — plates pack efficiently and machine time is amortised. We keep the validated file so repeat orders are instant. For parts larger than the build plate, we split and bond them, or produce them through our partner network."}
           </p>
 
-          {/* Batch price table — tabular nums, sticky first column, 50-unit column highlighted */}
-          <div className="rounded-xl border border-border overflow-x-auto mb-4">
-            <table className="w-full text-sm">
+          {/* Batch price table — PriceTable visual language */}
+          <div style={{ overflowX: 'auto', marginBottom: 8 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
               <caption className="sr-only">{c.sectionBatchTable}</caption>
               <thead>
-                <tr className="bg-secondary/30 border-b border-border">
-                  <th className="sticky left-0 bg-secondary/30 px-4 py-3 text-left font-semibold text-foreground z-10 whitespace-nowrap">
-                    {lang === "es" ? "Material" : "Material"}
+                <tr style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#5B6577', textAlign: 'left', letterSpacing: '0.06em' }}>
+                  <th style={{ padding: '10px 16px 10px 0', fontWeight: 500, borderBottom: '2px solid #0F172A', whiteSpace: 'nowrap' }}>
+                    {lang === "es" ? "MATERIAL" : "MATERIAL"}
                   </th>
                   {BATCH_QUANTITIES.map((q, qi) => (
                     <th
                       key={q}
-                      className={cn(
-                        "px-4 py-3 text-right font-semibold text-foreground whitespace-nowrap",
-                        qi === 2 && "bg-accent/10 text-accent"
-                      )}
+                      style={{
+                        padding: '10px 12px',
+                        fontWeight: qi === 2 ? 700 : 500,
+                        borderBottom: '2px solid #0F172A',
+                        textAlign: 'right',
+                        color: qi === 2 ? '#2F5BEA' : '#5B6577',
+                        whiteSpace: 'nowrap',
+                      }}
                     >
-                      ×{q}
+                      ×{q}{qi === 2 ? ' ★' : ''}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {BATCH_TABLE.map((row, ri) => (
-                  <tr key={row.material} className={ri % 2 === 0 ? "bg-card" : "bg-secondary/10"}>
-                    <td
-                      className={cn(
-                        "sticky left-0 px-4 py-3 font-medium text-foreground z-10 whitespace-nowrap",
-                        ri % 2 === 0 ? "bg-card" : "bg-secondary/10"
-                      )}
-                    >
+                  <tr key={row.material}>
+                    <td style={{
+                      padding: '14px 16px 14px 0',
+                      borderBottom: ri < BATCH_TABLE.length - 1 ? '1px solid #E3E8F0' : undefined,
+                      fontFamily: "'Inter Tight', system-ui, sans-serif",
+                      fontWeight: 700,
+                      fontSize: 20,
+                      whiteSpace: 'nowrap',
+                    }}>
                       {row.material}
                     </td>
                     {row.prices.map((cents, qi) => (
                       <td
                         key={qi}
-                        className={cn(
-                          "px-4 py-3 text-right tabular-nums text-foreground/80",
-                          qi === 2 && "bg-accent/5 font-semibold text-accent"
-                        )}
+                        style={{
+                          padding: '14px 12px',
+                          borderBottom: ri < BATCH_TABLE.length - 1 ? '1px solid #E3E8F0' : undefined,
+                          textAlign: 'right',
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: 13,
+                          fontWeight: qi === 2 ? 700 : 400,
+                          color: qi === 2 ? '#2F5BEA' : '#374151',
+                          whiteSpace: 'nowrap',
+                        }}
                       >
                         {(cents / 100).toFixed(2)} €
                       </td>
@@ -958,7 +971,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-muted-foreground text-center">{c.batchTableLabel}</p>
+          <p className="text-xs text-muted-foreground">{c.batchTableLabel}</p>
         </section>
 
         {/* ── 6. MATERIALS STRIP ── */}

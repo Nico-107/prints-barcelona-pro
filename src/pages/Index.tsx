@@ -481,6 +481,13 @@ const Index = () => {
           />
         </div>
 
+        {/* ── V1 MOBILE QUOTE CARD (C3) — hidden on desktop, shown below facts strip on mobile ── */}
+        <div className="xp-home-v1-only ds-v1-mobile-quote">
+          <blockquote>
+            <p>{t("hero.quote1").replace(/^"|"$/g, "")}</p>
+          </blockquote>
+        </div>
+
         {/* ── HERO V2 (B variant) ── */}
         <div className="xp-home-v2-only">
           <DsHero

@@ -631,6 +631,33 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   .xp-home-v1-only .ds-hero-facts > *:last-child  { padding-right: 0 !important; }
 }
 
+/* ── V1 mobile quote card (C3) ────────────────────────────────────────────── */
+.ds-v1-mobile-quote {
+  display: none;
+}
+@media (max-width: 639px) {
+  .ds-v1-mobile-quote {
+    display: block;
+    background: #fff;
+    margin: 0 16px 0;
+    padding: 14px 16px;
+    border-left: 3px solid #F59E0B;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .ds-v1-mobile-quote blockquote {
+    margin: 0;
+    padding: 0;
+  }
+  .ds-v1-mobile-quote blockquote p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #374151;
+    font-style: italic;
+  }
+}
+
 /* ── Upload panel: tighter padding on mobile (C5) ─────────────────────────── */
 @media (max-width: 639px) {
   .ds-upload-panel-dark {
@@ -656,6 +683,17 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   .ds-why-grid > div:nth-child(2n) {
     border-left: 1px solid #E3E8F0 !important;
   }
+}
+
+/* ── B2B logo tiles: greyscale by default, full colour on hover (D1) ──────── */
+.ds-b2b-logo-tile .ds-b2b-logo-img {
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+.ds-b2b-logo-tile:hover .ds-b2b-logo-img {
+  filter: grayscale(0);
+  opacity: 1;
 }
 
 /* ── Footer accordion: collapsible link groups on mobile ─────────────────── */
