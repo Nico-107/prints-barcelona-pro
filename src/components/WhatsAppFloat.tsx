@@ -42,12 +42,13 @@ const WhatsAppFloat = () => {
         bottom: mobileBottom,
         right: "16px",
       }}
-      className="fixed sm:!bottom-6 sm:right-6 z-50 flex items-center justify-center sm:gap-2.5 rounded-full bg-whatsapp text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 w-14 h-14 sm:w-auto sm:h-auto sm:px-5 sm:py-3.5 group"
+      className="fixed sm:!bottom-6 sm:right-6 z-50 flex items-center justify-center gap-0 rounded-full bg-whatsapp text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 w-14 h-14 overflow-hidden group"
       aria-label={t("whatsapp.float.label")}
     >
       <span className="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-20" />
       <MessageCircle className="w-6 h-6 shrink-0 relative" />
-      <span className="hidden sm:inline text-sm font-semibold relative">
+      {/* Label: hidden on mobile, collapsed on desktop, expands on hover */}
+      <span className="hidden sm:inline text-sm font-semibold relative max-w-0 group-hover:max-w-[200px] overflow-hidden whitespace-nowrap transition-[max-width] duration-300 group-hover:ml-2">
         {t("whatsapp.float.label")}
       </span>
     </a>
