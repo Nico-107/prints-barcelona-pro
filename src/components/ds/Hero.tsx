@@ -237,7 +237,7 @@ function SplitImageHero({
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: 13,
                 letterSpacing: '0.08em',
-                color: '#8FB0FF',
+                color: '#B8C4DA',
               }}
             >
               {starLine}

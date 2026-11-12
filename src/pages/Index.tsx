@@ -755,11 +755,11 @@ const Index = () => {
                 </div>
                 <p className="text-sm text-center text-foreground/55 mt-6">
                   {language === "en" ? (
-                    <>Looking for a ready-made part or replacement? <Link to="/catalogo" className="text-accent hover:underline">Browse our parts &amp; accessories catalog</Link>.</>
+                    <>Looking for a ready-made part or replacement? <Link to="/catalogo" className="text-accent underline">Browse our parts &amp; accessories catalog</Link>.</>
                   ) : language === "ca" ? (
-                    <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent hover:underline">Explora el catàleg de peces i repuestos</Link>.</>
+                    <>Busques un recanvi o peça a mida disponible ja? <Link to="/catalogo" className="text-accent underline">Explora el catàleg de peces i repuestos</Link>.</>
                   ) : (
-                    <>¿Repuesto disponible ya? <Link to="/catalogo" className="text-accent hover:underline">Catálogo</Link>. ¿Descatalogado? <Link to="/repuesto-descatalogado" className="text-accent hover:underline">Lo reproducimos</Link>. ¿Eres empresa? <Link to="/impresion-3d-empresas-barcelona" className="text-accent hover:underline">Servicio para empresas</Link>. También enviamos a toda España — <Link to="/impresion-3d" className="text-accent hover:underline">servicio de impresión 3D online</Link>.</>
+                    <>¿Repuesto disponible ya? <Link to="/catalogo" className="text-accent underline">Catálogo</Link>. ¿Descatalogado? <Link to="/repuesto-descatalogado" className="text-accent underline">Lo reproducimos</Link>. ¿Eres empresa? <Link to="/impresion-3d-empresas-barcelona" className="text-accent underline">Servicio para empresas</Link>. También enviamos a toda España — <Link to="/impresion-3d" className="text-accent underline">servicio de impresión 3D online</Link>.</>
                   )}
                 </p>
               </div>
