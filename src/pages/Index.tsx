@@ -6,7 +6,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { useSectionView } from "@/hooks/usePageTracking";
 import { useXpExposure } from "@/lib/experiments";
-import { STATS } from "@/config/b2bFacts";
 import Header from "@/components/Header";
 import Materials from "@/components/Materials";
 import StlEstimator from "@/components/StlEstimator";
