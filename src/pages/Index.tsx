@@ -289,7 +289,7 @@ const Index = () => {
     };
   }, [pathname]);
 
-  const openFilePicker = (source: string) => {
+  const openFilePicker = (source: 'hero' | 'header' | 'step_card' | 'path_card' | 'final_band' | 'sticky_bar' | 'page_drop') => {
     const el = document.getElementById("calculator");
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
