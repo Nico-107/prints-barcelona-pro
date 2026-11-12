@@ -6,7 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { capture } from "@/lib/analytics";
-import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
+import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, FounderSection, LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
+import { whatsappUrl } from "@/config/cities";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -273,36 +274,65 @@ const IntlHubPage = ({ content }: Props) => {
       <Header />
 
       <main id="main-content" className="pt-[var(--header-h)]">
-        {/* Hero */}
-        <DsHero
-          variant="centered"
-          extendBehindHeader={false}
-          starLine={
-            <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
-              <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
-              <span>/</span>
-              <span>{content.breadcrumbHub}</span>
-            </span>
-          }
-          h1={content.h1}
-          paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
-          primaryButton={{
-            label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
-            onClick: () => scrollToCalc("hero"),
-          }}
-          reassuranceItems={content.trustChips}
-        />
+        {/* V1 hero */}
+        <div className="xp-home-v1-only">
+          <DsHero
+            variant="centered"
+            extendBehindHeader={false}
+            starLine={
+              <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
+                <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+                <span>/</span>
+                <span>{content.breadcrumbHub}</span>
+              </span>
+            }
+            h1={content.h1}
+            paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
+            primaryButton={{
+              label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+              onClick: () => scrollToCalc("hero"),
+            }}
+            reassuranceItems={content.trustChips}
+          />
+        </div>
 
-        {/* Quick stats */}
-        <FactsStrip
-          items={[
+        {/* V2 hero — split-image, extends behind fixed header via built-in marginTop=-header-h */}
+        <div className="xp-home-v2-only">
+          <DsHero
+            variant="split-image"
+            starLine={
+              <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+                <span style={{ color: '#B8C4DA' }}>/</span>
+                <span style={{ color: '#B8C4DA' }}>{content.breadcrumbHub}</span>
+              </span>
+            }
+            h1={content.h1}
+            paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
+            primaryButton={{
+              label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+              onClick: () => scrollToCalc("hero"),
+            }}
+            reassuranceItems={[content.noRegistration]}
+            splitImage={{ src: "/img/x2d/x2d-inside.jpg", alt: content.h1 }}
+          />
+        </div>
+
+        {/* Quick stats — V1 light, V2 dark */}
+        {(() => {
+          const statsItems = [
             { value: "< 1 h", label: content.trustChips[1] },
             { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
             { value: "5,90 €", label: content.trustChips[2] },
             { value: "10 €", label: content.trustChips[0] },
-          ]}
-          variant="light"
-        />
+          ];
+          return (
+            <>
+              <div className="xp-home-v1-only"><FactsStrip items={statsItems} variant="light" /></div>
+              <div className="xp-home-v2-only"><FactsStrip items={statsItems} variant="dark" /></div>
+            </>
+          );
+        })()}
 
         {/* Calculator */}
         <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
@@ -340,7 +370,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* What we print */}
         <section className="py-14 md:py-20 bg-background">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+            <div className="max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.whatWePrint)}
             </div>
           </div>
@@ -349,7 +379,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Materials */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+            <div className="max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.materialsText)}
             </div>
           </div>
@@ -407,7 +437,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Long SEO text (optional) */}
         {content.seoText && (
           <section className="py-14 bg-secondary/20">
-            <div className="container px-4 max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+            <div className="container px-4 max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.seoText)}
             </div>
           </section>
@@ -433,6 +463,19 @@ const IntlHubPage = ({ content }: Props) => {
           secondary={hubReviews.slice(1)}
           variant="dark"
         />
+
+        {/* Founder section — V2 only */}
+        <div className="xp-home-v2-only">
+          <FounderSection
+            imageSrc="/img/x2d/x2d-room.jpg"
+            imageAlt={t("home.founder.spec1")}
+            label={t("home.founder.label")}
+            heading={t("home.founder.heading")}
+            body={t("home.founder.body")}
+            specs={[t("home.founder.spec1"), t("home.founder.spec2"), t("home.founder.spec3")]}
+            cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
+          />
+        </div>
 
         {/* Final CTA band */}
         <FinalCta
