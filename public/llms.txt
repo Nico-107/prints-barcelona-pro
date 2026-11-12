@@ -12,7 +12,6 @@
 - [Impresión 3D Cerca de Mí](https://www.dimension3dprints.com/impresion-3d-cerca-de-mi) — taller físico en Les Corts; recogida en mano, barrios cubiertos en Barcelona, opciones sin STL
 - [Impresión 3D Multicolor](https://www.dimension3dprints.com/impresion-3d-multicolor) — impresión multicolor FDM con Bambu Lab X2D + AMS; hasta 4 colores por pieza, sin coste extra de setup
 - [Impresión 3D Empresas Barcelona](https://www.dimension3dprints.com/impresion-3d-empresas-barcelona) — para empresas: factura, NDA, pedido mínimo €10, precio por volumen, prototipo gratuito en el primer pedido
-- [Prototipos para Empresas](https://www.dimension3dprints.com/prototipos-para-empresas) — servicio de prototipado B2B: urgente <4 h (+60%), exprés <24 h (+25%), estándar <48 h; diseño incluido; brief form; NDA y factura
 - [Prototipos Rápidos y Piezas Funcionales](https://www.dimension3dprints.com/prototipos-rapidos-piezas-funcionales-barcelona) — materiales de ingeniería, tolerancias FDM, iteración en 24–72 h para equipos de I+D y startups
 - [Recambios y Piezas Rotas](https://www.dimension3dprints.com/recambios-piezas-rotas-impresion-3d-barcelona) — reproducción de piezas rotas o descatalogadas a partir de foto, medidas o pieza original
 - [Sobre Nosotros](https://www.dimension3dprints.com/sobre-nosotros) — quiénes somos: Nico (Mikołaj Szczełkun), taller en Barcelona, 250+ pedidos completados, Smart City Expo 2026
@@ -23,7 +22,6 @@
 - [3D Printing Barcelona](https://www.dimension3dprints.com/3d-printing-barcelona) — local service page: 1-hour quote, 24–48 h delivery, pickup at Rambla de Brasil 53
 - [Replacement Parts Barcelona](https://www.dimension3dprints.com/replacement-parts-barcelona) — discontinued or broken plastic parts reproduced from photo or measurements
 - [Rapid Prototyping Barcelona](https://www.dimension3dprints.com/rapid-prototyping-barcelona) — 24–72 h iteration cycle; engineering-grade materials, tight tolerances
-- [Prototyping for Business](https://www.dimension3dprints.com/en/prototyping-for-business) — B2B prototyping service: urgent <4 h (+60%), express <24 h (+25%), standard <48 h; design included; NDA and invoice
 - [About](https://www.dimension3dprints.com/about) — who we are: founder Nico (Mikołaj Szczełkun), Barcelona workshop, 250+ orders, mission
 
 ## Blog / Guides (Spanish)

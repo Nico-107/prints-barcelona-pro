@@ -505,35 +505,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/3d-printing-for-business-barcelona"/>
   </url>
 
-  <!-- PROTOTIPOS PARA EMPRESAS -->
-  <url>
-    <loc>https://www.dimension3dprints.com/prototipos-para-empresas</loc>
-    <lastmod>2026-11-12</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-para-empresas"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/en/prototyping-for-business"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/prototips-per-a-empreses"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/prototipos-para-empresas"/>
-  </url>
-  <url>
-    <loc>https://www.dimension3dprints.com/en/prototyping-for-business</loc>
-    <lastmod>2026-11-12</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-para-empresas"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/en/prototyping-for-business"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/prototips-per-a-empreses"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/prototipos-para-empresas"/>
-  </url>
-  <url>
-    <loc>https://www.dimension3dprints.com/ca/prototips-per-a-empreses</loc>
-    <lastmod>2026-11-12</lastmod>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/prototipos-para-empresas"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/en/prototyping-for-business"/>
-    <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/ca/prototips-per-a-empreses"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/prototipos-para-empresas"/>
-  </url>
-
   <!-- PROTOTIPADO RÁPIDO -->
   <url>
     <loc>https://www.dimension3dprints.com/rapid-prototyping-barcelona</loc>

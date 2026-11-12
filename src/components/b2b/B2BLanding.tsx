@@ -246,7 +246,6 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     breadcrumbBusiness: "Para empresas",
     supportLabel: "Soporte en ES · CA · EN · DE · PL",
     relatedLinks: [
-      { label: "Prototipos para empresas — entrega en <48 h", href: "/prototipos-para-empresas" },
       { label: "Prototipado rápido en Barcelona", href: "/prototipado-rapido-barcelona" },
       { label: "Comparativa de materiales", href: "/comparativa-materiales-impresion-3d" },
       { label: "Lemon Printers — socio local", href: "/lemon" },
@@ -344,7 +343,6 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     breadcrumbBusiness: "For business",
     supportLabel: "Support in ES · CA · EN · DE · PL",
     relatedLinks: [
-      { label: "Prototyping for business — ready in <48 h", href: "/en/prototyping-for-business" },
       { label: "Rapid prototyping in Barcelona", href: "/rapid-prototyping-barcelona" },
       { label: "Materials comparison", href: "/3d-printing-materials-comparison" },
       { label: "Lemon Printers — local partner", href: "/lemon" },
@@ -442,7 +440,6 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     breadcrumbBusiness: "Per a empreses",
     supportLabel: "Suport en ES · CA · EN · DE · PL",
     relatedLinks: [
-      { label: "Prototips per a empreses — lliurament en <48 h", href: "/ca/prototips-per-a-empreses" },
       { label: "Prototipatge ràpid a Barcelona", href: "/ca/prototipatge-rapid-barcelona" },
       { label: "Comparativa de materials", href: "/3d-printing-materials-comparison" },
       { label: "Lemon Printers — soci local", href: "/lemon" },

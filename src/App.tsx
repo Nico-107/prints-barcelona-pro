@@ -43,9 +43,6 @@ const PartPage = lazy(() => import("./pages/PartPage"));
 const RepuestoDescatalogado = lazy(() => import("./pages/RepuestoDescatalogado"));
 const SinPedidoMinimo = lazy(() => import("./pages/SinPedidoMinimo"));
 const EmpresasBcn = lazy(() => import("./pages/EmpresasBcn"));
-const PrototypingLandingEs = lazy(() => import("./pages/PrototypingLandingEs"));
-const PrototypingLandingEn = lazy(() => import("./pages/PrototypingLandingEn"));
-const PrototypingLandingCa = lazy(() => import("./pages/PrototypingLandingCa"));
 const Lemon = lazy(() => import("./pages/Lemon"));
 const IntlHubPage = lazy(() => import("./pages/IntlHubPage"));
 const IntlCityPage = lazy(() => import("./pages/IntlCityPage"));
@@ -206,9 +203,6 @@ const App = () => (
               <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />
               <Route path="/impresion-3d-empresas-barcelona" element={<EmpresasBcn />} />
               <Route path="/ca/impressio-3d-empreses-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/ca/impressio-3d-empreses-barcelona"]} />} />
-              <Route path="/prototipos-para-empresas" element={<PrototypingLandingEs />} />
-              <Route path="/en/prototyping-for-business" element={<PrototypingLandingEn />} />
-              <Route path="/ca/prototips-per-a-empreses" element={<PrototypingLandingCa />} />
               {ALL_PAGES.map((p) => (
                 <Route key={p.slug} path={p.slug} element={<LandingPage page={p} />} />
               ))}

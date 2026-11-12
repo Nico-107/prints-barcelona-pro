@@ -218,33 +218,20 @@ const Header = () => {
                 </button>
               ))}
               {(() => {
-                const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
-                const prototypingHref = isEs ? "/prototipos-para-empresas" : isCa ? "/ca/prototips-per-a-empreses" : "/en/prototyping-for-business";
-                const active = isActivePath(businessHref) || isActivePath(prototypingHref);
+                const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
                 return (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className={cn(
-                      "flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap border rounded-full px-3 py-1 outline-none",
-                      active
+                  <Link
+                    to={businessHref}
+                    onClick={() => capture("nav_click", { menu: "main", label_key: "b2b-production", href: businessHref })}
+                    className={cn(
+                      "flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap border rounded-full px-3 py-1",
+                      isActivePath(businessHref)
                         ? "text-[#2F5BEA] border-[#2F5BEA]/60 bg-[#2F5BEA]/5"
                         : "text-[#2F5BEA] border-[#2F5BEA]/30 hover:border-[#2F5BEA]/60"
-                    )}>
-                      {t("nav.forBusiness")}
-                      <ChevronDown className="w-3 h-3" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-56 bg-white border-[#E3E8F0] z-50">
-                      <DropdownMenuItem asChild>
-                        <Link to={businessHref} onClick={() => capture("nav_click", { menu: "main", label_key: "b2b-production", href: businessHref })} className="cursor-pointer">
-                          {t("nav.b2bProduction")}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link to={prototypingHref} onClick={() => capture("nav_click", { menu: "main", label_key: "b2b-prototyping", href: prototypingHref })} className="cursor-pointer">
-                          {t("nav.b2bPrototyping")}
-                        </Link>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    )}
+                  >
+                    {t("nav.forBusiness")}
+                  </Link>
                 );
               })()}
               {(() => {
@@ -440,31 +427,18 @@ const Header = () => {
 
             {/* For Business */}
             {(() => {
-              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/3d-printing-for-business-barcelona";
-              const prototypingHref = isEs ? "/prototipos-para-empresas" : isCa ? "/ca/prototips-per-a-empreses" : "/en/prototyping-for-business";
+              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
               return (
-                <>
-                  <Link
-                    to={businessHref}
-                    onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "b2b-production", href: businessHref }); }}
-                    className={cn(
-                      "flex items-center min-h-[52px] px-4 rounded-xl text-base font-semibold transition-colors",
-                      isActivePath(businessHref) ? "bg-[#2F5BEA]/10 text-[#2F5BEA]" : "text-[#2F5BEA] hover:bg-[#2F5BEA]/5"
-                    )}
-                  >
-                    {t("nav.b2bProduction")}
-                  </Link>
-                  <Link
-                    to={prototypingHref}
-                    onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "b2b-prototyping", href: prototypingHref }); }}
-                    className={cn(
-                      "flex items-center min-h-[52px] px-4 rounded-xl text-base font-semibold transition-colors",
-                      isActivePath(prototypingHref) ? "bg-[#2F5BEA]/10 text-[#2F5BEA]" : "text-[#2F5BEA] hover:bg-[#2F5BEA]/5"
-                    )}
-                  >
-                    {t("nav.b2bPrototyping")}
-                  </Link>
-                </>
+                <Link
+                  to={businessHref}
+                  onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "b2b-production", href: businessHref }); }}
+                  className={cn(
+                    "flex items-center min-h-[52px] px-4 rounded-xl text-base font-semibold transition-colors",
+                    isActivePath(businessHref) ? "bg-[#2F5BEA]/10 text-[#2F5BEA]" : "text-[#2F5BEA] hover:bg-[#2F5BEA]/5"
+                  )}
+                >
+                  {t("nav.forBusiness")}
+                </Link>
               );
             })()}
 
