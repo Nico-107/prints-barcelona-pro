@@ -58,12 +58,34 @@ function fmtEur(cents: number, locale: string): string {
   });
 }
 
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>;
+    if (part.startsWith('*') && part.endsWith('*')) return <em key={i}>{part.slice(1, -1)}</em>;
+    return part;
+  });
+}
+
 function renderProse(text: string) {
-  return text.split(/\n\n+/).map((p, i) => (
-    <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
-      {p.trim()}
-    </p>
-  ));
+  return text.split(/\n\n+/).map((block, i) => {
+    const trimmed = block.trim();
+    if (trimmed.startsWith('## ')) return <h3 key={i} className="font-semibold text-foreground mt-4 mb-1">{trimmed.slice(3)}</h3>;
+    if (trimmed.startsWith('# ')) return <h2 key={i} className="font-bold text-foreground text-lg mt-6 mb-2">{trimmed.slice(2)}</h2>;
+    const lines = trimmed.split('\n');
+    if (lines.some(l => l.startsWith('- '))) {
+      return (
+        <ul key={i} className="list-disc pl-5 mb-4 text-muted-foreground leading-relaxed space-y-1">
+          {lines.filter(l => l.startsWith('- ')).map((l, j) => <li key={j}>{renderInline(l.slice(2))}</li>)}
+        </ul>
+      );
+    }
+    return (
+      <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
+        {renderInline(trimmed)}
+      </p>
+    );
+  });
 }
 
 interface Props {
