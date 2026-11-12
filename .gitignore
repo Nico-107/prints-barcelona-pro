@@ -28,3 +28,4 @@ dist-ssr
 .claude/worktrees/
 supabase/.temp/
 test-results/
+playwright-report/
