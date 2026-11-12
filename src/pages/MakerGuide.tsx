@@ -4,9 +4,7 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, DollarSign, Users, Zap,
   MessageCircle, ShieldCheck, TrendingUp, Clock, HelpCircle, Store, BookOpen,
 } from "lucide-react";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
@@ -530,10 +528,10 @@ const MakerGuide = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 hero-gradient">
+        <section className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-6">
@@ -641,26 +639,14 @@ const MakerGuide = () => {
         </section>
 
         {/* ── FAQ ── */}
-        <section className="py-16 md:py-20 bg-secondary/30">
+        <section className="py-16 md:py-20 bg-[#F6F8FC]">
           <div className="container px-4 max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">{c.faqHeading}</h2>
-            <Accordion type="single" collapsible className="w-full">
-              {c.faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`}>
-                  <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion items={c.faqs.map(f => ({ question: f.q, answer: f.a }))} />
           </div>
         </section>
 
         {/* ── CTA ── */}
-        <section className="py-16 md:py-20 hero-gradient">
+        <section className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-2xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-3">{c.ctaHeading}</h2>
             <p className="text-primary-foreground/75 mb-8 text-lg">{c.ctaBody}</p>

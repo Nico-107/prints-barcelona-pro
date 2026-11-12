@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AUTHOR_REF, PUBLISHER_REF, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, CheckCircle2, Package, Clock, Globe, MessageCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
+import { FactsStrip, LinkCardGrid, UploadPanel } from "@/components/ds";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -133,9 +134,9 @@ const InternationalServicePage = () => {
 
     <Header />
 
-    <main className="pt-[var(--header-h)]">
+    <main id="main-content" className="pt-[var(--header-h)]">
       {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient">
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
         <div className="absolute inset-0 opacity-[0.03]">
           <div
             className="absolute inset-0"
@@ -187,29 +188,28 @@ const InternationalServicePage = () => {
       </section>
 
       {/* Quick stats */}
-      <section className="container px-4 py-12">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { icon: Clock, label: "Quote turnaround", value: "< 1 hour" },
-            { icon: Package, label: "Delivery to Europe", value: "3–5 days" },
-            { icon: Globe, label: "Countries shipped", value: "30+" },
-            { icon: CheckCircle2, label: "Minimum order", value: "€10" },
-          ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="text-center p-5 rounded-xl border border-border/50 bg-card">
-              <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
-                <Icon className="w-5 h-5 text-accent" />
-              </div>
-              <p className="text-2xl font-bold text-foreground mb-1">{value}</p>
-              <p className="text-xs text-muted-foreground">{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <FactsStrip
+        items={[
+          { value: "< 1 h", label: "QUOTE TURNAROUND" },
+          { value: "3–5 days", label: "DELIVERY TO EUROPE" },
+          { value: "30+", label: "COUNTRIES SHIPPED" },
+          { value: "€10", label: "MINIMUM ORDER" },
+        ]}
+        variant="light"
+      />
 
       {/* Calculator */}
-      <section id="calculator" className="container px-4 py-10">
-        <StlEstimator shippingOnly />
-      </section>
+      <div id="calculator" style={{ background: '#F6F8FC' }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+          <UploadPanel
+            label="INSTANT PRICE — FROM €10"
+            heading="Upload your files and see the price now."
+            description="No account required. €10 minimum order, no setup fee. Shipping calculated at checkout."
+          >
+            <StlEstimator compact shippingOnly />
+          </UploadPanel>
+        </div>
+      </div>
 
       {/* Content sections */}
       <section className="bg-secondary/20 py-14 md:py-20">
@@ -455,38 +455,12 @@ const InternationalServicePage = () => {
         <div className="container px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-lg font-bold text-foreground mb-4">Related reading</h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Link
-                to="/blog/precio-impresion-3d-barcelona"
-                className="group flex items-center gap-3 rounded-xl border border-border bg-background p-4 hover:border-accent/50 transition-colors"
-              >
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-                  <Package className="w-4 h-4 text-accent" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm leading-snug group-hover:text-accent transition-colors">
-                    How much does 3D printing cost?
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Real prices by size and material</p>
-                </div>
-                <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
-              </Link>
-              <Link
-                to="/3d-printing-for-business-barcelona"
-                className="group flex items-center gap-3 rounded-xl border border-border bg-background p-4 hover:border-accent/50 transition-colors"
-              >
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
-                  <Globe className="w-4 h-4 text-accent" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm leading-snug group-hover:text-accent transition-colors">
-                    3D Printing for Business
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Volume pricing, NDA, priority queue</p>
-                </div>
-                <ArrowRight className="w-4 h-4 text-accent ml-auto flex-shrink-0" />
-              </Link>
-            </div>
+            <LinkCardGrid
+              items={[
+                { href: "/blog/precio-impresion-3d-barcelona", title: "How much does 3D printing cost?", description: "Real prices by size and material" },
+                { href: "/3d-printing-for-business-barcelona", title: "3D Printing for Business", description: "Volume pricing, NDA, priority queue" },
+              ]}
+            />
           </div>
         </div>
       </section>

@@ -6,13 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { capture } from "@/lib/analytics";
+import { Hero as DsHero, FAQAccordion } from "@/components/ds";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import type { IntlGuideContent } from "@/data/intlTypes";
@@ -116,46 +111,27 @@ const IntlGuidePage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative overflow-hidden hero-gradient py-20">
-          <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-8 right-12 w-56 h-56 bg-accent/10 rounded-full blur-3xl" />
-
-          <div className="container relative z-10 px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
-                <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
-                  Dimension3D
-                </Link>
-                <span>/</span>
-                <Link
-                  to={content.hubLink.to}
-                  className="hover:text-primary-foreground/80 transition-colors"
-                >
-                  {content.hubLink.label}
-                </Link>
-                <span>/</span>
-                <span className="text-primary-foreground/70 truncate max-w-[160px]">
-                  {content.h1}
-                </span>
-              </nav>
-
-              <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6 leading-tight">
-                {content.h1}
-              </h1>
-
-              <p className="text-lg text-primary-foreground/85 mb-8 max-w-2xl mx-auto leading-relaxed">
-                {content.intro}
-              </p>
-
-              <Button variant="cta" size="lg" onClick={scrollToCalc}>
-                Calculator
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </section>
+        <DsHero
+          variant="centered"
+          extendBehindHeader={false}
+          starLine={
+            <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
+              <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+              <span>/</span>
+              <Link to={content.hubLink.to} style={{ color: '#B8C4DA', textDecoration: 'none' }}>{content.hubLink.label}</Link>
+              <span>/</span>
+              <span style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{content.h1}</span>
+            </span>
+          }
+          h1={content.h1}
+          paragraph={content.intro}
+          primaryButton={{
+            label: <>Calculator <ArrowRight style={{ width: 18, height: 18 }} /></>,
+            onClick: scrollToCalc,
+          }}
+        />
 
         {/* Article body */}
         <article className="py-16 bg-background">
@@ -209,24 +185,11 @@ const IntlGuidePage = ({ content }: Props) => {
         </section>
 
         {/* FAQ */}
-        <section className="py-16 bg-background">
+        <section className="py-16 bg-[#F6F8FC]">
           <div className="container px-4 max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {content.faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="border border-border rounded-lg px-4"
-                >
-                  <AccordionTrigger className="text-left font-medium py-4">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion
+              items={content.faqs.map(f => ({ question: f.q, answer: f.a }))}
+            />
           </div>
         </section>
 

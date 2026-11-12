@@ -119,6 +119,11 @@ function _dispatch(event: string, properties?: Record<string, unknown>): void {
     ...properties,
   };
 
+  // Test hook: window.__analyticsCapture is patched by Playwright tests to record events.
+  if (typeof window !== "undefined") {
+    (window as any).__analyticsCapture?.(event, enriched);
+  }
+
   if (ph) {
     ph.capture(event, enriched);
     if (event !== "$pageview" && !NO_GTAG.has(event) && typeof window !== "undefined") {

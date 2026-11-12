@@ -125,7 +125,7 @@ const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
         className="flex items-center gap-1.5 px-2 py-1.5 rounded text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors min-h-[44px] min-w-[44px]"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={`Language: ${LANG_LABELS[language]}`}
+        aria-label={`${language} – ${LANG_LABELS[language]}`}
       >
         <Globe className="w-4 h-4 shrink-0" />
         <span className="uppercase text-xs font-semibold">{language}</span>

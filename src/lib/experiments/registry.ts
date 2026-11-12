@@ -1,6 +1,7 @@
 export type LayerId =
   | 'checkout_modal'
   | 'home_body'
+  | 'home_hero'
   | 'upload_area'
   | 'header'
   | 'global_style';
@@ -24,6 +25,7 @@ export interface ExperimentDef {
 export const LAYERS: LayerId[] = [
   'checkout_modal',
   'home_body',
+  'home_hero',
   'upload_area',
   'header',
   'global_style',
@@ -77,6 +79,19 @@ export const REGISTRY: ExperimentDef[] = [
     minDays: 21,
     maxDays: 56,
     enabled: true,
+  },
+  {
+    id: 'home_v2',
+    layer: 'home_hero',
+    variants: ['A', 'B'],
+    pages: ['/', '/ca/', '/3d-printing-barcelona', '/de/', '/fr/', '/it/', '/nl/', '/pt/'],
+    primaryMetric: 'upload_started',
+    guardrailMetrics: ['whatsapp_click'],
+    startedOn: '2026-11-11',
+    minDays: 21,
+    maxDays: 90,
+    // Disabled until Nico approves V2 visually; forcing via ?xp=home_v2:B still works.
+    enabled: false,
   },
 ];
 

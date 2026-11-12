@@ -1,10 +1,8 @@
 import { MapPin, Zap, UserCheck, Award } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useReveal } from "@/hooks/useReveal";
 
 const WhyChooseUs = () => {
   const { t } = useLanguage();
-  const sectionRef = useReveal<HTMLElement>();
 
   const reasons = [
     { icon: MapPin, titleKey: "why.local.title", descKey: "why.local.desc" },
@@ -14,7 +12,7 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section ref={sectionRef} id="por-que-elegirnos" className="py-12 md:py-28 bg-background">
+    <section id="por-que-elegirnos" className="py-12 md:py-28 bg-background">
       <div className="container px-4">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">

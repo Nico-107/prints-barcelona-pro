@@ -2,9 +2,7 @@ import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calculator, CheckCircle2 } from "lucide-react";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion, LinkCardGrid } from "@/components/ds";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -112,10 +110,10 @@ const BlogPrecioBcn = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 hero-gradient">
+        <section className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
@@ -478,23 +476,11 @@ const BlogPrecioBcn = () => {
         </section>
 
         {/* ── FAQ ── */}
-        <section ref={endRef} className="py-16 md:py-20 bg-secondary/30">
+        <section ref={endRef} className="py-16 md:py-20 bg-[#F6F8FC]">
           <div className="container px-4 max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
-              Preguntas frecuentes sobre precios
-            </h2>
-            <Accordion type="single" collapsible className="w-full">
-              {FAQS.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`}>
-                  <AccordionTrigger className="text-left font-medium hover:text-accent hover:no-underline">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion
+              items={FAQS.map(f => ({ question: f.q, answer: f.a }))}
+            />
           </div>
         </section>
 
@@ -531,23 +517,17 @@ const BlogPrecioBcn = () => {
         </div>
 
         {/* Related posts */}
-        <section className="py-12 bg-muted/30">
+        <section className="py-12 bg-background">
           <div className="container px-4 max-w-3xl mx-auto">
             <h2 className="text-lg font-bold text-foreground mb-4">Lectura relacionada</h2>
-            <ul className="space-y-2">
-              {[
-                { to: "/blog/prototipos-rapidos-piezas-funcionales-barcelona", label: "Prototipos y piezas funcionales en Barcelona" },
-                { to: "/piezas-personalizadas-3d-barcelona", label: "Piezas personalizadas en Barcelona" },
-                { to: "/impresion-3d-empresas-barcelona", label: "Servicios B2B de impresión 3D" },
-                { to: "/", label: "Calculadora de precio instantáneo" },
-              ].map(({ to, label }) => (
-                <li key={to}>
-                  <Link to={to} className="flex items-center gap-2 text-accent hover:underline text-sm">
-                    <span aria-hidden="true">→</span>{label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <LinkCardGrid
+              items={[
+                { href: "/blog/prototipos-rapidos-piezas-funcionales-barcelona", title: "Prototipos y piezas funcionales en Barcelona" },
+                { href: "/piezas-personalizadas-3d-barcelona", title: "Piezas personalizadas en Barcelona" },
+                { href: "/impresion-3d-empresas-barcelona", title: "Servicios B2B de impresión 3D" },
+                { href: "/", title: "Calculadora de precio instantáneo" },
+              ]}
+            />
           </div>
         </section>
 

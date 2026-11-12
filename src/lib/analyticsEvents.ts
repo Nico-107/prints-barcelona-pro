@@ -386,6 +386,7 @@ export interface EventMap {
   city_cta_click: Record<string, unknown>;
   city_page_view: Record<string, unknown>;
   design_request_submitted: Record<string, unknown>;
+  b2b_brief_submitted: { turnaround: string; hasFiles: boolean; language: string; company: string };
   page_read_75pct: Record<string, unknown>;
   international_page_view: { market: string; lang: string; slug?: string };
   international_cta_click: { market: string; lang: string; section: string };
@@ -506,6 +507,31 @@ export interface EventMap {
     ai_source: 'chatgpt' | 'perplexity' | 'gemini' | 'copilot' | 'claude' | 'other_ai';
     referrer_url: string;
     landing_path: string;
+  };
+
+  // ---- New events — UI overhaul ----
+
+  /** Fires on every click of an upload entry point (hero btn, header btn, step card, etc.) */
+  upload_entry_click: {
+    source: 'hero' | 'header' | 'step_card' | 'path_card' | 'final_band' | 'sticky_bar' | 'page_drop';
+    page_path?: string;
+  };
+
+  /** Fires when a file is dropped anywhere on the V2 homepage */
+  page_drop_upload: {
+    file_count?: number;
+    page_path?: string;
+  };
+
+  /** Fires when the mobile "send link" share action is triggered */
+  mobile_share_link: {
+    method?: 'share_api' | 'copy';
+    page_path?: string;
+  };
+
+  /** Fires when the mobile sticky bottom bar first appears on screen */
+  sticky_bar_shown: {
+    page_path?: string;
   };
 }
 

@@ -1,3 +1,14 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter-tight/700.css";
+@import "@fontsource/inter-tight/800.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/bricolage-grotesque/latin-700.css";
+@import "@fontsource/bricolage-grotesque/latin-800.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,33 +18,39 @@
     /* Mobile header height — kept in sync with Header component and all main offsets. */
     --header-h: 56px;
 
-    --background: 210 20% 98%;
-    --foreground: 220 25% 10%;
+    --background: 0 0% 100%;
+    --foreground: 216 61% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 10%;
+    --card-foreground: 216 61% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 10%;
+    --popover-foreground: 216 61% 11%;
 
-    --primary: 220 15% 15%;
+    --primary: 216 61% 11%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 10% 94%;
-    --secondary-foreground: 220 25% 10%;
+    --secondary: 220 60% 98%;
+    --secondary-foreground: 216 61% 11%;
 
-    --muted: 220 10% 96%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 220 40% 96%;
+    --muted-foreground: 214 15% 37%;
 
-    --accent: 215 90% 52%;
+    --accent: 224 81% 56%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 215 90% 52%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 224 81% 56%;
+
+    /* DS extra tokens */
+    --ds-navy-deep: #0B1120;
+    --ds-on-dark-muted: #B8C4DA;
+    --ds-on-dark-soft: #D5DCEA;
+    --ds-surface-blue: #F3F6FF;
 
     --radius: 0.625rem;
 
@@ -54,8 +71,8 @@
     --section-dark-muted: 220 10% 60%;
 
     /* CTA accent — warm amber, distinct from link-blue */
-    --cta: 38 96% 52%;
-    --cta-foreground: 220 25% 10%;
+    --cta: 38 90% 55%;
+    --cta-foreground: 216 61% 11%;
 
     --sidebar-background: 220 10% 97%;
     --sidebar-foreground: 220 25% 10%;
@@ -114,12 +131,28 @@
 }
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
   * {
     @apply border-border;
   }
 
   html {
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Offset anchored sections below the sticky header */
+  [id] {
+    scroll-margin-top: calc(var(--header-h) + 16px);
   }
 
   body {
@@ -169,6 +202,109 @@
     background-clip: text;
   }
 
+  /* ── Design System: shared layout utilities ─────────────────── */
+
+  /* Dark grid background — 44 px grid, matches V1/V2 reference */
+  .ds-grid-bg {
+    background-color: #0F172A;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  /* Section vertical padding */
+  .ds-section {
+    padding-top: 84px;
+    padding-bottom: 84px;
+  }
+  @media (max-width: 639px) {
+    .ds-section {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+  }
+
+  /* Max width container (1240px, 24px gutters) */
+  .ds-container {
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  @media (max-width: 479px) {
+    .ds-container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  /* Long-form prose styles */
+  .ds-prose h1,
+  .ds-prose h2,
+  .ds-prose h3,
+  .ds-prose h4 {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-top: 1.6em;
+    margin-bottom: 0.5em;
+  }
+  .ds-prose h2 { font-size: 28px; }
+  .ds-prose h3 { font-size: 22px; }
+  .ds-prose h4 { font-size: 18px; }
+  .ds-prose p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #334155;
+    margin-bottom: 1em;
+  }
+  .ds-prose a { color: #2F5BEA; text-decoration: none; }
+  .ds-prose a:hover { text-decoration: underline; }
+  .ds-prose ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1em; }
+  .ds-prose ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1em; }
+  .ds-prose li { margin-bottom: 0.5em; color: #334155; font-size: 17px; }
+  .ds-prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+    overflow-x: auto;
+    display: block;
+  }
+  .ds-prose thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5B6577;
+    border-bottom: 2px solid #0F172A;
+    padding: 10px 12px;
+    text-align: left;
+  }
+  .ds-prose tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #E3E8F0;
+    font-size: 15px;
+    color: #334155;
+  }
+  .ds-prose blockquote {
+    border-left: 3px solid #F5A524;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #334155;
+    margin: 1.5em 0;
+  }
+  .ds-prose .callout {
+    background: #F3F6FF;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 1.5em;
+  }
+
   /* Dark sections with subtle techy grid overlay */
   .section-dark-texture {
     position: relative;
@@ -191,14 +327,14 @@
      in useEffect after hydration, so there is zero hydration mismatch. */
   .sr-hidden {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(12px);
     transition: none !important;
   }
   .sr-revealed {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .animate-fade-in {
@@ -293,3 +429,313 @@ html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"]
 html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"],
 html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
 html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"] { display:none; }
+
+/* home_v2 — A=V1 (control), B=V2 (split-image hero).
+   Bots and SSR (no attribute) always see V1. No layout jump: decided before first paint. */
+html:not([data-xp-home-v2]) .xp-home-v2-only,
+html[data-xp-home-v2="A"]  .xp-home-v2-only { display:none !important; }
+html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
+
+/* ── Hero facts strip — responsive grid ───────────────────────────────────── */
+.ds-hero-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: left;
+}
+.ds-hero-facts > * {
+  padding: 22px;
+  border-left: 1px solid rgba(255,255,255,0.14);
+}
+.ds-hero-facts > *:first-child { padding-left: 0; border-left: none; }
+.ds-hero-facts > *:last-child  { padding-right: 0; }
+
+@media (max-width: 540px) {
+  .ds-hero-facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ds-hero-facts > * {
+    padding: 16px 12px;
+  }
+  /* Reset sequential-only borders; re-apply by column position */
+  .ds-hero-facts > * { border-left: none; }
+  .ds-hero-facts > *:nth-child(2n) { border-left: 1px solid rgba(255,255,255,0.14); }
+  /* Left column: no left padding */
+  .ds-hero-facts > *:nth-child(2n+1) { padding-left: 0; }
+  /* Right column: no right padding */
+  .ds-hero-facts > *:nth-child(2n)   { padding-right: 0; }
+}
+
+/* ── SplitImageHero: photo-on-top, full-screen layout on mobile ───────────── */
+@media (max-width: 767px) {
+  /* Section fills the first screen so quote+stats land above the fold.
+     padding-top doubles the header offset so the photo starts BELOW the
+     header (matching the reference mobile-hero.html where the header is in
+     flow), which pushes the H1 below the photo's dark-gradient zone. */
+  .ds-hero-split-section {
+    padding-top: calc(var(--header-h) * 2) !important;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  .ds-hero-split-wrapper {
+    flex: 1;
+    flex-direction: column !important;
+  }
+  .ds-hero-split-img {
+    order: -1;
+    flex: none !important;
+    width: 100% !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+  }
+  .ds-hero-split-img img,
+  .ds-hero-split-img picture { width: 100%; height: 100%; display: block; }
+  .ds-hero-split-fade {
+    background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%) !important;
+  }
+  .ds-hero-split-text {
+    flex: 1 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0 18px 16px !important;
+    margin-top: -54px !important;
+    margin-left: 0 !important;
+    max-width: none !important;
+    gap: 14px !important;
+    align-items: stretch !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .ds-hero-split-text h1 {
+    font-size: 39px !important;
+    line-height: 0.98 !important;
+  }
+  /* Full-width buttons on mobile */
+  .ds-hero-split-text > button,
+  .ds-hero-split-text > a {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  /* Quote + stats pushed to bottom of hero via auto margin */
+  .ds-hero-mobile-extras {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  /* Eyebrow removed on mobile (reference mobile-hero.html) */
+  .ds-hero-split-eyebrow { display: none !important; }
+  /* Drag-and-drop text and no-file link hidden on mobile (phones can't drag files) */
+  .ds-hero-v2-desktop-only { display: none !important; }
+}
+/* Hide mobile extras on desktop */
+@media (min-width: 768px) {
+  .ds-hero-mobile-extras { display: none !important; }
+  /* V2 hero: WhatsApp + share link are mobile-only */
+  .ds-v2-mobile-only { display: none !important; }
+}
+
+/* ── StepCards: horizontal scroll-snap on mobile ─────────────────────────── */
+@media (max-width: 767px) {
+  .ds-step-cards {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    padding-inline: 20px !important;
+    padding-bottom: 16px;
+    gap: 14px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Negate the parent's side padding so the row bleeds full-width */
+    margin-inline: -24px;
+  }
+  .ds-step-cards::-webkit-scrollbar { display: none; }
+  .ds-step-cards > * {
+    flex: 0 0 78% !important;
+    scroll-snap-align: start;
+    min-height: 220px;
+  }
+}
+
+/* ── Section gutters: 56 px top/bottom, 18-20 px side on mobile ───────────── */
+@media (max-width: 767px) {
+  .ds-section-pad {
+    padding: 56px 18px !important;
+  }
+}
+
+/* ── QuoteFeature secondary-card row: horizontal swipe on mobile ─────────── */
+@media (max-width: 767px) {
+  .ds-quote-secondary-row {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    padding-inline: 18px;
+    gap: 12px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: -18px;
+  }
+  .ds-quote-secondary-row::-webkit-scrollbar { display: none; }
+  .ds-quote-secondary-row > * {
+    flex: 0 0 82% !important;
+    scroll-snap-align: start;
+  }
+}
+
+/* ── LinkCardGrid: compact row list on mobile ────────────────────────────── */
+@media (max-width: 639px) {
+  .ds-link-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ds-link-card-grid > a {
+    padding: 14px 0 !important;
+    min-height: 56px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #E3E8F0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ── V1 centered hero: mobile layout (C3) ────────────────────────────────── */
+@media (max-width: 639px) {
+  /* Extra top padding ensures the star line clears the fixed header even when
+     there is no LaunchOfferBanner pushing the main content down (adds 16px
+     safety margin below the 56px header). */
+  .ds-v1-hero-section {
+    padding-top: calc(var(--header-h) + 72px) !important;
+  }
+  .ds-v1-hero-inner {
+    gap: 20px !important;
+    padding-bottom: 32px !important;
+  }
+  /* Single-line star line: prevent wrapping, compact font */
+  .ds-v1-hero-starline {
+    flex-wrap: nowrap !important;
+    white-space: nowrap;
+    overflow: hidden;
+    gap: 4px 8px !important;
+    font-size: 11px !important;
+  }
+  /* 3-col facts strip on V1 (3 items only after C3 data change) */
+  .xp-home-v1-only .ds-hero-facts {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .xp-home-v1-only .ds-hero-facts > * {
+    padding: 12px 6px !important;
+    border-left: none !important;
+    font-size: 10px !important;
+  }
+  /* Value spans: 20px + nowrap so "Desde 10 €" stays on one line */
+  .xp-home-v1-only .ds-hero-facts > * > span:first-child {
+    font-size: 20px !important;
+    white-space: nowrap !important;
+  }
+  /* Labels: clamp to 2 lines */
+  .xp-home-v1-only .ds-hero-facts > * > span:last-child {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+  .xp-home-v1-only .ds-hero-facts > *:nth-child(n+2) {
+    border-left: 1px solid rgba(255,255,255,0.14) !important;
+  }
+  .xp-home-v1-only .ds-hero-facts > *:first-child { padding-left: 0 !important; }
+  .xp-home-v1-only .ds-hero-facts > *:last-child  { padding-right: 0 !important; }
+}
+
+/* ── V1 mobile quote card (C3) ────────────────────────────────────────────── */
+.ds-v1-mobile-quote {
+  display: none;
+}
+@media (max-width: 639px) {
+  .ds-v1-mobile-quote {
+    display: block;
+    background: #fff;
+    margin: 0 16px 0;
+    padding: 14px 16px;
+    border-left: 3px solid #F59E0B;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .ds-v1-mobile-quote blockquote {
+    margin: 0;
+    padding: 0;
+  }
+  .ds-v1-mobile-quote blockquote p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #374151;
+    font-style: italic;
+  }
+}
+
+/* ── Upload panel: tighter padding on mobile (C5) ─────────────────────────── */
+@media (max-width: 639px) {
+  .ds-upload-panel-dark {
+    padding: 20px !important;
+    gap: 20px !important;
+  }
+  .ds-upload-panel-card {
+    padding: 12px !important;
+  }
+}
+
+/* ── Why-choose-us: 2×2 grid on mobile (C6) ──────────────────────────────── */
+@media (max-width: 639px) {
+  .ds-why-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 !important;
+  }
+  .ds-why-grid > div {
+    border-left: none !important;
+    border-top: 1px solid #E3E8F0 !important;
+    padding: 16px 12px !important;
+  }
+  .ds-why-grid > div:nth-child(2n) {
+    border-left: 1px solid #E3E8F0 !important;
+  }
+}
+
+/* ── B2B logo tiles: greyscale by default, full colour on hover (D1) ──────── */
+.ds-b2b-logo-tile .ds-b2b-logo-img {
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+.ds-b2b-logo-tile:hover .ds-b2b-logo-img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* ── Footer accordion: collapsible link groups on mobile ─────────────────── */
+.ds-footer-acc-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+}
+.ds-footer-acc-icon { display: none; flex-shrink: 0; }
+
+@media (max-width: 767px) {
+  .ds-footer-acc-btn { cursor: pointer; padding: 10px 0; }
+  .ds-footer-acc-icon { display: block; }
+}
+/* On desktop: always show body regardless of React state */
+@media (min-width: 768px) {
+  .ds-footer-acc-body { display: block !important; }
+}

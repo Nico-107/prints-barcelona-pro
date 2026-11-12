@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
+import { Hero as DsHero } from "@/components/ds";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -168,23 +169,20 @@ const Blog = () => {
       <LaunchOfferBanner />
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 hero-gradient">
-          <div className="container px-4 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-5">
-              <BookOpen className="w-3.5 h-3.5" />
+        <DsHero
+          variant="centered"
+          extendBehindHeader={false}
+          starLine={
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#B8C4DA', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               Guías y recursos
-            </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
-              Guías de Impresión 3D en Barcelona
-            </h1>
-            <p className="text-lg text-primary-foreground/75 leading-relaxed">
-              Todo lo que necesitas saber antes de pedir — precios reales, plazos, materiales y casos prácticos. Sin tecnicismos innecesarios.
-            </p>
-          </div>
-        </section>
+            </span>
+          }
+          h1="Guías de Impresión 3D en Barcelona"
+          paragraph="Todo lo que necesitas saber antes de pedir — precios reales, plazos, materiales y casos prácticos. Sin tecnicismos innecesarios."
+        />
 
         {/* ── ARTICLES ── */}
         <section className="py-16 md:py-20 bg-background">

@@ -1,18 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowRight, CheckCircle2, ChevronRight, Clock, Globe, Package } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { capture } from "@/lib/analytics";
+import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, LinkCardGrid, QuoteFeature, UploadPanel } from "@/components/ds";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -63,13 +57,41 @@ function fmtEur(cents: number, locale: string): string {
   });
 }
 
-function renderProse(text: string) {
-  return text.split(/\n\n+/).map((p, i) => (
-    <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
-      {p.trim()}
-    </p>
-  ));
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>;
+    if (part.startsWith('*') && part.endsWith('*')) return <em key={i}>{part.slice(1, -1)}</em>;
+    return part;
+  });
 }
+
+function renderProse(text: string) {
+  return text.split(/\n\n+/).map((block, i) => {
+    const trimmed = block.trim();
+    if (trimmed.startsWith('## ')) return <h3 key={i} className="font-semibold text-foreground mt-4 mb-1">{trimmed.slice(3)}</h3>;
+    if (trimmed.startsWith('# ')) return <h2 key={i} className="font-bold text-foreground text-lg mt-6 mb-2">{trimmed.slice(2)}</h2>;
+    const lines = trimmed.split('\n');
+    if (lines.some(l => l.startsWith('- '))) {
+      return (
+        <ul key={i} className="list-disc pl-5 mb-4 text-muted-foreground leading-relaxed space-y-1">
+          {lines.filter(l => l.startsWith('- ')).map((l, j) => <li key={j}>{renderInline(l.slice(2))}</li>)}
+        </ul>
+      );
+    }
+    return (
+      <p key={i} className="text-muted-foreground leading-relaxed mb-4 last:mb-0">
+        {renderInline(trimmed)}
+      </p>
+    );
+  });
+}
+
+const HUB_REVIEWS = [
+  { text: "Ready the very next morning. Absolutely fantastic quality.", author: "Sara D." },
+  { text: "Super quick response, the parts arrived in perfect condition.", author: "Lukas M." },
+  { text: "Excellent precision, our prototype fit perfectly on the first try.", author: "Isabelle R." },
+];
 
 interface Props {
   content: IntlHubContent;
@@ -210,103 +232,50 @@ const IntlHubPage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden hero-gradient">
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
-          </div>
-          <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-16 right-12 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
-
-          <div className="container relative z-10 px-4 py-16">
-            <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/70 mb-4">
-                <Link to="/" className="hover:text-primary-foreground/90 transition-colors">
-                  Dimension3D
-                </Link>
-                <span>/</span>
-                <span className="text-primary-foreground/85">{content.breadcrumbHub}</span>
-              </nav>
-
-              <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
-                {content.eyebrow}
-              </div>
-
-              <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
-                {content.h1}
-              </h1>
-
-              <p className="text-base md:text-lg text-primary-foreground/80 mb-8 max-w-xl mx-auto leading-relaxed">
-                {content.heroSubtitle ?? content.promise}
-              </p>
-
-              <div className="flex flex-col items-center gap-3 mb-6">
-                <Button
-                  variant="cta"
-                  size="xl"
-                  className="shadow-lg w-full sm:w-auto"
-                  data-ph-name="hub-hero-cta"
-                  onClick={() => scrollToCalc("hero")}
-                >
-                  {content.ctaLabel}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-                <p className="text-primary-foreground/60 text-sm">{content.noRegistration}</p>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
-                {content.trustChips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 80L60 70C120 60 240 40 360 35C480 30 600 40 720 45C840 50 960 50 1080 46.7C1200 43.3 1320 36.7 1380 33.3L1440 30V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z" fill="hsl(var(--background))" />
-            </svg>
-          </div>
-        </section>
+        <DsHero
+          variant="centered"
+          extendBehindHeader={false}
+          starLine={
+            <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
+              <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+              <span>/</span>
+              <span>{content.breadcrumbHub}</span>
+            </span>
+          }
+          h1={content.h1}
+          paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
+          primaryButton={{
+            label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+            onClick: () => scrollToCalc("hero"),
+          }}
+          reassuranceItems={content.trustChips}
+        />
 
         {/* Quick stats */}
-        <section className="container px-4 py-12">
-          <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: Clock, value: "< 1 h", label: content.trustChips[1] },
-              { icon: Package, value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
-              { icon: Globe, value: "5,90 €", label: content.trustChips[2] },
-              { icon: CheckCircle2, value: "€10", label: content.trustChips[0] },
-            ].map(({ icon: Icon, value, label }) => (
-              <div key={label} className="text-center p-5 rounded-xl border border-border/50 bg-card">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
-                  <Icon className="w-5 h-5 text-accent" />
-                </div>
-                <p className="text-lg font-bold text-foreground mb-1 leading-tight">{value}</p>
-                <p className="text-xs text-muted-foreground">{label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <FactsStrip
+          items={[
+            { value: "< 1 h", label: content.trustChips[1] },
+            { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
+            { value: "5,90 €", label: content.trustChips[2] },
+            { value: "€10", label: content.trustChips[0] },
+          ]}
+          variant="light"
+        />
 
         {/* Calculator */}
-        <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
-          <div className="container px-4 max-w-5xl mx-auto">
-            <StlEstimator shippingOnly />
+        <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <UploadPanel
+              label={content.lang === "de" ? "SOFORTPREIS — AB 10 €" : content.lang === "fr" ? "PRIX INSTANTANÉ — DÈS 10 €" : content.lang === "nl" ? "DIRECTE PRIJS — VANAF 10 €" : content.lang === "it" ? "PREZZO ISTANTANEO — DA 10 €" : content.lang === "pt" ? "PREÇO INSTANTÂNEO — A PARTIR DE 10 €" : "INSTANT PRICE — FROM €10"}
+              heading={content.lang === "de" ? "Lade deine Dateien hoch und sieh den Preis sofort." : content.lang === "fr" ? "Télécharge tes fichiers et vois le prix maintenant." : content.lang === "nl" ? "Upload je bestanden en zie de prijs direct." : content.lang === "it" ? "Carica i tuoi file e vedi il prezzo subito." : content.lang === "pt" ? "Carrega os teus ficheiros e vê o preço agora." : "Upload your files and see the price now."}
+              description={content.lang === "de" ? "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr." : content.lang === "fr" ? "Sans compte. Commande minimum 10 €, sans frais de mise en place." : content.lang === "nl" ? "Geen account nodig. Minimumbestelling 10 €, geen installatiekosten." : content.lang === "it" ? "Nessun account richiesto. Ordine minimo 10 €, nessuna tariffa di configurazione." : content.lang === "pt" ? "Sem conta. Encomenda mínima 10 €, sem taxa de configuração." : "No account required. €10 minimum order, no setup fee."}
+            >
+              <StlEstimator compact shippingOnly />
+            </UploadPanel>
           </div>
-        </section>
+        </div>
 
         {/* Promise / intro text */}
         {content.heroSubtitle && (
@@ -387,24 +356,11 @@ const IntlHubPage = ({ content }: Props) => {
         </section>
 
         {/* FAQ */}
-        <section className="py-14 md:py-20 bg-background">
+        <section className="py-14 md:py-20 bg-[#F6F8FC]">
           <div className="container px-4 max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {content.faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="border border-border rounded-lg px-4"
-                >
-                  <AccordionTrigger className="text-left font-medium py-4">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion
+              items={content.faqs.map(f => ({ question: f.q, answer: f.a }))}
+            />
           </div>
         </section>
 
@@ -420,62 +376,30 @@ const IntlHubPage = ({ content }: Props) => {
         {/* City and guide links */}
         {(content.cityLinks.length > 0 || content.guideLinks.length > 0) && (
           <section className="py-14 bg-background">
-            <div className="container px-4 max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-              {content.cityLinks.length > 0 && (
-                <ul className="space-y-2">
-                  {content.cityLinks.map((link) => (
-                    <li key={link.to}>
-                      <Link
-                        to={link.to}
-                        className="flex items-center gap-2 text-accent hover:underline text-sm"
-                      >
-                        <ChevronRight className="w-4 h-4 flex-shrink-0" />
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {content.guideLinks.length > 0 && (
-                <ul className="space-y-2">
-                  {content.guideLinks.map((link) => (
-                    <li key={link.to}>
-                      <Link
-                        to={link.to}
-                        className="flex items-center gap-2 text-accent hover:underline text-sm"
-                      >
-                        <ChevronRight className="w-4 h-4 flex-shrink-0" />
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className="container px-4 max-w-5xl mx-auto">
+              <LinkCardGrid
+                items={[
+                  ...content.cityLinks.map(l => ({ href: l.to, title: l.label })),
+                  ...content.guideLinks.map(l => ({ href: l.to, title: l.label })),
+                ]}
+              />
             </div>
           </section>
         )}
 
+        {/* Reviews */}
+        <QuoteFeature
+          featured={HUB_REVIEWS[0]}
+          secondary={HUB_REVIEWS.slice(1)}
+          variant="dark"
+        />
+
         {/* Final CTA band */}
-        <section className="container px-4 py-16 md:py-20">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {content.h1}
-            </h2>
-            <p className="text-muted-foreground mb-8 leading-relaxed">
-              {content.promise.split("\n\n")[0]}
-            </p>
-            <Button
-              variant="cta"
-              size="xl"
-              className="shadow-lg"
-              data-ph-name="hub-final-cta"
-              onClick={() => scrollToCalc("final")}
-            >
-              {content.ctaLabel}
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </div>
-        </section>
+        <FinalCta
+          heading={content.h1}
+          cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
+          reassurance={content.promise.split("\n\n")[0]}
+        />
       </main>
 
       <Footer />

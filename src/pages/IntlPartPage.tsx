@@ -6,12 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion } from "@/components/ds";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
@@ -120,9 +115,9 @@ const IntlPartPage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative overflow-hidden hero-gradient py-20">
+        <section className="relative overflow-hidden ds-grid-bg py-20">
           <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
           <div className="absolute bottom-8 right-12 w-56 h-56 bg-accent/10 rounded-full blur-3xl" />
 
@@ -211,24 +206,9 @@ const IntlPartPage = ({ content }: Props) => {
         </section>
 
         {/* FAQ */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16 bg-[#F6F8FC]">
           <div className="container px-4 max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {content.faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="border border-border rounded-lg px-4"
-                >
-                  <AccordionTrigger className="text-left font-medium py-4">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion items={content.faqs.map(f => ({ question: f.q, answer: f.a }))} />
           </div>
         </section>
 

@@ -6,17 +6,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import type { IntlCityContent } from "@/data/intlTypes";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Hero as DsHero, FAQAccordion, UploadPanel } from "@/components/ds";
 
 import { StlEstimator } from "@/components/StlEstimator";
 
@@ -172,83 +167,41 @@ const IntlCityPage = ({ content }: Props) => {
 
       <Header />
 
-      <main className="pt-[var(--header-h)]">
+      <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative min-h-[55vh] flex items-center justify-center overflow-hidden hero-gradient">
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
-          </div>
-          <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-16 right-12 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
-
-          <div className="container relative z-10 px-4 py-14">
-            <div className="max-w-3xl mx-auto text-center">
-              <nav className="flex items-center justify-center gap-2 text-xs text-primary-foreground/50 mb-5">
-                <Link to="/" className="hover:text-primary-foreground/80 transition-colors">
-                  Dimension3D
-                </Link>
-                <span>/</span>
-                <Link
-                  to={content.hubLink.to}
-                  className="hover:text-primary-foreground/80 transition-colors"
-                >
-                  {content.hubLink.label}
-                </Link>
-                <span>/</span>
-                <span className="text-primary-foreground/70">{content.city}</span>
-              </nav>
-
-              <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
-                {content.eyebrow}
-              </div>
-
-              <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-                {content.h1}
-              </h1>
-
-              <p className="text-base md:text-lg text-primary-foreground/80 mb-4 max-w-xl mx-auto">
-                {content.deliveryNote}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalc}>
-                  {t("hub.ctaButton")}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="whatsapp-outline"
-                  size="xl"
-                  onClick={() => {
-                    capture("whatsapp_click", {
-                      location: "city_hero",
-                      path: content.slug,
-                    });
-                    window.open(
-                      `${WHATSAPP_URL}?text=${encodeURIComponent(content.whatsappMsg)}`,
-                      "_blank"
-                    );
-                  }}
-                  className="group"
-                >
-                  <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
-                  WhatsApp
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
+        <DsHero
+          variant="centered"
+          extendBehindHeader={false}
+          starLine={
+            <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
+              <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+              <span>/</span>
+              <Link to={content.hubLink.to} style={{ color: '#B8C4DA', textDecoration: 'none' }}>{content.hubLink.label}</Link>
+              <span>/</span>
+              <span>{content.city}</span>
+            </span>
+          }
+          h1={content.h1}
+          paragraph={content.deliveryNote}
+          primaryButton={{
+            label: <>{t("hub.ctaButton")} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+            onClick: scrollToCalc,
+          }}
+          reassuranceItems={[]}
+        />
 
         {/* Calculator — immediately after hero so upload CTA is near top */}
-        <section id="calculator" className="py-16 bg-muted/30 scroll-mt-20">
-          <div className="container px-4 max-w-5xl mx-auto">
-            <StlEstimator shippingOnly />
+        <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
+            <UploadPanel
+              label="INSTANT PRICE — FROM €10"
+              heading="Upload your files and see the price now."
+              description="No account required. €10 minimum order, no setup fee. Shipping calculated at checkout."
+            >
+              <StlEstimator compact shippingOnly />
+            </UploadPanel>
           </div>
-        </section>
+        </div>
 
         {/* Intro body text — moved below calculator; hero already shows button above fold */}
         <section className="py-16 bg-background">
@@ -258,24 +211,11 @@ const IntlCityPage = ({ content }: Props) => {
         </section>
 
         {/* FAQ */}
-        <section className="py-16 bg-background">
+        <section className="py-16 bg-[#F6F8FC]">
           <div className="container px-4 max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {content.faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="border border-border rounded-lg px-4"
-                >
-                  <AccordionTrigger className="text-left font-medium py-4">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <FAQAccordion
+              items={content.faqs.map(f => ({ question: f.q, answer: f.a }))}
+            />
           </div>
         </section>
 

@@ -174,29 +174,30 @@ const CookieConsentBanner = () => {
   }
 
   if (effectivePlacement === "sheet") {
-    // Mobile: slim bottom sheet, capped at 35% of the viewport, safe-area aware.
+    // Mobile: slim bottom sheet above sticky bar when present, safe-area aware.
+    const stickyOffset = typeof document !== "undefined" && document.body.hasAttribute("data-sticky-bar")
+      ? "calc(56px + env(safe-area-inset-bottom))"
+      : "0px";
     return (
       <div
         role="dialog"
         aria-label={t("cookie.banner.accept")}
-        className="fixed bottom-0 left-0 right-0 z-[60] border-t border-border bg-background shadow-lg max-h-[35svh] overflow-y-auto"
-        style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
+        className="fixed left-0 right-0 z-[60] border-t border-border bg-background shadow-lg"
+        style={{ bottom: stickyOffset, paddingBottom: "env(safe-area-inset-bottom)" }}
         onKeyDown={e => { if (e.key === "Escape") e.stopPropagation(); }}
       >
-        <div className="px-4 pt-2 pb-1">
-          <div className="flex items-center gap-2">
-            <p className="flex-1 text-[12px] text-muted-foreground leading-snug">
-              {t("cookie.banner.message")}{" "}
-              <Link to={privacyPath} className="underline underline-offset-2 hover:text-foreground whitespace-nowrap">
-                {t("cookie.banner.moreInfo")}
-              </Link>
-            </p>
-          </div>
-          <div className="flex gap-2 mt-2">
-            <Button variant="outline" size="sm" className="flex-1 h-10" onClick={reject} data-ph-name="cookie-reject">
+        <div className="px-4 py-2.5">
+          <p className="text-[12px] text-muted-foreground leading-snug mb-2">
+            {t("cookie.banner.message")}{" "}
+            <Link to={privacyPath} className="underline underline-offset-2 hover:text-foreground whitespace-nowrap">
+              {t("cookie.banner.moreInfo")}
+            </Link>
+          </p>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" className="flex-1 h-9 text-xs" onClick={reject} data-ph-name="cookie-reject">
               {t("cookie.banner.reject")}
             </Button>
-            <Button variant="accent" size="sm" className="flex-1 h-10" onClick={accept} data-ph-name="cookie-accept">
+            <Button variant="accent" size="sm" className="flex-1 h-9 text-xs" onClick={accept} data-ph-name="cookie-accept">
               {t("cookie.banner.accept")}
             </Button>
           </div>
@@ -210,7 +211,7 @@ const CookieConsentBanner = () => {
     <div
       role="dialog"
       aria-label={t("cookie.banner.accept")}
-      className="fixed bottom-6 left-6 z-[60] max-w-[360px] rounded-xl border border-border bg-background shadow-xl p-4 space-y-3"
+      className="fixed bottom-6 left-6 z-[60] max-w-[720px] rounded-xl border border-border bg-background shadow-xl p-4 space-y-3"
       onKeyDown={e => { if (e.key === "Escape") e.stopPropagation(); }}
     >
       <p className="text-sm text-muted-foreground leading-snug">

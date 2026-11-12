@@ -69,8 +69,9 @@ export function DefaultSettings({
 
       <div className="grid grid-cols-2 gap-3">
         <div className={advancedMode ? "" : "col-span-2"}>
-          <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
+          <label htmlFor="ds-material" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.material")}</label>
           <select
+            id="ds-material"
             value={materialKey}
             onChange={e => onMaterialChange(e.target.value)}
             disabled={disabled}
@@ -83,8 +84,9 @@ export function DefaultSettings({
         </div>
         {advancedMode && (
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+            <label htmlFor="ds-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
             <select
+              id="ds-infill"
               value={infillPct}
               onChange={e => onInfillChange(Number(e.target.value))}
               disabled={disabled}
@@ -116,8 +118,9 @@ export function DefaultSettings({
         <>
           {/* Walls */}
           <div className="mt-2">
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+            <label htmlFor="ds-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
             <select
+              id="ds-walls"
               value={wallLoops}
               onChange={e => onWallLoopsChange(Number(e.target.value))}
               disabled={disabled}
@@ -131,8 +134,9 @@ export function DefaultSettings({
 
           {/* Urgency */}
           <div className="mt-2">
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+            <label htmlFor="ds-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
             <select
+              id="ds-urgency"
               value={urgency}
               onChange={e => onUrgencyChange(e.target.value as "standard" | "express" | "urgent")}
               disabled={disabled}

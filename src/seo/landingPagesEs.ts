@@ -1285,7 +1285,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Precio Impresión 3D — Calcula tu Pieza desde 10€",
     metaDescription: "¿Cuánto cuesta imprimir en 3D? Tabla de precios reales por material y tamaño, calculadora instantánea. Desde 10€, envío a España por 5,90€.",
     h1: "¿Cuánto cuesta imprimir en 3D? Precios reales y calculadora",
-    intro: "Dimension3D cobra desde 10€ por pieza, el presupuesto llega en menos de 1 hora y el envío a cualquier punto de España cuesta 5,90€. El precio final depende del material elegido, el tamaño de la pieza y el plazo. Esta página explica exactamente cómo se calcula, con ejemplos reales y una tabla de precios por material.",
+    intro: "Dimension3D cobra desde 10€ por pedido, el presupuesto llega en menos de 1 hora y el envío a cualquier punto de España cuesta 5,90€. El precio final depende del material elegido, el tamaño de la pieza y el plazo. Esta página explica exactamente cómo se calcula, con ejemplos reales y una tabla de precios por material.",
     sections: [
       {
         heading: "¿Qué determina el precio de una impresión 3D?",
@@ -1301,7 +1301,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Envío a España y recogida en Barcelona",
-        body: "El envío estándar a cualquier punto de la Península, Baleares o Canarias cuesta 5,90€. Los pedidos salen en 24–48 horas desde que se confirma el encargo, y el tiempo de tránsito es de 1–2 días laborables para Península.\n\nSi estás en Barcelona o alrededores (Les Corts, L'Hospitalet, Esplugues, Sant Just, Cornellà, Badalona, Sant Cugat) puedes recoger sin coste de envío en nuestro taller de la Rambla de Brasil, 53."
+        body: "El envío estándar a cualquier punto de la Península, Baleares o Canarias cuesta 5,90€. Los pedidos salen en 24–48 horas desde que se confirma el encargo, y el tiempo de tránsito es de 1–2 días laborables para Península.\n\nSi estás en Barcelona o alrededores (Les Corts, L'Hospitalet, Esplugues, Sant Just, Cornellà, Badalona, Sant Cugat) puedes recoger sin coste de envío con cita previa en Les Corts."
       },
       {
         heading: "¿Cómo hacer más barata tu impresión?",
@@ -1315,7 +1315,7 @@ export const PAGES_ES: LandingContent[] = [
     faqs: [
       { q: "¿Cuánto cuesta imprimir en 3D en España?", a: "En Dimension3D el mínimo es 10€ por pedido. Piezas pequeñas estándar (5–30 g en PLA) suelen salir entre 10 y 18€. Piezas medianas (50–150 g) entre 20 y 50€. El envío a España cuesta 5,90€." },
       { q: "¿Cuánto cuesta imprimir en 3D por gramo?", a: "El precio final depende del material, el tamaño y el plazo. Sube tu archivo a la calculadora de esta página para ver el precio exacto en segundos." },
-      { q: "¿Hay tarifa de setup o pedido mínimo?", a: "No hay tarifa de setup. El pedido mínimo es 10€ por pieza. Puedes pedir una sola pieza sin coste extra." },
+      { q: "¿Hay tarifa de setup o pedido mínimo?", a: "No hay tarifa de setup. El pedido mínimo es 10€ por pedido. Puedes pedir una sola pieza sin coste extra." },
       { q: "¿Cuánto tarda el servicio Express?", a: "El servicio Express sale en 24–48h desde la confirmación del pedido y lleva un recargo del 25%. El servicio Urgente (mismo día o siguiente) lleva un recargo del 60% y no está disponible para todos los materiales." },
       { q: "¿Cómo obtengo un presupuesto exacto?", a: "Sube tu archivo STL, 3MF, OBJ o STEP en la calculadora de esta página. El precio aparece en segundos. Para piezas sin archivo, envíanos una foto por WhatsApp y te respondemos en menos de 1 hora en horario laboral." },
       { q: "¿El precio incluye el IVA?", a: "Los precios mostrados en la calculadora son sin IVA. El IVA (21% para particulares en España) se añade en el checkout." },
@@ -1384,13 +1384,13 @@ export const PAGES_ES: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. No hay pedido mínimo de unidades. El mínimo es 10€ por pieza. Imprimimos piezas únicas constantemente." },
+      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. No hay pedido mínimo de unidades. El mínimo es 10€ por pedido. Imprimimos piezas únicas constantemente." },
       { q: "¿Qué pasa si mi archivo tiene problemas?", a: "Revisamos el archivo antes de imprimir. Si hay problemas de grosor de pared, voladizos problemáticos u otros errores, te lo comunicamos antes de cobrar y sugerimos soluciones." },
       { q: "¿Podéis imprimir un modelo descargado de Makerworld, Printables o Cults3D?", a: "Sí. Si has descargado un modelo gratuito de cualquier plataforma y quieres que lo imprimamos, súbe el archivo STL directamente. Verificamos que sea imprimible y te damos precio." },
       { q: "¿Cuánto cuesta el envío a España?", a: "5,90€ por pedido a cualquier punto de Península, Baleares o Canarias. Los pedidos que superen cierto importe tienen envío gratuito (ver calculadora)." },
       { q: "¿Podéis imprimir en varios colores en una sola pieza?", a: "Sí. Nuestra Bambu Lab X2D con AMS permite hasta 4 colores en una misma pieza. Consulta nuestra página de impresión 3D multicolor para más detalles." },
       { q: "¿Aceptáis pedidos urgentes online?", a: "Sí. Al pedir puedes seleccionar el plazo Express (recargo 25%) o Urgente (recargo 60%). Los pedidos urgentes se gestionan en horario laboral y tienen disponibilidad limitada." },
-      { q: "¿Sois un servicio online o físico?", a: "Los dos. Podemos enviar a toda España y Europa. Si estás en Barcelona, también puedes recoger en nuestro taller de la Rambla de Brasil, 53 (Les Corts)." },
+      { q: "¿Sois un servicio online o físico?", a: "Los dos. Podemos enviar a toda España y Europa. Si estás en Barcelona, también puedes recoger con cita previa en Les Corts." },
     ],
     galleryImages: pick("custom-brackets.jpg", "curved-parts.jpg", "intake-manifold.jpg", "red-adapter.jpg", "blue-molds.jpg", "black-intake.jpg"),
     related: [

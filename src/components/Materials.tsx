@@ -1,10 +1,8 @@
 import { Leaf, Shield, Zap, Cog } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useReveal } from "@/hooks/useReveal";
 
 const Materials = () => {
   const { t } = useLanguage();
-  const sectionRef = useReveal<HTMLElement>();
 
   const materials = [
     { icon: Leaf, name: "PLA", descKey: "materials.pla.desc", detailKey: "materials.pla.detail", color: "bg-green-500/10 text-green-600" },
@@ -14,7 +12,7 @@ const Materials = () => {
   ];
 
   return (
-    <section ref={sectionRef} id="materiales" className="py-12 md:py-28 bg-secondary/30">
+    <section id="materiales" className="py-12 md:py-28 bg-secondary/30">
       <div className="container px-4">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t("materials.title")}</h2>

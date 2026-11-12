@@ -38,7 +38,7 @@ const SLATE = "#94A3B8";
 // nearby yellows (#F0C860 partner text and #E9A23B brand apex) read as
 // deliberately co-branded, not as one colour rendered inconsistently.
 const LEMON_YELLOW = "#F0C860";
-const DISPLAY_FONT = "'Space Grotesk', 'Inter', sans-serif";
+const DISPLAY_FONT = "'Inter Tight', 'Inter', sans-serif";
 
 // Faceted Dimension3D crystal mark. Vertex coordinates and facet fills are
 // fixed by the plaque artwork — do not tweak them without a matching update
