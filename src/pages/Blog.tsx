@@ -53,7 +53,7 @@ const POSTS = [
     icon: GraduationCap,
     title: "Descuento 20% para Estudiantes Universitarios",
     subtitle: "Descuento universitario",
-    description: "20% de descuento en todos los pedidos de impresión 3D para estudiantes universitarios. Sin pedido mínimo. Mismo servicio express y calidad que el resto de clientes.",
+    description: "20% de descuento en todos los pedidos de impresión 3D para estudiantes universitarios. Pedido mínimo 10€. Mismo servicio express y calidad que el resto de clientes.",
     readTime: "3 min",
     tags: ["Estudiantes", "Descuento", "Universitarios"],
   },

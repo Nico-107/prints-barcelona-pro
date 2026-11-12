@@ -1,6 +1,12 @@
+import React from 'react';
+
 interface QuoteItem {
   text: string;
   author: string;
+  original?: string;
+  translatedLabel?: string;
+  seeLabel?: string;
+  hideLabel?: string;
 }
 
 interface QuoteFeatureProps {
@@ -9,6 +15,29 @@ interface QuoteFeatureProps {
   secondary?: QuoteItem[];
   variant?: 'dark' | 'light';
   className?: string;
+}
+
+function OriginalToggle({ item, isDark }: { item: QuoteItem; isDark: boolean }) {
+  const [open, setOpen] = React.useState(false);
+  if (!item.original || !item.translatedLabel) return null;
+  return (
+    <span style={{ display: 'block', marginTop: 10 }}>
+      <span style={{ fontSize: 13, color: isDark ? '#B8C4DA' : '#5B6577', marginRight: 6 }}>
+        {item.translatedLabel}
+      </span>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{ fontSize: 13, color: isDark ? '#F5A524' : '#2F5BEA', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
+      >
+        {open ? item.hideLabel : item.seeLabel}
+      </button>
+      {open && (
+        <span style={{ display: 'block', marginTop: 8, fontSize: 14, fontStyle: 'italic', color: isDark ? '#D5DCEA' : '#5B6577' }}>
+          "{item.original}"
+        </span>
+      )}
+    </span>
+  );
 }
 
 export function QuoteFeature({ label, featured, secondary, variant = 'dark', className }: QuoteFeatureProps) {
@@ -64,6 +93,7 @@ export function QuoteFeature({ label, featured, secondary, variant = 'dark', cla
           >
             {featured.author}
           </footer>
+          <OriginalToggle item={featured} isDark={isDark} />
         </blockquote>
         {secondary && secondary.length > 0 && (
           <div
@@ -97,6 +127,7 @@ export function QuoteFeature({ label, featured, secondary, variant = 'dark', cla
                 >
                   {q.author}
                 </footer>
+                <OriginalToggle item={q} isDark={isDark} />
               </blockquote>
             ))}
           </div>

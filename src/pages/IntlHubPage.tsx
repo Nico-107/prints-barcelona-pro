@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { capture } from "@/lib/analytics";
-import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, LinkCardGrid, QuoteFeature, UploadPanel } from "@/components/ds";
+import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -15,6 +15,8 @@ import type { IntlHubContent } from "@/data/intlTypes";
 import { INTL_MARKETS } from "@/config/intlMarkets";
 
 import { StlEstimator } from "@/components/StlEstimator";
+import { REVIEWS, reviewText } from "@/data/reviews";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Reference part for price table — 50 g, 0.8 h — same as B2B table.
 const _REF: PartEstimate = {
@@ -87,11 +89,35 @@ function renderProse(text: string) {
   });
 }
 
-const HUB_REVIEWS = [
-  { text: "Ready the very next morning. Absolutely fantastic quality.", author: "Sara D." },
-  { text: "Super quick response, the parts arrived in perfect condition.", author: "Lukas M." },
-  { text: "Excellent precision, our prototype fit perfectly on the first try.", author: "Isabelle R." },
-];
+
+function renderHowItWorks(text: string) {
+  const isStepList = /^\d+\.\s+\*\*/m.test(text);
+  if (!isStepList) return renderProse(text);
+
+  const lines = text.split('\n');
+  let heading: string | null = null;
+  const steps: Array<{ number: number; title: string; description: string }> = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    if (trimmed.startsWith('**') && trimmed.endsWith('**') && !/^\d+\./.test(trimmed)) {
+      heading = trimmed.slice(2, -2);
+      continue;
+    }
+    const m = trimmed.match(/^(\d+)\.\s+\*\*([^*]+)\*\*\s*[—–-]\s*(.+)/);
+    if (m) steps.push({ number: parseInt(m[1]), title: m[2], description: m[3] });
+  }
+
+  if (steps.length === 0) return renderProse(text);
+
+  return (
+    <>
+      {heading && <h2 className="font-bold text-foreground text-xl mb-6">{heading}</h2>}
+      <StepCards steps={steps} />
+    </>
+  );
+}
 
 interface Props {
   content: IntlHubContent;
@@ -99,6 +125,20 @@ interface Props {
 
 const IntlHubPage = ({ content }: Props) => {
   const PAGE_URL = `${SITE_URL}${content.slug}`;
+  const { t } = useLanguage();
+
+  const hubReviews = REVIEWS.slice(0, 3).map((r) => {
+    const text = reviewText(r, content.lang);
+    const isTranslated = content.lang !== r.originalLang;
+    return {
+      text,
+      author: `— ${r.name}`,
+      original: isTranslated ? r.original : undefined,
+      translatedLabel: isTranslated ? t("review.translatedFrom") : undefined,
+      seeLabel: t("review.seeOriginal"),
+      hideLabel: t("review.hideOriginal"),
+    };
+  });
 
   const scrollToCalc = (section: string) => {
     capture("international_cta_click", { market: content.countryCode, lang: content.lang, section });
@@ -259,7 +299,7 @@ const IntlHubPage = ({ content }: Props) => {
             { value: "< 1 h", label: content.trustChips[1] },
             { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
             { value: "5,90 €", label: content.trustChips[2] },
-            { value: "€10", label: content.trustChips[0] },
+            { value: "10 €", label: content.trustChips[0] },
           ]}
           variant="light"
         />
@@ -289,9 +329,9 @@ const IntlHubPage = ({ content }: Props) => {
         {/* How it works */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-4xl mx-auto">
               <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-                {renderProse(content.howItWorks)}
+                {renderHowItWorks(content.howItWorks)}
               </div>
             </div>
           </div>
@@ -323,7 +363,7 @@ const IntlHubPage = ({ content }: Props) => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-muted/50">
-                    <th className="px-4 py-3 text-left font-medium">Material</th>
+                    <th className="px-4 py-3 text-left font-medium">{content.materialLabel ?? "Material"}</th>
                     {PRICE_QTY.map((q) => (
                       <th key={q} className="px-4 py-3 text-right font-medium">
                         ×&thinsp;{q}
@@ -389,8 +429,8 @@ const IntlHubPage = ({ content }: Props) => {
 
         {/* Reviews */}
         <QuoteFeature
-          featured={HUB_REVIEWS[0]}
-          secondary={HUB_REVIEWS.slice(1)}
+          featured={hubReviews[0]}
+          secondary={hubReviews.slice(1)}
           variant="dark"
         />
 
@@ -398,7 +438,7 @@ const IntlHubPage = ({ content }: Props) => {
         <FinalCta
           heading={content.h1}
           cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
-          reassurance={content.promise.split("\n\n")[0]}
+          reassurance={content.noRegistration}
         />
       </main>
 

@@ -13,7 +13,7 @@ export const nlHub: IntlHubContent = {
   metaDescription: "3D printen laten maken vanuit Nederland? Dimension3D stuurt je print vanuit Barcelona. Offerte binnen 1 uur, verzending € 5,90 vlak, geen douane binnen de EU.",
   eyebrow: "🇳🇱 3D Printen vanuit Barcelona · Levering in Nederland",
   h1: "3D Printen Laten Maken — Bestel Online, Geleverd in Nederland",
-  heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf € 10, geen minimumbestelling.",
+  heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf €10, minimumbestelling €10.",
   ctaLabel: "Upload je bestand en zie de prijs",
   noRegistration: "Geen registratie · Geen verplichtingen",
   trustChips: ["Vanaf € 10", "Offerte in 1 uur", "Verzending € 5,90 getrackt", "Geen douane in de EU"],
@@ -76,6 +76,7 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
   whatsappMsg: "Hallo, ik wil graag een 3D-print laten maken via Dimension3D.",
   priceTableCaption: "Voorbeeldprijzen zijn indicatief en afhankelijk van materiaal, gewicht en printtijd. Minimumbestelling € 10.",
   breadcrumbHub: "3D Printen Laten Maken",
+  materialLabel: "Materiaal",
   cityLinks: [
     { to: "/nl/3d-printen-amsterdam", label: "3D Printen Amsterdam" },
     { to: "/nl/3d-printen-rotterdam", label: "3D Printen Rotterdam" },
@@ -556,6 +557,7 @@ export const frHub: IntlHubContent = {
   whatsappMsg: "Bonjour, je souhaite faire imprimer une pièce en 3D via Dimension3D.",
   priceTableCaption: "Les exemples de prix sont indicatifs et dépendent du matériau, du poids et du temps d'impression. Commande minimum de 10 €.",
   breadcrumbHub: "Impression 3D en Ligne",
+  materialLabel: "Matériau",
   cityLinks: [
     { to: "/fr/impression-3d-toulouse", label: "Impression 3D Toulouse" },
     { to: "/fr/impression-3d-montpellier", label: "Impression 3D Montpellier" },

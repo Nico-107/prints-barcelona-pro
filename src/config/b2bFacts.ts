@@ -204,9 +204,9 @@ export const FOUNDER = {
   },
   photoSrc: null as string | null, // owner: drop your photo at /images/nico.jpg and set the path here
   bio: {
-    es: "Creé Dimension3D para fabricar piezas reales con rapidez, sin mínimos y sin burocracia. Crecí en Asia y Europa, vivo en Barcelona y estudio Digital Business and Innovation. Atiendo directamente en español, catalán, inglés, alemán y polaco.",
-    en: "I started Dimension3D to make real parts fast, with no minimums and no overhead. I grew up across Asia and Europe, live in Barcelona, and study Digital Business and Innovation. I handle every project directly, in Spanish, Catalan, English, German, and Polish.",
-    ca: "Vaig crear Dimension3D per fabricar peces reals amb rapidesa, sense mínims i sense burocràcia. Vaig créixer a Àsia i Europa, visc a Barcelona i estudio Digital Business and Innovation. Atenc directament en espanyol, català, anglès, alemany i polonès.",
+    es: "Creé Dimension3D para fabricar piezas reales con rapidez, desde 10 € y sin burocracia. Crecí en Asia y Europa, vivo en Barcelona y estudio Digital Business and Innovation. Atiendo directamente en español, catalán, inglés, alemán y polaco.",
+    en: "I started Dimension3D to make real parts fast, from €10 and no overhead. I grew up across Asia and Europe, live in Barcelona, and study Digital Business and Innovation. I handle every project directly, in Spanish, Catalan, English, German, and Polish.",
+    ca: "Vaig crear Dimension3D per fabricar peces reals amb rapidesa, des de 10 € i sense burocràcia. Vaig créixer a Àsia i Europa, visc a Barcelona i estudio Digital Business and Innovation. Atenc directament en espanyol, català, anglès, alemany i polonès.",
   },
 };
 

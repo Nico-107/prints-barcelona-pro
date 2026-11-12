@@ -27,6 +27,7 @@ export interface IntlHubContent {
   cityLinks: Array<{ to: string; label: string }>;
   guideLinks: Array<{ to: string; label: string }>;
   orgAlternateNames: string[]; // country-specific alternate names for Organization JSON-LD
+  materialLabel?: string;     // localized "Material" for price table header; defaults to "Material"
 }
 
 export interface IntlCityContent {

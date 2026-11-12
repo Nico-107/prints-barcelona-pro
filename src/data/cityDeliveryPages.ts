@@ -383,7 +383,7 @@ Para proyectos industriales valencianos que necesitan piezas de forma regular, g
     nativeSection: {
       lang: "ca",
       headline: "Servei d'impressió 3D professional amb lliurament a València",
-      body: "Pressupost instantani en 1 hora. Lliurament en 1–2 dies hàbils des de Barcelona. FDM en PLA, PETG, ABS, Nylon i compostos de fibra de carboni. Sense comanda mínima.",
+      body: "Pressupost instantani en 1 hora. Lliurament en 1–2 dies hàbils des de Barcelona. FDM en PLA, PETG, ABS, Nylon i compostos de fibra de carboni. Comanda mínima: 10 €.",
       ctaLabel: "Demanar pressupost",
     },
     articleInLanguage: "es",

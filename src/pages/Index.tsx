@@ -15,6 +15,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
+import { REVIEWS, reviewText, reviewExcerpt } from "@/data/reviews";
 import { capture } from "@/lib/analytics";
 import {
   Hero as DsHero,
@@ -98,7 +99,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "¿Cuánto cuesta la impresión 3D en Barcelona?", desc: "Precios reales por tamaño y material, con ejemplos y tabla de tarifas." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
-      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Sin pedido mínimo, mismo servicio express." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Desde 10€, mismo servicio express." },
       { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Pedido mínimo 10 € — desde 1 pieza", desc: "Una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 10 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Repuesto descatalogado — lo imprimimos en 3D", desc: "¿El fabricante ya no lo vende? Reproducimos desde foto o la pieza original." },
     ],
@@ -109,7 +110,7 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "How much does 3D printing cost in Barcelona?", desc: "Real prices by size and material, with examples and a pricing table." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Urgent 3D printing — delivery in 24-48h", desc: "How the express service works and which materials are available." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Replacement parts & broken pieces in 3D", desc: "From photo or broken part to a printed replacement in Barcelona." },
-      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. No minimum order, same express service." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. From €10, same express service." },
       { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "10 € minimum order — from 1 part", desc: "Print a single part at the same per-unit price as a larger batch. Minimum order €10." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Discontinued part — we reproduce it in 3D", desc: "Manufacturer no longer sells it? We reproduce it from a photo or the original piece." },
     ],
@@ -120,39 +121,13 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "¿Cuánto cuesta la impresión 3D en Barcelona?", desc: "Precios reales por tamaño y material, con ejemplos y tabla de tarifas." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
-      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Sense comanda mínima, mateix servei express." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Des de 10€, mateix servei express." },
       { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Comanda mínima 10 € — des d'1 peça", desc: "Una sola peça al mateix preu per unitat que un lot. Comanda mínima 10 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Recanvi descatalogat — ho imprimim en 3D", desc: "El fabricant ja no ven la peça? La reproduïm des d'una foto o la peça original." },
     ],
   },
 };
 
-const GOOGLE_REVIEWS_DATA = [
-  {
-    name: "Sara Dospassos",
-    text: "What an amazing place! Mikolaj helped me with an urgent order on a Friday afternoon, and it was ready the very next morning. He not only delivered my pieces with a professional finish, but he even came over to where I was to hand them to me. Absolutely fantastic.",
-  },
-  {
-    name: "Kirill Gromskiy",
-    text: "I'm working for a construction company. We needed a special round shadow gap profile for a wall, but there was no way to buy one because nobody sells it. So we decided to make it with the help of 3D printing. It was fast, affordable, and worked perfectly.",
-  },
-  {
-    name: "Yasser Chyoukha",
-    text: "I had some parts printed for a project, and in addition to the excellent service and constant support, they helped me by doing resized tests so the printed nut would fit perfectly. The price was great, and it really saved me from a tight spot.",
-  },
-  {
-    name: "Filip Copaescu",
-    text: "Amazing! They were able to accurately 3D print this car part in TPU, a flexible material. Great quality and service.",
-  },
-  {
-    name: "Daniel Cáceres Álvarez",
-    text: "Spectacular! I bought two Stranger Things models for my Kinder Joy Funko Pops and they turned out great. Excellent service and quality.",
-  },
-  {
-    name: "Valentino Modestino Lombardi",
-    text: "Excellent on-demand 3D printing service, very helpful and patient customer service. Recommended!",
-  },
-];
 
 // What we print cards per language
 const WHAT_WE_PRINT: Record<string, { href: string; title: string; description: string }[]> = {
@@ -193,6 +168,48 @@ const ORDERS_LABEL: Record<string, string> = {
   nl: "250+ BESTELLINGEN GELEVERD",
   pt: "250+ ENCOMENDAS ENTREGUES",
 };
+
+function V2ReviewsSection({ language, t }: { language: string; t: (k: string) => string }) {
+  const [expanded, setExpanded] = useState(false);
+  const r0 = REVIEWS[0];
+  const excerpt = reviewExcerpt(r0, language);
+  const full = reviewText(r0, language);
+  return (
+    <section style={{ background: '#FFFFFF' }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px) clamp(40px,5vw,56px)", display: "flex", flexDirection: "column", gap: 26 }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#2F5BEA' }}>
+          {t("home.v2.reviews.label")}
+        </div>
+        <blockquote style={{ margin: 0, font: `600 clamp(28px, 3.6vw, 48px)/1.12 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.015em", maxWidth: 1080 }}>
+          "{excerpt}…"
+          <footer style={{ marginTop: 16, font: "500 15px 'Inter', sans-serif", color: '#5B6577' }}>— {r0.name}</footer>
+        </blockquote>
+        <div>
+          <button
+            onClick={() => setExpanded(e => !e)}
+            style={{ fontSize: 14, color: '#2F5BEA', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
+          >
+            {expanded ? t("review.readLess") : t("review.readMore")}
+          </button>
+          {expanded && (
+            <blockquote style={{ margin: "12px 0 0", background: '#F3F6FF', borderRadius: 16, padding: 22, fontSize: 16, color: '#26304A', maxWidth: 720 }}>
+              "{full}"
+              <footer style={{ marginTop: 10, fontSize: 14, color: '#5B6577' }}>— {r0.name}</footer>
+            </blockquote>
+          )}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
+          {REVIEWS.slice(1, 4).map((r) => (
+            <blockquote key={r.name} style={{ margin: 0, background: '#F3F6FF', borderRadius: 16, padding: 22, fontSize: 16, color: '#26304A' }}>
+              "{reviewText(r, language)}"
+              <footer style={{ marginTop: 10, fontSize: 14, color: '#5B6577' }}>{r.name}</footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const Index = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -484,7 +501,7 @@ const Index = () => {
         {/* ── V1 MOBILE QUOTE CARD (C3) — hidden on desktop, shown below facts strip on mobile ── */}
         <div className="xp-home-v1-only ds-v1-mobile-quote">
           <blockquote>
-            <p>{t("hero.quote1").replace(/^"|"$/g, "")}</p>
+            <p>{reviewExcerpt(REVIEWS[0], language)}</p>
           </blockquote>
         </div>
 
@@ -621,25 +638,7 @@ const Index = () => {
 
         {/* ── V2 REVIEWS (white section — after calculator) ── */}
         <div className="xp-home-v2-only">
-          <section style={{ background: '#FFFFFF' }}>
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px) clamp(40px,5vw,56px)", display: "flex", flexDirection: "column", gap: 26 }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#2F5BEA' }}>
-                {t("home.v2.reviews.label")}
-              </div>
-              <blockquote style={{ margin: 0, font: `600 clamp(28px, 3.6vw, 48px)/1.12 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.015em", maxWidth: 1080 }}>
-                "{GOOGLE_REVIEWS_DATA[0].text}"
-                <footer style={{ marginTop: 16, font: "500 15px 'Inter', sans-serif", color: '#5B6577' }}>{GOOGLE_REVIEWS_DATA[0].name}</footer>
-              </blockquote>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
-                {GOOGLE_REVIEWS_DATA.slice(1, 4).map((r) => (
-                  <blockquote key={r.name} style={{ margin: 0, background: '#F3F6FF', borderRadius: 16, padding: 22, fontSize: 16, color: '#26304A' }}>
-                    "{r.text}"
-                    <footer style={{ marginTop: 10, fontSize: 14, color: '#5B6577' }}>{r.name}</footer>
-                  </blockquote>
-                ))}
-              </div>
-            </div>
-          </section>
+          <V2ReviewsSection language={language} t={t} />
         </div>
 
         {/* ── V2 HOW WE PRINT (black section with nozzles fade) ── */}
@@ -812,12 +811,20 @@ const Index = () => {
             <QuoteFeature
               label={`★★★★★ ${formatRating(language)} · ${t("home.reviews.googleLabel")}`}
               featured={{
-                text: GOOGLE_REVIEWS_DATA[0].text,
-                author: `— ${GOOGLE_REVIEWS_DATA[0].name}`,
+                text: reviewText(REVIEWS[0], language),
+                author: `— ${REVIEWS[0].name}`,
+                original: language !== REVIEWS[0].originalLang ? REVIEWS[0].original : undefined,
+                translatedLabel: language !== REVIEWS[0].originalLang ? t("review.translatedFrom") : undefined,
+                seeLabel: t("review.seeOriginal"),
+                hideLabel: t("review.hideOriginal"),
               }}
-              secondary={GOOGLE_REVIEWS_DATA.slice(1, 4).map((r) => ({
-                text: r.text,
+              secondary={REVIEWS.slice(1, 4).map((r) => ({
+                text: reviewText(r, language),
                 author: `— ${r.name}`,
+                original: language !== r.originalLang ? r.original : undefined,
+                translatedLabel: language !== r.originalLang ? t("review.translatedFrom") : undefined,
+                seeLabel: t("review.seeOriginal"),
+                hideLabel: t("review.hideOriginal"),
               }))}
               variant="dark"
             />

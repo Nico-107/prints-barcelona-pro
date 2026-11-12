@@ -34,7 +34,7 @@ I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più t
 
 1. **Carica il file** — accettiamo STL, OBJ, STEP e 3MF. Se il tuo software esporta altro, scrivici su WhatsApp prima di caricare.
 2. **Ricevi il preventivo** — per ordini ≤ 200 € il prezzo appare immediatamente dopo l'analisi automatica del modello. Sopra soglia ricevi risposta entro un'ora nei giorni lavorativi.
-3. **Scegli materiale e finitura** — PLA per prototipi veloci ed economici, PETG per pezzi funzionali resistenti all'umidità, ABS per applicazioni ad alta temperatura, Nylon per componenti flessibili e resistenti all'usura.
+3. **Scegli materiale e finitura** — PLA per prototipi veloci ed economici, PETG per pezzi funzionali resistenti all'umidità, ABS per applicazioni ad alta temperatura, Nylon per componenti resistenti all'usura e agli urti.
 4. **Approva e paga** — il pagamento avviene online in sicurezza. Non ti chiediamo depositi o costi aggiuntivi.
 5. **Ricevi la spedizione** — il pacco parte da Barcellona e arriva solitamente in 3–5 giorni lavorativi. Ricevi il numero di tracciatura non appena il corriere ritira il pacco.`,
 
@@ -98,6 +98,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
   priceTableCaption:
     "Prezzi indicativi stampa 3D FDM — IVA spagnola inclusa, spedizione 5,90 € separata",
   breadcrumbHub: "Stampa 3D Online",
+  materialLabel: "Materiale",
 
   cityLinks: [
     { to: "/it/stampa-3d-milano", label: "Stampa 3D Milano" },

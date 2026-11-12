@@ -159,7 +159,7 @@ const InternationalServicePage = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-primary-foreground/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery in 3–7 business days anywhere in Europe. From €10. No minimum order.
+              Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery in 3–7 business days anywhere in Europe. From €10. No minimum quantity.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
@@ -359,7 +359,7 @@ const InternationalServicePage = () => {
                     <strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing, no review queues. Most orders ship within 3–7 business days from confirmation.
                   </li>
                   <li>
-                    <strong className="text-foreground">No minimum order.</strong> Unlike many industrial services that require batch minimums of 5 or 10 units, we print single parts starting at €10.
+                    <strong className="text-foreground">No minimum quantity.</strong> Unlike many industrial services that require batch minimums of 5 or 10 units, we print single parts starting at €10.
                   </li>
                   <li>
                     <strong className="text-foreground">Honest file review.</strong> A real human checks every file before it goes to print. If your model has a wall that will fail, we tell you before we print it — not after, when the part arrives broken.
