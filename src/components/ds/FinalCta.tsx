@@ -76,8 +76,8 @@ export function FinalCta({
             color: '#0F172A',
             border: 0,
             fontWeight: 700,
-            fontSize: 21,
-            padding: '22px 40px',
+            fontSize: 'clamp(15px, 4.2vw, 21px)' as string,
+            padding: 'clamp(14px, 3.5vw, 22px) clamp(16px, 4.5vw, 40px)',
             borderRadius: 14,
             cursor: 'pointer',
           }}

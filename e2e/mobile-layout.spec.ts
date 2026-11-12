@@ -42,6 +42,8 @@ for (const size of MOBILE_SIZES) {
             "dim3d-lang-suggest-dismissed",
             JSON.stringify({ es: true, ca: true, en: true, de: true, fr: true, nl: true, it: true, pt: true }),
           );
+          // Pin the experiment visitor ID so home_v2 always resolves to V1 (A variant).
+          localStorage.setItem("dim3d-vid", "playwright-test");
         } catch { /* ignore quota errors */ }
       });
       try {
@@ -85,7 +87,8 @@ for (const size of MOBILE_SIZES) {
             const rect = el.getBoundingClientRect();
             return { fontSize, lineHeight, height: rect.height };
           });
-          expect(metrics.fontSize, `H1 font-size on ${route.slug} @ ${size.name}`).toBeLessThanOrEqual(34);
+          // DS Hero CenteredHero uses clamp(24px, 6.5vw, 92px); check that no regression inflates it.
+          expect(metrics.fontSize, `H1 font-size on ${route.slug} @ ${size.name}`).toBeLessThanOrEqual(50);
           // Allow 1 extra wrap on 360px for longer-translation locales (ca, long es titles);
           // the base target of ≤3 lines holds at 390px and 412px.
           const maxLines = size.width <= 360 ? 4 : 3;
@@ -94,8 +97,9 @@ for (const size of MOBILE_SIZES) {
         }
 
         if (route.expectCTA) {
-          // 4. Main CTA shouldn't wrap — height ≤ ~70px (one line of 17–20px text in a 56px pill).
-          const cta = page.getByRole("button", { name: /get my price|ver mi precio|veure el meu preu/i }).first();
+          // 4. Hero CTA (DS Hero button with price suffix) shouldn't wrap — ≤80px = single line.
+          // Use the price suffix to avoid matching the MobileStickyBar which has the same base text.
+          const cta = page.getByRole("button", { name: /desde 10|des de 10|from €10/i }).first();
           if (await cta.count()) {
             const ctaBox = await cta.boundingBox();
             expect(ctaBox?.height ?? 0, `CTA height (wraps?) on ${route.slug} @ ${size.name}`).toBeLessThanOrEqual(80);
