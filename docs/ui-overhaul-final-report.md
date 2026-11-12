@@ -164,8 +164,8 @@ npm run build
 # → push/deploy per your existing pipeline
 
 # 5. Lighthouse spot-check on production URLs after deploy
-npx lighthouse https://www.dimension3d.es/ --only-categories=performance,accessibility,seo
-npx lighthouse https://www.dimension3d.es/precio-impresion-3d --only-categories=performance,accessibility,seo
+npx lighthouse https://www.dimension3dprints.com/ --only-categories=performance,accessibility,seo
+npx lighthouse https://www.dimension3dprints.com/precio-impresion-3d --only-categories=performance,accessibility,seo
 ```
 
 > Do **not** push `dist/main/` — it is a local comparison artefact and is in `.gitignore` (or should be added to it).
