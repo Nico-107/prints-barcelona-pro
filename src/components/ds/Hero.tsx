@@ -103,21 +103,10 @@ function CenteredHero({
               type="button"
               data-hero-cta="true"
               onClick={primaryButton.onClick}
+              className="ds-btn-primary"
               style={{
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 12,
-                background: '#F5A524',
-                color: '#0F172A',
-                fontWeight: 700,
                 fontSize: 'clamp(15px, 4.2vw, 22px)',
                 padding: 'clamp(14px, 3.5vw, 20px) clamp(16px, 4.5vw, 32px)',
-                borderRadius: 12,
-                border: 0,
-                cursor: 'pointer',
-                fontFamily: "'Inter', system-ui, sans-serif",
                 width: '100%',
                 maxWidth: 480,
                 boxSizing: 'border-box' as const,
@@ -350,19 +339,10 @@ function SplitImageHero({
             type="button"
             data-hero-cta="true"
             onClick={primaryButton?.onClick}
+            className="ds-btn-primary"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 12,
-              background: '#F5A524',
-              color: '#0B1120',
-              fontWeight: 700,
               fontSize: 'clamp(16px, 4.5vw, 23px)' as string,
               padding: 'clamp(16px, 4vw, 24px) clamp(24px, 6.4vw, 46px)',
-              borderRadius: 14,
-              border: 0,
-              cursor: 'pointer',
-              fontFamily: "'Inter', system-ui, sans-serif",
             }}
           >
             {primaryButton?.label}

@@ -498,7 +498,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Iteracions sense fricció",
-        body: "Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Sense subscripció, sense comanda mínima per iteració i sense burocràcia — puges, revisem, pressupostem, aproves, imprimim. Per a clients que iteraren amb freqüència conservem el teu projecte en arxiu i podem rebre revisions per WhatsApp directament."
+        body: "Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Sense subscripció, comanda mínima de 10€ per iteració, sense burocràcia — puges, revisem, pressupostem, aproves, imprimim. Per a clients que iteraren amb freqüència conservem el teu projecte en arxiu i podem rebre revisions per WhatsApp directament."
       },
       {
         heading: "Del prototip a la tirada curta de producció",

@@ -5,7 +5,13 @@
     { "source": "/ca/impressio-3d-barcelona", "destination": "/ca/", "permanent": true },
     { "source": "/impresion-3d-madrid", "destination": "/madrid", "permanent": true },
     { "source": "/impresion-3d-con-entrega-a-madrid", "destination": "/madrid", "permanent": true },
-    { "source": "/catalogo/placa-mascota", "destination": "/catalogo/placa-nombre", "permanent": true }
+    { "source": "/catalogo/placa-mascota", "destination": "/catalogo/placa-nombre", "permanent": true },
+    { "source": "/en", "destination": "/3d-printing-service", "permanent": false },
+    { "source": "/de", "destination": "/de/3d-druck-service", "permanent": false },
+    { "source": "/fr", "destination": "/fr/impression-3d-en-ligne", "permanent": false },
+    { "source": "/it", "destination": "/it/stampa-3d-online", "permanent": false },
+    { "source": "/nl", "destination": "/nl/3d-printen-laten-maken", "permanent": false },
+    { "source": "/pt", "destination": "/pt/impressao-3d-online", "permanent": false }
   ],
   "rewrites": [
     { "source": "/admin", "destination": "/index.html" },

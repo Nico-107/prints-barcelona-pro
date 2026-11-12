@@ -70,7 +70,7 @@ const MobileStickyBar = ({ onUploadClick }: Props) => {
 
   return (
     <div
-      className="xl:hidden fixed bottom-0 left-0 z-[45] flex items-center px-4"
+      className="md:hidden fixed bottom-0 left-0 z-[45] flex items-center px-4"
       style={{
         height: "calc(56px + env(safe-area-inset-bottom))",
         paddingBottom: "env(safe-area-inset-bottom)",

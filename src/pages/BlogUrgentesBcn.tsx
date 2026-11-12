@@ -542,7 +542,7 @@ const BlogUrgentesBcn = () => {
 
         <div className="container px-4 pb-8 max-w-3xl mx-auto">
           <div className="rounded-xl border border-border bg-secondary/30 p-5 mb-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Sin pedido mínimo</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 10€</p>
             <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
               <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
                 ¿Solo necesitas una pieza? Desde 10€ sin pedido mínimo

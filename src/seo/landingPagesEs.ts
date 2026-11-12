@@ -498,7 +498,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Iteraciones sin fricción",
-        body: "Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Sin suscripción, sin pedido mínimo por iteración y sin burocracia — subes, revisamos, presupuestamos, apruebas, imprimimos. Para clientes que iteran con frecuencia conservamos tu proyecto en archivo y podemos recibir revisiones por WhatsApp directamente."
+        body: "Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Sin suscripción, pedido mínimo de 10€ por iteración, sin burocracia — subes, revisamos, presupuestamos, apruebas, imprimimos. Para clientes que iteran con frecuencia conservamos tu proyecto en archivo y podemos recibir revisiones por WhatsApp directamente."
       },
       {
         heading: "Del prototipo a la tirada corta de producción",
@@ -1356,7 +1356,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Impresión 3D Online — Envío a Toda España desde 10€",
     metaDescription: "Servicio de impresión 3D online sin pedido mínimo. Sube STL, 3MF, OBJ o STEP, recibe precio en 1h, envío a toda España por 5,90€. Desde 10€.",
     h1: "Impresión 3D online, sin pedido mínimo y con envío a casa",
-    intro: "Dimension3D es un servicio de impresión 3D online desde Barcelona. Sube tu archivo, recibe un precio en menos de 1 hora, y recibe la pieza en casa en 2–5 días laborables en cualquier punto de España. No hay pedido mínimo, no hay setup fee, y un humano revisa cada pedido antes de imprimir.",
+    intro: "Dimension3D es un servicio de impresión 3D online desde Barcelona. Sube tu archivo, recibe un precio en menos de 1 hora, y recibe la pieza en casa en 2–5 días laborables en cualquier punto de España. Pedido mínimo 10€, sin setup fee, y un humano revisa cada pedido antes de imprimir.",
     sections: [
       {
         heading: "¿Cómo funciona el pedido online?",

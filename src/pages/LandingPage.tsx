@@ -15,6 +15,8 @@ import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { StlEstimator } from "@/components/StlEstimator";
 import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid, UploadPanel, FactsStrip, QuoteFeature } from "@/components/ds";
+import { REVIEWS, reviewText } from "@/data/reviews";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -33,11 +35,6 @@ const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
 const DEFAULT_DATE_PUBLISHED = "2026-08-01";
 const DEFAULT_DATE_MODIFIED = "2026-08-10";
 
-const LANDING_REVIEWS = [
-  { text: "What an amazing place! Mikolaj helped me with an urgent order on a Friday afternoon, and it was ready the very next morning. He not only delivered with a professional finish, but even came over to hand them to me.", author: "Sara D." },
-  { text: "It was fast, affordable, and worked perfectly. We needed a custom profile nobody sells — 3D printing solved it.", author: "Kirill G." },
-  { text: "The price was great, and it really saved me from a tight spot. They helped me do resized tests so the printed nut would fit perfectly.", author: "Yasser C." },
-];
 
 interface Props {
   page?: LandingContent;
@@ -110,6 +107,7 @@ function inlineMarkdown(text: string): React.ReactNode {
 const LandingPage = ({ page: pageProp }: Props) => {
   const params = useParams();
   const navigate = useNavigate();
+  const { t: tLang } = useLanguage();
   // when used as element with explicit page prop, use it; otherwise lookup by location
   const slug = pageProp?.slug ?? `/${params["*"] ?? ""}`;
   const page = pageProp ?? PAGES_BY_SLUG[slug];
@@ -594,8 +592,22 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
         {/* Reviews */}
         <QuoteFeature
-          featured={LANDING_REVIEWS[0]}
-          secondary={LANDING_REVIEWS.slice(1)}
+          featured={{
+            text: reviewText(REVIEWS[0], page.lang),
+            author: `— ${REVIEWS[0].name}`,
+            original: page.lang !== REVIEWS[0].originalLang ? REVIEWS[0].original : undefined,
+            translatedLabel: page.lang !== REVIEWS[0].originalLang ? tLang("review.translatedFrom") : undefined,
+            seeLabel: tLang("review.seeOriginal"),
+            hideLabel: tLang("review.hideOriginal"),
+          }}
+          secondary={REVIEWS.slice(1, 3).map((r) => ({
+            text: reviewText(r, page.lang),
+            author: `— ${r.name}`,
+            original: page.lang !== r.originalLang ? r.original : undefined,
+            translatedLabel: page.lang !== r.originalLang ? tLang("review.translatedFrom") : undefined,
+            seeLabel: tLang("review.seeOriginal"),
+            hideLabel: tLang("review.hideOriginal"),
+          }))}
           variant="dark"
         />
 

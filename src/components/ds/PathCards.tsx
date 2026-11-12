@@ -14,10 +14,10 @@ interface PathCardsProps {
   className?: string;
 }
 
-const CARD_STYLES: Record<PathCard['variant'], { bg: string; color: string; labelColor: string; ctaColor: string }> = {
-  amber: { bg: '#F5A524', color: '#0B1120', labelColor: '#0B1120', ctaColor: '#0B1120' },
-  blue: { bg: '#2F5BEA', color: '#FFFFFF', labelColor: '#FFFFFF', ctaColor: '#FFFFFF' },
-  dark: { bg: '#0B1120', color: '#FFFFFF', labelColor: '#F5A524', ctaColor: '#F5A524' },
+const CARD_STYLES: Record<PathCard['variant'], { bg: string; color: string; labelColor: string; ctaColor: string; ctaBg: string; ctaBorder: string }> = {
+  amber: { bg: '#F5A524', color: '#0B1120', labelColor: '#0B1120', ctaColor: '#0B1120', ctaBg: 'rgba(255,255,255,.88)', ctaBorder: 'rgba(0,0,0,.12)' },
+  blue:  { bg: '#2F5BEA', color: '#FFFFFF', labelColor: '#FFFFFF', ctaColor: '#0B1120', ctaBg: 'rgba(255,255,255,.92)', ctaBorder: 'rgba(0,0,0,.12)' },
+  dark:  { bg: '#0B1120', color: '#FFFFFF', labelColor: '#F5A524', ctaColor: '#0B1120', ctaBg: '#F5A524',               ctaBorder: '#D8870B' },
 };
 
 export function PathCards({ heading, cards, className }: PathCardsProps) {
@@ -74,15 +74,23 @@ export function PathCards({ heading, cards, className }: PathCardsProps) {
               <p style={{ margin: 0, color: card.variant === 'dark' ? '#D5DCEA' : undefined }}>
                 {card.description}
               </p>
-              <div
-                style={{
-                  marginTop: 'auto',
-                  fontWeight: 700,
-                  fontSize: 18,
-                  color: style.ctaColor,
-                }}
-              >
-                {card.cta}
+              <div style={{ marginTop: 'auto' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    background: style.ctaBg,
+                    border: `1px solid ${style.ctaBorder}`,
+                    color: style.ctaColor,
+                    fontWeight: 700,
+                    fontSize: 15,
+                    padding: '8px 16px',
+                    borderRadius: 20,
+                  }}
+                >
+                  <span className="ds-path-card-arrow">{card.cta}</span>
+                </span>
               </div>
             </>
           );
@@ -101,17 +109,18 @@ export function PathCards({ heading, cards, className }: PathCardsProps) {
             textAlign: 'left',
             cursor: 'pointer',
           };
+          const sharedClassName = "ds-path-card";
 
           if (card.href) {
             return (
-              <a key={i} href={card.href} style={sharedStyle}>
+              <a key={i} href={card.href} style={sharedStyle} className={sharedClassName}>
                 {inner}
               </a>
             );
           }
 
           return (
-            <button key={i} type="button" onClick={card.onClick} style={sharedStyle}>
+            <button key={i} type="button" onClick={card.onClick} style={sharedStyle} className={sharedClassName}>
               {inner}
             </button>
           );

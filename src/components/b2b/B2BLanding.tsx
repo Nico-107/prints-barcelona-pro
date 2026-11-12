@@ -11,6 +11,8 @@ import {
   Upload,
 } from "lucide-react";
 import { LinkCardGrid, QuoteFeature, StepCards, UploadPanel, FactsStrip } from "@/components/ds";
+import { REVIEWS, reviewText } from "@/data/reviews";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -449,11 +451,6 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
   },
 };
 
-const B2B_REVIEWS = [
-  { text: "Prototype in 48 hours, invoice on the same day. Exactly what we needed for our product launch.", author: "Intercruises — event production" },
-  { text: "Super quick response, 10 identical fixtures ordered and delivered in 3 days.", author: "GS Bikes — Barcelona" },
-  { text: "NDA signed, files handled carefully, repeat orders are instant.", author: "Cultural Habits — product studio" },
-];
 
 // ---------------------------------------------------------------------------
 // Component
@@ -467,6 +464,7 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
   const c = CONTENT[lang];
+  const { t } = useLanguage();
   const endRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -1017,8 +1015,22 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
 
         {/* ── 8d. REVIEWS ── */}
         <QuoteFeature
-          featured={B2B_REVIEWS[0]}
-          secondary={B2B_REVIEWS.slice(1)}
+          featured={{
+            text: reviewText(REVIEWS[0], lang),
+            author: `— ${REVIEWS[0].name}`,
+            original: lang !== REVIEWS[0].originalLang ? REVIEWS[0].original : undefined,
+            translatedLabel: lang !== REVIEWS[0].originalLang ? t("review.translatedFrom") : undefined,
+            seeLabel: t("review.seeOriginal"),
+            hideLabel: t("review.hideOriginal"),
+          }}
+          secondary={REVIEWS.slice(1, 3).map((r) => ({
+            text: reviewText(r, lang),
+            author: `— ${r.name}`,
+            original: lang !== r.originalLang ? r.original : undefined,
+            translatedLabel: lang !== r.originalLang ? t("review.translatedFrom") : undefined,
+            seeLabel: t("review.seeOriginal"),
+            hideLabel: t("review.hideOriginal"),
+          }))}
           variant="dark"
         />
 

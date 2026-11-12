@@ -357,10 +357,10 @@ const CityDeliveryPage = ({ config }: Props) => {
 
               <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
                 {(isES
-                  ? ["Desde €10", "Presupuesto en 1 hora", "Seguimiento incluido", "Sin pedido mínimo", "Sin registro"]
+                  ? ["Desde €10", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 10€", "Sin registro"]
                   : isFR
-                  ? ["À partir de 10 €", "Devis en 1 heure", "Livraison suivie", "Sans minimum de commande", "Sans inscription"]
-                  : ["From €10", "Quote in 1 hour", "Tracked delivery", "No minimum order", "No account needed"]
+                  ? ["À partir de 10 €", "Devis en 1 heure", "Livraison suivie", "Min. 10 €", "Sans inscription"]
+                  : ["From €10", "Quote in 1 hour", "Tracked delivery", "10 € min.", "No account needed"]
                 ).map((label) => (
                   <span
                     key={label}
@@ -867,7 +867,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         3–7 días laborables desde la confirmación.
                       </li>
                       <li>
-                        <strong className="text-foreground">Sin pedido mínimo.</strong> Imprimimos desde una sola pieza
+                        <strong className="text-foreground">Sin mínimo de cantidad.</strong> Imprimimos desde una sola pieza
                         a partir de €10. Los servicios industriales suelen exigir lotes mínimos de 5 o 10 unidades.
                       </li>
                       <li>
@@ -895,7 +895,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         <>
                           <li><strong className="text-foreground">Communication directe.</strong> Vous échangez avec la personne qui imprime réellement votre pièce, pas avec un bot ou une file de tickets. Les questions reçoivent une réponse en minutes, pas en jours.</li>
                           <li><strong className="text-foreground">Délais plus courts pour les petites commandes.</strong> Pas d'intermédiaire de marketplace, pas de routage multi-étapes. La plupart des commandes sont expédiées sous 3–7 jours ouvrables.</li>
-                          <li><strong className="text-foreground">Sans minimum de commande.</strong> Nous imprimons des pièces uniques à partir de 10 €. Contrairement à de nombreux services industriels qui exigent des minimums de 5 ou 10 pièces.</li>
+                          <li><strong className="text-foreground">Sans minimum de quantité.</strong> Nous imprimons des pièces uniques à partir de 10 €. Contrairement à de nombreux services industriels qui exigent des minimums de 5 ou 10 pièces.</li>
                           <li><strong className="text-foreground">Révision honnête du fichier.</strong> Un humain vérifie chaque fichier avant impression. Si votre modèle présente un problème, nous vous le signalons avant d'imprimer — pas après réception d'une pièce cassée.</li>
                           <li><strong className="text-foreground">Accès WhatsApp.</strong> Pour les projets urgents ou complexes, contactez-nous directement. Nous répondons dans l'heure pendant les heures de bureau.</li>
                         </>
@@ -903,7 +903,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         <>
                           <li><strong className="text-foreground">Direct communication.</strong> You message the person who actually prints your part, not a support bot or a ticket queue. Questions are answered in minutes, not days.</li>
                           <li><strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing. Most orders ship within 3–7 business days from confirmation.</li>
-                          <li><strong className="text-foreground">No minimum order.</strong> We print single parts starting at €10. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
+                          <li><strong className="text-foreground">No minimum quantity.</strong> We print single parts starting at €10. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
                           <li><strong className="text-foreground">Honest file review.</strong> A real human checks every file before it goes to print. If your model has a wall that will fail, we tell you before we print it — not after, when the part arrives broken.</li>
                           <li><strong className="text-foreground">WhatsApp access.</strong> For urgent or complex projects, reach us directly — something no platform-based service can match. We aim to respond within the hour during business hours.</li>
                         </>

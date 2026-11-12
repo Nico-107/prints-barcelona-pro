@@ -6,7 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { capture } from "@/lib/analytics";
-import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, LinkCardGrid, QuoteFeature, UploadPanel } from "@/components/ds";
+import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, FounderSection, LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
+import { whatsappUrl } from "@/config/cities";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { WEBSITE_SCHEMA } from "@/seo/entities";
 import { EST, priceOrder } from "@/lib/estimator/core";
@@ -15,6 +16,8 @@ import type { IntlHubContent } from "@/data/intlTypes";
 import { INTL_MARKETS } from "@/config/intlMarkets";
 
 import { StlEstimator } from "@/components/StlEstimator";
+import { REVIEWS, reviewText } from "@/data/reviews";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Reference part for price table — 50 g, 0.8 h — same as B2B table.
 const _REF: PartEstimate = {
@@ -87,11 +90,35 @@ function renderProse(text: string) {
   });
 }
 
-const HUB_REVIEWS = [
-  { text: "Ready the very next morning. Absolutely fantastic quality.", author: "Sara D." },
-  { text: "Super quick response, the parts arrived in perfect condition.", author: "Lukas M." },
-  { text: "Excellent precision, our prototype fit perfectly on the first try.", author: "Isabelle R." },
-];
+
+function renderHowItWorks(text: string) {
+  const isStepList = /^\d+\.\s+\*\*/m.test(text);
+  if (!isStepList) return renderProse(text);
+
+  const lines = text.split('\n');
+  let heading: string | null = null;
+  const steps: Array<{ number: number; title: string; description: string }> = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    if (trimmed.startsWith('**') && trimmed.endsWith('**') && !/^\d+\./.test(trimmed)) {
+      heading = trimmed.slice(2, -2);
+      continue;
+    }
+    const m = trimmed.match(/^(\d+)\.\s+\*\*([^*]+)\*\*\s*[—–-]\s*(.+)/);
+    if (m) steps.push({ number: parseInt(m[1]), title: m[2], description: m[3] });
+  }
+
+  if (steps.length === 0) return renderProse(text);
+
+  return (
+    <>
+      {heading && <h2 className="font-bold text-foreground text-xl mb-6">{heading}</h2>}
+      <StepCards steps={steps} />
+    </>
+  );
+}
 
 interface Props {
   content: IntlHubContent;
@@ -99,6 +126,20 @@ interface Props {
 
 const IntlHubPage = ({ content }: Props) => {
   const PAGE_URL = `${SITE_URL}${content.slug}`;
+  const { t } = useLanguage();
+
+  const hubReviews = REVIEWS.slice(0, 3).map((r) => {
+    const text = reviewText(r, content.lang);
+    const isTranslated = content.lang !== r.originalLang;
+    return {
+      text,
+      author: `— ${r.name}`,
+      original: isTranslated ? r.original : undefined,
+      translatedLabel: isTranslated ? t("review.translatedFrom") : undefined,
+      seeLabel: t("review.seeOriginal"),
+      hideLabel: t("review.hideOriginal"),
+    };
+  });
 
   const scrollToCalc = (section: string) => {
     capture("international_cta_click", { market: content.countryCode, lang: content.lang, section });
@@ -233,36 +274,65 @@ const IntlHubPage = ({ content }: Props) => {
       <Header />
 
       <main id="main-content" className="pt-[var(--header-h)]">
-        {/* Hero */}
-        <DsHero
-          variant="centered"
-          extendBehindHeader={false}
-          starLine={
-            <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
-              <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
-              <span>/</span>
-              <span>{content.breadcrumbHub}</span>
-            </span>
-          }
-          h1={content.h1}
-          paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
-          primaryButton={{
-            label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
-            onClick: () => scrollToCalc("hero"),
-          }}
-          reassuranceItems={content.trustChips}
-        />
+        {/* V1 hero */}
+        <div className="xp-home-v1-only">
+          <DsHero
+            variant="centered"
+            extendBehindHeader={false}
+            starLine={
+              <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center', color: '#B8C4DA' }}>
+                <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+                <span>/</span>
+                <span>{content.breadcrumbHub}</span>
+              </span>
+            }
+            h1={content.h1}
+            paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
+            primaryButton={{
+              label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+              onClick: () => scrollToCalc("hero"),
+            }}
+            reassuranceItems={content.trustChips}
+          />
+        </div>
 
-        {/* Quick stats */}
-        <FactsStrip
-          items={[
+        {/* V2 hero — split-image, extends behind fixed header via built-in marginTop=-header-h */}
+        <div className="xp-home-v2-only">
+          <DsHero
+            variant="split-image"
+            starLine={
+              <span style={{ display: 'flex', gap: '4px 10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <Link to="/" style={{ color: '#B8C4DA', textDecoration: 'none' }}>Dimension3D</Link>
+                <span style={{ color: '#B8C4DA' }}>/</span>
+                <span style={{ color: '#B8C4DA' }}>{content.breadcrumbHub}</span>
+              </span>
+            }
+            h1={content.h1}
+            paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
+            primaryButton={{
+              label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,
+              onClick: () => scrollToCalc("hero"),
+            }}
+            reassuranceItems={[content.noRegistration]}
+            splitImage={{ src: "/img/x2d/x2d-inside.jpg", alt: content.h1 }}
+          />
+        </div>
+
+        {/* Quick stats — V1 light, V2 dark */}
+        {(() => {
+          const statsItems = [
             { value: "< 1 h", label: content.trustChips[1] },
             { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
             { value: "5,90 €", label: content.trustChips[2] },
-            { value: "€10", label: content.trustChips[0] },
-          ]}
-          variant="light"
-        />
+            { value: "10 €", label: content.trustChips[0] },
+          ];
+          return (
+            <>
+              <div className="xp-home-v1-only"><FactsStrip items={statsItems} variant="light" /></div>
+              <div className="xp-home-v2-only"><FactsStrip items={statsItems} variant="dark" /></div>
+            </>
+          );
+        })()}
 
         {/* Calculator */}
         <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
@@ -289,9 +359,9 @@ const IntlHubPage = ({ content }: Props) => {
         {/* How it works */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-4xl mx-auto">
               <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
-                {renderProse(content.howItWorks)}
+                {renderHowItWorks(content.howItWorks)}
               </div>
             </div>
           </div>
@@ -300,7 +370,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* What we print */}
         <section className="py-14 md:py-20 bg-background">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+            <div className="max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.whatWePrint)}
             </div>
           </div>
@@ -309,7 +379,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Materials */}
         <section className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
-            <div className="max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+            <div className="max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.materialsText)}
             </div>
           </div>
@@ -323,7 +393,7 @@ const IntlHubPage = ({ content }: Props) => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-muted/50">
-                    <th className="px-4 py-3 text-left font-medium">Material</th>
+                    <th className="px-4 py-3 text-left font-medium">{content.materialLabel ?? "Material"}</th>
                     {PRICE_QTY.map((q) => (
                       <th key={q} className="px-4 py-3 text-right font-medium">
                         ×&thinsp;{q}
@@ -367,7 +437,7 @@ const IntlHubPage = ({ content }: Props) => {
         {/* Long SEO text (optional) */}
         {content.seoText && (
           <section className="py-14 bg-secondary/20">
-            <div className="container px-4 max-w-3xl mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+            <div className="container px-4 max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.seoText)}
             </div>
           </section>
@@ -389,16 +459,29 @@ const IntlHubPage = ({ content }: Props) => {
 
         {/* Reviews */}
         <QuoteFeature
-          featured={HUB_REVIEWS[0]}
-          secondary={HUB_REVIEWS.slice(1)}
+          featured={hubReviews[0]}
+          secondary={hubReviews.slice(1)}
           variant="dark"
         />
+
+        {/* Founder section — V2 only */}
+        <div className="xp-home-v2-only">
+          <FounderSection
+            imageSrc="/img/x2d/x2d-room.jpg"
+            imageAlt={t("home.founder.spec1")}
+            label={t("home.founder.label")}
+            heading={t("home.founder.heading")}
+            body={t("home.founder.body")}
+            specs={[t("home.founder.spec1"), t("home.founder.spec2"), t("home.founder.spec3")]}
+            cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
+          />
+        </div>
 
         {/* Final CTA band */}
         <FinalCta
           heading={content.h1}
           cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
-          reassurance={content.promise.split("\n\n")[0]}
+          reassurance={content.noRegistration}
         />
       </main>
 

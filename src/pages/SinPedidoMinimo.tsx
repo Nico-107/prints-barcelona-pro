@@ -136,13 +136,13 @@ const SinPedidoMinimo = () => {
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-6">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona imprime piezas únicas desde 10€ sin pedido mínimo. Puedes encargar un solo clip de 3 gramos, un adaptador de 50 gramos o un soporte de 200 gramos y pagarás el precio por pieza sin ningún importe mínimo de pedido. Presupuesto gratis en menos de 1 hora. Entrega en 24–48 horas en Barcelona o envío a toda España por 5,90€.
+                Dimension3D Barcelona imprime piezas únicas desde 10€. Puedes encargar un solo clip de 3 gramos, un adaptador de 50 gramos o un soporte de 200 gramos — el pedido mínimo es 10€ por encargo, sin mínimo de cantidad. Presupuesto gratis en menos de 1 hora. Entrega en 24–48 horas en Barcelona o envío a toda España por 5,90€.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3 mb-8">
               {[
-                "Sin pedido mínimo",
+                "Mínimo 10€ por pedido",
                 "Desde 10€ por pieza",
                 "Presupuesto en &lt;1h",
                 "Entrega 24–48h",
@@ -360,7 +360,7 @@ const SinPedidoMinimo = () => {
                   ¿Necesitas varias piezas para tu empresa?
                 </p>
                 <p className="text-xs text-foreground/55 leading-relaxed mb-3">
-                  Prototipos, recambios de maquinaria y piezas de marca para empresas. Sin pedido mínimo, NDA disponible.
+                  Prototipos, recambios de maquinaria y piezas de marca para empresas. Desde 10€, NDA disponible.
                 </p>
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent">
                   Servicio para empresas <ArrowRight className="w-3 h-3" />
@@ -375,13 +375,13 @@ const SinPedidoMinimo = () => {
         <section ref={endRef as React.RefObject<HTMLElement>} className="py-16 md:py-20 bg-foreground text-background">
           <div className="container px-4 max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-              Sin pedido mínimo · Desde 10€
+              Mínimo 10€ por pedido · Sin cantidad mínima
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-background mb-4">
               ¿Necesitas una sola pieza?
             </h2>
             <p className="text-background/70 leading-relaxed mb-8 max-w-lg mx-auto">
-              Mándanos el archivo STL o una foto por WhatsApp. En menos de una hora tienes presupuesto, sin compromiso y sin pedido mínimo.
+              Mándanos el archivo STL o una foto por WhatsApp. En menos de una hora tienes presupuesto, sin compromiso. Pedido mínimo 10€, sin cantidad mínima.
             </p>
             <Button onClick={handleWhatsApp} variant="cta" size="lg" className="gap-2">
               <MessageCircle className="w-5 h-5" />
