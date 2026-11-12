@@ -1036,4 +1036,6 @@ export const deTranslations: Record<string, string> = {
   "header.v2.sin": "Ohne Datei",
   "header.v2.rating": "4,8 · 250+ Bestellungen",
   "header.v2.cta": "Preis sehen",
+  "header.menu.open": "Menü öffnen",
+  "header.menu.close": "Menü schließen",
 };

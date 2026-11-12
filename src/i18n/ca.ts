@@ -1035,4 +1035,6 @@ export const caTranslations: Record<string, string> = {
   "header.v2.sin": "Sense arxiu",
   "header.v2.rating": "4,8 · 250+ comandes",
   "header.v2.cta": "Veure el meu preu",
+  "header.menu.open": "Obrir menú",
+  "header.menu.close": "Tancar menú",
 };

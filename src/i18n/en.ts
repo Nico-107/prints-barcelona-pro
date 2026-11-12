@@ -1041,4 +1041,6 @@ export const enTranslations: Record<string, string> = {
   "header.v2.sin": "No file",
   "header.v2.rating": "4.8 · 250+ orders",
   "header.v2.cta": "See my price",
+  "header.menu.open": "Open menu",
+  "header.menu.close": "Close menu",
 };

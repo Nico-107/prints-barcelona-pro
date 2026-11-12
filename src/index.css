@@ -160,6 +160,13 @@
     font-family: 'Inter', sans-serif;
   }
 
+  /* Add bottom clearance on mobile when the sticky price bar is showing */
+  @media (max-width: 767px) {
+    body[data-sticky-bar="visible"] main {
+      padding-bottom: calc(56px + env(safe-area-inset-bottom));
+    }
+  }
+
   /* Mobile overflow guard — the hero decorative blobs and offset elements can
      push the body width past the viewport. Clip the horizontal axis on narrow
      screens; nothing in the layout relies on horizontal page scroll. */
@@ -215,13 +222,13 @@
 
   /* Section vertical padding */
   .ds-section {
-    padding-top: 84px;
-    padding-bottom: 84px;
+    padding-top: 96px;
+    padding-bottom: 96px;
   }
   @media (max-width: 639px) {
     .ds-section {
-      padding-top: 56px;
-      padding-bottom: 56px;
+      padding-top: 64px;
+      padding-bottom: 64px;
     }
   }
 
@@ -465,14 +472,9 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   .ds-hero-facts > *:nth-child(2n)   { padding-right: 0; }
 }
 
-/* ── SplitImageHero: photo-on-top, full-screen layout on mobile ───────────── */
+/* ── SplitImageHero: text-first layout on mobile (H1 must be fully visible) ── */
 @media (max-width: 767px) {
-  /* Section fills the first screen so quote+stats land above the fold.
-     padding-top doubles the header offset so the photo starts BELOW the
-     header (matching the reference mobile-hero.html where the header is in
-     flow), which pushes the H1 below the photo's dark-gradient zone. */
   .ds-hero-split-section {
-    padding-top: calc(var(--header-h) * 2) !important;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
@@ -481,27 +483,27 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
     flex: 1;
     flex-direction: column !important;
   }
+  /* Image sits BELOW the text column — no order override */
   .ds-hero-split-img {
-    order: -1;
     flex: none !important;
     width: 100% !important;
-    min-height: 250px !important;
-    max-height: 250px !important;
+    min-height: 220px !important;
+    max-height: 280px !important;
   }
   .ds-hero-split-img img,
   .ds-hero-split-img picture { width: 100%; height: 100%; display: block; }
   .ds-hero-split-fade {
-    background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%) !important;
+    background: linear-gradient(0deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 60%) !important;
   }
   .ds-hero-split-text {
-    flex: 1 !important;
+    flex: none !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    padding: 0 18px 16px !important;
-    margin-top: -54px !important;
+    padding: 24px 18px 16px !important;
+    margin-top: 0 !important;
     margin-left: 0 !important;
     max-width: none !important;
-    gap: 14px !important;
+    gap: 16px !important;
     align-items: stretch !important;
     display: flex !important;
     flex-direction: column !important;
@@ -517,15 +519,12 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
     justify-content: center !important;
     text-align: center !important;
   }
-  /* Quote + stats pushed to bottom of hero via auto margin */
+  /* Quote + stats at bottom of text column */
   .ds-hero-mobile-extras {
-    margin-top: auto;
     display: flex;
     flex-direction: column;
     gap: 0;
   }
-  /* Eyebrow removed on mobile (reference mobile-hero.html) */
-  .ds-hero-split-eyebrow { display: none !important; }
   /* Drag-and-drop text and no-file link hidden on mobile (phones can't drag files) */
   .ds-hero-v2-desktop-only { display: none !important; }
 }

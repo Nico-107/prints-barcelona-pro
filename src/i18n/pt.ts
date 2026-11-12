@@ -1041,4 +1041,6 @@ export const ptTranslations: Record<string, string> = {
   "header.v2.sin": "Sem arquivo",
   "header.v2.rating": "4,8 · 250+ pedidos",
   "header.v2.cta": "Ver meu preço",
+  "header.menu.open": "Abrir menu",
+  "header.menu.close": "Fechar menu",
 };

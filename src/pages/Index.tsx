@@ -130,30 +130,30 @@ const GUIDES_COPY: Record<string, {
 
 
 // What we print cards per language
-const WHAT_WE_PRINT: Record<string, { href: string; title: string; description: string }[]> = {
+const WHAT_WE_PRINT: Record<string, { href: string; title: string; description: string; image?: string }[]> = {
   es: [
-    { href: "/prototipos-3d-barcelona", title: "Prototipos funcionales", description: "Valida tu diseño antes de producir" },
-    { href: "/recambios-impresion-3d-barcelona", title: "Piezas de repuesto", description: "Electrodomésticos, máquinas, vehículos" },
-    { href: "/piezas-personalizadas-3d-barcelona", title: "Soportes y adaptadores", description: "Montajes y soluciones a medida" },
-    { href: "/piezas-funcionales-barcelona", title: "Piezas técnicas", description: "RC, drones, automoción y mecánica" },
-    { href: "/piezas-personalizadas-3d-barcelona", title: "Proyectos personalizados", description: "Hobby, decoración o uso personal" },
-    { href: "/disena-tu-pieza-3d", title: "Diseños originales", description: "Si lo puedes imaginar, lo podemos imprimir" },
+    { href: "/prototipos-3d-barcelona", title: "Prototipos funcionales", description: "Valida tu diseño antes de producir", image: "/projects/intake-manifold.webp" },
+    { href: "/recambios-impresion-3d-barcelona", title: "Piezas de repuesto", description: "Electrodomésticos, máquinas, vehículos", image: "/projects/curved-parts.webp" },
+    { href: "/piezas-personalizadas-3d-barcelona", title: "Soportes y adaptadores", description: "Montajes y soluciones a medida", image: "/projects/custom-brackets.webp" },
+    { href: "/piezas-funcionales-barcelona", title: "Piezas técnicas", description: "RC, drones, automoción y mecánica", image: "/projects/black-intake.webp" },
+    { href: "/piezas-personalizadas-3d-barcelona", title: "Proyectos personalizados", description: "Hobby, decoración o uso personal", image: "/projects/red-adapter.webp" },
+    { href: "/disena-tu-pieza-3d", title: "Diseños originales", description: "Si lo puedes imaginar, lo podemos imprimir", image: "/projects/ferrari-key-holder.webp" },
   ],
   en: [
-    { href: "/prototype-printing-barcelona", title: "Functional prototypes", description: "Validate your design before production" },
-    { href: "/replacement-parts-barcelona", title: "Replacement parts", description: "Appliances, machines, vehicles" },
-    { href: "/custom-parts-barcelona", title: "Brackets & adaptors", description: "Mounts and custom solutions" },
-    { href: "/functional-parts-barcelona", title: "Technical parts", description: "RC, drones, automotive and mechanical" },
-    { href: "/custom-parts-barcelona", title: "Custom projects", description: "Hobby, décor or personal use" },
-    { href: "/design-your-3d-part", title: "Original designs", description: "If you can imagine it, we can print it" },
+    { href: "/prototype-printing-barcelona", title: "Functional prototypes", description: "Validate your design before production", image: "/projects/intake-manifold.webp" },
+    { href: "/replacement-parts-barcelona", title: "Replacement parts", description: "Appliances, machines, vehicles", image: "/projects/curved-parts.webp" },
+    { href: "/custom-parts-barcelona", title: "Brackets & adaptors", description: "Mounts and custom solutions", image: "/projects/custom-brackets.webp" },
+    { href: "/functional-parts-barcelona", title: "Technical parts", description: "RC, drones, automotive and mechanical", image: "/projects/black-intake.webp" },
+    { href: "/custom-parts-barcelona", title: "Custom projects", description: "Hobby, décor or personal use", image: "/projects/red-adapter.webp" },
+    { href: "/design-your-3d-part", title: "Original designs", description: "If you can imagine it, we can print it", image: "/projects/ferrari-key-holder.webp" },
   ],
   ca: [
-    { href: "/ca/prototips-3d-barcelona", title: "Prototips funcionals", description: "Valida el teu disseny abans de produir" },
-    { href: "/ca/recanvis-impressio-3d-barcelona", title: "Peces de recanvi", description: "Electrodomèstics, màquines, vehicles" },
-    { href: "/ca/peces-personalitzades-3d-barcelona", title: "Suports i adaptadors", description: "Muntatges i solucions a mida" },
-    { href: "/ca/peces-funcionals-barcelona", title: "Peces tècniques", description: "RC, drones, automoció i mecànica" },
-    { href: "/ca/peces-personalitzades-3d-barcelona", title: "Projectes personalitzats", description: "Hobby, decoració o ús personal" },
-    { href: "/dissenya-la-teva-peca-3d", title: "Dissenys originals", description: "Si ho pots imaginar, ho podem imprimir" },
+    { href: "/ca/prototips-3d-barcelona", title: "Prototips funcionals", description: "Valida el teu disseny abans de produir", image: "/projects/intake-manifold.webp" },
+    { href: "/ca/recanvis-impressio-3d-barcelona", title: "Peces de recanvi", description: "Electrodomèstics, màquines, vehicles", image: "/projects/curved-parts.webp" },
+    { href: "/ca/peces-personalitzades-3d-barcelona", title: "Suports i adaptadors", description: "Muntatges i solucions a mida", image: "/projects/custom-brackets.webp" },
+    { href: "/ca/peces-funcionals-barcelona", title: "Peces tècniques", description: "RC, drones, automoció i mecànica", image: "/projects/black-intake.webp" },
+    { href: "/ca/peces-personalitzades-3d-barcelona", title: "Projectes personalitzats", description: "Hobby, decoració o ús personal", image: "/projects/red-adapter.webp" },
+    { href: "/dissenya-la-teva-peca-3d", title: "Dissenys originals", description: "Si ho pots imaginar, ho podem imprimir", image: "/projects/ferrari-key-holder.webp" },
   ],
 };
 
@@ -176,7 +176,7 @@ function V2ReviewsSection({ language, t }: { language: string; t: (k: string) =>
   const full = reviewText(r0, language);
   return (
     <section style={{ background: '#FFFFFF' }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px) clamp(40px,5vw,56px)", display: "flex", flexDirection: "column", gap: 26 }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px) clamp(40px,5vw,56px)", display: "flex", flexDirection: "column", gap: 26 }}>
         <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#2F5BEA' }}>
           {t("home.v2.reviews.label")}
         </div>
@@ -557,7 +557,7 @@ const Index = () => {
         {/* ── HOW IT WORKS (V1 only — V2 uses PathCards instead) ── */}
         <div ref={howItWorksRef} className="xp-home-v1-only">
           <section className="bg-white">
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
               <h2
                 className="font-display font-extrabold tracking-tight leading-none mb-2.5"
                 style={{ fontSize: "clamp(30px, 3.6vw, 44px)", textAlign: "center" }}
@@ -588,7 +588,7 @@ const Index = () => {
         {/* ── V2 PATH CARDS ── */}
         <div className="xp-home-v2-only">
           <section className="bg-white">
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
               <PathCards
                 heading={t("home.v2.path.heading")}
                 cards={[
@@ -621,7 +621,7 @@ const Index = () => {
 
         {/* ── CALCULATOR (dark upload panel) ── */}
         <div ref={calculatorRef} style={{ background: '#F6F8FC' }}>
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
             <UploadPanel
               label={t("home.upload.label")}
               heading={t("home.upload.heading")}
@@ -677,7 +677,7 @@ const Index = () => {
 
         {/* ── V2 REAL PRICES (price tiles) ── */}
         <div id="precios" className="xp-home-v2-only">
-          <section style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48 }}>
+          <section style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48 }}>
             <div style={{ flex: "1 1 520px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
               <h2 style={{ margin: 0, font: `800 clamp(32px, 4vw, 52px)/1.02 'Bricolage Grotesque', sans-serif`, letterSpacing: "-0.02em" }}>
                 {t("home.v2.prices.heading")}
@@ -703,7 +703,7 @@ const Index = () => {
 
         {/* ── QUÉ IMPRIMIMOS ── */}
         <section className="bg-surface">
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
             <h2
               style={{
                 margin: "0 0 10px",
@@ -724,7 +724,7 @@ const Index = () => {
         {/* ── MATERIALS ── (V1 only — V2 uses price tiles instead) */}
         <div ref={materialsRef} className="xp-home-v1-only">
           <section style={{ background: '#FFFFFF' }}>
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start" }}>
               <div style={{ flex: "1 1 540px", minWidth: 0 }}>
                 <h2 style={{ margin: "0 0 28px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(30px, 3.6vw, 44px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
                   {t("home.materials.heading")}
@@ -760,7 +760,7 @@ const Index = () => {
         {/* ── WHY CHOOSE US ── (V1 only — B3; mobile 2×2 grid fix — C6) */}
         <div className="xp-home-v1-only">
           <section style={{ background: '#F6F8FC' }}>
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
               <h2 style={{ margin: "0 0 40px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
                 {t("home.why.heading")}
               </h2>
@@ -783,7 +783,7 @@ const Index = () => {
 
         {/* ── PROJECTS ── */}
         <section style={{ background: '#FFFFFF' }}>
-          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+          <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
             <h2 style={{ margin: "0 0 32px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
               {t("home.projects.heading")}
             </h2>
@@ -834,7 +834,7 @@ const Index = () => {
         {/* ── B2B CARDS ── */}
         <div ref={b2bRef}>
           <section className="bg-white">
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
               <B2BCards
                 heading={t("home.b2b.heading")}
                 cards={[
@@ -873,11 +873,11 @@ const Index = () => {
             cta={{ label: t("home.founder.cta"), href: whatsappUrl() }}
           />
         </div>
-        {/* V2: text-only (no image — avoids x2d-room duplicate with V2 closing band per B4) */}
+        {/* V2: text + workshop photo */}
         <div className="xp-home-v2-only">
           <section style={{ background: '#F6F8FC' }}>
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,88px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "flex-start" }}>
-              <div style={{ flex: "1 1 480px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "center" }}>
+              <div style={{ flex: "1 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, letterSpacing: "0.08em", color: '#5B6577', textTransform: "uppercase" }}>
                   {t("home.founder.label")}
                 </div>
@@ -892,6 +892,12 @@ const Index = () => {
                 </div>
                 <a href={whatsappUrl()} style={{ alignSelf: "flex-start", textDecoration: "none", background: '#F5A524', color: '#0B1020', fontWeight: 700, padding: "16px 28px", borderRadius: 12, fontSize: 16 }}>{t("home.founder.cta")}</a>
               </div>
+              {/* TODO Nico: replace with portrait */}
+              <div
+                role="img"
+                aria-label={t("home.founder.spec1")}
+                style={{ flex: "1 1 400px", minWidth: 0, height: 360, borderRadius: 20, backgroundImage: "url(/img/x2d/x2d-nozzles.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+              />
             </div>
           </section>
         </div>
@@ -899,7 +905,7 @@ const Index = () => {
         {/* ── SERVICE INFO ── (V1 only — B3) */}
         <div className="xp-home-v1-only">
           <section style={{ background: '#F6F8FC' }}>
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 56, alignItems: "flex-start" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)", display: "flex", flexWrap: "wrap", gap: 56, alignItems: "flex-start" }}>
               <div style={{ flex: "1 1 420px", minWidth: 0 }}>
                 <h2 style={{ margin: "0 0 16px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(30px, 3.6vw, 44px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
                   {t("service.title")} {t("service.titleHighlight")}
@@ -946,7 +952,7 @@ const Index = () => {
         {/* ── FAQ ── */}
         <div ref={faqRef}>
           <section style={{ background: '#FFFFFF' }}>
-            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+            <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
               <FAQAccordion
                 heading={t("faq.title")}
                 items={faqs.slice(0, 5).map((f) => ({ question: f.q, answer: f.a }))}
@@ -1012,7 +1018,7 @@ const Index = () => {
           const guides = GUIDES_COPY[language] ?? GUIDES_COPY.es;
           return (
             <section style={{ background: '#F6F8FC' }}>
-              <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(56px,7vw,84px) clamp(18px,4vw,24px)" }}>
+              <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(64px,7vw,96px) clamp(18px,4vw,24px)" }}>
                 <h2 style={{ margin: "0 0 32px", fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.2vw, 40px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}>
                   {guides.heading}
                 </h2>

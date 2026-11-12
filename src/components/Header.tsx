@@ -193,7 +193,7 @@ const Header = () => {
 
             {/* Desktop primary nav — V2 black header reduced set */}
             {isOverV2Hero && (
-              <nav className="hidden xl:flex items-center gap-6 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15.5 }}>
+              <nav className="hidden lg:flex items-center gap-6 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15.5 }}>
                 {(() => {
                   const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
                   return (<>
@@ -207,7 +207,7 @@ const Header = () => {
             )}
 
             {/* Desktop primary nav — normal white header */}
-            <nav className={cn("items-center gap-3 ml-3 mr-auto", isOverV2Hero ? "hidden" : "hidden xl:flex")}>
+            <nav className={cn("items-center gap-3 ml-3 mr-auto", isOverV2Hero ? "hidden" : "hidden lg:flex")}>
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -338,7 +338,7 @@ const Header = () => {
 
             {/* Desktop utility nav — V2 black header */}
             {isOverV2Hero && (
-              <div className="hidden xl:flex items-center gap-5">
+              <div className="hidden lg:flex items-center gap-5">
                 <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF' }}>
                   <span style={{ color: '#F5A524' }}>★</span> {t("header.v2.rating")}
                 </span>
@@ -353,7 +353,7 @@ const Header = () => {
             )}
 
             {/* Desktop utility nav — normal white header */}
-            <div className={cn("items-center gap-3", isOverV2Hero ? "hidden" : "hidden xl:flex")}>
+            <div className={cn("items-center gap-3", isOverV2Hero ? "hidden" : "hidden lg:flex")}>
               <div className="hidden 2xl:flex items-center gap-1.5 text-sm">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
@@ -387,7 +387,7 @@ const Header = () => {
             </div>
 
             {/* Mobile controls */}
-            <div className="xl:hidden ml-auto flex items-center gap-2">
+            <div className="lg:hidden ml-auto flex items-center gap-2">
               {isOverV2Hero && (
                 <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: '#FFFFFF' }}>
                   <span style={{ color: '#F5A524' }}>★</span> 4,8
@@ -398,7 +398,7 @@ const Header = () => {
                 className="p-2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 style={{ color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-label={isMenuOpen ? t("header.menu.close") : t("header.menu.open")}
                 aria-expanded={isMenuOpen}
               >
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -411,7 +411,7 @@ const Header = () => {
       {/* Mobile full-screen sheet */}
       {isMenuOpen && (
         <div
-          className="xl:hidden fixed inset-0 z-30 bg-white overflow-y-auto"
+          className="lg:hidden fixed inset-0 z-30 bg-white overflow-y-auto"
           style={{ paddingTop: "calc(var(--header-h) + env(safe-area-inset-top))", paddingBottom: "env(safe-area-inset-bottom)" }}
         >
           <div className="px-4 pb-8 pt-6 flex flex-col gap-1">

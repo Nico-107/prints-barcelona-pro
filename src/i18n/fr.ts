@@ -1041,4 +1041,6 @@ export const frTranslations: Record<string, string> = {
   "header.v2.sin": "Sans fichier",
   "header.v2.rating": "4,8 · 250+ commandes",
   "header.v2.cta": "Voir mon prix",
+  "header.menu.open": "Ouvrir le menu",
+  "header.menu.close": "Fermer le menu",
 };

@@ -1041,4 +1041,6 @@ export const nlTranslations: Record<string, string> = {
   "header.v2.sin": "Geen bestand",
   "header.v2.rating": "4,8 · 250+ bestellingen",
   "header.v2.cta": "Prijs zien",
+  "header.menu.open": "Menu openen",
+  "header.menu.close": "Menu sluiten",
 };
