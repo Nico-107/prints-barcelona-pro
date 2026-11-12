@@ -2,8 +2,8 @@ import { devices } from "@playwright/test";
 import { test, expect } from "./_fixtures";
 
 // C1: Assert that the V2 split-image hero elements don't overlap each other on
-// mobile. At 390×844 the layout must show: eyebrow (hidden), H1, paragraph,
-// primary button, secondary button — none intersecting.
+// mobile. At 390×844 the layout must show: eyebrow (hidden on mobile), H1,
+// paragraph, primary button — none intersecting.
 
 function rectsOverlap(
   a: { x: number; y: number; width: number; height: number },
@@ -42,7 +42,13 @@ for (const { name, width, height } of [
     try {
       await page.goto("/?xp=home_v2:B", { waitUntil: "domcontentloaded" });
 
-      // Eyebrow must be hidden on mobile.
+      // Wait for the pre-paint script to set the V2 attribute on <html>.
+      await page.waitForFunction(
+        () => document.documentElement.getAttribute("data-xp-home-v2") === "B",
+        { timeout: 5000 },
+      );
+
+      // Eyebrow must be hidden on mobile (display:none via CSS).
       const eyebrow = page.locator(".ds-hero-split-eyebrow").first();
       if (await eyebrow.count()) {
         const eyebrowVisible = await eyebrow.evaluate((el) => {
@@ -52,34 +58,31 @@ for (const { name, width, height } of [
         expect(eyebrowVisible, `eyebrow must be hidden on ${name}`).toBe(false);
       }
 
-      // Collect bounding boxes of key hero elements.
-      const h1 = page.locator("h1").first();
-      await expect(h1).toBeVisible();
+      // Target the V2 hero's text column specifically.
+      const heroText = page.locator(".ds-hero-split-text").first();
+      await expect(heroText).toBeVisible({ timeout: 5000 });
+
+      // H1 inside the V2 hero text column.
+      const h1 = heroText.locator("h1").first();
+      await expect(h1).toBeVisible({ timeout: 5000 });
       const h1Box = await h1.boundingBox();
       expect(h1Box, "H1 must be in the DOM").not.toBeNull();
 
-      // First paragraph inside the hero text column.
-      const heroSection = page.locator(".ds-hero-split-text").first();
-      const para = heroSection.locator("p").first();
+      // First paragraph inside the V2 hero text column.
+      const para = heroText.locator("p").first();
       const paraBox = (await para.count()) ? await para.boundingBox() : null;
 
-      // Primary CTA button (data-hero-cta).
-      const primaryBtn = page.locator("[data-hero-cta]").first();
-      await expect(primaryBtn).toBeVisible();
+      // Primary CTA button (data-hero-cta) inside V2 hero.
+      const primaryBtn = heroText.locator("[data-hero-cta]").first();
+      await expect(primaryBtn).toBeVisible({ timeout: 5000 });
       const primaryBox = await primaryBtn.boundingBox();
       expect(primaryBox, "primary button must be in the DOM").not.toBeNull();
 
-      // Secondary link/button in the hero (ds-hero-v2-desktop-only is hidden; find the
-      // visible secondary CTA if present).
-      const secondaryBtn = heroSection.locator("button, a[role='button']").filter({ hasNot: page.locator("[data-hero-cta]") }).first();
-      const secondaryBox = (await secondaryBtn.count()) ? await secondaryBtn.boundingBox() : null;
-
-      // Assert no overlaps between visible elements.
+      // Collect visible elements and check for pairwise overlap.
       const elements: Array<{ label: string; box: { x: number; y: number; width: number; height: number } | null }> = [
         { label: "H1", box: h1Box },
         { label: "paragraph", box: paraBox },
         { label: "primary button", box: primaryBox },
-        { label: "secondary button", box: secondaryBox },
       ];
 
       const visible = elements.filter((e): e is { label: string; box: NonNullable<typeof e.box> } => e.box !== null && e.box.height > 0);

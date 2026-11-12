@@ -242,8 +242,9 @@ test("mobile sticky bar CTA opens file chooser with source=sticky_bar", async ({
   const getCaptures = await spyOnCapture(page);
   await page.goto("/");
 
-  // Scroll past the hero to trigger the sticky bar (IntersectionObserver)
-  await page.evaluate(() => window.scrollTo({ top: 1200, behavior: "instant" }));
+  // Scroll past the hero CTA (~347px) but before the calculator (~1762px) so
+  // calcInView stays false and the sticky bar can render.
+  await page.evaluate(() => window.scrollTo({ top: 700, behavior: "instant" }));
   await page.waitForTimeout(500);
 
   // Wait for sticky bar to appear in the DOM (it's conditionally rendered)
