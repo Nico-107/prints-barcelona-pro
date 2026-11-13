@@ -458,7 +458,7 @@ const BlogPrototiposBcn = () => {
               <Button
                 onClick={handleWhatsApp}
                 size="xl"
-                className="bg-[#25D366] hover:bg-[#1ebe5d] text-white shadow-lg gap-2"
+                variant="outline" className="gap-2"
               >
                 <MessageCircle className="w-5 h-5" />
                 Consultar por WhatsApp
