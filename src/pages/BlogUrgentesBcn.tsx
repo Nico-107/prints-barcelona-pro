@@ -545,10 +545,10 @@ const BlogUrgentesBcn = () => {
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 10 €</p>
             <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
               <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                ¿Solo necesitas una pieza? Desde 10 € sin pedido mínimo
+                ¿Solo necesitas una pieza? Desde 1 pieza · pedido mínimo 10 €
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Imprime una sola pieza urgente sin necesidad de alcanzar ningún importe mínimo.
+                Imprime una sola pieza urgente. El pedido mínimo del estudio es 10 €.
               </p>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                 Ver servicio <ArrowRight className="w-3 h-3" />
