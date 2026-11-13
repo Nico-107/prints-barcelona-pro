@@ -2782,10 +2782,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 const qrVisitor = typeof window !== "undefined"
                   && /[?&]utm_medium=qr\b/.test(window.location.search);
                 const alreadyShown = (() => { try { return !!sessionStorage.getItem("dim3d-exit-intent-shown"); } catch { return false; } })();
-                if (!alreadyShown && !tooEarly && !qrVisitor) {
+                // Conv 5: only show the exit popup when a price (or a quote
+                // bundle) has been shown. The 'failed' variant (no valid
+                // files, no price yet) must never fire — it's noise, and
+                // the data showed 67 shown / 7 recovered with the pre-price
+                // variant inflating the denominator.
+                const priceHasBeenShown = instantTotalPrice !== null || validFiles.length > 0;
+                if (!alreadyShown && !tooEarly && !qrVisitor && priceHasBeenShown) {
                   if (exitIntentTimerRef.current) clearTimeout(exitIntentTimerRef.current);
-                  const variant = (instantBuyEligible && instantTotalPrice !== null) ? 'priced'
-                    : validFiles.length > 0 ? 'quote' : 'failed';
+                  const variant = (instantBuyEligible && instantTotalPrice !== null) ? 'priced' : 'quote';
                   exitIntentTimerRef.current = setTimeout(() => {
                     try { sessionStorage.setItem("dim3d-exit-intent-shown", "1"); } catch {}
                     // Prompt 25 §7: when the user closes the modal with a priced
