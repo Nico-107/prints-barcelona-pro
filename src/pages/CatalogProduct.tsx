@@ -174,7 +174,7 @@ const CatalogProduct = () => {
       <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-10 items-start">
+            <section data-testid="page-hero" data-page-hero className="grid md:grid-cols-2 gap-10 items-start">
               <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-square">
                 <PictureImg
                   src={
@@ -293,7 +293,7 @@ const CatalogProduct = () => {
                   </form>
                 )}
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </main>

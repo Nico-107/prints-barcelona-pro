@@ -531,7 +531,7 @@ const MakerGuide = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-6">

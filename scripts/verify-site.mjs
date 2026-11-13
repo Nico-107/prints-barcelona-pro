@@ -155,6 +155,20 @@ async function checkPage(page, url, variant, viewport, errors) {
   if (bodyVariant && bodyVariant !== variant)
     errors.push(`${url} [${variant}]: body[data-site-variant]=${bodyVariant}, want ${variant}`);
 
+  // Item 1 — SiteShell + PageHero on every route. /track must now use the
+  // shared [data-testid="site-header"]; /admin* pages are intentionally
+  // chrome-less. PageHero must be the only hero implementation.
+  const path = new URL(url).pathname;
+  const isAdminLike = path.startsWith("/admin");
+  if (!isAdminLike) {
+    const siteHeader = await page.locator('[data-testid="site-header"]').count();
+    if (siteHeader < 1)
+      errors.push(`${url} [${variant}]: missing [data-testid="site-header"] (SiteShell not adopted)`);
+    const pageHero = await page.locator('[data-testid="page-hero"]').count();
+    if (pageHero < 1)
+      errors.push(`${url} [${variant}]: missing [data-testid="page-hero"] (PageHero not adopted)`);
+  }
+
   // No horizontal overflow: document scrollWidth should match viewport width
   // (allow 2px for sub-pixel rounding and scrollbar).
   const overflow = await page.evaluate(() => ({
@@ -282,6 +296,45 @@ async function checkPage(page, url, variant, viewport, errors) {
     const c = await measureHeaderContrast(atScroll);
     if (c && c.ratio < 4.5) {
       errors.push(`${url} [${variant} ${viewport.width}]: header contrast ${c.ratio.toFixed(2)} < 4.5:1 on "${c.text}" at scroll ${atScroll}`);
+    }
+  }
+
+  // Item 11 — Header groups. Only run at desktop width (triggers are hidden
+  // on mobile) and only in non-admin pages. Open both triggers in turn and
+  // assert ≥ 4 [data-testid="nav-menu-group"] once the panel is open.
+  if (!isAdminLike && viewport.width >= 1024) {
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(80);
+    // Scope to the primary nav (we may have two nav elements: one per variant,
+    // the other hidden). Pick the visible one by looking for a visible trigger.
+    const triggers = await page.evaluate(() => {
+      const items = Array.from(document.querySelectorAll('header button, header [role="button"]'));
+      const wanted = ["Services", "Servicios", "Serveis", "Leistungen", "Diensten", "Servizi", "Serviços", "Resources", "Recursos", "Ressources", "Ressourcen", "Bronnen", "Risorse"];
+      return items
+        .filter((el) => {
+          const txt = (el.textContent || "").trim();
+          if (!wanted.some((w) => txt.includes(w))) return false;
+          const r = el.getBoundingClientRect();
+          if (r.width < 1 || r.height < 1) return false;
+          const s = getComputedStyle(el);
+          return s.display !== "none" && s.visibility !== "hidden";
+        })
+        .map((el) => (el.textContent || "").trim());
+    });
+    if (triggers.length < 2)
+      errors.push(`${url} [${variant}]: expected Servicios + Recursos triggers in header, saw ${triggers.length}`);
+    for (const trigger of triggers.slice(0, 2)) {
+      try {
+        await page.getByRole("button", { name: new RegExp(trigger.split(" ")[0], "i") }).first().click({ trial: false, timeout: 2000 });
+        await page.waitForTimeout(120);
+        const groupCount = await page.locator('[data-testid="nav-menu-group"]').count();
+        if (groupCount < 4)
+          errors.push(`${url} [${variant}]: menu "${trigger}" opens ${groupCount} nav-menu-group(s), want ≥ 4`);
+        await page.keyboard.press("Escape");
+        await page.waitForTimeout(80);
+      } catch (err) {
+        errors.push(`${url} [${variant}]: failed to open "${trigger}" dropdown: ${err.message}`);
+      }
     }
   }
 

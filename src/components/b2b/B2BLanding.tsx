@@ -623,7 +623,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       <main className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ── */}
-        <section ref={heroRef} className="ds-grid-bg py-14 md:py-20">
+        <section ref={heroRef} data-testid="page-hero" data-page-hero className="ds-grid-bg py-14 md:py-20">
           <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 24px' }}>
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>

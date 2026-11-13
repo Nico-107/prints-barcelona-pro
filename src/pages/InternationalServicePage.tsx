@@ -136,7 +136,7 @@ const InternationalServicePage = () => {
 
     <main id="main-content" className="pt-[var(--header-h)]">
       {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
+      <section data-testid="page-hero" data-page-hero className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
         <div className="absolute inset-0 opacity-[0.03]">
           <div
             className="absolute inset-0"

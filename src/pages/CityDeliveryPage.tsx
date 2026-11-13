@@ -300,7 +300,7 @@ const CityDeliveryPage = ({ config }: Props) => {
 
       <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">

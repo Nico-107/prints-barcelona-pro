@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, Package, Search } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -9,6 +9,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import OrderTracker from "@/components/OrderTracker";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
@@ -60,27 +63,19 @@ const Track = () => {
         <meta name="twitter:description" content="Check the live status of your 3D printing order from Dimension3D Barcelona." />
         <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       </Helmet>
-      <header className="border-b border-border/50 bg-background/80 backdrop-blur-md">
-        <div className="container px-4 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="w-4 h-4" /> {t("track.backHome")}
-          </Link>
-          <div className="flex items-center gap-2 font-semibold tracking-tight">
-            <Package className="w-5 h-5 text-accent" /> Dimension3D
-          </div>
-        </div>
-      </header>
+      {/* Item 1: /track joins SiteShell — mini header removed. */}
+      <Header />
 
-      <main className="container px-4 py-12 md:py-20 max-w-3xl">
+      <main id="main-content" className="container px-4 py-12 md:py-20 max-w-3xl pt-[var(--header-h)]">
         {!order ? (
           <Card className="p-8 md:p-12 shadow-lg border-border/60">
-            <div className="text-center mb-8">
+            <section data-testid="page-hero" data-page-hero className="text-center mb-8">
               <div className="inline-flex w-14 h-14 rounded-2xl bg-accent/10 items-center justify-center mb-4">
                 <Search className="w-7 h-7 text-accent" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">{t("track.title")}</h1>
               <p className="text-muted-foreground">{t("track.subtitle")}</p>
-            </div>
+            </section>
 
             <form onSubmit={handleSearch} className="space-y-5 max-w-md mx-auto">
               <div>
@@ -124,6 +119,8 @@ const Track = () => {
           </>
         )}
       </main>
+      <Footer />
+      <WhatsAppFloat />
     </div>
   );
 };

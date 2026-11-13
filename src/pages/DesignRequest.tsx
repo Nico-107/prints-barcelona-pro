@@ -208,7 +208,7 @@ const DesignRequest = () => {
         <div className="container px-4 max-w-2xl">
 
           {/* Hero */}
-          <div className="mb-12 text-center">
+          <section data-testid="page-hero" data-page-hero className="mb-12 text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
               {t("design.hero.badge")}
             </p>
@@ -218,7 +218,7 @@ const DesignRequest = () => {
             <p className="text-muted-foreground leading-relaxed max-w-xl mx-auto">
               {t("design.hero.intro")}
             </p>
-          </div>
+          </section>
 
           {/* 3-step process */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">

@@ -288,7 +288,7 @@ const PartPage = ({ part }: Props) => {
           <div className="max-w-5xl mx-auto space-y-16">
 
             {/* Hero — image + all purchase-decision info in one section */}
-            <section className="grid md:grid-cols-2 gap-8 md:gap-10 items-start">
+            <section data-testid="page-hero" data-page-hero className="grid md:grid-cols-2 gap-8 md:gap-10 items-start">
               <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-[4/3] md:aspect-square">
                 <PictureImg
                   src={part.images.cover}

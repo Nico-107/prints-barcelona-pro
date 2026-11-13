@@ -82,7 +82,7 @@ const Catalog = () => {
       <Header />
       <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4">
-          <div className="text-center mb-12">
+          <section data-testid="page-hero" data-page-hero className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
               Catálogo
             </p>
@@ -92,7 +92,7 @@ const Catalog = () => {
             <p className="text-muted-foreground max-w-lg mx-auto">
               Elige tu producto, personalízalo a tu gusto y recibe un presupuesto sin compromiso.
             </p>
-          </div>
+          </section>
           {/* Service banners */}
           <div className="max-w-6xl mx-auto mb-8 grid gap-3 sm:grid-cols-3">
             <Link

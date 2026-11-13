@@ -117,7 +117,7 @@ const IntlPartPage = ({ content }: Props) => {
 
       <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative overflow-hidden ds-grid-bg py-20">
+        <section data-testid="page-hero" data-page-hero className="relative overflow-hidden ds-grid-bg py-20">
           <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
           <div className="absolute bottom-8 right-12 w-56 h-56 bg-accent/10 rounded-full blur-3xl" />
 

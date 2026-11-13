@@ -116,7 +116,7 @@ const RepuestoDescatalogado = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
