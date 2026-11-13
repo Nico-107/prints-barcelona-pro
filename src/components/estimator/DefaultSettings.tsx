@@ -2,6 +2,29 @@ import type { MaterialOption } from "@/lib/pricing";
 
 const INFILL_VALUES = [5, 15, 30, 50, 80];
 
+/**
+ * Phase 4.6 — inline help tip next to each Advanced option label.
+ * Renders a small question-mark glyph with the plain-language explanation
+ * as a native tooltip (title attr) plus a visually-hidden text for screen
+ * readers. Simple and always keyboard-accessible.
+ */
+function HelpTip({ text }: { text: string }) {
+  return (
+    <>
+      {" "}
+      <span
+        tabIndex={0}
+        role="img"
+        aria-label={text}
+        title={text}
+        className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full border border-muted-foreground/40 text-[10px] leading-none text-muted-foreground cursor-help align-middle select-none"
+      >
+        ?
+      </span>
+    </>
+  );
+}
+
 interface DefaultSettingsProps {
   materialKey: string;
   colorPref: string;
@@ -84,7 +107,11 @@ export function DefaultSettings({
         </div>
         {advancedMode && (
           <div>
-            <label htmlFor="ds-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.infill")}</label>
+            <label htmlFor="ds-infill" className="block text-xs font-medium text-muted-foreground mb-1.5">
+              {t("calc.infill")}
+              {/* Phase 4.6 — plain-language explanation on each Advanced option. */}
+              <HelpTip text={t("calc.infill.tip")} />
+            </label>
             <select
               id="ds-infill"
               value={infillPct}
@@ -118,7 +145,10 @@ export function DefaultSettings({
         <>
           {/* Walls */}
           <div className="mt-2">
-            <label htmlFor="ds-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.walls")}</label>
+            <label htmlFor="ds-walls" className="block text-xs font-medium text-muted-foreground mb-1.5">
+              {t("calc.walls")}
+              <HelpTip text={t("calc.walls.tip")} />
+            </label>
             <select
               id="ds-walls"
               value={wallLoops}
@@ -134,7 +164,10 @@ export function DefaultSettings({
 
           {/* Urgency */}
           <div className="mt-2">
-            <label htmlFor="ds-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">{t("calc.urgency.heading")}</label>
+            <label htmlFor="ds-urgency" className="block text-xs font-medium text-muted-foreground mb-1.5">
+              {t("calc.urgency.heading")}
+              <HelpTip text={t("calc.urgency.tip")} />
+            </label>
             <select
               id="ds-urgency"
               value={urgency}
@@ -158,7 +191,10 @@ export function DefaultSettings({
                 disabled={disabled}
                 className="h-4 w-4 rounded border-input accent-accent"
               />
-              <span className="text-xs font-medium text-muted-foreground">{t("calc.multicolour.label")}</span>
+              <span className="text-xs font-medium text-muted-foreground">
+                {t("calc.multicolour.label")}
+                <HelpTip text={t("calc.multicolour.tip")} />
+              </span>
             </label>
           </div>
         </>
