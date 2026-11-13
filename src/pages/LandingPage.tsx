@@ -19,6 +19,8 @@ import { REVIEWS, reviewText } from "@/data/reviews";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cta as ctaLabel } from "@/lib/ctaVocabulary";
 import type { Lang as CtaLang } from "@/lib/ctaVocabulary";
+import DeadlineModule from "@/components/urgent/DeadlineModule";
+import SpeedTiers from "@/components/urgent/SpeedTiers";
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -418,6 +420,41 @@ const LandingPage = ({ page: pageProp }: Props) => {
           }}
           reassuranceItems={trustBadges.map(b => b.label)}
         />
+
+        {/* Item 3: urgent pages get the live deadline module, a WhatsApp
+            button prefilled with a deadline message, and the engine-driven
+            speed-tiers table. */}
+        {page.topic === "urgent" && (
+          <>
+            <DeadlineModule lang={pageLang} urgency="urgent" />
+            <section className="bg-white py-5 border-b border-border/40">
+              <div className="container max-w-3xl mx-auto px-4 flex flex-wrap items-center gap-3 justify-center">
+                <a
+                  data-testid="urgent-whatsapp"
+                  href={`${WHATSAPP_URL}?text=${encodeURIComponent(t(
+                    "Hi — I need an urgent 3D print. My deadline is: ",
+                    "Hola — necesito una impresión 3D urgente. Mi deadline es: ",
+                    "Hallo — ich brauche einen dringenden 3D-Druck. Meine Deadline ist: ",
+                    "Hola — necessito una impressió 3D urgent. El meu termini és: "
+                  ))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg border border-foreground/20 bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary/40 transition-colors"
+                  onClick={() => capture("whatsapp_click", { location: "urgent_hero", path: page.slug })}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  {t(
+                    "Can you make it? WhatsApp with your deadline",
+                    "¿Llego a tiempo? WhatsApp con tu deadline",
+                    "Schaffen Sie das? Per WhatsApp mit Deadline",
+                    "Hi arribo? WhatsApp amb el teu termini"
+                  )}
+                </a>
+              </div>
+            </section>
+            <SpeedTiers lang={pageLang} />
+          </>
+        )}
 
         {/* Phase 2.4: lead paragraph directly under the hero with the rest of
             the intro that didn't fit the 2-line hero subtitle. Text is

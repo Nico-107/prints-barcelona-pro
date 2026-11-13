@@ -185,6 +185,26 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing [data-testid="hub-template"] (hub not routed through HubTemplate)`);
   }
 
+  // Item 3 — Urgent pages carry the deadline module, the speed-tiers
+  // table (3 rows with surcharge from the engine), and a WhatsApp link
+  // prefilled with a deadline message.
+  const URGENT_PATHS = [
+    "/impresion-3d-urgente-barcelona",
+    "/urgent-3d-printing-barcelona",
+    "/ca/impressio-3d-urgent-barcelona",
+  ];
+  if (URGENT_PATHS.includes(path)) {
+    const deadline = await page.locator('[data-testid="deadline-module"]').count();
+    if (deadline < 1)
+      errors.push(`${url} [${variant}]: missing [data-testid="deadline-module"]`);
+    const speed = await page.locator('[data-testid="speed-tiers"] tbody tr').count();
+    if (speed < 3)
+      errors.push(`${url} [${variant}]: [data-testid="speed-tiers"] has ${speed} rows, want ≥ 3`);
+    const wa = await page.locator('[data-testid="urgent-whatsapp"]').count();
+    if (wa < 1)
+      errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
+  }
+
   // No horizontal overflow: document scrollWidth should match viewport width
   // (allow 2px for sub-pixel rounding and scrollbar).
   const overflow = await page.evaluate(() => ({
