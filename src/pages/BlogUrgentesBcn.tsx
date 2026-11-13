@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { capture } from "@/lib/analytics";
 import { ORGANIZATION_SCHEMA } from "@/seo/entities";
@@ -119,7 +120,7 @@ const BlogUrgentesBcn = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
@@ -219,7 +220,7 @@ const BlogUrgentesBcn = () => {
             <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
               <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo STL? Calcula el precio en segundos, con entrega en 24–48 h.</p>
               <Button asChild size="sm" className="shrink-0 gap-1.5">
-                <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
               </Button>
             </div>
 
@@ -511,7 +512,7 @@ const BlogUrgentesBcn = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="xl" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg gap-2">
                 <Link to="/#calculator">
-                  Calcular precio ahora
+                  Subir archivo y ver precio
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
@@ -545,10 +546,10 @@ const BlogUrgentesBcn = () => {
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 10 €</p>
             <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
               <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                ¿Solo necesitas una pieza? Desde 10 € sin pedido mínimo
+                ¿Solo necesitas una pieza? Desde 1 pieza · pedido mínimo 10 €
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Imprime una sola pieza urgente sin necesidad de alcanzar ningún importe mínimo.
+                Imprime una sola pieza urgente. El pedido mínimo del estudio es 10 €.
               </p>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                 Ver servicio <ArrowRight className="w-3 h-3" />
@@ -562,7 +563,7 @@ const BlogUrgentesBcn = () => {
           <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
             <p className="text-sm text-foreground/80 flex-1">Calcula el precio exacto de tu pieza en segundos — entrega en 24–48 h en Barcelona.</p>
             <Button asChild size="sm" className="shrink-0 gap-1.5">
-              <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
             </Button>
           </div>
         </div>
@@ -572,6 +573,7 @@ const BlogUrgentesBcn = () => {
             ← Todas las guías
           </Link>
         </div>
+        <ArticleAugmentation lang="es" />
       </main>
 
       <Footer />

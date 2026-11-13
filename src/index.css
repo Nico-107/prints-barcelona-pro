@@ -437,11 +437,12 @@ html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"]
 html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
 html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"] { display:none; }
 
-/* home_v2 — A=V1 (control), B=V2 (split-image hero).
-   Bots and SSR (no attribute) always see V1. No layout jump: decided before first paint. */
-html:not([data-xp-home-v2]) .xp-home-v2-only,
-html[data-xp-home-v2="A"]  .xp-home-v2-only { display:none !important; }
-html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
+/* Site-wide variant — A=V1 (control, white hero), B=V2 (split-image dark hero).
+   Bots and SSR (no attribute) always see V1. No layout jump: decided before first paint.
+   This replaces the old home_v2 switch — one knob now controls B everywhere. */
+html:not([data-xp-site-variant]) .xp-home-v2-only,
+html[data-xp-site-variant="A"]  .xp-home-v2-only { display:none !important; }
+html[data-xp-site-variant="B"]  .xp-home-v1-only { display:none !important; }
 
 /* ── Hero facts strip — responsive grid ───────────────────────────────────── */
 .ds-hero-facts {

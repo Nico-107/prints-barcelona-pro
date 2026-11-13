@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -121,7 +122,7 @@ const BlogRecambiosBcn = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
@@ -188,7 +189,7 @@ const BlogRecambiosBcn = () => {
             <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
               <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo STL de la pieza? Calcula el precio en segundos, sin compromiso.</p>
               <Button asChild size="sm" className="shrink-0 gap-1.5">
-                <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
               </Button>
             </div>
 
@@ -573,7 +574,7 @@ const BlogRecambiosBcn = () => {
           <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
             <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo? Calcula el precio del recambio en segundos — desde 10 €, entrega en 24–48 h.</p>
             <Button asChild size="sm" className="shrink-0 gap-1.5">
-              <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
             </Button>
           </div>
         </div>
@@ -583,6 +584,7 @@ const BlogRecambiosBcn = () => {
             ← Todas las guías
           </Link>
         </div>
+        <ArticleAugmentation lang="es" />
       </main>
 
       <Footer />

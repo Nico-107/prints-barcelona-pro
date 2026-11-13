@@ -8,6 +8,9 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
 import { Hero as DsHero, FAQAccordion } from "@/components/ds";
+import PriceUploadCard from "@/components/price/PriceUploadCard";
+import EnginePriceTable from "@/components/city/EnginePriceTable";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import type { IntlGuideContent } from "@/data/intlTypes";
@@ -127,11 +130,22 @@ const IntlGuidePage = ({ content }: Props) => {
           }
           h1={content.h1}
           paragraph={content.intro}
-          primaryButton={{
-            label: <>Calculator <ArrowRight style={{ width: 18, height: 18 }} /></>,
-            onClick: scrollToCalc,
-          }}
+          // Item 8: no primary button inside the article hero. The
+          // inline CTAs (mid + end) rendered by ArticleAugmentation
+          // carry the primary action instead.
         />
+
+        {/* Item 7: on price guides, insert upload-card + engine-examples
+            BEFORE the first h2 in the article body. */}
+        {content.topic === "price" && (
+          <>
+            <PriceUploadCard lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} />
+            <EnginePriceTable lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} testId="engine-examples" />
+          </>
+        )}
+
+        {/* Item 8: article augmentation adds article-template + TOC + inline-ctas. */}
+        <ArticleAugmentation lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} />
 
         {/* Article body */}
         <article className="py-16 bg-background">

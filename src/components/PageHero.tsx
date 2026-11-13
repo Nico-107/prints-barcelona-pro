@@ -70,6 +70,7 @@ export default function PageHero({
   return (
     <>
       <section
+        data-testid="page-hero"
         data-page-hero
         data-variant={variant}
         className={cn(

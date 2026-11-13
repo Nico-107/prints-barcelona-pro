@@ -25,8 +25,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const siteVariant = useVariant();
-  // Dark theme applies site-wide in variant B (Phase 1.1). The home_v2
-  // experiment keeps its over-hero behaviour on the home page for A visitors.
+  // Dark theme applies site-wide in variant B (Phase 1.1). The old home_v2
+  // experiment has been merged into site_variant — one switch for B.
   const [isOverV2Hero, setIsOverV2Hero] = useState(siteVariant === "B");
   // Separate from isOverV2Hero: true only when a dark hero exists AND we are
   // still scrolled above it. Controls header background (transparent over the
@@ -64,14 +64,10 @@ const Header = () => {
         setIsOverDarkHero(rect.bottom > 10);
         return;
       }
-      // Legacy home_v2 behaviour for A visitors on home: dark only over hero.
-      const isV2 = document.documentElement.dataset.xpHomeV2 === 'B';
-      if (!isV2) { setIsOverV2Hero(false); setIsOverDarkHero(false); return; }
-      const heroEl = document.querySelector('[data-v2-hero]') as HTMLElement | null;
-      if (!heroEl) { setIsOverV2Hero(false); setIsOverDarkHero(false); return; }
-      const over = window.scrollY < heroEl.offsetHeight - 10;
-      setIsOverV2Hero(over);
-      setIsOverDarkHero(over);
+      // Variant A: always light header. (Previous home_v2 fallback removed —
+      // one switch now controls B site-wide via site_variant.)
+      setIsOverV2Hero(false);
+      setIsOverDarkHero(false);
     };
     check();
     window.addEventListener('scroll', check, { passive: true });
@@ -154,12 +150,74 @@ const Header = () => {
     { label: t("nav.howItWorks"), id: "como-funciona" },
   ];
 
-  // Services group (index 0): actual print services only
-  const servicesGroup = SERVICES_MENU[0];
-  // Resources groups: only Materials and Guides — others live in the footer
-  const resourcesGroups = SERVICES_MENU.filter(
-    (g) => g.labelEn === "Materials" || g.labelEn === "Guides"
-  );
+  // Phase 2.6 / Item 11: both dropdowns now carry at least 4 grouped
+  // sections (data-testid="nav-menu-group"), in both variants A and B.
+  //
+  // Servicios dropdown  → Services · Specialties · For Business · Tools (4)
+  // Recursos dropdown   → Materials · Guides · Popular · Blog         (4)
+  const servicesGroup = SERVICES_MENU.find((g) => g.labelEn === "Services")!;
+  const specialtiesGroup = SERVICES_MENU.find((g) => g.labelEn === "Specialties")!;
+  const businessGroup = SERVICES_MENU.find((g) => g.labelEn === "For Business")!;
+  const materialsGroup = SERVICES_MENU.find((g) => g.labelEn === "Materials")!;
+  const guidesGroup = SERVICES_MENU.find((g) => g.labelEn === "Guides")!;
+  const popularGroup = SERVICES_MENU.find((g) => g.labelEn === "Popular")!;
+
+  const toolsGroupLabel = isCa ? "Eines" : isEs ? "Herramientas" : "Tools";
+  const blogGroupLabel = isCa ? "Blog i articles" : isEs ? "Blog y artículos" : "Blog & articles";
+  const fileCheckerHref = isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker";
+  const trackHref = "/track";
+  const blogHref = "/blog";
+
+  const servicesMenuGroups: { key: string; label: string; items: Array<{ key: string; label: string; href: string; menu: "services" | "resources" }> }[] = [
+    {
+      key: "services",
+      label: groupLabel(servicesGroup),
+      items: servicesGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "services" })),
+    },
+    {
+      key: "specialties",
+      label: groupLabel(specialtiesGroup),
+      items: specialtiesGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "services" })),
+    },
+    {
+      key: "business",
+      label: groupLabel(businessGroup),
+      items: businessGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "services" })),
+    },
+    {
+      key: "tools",
+      label: toolsGroupLabel,
+      items: [
+        { key: "file-checker", label: t("nav.fileChecker"), href: fileCheckerHref, menu: "services" },
+        { key: "track", label: t("nav.trackOrder"), href: trackHref, menu: "services" },
+      ],
+    },
+  ];
+
+  const resourcesMenuGroups: { key: string; label: string; items: Array<{ key: string; label: string; href: string; menu: "services" | "resources" }> }[] = [
+    {
+      key: "materials",
+      label: groupLabel(materialsGroup),
+      items: materialsGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
+    },
+    {
+      key: "guides",
+      label: groupLabel(guidesGroup),
+      items: guidesGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
+    },
+    {
+      key: "popular",
+      label: groupLabel(popularGroup),
+      items: popularGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
+    },
+    {
+      key: "blog",
+      label: blogGroupLabel,
+      items: [
+        { key: "blog-index", label: isEs ? "Ver el blog" : isCa ? "Veure el blog" : "Visit the blog", href: blogHref, menu: "resources" },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -170,10 +228,11 @@ const Header = () => {
         Skip to content
       </a>
       <header
+        data-testid="site-header"
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-200",
           isOverV2Hero
-            ? isOverDarkHero
+            ? (isOverDarkHero && !isMenuOpen)
               ? "bg-transparent border-b border-transparent"
               : "bg-[#0B1020] border-b border-white/10 shadow-[0_1px_8px_rgba(0,0,0,0.25)]"
             : cn("bg-white border-b border-[#E3E8F0]", scrolled && "shadow-[0_1px_8px_rgba(15,23,42,0.08)]")
@@ -183,8 +242,21 @@ const Header = () => {
         <div className="container px-4 sm:px-6">
           <div className="flex items-center h-[var(--header-h)]">
 
-            {/* Logo */}
-            <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
+            {/* Logo — on the home/hub page scrolls to top (Phase 2.6: was a no-op);
+                elsewhere navigates to that language's hub. */}
+            <Link
+              to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"}
+              className="flex items-center gap-2 shrink-0"
+              onClick={(e) => {
+                const hub = LANG_HUB[language as keyof typeof LANG_HUB] ?? "/";
+                const path = location.pathname;
+                const onHub = path === hub || path === hub + "/" || (hub === "/" && path === "");
+                if (onHub) {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
               {isOverV2Hero ? (
                 <svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true">
                   <polygon points="60,26 94,62 60,98 26,62" fill="none" stroke="#FFFFFF" strokeWidth="8" strokeLinejoin="round"/>
@@ -215,20 +287,69 @@ const Header = () => {
                 </svg>
               )}
               <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}>
-                Dimension<span style={{ color: '#F5A524' }}>3D</span>
+                {/* Phase 9.contrast: on the white (variant A) header the gold
+                    wordmark drops to #B45309 so it clears 4.5:1 on white; on
+                    the dark (variant B) header it stays the bright gold. */}
+                Dimension<span style={{ color: isOverV2Hero ? '#F5A524' : '#B45309' }}>3D</span>
               </span>
             </Link>
 
-            {/* Desktop primary nav — V2 black header reduced set */}
+            {/* Desktop primary nav — V2 dark header, matching the A grouped menu set.
+                Phase 2.6 fix-up: Precios / Cómo / Sin archivo hide below xl so
+                DE/FR labels don't push the header past 1440. All three are
+                still reachable via the Servicios dropdown. */}
             {isOverV2Hero && (
-              <nav className="hidden lg:flex items-center gap-6 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15.5 }}>
+              <nav className="hidden lg:flex items-center gap-4 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15 }}>
                 {(() => {
                   const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
                   return (<>
-                    <button type="button" onClick={() => scrollToSection('precios')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.precios")}</button>
-                    <button type="button" onClick={() => scrollToSection('maquina')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.como")}</button>
-                    <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15.5 }}>{t("header.v2.empresas")}</Link>
-                    <button type="button" onClick={handleNoFile} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.sin")}</button>
+                    <button type="button" onClick={() => scrollToSection('precios')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
+                    <button type="button" onClick={() => scrollToSection('maquina')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
+                    <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15, whiteSpace: 'nowrap' }}>{t("header.v2.empresas")}</Link>
+                    <button type="button" onClick={handleNoFile} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.sin")}</button>
+
+                    {/* Phase 2.6 / Item 11: variant B grouped menus mirror
+                        variant A — both render ≥ 4 data-testid="nav-menu-group". */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex items-center gap-1 outline-none" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+                        {t("nav.services")}
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="bg-white border-[#E3E8F0] z-50 grid grid-cols-2 gap-x-6 p-4 min-w-[520px]">
+                        {servicesMenuGroups.map((group) => (
+                          <div key={group.key} data-testid="nav-menu-group" data-group={group.key}>
+                            <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577] px-0 pt-0 pb-1">{group.label}</DropdownMenuLabel>
+                            {group.items.map((i) => (
+                              <DropdownMenuItem key={i.key} asChild>
+                                <Link to={i.href} onClick={() => capture("nav_click", { menu: i.menu, label_key: i.key, href: i.href })} className="cursor-pointer">
+                                  {i.label}
+                                </Link>
+                              </DropdownMenuItem>
+                            ))}
+                          </div>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex items-center gap-1 outline-none" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+                        {t("nav.resources")}
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="bg-white border-[#E3E8F0] z-50 grid grid-cols-2 gap-x-6 p-4 min-w-[560px]">
+                        {resourcesMenuGroups.map((group) => (
+                          <div key={group.key} data-testid="nav-menu-group" data-group={group.key}>
+                            <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577] px-0 pt-0 pb-1">{group.label}</DropdownMenuLabel>
+                            {group.items.map((i) => (
+                              <DropdownMenuItem key={i.key} asChild>
+                                <Link to={i.href} onClick={() => capture("nav_click", { menu: i.menu, label_key: i.key, href: i.href })} className="cursor-pointer">
+                                  {i.label}
+                                </Link>
+                              </DropdownMenuItem>
+                            ))}
+                          </div>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </>);
                 })()}
               </nav>
@@ -262,6 +383,10 @@ const Header = () => {
                   </Link>
                 );
               })()}
+              {/* Phase 2.6: Catálogo + Custom design hide below xl so the header
+                  fits in 1024/1228 across all 8 languages (German "Bestellung
+                  verfolgen" + "Sofortpreis" used to truncate at 1228). They
+                  live in the Servicios / Resources dropdowns at lg widths. */}
               {(() => {
                 const active = isActivePath("/catalogo");
                 return (
@@ -269,7 +394,7 @@ const Header = () => {
                     to="/catalogo"
                     onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
                     className={cn(
-                      "text-sm font-medium transition-colors whitespace-nowrap",
+                      "hidden xl:inline-flex text-sm font-medium transition-colors whitespace-nowrap",
                       active ? "text-[#0F172A] font-semibold" : "text-[#5B6577] hover:text-[#0F172A]"
                     )}
                   >
@@ -285,7 +410,7 @@ const Header = () => {
                     to={href}
                     onClick={() => capture("nav_click", { menu: "main", label_key: "custom-design", href })}
                     className={cn(
-                      "text-sm font-medium transition-colors whitespace-nowrap",
+                      "hidden xl:inline-flex text-sm font-medium transition-colors whitespace-nowrap",
                       active ? "text-[#0F172A] font-semibold" : "text-[#5B6577] hover:text-[#0F172A]"
                     )}
                   >
@@ -294,86 +419,87 @@ const Header = () => {
                 );
               })()}
 
-              {/* Services dropdown */}
+              {/* Services dropdown — 4 nav-menu-groups */}
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-[#5B6577] hover:text-[#0F172A] transition-colors outline-none whitespace-nowrap">
                   {t("nav.services")}
                   <ChevronDown className="w-3.5 h-3.5" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56 bg-white border-[#E3E8F0] z-50">
-                  {servicesGroup.items.map((item) => {
-                    const href = slugForLang(item, language as any);
-                    return (
-                      <DropdownMenuItem key={item.slugEn} asChild>
-                        <Link
-                          to={href}
-                          onClick={() => capture("nav_click", { menu: "services", label_key: item.slugEn, href })}
-                          className="cursor-pointer"
-                        >
-                          {itemLabel(item)}
-                        </Link>
-                      </DropdownMenuItem>
-                    );
-                  })}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577]">
-                    {t("nav.tools")}
-                  </DropdownMenuLabel>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-                      onClick={() => capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
-                      className="cursor-pointer"
-                    >
-                      {t("nav.fileChecker")}
-                    </Link>
-                  </DropdownMenuItem>
+                <DropdownMenuContent align="start" className="bg-white border-[#E3E8F0] z-50 grid grid-cols-2 gap-x-6 p-4 min-w-[520px]">
+                  {servicesMenuGroups.map((group) => (
+                    <div key={group.key} data-testid="nav-menu-group" data-group={group.key}>
+                      <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577] px-0 pt-0 pb-1">
+                        {group.label}
+                      </DropdownMenuLabel>
+                      {group.items.map((i) => (
+                        <DropdownMenuItem key={i.key} asChild>
+                          <Link
+                            to={i.href}
+                            onClick={() => capture("nav_click", { menu: i.menu, label_key: i.key, href: i.href })}
+                            className="cursor-pointer"
+                          >
+                            {i.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Resources dropdown */}
+              {/* Resources dropdown — 4 nav-menu-groups */}
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-[#5B6577] hover:text-[#0F172A] transition-colors outline-none whitespace-nowrap">
                   {t("nav.resources")}
                   <ChevronDown className="w-3.5 h-3.5" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-64 bg-white border-[#E3E8F0] z-50">
-                  {resourcesGroups.map((group, gi) => (
-                    <div key={group.labelEn}>
-                      {gi > 0 && <DropdownMenuSeparator />}
-                      <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577]">
-                        {groupLabel(group)}
+                <DropdownMenuContent align="start" className="bg-white border-[#E3E8F0] z-50 grid grid-cols-2 gap-x-6 p-4 min-w-[560px]">
+                  {resourcesMenuGroups.map((group) => (
+                    <div key={group.key} data-testid="nav-menu-group" data-group={group.key}>
+                      <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577] px-0 pt-0 pb-1">
+                        {group.label}
                       </DropdownMenuLabel>
-                      {group.items.map((item) => {
-                        const href = slugForLang(item, language as any);
-                        return (
-                          <DropdownMenuItem key={item.slugEn} asChild>
-                            <Link
-                              to={href}
-                              onClick={() => capture("nav_click", { menu: "resources", label_key: item.slugEn, href })}
-                              className="cursor-pointer"
-                            >
-                              {itemLabel(item)}
-                            </Link>
-                          </DropdownMenuItem>
-                        );
-                      })}
+                      {group.items.map((i) => (
+                        <DropdownMenuItem key={i.key} asChild>
+                          <Link
+                            to={i.href}
+                            onClick={() => capture("nav_click", { menu: i.menu, label_key: i.key, href: i.href })}
+                            className="cursor-pointer"
+                          >
+                            {i.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
                     </div>
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </nav>
 
-            {/* Desktop utility nav — V2 black header */}
+            {/* Desktop utility nav — V2 dark header */}
             {isOverV2Hero && (
-              <div className="hidden lg:flex items-center gap-5">
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF' }}>
+              <div className="hidden lg:flex items-center gap-3">
+                <span className="hidden xl:inline" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF', whiteSpace: 'nowrap' }}>
                   <span style={{ color: '#F5A524' }}>★</span> {t("header.v2.rating")}
                 </span>
+                {/* Phase 2.6 + 9.contrast: language switcher in variant B;
+                    tone="dark" renders the trigger white so the code clears
+                    4.5:1 on the dark header. */}
+                <LanguageSelector landingTopicSlugs={landingTopicSlugs} tone="dark" />
+                {/* Phase 2.6: Seguir pedido present in variant B too */}
+                <Link
+                  to="/track"
+                  onClick={() => capture("nav_click", { menu: "main", label_key: "track", href: "/track" })}
+                  className="flex items-center gap-1.5 whitespace-nowrap"
+                  style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: 14 }}
+                >
+                  <PackageSearch className="w-4 h-4" />
+                  {t("nav.trackOrder")}
+                </Link>
                 <button
                   type="button"
                   onClick={() => openCalculatorFilePicker("header_v2")}
-                  style={{ background: '#F5A524', color: '#0B1020', fontWeight: 600, padding: '13px 22px', borderRadius: 10, fontSize: 16, border: 0, cursor: 'pointer', fontFamily: "'Inter', system-ui, sans-serif", whiteSpace: 'nowrap' }}
+                  style={{ background: '#F5A524', color: '#0B1020', fontWeight: 600, padding: '11px 18px', borderRadius: 10, fontSize: 15, border: 0, cursor: 'pointer', fontFamily: "'Inter', system-ui, sans-serif", whiteSpace: 'nowrap' }}
                 >
                   {t("header.v2.cta")}
                 </button>
@@ -396,10 +522,11 @@ const Header = () => {
               </div>
 
               <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
-              <Button asChild variant="ghost" size="sm" className="text-[#5B6577] hover:text-[#0F172A]">
+              {/* Phase 2.6: label hides below xl so the German header fits at 1228. */}
+              <Button asChild variant="ghost" size="sm" className="text-[#5B6577] hover:text-[#0F172A]" aria-label={t("nav.trackOrder")}>
                 <Link to="/track" className="gap-1.5 whitespace-nowrap">
                   <PackageSearch className="w-4 h-4" />
-                  {t("nav.trackOrder")}
+                  <span className="hidden xl:inline">{t("nav.trackOrder")}</span>
                 </Link>
               </Button>
               <Button
@@ -421,7 +548,10 @@ const Header = () => {
                   <span style={{ color: '#F5A524' }}>★</span> 4,8
                 </span>
               )}
-              <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
+              {/* Phase 9.contrast: mobile language switcher goes dark-tone on
+                  variant B so the lang code clears 4.5:1 against the
+                  dark header. */}
+              <LanguageSelector landingTopicSlugs={landingTopicSlugs} tone={isOverV2Hero ? "dark" : "light"} />
               <button
                 className="p-2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 style={{ color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}
@@ -544,25 +674,22 @@ const Header = () => {
               <p className="text-xs font-mono uppercase tracking-widest text-[#5B6577] px-4 pb-2">
                 {t("nav.resources")}
               </p>
-              {resourcesGroups.map((group) => (
-                <div key={group.labelEn} className="mb-3">
-                  <p className="text-xs text-[#5B6577] px-4 pb-1">{groupLabel(group)}</p>
-                  {group.items.map((item) => {
-                    const href = slugForLang(item, language as any);
-                    return (
-                      <Link
-                        key={item.slugEn}
-                        to={href}
-                        onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "resources", label_key: item.slugEn, href }); }}
-                        className={cn(
-                          "flex items-center min-h-[44px] px-4 rounded-xl text-sm font-medium transition-colors",
-                          isActivePath(href) ? "bg-[#F6F8FC] text-[#0F172A] font-semibold" : "text-[#0F172A] hover:bg-[#F6F8FC]"
-                        )}
-                      >
-                        {itemLabel(item)}
-                      </Link>
-                    );
-                  })}
+              {resourcesMenuGroups.map((group) => (
+                <div key={group.key} data-testid="nav-menu-group" data-group={group.key} className="mb-3">
+                  <p className="text-xs text-[#5B6577] px-4 pb-1">{group.label}</p>
+                  {group.items.map((i) => (
+                    <Link
+                      key={i.key}
+                      to={i.href}
+                      onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "resources", label_key: i.key, href: i.href }); }}
+                      className={cn(
+                        "flex items-center min-h-[44px] px-4 rounded-xl text-sm font-medium transition-colors",
+                        isActivePath(i.href) ? "bg-[#F6F8FC] text-[#0F172A] font-semibold" : "text-[#0F172A] hover:bg-[#F6F8FC]"
+                      )}
+                    >
+                      {i.label}
+                    </Link>
+                  ))}
                 </div>
               ))}
             </div>

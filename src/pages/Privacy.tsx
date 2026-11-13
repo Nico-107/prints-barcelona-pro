@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SocialMeta from "@/components/SocialMeta";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const CONSENT_KEY = "cookie-consent";
 
@@ -41,17 +43,12 @@ const Privacy = () => {
       <SocialMeta title={t("privacy.meta.title")} description={t("privacy.meta.description")} path="/privacy" />
 
       <div className="min-h-screen bg-secondary/20">
-        <header className="border-b border-border bg-background">
-          <div className="container px-4 h-14 flex items-center">
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-              {t("privacy.back")}
-            </Link>
-          </div>
-        </header>
-
-        <main className="container px-4 py-10 max-w-2xl">
-          <h1 className="text-3xl font-bold mb-1">{t("privacy.title")}</h1>
-          <p className="text-xs text-muted-foreground mb-8">{t("privacy.updated")}</p>
+        <Header />
+        <main id="main-content" className="container px-4 py-10 max-w-2xl pt-[calc(var(--header-h)+40px)]">
+          <section data-testid="page-hero" data-page-hero>
+            <h1 className="text-3xl font-bold mb-1">{t("privacy.title")}</h1>
+            <p className="text-xs text-muted-foreground mb-8">{t("privacy.updated")}</p>
+          </section>
 
           <p className="text-muted-foreground mb-8">{t("privacy.intro")}</p>
 
@@ -80,6 +77,8 @@ const Privacy = () => {
             </Card>
           </div>
         </main>
+        <Footer />
+        <WhatsAppFloat />
       </div>
     </>
   );

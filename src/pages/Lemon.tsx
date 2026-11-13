@@ -187,6 +187,8 @@ export default function Lemon() {
 
         {/* ── HERO ─ full-bleed navy, phone-width composition on any viewport ──── */}
         <section
+          data-testid="page-hero"
+          data-page-hero
           className="relative overflow-hidden min-h-[100svh] flex items-center justify-center px-6 py-16"
           style={{ backgroundColor: NAVY, color: "#FFFFFF" }}
         >

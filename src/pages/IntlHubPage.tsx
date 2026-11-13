@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import HubTemplate from "@/components/hub/HubTemplate";
 import { capture } from "@/lib/analytics";
 import { Hero as DsHero, FAQAccordion, FactsStrip, FinalCta, FounderSection, LinkCardGrid, QuoteFeature, StepCards, UploadPanel } from "@/components/ds";
 import { whatsappUrl } from "@/config/cities";
@@ -248,9 +246,8 @@ const IntlHubPage = ({ content }: Props) => {
     })),
   };
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Helmet>
+  const helmet = (
+    <Helmet>
         <html lang={content.locale} />
         <title>{content.metaTitle}</title>
         <meta name="description" content={content.metaDescription} />
@@ -278,10 +275,10 @@ const IntlHubPage = ({ content }: Props) => {
         <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
       </Helmet>
+  );
 
-      <Header />
-
-      <main id="main-content" className="pt-[var(--header-h)]">
+  return (
+    <HubTemplate lang={content.lang} helmet={helmet}>
         {/* V1 hero */}
         <div className="xp-home-v1-only">
           <DsHero
@@ -491,11 +488,7 @@ const IntlHubPage = ({ content }: Props) => {
           cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
           reassurance={content.noRegistration}
         />
-      </main>
-
-      <Footer />
-      <WhatsAppFloat />
-    </div>
+    </HubTemplate>
   );
 };
 

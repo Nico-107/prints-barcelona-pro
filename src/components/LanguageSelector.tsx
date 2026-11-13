@@ -45,9 +45,12 @@ interface Props {
   landingTopicSlugs?: Partial<Record<string, string>>;
   // Intl page hreflang pairs: lang → slug for the current page
   hreflangMap?: Partial<Record<string, string>>;
+  // Phase 9.contrast: 'dark' renders the trigger in white so it clears
+  // 4.5:1 on the variant-B dark header.
+  tone?: "light" | "dark";
 }
 
-const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
+const LanguageSelector = ({ landingTopicSlugs, hreflangMap, tone = "light" }: Props) => {
   const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -124,7 +127,11 @@ const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 px-2 py-1.5 rounded text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors min-h-[44px] min-w-[44px]"
+        className={
+          tone === "dark"
+            ? "flex items-center gap-1.5 px-2 py-1.5 rounded text-sm font-medium text-white hover:text-white/80 hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px]"
+            : "flex items-center gap-1.5 px-2 py-1.5 rounded text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors min-h-[44px] min-w-[44px]"
+        }
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={`${language} – ${LANG_LABELS[language]}`}

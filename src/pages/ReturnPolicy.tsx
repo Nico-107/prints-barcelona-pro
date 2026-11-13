@@ -22,11 +22,13 @@ const ReturnPolicy = () => {
       <Header />
       <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
         <div className="container px-4 max-w-2xl mx-auto">
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground block mb-8">
-            {t("returns.back")}
-          </Link>
-          <h1 className="text-3xl font-bold text-foreground mb-6">{t("returns.title")}</h1>
-          <p className="text-muted-foreground leading-relaxed">{t("returns.body")}</p>
+          <section data-testid="page-hero" data-page-hero>
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground block mb-8">
+              {t("returns.back")}
+            </Link>
+            <h1 className="text-3xl font-bold text-foreground mb-6">{t("returns.title")}</h1>
+            <p className="text-muted-foreground leading-relaxed">{t("returns.body")}</p>
+          </section>
         </div>
       </main>
       <Footer />

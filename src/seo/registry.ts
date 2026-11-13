@@ -82,7 +82,8 @@ export const SERVICES_MENU: MenuGroup[] = [
     labelEs: "Servicios",
     labelCa: "Serveis",
     items: [
-      item("service-3d-printing", "3D Printing in Barcelona", "Impresión 3D en Barcelona", "Impressió 3D a Barcelona"),
+      // Phase 2.6: "Impresión 3D en Barcelona" removed — in ES/CA it just
+      // reloaded the home page. The hub is still reachable via the logo.
       item("custom-parts", "Custom Parts", "Piezas Personalizadas", "Peces Personalitzades"),
       item("prototypes", "Prototype Printing", "Prototipos 3D", "Prototips 3D"),
       item("urgent", "Urgent / Express", "Impresión Urgente", "Impressió Urgent"),

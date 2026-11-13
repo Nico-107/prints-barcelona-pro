@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import PhotoSteps from "@/components/parts/PhotoSteps";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -116,7 +117,7 @@ const RepuestoDescatalogado = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
@@ -157,7 +158,7 @@ const RepuestoDescatalogado = () => {
                 className="gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
-                Mándanos una foto por WhatsApp
+                Enviar una foto
               </Button>
               <Button asChild variant="ghost" size="lg" className="text-primary-foreground/80 hover:text-primary-foreground border border-primary-foreground/20 hover:border-primary-foreground/40">
                 <Link to="/recambios-impresion-3d-barcelona">
@@ -167,6 +168,9 @@ const RepuestoDescatalogado = () => {
             </div>
           </div>
         </section>
+
+        {/* Item 10: photo-steps module. */}
+        <PhotoSteps lang="es" />
 
         {/* ── CONTENT ── */}
         <section className="py-16 md:py-20 bg-background">

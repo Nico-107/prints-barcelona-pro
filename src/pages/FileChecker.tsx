@@ -139,7 +139,7 @@ const FileChecker = () => {
         <div className="container px-4 max-w-2xl">
 
           {/* Hero */}
-          <div className="mb-10 text-center">
+          <section data-testid="page-hero" data-page-hero className="mb-10 text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
               {t("checker.badge")}
             </p>
@@ -149,7 +149,7 @@ const FileChecker = () => {
             <p className="text-muted-foreground leading-relaxed max-w-xl mx-auto">
               {t("checker.subheading")}
             </p>
-          </div>
+          </section>
 
           {/* Privacy reassurance */}
           <div className="flex items-start gap-2.5 rounded-xl border border-border bg-muted/30 px-4 py-3 mb-6">

@@ -5,6 +5,7 @@ import { ArrowRight, BookOpen, Camera, Clock, GraduationCap, Package, Settings2,
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { Hero as DsHero } from "@/components/ds";
 
@@ -231,6 +232,7 @@ const Blog = () => {
           </div>
         </section>
 
+        <ArticleAugmentation lang="es" />
       </main>
 
       <Footer />

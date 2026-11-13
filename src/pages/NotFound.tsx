@@ -112,7 +112,7 @@ const NotFound = () => {
       </Helmet>
       <Header />
       <main id="main-content" className="flex-1 flex items-center justify-center py-20">
-        <div className="container px-4 max-w-lg mx-auto text-center">
+        <section data-testid="page-hero" data-page-hero className="container px-4 max-w-lg mx-auto text-center">
           <p className="text-7xl font-bold text-accent mb-4">404</p>
           <h1 className="text-2xl font-bold text-foreground mb-3">{s.heading}</h1>
           <p className="text-muted-foreground mb-8 leading-relaxed">{s.body}</p>
@@ -139,7 +139,7 @@ const NotFound = () => {
           <Link to={home} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             {s.back}
           </Link>
-        </div>
+        </section>
       </main>
       <Footer />
     </div>

@@ -1,4 +1,7 @@
-const HOLDOUT_FRACTION = 0.1;
+// Holdout has been removed: every visitor participates in site_variant at an
+// exact 50/50 split. HOLDOUT_FRACTION stays at 0 and isHoldout() always
+// returns false so legacy call sites compile without branching.
+const HOLDOUT_FRACTION = 0;
 export const VID_KEY = 'dim3d-vid';
 
 /** FNV-1a 32-bit hash, returns a number in [0, 1). */

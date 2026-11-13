@@ -12,6 +12,9 @@ import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import type { IntlCityContent } from "@/data/intlTypes";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Hero as DsHero, FAQAccordion, UploadPanel } from "@/components/ds";
+import DeliveryTimeline from "@/components/city/DeliveryTimeline";
+import EnginePriceTable from "@/components/city/EnginePriceTable";
+import { INTL_MARKETS } from "@/config/intlMarkets";
 
 import { StlEstimator } from "@/components/StlEstimator";
 
@@ -202,6 +205,20 @@ const IntlCityPage = ({ content }: Props) => {
             </UploadPanel>
           </div>
         </div>
+
+        {/* Item 5: delivery timeline + engine price table. Transit days come
+            from INTL_MARKETS for the page's country. */}
+        {(() => {
+          const market = INTL_MARKETS.find((m) => m.code === content.countryCode);
+          const transitRaw = market?.typicalDeliveryDays ?? "3–5 business days";
+          const transitDays = transitRaw.replace(/\s+(business days|días hábiles|días laborables|jours ouvrés|jours ouvrables|Werktage|werkdagen|giorni lavorativi|dias úteis)\s*$/i, "");
+          return (
+            <>
+              <DeliveryTimeline lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} transitDays={transitDays} shippingPrice="5,90 €" />
+              <EnginePriceTable lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} testId="city-price-table" />
+            </>
+          );
+        })()}
 
         {/* Intro body text — moved below calculator; hero already shows button above fold */}
         <section className="py-16 bg-background">

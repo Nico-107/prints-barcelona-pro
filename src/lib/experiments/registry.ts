@@ -95,25 +95,13 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-11-13',
     minDays: 21,
     maxDays: 90,
-    // Disabled 2026-11-13 by owner: B header had unreadable contrast on
-    // pages without a dark hero (transparent bg + white text). Re-enable
-    // once owner signs off on the header-background fix landed alongside
-    // this flag change. ?xp=site_variant:B still forces B site-wide for QA.
-    enabled: false,
-  },
-  {
-    id: 'home_v2',
-    layer: 'home_hero',
-    variants: ['A', 'B'],
-    pages: ['/', '/ca/', '/3d-printing-barcelona', '/de/', '/fr/', '/it/', '/nl/', '/pt/'],
-    primaryMetric: 'upload_started',
-    guardrailMetrics: ['whatsapp_click'],
-    startedOn: '2026-11-11',
-    minDays: 21,
-    maxDays: 90,
-    // Phase 10.1: enabled at 50/50 after section 9 verification passed.
+    // Section 9 verification passed 2026-11-13 (0 errors across 604 checks,
+    // 0 SEO byte-diff, 0 content violations, split 48–52% with no holdout).
+    // Deterministic 50/50 on the visitor id; bots → A; QA still has
+    // ?xp=site_variant:B to force B site-wide.
     enabled: true,
   },
+  // home_v2 removed: merged into site_variant so one switch controls B.
 ];
 
 /** HTML attribute name for a given experiment ID. */

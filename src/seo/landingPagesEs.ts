@@ -1618,8 +1618,8 @@ export const PAGES_ES: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "¿Quién hay detrás de Dimension3D?", a: "Dimension3D es un estudio fundado por Nico (Mikołaj Szczełkun), con taller en Barcelona. Revisamos y gestionamos cada pedido directamente, sin intermediarios." },
-      { q: "¿Cuántos pedidos habéis hecho?", a: "Más de 250 pedidos desde la apertura, para particulares, startups, talleres, clínicas y estudiantes." },
+      { q: "¿Quién hay detrás de Dimension3D?", a: "Dimension3D es un estudio fundado por Nico (Mikołaj Szczełkun), con estudio en Les Corts, Barcelona. Reviso y gestiono cada pedido directamente, sin intermediarios." },
+      { q: "¿Cuántos pedidos habéis hecho?", a: "Más de 250 pedidos desde la apertura, para particulares, startups, clínicas y estudiantes." },
       { q: "¿Podéis hacer un NDA para proyectos confidenciales?", a: "Sí. Firmamos NDA habitualmente con startups de hardware y departamentos de I+D. Mándanos un WhatsApp o email para concretar." },
       { q: "¿En qué idiomas atendéis?", a: "Español, catalán, inglés y polaco. Podemos gestionar pedidos en cualquiera de estos idiomas." },
       { q: "¿Estáis en Barcelona físicamente o solo online?", a: "Tenemos taller físico en la Rambla de Brasil, 53 (Les Corts, Barcelona). También atendemos pedidos 100% online con envío a toda España y la UE." },

@@ -30,6 +30,9 @@ function CenteredHero({
 }: HeroProps) {
   return (
     <section
+      data-testid="page-hero"
+      data-page-hero
+      data-hero-variant="A"
       className="ds-grid-bg ds-v1-hero-section relative text-white"
       style={extendBehindHeader ? {
         marginTop: 'calc(-1 * var(--header-h))',
@@ -252,6 +255,9 @@ function SplitImageHero({
 }: HeroProps) {
   return (
     <section
+      data-testid="page-hero"
+      data-page-hero
+      data-hero-variant="B"
       data-v2-hero
       className="ds-hero-split-section"
       style={{

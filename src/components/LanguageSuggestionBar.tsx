@@ -103,10 +103,14 @@ const LanguageSuggestionBar = ({ equivSlug }: Props) => {
 
   if (!show || !hydrated || modalOpen) return null;
 
+  // Phase 9.contrast: on variant B the header is transparent over a dark
+  // hero. A light-bg banner in the same strip breaks header-text contrast.
+  // Render the banner with a dark colour scheme on variant B so white
+  // header text stays ≥ 4.5:1.
   return (
-    <div className="w-full bg-muted/80 border-b border-border/50 text-sm">
+    <div className="w-full bg-muted/80 border-b border-border/50 text-sm [body[data-site-variant=B]_&]:bg-[#0B1020] [body[data-site-variant=B]_&]:border-white/10 [body[data-site-variant=B]_&]:text-white">
       <div className="container px-4 py-2 flex items-center justify-between gap-3">
-        <span className="text-foreground/80 flex-1">{t("lang.suggest.text")}</span>
+        <span className="text-foreground/80 flex-1 [body[data-site-variant=B]_&]:text-white/90">{t("lang.suggest.text")}</span>
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleSwitch}
@@ -116,7 +120,7 @@ const LanguageSuggestionBar = ({ equivSlug }: Props) => {
           </button>
           <button
             onClick={handleDismiss}
-            className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+            className="p-1 text-muted-foreground hover:text-foreground transition-colors [body[data-site-variant=B]_&]:text-white/80 [body[data-site-variant=B]_&]:hover:text-white"
             aria-label={t("lang.suggest.dismiss")}
           >
             <X className="w-4 h-4" />

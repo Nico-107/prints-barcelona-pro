@@ -46,21 +46,21 @@ const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const HOME_META: Record<string, { title: string; description: string; locale: string }> = {
   es: {
-    title: `Impresión 3D en ${ACTIVE_CITY.cityName} — Desde 10€, Presupuesto en 1h`,
+    title: `Impresión 3D en ${ACTIVE_CITY.cityName} — Desde 10 €, Presupuesto en 1h`,
     description:
-      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 10€, sin pedido mínimo. Recogida local o envío.`,
+      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 10 €, desde 1 pieza. Recogida local o envío.`,
     locale: "es_ES",
   },
   en: {
-    title: `3D Printing ${ACTIVE_CITY.cityName} — From 10€, Quote in Under 1 Hour`,
+    title: `3D Printing ${ACTIVE_CITY.cityName} — From €10, Quote in Under 1 Hour`,
     description:
-      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From 10€, no minimum order. Local pickup or shipping.`,
+      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From €10 per order, from 1 piece. Local pickup or shipping.`,
     locale: "en_US",
   },
   ca: {
-    title: `Impressió 3D a ${ACTIVE_CITY.cityName} — Des de 10€, Pressupost en 1h`,
+    title: `Impressió 3D a ${ACTIVE_CITY.cityName} — Des de 10 €, Pressupost en 1h`,
     description:
-      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 10€, sense comanda mínima. Recollida local o enviament.`,
+      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 10 €, des d'1 peça. Recollida local o enviament.`,
     locale: "ca_ES",
   },
 };
@@ -242,7 +242,7 @@ const Index = () => {
   useSectionView(faqRef, "faq");
   useSectionView(b2bRef, "b2b");
   useXpExposure(reviewsRef, "home_proof_r1");
-  useXpExposure(heroRef, "home_v2");
+  // home_v2 merged into site_variant — SiteShell fires that exposure once per session.
 
   // Phase 1.3: exactly one <h1> in the DOM. SSR ships both V1 + V2 heroes
   // (CSS hides one); after hydrate we physically remove the inactive one so

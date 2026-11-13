@@ -3,9 +3,7 @@ import { Helmet } from "react-helmet-async";
 import SocialMeta from "@/components/SocialMeta";
 import { Box, Clock, Loader2, MapPin, ShoppingCart, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ProductTemplate from "@/components/product/ProductTemplate";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
 import { FAQAccordion } from "@/components/ds";
@@ -270,7 +268,7 @@ const PartPage = ({ part }: Props) => {
     }
   };
 
-  return (
+  const helmet = (
     <>
       <Helmet>
         <title>{metaTitle}</title>
@@ -282,13 +280,17 @@ const PartPage = ({ part }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
       <SocialMeta title={metaTitle} description={metaDescription} path={part.slug} />
-      <Header />
-      <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-28 md:pb-20">
+    </>
+  );
+
+  return (
+    <ProductTemplate lang="es" helmet={helmet}>
+      <div className="pb-28 md:pb-20">
         <div className="container px-4">
           <div className="max-w-5xl mx-auto space-y-16">
 
             {/* Hero — image + all purchase-decision info in one section */}
-            <section className="grid md:grid-cols-2 gap-8 md:gap-10 items-start">
+            <section data-testid="page-hero" data-page-hero className="grid md:grid-cols-2 gap-8 md:gap-10 items-start">
               <div className="rounded-2xl overflow-hidden bg-secondary/30 aspect-[4/3] md:aspect-square">
                 <PictureImg
                   src={part.images.cover}
@@ -528,7 +530,7 @@ const PartPage = ({ part }: Props) => {
 
           </div>
         </div>
-      </main>
+      </div>
       {/* Sticky buy bar — mobile only, keeps price+CTA in same viewport as hero image */}
       <div className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-background/95 backdrop-blur border-t border-border px-4 py-3 flex items-center gap-3">
         <div className="shrink-0">
@@ -586,9 +588,7 @@ const PartPage = ({ part }: Props) => {
           </ul>
         </div>
       </section>
-      <Footer />
-      <WhatsAppFloat />
-    </>
+    </ProductTemplate>
   );
 };
 

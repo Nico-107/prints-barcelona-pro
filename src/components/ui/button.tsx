@@ -16,7 +16,11 @@ const buttonVariants = cva(
         ghost: "hover:bg-secondary hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         whatsapp: "bg-whatsapp text-primary-foreground hover:bg-whatsapp-hover hover:-translate-y-0.5 hover:shadow-md shadow-sm",
-        "whatsapp-outline": "border border-whatsapp text-whatsapp bg-transparent hover:bg-whatsapp/10 hover:-translate-y-0.5",
+        // Phase 2.5: 'no green buttons'. The old green-outline WhatsApp
+        // button is now a neutral outlined secondary (same colour tokens
+        // as the standard outline variant). The WhatsApp icon still ships
+        // with each use site so the channel is obvious.
+        "whatsapp-outline": "border border-primary text-primary bg-transparent hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
         hero: "bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-sm",
         "hero-outline": "border border-primary-foreground/30 text-primary-foreground bg-transparent hover:bg-primary-foreground/10 hover:border-primary-foreground/50",
         accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-sm font-semibold",

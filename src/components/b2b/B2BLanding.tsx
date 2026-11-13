@@ -14,6 +14,9 @@ import { LinkCardGrid, QuoteFeature, StepCards, UploadPanel, FactsStrip } from "
 import { REVIEWS, reviewText } from "@/data/reviews";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
+import IterationTimeline from "@/components/b2b/IterationTimeline";
+import MaterialByNeed from "@/components/b2b/MaterialByNeed";
+import VolumePriceTable from "@/components/b2b/VolumePriceTable";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -163,12 +166,13 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     htmlLang: "es",
     canonicalPath: "/impresion-3d-empresas-barcelona",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
+    // SEO baseline — rule 0.2: meta description is byte-frozen on this page.
     metaDesc: "Impresión 3D para empresas en Barcelona: piezas funcionales, prototipos, recambios y tiradas cortas. Desde €10, sin tarifa de configuración. Presupuesto en 1h.",
     h1: "Impresión 3D para Empresas en Barcelona",
     heroPromise: "Más de 250 pedidos completados. Piezas listas en 2–5 días, presupuesto en 1 hora.",
     heroSub: "Sin tarifa de configuración. Pedido mínimo 10 €. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
-    ctaPrimary: "Sube tu archivo y ve el precio",
-    ctaWhatsApp: "Escríbenos por WhatsApp",
+    ctaPrimary: "Enviar mi proyecto",
+    ctaWhatsApp: "Escribir por WhatsApp",
     ctaSubline: "Sin cuenta. Presupuesto en menos de 1 hora.",
     heroSampleLine: "Primera pieza de muestra gratis para empresas con proyecto real.",
     trustItems: [
@@ -223,7 +227,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { title: "Envía tu STL, STEP o dibujo", body: "Sube el archivo al calculador o envíalo por WhatsApp. Aceptamos STL, STEP, IGES, OBJ y 3MF. Si solo tienes un dibujo o una foto de la pieza rota, también podemos trabajar con eso." },
       { title: "Presupuesto en 1 hora (o precio instantáneo)", body: "Las piezas con precio automático te dan un precio al instante. Para piezas más complejas, revisamos el archivo manualmente y respondemos en menos de 1 hora en horario laboral." },
       { title: "Impresión y control de calidad", body: "Imprimimos en nuestra Bambu Lab X2D con cámara cerrada y cámara climatizada. Cada pieza se revisa antes de salir del taller." },
-      { title: "Entrega en Barcelona o envío", body: "Recogida con cita previa en Barcelona. Envío a domicilio desde €5,90 a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
+      { title: "Entrega en Barcelona o envío", body: "Recogida con cita previa en Barcelona. Envío a domicilio desde 5,90 € a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
     ],
     faqs: [
       { q: "¿Cuál es el pedido mínimo para empresas?", a: "El pedido mínimo es de 10€. No hay tarifa de configuración. Desde una sola pieza, sin burocracia." },
@@ -264,8 +268,8 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     h1: "3D Printing for Business in Barcelona",
     heroPromise: "250+ orders completed. Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
     heroSub: "No setup fee. €10 minimum order. Invoice for companies. NDA available. Support in ES · CA · EN · DE · PL.",
-    ctaPrimary: "Upload your file, see your price",
-    ctaWhatsApp: "Message us on WhatsApp",
+    ctaPrimary: "Send my project",
+    ctaWhatsApp: "Message on WhatsApp",
     ctaSubline: "No account needed. Quote within 1 hour.",
     heroSampleLine: "Free prototype part for companies with a real project.",
     trustItems: [
@@ -357,12 +361,13 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     htmlLang: "ca",
     canonicalPath: "/ca/impressio-3d-empreses-barcelona",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
+    // SEO baseline — rule 0.2: meta description is byte-frozen on this page.
     metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis i tirades curtes. Des de €10, sense tarifa de configuració. Pressupost en 1 hora.",
     h1: "Impressió 3D per a Empreses a Barcelona",
     heroPromise: "Més de 250 comandes completades. Peces llestes en 2–5 dies, pressupost en 1 hora.",
     heroSub: "Sense tarifa de configuració. Comanda mínima 10 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
-    ctaPrimary: "Puja el teu arxiu i veu el preu",
-    ctaWhatsApp: "Escriu-nos per WhatsApp",
+    ctaPrimary: "Enviar el meu projecte",
+    ctaWhatsApp: "Escriure per WhatsApp",
     ctaSubline: "Sense compte. Pressupost en menys d'1 hora.",
     heroSampleLine: "Primera peça de mostra gratuïta per a empreses amb projecte real.",
     trustItems: [
@@ -623,7 +628,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
       <main className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ── */}
-        <section ref={heroRef} className="ds-grid-bg py-14 md:py-20">
+        <section ref={heroRef} data-testid="page-hero" data-page-hero className="ds-grid-bg py-14 md:py-20">
           <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 24px' }}>
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div>
@@ -839,6 +844,12 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
             </div>
           </div>
         </section>
+
+        {/* Item 4: shared B2B modules — iteration timeline, material-by-need,
+            engine-driven volume price table. */}
+        <IterationTimeline lang={lang} />
+        <MaterialByNeed lang={lang} />
+        <VolumePriceTable lang={lang} />
 
         {/* ── 5. SCALE + BATCH TABLE ── */}
         <section className="py-14 md:py-20 container px-4 max-w-4xl mx-auto">

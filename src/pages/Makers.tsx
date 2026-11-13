@@ -529,7 +529,7 @@ const Makers = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── 1. HERO ──────────────────────────────────────────────── */}
-        <section className="relative py-24 md:py-32 ds-grid-bg overflow-hidden">
+        <section data-testid="page-hero" data-page-hero className="relative py-24 md:py-32 ds-grid-bg overflow-hidden">
           {/* Diagonal amber stripe decoration (right half) */}
           <div
             className="absolute inset-y-0 right-0 w-1/2 pointer-events-none"

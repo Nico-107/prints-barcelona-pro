@@ -2,10 +2,12 @@
  * Client-side experiment engine v2.
  *
  * Assignment algorithm:
- *   1. 10% holdout — no experiments at all (`data-xp-holdout="true"` on <html>).
- *   2. Per layer: deterministic hash(visitorId + "::layer::" + layerId) picks which
+ *   1. Per layer: deterministic hash(visitorId + "::layer::" + layerId) picks which
  *      experiment in that layer the visitor sees (at most one per layer).
- *   3. Within the experiment: hash(visitorId + "::" + experimentId) picks the variant.
+ *   2. Within the experiment: hash(visitorId + "::" + experimentId) picks the variant.
+ *
+ * Holdout has been removed. Every visitor participates in site_variant at an
+ * exact 50/50 split (see assign.ts).
  *
  * The pre-paint inline script in index.html replicates this logic before React
  * mounts, setting `data-xp-<id>="<variant>"` on <html>. CSS selectors then

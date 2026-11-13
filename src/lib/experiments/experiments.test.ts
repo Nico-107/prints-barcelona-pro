@@ -70,16 +70,12 @@ describe('assignVariant', () => {
 
 // ─── isHoldout ───────────────────────────────────────────────────────────────
 
-describe('isHoldout', () => {
-  it('puts ~10% of visitors in holdout', () => {
-    let holdoutCount = 0;
+describe('isHoldout (no-op after holdout removal)', () => {
+  it('never puts any visitor in holdout (exact 50/50 site_variant)', () => {
     const N = 100_000;
     for (let i = 0; i < N; i++) {
-      if (isHoldout(`visitor-${i}`)) holdoutCount++;
+      expect(isHoldout(`visitor-${i}`)).toBe(false);
     }
-    const rate = holdoutCount / N;
-    expect(rate).toBeGreaterThan(0.08);
-    expect(rate).toBeLessThan(0.12);
   });
 
   it('is deterministic', () => {

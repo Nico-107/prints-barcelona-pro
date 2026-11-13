@@ -38,8 +38,8 @@ export function buildPrePaintScript(experiments: PrePaintExp[]): string {
     `var isBot=vid==='bot'||/bot|crawl|spider|headless/i.test(navigator.userAgent||'');` +
     `var forced={},isForced=false;` +
     `try{var xpParam=new URLSearchParams(location.search).get('xp');if(xpParam){var sep=xpParam.indexOf(':');if(sep>0){forced[xpParam.slice(0,sep)]=xpParam.slice(sep+1);isForced=true;}}}catch(e){}` +
-    `try{var v2a=new URLSearchParams(location.search).get('xp_home_v2');if(v2a==='v2'){forced['home_v2']='B';isForced=true;}else if(v2a==='control'){forced['home_v2']='A';isForced=true;}}catch(e){}` +
-    `if(!isForced&&h(vid+'::holdout')<0.1){document.documentElement.setAttribute('data-xp-holdout','true');return;}` +
+    `try{var v2a=new URLSearchParams(location.search).get('xp_home_v2');if(v2a==='v2'){forced['site_variant']='B';isForced=true;}else if(v2a==='control'){forced['site_variant']='A';isForced=true;}}catch(e){}` +
+    `try{if(new URLSearchParams(location.search).get('xp')==='reset'){forced={};isForced=false;}}catch(e){}` +
     `var lang='es',p=location.pathname;` +
     `if(p.startsWith('/en'))lang='en';` +
     `else if(p.startsWith('/ca'))lang='ca';` +

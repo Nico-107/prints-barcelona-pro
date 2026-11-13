@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -121,7 +122,7 @@ const BlogPrototiposBcn = () => {
       <main id="main-content" className="pt-[var(--header-h)]">
 
         {/* ── HERO ── */}
-        <section className="py-16 md:py-20 ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="py-16 md:py-20 ds-grid-bg">
           <div className="container px-4 max-w-3xl mx-auto">
             <nav className="flex items-center gap-2 text-sm text-primary-foreground/50 mb-4">
               <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Inicio</Link>
@@ -451,7 +452,7 @@ const BlogPrototiposBcn = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="xl" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg gap-2">
                 <Link to="/#calculator">
-                  Calcular precio con mi archivo
+                  Subir archivo y ver precio
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
@@ -526,6 +527,7 @@ const BlogPrototiposBcn = () => {
             ← Todas las guías
           </Link>
         </div>
+        <ArticleAugmentation lang="es" />
       </main>
 
       <Footer />

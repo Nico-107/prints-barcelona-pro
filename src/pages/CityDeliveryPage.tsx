@@ -13,6 +13,8 @@ import type { CityPageConfig } from "@/data/cityDeliveryPages";
 import { SHIP_COUNTRIES } from "@/lib/instantBuy";
 import { StlEstimator } from "@/components/StlEstimator";
 import { FactsStrip, LinkCardGrid, UploadPanel } from "@/components/ds";
+import DeliveryTimeline from "@/components/city/DeliveryTimeline";
+import EnginePriceTable from "@/components/city/EnginePriceTable";
 
 /** Map country string from cityDeliveryPages to ISO2 code for SHIP_COUNTRIES check */
 const COUNTRY_TO_ISO2: Record<string, string> = {
@@ -300,7 +302,7 @@ const CityDeliveryPage = ({ config }: Props) => {
 
       <main id="main-content" className="pt-[var(--header-h)]">
         {/* Hero */}
-        <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
+        <section data-testid="page-hero" data-page-hero className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
 
           <div className="container relative z-10 px-4 py-16">
             <div className="max-w-3xl mx-auto text-center">
@@ -331,10 +333,10 @@ const CityDeliveryPage = ({ config }: Props) => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalculator}>
                   {isES
-                    ? `Presupuesto con entrega en ${config.city}`
+                    ? "Subir archivo y ver precio"
                     : isNative
-                    ? (config.nativeSection?.ctaLabel ?? `Get a quote — delivered to ${config.city}`)
-                    : `Get a quote — delivered to ${config.city}`}
+                    ? (config.nativeSection?.ctaLabel ?? "Upload a file and see the price")
+                    : "Upload a file and see the price"}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button
@@ -439,6 +441,16 @@ const CityDeliveryPage = ({ config }: Props) => {
             </div>
           </section>
         )}
+
+        {/* Item 5: city/delivery pages get the delivery timeline + engine
+            price table. Transit days come from the page's market data; the
+            price table runs real engine computations. */}
+        <DeliveryTimeline
+          lang={config.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"}
+          transitDays={(config.deliveryDays ?? "3–5").replace(/\s+(business days|días hábiles|días laborables|jours ouvrés|jours ouvrables|Werktage|werkdagen|giorni lavorativi|dias úteis)\s*$/i, "")}
+          shippingPrice="5,90 €"
+        />
+        <EnginePriceTable lang={config.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} testId="city-price-table" />
 
         {/* Quick stats */}
         <FactsStrip

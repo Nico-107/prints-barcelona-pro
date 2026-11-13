@@ -17,8 +17,38 @@ import { StlEstimator } from "@/components/StlEstimator";
 import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid, UploadPanel, FactsStrip, QuoteFeature } from "@/components/ds";
 import { REVIEWS, reviewText } from "@/data/reviews";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { cta as ctaLabel } from "@/lib/ctaVocabulary";
+import type { Lang as CtaLang } from "@/lib/ctaVocabulary";
+import DeadlineModule from "@/components/urgent/DeadlineModule";
+import SpeedTiers from "@/components/urgent/SpeedTiers";
+import IterationTimeline from "@/components/b2b/IterationTimeline";
+import MaterialByNeed from "@/components/b2b/MaterialByNeed";
+import VolumePriceTable from "@/components/b2b/VolumePriceTable";
+import SpecCard from "@/components/material/SpecCard";
+import MaterialCompare from "@/components/material/MaterialCompare";
+import PriceUploadCard from "@/components/price/PriceUploadCard";
+import EnginePriceTable from "@/components/city/EnginePriceTable";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
+import PhotoSteps from "@/components/parts/PhotoSteps";
+
+// Topics whose hero CTA is the photo-path vocabulary ("Enviar una foto"
+// / "Send a photo") instead of the standard upload primary.
+const PHOTO_PATH_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  "replacement-parts",
+  "custom-parts",
+]);
+
+const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  "prototypes",
+  "rapid-prototyping",
+  "functional-parts",
+  "short-run",
+  "business",
+]);
 
 
+// Original GUIDE_TOPICS set — retained so articleSchema's "TechArticle"
+// vs "Article" decision stays byte-identical to the SEO baseline.
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "choosing-service",
   "materials-guide",
@@ -30,6 +60,20 @@ const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "materials-comparison",
   "turnaround-comparison",
   "technology-comparison",
+]);
+
+// ARTICLE_TOPICS covers everything rendered as an article (guides + blog
+// posts). Used for Item 8 augmentation (article-template / toc / inline
+// CTAs / no hero button). Does NOT change the JSON-LD @type.
+const ARTICLE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  ...GUIDE_TOPICS,
+  "blog-pla-vs-petg",
+  "blog-imprimir-sin-impresora",
+  "blog-modelos-descargados",
+  "blog-cuanto-tarda",
+  "blog-que-se-puede-imprimir",
+  "blog-convertir-foto-3d",
+  "blog-piezas-recambio",
 ]);
 
 const DEFAULT_DATE_PUBLISHED = "2026-08-01";
@@ -139,8 +183,41 @@ const LandingPage = ({ page: pageProp }: Props) => {
   // from it) — CTAs route to the maker network funnel instead of a print
   // quote. audience defaults to "customer", preserving old behaviour.
   const isMaker = page.audience === "maker";
-  const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks", "Uneix-te a la xarxa de Makers");
+  const pageLang: CtaLang = (page.lang as CtaLang);
+  // Phase 2.5: one CTA vocabulary everywhere. Maker pages use the "maker"
+  // label; customer landing pages use the "primary" label.
+  const makerJoinLabel = ctaLabel("maker", pageLang);
+  // Item 4 — B2B / prototype / short-run / functional-parts /
+  // rapid-prototyping pages use the business vocabulary ("Enviar mi
+  // proyecto" / "Send my project"); other customer pages use the
+  // standard "primary" label ("Subir archivo y ver precio").
+  const primaryCtaLabel = B2B_TOPICS.has(page.topic)
+    ? ctaLabel("business", pageLang)
+    : PHOTO_PATH_TOPICS.has(page.topic)
+      ? ctaLabel("photoPath", pageLang)
+      : ctaLabel("primary", pageLang);
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
+
+  // Phase 2.4 hero rule: subtitle max 2 lines (~140 chars). Service, guide,
+  // blog and about pages used to put a 5–9 line paragraph centered inside
+  // the hero; we now keep the first sentence (or ~140 chars) in the hero
+  // and move the rest to a lead paragraph directly below. Text is
+  // unchanged — just repositioned.
+  const splitHeroIntro = (intro: string): { short: string; rest: string } => {
+    const trimmed = (intro ?? "").trim();
+    if (!trimmed) return { short: "", rest: "" };
+    const firstSentenceMatch = trimmed.match(/^[^.?!]*[.?!]/);
+    const first = firstSentenceMatch ? firstSentenceMatch[0].trim() : trimmed;
+    if (trimmed.length <= 145) return { short: trimmed, rest: "" };
+    if (first.length <= 145) return { short: first, rest: trimmed.slice(first.length).trim() };
+    // Long first sentence: split at the last space before 140 chars.
+    const soft = trimmed.slice(0, 140);
+    const cut = soft.lastIndexOf(" ");
+    const shortCut = (cut > 0 ? trimmed.slice(0, cut) : soft).trim() + "…";
+    const rest = trimmed.slice((cut > 0 ? cut : 140)).trim();
+    return { short: shortCut, rest };
+  };
+  const { short: heroSubtitle, rest: heroLeadRest } = splitHeroIntro(page.intro);
 
   // Phase 3.5: true facts only, pulled from configured sources.
   // 250+ orders is the one owner-confirmed count; keep. The other chips cite
@@ -379,20 +456,121 @@ const LandingPage = ({ page: pageProp }: Props) => {
               )
               : page.h1
           }
-          paragraph={page.intro}
-          primaryButton={{
-            label: (
-              <>
-                {isMaker ? <Users style={{ width: 20, height: 20 }} /> : <Upload style={{ width: 20, height: 20 }} />}
-                {isMaker
-                  ? makerJoinLabel
-                  : t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern", "Sol·licitar Pressupost")}
-              </>
-            ),
-            onClick: isMaker ? () => navigate("/makers") : scrollToCalc,
-          }}
+          paragraph={heroSubtitle}
+          // Item 8: article pages (guides/comparisons) must have NO primary
+          // button inside the hero. A mid-article and end-of-article
+          // inline-cta render instead (via ArticleAugmentation).
+          primaryButton={
+            ARTICLE_TOPICS.has(page.topic)
+              ? undefined
+              : {
+                  label: (
+                    <>
+                      {isMaker ? <Users style={{ width: 20, height: 20 }} /> : <Upload style={{ width: 20, height: 20 }} />}
+                      {isMaker ? makerJoinLabel : primaryCtaLabel}
+                    </>
+                  ),
+                  onClick: isMaker ? () => navigate("/makers") : scrollToCalc,
+                }
+          }
           reassuranceItems={trustBadges.map(b => b.label)}
         />
+
+        {/* Item 3: urgent pages get the live deadline module, a WhatsApp
+            button prefilled with a deadline message, and the engine-driven
+            speed-tiers table. */}
+        {page.topic === "urgent" && (
+          <>
+            <DeadlineModule lang={pageLang} urgency="urgent" />
+            <section className="bg-white py-5 border-b border-border/40">
+              <div className="container max-w-3xl mx-auto px-4 flex flex-wrap items-center gap-3 justify-center">
+                <a
+                  data-testid="urgent-whatsapp"
+                  href={`${WHATSAPP_URL}?text=${encodeURIComponent(t(
+                    "Hi — I need an urgent 3D print. My deadline is: ",
+                    "Hola — necesito una impresión 3D urgente. Mi deadline es: ",
+                    "Hallo — ich brauche einen dringenden 3D-Druck. Meine Deadline ist: ",
+                    "Hola — necessito una impressió 3D urgent. El meu termini és: "
+                  ))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg border border-foreground/20 bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary/40 transition-colors"
+                  onClick={() => capture("whatsapp_click", { location: "urgent_hero", path: page.slug })}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  {t(
+                    "Can you make it? WhatsApp with your deadline",
+                    "¿Llego a tiempo? WhatsApp con tu deadline",
+                    "Schaffen Sie das? Per WhatsApp mit Deadline",
+                    "Hi arribo? WhatsApp amb el teu termini"
+                  )}
+                </a>
+              </div>
+            </section>
+            <SpeedTiers lang={pageLang} />
+          </>
+        )}
+
+        {/* Item 10: spare / discontinued / custom parts render the
+            photo-steps module, and their hero CTA uses the photoPath
+            vocabulary. */}
+        {PHOTO_PATH_TOPICS.has(page.topic) && <PhotoSteps lang={pageLang} />}
+
+        {/* Item 8: guide/comparison topics are articles — render the
+            article augmentation (data-testid="article-template",
+            article-toc and two inline-ctas). ARTICLE_TOPICS includes
+            blog-* slugs routed via LandingPage; the 4 SEO blog posts
+            (BlogPrecioBcn etc.) render it directly. */}
+        {ARTICLE_TOPICS.has(page.topic) && (
+          <ArticleAugmentation lang={pageLang} />
+        )}
+
+        {/* Item 7: price pages — upload-card goes BEFORE the first h2
+            (right under the hero, ahead of the content sections) and an
+            engine-examples table with 4 engine-computed examples. */}
+        {page.topic === "pricing" && (
+          <>
+            <PriceUploadCard lang={pageLang} />
+            <EnginePriceTable lang={pageLang} testId="engine-examples" />
+          </>
+        )}
+
+        {/* Item 6: material pages (PLA/PETG/TPU, es/en/ca) render SpecCard
+            + MaterialCompare driven by the engine's own material table. */}
+        {(page.topic === "pla" || page.topic === "petg" || page.topic === "tpu") && (
+          <>
+            <SpecCard lang={pageLang} material={page.topic.toUpperCase() as "PLA" | "PETG" | "TPU"} />
+            <MaterialCompare lang={pageLang as "es" | "en" | "ca"} current={page.topic.toUpperCase() as "PLA" | "PETG" | "TPU"} />
+          </>
+        )}
+
+        {/* Item 4: prototype / rapid-prototyping / functional-parts /
+            short-run / business pages get the iteration timeline, the
+            material-by-need cards, and the engine-driven volume price
+            table. Primary CTA override to the business ("Enviar mi
+            proyecto") label is applied below. */}
+        {B2B_TOPICS.has(page.topic) && (
+          <>
+            <IterationTimeline lang={pageLang} />
+            <MaterialByNeed lang={pageLang} />
+            <VolumePriceTable lang={pageLang} />
+          </>
+        )}
+
+        {/* Phase 2.4: lead paragraph directly under the hero with the rest of
+            the intro that didn't fit the 2-line hero subtitle. Text is
+            verbatim from page.intro — only repositioned. */}
+        {heroLeadRest && (
+          <section className="bg-white">
+            <div className="container px-4 py-8 md:py-10">
+              <div className="max-w-[720px] mx-auto">
+                <p style={{ fontSize: 17, lineHeight: 1.6, color: "#334155", margin: 0 }}>
+                  {heroLeadRest}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FactsStrip after hero for service (non-guide, non-maker) pages */}
         {!isMaker && !GUIDE_TOPICS.has(page.topic) && (
@@ -566,7 +744,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <FinalCta
             heading={t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?", "Llest per iniciar el teu projecte?")}
             cta={{
-              label: t("Upload File", "Subir Archivo", "Datei hochladen", "Pujar Arxiu"),
+              label: primaryCtaLabel,
               onClick: scrollToCalc,
             }}
             reassurance={t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.", "Envia el teu arxiu o descriu la teva idea. Pressupost gratis en menys d'1 hora.")}
