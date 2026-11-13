@@ -594,6 +594,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.summary.express": "Expresstoeslag",
   "calc.summary.shipping": "Verzending",
   "calc.summary.total": "Totaal",
+  "calc.breakdown.piece": "Onderdeel",
+  "calc.breakdown.minHelper": "Je bestelling bereikt het minimum van 10 €: je kunt tot dat bedrag extra onderdelen toevoegen zonder meerprijs.",
   "calc.fulfillment.pickupAddress": "Afhalen: {address}",
   "calc.fulfillment.free": "gratis",
   "calc.fulfillment.byAppointment": "op afspraak",

@@ -6,13 +6,16 @@ import { PAGES_ES as landingPagesEs } from '../../seo/landingPagesEs';
 describe('published price examples match the V3 engine', () => {
   const page = (landingPagesEs as any[]).find(p => p.slug === '/precio-impresion-3d');
   const text = JSON.stringify(page);
+  // Phase 2.8: non-en locale uses "X €" with a space between number and
+  // symbol. Published examples use the spaced form; engine output format
+  // is the plain string.
   const cases: Array<[string, number, number, string]> = [
-    ['PLA', 5, 0.5, '10,00€'], ['PLA', 25, 1.5, '10,00€'], ['PLA', 40, 2, '12,10€'], ['PLA', 90, 5, '27,50€'],
-    ['PETG', 35, 1.5, '10,29€'], ['PETG', 150, 7, '42,35€'], ['PLA', 350, 16, '75,35€'],
+    ['PLA', 5, 0.5, '10,00 €'], ['PLA', 25, 1.5, '10,00 €'], ['PLA', 40, 2, '12,10 €'], ['PLA', 90, 5, '27,50 €'],
+    ['PETG', 35, 1.5, '10,29 €'], ['PETG', 150, 7, '42,35 €'], ['PLA', 350, 16, '75,35 €'],
   ];
   for (const [m, g, h, shown] of cases) {
     it(`${g} g ${m} ${h} h → ${shown}`, () => {
-      expect((engineCents(m, g, h) / 100).toFixed(2).replace('.', ',') + '€').toBe(shown);
+      expect((engineCents(m, g, h) / 100).toFixed(2).replace('.', ',') + ' €').toBe(shown);
       expect(text).toContain(shown);
     });
   }

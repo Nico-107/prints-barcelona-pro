@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { EST } from "@/lib/estimator/core";
 import { formatEUR } from "@/lib/formatPrice";
@@ -12,74 +10,66 @@ interface PriceBreakdownProps {
   language: Language;
 }
 
+/**
+ * Phase 4.1: visible breakdown above the total.
+ *
+ * Lines (all engine-derived, never typed):
+ *   Pieza 4,02 €            — the raw piece price (baseCents, no min adj)
+ *   Pedido mínimo 10 €      — shown only when the minimum kicks in
+ *   Suplemento express ...  — when a faster tier is chosen
+ *   Envío 5,90 €            — only when fulfilment is shipping
+ *   Total                   — bold line, after all adjustments
+ *   + helper line explaining the minimum when it applies
+ *
+ * No accordion: this is always visible per Phase 4.1.
+ */
 export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakdownProps) {
-  const [open, setOpen] = useState(false);
-
-  const totalSupportsGrams = bundle.estimates.reduce((s, e) => s + e.supportCm3 * 1.05, 0);
-  const hasSupports = totalSupportsGrams >= 0.5;
-  const hoursRange = `~${bundle.totalHours.toFixed(1)}`;
+  const pieceEur = bundle.order.baseCents / 100;
+  const minAdjEur = bundle.orderResult.minAdjCents / 100;
+  const expressEur = bundle.orderResult.expressCents / 100;
+  const setupEur = bundle.orderResult.setupCents / 100;
+  const shippingEur = fulfillment === "shipping" ? EST.shippingCents / 100 : 0;
+  const totalEur = bundle.orderResult.chargedPrintCents / 100 + shippingEur;
+  const isMinimumHit = bundle.orderResult.minAdjCents > 0;
 
   return (
-    <div className="border-t border-border pt-2">
-      <button
-        type="button"
-        onClick={() => setOpen(v => !v)}
-        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(v => !v); } }}
-        className="flex items-center justify-between w-full text-xs text-muted-foreground hover:text-foreground transition-colors py-1"
-        aria-expanded={open}
-      >
-        <span className="font-medium">{t("calc.why.title")}</span>
-        {open ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-      </button>
-
-      {open && (
-        <div className="mt-2 space-y-1 text-xs text-muted-foreground">
-          <div className="flex justify-between">
-            <span>{t("calc.why.plastic").replace("{grams}", bundle.totalGrams.toFixed(1))}</span>
-          </div>
-          {hasSupports && (
-            <div className="flex justify-between pl-3">
-              <span>{t("calc.why.supports").replace("{grams}", totalSupportsGrams.toFixed(1))}</span>
-            </div>
-          )}
-          <div className="flex justify-between">
-            <span>{t("calc.why.time").replace("{hours}", hoursRange)}</span>
-          </div>
-          {bundle.orderResult.setupCents > 0 && (
-            <div className="flex justify-between">
-              <span>{t("calc.summary.setup")}</span>
-              <span>{formatEUR(bundle.orderResult.setupCents / 100, language)}</span>
-            </div>
-          )}
-          {bundle.orderResult.minAdjCents > 0 && (
-            <div className="flex justify-between">
-              <span>{t("calc.summary.minAdjust")}</span>
-              <span>+{formatEUR(bundle.orderResult.minAdjCents / 100, language)}</span>
-            </div>
-          )}
-          {bundle.order.baseCents <= EST.minimumEur * 100 && (
-            <p className="text-xs text-muted-foreground/70 italic">{t("calc.why.minNote")}</p>
-          )}
-          {bundle.orderResult.expressCents > 0 && (
-            <div className="flex justify-between">
-              <span>{t("calc.summary.express")}</span>
-              <span>+{formatEUR(bundle.orderResult.expressCents / 100, language)}</span>
-            </div>
-          )}
-          {fulfillment === "shipping" && (
-            <div className="flex justify-between">
-              <span>{t("calc.summary.shipping")}</span>
-              <span>+{formatEUR(EST.shippingCents / 100, language)}</span>
-            </div>
-          )}
-          <div className="flex justify-between font-semibold border-t border-border pt-1 text-foreground">
-            <span>{t("calc.summary.total")}</span>
-            <span>
-              {formatEUR(bundle.orderResult.chargedPrintCents / 100 + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0), language)}
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground/70 pt-1 italic">{t("calc.why.note")}</p>
+    <div className="border-t border-border pt-2 mt-2 text-sm space-y-1" data-price-breakdown>
+      <div className="flex justify-between">
+        <span>{t("calc.breakdown.piece")}</span>
+        <span className="font-mono">{formatEUR(pieceEur, language)}</span>
+      </div>
+      {setupEur > 0 && (
+        <div className="flex justify-between text-muted-foreground">
+          <span>{t("calc.summary.setup")}</span>
+          <span className="font-mono">+{formatEUR(setupEur, language)}</span>
         </div>
+      )}
+      {isMinimumHit && (
+        <div className="flex justify-between text-muted-foreground">
+          <span>{t("calc.summary.minAdjust")}</span>
+          <span className="font-mono">+{formatEUR(minAdjEur, language)}</span>
+        </div>
+      )}
+      {expressEur > 0 && (
+        <div className="flex justify-between text-muted-foreground">
+          <span>{t("calc.summary.express")}</span>
+          <span className="font-mono">+{formatEUR(expressEur, language)}</span>
+        </div>
+      )}
+      {shippingEur > 0 && (
+        <div className="flex justify-between text-muted-foreground">
+          <span>{t("calc.summary.shipping")}</span>
+          <span className="font-mono">+{formatEUR(shippingEur, language)}</span>
+        </div>
+      )}
+      <div className="flex justify-between font-semibold border-t border-border pt-1 text-foreground">
+        <span>{t("calc.summary.total")}</span>
+        <span className="font-mono">{formatEUR(totalEur, language)}</span>
+      </div>
+      {isMinimumHit && (
+        <p className="text-xs text-muted-foreground pt-1" data-min-helper>
+          {t("calc.breakdown.minHelper")}
+        </p>
       )}
     </div>
   );

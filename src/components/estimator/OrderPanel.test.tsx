@@ -397,9 +397,10 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
 
 // ─── calc.why.minNote component test (T5 from spec) ──────────────────────────
 
-describe("PriceBreakdown: calc.why.minNote visibility", () => {
-  it("shows calc.why.minNote for a small order at the €10 minimum", () => {
-    // Small order: a box(5,5,5) costs well under €10 — baseCents hits the minimum
+describe("PriceBreakdown: minimum-hit helper line visibility", () => {
+  // Phase 4.1: breakdown is now always visible (no accordion), and the
+  // helper key is "calc.breakdown.minHelper".
+  it("shows the min-helper line for a small order at the €10 minimum", () => {
     const smallAnalysis = analyzeTriangles(boxMesh(5, 5, 5));
     const smallFile: ParsedFile = { id: "s", name: "s.stl", sizeBytes: 100, volumeMm3: smallAnalysis.volumeMm3, qty: 1, analysis: smallAnalysis };
     const bundle = computeBundleV3([smallFile], DEFAULTS, "standard")!;
@@ -408,15 +409,12 @@ describe("PriceBreakdown: calc.why.minNote visibility", () => {
     const container = mountPanel(
       <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
-    // Expand the accordion to reveal the breakdown details
-    const expandBtn = container.querySelector("button[aria-expanded]") as HTMLButtonElement;
-    act(() => { expandBtn.click(); });
-    expect(container.innerHTML).toContain("calc.why.minNote");
+    expect(container.innerHTML).toContain("calc.breakdown.minHelper");
+    expect(container.innerHTML).toContain("calc.summary.minAdjust");
     expect(container.innerHTML).not.toContain("calc.summary.setup");
   });
 
-  it("does not show calc.why.minNote for an order well above €10", () => {
-    // Large order: box(100,100,100) costs well above €10
+  it("does not show the min-helper for an order well above €10", () => {
     const bigAnalysis = analyzeTriangles(boxMesh(100, 100, 100));
     const bigFile: ParsedFile = { id: "b", name: "b.stl", sizeBytes: 100, volumeMm3: bigAnalysis.volumeMm3, qty: 1, analysis: bigAnalysis };
     const bundle = computeBundleV3([bigFile], DEFAULTS, "standard")!;
@@ -425,7 +423,8 @@ describe("PriceBreakdown: calc.why.minNote visibility", () => {
     const container = mountPanel(
       <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
-    expect(container.innerHTML).not.toContain("calc.why.minNote");
+    expect(container.innerHTML).not.toContain("calc.breakdown.minHelper");
+    expect(container.innerHTML).not.toContain("calc.summary.minAdjust");
     expect(container.innerHTML).not.toContain("calc.summary.setup");
   });
 });

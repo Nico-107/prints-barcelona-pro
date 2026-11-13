@@ -78,6 +78,6 @@ export default defineConfig(({ mode, isSsrBuild }) => ({
   test: {
     environment: "jsdom",
     globals: true,
-    exclude: ["**/node_modules/**", "**/dist/**", "scripts/**", "e2e/**"],
+    exclude: ["**/node_modules/**", "**/dist/**", "scripts/**", "e2e/**", ".main-worktree/**"],
   },
 }));

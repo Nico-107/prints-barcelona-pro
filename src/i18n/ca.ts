@@ -692,6 +692,8 @@ export const caTranslations: Record<string, string> = {
   "calc.summary.express": "Suplement exprés",
   "calc.summary.shipping": "Enviament",
   "calc.summary.total": "Total",
+  "calc.breakdown.piece": "Peça",
+  "calc.breakdown.minHelper": "La teva comanda arriba al mínim de 10 €: pots afegir peces fins a aquest import sense pagar més.",
   "calc.fulfillment.pickupAddress": "Recollida: {address}",
   "calc.fulfillment.free": "gratuïta",
   "calc.fulfillment.byAppointment": "amb cita prèvia",

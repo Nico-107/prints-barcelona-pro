@@ -692,6 +692,8 @@ export const enTranslations: Record<string, string> = {
   "calc.summary.express": "Express surcharge",
   "calc.summary.shipping": "Shipping",
   "calc.summary.total": "Total",
+  "calc.breakdown.piece": "Part",
+  "calc.breakdown.minHelper": "Your order reaches the 10 € minimum: you can add parts up to that amount at no extra cost.",
   "calc.fulfillment.pickupAddress": "Pickup: {address}",
   "calc.fulfillment.free": "free",
   "calc.fulfillment.byAppointment": "by appointment",

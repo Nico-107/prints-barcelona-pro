@@ -594,6 +594,8 @@ export const ptTranslations: Record<string, string> = {
   "calc.summary.express": "Suplemento express",
   "calc.summary.shipping": "Envio",
   "calc.summary.total": "Total",
+  "calc.breakdown.piece": "Peça",
+  "calc.breakdown.minHelper": "A tua encomenda atinge o mínimo de 10 €: podes adicionar peças até esse valor sem custo adicional.",
   "calc.fulfillment.pickupAddress": "Levantamento: {address}",
   "calc.fulfillment.free": "gratuito",
   "calc.fulfillment.byAppointment": "com marcação",

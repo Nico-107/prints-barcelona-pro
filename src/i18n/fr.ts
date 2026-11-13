@@ -594,6 +594,8 @@ export const frTranslations: Record<string, string> = {
   "calc.summary.express": "Supplément express",
   "calc.summary.shipping": "Livraison",
   "calc.summary.total": "Total",
+  "calc.breakdown.piece": "Pièce",
+  "calc.breakdown.minHelper": "Ta commande atteint le minimum de 10 € : tu peux ajouter des pièces jusqu'à ce montant sans frais supplémentaires.",
   "calc.fulfillment.pickupAddress": "Retrait : {address}",
   "calc.fulfillment.free": "gratuit",
   "calc.fulfillment.byAppointment": "sur rendez-vous",

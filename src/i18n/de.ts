@@ -594,6 +594,8 @@ export const deTranslations: Record<string, string> = {
   "calc.summary.express": "Expressaufschlag",
   "calc.summary.shipping": "Versand",
   "calc.summary.total": "Gesamt",
+  "calc.breakdown.piece": "Teil",
+  "calc.breakdown.minHelper": "Deine Bestellung erreicht das 10 €-Minimum: Du kannst Teile bis zu diesem Betrag ohne Aufpreis hinzufügen.",
   "calc.fulfillment.pickupAddress": "Abholung: {address}",
   "calc.fulfillment.free": "kostenlos",
   "calc.fulfillment.byAppointment": "nach Terminvereinbarung",
