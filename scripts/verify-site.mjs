@@ -205,6 +205,26 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 5 — City & delivery pages carry [data-testid="delivery-timeline"]
+  // and [data-testid="city-price-table"] with 4 engine-computed rows.
+  const CITY_PATTERNS = [
+    /^\/3d-printing-delivery-/,       // EN delivery pages (Paris, Amsterdam, Berlin, Milan, Rome, Lisbon, NY, London)
+    /^\/madrid$/, /^\/3d-printing-madrid$/,
+    /^\/impresion-3d-sevilla$/, /^\/3d-printing-sevilla$/,
+    /^\/impresion-3d-con-entrega-a-valencia$/,
+    /^\/de\/3d-druck-berlin$/,
+    /^\/nl\/3d-printen-amsterdam$/,
+    /^\/fr\/impression-3d-paris$/,
+    /^\/it\/stampa-3d-milano$/, /^\/it\/stampa-3d-roma$/,
+    /^\/pt\/impressao-3d-lisboa$/,
+  ];
+  if (CITY_PATTERNS.some((re) => re.test(path))) {
+    const dt = await page.locator('[data-testid="delivery-timeline"]').count();
+    if (dt < 1) errors.push(`${url} [${variant}]: missing [data-testid="delivery-timeline"]`);
+    const cpt = await page.locator('[data-testid="city-price-table"] tbody tr').count();
+    if (cpt < 4) errors.push(`${url} [${variant}]: city-price-table has ${cpt} rows, want ≥ 4`);
+  }
+
   // Item 4 — Prototype / rapid-prototyping / functional-parts / short-run
   // / B2B pages (es, en, ca) carry iteration-timeline + material-by-need +
   // volume-price-table (3 rows × 3 qty columns from the engine). Primary
