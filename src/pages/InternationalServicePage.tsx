@@ -501,11 +501,11 @@ const InternationalServicePage = () => {
             Ready to get a quote?
           </h2>
           <p className="text-muted-foreground mb-8 leading-relaxed">
-            Upload your STL or STEP file to our online calculator for an instant price estimate. A member of the team reviews every file and confirms the exact price within one hour. No account required.
+            Upload your STL or STEP file to our online calculator for an instant price estimate. Every file is reviewed personally and the exact price is confirmed within one hour. No account required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="cta" size="xl" className="shadow-lg" onClick={() => scrollToCalc("final")}>
-              Get an Instant Quote
+              Upload a file and see the price
               <ArrowRight className="w-5 h-5" />
             </Button>
             <Button

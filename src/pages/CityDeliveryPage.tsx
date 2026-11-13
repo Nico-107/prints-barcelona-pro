@@ -331,10 +331,10 @@ const CityDeliveryPage = ({ config }: Props) => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Button variant="cta" size="xl" className="shadow-lg" onClick={scrollToCalculator}>
                   {isES
-                    ? `Presupuesto con entrega en ${config.city}`
+                    ? "Subir archivo y ver precio"
                     : isNative
-                    ? (config.nativeSection?.ctaLabel ?? `Get a quote — delivered to ${config.city}`)
-                    : `Get a quote — delivered to ${config.city}`}
+                    ? (config.nativeSection?.ctaLabel ?? "Upload a file and see the price")
+                    : "Upload a file and see the price"}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button
