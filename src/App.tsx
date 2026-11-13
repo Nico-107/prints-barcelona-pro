@@ -18,6 +18,7 @@ import { partPages } from "@/data/partsPages";
 import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS } from "@/data/intlRegistry";
 
 const Track = lazy(() => import("./pages/Track"));
+const Internal = lazy(() => import("./pages/Internal"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminOrders = lazy(() => import("./pages/AdminOrders"));
 const AdminMakers = lazy(() => import("./pages/AdminMakers"));
@@ -203,6 +204,8 @@ const App = () => (
               <Route path="/ca" element={<Index />} />
               <Route path="/3d-printing-service" element={<InternationalServicePage />} />
               <Route path="/track" element={<Track />} />
+              {/* Conv 4.1 + 4.6: internal tooling, noindex. */}
+              <Route path="/internal" element={<Internal />} />
               <Route path="/makers" element={<Makers />} />
               <Route path="/maker-guide" element={<MakerGuide />} />
               <Route path="/blog/precio-impresion-3d-barcelona" element={<BlogPrecioBcn />} />
