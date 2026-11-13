@@ -74,7 +74,7 @@ const C = {
     ],
     includedHeading: "Qué incluye el servicio",
     included: [
-      { title: "Diseño desde foto o medidas", desc: "No necesitas archivo 3D. Diseñamos la pieza desde una foto o medidas y la fabricamos. Sin coste adicional para piezas simples." },
+      { title: "Diseño desde foto o medidas", desc: "No necesitas archivo 3D. Diseñamos la pieza desde una foto o medidas y la fabricamos. Presupuesto específico según complejidad." },
       { title: "Factura con IVA desglosado", desc: "Emitimos factura para cualquier empresa española o de la UE. Número de pedido, referencia de proyecto, NIF." },
       { title: "NDA disponible", desc: "Firmamos acuerdo de confidencialidad antes de compartir archivos o describir el proyecto. Contacta por email para gestionarlo." },
       { title: "Primer prototipo gratis", desc: "En el primer pedido de empresa fabricamos una pieza pequeña (<30 g, <1 h máquina) sin coste para que compruebes la calidad." },

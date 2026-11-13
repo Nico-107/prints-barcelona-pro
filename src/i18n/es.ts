@@ -1002,7 +1002,7 @@ export const esTranslations: Record<string, string> = {
   // Express slim dark band
   "home.express.eyebrow": "IMPRESIÓN EXPRESS",
   "home.express.heading": "Tu pieza lista en 24–48 h.",
-  "home.express.facts": "24–48 h · Sin coste adicional · Mismo acabado",
+  "home.express.facts": "24–48 h · Mismo acabado · Recargo según tier",
   "home.express.link": "Cómo funciona el servicio express →",
   "home.v2.path.heading": "¿Por dónde empezamos?",
   "home.v2.path.card1.heading": "Tengo el archivo 3D",
