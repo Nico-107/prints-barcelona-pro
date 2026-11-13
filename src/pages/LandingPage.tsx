@@ -148,6 +148,27 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const primaryCtaLabel = ctaLabel("primary", pageLang);
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
+  // Phase 2.4 hero rule: subtitle max 2 lines (~140 chars). Service, guide,
+  // blog and about pages used to put a 5–9 line paragraph centered inside
+  // the hero; we now keep the first sentence (or ~140 chars) in the hero
+  // and move the rest to a lead paragraph directly below. Text is
+  // unchanged — just repositioned.
+  const splitHeroIntro = (intro: string): { short: string; rest: string } => {
+    const trimmed = (intro ?? "").trim();
+    if (!trimmed) return { short: "", rest: "" };
+    const firstSentenceMatch = trimmed.match(/^[^.?!]*[.?!]/);
+    const first = firstSentenceMatch ? firstSentenceMatch[0].trim() : trimmed;
+    if (trimmed.length <= 145) return { short: trimmed, rest: "" };
+    if (first.length <= 145) return { short: first, rest: trimmed.slice(first.length).trim() };
+    // Long first sentence: split at the last space before 140 chars.
+    const soft = trimmed.slice(0, 140);
+    const cut = soft.lastIndexOf(" ");
+    const shortCut = (cut > 0 ? trimmed.slice(0, cut) : soft).trim() + "…";
+    const rest = trimmed.slice((cut > 0 ? cut : 140)).trim();
+    return { short: shortCut, rest };
+  };
+  const { short: heroSubtitle, rest: heroLeadRest } = splitHeroIntro(page.intro);
+
   // Phase 3.5: true facts only, pulled from configured sources.
   // 250+ orders is the one owner-confirmed count; keep. The other chips cite
   // concrete facts: location (Les Corts), rating from data/rating.ts, and
@@ -385,7 +406,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
               )
               : page.h1
           }
-          paragraph={page.intro}
+          paragraph={heroSubtitle}
           primaryButton={{
             label: (
               <>
@@ -397,6 +418,21 @@ const LandingPage = ({ page: pageProp }: Props) => {
           }}
           reassuranceItems={trustBadges.map(b => b.label)}
         />
+
+        {/* Phase 2.4: lead paragraph directly under the hero with the rest of
+            the intro that didn't fit the 2-line hero subtitle. Text is
+            verbatim from page.intro — only repositioned. */}
+        {heroLeadRest && (
+          <section className="bg-white">
+            <div className="container px-4 py-8 md:py-10">
+              <div className="max-w-[720px] mx-auto">
+                <p style={{ fontSize: 17, lineHeight: 1.6, color: "#334155", margin: 0 }}>
+                  {heroLeadRest}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FactsStrip after hero for service (non-guide, non-maker) pages */}
         {!isMaker && !GUIDE_TOPICS.has(page.topic) && (
