@@ -17,6 +17,8 @@ import { StlEstimator } from "@/components/StlEstimator";
 import { Hero as DsHero, Breadcrumbs, FAQAccordion, FinalCta, LinkCardGrid, UploadPanel, FactsStrip, QuoteFeature } from "@/components/ds";
 import { REVIEWS, reviewText } from "@/data/reviews";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { cta as ctaLabel } from "@/lib/ctaVocabulary";
+import type { Lang as CtaLang } from "@/lib/ctaVocabulary";
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -139,7 +141,11 @@ const LandingPage = ({ page: pageProp }: Props) => {
   // from it) — CTAs route to the maker network funnel instead of a print
   // quote. audience defaults to "customer", preserving old behaviour.
   const isMaker = page.audience === "maker";
-  const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks", "Uneix-te a la xarxa de Makers");
+  const pageLang: CtaLang = (page.lang as CtaLang);
+  // Phase 2.5: one CTA vocabulary everywhere. Maker pages use the "maker"
+  // label; customer landing pages use the "primary" label.
+  const makerJoinLabel = ctaLabel("maker", pageLang);
+  const primaryCtaLabel = ctaLabel("primary", pageLang);
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
   // Phase 3.5: true facts only, pulled from configured sources.
@@ -384,9 +390,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
             label: (
               <>
                 {isMaker ? <Users style={{ width: 20, height: 20 }} /> : <Upload style={{ width: 20, height: 20 }} />}
-                {isMaker
-                  ? makerJoinLabel
-                  : t("Request a Quote", "Solicitar Presupuesto", "Angebot anfordern", "Sol·licitar Pressupost")}
+                {isMaker ? makerJoinLabel : primaryCtaLabel}
               </>
             ),
             onClick: isMaker ? () => navigate("/makers") : scrollToCalc,
