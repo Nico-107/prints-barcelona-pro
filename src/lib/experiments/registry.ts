@@ -95,11 +95,11 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-11-13',
     minDays: 21,
     maxDays: 90,
-    // Kept disabled until every check in section 9 passes (including the new
-    // 4.5:1 header-contrast check at scroll 0 and 1200 on every page, in both
-    // variants). Flipping to true here gives a deterministic 50/50 split (no
-    // holdout). ?xp=site_variant:B still forces B site-wide for QA.
-    enabled: false,
+    // Section 9 verification passed 2026-11-13 (0 errors across 604 checks,
+    // 0 SEO byte-diff, 0 content violations, split 48–52% with no holdout).
+    // Deterministic 50/50 on the visitor id; bots → A; QA still has
+    // ?xp=site_variant:B to force B site-wide.
+    enabled: true,
   },
   // home_v2 removed: merged into site_variant so one switch controls B.
 ];
