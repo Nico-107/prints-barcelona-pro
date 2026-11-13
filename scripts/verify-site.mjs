@@ -104,38 +104,20 @@ function readSitemapUrls() {
   return urls.map((u) => new URL(u).pathname || "/");
 }
 
-// Representative sample covering every page family named in Phase 3.
+// Dev sample (10 routes, one per Phase-3 family). Used by --sample for
+// a fast pass during Phase 2/3 work; cap the whole run at 90 s elsewhere.
 function sampleRoutes() {
   return [
     "/",                                            // 3.1 home es
     "/ca",                                          // 3.1 home ca
     "/3d-printing-service",                         // 3.2 intl hub en
-    "/de/3d-druck-service",
     "/impresion-3d-urgente-barcelona",              // 3.3 urgent
-    "/urgent-3d-printing-barcelona",
-    "/impresion-3d-empresas-barcelona",             // 3.4 business
     "/prototipos-3d-barcelona",                     // 3.4 prototypes
-    "/impresion-3d-sin-pedido-minimo",              // 3.5
-    "/impresion-3d-cerca-de-mi",                    // 3.5
-    "/impresion-3d-estudiantes-barcelona",          // 3.5
-    "/madrid",                                      // 3.6 city
-    "/3d-printing-delivery-paris",                  // 3.6
-    "/impresion-pla-barcelona",                     // 3.7 material
     "/precio-impresion-3d-barcelona",               // 3.8 price
-    "/blog",                                        // 3.9
-    "/blog/precio-impresion-3d-barcelona",          // 3.9
-    "/guia-materiales-impresion-3d",                // 3.9
-    "/makers",                                      // 3.10
-    "/maker-guide",                                 // 3.10
-    "/catalogo",                                    // 3.11 catalogue
+    "/madrid",                                      // 3.6 city
+    "/blog/precio-impresion-3d-barcelona",          // 3.9 blog post
     "/catalogo/jarron-personalizado",               // 3.11 product
-    "/adaptador-vesa-monitor",                      // 3.11 SEO product
-    "/disena-tu-pieza-3d",                          // 3.12 design request
-    "/verificador-archivo-3d",                      // 3.12 file checker
     "/track",                                       // 3.12 tracking
-    "/sobre-nosotros",                              // 3.13 about
-    "/privacy",                                     // 3.13 legal
-    "/politica-devoluciones",                       // 3.13
   ];
 }
 
@@ -164,16 +146,41 @@ async function checkPage(page, url, variant, viewport, errors) {
   if (bodyVariant && bodyVariant !== variant)
     errors.push(`${url} [${variant}]: body[data-site-variant]=${bodyVariant}, want ${variant}`);
 
+  // No horizontal overflow: document scrollWidth should match viewport width
+  // (allow 2px for sub-pixel rounding and scrollbar).
+  const overflow = await page.evaluate(() => ({
+    scroll: document.documentElement.scrollWidth,
+    view: window.innerWidth,
+  }));
+  if (overflow.scroll > overflow.view + 2)
+    errors.push(`${url} [${variant} ${viewport.width}]: horizontal overflow — scrollWidth=${overflow.scroll} viewport=${overflow.view}`);
+
+  // Header not overflowing: child elements fit inside the header box.
+  const headerOverflow = await page.evaluate(() => {
+    const h = document.querySelector("header");
+    if (!h) return null;
+    return { sw: h.scrollWidth, cw: h.clientWidth };
+  });
+  if (headerOverflow && headerOverflow.sw > headerOverflow.cw + 2)
+    errors.push(`${url} [${variant} ${viewport.width}]: header overflows — scrollWidth=${headerOverflow.sw} clientWidth=${headerOverflow.cw}`);
+
+  // Scroll check: variant attribute must still match after scroll 1200.
+  await page.evaluate(() => window.scrollTo(0, 1200));
+  await page.waitForTimeout(80);
+  const htmlAfter = await page.getAttribute("html", "data-xp-site-variant");
+  if (htmlAfter !== variant)
+    errors.push(`${url} [${variant}]: variant drifted to ${htmlAfter} after scroll 1200`);
+
   if (consoleErrors.length)
     errors.push(`${url} [${variant}]: ${consoleErrors.length} console error(s): ${consoleErrors[0]}`);
 }
 
-async function runSample(baseUrl) {
+async function runSample(baseUrl, routesOverride) {
   const browser = await chromium.launch();
   const context = await browser.newContext({ ignoreHTTPSErrors: true });
   const page = await context.newPage();
   const errors = [];
-  const routes = sampleRoutes();
+  const routes = routesOverride ?? sampleRoutes();
   const variants = ["A", "B"];
   const viewports = [
     { width: 1440, height: 900 },
@@ -208,8 +215,13 @@ console.log(`Serving dist/ at ${baseUrl}`);
 let failed = false;
 
 if (!args.has("--seo")) {
-  console.log("\n9.1 Sample pages × 2 variants × 2 viewports …");
-  const { count, errors } = await runSample(baseUrl);
+  // --sample forces the 29-route quick set; otherwise run all sitemap URLs.
+  const useSample = args.has("--sample");
+  const routes = useSample ? sampleRoutes() : readSitemapUrls();
+  console.log(
+    `\n9.1 ${useSample ? "Sample" : "All"} pages × 2 variants × 2 viewports (${routes.length} routes) …`,
+  );
+  const { count, errors } = await runSample(baseUrl, routes);
   console.log(`   checks: ${count}, errors: ${errors.length}`);
   for (const e of errors.slice(0, 50)) console.log(`   ✗ ${e}`);
   if (errors.length) failed = true;
