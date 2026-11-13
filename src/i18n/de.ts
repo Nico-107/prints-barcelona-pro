@@ -905,7 +905,7 @@ export const deTranslations: Record<string, string> = {
   "calc.contact.name": "Dein Name (optional)",
   "calc.autumn.badge": "−10% auf Bestellungen ab 20 € bis 30.11.",
   "calc.autumn.line": "Herbstrabatt −10 %",
-  "calc.autumn.nudge": "{amount} mehr und du sparst 10%",
+  "calc.autumn.nudge": "Ab 20 € pro Bestellung: −10 %",
 
   "calc.actions.quoteOnly.over-limit": "Größere Bestellungen (über 200 €) werden manuell geprüft — wir senden dir den Endpreis in weniger als 1 Std.",
   "calc.actions.quoteOnly.oversize": "Ein Teil ist größer als unser Drucker (256 mm). Wir prüfen es und schlagen vor, wie es aufgeteilt werden kann.",

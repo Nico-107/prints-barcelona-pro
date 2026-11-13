@@ -910,7 +910,7 @@ export const enTranslations: Record<string, string> = {
   // Item 4: autumn discount
   "calc.autumn.badge": "−10% on orders from €20 until 30/11",
   "calc.autumn.line": "Autumn discount −10 %",
-  "calc.autumn.nudge": "Add {amount} more and save 10%",
+  "calc.autumn.nudge": "From €20 per order: −10%",
 
   "calc.actions.quoteOnly.over-limit": "Larger orders (over €200) are reviewed manually — we send the final price within 1 h.",
   "calc.actions.quoteOnly.oversize": "One part is larger than our printer (256 mm). We'll review it and suggest how to split it.",

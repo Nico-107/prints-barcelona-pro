@@ -910,7 +910,7 @@ export const nlTranslations: Record<string, string> = {
   // Item 4 — autumn discount
   "calc.autumn.badge": "Herfstaanbieding",
   "calc.autumn.line": "Herfstkorting −10 %",
-  "calc.autumn.nudge": "Voeg nog {amount} toe en bespaar 10 %",
+  "calc.autumn.nudge": "Vanaf 20 € per bestelling: −10 %",
 
   "calc.actions.quoteOnly.over-limit": "Grotere bestellingen (boven 200 €) worden handmatig beoordeeld — we sturen je de definitieve prijs binnen 1 uur.",
   "calc.actions.quoteOnly.oversize": "Een onderdeel is groter dan onze printer (256 mm). We beoordelen het en stellen voor hoe het gesplitst kan worden.",

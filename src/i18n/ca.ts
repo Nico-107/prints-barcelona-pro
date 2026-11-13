@@ -904,7 +904,7 @@ export const caTranslations: Record<string, string> = {
   "calc.contact.name": "El teu nom (opcional)",
   "calc.autumn.badge": "−10% en comandes des de 20 € fins al 30/11",
   "calc.autumn.line": "Descompte de tardor −10 %",
-  "calc.autumn.nudge": "Afegeix {amount} més i estalvia un 10%",
+  "calc.autumn.nudge": "Des de 20 € de comanda: −10 %",
 
   "calc.actions.quoteOnly.over-limit": "Les comandes grans (més de 200 €) les revisem manualment: t'enviem el preu final en menys d'1 h.",
   "calc.actions.quoteOnly.oversize": "Una peça és més gran que la nostra impressora (256 mm). La revisem i et proposem com dividir-la.",

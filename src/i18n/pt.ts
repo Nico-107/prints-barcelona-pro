@@ -910,7 +910,7 @@ export const ptTranslations: Record<string, string> = {
   // Item 4 — autumn discount
   "calc.autumn.badge": "Oferta de outono",
   "calc.autumn.line": "Desconto de outono −10 %",
-  "calc.autumn.nudge": "Adicione mais {amount} e poupe 10 %",
+  "calc.autumn.nudge": "A partir de 20 € de encomenda: −10 %",
 
   "calc.actions.quoteOnly.over-limit": "Encomendas grandes (acima de 200 €) são revistas manualmente — enviamos o preço final em menos de 1 h.",
   "calc.actions.quoteOnly.oversize": "Uma peça é maior que a nossa impressora (256 mm). Revemo-la e sugerimos como dividi-la.",
