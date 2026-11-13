@@ -55,12 +55,21 @@ export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
   const { t, language } = useLanguage();
   const [chosen, setChosen] = useState<string | null>(null);
 
+  // Conv 1.6: reason event carries bucket + device + country so the
+  // "what stopped you?" dashboard tile can slice by all three.
+  const device = typeof window !== "undefined" && window.innerWidth < 640 ? "mobile" : "desktop";
+  const country = typeof navigator !== "undefined"
+    ? (navigator.language?.split("-")[1]?.toUpperCase() ?? null)
+    : null;
+
   const handleReason = (key: string) => {
     setChosen(key);
     markExitSurveyShown();
     capture("exit_reason", {
       reason: key,
       price_eur_bucket: priceBucket,
+      device,
+      country,
     });
   };
 
@@ -70,6 +79,8 @@ export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
     capture("exit_reason", {
       reason: "other",
       price_eur_bucket: priceBucket,
+      device,
+      country,
     });
   };
 
@@ -106,6 +117,8 @@ export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
           </div>
         ) : (
           <>
+            {/* Conv 1.6: clear "nothing has been sent" line at the top. */}
+            <p className="text-xs text-muted-foreground mb-2" data-testid="exit-not-sent">{t("survey.exit.notSent")}</p>
             <div className="flex items-center justify-between mb-3">
               <p className="text-sm font-semibold text-foreground">{t("survey.exit.title")}</p>
               <Button variant="ghost" size="icon" className="w-7 h-7" onClick={onClose}>
@@ -128,6 +141,33 @@ export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
               >
                 {t("survey.exit.reason.other")}
               </button>
+            </div>
+            {/* Conv 1.6: three one-tap exits besides the reasons. */}
+            <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border/60" data-testid="exit-shortcuts">
+              <button
+                type="button"
+                onClick={() => { markExitSurveyShown(); capture("exit_shortcut", { action: "back_to_price" }); onClose(); }}
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-border hover:border-accent"
+              >
+                {t("survey.exit.shortcut.back")}
+              </button>
+              <button
+                type="button"
+                onClick={() => { markExitSurveyShown(); capture("quote_emailed", { source: "exit_shortcut" }); onClose(); }}
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-border hover:border-accent"
+              >
+                {t("survey.exit.shortcut.email")}
+              </button>
+              <a
+                href={`${WHATSAPP_URL}?text=${encodeURIComponent(whatsappMsg)}`}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                onClick={() => { markExitSurveyShown(); capture("whatsapp_click", { location: "exit_shortcut", path: typeof window !== "undefined" ? window.location.pathname : "" }); }}
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-border hover:border-accent"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                {t("survey.exit.shortcut.whatsapp")}
+              </a>
             </div>
           </>
         )}
