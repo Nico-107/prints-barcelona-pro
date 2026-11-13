@@ -172,15 +172,15 @@ const SinPedidoMinimo = () => {
         <section className="py-16 md:py-20 bg-background">
           <div className="container px-4 max-w-3xl mx-auto space-y-16">
 
-            {/* 1. Qué significa */}
+            {/* 1. Qué significa (Phase 3.5: body heading per spec) */}
             <article id="sin-pedido-minimo">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                ¿Qué significa exactamente «sin pedido mínimo»?
+                Desde 1 pieza · pedido mínimo 10 €
               </h2>
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Sin pedido mínimo significa que una sola pieza tiene el mismo precio por unidad que un lote de cien. El precio mínimo de cualquier pedido en Dimension3D Barcelona es 10 €, independientemente del peso, el número de unidades o el material elegido. No hay recargo por pedido pequeño ni tarifa de gestión adicional.
+                  Imprimes desde 1 pieza: una sola pieza cuesta lo mismo por unidad que un lote de cien. El pedido mínimo en Dimension3D Barcelona es 10 € por pedido, independientemente del peso, el número de unidades o el material. No hay recargo por pedido pequeño ni tarifa de gestión adicional.
                 </p>
               </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
