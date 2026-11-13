@@ -199,5 +199,46 @@ if (!args.has("--seo")) {
   if (errors.length) failed = true;
 }
 
+// ─── 9.5 (partial): content tests over every built HTML file ───────────────
+// Walks dist/ and asserts the forbidden-wording list from 0.1 + 2.10 is
+// absent. Covers only what's been fixed on this branch so far.
+if (!args.has("--seo")) {
+  console.log("\n9.5 Content tests over every built page …");
+  const forbidden = [
+    { needle: "nuestro taller", why: "'taller' as a place — see 0.1" },
+    { needle: "nostre taller", why: "'taller' as a place (ca) — see 0.1" },
+    { needle: "our workshop", why: "'workshop' as a place — see 0.1" },
+    { needle: "unserer Werkstatt", why: "'Werkstatt' as a place — see 0.1" },
+    { needle: "notre atelier", why: "'atelier' as a place — see 0.1" },
+    { needle: "nostra officina", why: "'officina' as a place — see 0.1" },
+    { needle: "nossa oficina", why: "'oficina' as a place — see 0.1" },
+    { needle: "precio en 10 segundos", why: "unverified speed promise — 2.10" },
+    { needle: "price in 10 seconds", why: "unverified speed promise — 2.10" },
+    { needle: "/5 on Google", why: "no Google mentions — 0.1" },
+    { needle: "/5 en Google", why: "no Google mentions — 0.1" },
+  ];
+  const contentErrors = [];
+  let scanned = 0;
+  function walk(dir) {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      const st = statSync(p);
+      if (st.isDirectory()) { walk(p); continue; }
+      if (!p.endsWith(".html")) continue;
+      scanned++;
+      const html = readFileSync(p, "utf-8");
+      for (const { needle, why } of forbidden) {
+        if (html.includes(needle)) {
+          contentErrors.push(`${p.replace(DIST, "")}: forbidden ${JSON.stringify(needle)} (${why})`);
+        }
+      }
+    }
+  }
+  walk(DIST);
+  console.log(`   scanned: ${scanned} HTML files, errors: ${contentErrors.length}`);
+  for (const e of contentErrors.slice(0, 50)) console.log(`   ✗ ${e}`);
+  if (contentErrors.length) failed = true;
+}
+
 server.close();
 process.exit(failed ? 1 : 0);
