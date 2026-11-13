@@ -357,7 +357,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     htmlLang: "ca",
     canonicalPath: "/ca/impressio-3d-empreses-barcelona",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
-    metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis i tirades curtes. Des de 10 €, sense tarifa de configuració. Pressupost en 1 hora.",
+    metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis, tirades curtes. Des de 10 €, sense tarifa. Pressupost en 1 h.",
     h1: "Impressió 3D per a Empreses a Barcelona",
     heroPromise: "Més de 250 comandes completades. Peces llestes en 2–5 dies, pressupost en 1 hora.",
     heroSub: "Sense tarifa de configuració. Comanda mínima 10 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
