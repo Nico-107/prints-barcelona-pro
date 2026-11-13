@@ -607,7 +607,7 @@ export const enTranslations: Record<string, string> = {
   "design.hero.heading": "No 3D file? No problem.",
   "design.hero.intro": "Most of our customers arrive with an idea, a photo, or a broken part — not a print-ready file. Describe what you need and we take care of everything.",
   "design.step1.heading": "Tell us what you need",
-  "design.step1.desc": "Send a photo, sketch, or description of the part. The more detail the better — but even a rough description is enough to get started.",
+  "design.step1.desc": "Send a photo, sketch, or description of the part. If the photo shows the real part, include a ruler or a coin next to it for scale.",
   "design.step2.heading": "We design it and show you how it'll look",
   "design.step2.desc": "I model the part using 3D visualisation tools so you can see exactly how it will look before anything is printed. You review and approve.",
   "design.step3.heading": "You approve and we print",

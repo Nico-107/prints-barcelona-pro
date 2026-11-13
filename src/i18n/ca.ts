@@ -607,7 +607,7 @@ export const caTranslations: Record<string, string> = {
   "design.hero.heading": "No tens arxiu 3D? No cal.",
   "design.hero.intro": "La majoria dels nostres clients arriben amb una idea, una foto o una peça trencada — no amb un arxiu llest per imprimir. Descriu el que necessites i ens encarreguem de tot.",
   "design.step1.heading": "Explica'ns què necessites",
-  "design.step1.desc": "Envia una foto, un esbós o una descripció de la peça. Com més detall, millor — però fins i tot un missatge curt és suficient per començar.",
+  "design.step1.desc": "Envia una foto, un esbós o una descripció de la peça. Si la foto inclou la peça real, posa una regla o una moneda al costat per a l'escala.",
   "design.step2.heading": "Dissenyem i et mostrem com quedarà",
   "design.step2.desc": "El nostre equip modela la peça amb eines de visualització 3D perquè puguis veure el resultat abans d'imprimir res. Reps la proposta i l'aproves.",
   "design.step3.heading": "Aproves i imprimim",

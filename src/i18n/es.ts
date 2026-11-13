@@ -607,7 +607,7 @@ export const esTranslations: Record<string, string> = {
   "design.hero.heading": "¿No tienes archivo 3D? No hace falta.",
   "design.hero.intro": "La mayoría de nuestros clientes llegan con una idea, una foto o una pieza rota — no con un archivo listo para imprimir. Descríbenos lo que necesitas y nos encargamos de todo.",
   "design.step1.heading": "Cuéntanos qué necesitas",
-  "design.step1.desc": "Envía una foto, un boceto o una descripción de la pieza. Cuanto más detalle, mejor — pero incluso un mensaje corto es suficiente para empezar.",
+  "design.step1.desc": "Envía una foto, un boceto o una descripción de la pieza. Si la foto incluye la pieza real, haz la foto con una regla o una moneda al lado para escala.",
   "design.step2.heading": "Diseñamos y te mostramos cómo quedará",
   "design.step2.desc": "Modelo la pieza con herramientas de visualización 3D para que veas el resultado antes de imprimir nada. Recibes la propuesta y la apruebas.",
   "design.step3.heading": "Apruebas e imprimimos",
