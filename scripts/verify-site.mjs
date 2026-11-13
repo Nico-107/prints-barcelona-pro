@@ -205,6 +205,20 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 6 — Material pages (PLA, PETG, TPU; es, en, ca) render
+  // [data-testid="spec-card"] + [data-testid="material-compare"].
+  const MATERIAL_PATHS = [
+    "/impresion-pla-barcelona", "/pla-printing-barcelona", "/ca/impressio-pla-barcelona",
+    "/impresion-petg-barcelona", "/petg-printing-barcelona", "/ca/impressio-petg-barcelona",
+    "/impresion-tpu-barcelona", "/tpu-printing-barcelona", "/ca/impressio-tpu-barcelona",
+  ];
+  if (MATERIAL_PATHS.includes(path)) {
+    const sc = await page.locator('[data-testid="spec-card"]').count();
+    if (sc < 1) errors.push(`${url} [${variant}]: missing [data-testid="spec-card"]`);
+    const mc = await page.locator('[data-testid="material-compare"]').count();
+    if (mc < 1) errors.push(`${url} [${variant}]: missing [data-testid="material-compare"]`);
+  }
+
   // Item 5 — City & delivery pages carry [data-testid="delivery-timeline"]
   // and [data-testid="city-price-table"] with 4 engine-computed rows.
   const CITY_PATTERNS = [

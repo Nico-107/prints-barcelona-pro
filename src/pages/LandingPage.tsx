@@ -24,6 +24,8 @@ import SpeedTiers from "@/components/urgent/SpeedTiers";
 import IterationTimeline from "@/components/b2b/IterationTimeline";
 import MaterialByNeed from "@/components/b2b/MaterialByNeed";
 import VolumePriceTable from "@/components/b2b/VolumePriceTable";
+import SpecCard from "@/components/material/SpecCard";
+import MaterialCompare from "@/components/material/MaterialCompare";
 
 const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "prototypes",
@@ -470,6 +472,15 @@ const LandingPage = ({ page: pageProp }: Props) => {
               </div>
             </section>
             <SpeedTiers lang={pageLang} />
+          </>
+        )}
+
+        {/* Item 6: material pages (PLA/PETG/TPU, es/en/ca) render SpecCard
+            + MaterialCompare driven by the engine's own material table. */}
+        {(page.topic === "pla" || page.topic === "petg" || page.topic === "tpu") && (
+          <>
+            <SpecCard lang={pageLang} material={page.topic.toUpperCase() as "PLA" | "PETG" | "TPU"} />
+            <MaterialCompare lang={pageLang as "es" | "en" | "ca"} current={page.topic.toUpperCase() as "PLA" | "PETG" | "TPU"} />
           </>
         )}
 
