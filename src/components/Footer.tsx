@@ -48,18 +48,24 @@ const Footer = () => {
     return key ? t(key) : groupLabel(g);
   };
 
+  // Phase 2.7: a link under a non-English label must not silently open an
+  // English page. We append " (EN)" when the destination is EN-only and
+  // there is no same-language equivalent (the London / Amsterdam / Berlin /
+  // Milan / Rome / Lisbon / New York / Paris delivery pages). Madrid and
+  // Sevilla have per-language variants and don't need the badge.
+  const enBadge = (base: string) => (isEs || isCa ? `${base} (EN)` : base);
   const deliveryLinks = [
-    { slug: "/madrid", label: isCa ? "Madrid" : "Madrid" },
-    { slug: "/3d-printing-madrid", label: isCa ? "3D Printing Madrid" : isEs ? "Impresión 3D Madrid" : "3D Printing Madrid" },
+    { slug: "/madrid", label: "Madrid" },
+    { slug: isEs ? "/3d-printing-madrid" : "/3d-printing-madrid", label: isCa ? "Impressió 3D Madrid" : isEs ? "Impresión 3D Madrid" : "3D Printing Madrid" },
     { slug: "/impresion-3d-con-entrega-a-valencia", label: isCa ? "Enviament a València" : isEs ? "Envío a Valencia" : "Delivery to Valencia" },
-    { slug: "/3d-printing-delivery-paris", label: isCa ? "Enviament a París" : isEs ? "Envío a París" : "Delivery to Paris" },
-    { slug: "/3d-printing-delivery-london", label: isCa ? "Enviament a Londres" : isEs ? "Envío a Londres" : "Delivery to London" },
-    { slug: "/3d-printing-delivery-amsterdam", label: isCa ? "Enviament a Amsterdam" : isEs ? "Envío a Ámsterdam" : "Delivery to Amsterdam" },
-    { slug: "/3d-printing-delivery-berlin", label: isCa ? "Enviament a Berlín" : isEs ? "Envío a Berlín" : "Delivery to Berlin" },
-    { slug: "/3d-printing-delivery-milan", label: isCa ? "Enviament a Milà" : isEs ? "Envío a Milán" : "Delivery to Milan" },
-    { slug: "/3d-printing-delivery-rome", label: isCa ? "Enviament a Roma" : isEs ? "Envío a Roma" : "Delivery to Rome" },
-    { slug: "/3d-printing-delivery-lisbon", label: isCa ? "Enviament a Lisboa" : isEs ? "Envío a Lisboa" : "Delivery to Lisbon" },
-    { slug: "/3d-printing-delivery-new-york", label: isCa ? "Enviament a Nova York" : isEs ? "Envío a Nueva York" : "Delivery to New York" },
+    { slug: "/3d-printing-delivery-paris", label: isCa ? enBadge("Enviament a París") : isEs ? enBadge("Envío a París") : "Delivery to Paris" },
+    { slug: "/3d-printing-delivery-london", label: isCa ? enBadge("Enviament a Londres") : isEs ? enBadge("Envío a Londres") : "Delivery to London" },
+    { slug: "/3d-printing-delivery-amsterdam", label: isCa ? enBadge("Enviament a Amsterdam") : isEs ? enBadge("Envío a Ámsterdam") : "Delivery to Amsterdam" },
+    { slug: "/3d-printing-delivery-berlin", label: isCa ? enBadge("Enviament a Berlín") : isEs ? enBadge("Envío a Berlín") : "Delivery to Berlin" },
+    { slug: "/3d-printing-delivery-milan", label: isCa ? enBadge("Enviament a Milà") : isEs ? enBadge("Envío a Milán") : "Delivery to Milan" },
+    { slug: "/3d-printing-delivery-rome", label: isCa ? enBadge("Enviament a Roma") : isEs ? enBadge("Envío a Roma") : "Delivery to Rome" },
+    { slug: "/3d-printing-delivery-lisbon", label: isCa ? enBadge("Enviament a Lisboa") : isEs ? enBadge("Envío a Lisboa") : "Delivery to Lisbon" },
+    { slug: "/3d-printing-delivery-new-york", label: isCa ? enBadge("Enviament a Nova York") : isEs ? enBadge("Envío a Nueva York") : "Delivery to New York" },
     { slug: isEs ? "/impresion-3d-sevilla" : "/3d-printing-sevilla", label: isCa ? "Impressió 3D Sevilla" : isEs ? "Impresión 3D Sevilla" : "3D Printing Sevilla" },
   ];
 
