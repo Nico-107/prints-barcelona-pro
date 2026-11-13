@@ -303,10 +303,10 @@ const Header = () => {
                 {(() => {
                   const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
                   return (<>
-                    <button type="button" onClick={() => scrollToSection('precios')} className="hidden xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
-                    <button type="button" onClick={() => scrollToSection('maquina')} className="hidden xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
+                    <button type="button" onClick={() => scrollToSection('precios')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
+                    <button type="button" onClick={() => scrollToSection('maquina')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
                     <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15, whiteSpace: 'nowrap' }}>{t("header.v2.empresas")}</Link>
-                    <button type="button" onClick={handleNoFile} className="hidden xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.sin")}</button>
+                    <button type="button" onClick={handleNoFile} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.sin")}</button>
 
                     {/* Phase 2.6 / Item 11: variant B grouped menus mirror
                         variant A — both render ≥ 4 data-testid="nav-menu-group". */}
