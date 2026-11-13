@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { AUTHOR_REF, PUBLISHER_REF, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from "@/seo/entities";
 import { Helmet } from "react-helmet-async";
 import { ArrowRight, CheckCircle2, MessageCircle } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import HubTemplate from "@/components/hub/HubTemplate";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -91,8 +89,7 @@ const InternationalServicePage = () => {
     }
   };
 
-  return (
-  <div className="min-h-screen bg-background">
+  const helmet = (
     <Helmet>
       <html lang="en" />
       <title>Online 3D Printing Service in Spain &amp; EU — From 10 €</title>
@@ -131,10 +128,10 @@ const InternationalServicePage = () => {
       <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
       <script type="application/ld+json">{JSON.stringify(WEBSITE_SCHEMA)}</script>
     </Helmet>
+  );
 
-    <Header />
-
-    <main id="main-content" className="pt-[var(--header-h)]">
+  return (
+  <HubTemplate lang="en" helmet={helmet}>
       {/* Hero */}
       <section data-testid="page-hero" data-page-hero className="relative min-h-[60vh] flex items-center justify-center overflow-hidden ds-grid-bg">
         <div className="absolute inset-0 opacity-[0.03]">
@@ -527,11 +524,7 @@ const InternationalServicePage = () => {
           </div>
         </div>
       </section>
-    </main>
-
-    <Footer />
-    <WhatsAppFloat />
-  </div>
+  </HubTemplate>
   );
 };
 

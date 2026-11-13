@@ -169,6 +169,22 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing [data-testid="page-hero"] (PageHero not adopted)`);
   }
 
+  // Item 2 — All 6 international hubs (en, de, fr, nl, it, pt) render
+  // [data-testid="hub-template"] from one shared component.
+  const HUB_PATHS = [
+    "/3d-printing-service",
+    "/de/3d-druck-service",
+    "/nl/3d-printen-laten-maken",
+    "/fr/impression-3d-en-ligne",
+    "/it/stampa-3d-online",
+    "/pt/impressao-3d-online",
+  ];
+  if (HUB_PATHS.includes(path)) {
+    const hubTemplate = await page.locator('[data-testid="hub-template"]').count();
+    if (hubTemplate < 1)
+      errors.push(`${url} [${variant}]: missing [data-testid="hub-template"] (hub not routed through HubTemplate)`);
+  }
+
   // No horizontal overflow: document scrollWidth should match viewport width
   // (allow 2px for sub-pixel rounding and scrollbar).
   const overflow = await page.evaluate(() => ({
