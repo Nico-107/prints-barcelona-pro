@@ -398,8 +398,10 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
 // ─── calc.why.minNote component test (T5 from spec) ──────────────────────────
 
 describe("PriceBreakdown: minimum-hit helper line visibility", () => {
-  // Phase 4.1: breakdown is now always visible (no accordion), and the
-  // helper key is "calc.breakdown.minHelper".
+  // Conv 1.2: the raw engine piece line + separate "Pedido mínimo" row
+  // was replaced with a single "Piezas" line that already shows the
+  // order price (10 €). A short helper "Pedido mínimo 10 € · añade más
+  // piezas desde +1 €" renders under the total when the minimum kicks in.
   it("shows the min-helper line for a small order at the €10 minimum", () => {
     const smallAnalysis = analyzeTriangles(boxMesh(5, 5, 5));
     const smallFile: ParsedFile = { id: "s", name: "s.stl", sizeBytes: 100, volumeMm3: smallAnalysis.volumeMm3, qty: 1, analysis: smallAnalysis };
@@ -409,8 +411,9 @@ describe("PriceBreakdown: minimum-hit helper line visibility", () => {
     const container = mountPanel(
       <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
-    expect(container.innerHTML).toContain("calc.breakdown.minHelper");
-    expect(container.innerHTML).toContain("calc.summary.minAdjust");
+    expect(container.innerHTML).toContain("calc.breakdown.minHelperShort");
+    // The "Piezas" line renders instead of the old separate "piece" + "minAdjust" rows.
+    expect(container.innerHTML).toContain("calc.breakdown.pieces");
     expect(container.innerHTML).not.toContain("calc.summary.setup");
   });
 
@@ -423,8 +426,7 @@ describe("PriceBreakdown: minimum-hit helper line visibility", () => {
     const container = mountPanel(
       <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
-    expect(container.innerHTML).not.toContain("calc.breakdown.minHelper");
-    expect(container.innerHTML).not.toContain("calc.summary.minAdjust");
+    expect(container.innerHTML).not.toContain("calc.breakdown.minHelperShort");
     expect(container.innerHTML).not.toContain("calc.summary.setup");
   });
 });
