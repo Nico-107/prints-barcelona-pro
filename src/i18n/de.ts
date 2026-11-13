@@ -7,7 +7,7 @@ export const deTranslations: Record<string, string> = {
   "nav.projects": "Projekte",
   "nav.reviews": "Kundenbewertungen",
   "nav.uploadFile": "Datei hochladen",
-  "nav.requestQuote": "Sofortpreis",
+  "nav.requestQuote": "Meinen Preis sehen",
   "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Bestellung verfolgen",
 

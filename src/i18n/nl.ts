@@ -7,7 +7,7 @@ export const nlTranslations: Record<string, string> = {
   "nav.projects": "Projecten",
   "nav.reviews": "Beoordelingen",
   "nav.uploadFile": "Bestand uploaden",
-  "nav.requestQuote": "Direct je prijs",
+  "nav.requestQuote": "Mijn prijs bekijken",
   "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Bestelling volgen",
 

@@ -7,7 +7,7 @@ export const enTranslations: Record<string, string> = {
   "nav.projects": "Projects",
   "nav.reviews": "Reviews",
   "nav.uploadFile": "Upload File",
-  "nav.requestQuote": "Get a Quote",
+  "nav.requestQuote": "See my price",
   "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Track Your Order",
 

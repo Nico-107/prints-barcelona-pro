@@ -7,7 +7,7 @@ export const ptTranslations: Record<string, string> = {
   "nav.projects": "Projetos",
   "nav.reviews": "Avaliações",
   "nav.uploadFile": "Enviar ficheiro",
-  "nav.requestQuote": "Preço imediato",
+  "nav.requestQuote": "Ver o meu preço",
   "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Rastrear pedido",
 
