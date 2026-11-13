@@ -167,8 +167,8 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     h1: "Impresión 3D para Empresas en Barcelona",
     heroPromise: "Más de 250 pedidos completados. Piezas listas en 2–5 días, presupuesto en 1 hora.",
     heroSub: "Sin tarifa de configuración. Pedido mínimo 10 €. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
-    ctaPrimary: "Sube tu archivo y ve el precio",
-    ctaWhatsApp: "Escríbenos por WhatsApp",
+    ctaPrimary: "Subir archivo y ver precio",
+    ctaWhatsApp: "Escribir por WhatsApp",
     ctaSubline: "Sin cuenta. Presupuesto en menos de 1 hora.",
     heroSampleLine: "Primera pieza de muestra gratis para empresas con proyecto real.",
     trustItems: [
@@ -264,8 +264,8 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     h1: "3D Printing for Business in Barcelona",
     heroPromise: "250+ orders completed. Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
     heroSub: "No setup fee. €10 minimum order. Invoice for companies. NDA available. Support in ES · CA · EN · DE · PL.",
-    ctaPrimary: "Upload your file, see your price",
-    ctaWhatsApp: "Message us on WhatsApp",
+    ctaPrimary: "Upload file and see price",
+    ctaWhatsApp: "Message on WhatsApp",
     ctaSubline: "No account needed. Quote within 1 hour.",
     heroSampleLine: "Free prototype part for companies with a real project.",
     trustItems: [
@@ -361,8 +361,8 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     h1: "Impressió 3D per a Empreses a Barcelona",
     heroPromise: "Més de 250 comandes completades. Peces llestes en 2–5 dies, pressupost en 1 hora.",
     heroSub: "Sense tarifa de configuració. Comanda mínima 10 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
-    ctaPrimary: "Puja el teu arxiu i veu el preu",
-    ctaWhatsApp: "Escriu-nos per WhatsApp",
+    ctaPrimary: "Pujar arxiu i veure preu",
+    ctaWhatsApp: "Escriure per WhatsApp",
     ctaSubline: "Sense compte. Pressupost en menys d'1 hora.",
     heroSampleLine: "Primera peça de mostra gratuïta per a empreses amb projecte real.",
     trustItems: [
