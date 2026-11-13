@@ -240,6 +240,35 @@ interface CtaClickProps {
 interface ExitReasonProps {
   reason?: string;
   price_eur_bucket?: string;
+  /** Conv 1.6 — device + country sliced in the "what stopped you?" tile. */
+  device?: string;
+  country?: string | null;
+}
+
+interface ExitShortcutProps {
+  action?: "back_to_price" | "email_quote" | "whatsapp";
+}
+
+interface OrderPaidProps {
+  channel?: "stripe" | "manual";
+  order_id?: string;
+  value_eur?: number;
+  currency?: string;
+  shipping_eur?: number;
+  fulfillment?: "pickup" | "shipping";
+  item_count?: number;
+  material?: string;
+  price_bucket?: string;
+  country?: string;
+  language?: string;
+  source?: string;
+  note?: string;
+}
+
+interface QuoteEmailedProps {
+  source?: string;
+  email_domain?: string;
+  path?: string;
 }
 
 interface ModalTimeOpenProps {
@@ -374,6 +403,9 @@ export interface EventMap {
   section_view: SectionViewProps;
   cta_click: CtaClickProps;
   exit_reason: ExitReasonProps;
+  exit_shortcut: ExitShortcutProps;
+  order_paid: OrderPaidProps;
+  quote_emailed: QuoteEmailedProps;
   modal_time_open: ModalTimeOpenProps;
 
   // Legacy / page-level events already used across the site

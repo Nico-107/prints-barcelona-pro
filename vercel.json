@@ -17,6 +17,7 @@
     { "source": "/admin", "destination": "/index.html" },
     { "source": "/admin-orders", "destination": "/index.html" },
     { "source": "/admin-makers", "destination": "/index.html" },
+    { "source": "/internal", "destination": "/index.html" },
     { "source": "/catalogo/:slug*", "destination": "/index.html" }
   ],
   "headers": [
