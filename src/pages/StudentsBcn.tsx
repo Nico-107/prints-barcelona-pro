@@ -131,6 +131,29 @@ const StudentsBcn = () => {
             <p className="text-lg text-primary-foreground/75 leading-relaxed">
               ¿Estudiante de ingeniería, arquitectura o diseño? Imprime tu TFG, TFM, maqueta o prototipo con un 20% de descuento real. Solo necesitas tu carnet universitario o email .edu. Presupuesto gratis en menos de 1 hora.
             </p>
+            {/* Phase 3.5: estudiantes hero now carries the primary CTA. */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="gap-2">
+                <a href="/#calculator">Subir archivo y ver precio</a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="gap-2 text-primary-foreground border-primary-foreground/40 hover:bg-primary-foreground/10">
+                <a href="https://wa.me/34641302127" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+              </Button>
+            </div>
+            {/* Phase 3.5: 'cómo aplicar el 20%' three-step block. */}
+            <ol className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-primary-foreground/80">
+              {[
+                { n: "1", title: "Verifica", body: "Envía tu carnet o email .edu junto al archivo o foto." },
+                { n: "2", title: "Recibes el presupuesto", body: "Con el 20% ya aplicado — en menos de 1 hora laborable." },
+                { n: "3", title: "Apruebas e imprimimos", body: "Recoges en Les Corts o lo enviamos a casa (5,90 € envío)." },
+              ].map((s) => (
+                <li key={s.n} className="rounded-lg border border-primary-foreground/15 bg-primary-foreground/5 p-4">
+                  <div className="font-mono text-xs text-amber-300 mb-1">PASO {s.n}</div>
+                  <div className="font-semibold text-primary-foreground">{s.title}</div>
+                  <div className="mt-1 text-primary-foreground/70">{s.body}</div>
+                </li>
+              ))}
+            </ol>
             <div className="mt-8 flex flex-wrap gap-3">
               {[
                 "20% descuento verificado",
