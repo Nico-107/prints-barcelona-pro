@@ -77,7 +77,7 @@ export function UploadPanel({ label, heading, description, examples, children }:
             <div style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", fontWeight: 800, fontSize: 25 }}>
               Suelta tus archivos aquí
             </div>
-            <div style={{ color: '#5B6577', fontSize: 15 }}>STL, OBJ, 3MF, GLB</div>
+            <div style={{ color: '#5B6577', fontSize: 15 }}>STL, OBJ, 3MF, STEP</div>
           </div>
         )}
       </div>
