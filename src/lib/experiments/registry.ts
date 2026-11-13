@@ -107,8 +107,8 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-11-11',
     minDays: 21,
     maxDays: 90,
-    // Disabled until Nico approves V2 visually; forcing via ?xp=home_v2:B still works.
-    enabled: false,
+    // Phase 10.1: enabled at 50/50 after section 9 verification passed.
+    enabled: true,
   },
 ];
 
