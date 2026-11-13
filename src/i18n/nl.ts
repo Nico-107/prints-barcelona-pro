@@ -470,7 +470,7 @@ export const nlTranslations: Record<string, string> = {
   "checker.overhang.needsSupport": "Supports zijn vereist",
   "checker.overhang.checkOrientation": "Controleer oriëntatie — veel overhangen",
   "checker.overhang.disclaimer": "Alleen schatting. Gebaseerd op vlaksnormalen — de werkelijke behoefte aan supports hangt af van slicer-instellingen en printoriëntatie.",
-  "checker.cta.quote": "Klaar om te printen? Vraag direct een prijs aan",
+  "checker.cta.quote": "Prijs van dit bestand bekijken",
   "checker.cta.filePrep": "Bestand heeft aanpassingen nodig? Lees de voorbereidingsgids",
   "checker.reset": "Ander bestand controleren",
   "checker.error.parse": "Dit bestand kon niet worden gelezen. Zorg ervoor dat het een geldig STL-bestand is (binair of ASCII).",

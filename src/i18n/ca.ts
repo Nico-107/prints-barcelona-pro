@@ -498,7 +498,7 @@ export const caTranslations: Record<string, string> = {
   "checker.overhang.needsSupport": "Necessitarà suports",
   "checker.overhang.checkOrientation": "Revisa l'orientació — moltes volades",
   "checker.overhang.disclaimer": "Només estimació. Basada en normals de cara — les necessitats reals de suport depenen del tallador i l'orientació d'impressió.",
-  "checker.cta.quote": "Llest per imprimir? Obté un preu a l'instant",
+  "checker.cta.quote": "Veure el preu d'aquest arxiu",
   "checker.cta.filePrep": "L'arxiu necessita ajustos? Llegeix la guia de preparació",
   "checker.reset": "Comprovar un altre arxiu",
   "checker.error.parse": "No s'ha pogut llegir l'arxiu. Assegura't que és un STL vàlid (binari o ASCII).",

@@ -470,7 +470,7 @@ export const frTranslations: Record<string, string> = {
   "checker.overhang.needsSupport": "Des supports seront nécessaires",
   "checker.overhang.checkOrientation": "Vérifiez l'orientation — nombreux surplombs",
   "checker.overhang.disclaimer": "Estimation uniquement. Basée sur les normales de face — les besoins réels en support dépendent des paramètres du slicer et de l'orientation d'impression.",
-  "checker.cta.quote": "Prêt à imprimer ? Obtenir un prix instantané",
+  "checker.cta.quote": "Voir le prix de ce fichier",
   "checker.cta.filePrep": "Fichier à améliorer ? Lire le guide de préparation",
   "checker.reset": "Vérifier un autre fichier",
   "checker.error.parse": "Impossible de lire ce fichier. Assurez-vous qu'il s'agit d'un STL valide (binaire ou ASCII).",

@@ -470,7 +470,7 @@ export const deTranslations: Record<string, string> = {
   "checker.overhang.needsSupport": "Stützstrukturen erforderlich",
   "checker.overhang.checkOrientation": "Ausrichtung prüfen — viele Überhänge",
   "checker.overhang.disclaimer": "Nur Schätzung. Basiert auf Flächennormalen — der tatsächliche Stützbedarf hängt von Slicer-Einstellungen und Druckausrichtung ab.",
-  "checker.cta.quote": "Druckbereit? Sofortpreisanfrage starten",
+  "checker.cta.quote": "Preis für diese Datei sehen",
   "checker.cta.filePrep": "Datei braucht Anpassungen? Vorbereitungsguide lesen",
   "checker.reset": "Weitere Datei prüfen",
   "checker.error.parse": "Datei konnte nicht gelesen werden. Bitte sicherstellen, dass es eine gültige STL-Datei ist.",

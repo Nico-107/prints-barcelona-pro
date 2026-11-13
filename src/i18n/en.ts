@@ -498,7 +498,7 @@ export const enTranslations: Record<string, string> = {
   "checker.overhang.needsSupport": "Will need supports",
   "checker.overhang.checkOrientation": "Check orientation — heavy overhangs",
   "checker.overhang.disclaimer": "Estimate only. Based on face normals — actual support needs depend on slicer settings and print orientation.",
-  "checker.cta.quote": "Ready to print this? Get an instant quote",
+  "checker.cta.quote": "See the price for this file",
   "checker.cta.filePrep": "File needs work? Read the preparation guide",
   "checker.reset": "Check another file",
   "checker.error.parse": "Could not read this file. Make sure it is a valid binary or ASCII STL.",
