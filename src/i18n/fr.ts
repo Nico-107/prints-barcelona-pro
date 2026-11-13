@@ -8,7 +8,7 @@ export const frTranslations: Record<string, string> = {
   "nav.reviews": "Avis clients",
   "nav.uploadFile": "Envoyer un fichier",
   "nav.requestQuote": "Prix immédiat",
-  "nav.headerRating": "{rating}/5 sur Google",
+  "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Suivre ma commande",
 
   // Track page

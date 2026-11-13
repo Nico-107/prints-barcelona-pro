@@ -8,7 +8,7 @@ export const ptTranslations: Record<string, string> = {
   "nav.reviews": "Avaliações",
   "nav.uploadFile": "Enviar ficheiro",
   "nav.requestQuote": "Preço imediato",
-  "nav.headerRating": "{rating}/5 no Google",
+  "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Rastrear pedido",
 
   // Track page
@@ -950,7 +950,7 @@ export const ptTranslations: Record<string, string> = {
   "home.b2b.card2.heading": "10, 100 ou 1.000 peças, sem moldes",
   "home.b2b.card2.desc": "Qualidade constante entre lotes e preço por volume.",
   "home.b2b.card2.cta": "Pedir preço por volume →",
-  "home.final.heading": "Carrega o teu ficheiro. Em 10 segundos sabes o preço.",
+  "home.final.heading": "Carrega o teu ficheiro. Sabes o preço num instante.",
   "home.whatwep.heading": "O que imprimimos",
   "home.whatwep.subheading": "De protótipos funcionais a peças acabadas para uso diário.",
   "home.hero.cta": "Ver o meu preço — a partir de 10 €",
@@ -1005,7 +1005,7 @@ export const ptTranslations: Record<string, string> = {
   "home.express.link": "Como funciona o serviço express →",
   "home.v2.path.heading": "Por onde começamos?",
   "home.v2.path.card1.heading": "Tenho o ficheiro 3D",
-  "home.v2.path.card1.desc": "STL, OBJ, 3MF ou GLB — preço em 10 segundos",
+  "home.v2.path.card1.desc": "STL, OBJ, 3MF ou GLB — preço num instant",
   "home.v2.path.card1.cta": "Calcular preço →",
   "home.v2.path.card2.heading": "Tenho uma foto ou peça partida",
   "home.v2.path.card2.desc": "Desenhamos e imprimimos por si",

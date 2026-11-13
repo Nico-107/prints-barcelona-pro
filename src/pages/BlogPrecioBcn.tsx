@@ -449,7 +449,7 @@ const BlogPrecioBcn = () => {
                 </div>
 
                 <p>
-                  No cobramos por dar presupuesto. No hay mínimo de pedido sorpresa más allá del que ya indicamos (10€). Y si tienes dudas sobre el material o el diseño, nuestro equipo te asesora sin coste adicional.
+                  No cobramos por dar presupuesto. No hay mínimo de pedido sorpresa más allá del que ya indicamos (10€). Y si tienes dudas sobre el material o el diseño, yo te asesora sin coste adicional.
                 </p>
               </div>
             </article>

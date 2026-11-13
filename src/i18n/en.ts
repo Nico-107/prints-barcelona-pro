@@ -8,7 +8,7 @@ export const enTranslations: Record<string, string> = {
   "nav.reviews": "Reviews",
   "nav.uploadFile": "Upload File",
   "nav.requestQuote": "Get a Quote",
-  "nav.headerRating": "{rating}/5 on Google",
+  "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Track Your Order",
 
   // Track page
@@ -454,7 +454,7 @@ export const enTranslations: Record<string, string> = {
   "calc.saveQuote.success": "Done, we'll email it to you. The price is held for 7 days.",
   "calc.saveQuote.copyLink": "Copy link",
   "calc.saveQuote.copied": "Link copied",
-  "calc.instantBuy.manualReview": "Have our team review it first",
+  "calc.instantBuy.manualReview": "Have me review it first",
   "calc.instantBuy.manualReview.short": "Free review",
   "calc.instantBuy.fulfillment.pickup.short": "Pickup (free)",
   "calc.instantBuy.fulfillment.shipping.short": "Shipping +{price}",
@@ -609,7 +609,7 @@ export const enTranslations: Record<string, string> = {
   "design.step1.heading": "Tell us what you need",
   "design.step1.desc": "Send a photo, sketch, or description of the part. The more detail the better — but even a rough description is enough to get started.",
   "design.step2.heading": "We design it and show you how it'll look",
-  "design.step2.desc": "Our team models the part using 3D visualisation tools so you can see exactly how it will look before anything is printed. You review and approve.",
+  "design.step2.desc": "I model the part using 3D visualisation tools so you can see exactly how it will look before anything is printed. You review and approve.",
   "design.step3.heading": "You approve and we print",
   "design.step3.desc": "Once you've signed off on the design, we print it in the most suitable material. Pick it up in Barcelona or we ship it to you.",
   "design.form.heading": "Tell us what you need",
@@ -696,8 +696,8 @@ export const enTranslations: Record<string, string> = {
   "calc.fulfillment.free": "free",
   "calc.fulfillment.byAppointment": "by appointment",
   "calc.instantBuy.reviewHint": "No payment now: we confirm the final price within 1 hour.",
-  "calc.mixed.note": "Some materials need a quick review by our team before we can charge you.",
-  "calc.error.checkout": "We couldn't start the payment. Check the settings or ask our team to review it.",
+  "calc.mixed.note": "Some materials need a quick review by me before we can charge you.",
+  "calc.error.checkout": "We couldn't start the payment. Check the settings or ask me to review it.",
 
   // conv-27 — Simple mode row labels
   "calc.simple.qty": "Quantity",
@@ -785,7 +785,7 @@ export const enTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continue to checkout",
   "calc.checkout.parts": "Your parts",
   "calc.checkout.summary": "Order summary",
-  "calc.checkout.largeFile": "Large file: our team confirms the price.",
+  "calc.checkout.largeFile": "Large file: I confirm the price.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Payment confirmed — your order is placed!",
   "calc.checkout.success.banner.body": "We'll contact you with print updates. Thank you for your order.",
@@ -811,7 +811,7 @@ export const enTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Next day",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Multicolour prints or special materials are reviewed by our team first — you'll get a confirmed quote within 1 hour.",
+  "calc.actions.quoteOnlyWhy": "Multicolour prints or special materials I review them first — you'll get a confirmed quote within 1 hour.",
   "calc.color.name.any": "Any colour",
   "calc.color.name.White": "White",
   "calc.color.name.Black": "Black",
@@ -950,7 +950,7 @@ export const enTranslations: Record<string, string> = {
   "home.b2b.card2.heading": "10, 100 or 1,000 parts, no moulds",
   "home.b2b.card2.desc": "Consistent quality across batches and volume pricing.",
   "home.b2b.card2.cta": "Request a volume quote →",
-  "home.final.heading": "Upload your file. Know the price in 10 seconds.",
+  "home.final.heading": "Upload your file. Know the price in an instant.",
   "home.whatwep.heading": "What we print",
   "home.whatwep.subheading": "From functional prototypes to finished everyday parts.",
   "home.hero.cta": "Get my price — from €10",
@@ -1005,7 +1005,7 @@ export const enTranslations: Record<string, string> = {
   "home.express.link": "How express service works →",
   "home.v2.path.heading": "Where do we start?",
   "home.v2.path.card1.heading": "I have the 3D file",
-  "home.v2.path.card1.desc": "STL, OBJ, 3MF or GLB — price in 10 seconds",
+  "home.v2.path.card1.desc": "STL, OBJ, 3MF or GLB — price in an instant",
   "home.v2.path.card1.cta": "Calculate price →",
   "home.v2.path.card2.heading": "I have a photo or broken part",
   "home.v2.path.card2.desc": "We design and print for you",

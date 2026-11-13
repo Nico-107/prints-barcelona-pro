@@ -8,7 +8,7 @@ export const caTranslations: Record<string, string> = {
   "nav.reviews": "Ressenyes",
   "nav.uploadFile": "Puja un arxiu",
   "nav.requestQuote": "Demana pressupost",
-  "nav.headerRating": "{rating}/5 a Google",
+  "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Segueix la comanda",
 
   // Track page
@@ -454,7 +454,7 @@ export const caTranslations: Record<string, string> = {
   "calc.saveQuote.success": "Llest, t'ho enviem. El preu es manté 7 dies.",
   "calc.saveQuote.copyLink": "Copiar enllaç",
   "calc.saveQuote.copied": "Enllaç copiat",
-  "calc.instantBuy.manualReview": "Que ho revisi el nostre equip primer",
+  "calc.instantBuy.manualReview": "Que ho revisi jo primer",
   "calc.instantBuy.manualReview.short": "Revisió gratis",
   "calc.instantBuy.fulfillment.pickup.short": "Recollida (gratis)",
   "calc.instantBuy.fulfillment.shipping.short": "Enviament +{price}",
@@ -696,8 +696,8 @@ export const caTranslations: Record<string, string> = {
   "calc.fulfillment.free": "gratuïta",
   "calc.fulfillment.byAppointment": "amb cita prèvia",
   "calc.instantBuy.reviewHint": "Sense pagar ara: et confirmem el preu final en menys d'1 hora.",
-  "calc.mixed.note": "Algun material necessita una revisió ràpida del nostre equip abans de cobrar-te.",
-  "calc.error.checkout": "No hem pogut iniciar el pagament. Revisa els ajustos o demana que ho revisi el nostre equip.",
+  "calc.mixed.note": "Algun material necessita una revisió ràpida djo abans de cobrar-te.",
+  "calc.error.checkout": "No hem pogut iniciar el pagament. Revisa els ajustos o demana que ho revisi jo.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Quantitat",
@@ -784,7 +784,7 @@ export const caTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continuar al pagament",
   "calc.checkout.parts": "Les teves peces",
   "calc.checkout.summary": "Resum de la comanda",
-  "calc.checkout.largeFile": "Fitxer gran: el nostre equip confirma el preu.",
+  "calc.checkout.largeFile": "Fitxer gran: jo confirma el preu.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Pagament confirmat — la teva comanda és en marxa!",
   "calc.checkout.success.banner.body": "T'avisarem amb actualitzacions de la teva impressió. Gràcies per la teva comanda.",
@@ -810,7 +810,7 @@ export const caTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Al dia següent",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Les impressions multicolor o els materials especials els revisa primer el nostre equip — rebràs un pressupost confirmat en 1 hora.",
+  "calc.actions.quoteOnlyWhy": "Les impressions multicolor o els materials especials els revisa primer jo — rebràs un pressupost confirmat en 1 hora.",
   "calc.color.name.any": "Qualsevol color",
   "calc.color.name.White": "Blanc",
   "calc.color.name.Black": "Negre",
@@ -999,7 +999,7 @@ export const caTranslations: Record<string, string> = {
   "home.express.link": "Com funciona el servei express →",
   "home.v2.path.heading": "Per on comencem?",
   "home.v2.path.card1.heading": "Tinc l'arxiu 3D",
-  "home.v2.path.card1.desc": "STL, OBJ, 3MF o GLB — preu en 10 segons",
+  "home.v2.path.card1.desc": "STL, OBJ, 3MF o GLB — preu a l'instant",
   "home.v2.path.card1.cta": "Calcular preu →",
   "home.v2.path.card2.heading": "Tinc una foto o peça trencada",
   "home.v2.path.card2.desc": "Dissenyem i imprimim per tu",

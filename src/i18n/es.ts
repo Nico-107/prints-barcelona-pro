@@ -8,7 +8,7 @@ export const esTranslations: Record<string, string> = {
   "nav.reviews": "Reseñas",
   "nav.uploadFile": "Subir archivo",
   "nav.requestQuote": "Solicitar presupuesto",
-  "nav.headerRating": "{rating}/5 en Google",
+  "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Rastrear Pedido",
 
   // Track page
@@ -115,7 +115,7 @@ export const esTranslations: Record<string, string> = {
   "upload.whatsappHint": "¿No sabes si tu pieza es imprimible? Pregúntanos sin compromiso",
   "upload.noFile": "¿No tienes archivo 3D? Nosotros lo diseñamos por ti.",
   "upload.success.title": "¡Archivo recibido!",
-  "upload.success.desc": "Hemos recibido tu solicitud. El equipo de Dimension3D revisará el diseño y te contactará pronto con el presupuesto.",
+  "upload.success.desc": "Hemos recibido tu solicitud. Revisaré el diseño y te contactará pronto con el presupuesto.",
   "upload.success.another": "Enviar otro archivo",
   "upload.error.title": "Error",
   "upload.error.desc": "No se pudo enviar la solicitud. Por favor, inténtalo de nuevo.",
@@ -454,7 +454,7 @@ export const esTranslations: Record<string, string> = {
   "calc.saveQuote.success": "Listo, te lo enviamos. El precio se mantiene 7 días.",
   "calc.saveQuote.copyLink": "Copiar enlace",
   "calc.saveQuote.copied": "Enlace copiado",
-  "calc.instantBuy.manualReview": "Que lo revise nuestro equipo primero",
+  "calc.instantBuy.manualReview": "Que lo revise yo primero",
   "calc.instantBuy.manualReview.short": "Revisión gratis",
   "calc.instantBuy.fulfillment.pickup.short": "Recogida (gratis)",
   "calc.instantBuy.fulfillment.shipping.short": "Envío +{price}",
@@ -609,7 +609,7 @@ export const esTranslations: Record<string, string> = {
   "design.step1.heading": "Cuéntanos qué necesitas",
   "design.step1.desc": "Envía una foto, un boceto o una descripción de la pieza. Cuanto más detalle, mejor — pero incluso un mensaje corto es suficiente para empezar.",
   "design.step2.heading": "Diseñamos y te mostramos cómo quedará",
-  "design.step2.desc": "Nuestro equipo modela la pieza con herramientas de visualización 3D para que veas el resultado antes de imprimir nada. Recibes la propuesta y la apruebas.",
+  "design.step2.desc": "Modelo la pieza con herramientas de visualización 3D para que veas el resultado antes de imprimir nada. Recibes la propuesta y la apruebas.",
   "design.step3.heading": "Apruebas e imprimimos",
   "design.step3.desc": "Una vez das el visto bueno, imprimimos con el material más adecuado. Puedes recoger en Barcelona o te lo enviamos a casa.",
   "design.form.heading": "Cuéntanos qué necesitas",
@@ -696,8 +696,8 @@ export const esTranslations: Record<string, string> = {
   "calc.fulfillment.free": "gratis",
   "calc.fulfillment.byAppointment": "con cita previa",
   "calc.instantBuy.reviewHint": "Sin pagar ahora: te confirmamos el precio final en menos de 1 hora.",
-  "calc.mixed.note": "Algún material necesita una revisión rápida de nuestro equipo antes de cobrarte.",
-  "calc.error.checkout": "No hemos podido iniciar el pago. Revisa los ajustes o pide que lo revise nuestro equipo.",
+  "calc.mixed.note": "Algún material necesita una revisión rápida por mi parte antes de cobrarte.",
+  "calc.error.checkout": "No hemos podido iniciar el pago. Revisa los ajustes o pídeme que lo revise.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Cantidad",
@@ -784,7 +784,7 @@ export const esTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continuar al pago",
   "calc.checkout.parts": "Tus piezas",
   "calc.checkout.summary": "Resumen del pedido",
-  "calc.checkout.largeFile": "Archivo grande: nuestro equipo confirma el precio.",
+  "calc.checkout.largeFile": "Archivo grande: lo confirmo yo el precio.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "¡Pago confirmado — tu pedido está en marcha!",
   "calc.checkout.success.banner.body": "Te avisaremos con actualizaciones de tu impresión. Gracias por tu pedido.",
@@ -810,7 +810,7 @@ export const esTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Al día siguiente",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Las impresiones multicolor o los materiales especiales los revisa primero nuestro equipo — recibirás un presupuesto confirmado en 1 hora.",
+  "calc.actions.quoteOnlyWhy": "Las impresiones multicolor o los materiales especiales los reviso yo primero — recibirás un presupuesto confirmado en 1 hora.",
   "calc.color.name.any": "Cualquier color",
   "calc.color.name.White": "Blanco",
   "calc.color.name.Black": "Negro",
@@ -944,7 +944,7 @@ export const esTranslations: Record<string, string> = {
   "home.b2b.card2.heading": "10, 100 o 1.000 piezas, sin moldes",
   "home.b2b.card2.desc": "Calidad constante entre lotes y precio por volumen.",
   "home.b2b.card2.cta": "Pedir precio por volumen →",
-  "home.final.heading": "Sube tu archivo. En 10 segundos sabes el precio.",
+  "home.final.heading": "Sube tu archivo. Sabes el precio al instante.",
   "home.whatwep.heading": "Qué imprimimos",
   "home.whatwep.subheading": "Desde prototipos funcionales hasta piezas finales de uso diario.",
   // V2 hero
@@ -1004,7 +1004,7 @@ export const esTranslations: Record<string, string> = {
   "home.express.link": "Cómo funciona el servicio express →",
   "home.v2.path.heading": "¿Por dónde empezamos?",
   "home.v2.path.card1.heading": "Tengo el archivo 3D",
-  "home.v2.path.card1.desc": "STL, OBJ, 3MF o GLB — precio en 10 segundos",
+  "home.v2.path.card1.desc": "STL, OBJ, 3MF o GLB — precio al instante",
   "home.v2.path.card1.cta": "Calcular precio →",
   "home.v2.path.card2.heading": "Tengo una foto o una pieza rota",
   "home.v2.path.card2.desc": "Diseñamos e imprimimos por ti",
