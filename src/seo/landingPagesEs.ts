@@ -1560,17 +1560,17 @@ export const PAGES_ES: LandingContent[] = [
         body: "Si estás fuera de Barcelona o prefieres recibir la pieza en casa, el envío cuesta 5,90 € a cualquier punto de España (Península, Baleares, Canarias). El tiempo de tránsito es de 1–2 días laborables para Península.\n\nPara el resto de España, el proceso es 100% online: sube el archivo, paga y recibe en casa. No necesitas pasar por Barcelona."
       },
       {
-        heading: "¿Cómo encontrar el taller desde Google Maps?",
-        body: "El taller está en la Rambla de Brasil, 53, 08028 Barcelona. Puedes llegar:\n\n• **Metro**: Collblanc (L5) o Zona Universitària (L3), ambas a ~5 min andando.\n• **Bus**: varias líneas paran en la Travessera de les Corts / Rambla del Brasil.\n• **Coche**: hay aparcamiento en la misma calle y en el parking de Mas Guitart cercano.\n\nAnte cualquier duda de localización, mándanos un WhatsApp y te ayudamos."
+        heading: "¿Cómo llegar al estudio?",
+        body: "El estudio está en la Rambla de Brasil, 53, 08028 Barcelona. Puedes llegar:\n\n• **Metro**: Collblanc (L5) o Zona Universitària (L3), ambas a ~5 min andando.\n• **Bus**: varias líneas paran en la Travessera de les Corts / Rambla del Brasil.\n• **Coche**: hay aparcamiento en la misma calle y en el parking de Mas Guitart cercano.\n\nAnte cualquier duda de localización, mándanos un WhatsApp y te ayudamos."
       },
     ],
     faqs: [
-      { q: "¿Dónde está el taller de impresión 3D en Barcelona?", a: "En la Rambla de Brasil, 53 (Les Corts, Barcelona 08028). A 5 minutos del metro Collblanc (L5)." },
+      { q: "¿Dónde está el estudio de impresión 3D en Barcelona?", a: "En la Rambla de Brasil, 53 (Les Corts, Barcelona 08028). A 5 minutos del metro Collblanc (L5)." },
       { q: "¿Puedo recoger mi pedido el mismo día?", a: "Para pedidos confirmados antes de las 12:00 en día laborable, en la mayoría de casos la pieza está lista para recoger esa misma tarde. Para garantizarlo, usa el servicio Urgente." },
       { q: "¿Cubren toda Barcelona o solo Les Corts?", a: "Podemos enviar a toda la ciudad y el área metropolitana. La recogida presencial es en Les Corts. Si necesitas entrega a domicilio dentro de Barcelona, consúltanos." },
       { q: "¿También imprimís en L'Hospitalet, Cornellà o Sant Cugat?", a: "Sí. Puedes recoger en el estudio de Barcelona, o te enviamos a tu dirección. El coste de envío a toda la provincia de Barcelona es 5,90 €." },
       { q: "¿Tenéis horario flexible para recoger?", a: "La recogida es con cita previa, así que el horario es flexible. Cuando tu pieza esté lista te avisamos por WhatsApp y acordamos la hora que mejor te venga, normalmente todos los días." },
-      { q: "¿Podéis venir a buscar mi pieza rota para copiarla?", a: "No hacemos recogida a domicilio para escaneo. Lo más práctico es traer la pieza al taller o enviarnos buenas fotos con una referencia de tamaño." },
+      { q: "¿Podéis venir a buscar mi pieza rota para copiarla?", a: "No hacemos recogida a domicilio para escaneo. Lo más práctico es traer la pieza al estudio o enviarnos buenas fotos con una referencia de tamaño." },
     ],
     galleryImages: pick("custom-brackets.jpg", "curved-parts.jpg", "red-adapter.jpg", "intake-manifold.jpg", "black-intake.jpg", "blue-molds.jpg"),
     related: [
