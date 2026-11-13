@@ -5,7 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageContext";
-import LanguageSuggestionBar from "@/components/LanguageSuggestionBar";
+// LanguageSuggestionBar removed (Conv 1.8): 302 shown, 1 accepted — net
+// friction above the price window. The language switcher stays.
 import { capture, updatePageContext } from "@/lib/analytics";
 import { usePageTracking } from "@/hooks/usePageTracking";
 import Index from "./pages/Index";
@@ -196,7 +197,6 @@ const App = () => (
           <LanguageNavigationSync />
           <OutboundContactTracker />
           <CookieConsentBanner />
-          <LanguageSuggestionBar />
           <Suspense fallback={PageFallback}>
             <Routes>
               <Route path="/" element={<Index />} />
