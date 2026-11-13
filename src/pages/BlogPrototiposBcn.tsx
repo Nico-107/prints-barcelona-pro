@@ -451,7 +451,7 @@ const BlogPrototiposBcn = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="xl" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg gap-2">
                 <Link to="/#calculator">
-                  Calcular precio con mi archivo
+                  Subir archivo y ver precio
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>

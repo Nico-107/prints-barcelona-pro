@@ -166,7 +166,7 @@ const BlogPrecioBcn = () => {
             <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
               <p className="text-sm text-foreground/80 flex-1">¿Ya tienes tu archivo STL? Calcula el precio en segundos, sin registro ni compromiso.</p>
               <Button asChild size="sm" className="shrink-0 gap-1.5">
-                <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
               </Button>
             </div>
 
@@ -468,7 +468,7 @@ const BlogPrecioBcn = () => {
             </p>
             <Button asChild size="xl" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg gap-2">
               <Link to="/#calculator">
-                Calcular precio ahora
+                Subir archivo y ver precio
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </Button>
@@ -511,7 +511,7 @@ const BlogPrecioBcn = () => {
           <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
             <p className="text-sm text-foreground/80 flex-1">Calcula el precio exacto de tu pieza en segundos — sin registro, sin compromiso.</p>
             <Button asChild size="sm" className="shrink-0 gap-1.5">
-              <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
             </Button>
           </div>
         </div>

@@ -188,7 +188,7 @@ const BlogRecambiosBcn = () => {
             <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
               <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo STL de la pieza? Calcula el precio en segundos, sin compromiso.</p>
               <Button asChild size="sm" className="shrink-0 gap-1.5">
-                <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+                <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
               </Button>
             </div>
 
@@ -573,7 +573,7 @@ const BlogRecambiosBcn = () => {
           <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
             <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo? Calcula el precio del recambio en segundos — desde 10 €, entrega en 24–48 h.</p>
             <Button asChild size="sm" className="shrink-0 gap-1.5">
-              <Link to="/#calculator">Calcular precio ahora <ArrowRight className="w-4 h-4" /></Link>
+              <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
             </Button>
           </div>
         </div>
