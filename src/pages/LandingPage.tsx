@@ -606,7 +606,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <FinalCta
             heading={t("Ready to start your project?", "¿Listo para empezar tu proyecto?", "Bereit für dein Projekt?", "Llest per iniciar el teu projecte?")}
             cta={{
-              label: t("Upload File", "Subir Archivo", "Datei hochladen", "Pujar Arxiu"),
+              label: primaryCtaLabel,
               onClick: scrollToCalc,
             }}
             reassurance={t("Send your file or describe your idea. Free quote in under 1 hour.", "Envía tu archivo o describe tu idea. Presupuesto gratis en menos de 1 hora.", "Schick uns deine Datei oder beschreib deine Idee. Kostenloses Angebot in unter 1 Stunde.", "Envia el teu arxiu o descriu la teva idea. Pressupost gratis en menys d'1 hora.")}
