@@ -256,7 +256,7 @@ const InternationalServicePage = () => {
                     <strong className="text-foreground">Approve and we print.</strong> Once you confirm the quote, the job enters our print queue. Most standard orders ship within 3–7 business days. Express options are available for urgent needs.
                   </li>
                   <li>
-                    <strong className="text-foreground">Tracked courier delivery.</strong> We dispatch via trusted carriers. You receive a tracking number as soon as the parcel leaves our workshop. Typical delivery: 1–2 days within Spain, 3–5 days to most of Europe, 5–10 days worldwide.
+                    <strong className="text-foreground">Tracked courier delivery.</strong> We dispatch via trusted carriers. You receive a tracking number as soon as the parcel leaves the studio. Typical delivery: 1–2 days within Spain, 3–5 days to most of Europe, 5–10 days worldwide.
                   </li>
                 </ol>
                 <p>

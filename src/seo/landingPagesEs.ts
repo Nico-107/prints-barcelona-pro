@@ -1039,7 +1039,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Comparativa de Materiales de Impresión 3D",
     metaDescription: "Comparativa completa de materiales FDM: PLA, PETG, ABS, ASA, TPU, Nylon y fibra de carbono. Propiedades, usos y precios orientativos en Dimension3D.",
     h1: "Comparativa de Materiales de Impresión 3D — ¿Qué Material es el Adecuado para tu Pieza?",
-    intro: "Elegir el material equivocado cuesta dinero dos veces: una cuando pagas por una pieza que falla, y otra cuando la reimprimes. Esta página pone todos los materiales FDM que ofrecemos uno al lado del otro para que puedas comparar una sola vez y pedir con confianza. Todos los materiales de la tabla están en stock y se imprimen en nuestro taller.",
+    intro: "Elegir el material equivocado cuesta dinero dos veces: una cuando pagas por una pieza que falla, y otra cuando la reimprimes. Esta página pone todos los materiales FDM que ofrecemos uno al lado del otro para que puedas comparar una sola vez y pedir con confianza. Todos los materiales de la tabla están en stock y se imprimen en el estudio.",
     comparisonTable: {
       headers: ["Material", "Coste", "Resistencia a tracción", "Resistencia al calor", "Flexibilidad", "Apto para exteriores", "Imprimibilidad", "Uso típico"],
       rows: [
@@ -1066,7 +1066,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "ABS, ASA y materiales resistentes al calor",
-        body: "ABS y ASA comparten la misma banda de precio y ambos aguantan temperaturas de hasta unos 100 °C, pero resuelven problemas distintos. El ABS es el termoplástico técnico clásico — alta resistencia, buena resistencia al impacto y comportamiento mecánico bien caracterizado. El ASA añade una propiedad crítica que el ABS no tiene: estabilidad UV. En exteriores en Barcelona, una pieza de ABS se amarillea y se vuelve frágil en pocos meses; una de ASA no. Para cualquier aplicación estructural en exterior, el ASA es casi siempre la mejor elección.\n\nAmbos materiales requieren una cámara de impresión calefactada para una impresión fiable. Sin ella, el diferencial de temperatura entre la capa extruida y el aire ambiente provoca deformaciones y delaminación. Los imprimimos en nuestro taller con el equipamiento adecuado. Si los estás evaluando para tu propia máquina, trátalos como materiales de nivel intermedio-avanzado: no porque la configuración sea complicada, sino porque el entorno de impresión debe estar controlado."
+        body: "ABS y ASA comparten la misma banda de precio y ambos aguantan temperaturas de hasta unos 100 °C, pero resuelven problemas distintos. El ABS es el termoplástico técnico clásico — alta resistencia, buena resistencia al impacto y comportamiento mecánico bien caracterizado. El ASA añade una propiedad crítica que el ABS no tiene: estabilidad UV. En exteriores en Barcelona, una pieza de ABS se amarillea y se vuelve frágil en pocos meses; una de ASA no. Para cualquier aplicación estructural en exterior, el ASA es casi siempre la mejor elección.\n\nAmbos materiales requieren una cámara de impresión calefactada para una impresión fiable. Sin ella, el diferencial de temperatura entre la capa extruida y el aire ambiente provoca deformaciones y delaminación. Los imprimimos en el estudio con el equipamiento adecuado. Si los estás evaluando para tu propia máquina, trátalos como materiales de nivel intermedio-avanzado: no porque la configuración sea complicada, sino porque el entorno de impresión debe estar controlado."
       },
       {
         heading: "TPU — la alternativa flexible",
@@ -1568,7 +1568,7 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Dónde está el taller de impresión 3D en Barcelona?", a: "En la Rambla de Brasil, 53 (Les Corts, Barcelona 08028). A 5 minutos del metro Collblanc (L5)." },
       { q: "¿Puedo recoger mi pedido el mismo día?", a: "Para pedidos confirmados antes de las 12:00 en día laborable, en la mayoría de casos la pieza está lista para recoger esa misma tarde. Para garantizarlo, usa el servicio Urgente." },
       { q: "¿Cubren toda Barcelona o solo Les Corts?", a: "Podemos enviar a toda la ciudad y el área metropolitana. La recogida presencial es en Les Corts. Si necesitas entrega a domicilio dentro de Barcelona, consúltanos." },
-      { q: "¿También imprimís en L'Hospitalet, Cornellà o Sant Cugat?", a: "Sí. Puedes recoger en nuestro taller de Barcelona, o te enviamos a tu dirección. El coste de envío a toda la provincia de Barcelona es 5,90€." },
+      { q: "¿También imprimís en L'Hospitalet, Cornellà o Sant Cugat?", a: "Sí. Puedes recoger en el estudio de Barcelona, o te enviamos a tu dirección. El coste de envío a toda la provincia de Barcelona es 5,90€." },
       { q: "¿Tenéis horario flexible para recoger?", a: "La recogida es con cita previa, así que el horario es flexible. Cuando tu pieza esté lista te avisamos por WhatsApp y acordamos la hora que mejor te venga, normalmente todos los días." },
       { q: "¿Podéis venir a buscar mi pieza rota para copiarla?", a: "No hacemos recogida a domicilio para escaneo. Lo más práctico es traer la pieza al taller o enviarnos buenas fotos con una referencia de tamaño." },
     ],
@@ -1594,7 +1594,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Sobre Nosotros — Dimension3D Barcelona | Impresión 3D FDM",
     metaDescription: "Dimension3D es un estudio de impresión 3D FDM en Barcelona fundado por Nico (Mikołaj Szczełkun). 250+ pedidos, Bambu Lab X2D, servicio online a toda España.",
     h1: "Sobre Dimension3D: el estudio detrás de cada pieza",
-    intro: "Dimension3D es un estudio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun). Fabricamos piezas a medida, prototipos y recambios para particulares y empresas de toda España. Desde nuestro taller en Les Corts hemos completado más de 250 pedidos, y seguimos haciendo lo mismo que al principio: revisar cada encargo manualmente, responder en menos de 1 hora y entregar piezas que funcionan.",
+    intro: "Dimension3D es un estudio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun). Fabricamos piezas a medida, prototipos y recambios para particulares y empresas de toda España. Desdel estudio en Les Corts hemos completado más de 250 pedidos, y seguimos haciendo lo mismo que al principio: revisar cada encargo manualmente, responder en menos de 1 hora y entregar piezas que funcionan.",
     sections: [
       {
         heading: "El fundador: Nico (Mikołaj Szczełkun)",

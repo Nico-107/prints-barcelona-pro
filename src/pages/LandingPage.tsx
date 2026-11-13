@@ -510,7 +510,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <section className="bg-secondary/30 py-16 md:py-20">
             <div className="container px-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`, `Echte Drucke aus unserer Werkstatt in ${pageCity.cityName}`, `Impressions reals del nostre taller a ${pageCity.cityName}`)}
+                {t(`Real prints made in ${pageCity.cityName}`, `Impresiones reales hechas en ${pageCity.cityName}`, `Echte Drucke aus ${pageCity.cityName}`, `Impressions reals fetes a ${pageCity.cityName}`)}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (

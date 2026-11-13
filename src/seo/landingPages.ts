@@ -615,7 +615,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Short production runs and repeat orders",
-        body: "Once a part is validated, we can run repeat orders without re-quoting from scratch. We keep the sliced file and print parameters on record. Per-unit cost drops as volume grows — ask for a tiered price when you request the quote.\n\nWe can also deliver to your workshop or office in Barcelona by courier, or ship to any address in mainland Spain with tracking."
+        body: "Once a part is validated, we can run repeat orders without re-quoting from scratch. We keep the sliced file and print parameters on record. Per-unit cost drops as volume grows — ask for a tiered price when you request the quote.\n\nWe can also deliver to ythe studio or office in Barcelona by courier, or ship to any address in mainland Spain with tracking."
       },
       {
         heading: "Confidentiality and NDAs",
@@ -1453,7 +1453,7 @@ export const PAGES_EN: LandingContent[] = [
     metaTitle: "About Dimension3D — 3D Printing Studio in Barcelona",
     metaDescription: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). 250+ orders, Bambu Lab X2D, shipping to Spain and EU.",
     h1: "About Dimension3D: the studio behind every print",
-    intro: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). We make custom parts, prototypes and replacement parts for individuals and businesses across Spain and Europe. From our workshop in Les Corts we have completed over 250 orders — and we still work the same way we did on day one: manual review of every file, response within 1 hour, and parts that actually work.",
+    intro: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). We make custom parts, prototypes and replacement parts for individuals and businesses across Spain and Europe. From the studio in Les Corts we have completed over 250 orders — and we still work the same way we did on day one: manual review of every file, response within 1 hour, and parts that actually work.",
     sections: [
       {
         heading: "The founder: Nico (Mikołaj Szczełkun)",

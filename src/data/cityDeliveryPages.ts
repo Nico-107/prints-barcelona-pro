@@ -254,7 +254,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     introParagraph: `Lisbon has transformed over the past decade into one of Europe's most dynamic startup and innovation hubs — from the creative manufacturing at Beato Tech City and LX Factory to the engineering ventures energised by Web Summit, NOVA SBE, and IST's technology transfer programmes. As Portugal's immediate Iberian neighbour, Barcelona offers Lisbon one of our fastest EU shipping connections: parcels typically arrive in ${PT_DAYS} from dispatch. The combination of Iberian logistics, a shared EU regulatory framework, and no customs barrier makes this one of our smoothest international supply routes for customers needing quality FDM parts fast.`,
     deliveryTableRow: ["Lisbon & Portugal", PT_DAYS],
     shippingFaqQ: "How quickly can you deliver 3D prints to Lisbon?",
-    shippingFaqA: `Lisbon is one of our fastest destinations: parcels from Barcelona typically arrive in ${PT_DAYS} via tracked courier. Porto and other Portuguese cities are within the same timeframe. No EU customs formalities apply between Spain and Portugal, and all shipments are tracked from our workshop door to yours.`,
+    shippingFaqA: `Lisbon is one of our fastest destinations: parcels from Barcelona typically arrive in ${PT_DAYS} via tracked courier. Porto and other Portuguese cities are within the same timeframe. No EU customs formalities apply between Spain and Portugal, and all shipments are tracked from the studio door to yours.`,
     whatsappMsg: "Hi, I'm based in Lisbon and I'd like a quote for 3D printing.",
     nativeSection: {
       lang: "pt",
@@ -313,7 +313,7 @@ El proceso es el mismo independientemente del tamaño del pedido: subes tu archi
 Sin pedido mínimo por encima de 10€, sin comisiones de plataforma, sin burocracia: subes tu archivo, nosotros producimos y tú recibes la pieza en Madrid.`,
     deliveryTableRow: ["Madrid y Comunidad de Madrid", "1–2 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda el envío de Barcelona a Madrid?",
-    shippingFaqA: "Los pedidos se producen en nuestro taller de Barcelona y llegan a domicilios en Madrid en 1–2 días hábiles mediante mensajería estándar con seguimiento. Para muchos envíos, la entrega se produce al día siguiente del despacho. Todos los envíos incluyen número de seguimiento en cuanto el paquete sale del taller.",
+    shippingFaqA: "Los pedidos se producen en el estudio de Barcelona y llegan a domicilios en Madrid en 1–2 días hábiles mediante mensajería estándar con seguimiento. Para muchos envíos, la entrega se produce al día siguiente del despacho. Todos los envíos incluyen número de seguimiento en cuanto el paquete sale del taller.",
     whatsappMsg: "Hola, soy de Madrid y me gustaría un presupuesto para impresión 3D con entrega desde Barcelona.",
     articleInLanguage: "es",
     extraFaqs: [

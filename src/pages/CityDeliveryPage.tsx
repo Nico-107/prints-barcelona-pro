@@ -633,7 +633,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       </li>
                       <li>
                         <strong className="text-foreground">Entrega con mensajería seguida.</strong> Recibirás un
-                        número de seguimiento en cuanto el paquete salga de nuestro taller.
+                        número de seguimiento en cuanto el paquete salga del estudio.
                       </li>
                     </ol>
                   </div>
@@ -662,7 +662,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                             <strong className="text-foreground">Validez et nous imprimons.</strong> Une fois le devis confirmé, le travail entre dans notre file d'impression. La plupart des commandes standard sont expédiées sous 3–7 jours ouvrables.
                           </li>
                           <li>
-                            <strong className="text-foreground">Livraison avec suivi.</strong> Vous recevez un numéro de suivi dès que le colis quitte notre atelier.
+                            <strong className="text-foreground">Livraison avec suivi.</strong> Vous recevez un numéro de suivi dès que le colis quitte le studio.
                           </li>
                         </ol>
                       </>
@@ -688,7 +688,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                           </li>
                           <li>
                             <strong className="text-foreground">Tracked courier delivery.</strong> You receive a tracking
-                            number as soon as the parcel leaves our workshop.
+                            number as soon as the parcel leaves the studio.
                           </li>
                         </ol>
                       </>
@@ -924,7 +924,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       { title: "Hub tecnológico europeo", body: "Barcelona acoge el Mobile World Congress y alberga el distrito de innovación 22@ — uno de los ecosistemas tecnológicos más densos de Europa. Somos un estudio profesional arraigado en esa infraestructura." },
                       { title: "Calidad de estudio, no de granja", body: "Somos un único estudio, no un marketplace que enruta tu archivo a la granja de impresión más barata. Las mismas máquinas, el mismo equipo, la misma calidad en cada pedido." },
                       { title: "Estándares europeos de fabricación", body: "Operamos bajo normativa europea: materiales certificados con trazabilidad, equipos calibrados periódicamente y control de calidad humano antes de cada envío." },
-                      { title: "Envío con seguimiento completo", body: "Todos los pedidos salen con seguimiento completo. Recibirás un enlace de seguimiento en el momento en que el paquete salga de nuestro taller — visibilidad total de Barcelona a tu puerta." },
+                      { title: "Envío con seguimiento completo", body: "Todos los pedidos salen con seguimiento completo. Recibirás un enlace de seguimiento en el momento en que el paquete salga del estudio — visibilidad total de Barcelona a tu puerta." },
                     ].map(({ title, body }) => (
                       <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
                         <h3 className="font-bold text-foreground mb-2 text-sm">{title}</h3>
@@ -944,13 +944,13 @@ const CityDeliveryPage = ({ config }: Props) => {
                           { title: "Hub technologique européen", body: "Barcelone accueille le Mobile World Congress et le district d'innovation 22@ — l'un des écosystèmes technologiques les plus denses d'Europe. Nous sommes un studio professionnel ancré dans cet environnement." },
                           { title: "Qualité studio, pas ferme d'impression", body: "Nous sommes un studio unique — pas une marketplace qui achemine votre fichier vers la ferme la moins chère. Mêmes machines, même équipe, qualité constante à chaque commande." },
                           { title: "Normes de fabrication européennes", body: "Nous opérons selon les normes de fabrication européennes : matériaux certifiés avec traçabilité complète, équipements calibrés régulièrement et contrôle qualité humain avant chaque expédition." },
-                          { title: "Livraison entièrement suivie", body: "Chaque commande est expédiée avec un suivi complet. Vous recevez un lien de suivi dès que le colis quitte notre atelier — visibilité totale de Barcelone à votre porte." },
+                          { title: "Livraison entièrement suivie", body: "Chaque commande est expédiée avec un suivi complet. Vous recevez un lien de suivi dès que le colis quitte le studio — visibilité totale de Barcelone à votre porte." },
                         ]
                       : [
                           { title: "European tech hub", body: "Barcelona hosts the Mobile World Congress and the 22@ innovation district — one of Europe's most concentrated technology ecosystems. We are a professional studio rooted in that environment." },
                           { title: "Studio quality, not a print farm", body: "We are a single studio — not a marketplace routing your file to whichever print farm is cheapest. Same machines, same team, consistent quality on every order." },
                           { title: "EU manufacturing standards", body: "We operate under European manufacturing norms: certified materials with full traceability, regularly calibrated equipment, and human quality control before every shipment leaves." },
-                          { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves our workshop — complete visibility from Barcelona to your door." },
+                          { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves the studio — complete visibility from Barcelona to your door." },
                         ]
                     ).map(({ title, body }) => (
                       <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
@@ -970,7 +970,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <p>
-                      Enviamos a través de mensajeros de confianza desde nuestro taller en Barcelona. Todos los pedidos
+                      Enviamos a través de mensajeros de confianza desdel estudio en Barcelona. Todos los pedidos
                       tienen seguimiento completo — recibirás un número de seguimiento en cuanto el paquete salga.
                     </p>
                     <div className="overflow-x-auto">
@@ -1020,7 +1020,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <p>
                       {isFR
-                        ? "Nous expédions via des transporteurs de confiance depuis notre atelier à Barcelone. Toutes les commandes sont entièrement suivies — vous recevez un numéro de suivi dès que le colis nous quitte."
+                        ? "Nous expédions via des transporteurs de confiance depuis le studio à Barcelone. Toutes les commandes sont entièrement suivies — vous recevez un numéro de suivi dès que le colis nous quitte."
                         : "We ship via trusted courier partners, dispatching from our Barcelona workshop. All orders are fully tracked — you receive a tracking number as soon as the parcel leaves us."}
                     </p>
                     <div className="overflow-x-auto">
