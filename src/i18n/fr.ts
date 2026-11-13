@@ -223,7 +223,7 @@ export const frTranslations: Record<string, string> = {
   "location.hoursLabel": "Retrait sur rendez-vous",
   "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
   "location.areasLabel": "Zones de livraison locale",
-  "location.viewMaps": "Voir sur Google Maps",
+  "location.viewMaps": "Voir la carte",
   "location.directions": "Itinéraire",
 
   // Pricing

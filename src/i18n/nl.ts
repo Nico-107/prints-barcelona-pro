@@ -223,7 +223,7 @@ export const nlTranslations: Record<string, string> = {
   "location.hoursLabel": "Ophalen op afspraak",
   "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
   "location.areasLabel": "Lokale bezorggebieden",
-  "location.viewMaps": "Bekijken op Google Maps",
+  "location.viewMaps": "Kaart bekijken",
   "location.directions": "Route plannen",
 
   // Pricing

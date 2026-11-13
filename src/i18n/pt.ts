@@ -223,7 +223,7 @@ export const ptTranslations: Record<string, string> = {
   "location.hoursLabel": "Levantamento com marcação",
   "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
   "location.areasLabel": "Áreas de entrega local",
-  "location.viewMaps": "Ver no Google Maps",
+  "location.viewMaps": "Ver mapa",
   "location.directions": "Como chegar",
 
   // Pricing

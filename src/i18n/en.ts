@@ -251,7 +251,7 @@ export const enTranslations: Record<string, string> = {
   "location.hoursLabel": "Pickup by appointment",
   "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
   "location.areasLabel": "Local delivery areas",
-  "location.viewMaps": "View on Google Maps",
+  "location.viewMaps": "View map",
   "location.directions": "Get Directions",
 
   // Pricing

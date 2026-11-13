@@ -251,7 +251,7 @@ export const esTranslations: Record<string, string> = {
   "location.hoursLabel": "Recogida con cita previa",
   "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
   "location.areasLabel": "Barrios con entrega local",
-  "location.viewMaps": "Ver en Google Maps",
+  "location.viewMaps": "Ver mapa",
   "location.directions": "Cómo llegar",
 
   // Pricing
