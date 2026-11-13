@@ -669,10 +669,15 @@ html[data-xp-home-v2="B"]  .xp-home-v1-only { display:none !important; }
   }
   .ds-v1-mobile-quote blockquote p {
     margin: 0;
-    font-size: 13px;
-    line-height: 1.5;
+    /* Phase 3.1: readable two-line strip, not one truncated line. */
+    font-size: 14px;
+    line-height: 1.45;
     color: #374151;
     font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
