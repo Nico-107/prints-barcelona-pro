@@ -426,7 +426,7 @@ export const frTranslations: Record<string, string> = {
   "calc.saveQuote.success": "C'est fait, nous vous l'envoyons. Prix valable 7 jours.",
   "calc.saveQuote.copyLink": "Copier le lien",
   "calc.saveQuote.copied": "Lien copié",
-  "calc.instantBuy.manualReview": "Que notre équipe le vérifie d'abord",
+  "calc.instantBuy.manualReview": "Que je le vérifie d'abord",
   "calc.instantBuy.manualReview.short": "Révision gratuite",
   "calc.instantBuy.fulfillment.pickup.short": "Retrait (gratuit)",
   "calc.instantBuy.fulfillment.shipping.short": "Livraison +{price}",
@@ -600,8 +600,8 @@ export const frTranslations: Record<string, string> = {
   "calc.fulfillment.free": "gratuit",
   "calc.fulfillment.byAppointment": "sur rendez-vous",
   "calc.instantBuy.reviewHint": "Sans paiement maintenant : nous confirmons le prix final en moins d'1 heure.",
-  "calc.mixed.note": "Certains matériaux nécessitent une vérification rapide de notre équipe avant de facturer.",
-  "calc.error.checkout": "Nous n'avons pas pu lancer le paiement. Vérifiez les paramètres ou demandez à notre équipe de le vérifier.",
+  "calc.mixed.note": "Certains matériaux nécessitent une vérification rapide de ma part avant de facturer.",
+  "calc.error.checkout": "Nous n'avons pas pu lancer le paiement. Vérifiez les paramètres ou demandez-moi de le vérifier.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Quantité",
@@ -688,7 +688,7 @@ export const frTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continuer vers le paiement",
   "calc.checkout.parts": "Vos pièces",
   "calc.checkout.summary": "Récapitulatif de commande",
-  "calc.checkout.largeFile": "Fichier volumineux : notre équipe confirme le prix.",
+  "calc.checkout.largeFile": "Fichier volumineux : je confirme le prix.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Paiement confirmé — votre commande est passée !",
   "calc.checkout.success.banner.body": "Nous vous tiendrons informé de l'avancement de votre impression. Merci pour votre commande.",
@@ -714,7 +714,7 @@ export const frTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Lendemain",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Les impressions multicolores ou les matériaux spéciaux sont d'abord examinés par notre équipe — vous recevrez un devis confirmé dans l'heure.",
+  "calc.actions.quoteOnlyWhy": "Les impressions multicolores ou les matériaux spéciaux sont d'abord je les examine — vous recevrez un devis confirmé dans l'heure.",
   "calc.color.name.any": "N'importe quelle couleur",
   "calc.color.name.White": "Blanc",
   "calc.color.name.Black": "Noir",

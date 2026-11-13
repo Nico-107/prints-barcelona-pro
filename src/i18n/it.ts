@@ -426,7 +426,7 @@ export const itTranslations: Record<string, string> = {
   "calc.saveQuote.success": "Fatto, te lo inviamo. Il prezzo è bloccato per 7 giorni.",
   "calc.saveQuote.copyLink": "Copia link",
   "calc.saveQuote.copied": "Link copiato",
-  "calc.instantBuy.manualReview": "Fallo revisionare prima dal nostro team",
+  "calc.instantBuy.manualReview": "Fammelo revisionare prima",
   "calc.instantBuy.manualReview.short": "Revisione gratuita",
   "calc.instantBuy.fulfillment.pickup.short": "Ritiro (gratis)",
   "calc.instantBuy.fulfillment.shipping.short": "Spedizione +{price}",
@@ -600,8 +600,8 @@ export const itTranslations: Record<string, string> = {
   "calc.fulfillment.free": "gratuito",
   "calc.fulfillment.byAppointment": "su appuntamento",
   "calc.instantBuy.reviewHint": "Nessun pagamento ora: confermiamo il prezzo finale entro 1 ora.",
-  "calc.mixed.note": "Alcuni materiali richiedono una rapida revisione del nostro team prima di addebitare.",
-  "calc.error.checkout": "Non siamo riusciti ad avviare il pagamento. Controlla le impostazioni o chiedi al nostro team di verificare.",
+  "calc.mixed.note": "Alcuni materiali richiedono una rapida revisione da parte mia prima di addebitare.",
+  "calc.error.checkout": "Non siamo riusciti ad avviare il pagamento. Controlla le impostazioni o chiedimi di verificare.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Quantità",
@@ -688,7 +688,7 @@ export const itTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continua al pagamento",
   "calc.checkout.parts": "I tuoi pezzi",
   "calc.checkout.summary": "Riepilogo ordine",
-  "calc.checkout.largeFile": "File grande: il nostro team conferma il prezzo.",
+  "calc.checkout.largeFile": "File grande: lo confermo io.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Pagamento confermato — il tuo ordine è effettuato!",
   "calc.checkout.success.banner.body": "Ti contatteremo con aggiornamenti sulla stampa. Grazie per il tuo ordine.",
@@ -714,7 +714,7 @@ export const itTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Il giorno dopo",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Le stampe multicolore o i materiali speciali vengono prima esaminati dal nostro team — riceverai un preventivo confermato entro 1 ora.",
+  "calc.actions.quoteOnlyWhy": "Le stampe multicolore o i materiali speciali li esamino prima io — riceverai un preventivo confermato entro 1 ora.",
   "calc.color.name.any": "Qualsiasi colore",
   "calc.color.name.White": "Bianco",
   "calc.color.name.Black": "Nero",
@@ -755,7 +755,7 @@ export const itTranslations: Record<string, string> = {
   "design.step1.heading": "Dicci di cosa hai bisogno",
   "design.step1.desc": "Invia una foto, uno schizzo o una descrizione del pezzo. Più dettagli ci dai, meglio è — anche una descrizione approssimativa è sufficiente per iniziare.",
   "design.step2.heading": "Lo progettiamo e ti mostriamo com'è",
-  "design.step2.desc": "Il nostro team modella il pezzo con strumenti di visualizzazione 3D così puoi vedere esattamente com'è prima che venga stampato. Tu rivedi e approvi.",
+  "design.step2.desc": "Modello il pezzo con strumenti di visualizzazione 3D così puoi vedere esattamente com'è prima che venga stampato. Tu rivedi e approvi.",
   "design.step3.heading": "Approvi e stampiamo",
   "design.step3.desc": "Una volta approvato il design, lo stampiamo nel materiale più adatto. Ritiralo a Barcellona o te lo spediamo.",
   "design.form.heading": "Dicci di cosa hai bisogno",

@@ -426,7 +426,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.saveQuote.success": "Klaar, we sturen hem naar je op. Prijs 7 dagen geldig.",
   "calc.saveQuote.copyLink": "Link kopiëren",
   "calc.saveQuote.copied": "Link gekopieerd",
-  "calc.instantBuy.manualReview": "Laat ons team het eerst controleren",
+  "calc.instantBuy.manualReview": "Laat mij het eerst controleren",
   "calc.instantBuy.manualReview.short": "Gratis beoordeling",
   "calc.instantBuy.fulfillment.pickup.short": "Ophalen (gratis)",
   "calc.instantBuy.fulfillment.shipping.short": "Bezorging +{price}",
@@ -600,8 +600,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.fulfillment.free": "gratis",
   "calc.fulfillment.byAppointment": "op afspraak",
   "calc.instantBuy.reviewHint": "Geen betaling nu: wij bevestigen de definitieve prijs binnen 1 uur.",
-  "calc.mixed.note": "Sommige materialen vereisen een snelle beoordeling door ons team voordat we kunnen afrekenen.",
-  "calc.error.checkout": "We konden de betaling niet starten. Controleer de instellingen of vraag ons team het te beoordelen.",
+  "calc.mixed.note": "Sommige materialen vereisen een snelle beoordeling door mij voordat we kunnen afrekenen.",
+  "calc.error.checkout": "We konden de betaling niet starten. Controleer de instellingen of vraag mij het te beoordelen.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Aantal",
@@ -688,7 +688,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Doorgaan naar betaling",
   "calc.checkout.parts": "Jouw onderdelen",
   "calc.checkout.summary": "Besteloverzicht",
-  "calc.checkout.largeFile": "Groot bestand: ons team bevestigt de prijs.",
+  "calc.checkout.largeFile": "Groot bestand: ik bevestig de prijs.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Betaling bevestigd — uw bestelling is geplaatst!",
   "calc.checkout.success.banner.body": "We houden u op de hoogte van uw afdruk. Bedankt voor uw bestelling.",
@@ -714,7 +714,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Volgende dag",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Meerkleurige prints of speciale materialen worden eerst door ons team beoordeeld — je ontvangt binnen 1 uur een bevestigde offerte.",
+  "calc.actions.quoteOnlyWhy": "Meerkleurige prints of speciale materialen worden eerst door mij beoordeeld — je ontvangt binnen 1 uur een bevestigde offerte.",
   "calc.color.name.any": "Willekeurige kleur",
   "calc.color.name.White": "Wit",
   "calc.color.name.Black": "Zwart",

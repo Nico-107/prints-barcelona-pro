@@ -600,8 +600,8 @@ export const deTranslations: Record<string, string> = {
   "calc.fulfillment.free": "kostenlos",
   "calc.fulfillment.byAppointment": "nach Terminvereinbarung",
   "calc.instantBuy.reviewHint": "Keine Zahlung jetzt: wir bestätigen den Endpreis innerhalb von 1 Stunde.",
-  "calc.mixed.note": "Einige Materialien benötigen eine kurze Überprüfung durch unser Team, bevor wir abrechnen.",
-  "calc.error.checkout": "Wir konnten die Zahlung nicht starten. Überprüfe die Einstellungen oder bitte unser Team um eine Überprüfung.",
+  "calc.mixed.note": "Einige Materialien benötigen eine kurze Überprüfung durch mich, bevor wir abrechnen.",
+  "calc.error.checkout": "Wir konnten die Zahlung nicht starten. Überprüfe die Einstellungen oder bitte mich um eine Überprüfung.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Menge",
@@ -688,7 +688,7 @@ export const deTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Weiter zur Kasse",
   "calc.checkout.parts": "Deine Teile",
   "calc.checkout.summary": "Bestellübersicht",
-  "calc.checkout.largeFile": "Große Datei: unser Team bestätigt den Preis.",
+  "calc.checkout.largeFile": "Große Datei: ich bestätige den Preis.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Zahlung bestätigt — Ihre Bestellung ist aufgegeben!",
   "calc.checkout.success.banner.body": "Wir benachrichtigen Sie über den Druckfortschritt. Vielen Dank für Ihre Bestellung.",
