@@ -26,6 +26,8 @@ import MaterialByNeed from "@/components/b2b/MaterialByNeed";
 import VolumePriceTable from "@/components/b2b/VolumePriceTable";
 import SpecCard from "@/components/material/SpecCard";
 import MaterialCompare from "@/components/material/MaterialCompare";
+import PriceUploadCard from "@/components/price/PriceUploadCard";
+import EnginePriceTable from "@/components/city/EnginePriceTable";
 
 const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "prototypes",
@@ -472,6 +474,16 @@ const LandingPage = ({ page: pageProp }: Props) => {
               </div>
             </section>
             <SpeedTiers lang={pageLang} />
+          </>
+        )}
+
+        {/* Item 7: price pages — upload-card goes BEFORE the first h2
+            (right under the hero, ahead of the content sections) and an
+            engine-examples table with 4 engine-computed examples. */}
+        {page.topic === "pricing" && (
+          <>
+            <PriceUploadCard lang={pageLang} />
+            <EnginePriceTable lang={pageLang} testId="engine-examples" />
           </>
         )}
 

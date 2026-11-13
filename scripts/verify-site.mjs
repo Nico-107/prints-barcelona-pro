@@ -205,6 +205,39 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 7 — Price pages (every language): [data-testid="upload-card"]
+  // appears BEFORE the first h2; [data-testid="engine-examples"] has 4
+  // engine-computed rows.
+  const PRICE_PATHS = [
+    "/precio-impresion-3d-barcelona",
+    "/3d-printing-price-barcelona",
+    "/ca/preu-impressio-3d-barcelona",
+    "/de/3d-druck-kosten",
+    "/nl/3d-printen-kosten",
+    "/fr/prix-impression-3d",
+    "/it/prezzi-stampa-3d",
+    "/pt/preco-impressao-3d",
+  ];
+  if (PRICE_PATHS.includes(path)) {
+    const upload = await page.locator('[data-testid="upload-card"]').first();
+    const uploadCount = await page.locator('[data-testid="upload-card"]').count();
+    if (uploadCount < 1) {
+      errors.push(`${url} [${variant}]: missing [data-testid="upload-card"]`);
+    } else {
+      // Must appear before the first h2.
+      const beforeFirstH2 = await page.evaluate(() => {
+        const uc = document.querySelector('[data-testid="upload-card"]');
+        const firstH2 = document.querySelector('main h2');
+        if (!uc || !firstH2) return false;
+        return !!(uc.compareDocumentPosition(firstH2) & Node.DOCUMENT_POSITION_FOLLOWING);
+      });
+      if (!beforeFirstH2)
+        errors.push(`${url} [${variant}]: [data-testid="upload-card"] is not before the first <h2>`);
+    }
+    const ex = await page.locator('[data-testid="engine-examples"] tbody tr').count();
+    if (ex < 4) errors.push(`${url} [${variant}]: engine-examples has ${ex} rows, want ≥ 4`);
+  }
+
   // Item 6 — Material pages (PLA, PETG, TPU; es, en, ca) render
   // [data-testid="spec-card"] + [data-testid="material-compare"].
   const MATERIAL_PATHS = [

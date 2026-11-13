@@ -8,6 +8,8 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
 import { Hero as DsHero, FAQAccordion } from "@/components/ds";
+import PriceUploadCard from "@/components/price/PriceUploadCard";
+import EnginePriceTable from "@/components/city/EnginePriceTable";
 import { SITE_URL, SOCIAL_IMAGE_URL } from "@/seo/registry";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import type { IntlGuideContent } from "@/data/intlTypes";
@@ -132,6 +134,15 @@ const IntlGuidePage = ({ content }: Props) => {
             onClick: scrollToCalc,
           }}
         />
+
+        {/* Item 7: on price guides, insert upload-card + engine-examples
+            BEFORE the first h2 in the article body. */}
+        {content.topic === "price" && (
+          <>
+            <PriceUploadCard lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} />
+            <EnginePriceTable lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} testId="engine-examples" />
+          </>
+        )}
 
         {/* Article body */}
         <article className="py-16 bg-background">
