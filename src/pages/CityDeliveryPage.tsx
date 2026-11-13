@@ -419,16 +419,9 @@ const CityDeliveryPage = ({ config }: Props) => {
                       <MessageCircle className="w-4 h-4" />
                       {isES ? "Coordinar recogida" : "Arrange pickup"}
                     </Button>
-                    <Button asChild variant="outline" size="lg">
-                      <a
-                        href="https://share.google/YX41aS8lcqOlHGrhD"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        {isES ? "Ver perfil en Google" : "View our Google Business Profile"}
-                      </a>
-                    </Button>
+                    {/* Phase 0.1: Google Business profile is suspended; link
+                        and label removed. Pickup is already explained in the
+                        header above, so this slot now just provides WhatsApp. */}
                   </div>
                 </div>
                 <div className="rounded-lg overflow-hidden border border-accent/20">
