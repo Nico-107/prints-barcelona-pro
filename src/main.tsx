@@ -2,6 +2,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import posthog from "posthog-js";
 import { registerPostHog, processInternalFlag, enableHeatmapsAndReplay } from "./lib/analytics";
+import { captureFirstTouch } from "./lib/firstTouch";
 import App from "./App.tsx";
 import "./index.css";
 
@@ -14,6 +15,9 @@ const phKey = (import.meta.env.VITE_POSTHOG_KEY as string | undefined)?.trim();
 const phHost = (import.meta.env.VITE_POSTHOG_HOST as string | undefined)?.trim();
 
 processInternalFlag();
+// Conv 4.3: first-touch source pinned once per visitor; attached as
+// ft_* props on every event via lib/analytics.
+captureFirstTouch();
 
 const initPostHog = () => {
   if (phKey && phHost) {

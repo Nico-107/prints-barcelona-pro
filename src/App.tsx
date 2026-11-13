@@ -5,7 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageContext";
-import LanguageSuggestionBar from "@/components/LanguageSuggestionBar";
+// LanguageSuggestionBar removed (Conv 1.8): 302 shown, 1 accepted — net
+// friction above the price window. The language switcher stays.
 import { capture, updatePageContext } from "@/lib/analytics";
 import { usePageTracking } from "@/hooks/usePageTracking";
 import Index from "./pages/Index";
@@ -17,6 +18,7 @@ import { partPages } from "@/data/partsPages";
 import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS } from "@/data/intlRegistry";
 
 const Track = lazy(() => import("./pages/Track"));
+const Internal = lazy(() => import("./pages/Internal"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminOrders = lazy(() => import("./pages/AdminOrders"));
 const AdminMakers = lazy(() => import("./pages/AdminMakers"));
@@ -196,13 +198,14 @@ const App = () => (
           <LanguageNavigationSync />
           <OutboundContactTracker />
           <CookieConsentBanner />
-          <LanguageSuggestionBar />
           <Suspense fallback={PageFallback}>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/ca" element={<Index />} />
               <Route path="/3d-printing-service" element={<InternationalServicePage />} />
               <Route path="/track" element={<Track />} />
+              {/* Conv 4.1 + 4.6: internal tooling, noindex. */}
+              <Route path="/internal" element={<Internal />} />
               <Route path="/makers" element={<Makers />} />
               <Route path="/maker-guide" element={<MakerGuide />} />
               <Route path="/blog/precio-impresion-3d-barcelona" element={<BlogPrecioBcn />} />

@@ -3,6 +3,47 @@
 All events are sent to PostHog (EU host: eu.i.posthog.com). Events marked **server** are
 sent from Supabase Edge Functions. Events marked **client** are sent from the browser.
 
+## Conv 4 super-properties (added)
+
+In addition to the auto-enriched properties below, every event now
+also carries first-touch attribution (`ft_*`):
+
+| Property | Source |
+|---|---|
+| `ft_utm_source` | first-touch `utm_source` (localStorage `dim3d-first-touch`, set on bootstrap) |
+| `ft_referring_domain` | first-touch `document.referrer` hostname |
+| `ft_landing_page` | the first URL (path + query) this visitor saw |
+| `ft_ai_source` | `chatgpt` / `perplexity` / `gemini` / `copilot` / `claude` / null — derived from utm/referrer |
+| `ft_recorded_at` | timestamp of the first-touch capture |
+
+`is_internal` now also returns true on `/internal`, under
+`navigator.webdriver`, and on localhost / `.preview.lovable.app` /
+`.lovableproject.com` hostnames (Conv 4.1).
+
+## Conv 4 six-step funnel
+
+| Step | Event | Fired by |
+|---|---|---|
+| 1 | `$pageview` | `PostHogPageView` on pathname change |
+| 2 | `upload_started` | `StlEstimator` when the file picker returns a file |
+| 3 | `price_shown` | `StlEstimator` after the first estimate renders |
+| 4 | `instant_checkout_initiated` | Buy button |
+| 5 | `stripe_redirect` | `handleInstantBuy` just before the Stripe redirect |
+| 6 | `order_paid` | `/success` or server webhook, de-duplicated by `order_id` |
+
+## Conv 4 dashboard (4.7)
+
+| Tile | Query |
+|---|---|
+| Weekly visitors by source | `$pageview` grouped by `ft_ai_source`, falling back to `ft_referring_domain` then `ft_utm_source`; `is_internal = false`; weekly |
+| Funnel overall | the six events above, `is_internal = false` |
+| Funnel by device | same, breakdown on `$device_type` |
+| Funnel by country | same, breakdown on `country` from `order_paid` or `$geoip_country_code` |
+| Funnel by price bucket | same, breakdown on `price_bucket` |
+| Orders by source | `order_paid` grouped by `ft_ai_source` ∪ `ft_referring_domain` |
+| Revenue by source | sum of `value_eur` on `order_paid` grouped as above |
+| "What stopped you?" reasons | `exit_reason_selected` grouped by `reason_key`, filters `price_bucket`, `country`, `$device_type` |
+
 ## Auto-enriched properties
 
 The `capture()` wrapper in `src/lib/analytics.ts` merges these into **every** client event

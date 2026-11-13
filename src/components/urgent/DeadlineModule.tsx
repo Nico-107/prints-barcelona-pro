@@ -64,11 +64,25 @@ export default function DeadlineModule({
   lang: Lang;
   urgency?: "standard" | "express" | "urgent";
 }) {
-  const [now, setNow] = useState(() => new Date());
+  // SSR/prerender uses null so the server-rendered DOM matches the
+  // first client paint. Wall-clock sweep starts after mount.
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 60_000);
     return () => clearInterval(id);
   }, []);
+
+  if (!now) {
+    return (
+      <section
+        data-testid="deadline-module"
+        data-page-section="deadline-module"
+        className="bg-amber-50 border-y border-amber-200 py-5 px-4"
+        aria-hidden
+      />
+    );
+  }
 
   const copy = COPY[lang] ?? COPY.en;
   const isBefore = now.getHours() < CUTOFF_HOUR;

@@ -578,6 +578,15 @@ export function OrderPanel({
                     }
                   </Button>
                   )}
+                  {/* Conv 1.9: reassurance line directly below the Buy
+                      button in both full and slim layouts — "Reviso tu
+                      archivo antes de imprimir. Si no se puede imprimir,
+                      reembolso completo." */}
+                  {!_isExtras && (
+                  <p className="text-xs text-center text-slate-600 leading-snug" data-testid="buy-reassurance">
+                    {t("calc.reassurance.review")}
+                  </p>
+                  )}
                   {/* Phase 4.4: trust line + payment badges live in the
                       extras view on mobile; the slim bottom panel keeps
                       only total + delivery + buy. */}

@@ -32,22 +32,23 @@ export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakd
   const totalEur = bundle.orderResult.chargedPrintCents / 100 + shippingEur;
   const isMinimumHit = bundle.orderResult.minAdjCents > 0;
 
+  // Conv 1.2: when the order is at the minimum, the "Piezas" line shows
+  // the order price (10 €), not the raw engine piece price (e.g. 4,02 €
+  // with a separate "Pedido mínimo" adjustment). The honest total is
+  // simply 10 € + shipping, with a one-line helper under the total:
+  // "Pedido mínimo 10 € · añade más piezas desde +1 €".
+  const piecesEur = isMinimumHit ? pieceEur + minAdjEur : pieceEur;
+
   return (
     <div className="border-t border-border pt-2 mt-2 text-sm space-y-1" data-price-breakdown>
       <div className="flex justify-between">
-        <span>{t("calc.breakdown.piece")}</span>
-        <span className="font-mono">{formatEUR(pieceEur, language)}</span>
+        <span>{t("calc.breakdown.pieces")}</span>
+        <span className="font-mono">{formatEUR(piecesEur, language)}</span>
       </div>
       {setupEur > 0 && (
         <div className="flex justify-between text-muted-foreground">
           <span>{t("calc.summary.setup")}</span>
           <span className="font-mono">+{formatEUR(setupEur, language)}</span>
-        </div>
-      )}
-      {isMinimumHit && (
-        <div className="flex justify-between text-muted-foreground">
-          <span>{t("calc.summary.minAdjust")}</span>
-          <span className="font-mono">+{formatEUR(minAdjEur, language)}</span>
         </div>
       )}
       {expressEur > 0 && (
@@ -68,7 +69,7 @@ export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakd
       </div>
       {isMinimumHit && (
         <p className="text-xs text-muted-foreground pt-1" data-min-helper>
-          {t("calc.breakdown.minHelper")}
+          {t("calc.breakdown.minHelperShort")}
         </p>
       )}
     </div>

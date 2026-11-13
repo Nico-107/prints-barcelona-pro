@@ -3,6 +3,7 @@
 import { getStoredUTM } from "./utm";
 import { migrateOnConsent } from "./experiments/engine";
 import { getExperimentSuperProps } from "./experiments/engine";
+import { captureFirstTouch, getFirstTouchProps } from "./firstTouch";
 import type { EventName, EventMap } from "./analyticsEvents";
 
 type PHInstance = {
@@ -35,12 +36,29 @@ export function processInternalFlag(): void {
 
 function getIsInternal(): boolean {
   if (typeof window === "undefined") return false;
+  // Conv 4.1: is_internal is true on any of:
+  //   - /admin pages
+  //   - the dim3d-internal localStorage flag (set by /internal or ?internal=1)
+  //   - automated browsers (navigator.webdriver)
+  //   - localhost / preview hosts
   if (window.location.pathname.startsWith("/admin")) return true;
+  if (window.location.pathname.startsWith("/internal")) return true;
   try {
-    return localStorage.getItem(INTERNAL_FLAG_KEY) === "1";
-  } catch {
-    return false;
+    if (localStorage.getItem(INTERNAL_FLAG_KEY) === "1") return true;
+  } catch { /* localStorage unavailable */ }
+  const nav = (window.navigator ?? {}) as Navigator & { webdriver?: boolean };
+  if (nav.webdriver === true) return true;
+  const host = window.location.hostname;
+  if (
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host.endsWith(".localhost") ||
+    host.endsWith(".preview.lovable.app") ||
+    host.includes(".lovableproject.com")
+  ) {
+    return true;
   }
+  return false;
 }
 
 // ---- Page context (A2) — set by App.tsx on every pathname change ----
@@ -75,6 +93,8 @@ function buildContextProps(): Record<string, unknown> {
     page_type: _pageCtx.page_type,
     site_language: language,
     is_internal: getIsInternal(),
+    // Conv 4.3: first-touch source attached to every event.
+    ...getFirstTouchProps(),
     ...xpProps,
   };
   if (utm) {
