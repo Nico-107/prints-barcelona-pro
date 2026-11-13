@@ -1,0 +1,15 @@
+// NL + FR international hub, city, and guide content for Dimension3D
+import type { IntlHubContent, IntlCityContent, IntlGuideContent } from "@/data/intlTypes";
+
+// ─── NL HUB ────────────────────────────────────────────────────────────────────
+
+export const nlHub: IntlHubContent = {
+  slug: "/nl/3d-printen-laten-maken",
+  lang: "nl",
+  locale: "nl-NL",
+  countryCode: "NL",
+  flag: "🇳🇱",
+  metaTitle: "3D Printen Laten Maken · Levering in Nederland | Dimension3D",
+  metaDescription: "3D printen laten maken vanuit Nederland? Dimension3D stuurt je print vanuit Barcelona. Offerte binnen 1 uur, verzending € 5,90 vlak, geen douane binnen de EU.",
+  eyebrow: "🇳🇱 3D Printen vanuit Barcelona · Levering in Nederland",
+  h1: "3D Printen Laten Maken — Bestel Online, Geleverd in Nederland",

@@ -13,14 +13,14 @@ import { capture } from "@/lib/analytics";
 const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
-const META_TITLE = "Precio Impresión 3D en Barcelona — Desde 10€";
-const META_DESC = "¿Cuánto cuesta imprimir en 3D en Barcelona? Desde 10€, sin pedido mínimo. 250+ pedidos. Tabla de tarifas por material y tamaño. Presupuesto en 1 h.";
+const META_TITLE = "Precio Impresión 3D en Barcelona — Desde 10 €";
+const META_DESC = "¿Cuánto cuesta imprimir en 3D en Barcelona? Desde 10 €, sin pedido mínimo. 250+ pedidos. Tabla de tarifas por material y tamaño. Presupuesto en 1 h.";
 const CANONICAL = `${SITE_URL}/blog/precio-impresion-3d-barcelona`;
 
 const FAQS = [
   {
     q: "¿Cuánto cuesta imprimir una pieza pequeña en Barcelona?",
-    a: "Para piezas pequeñas (menos de 50 gramos) el precio mínimo en Dimension3D es de 10€. Esto cubre el material, el tiempo de impresión y la gestión del pedido. La mayoría de clips, soportes pequeños y piezas sencillas caen en este rango.",
+    a: "Para piezas pequeñas (menos de 50 gramos) el precio mínimo en Dimension3D es de 10 €. Esto cubre el material, el tiempo de impresión y la gestión del pedido. La mayoría de clips, soportes pequeños y piezas sencillas caen en este rango.",
   },
   {
     q: "¿Qué factores afectan más al precio de la impresión 3D?",
@@ -28,7 +28,7 @@ const FAQS = [
   },
   {
     q: "¿Cuál es el precio mínimo de impresión 3D en Dimension3D?",
-    a: "El precio mínimo es de 10€ por pedido. No importa si la pieza pesa 5 gramos o 45 gramos — el mínimo garantiza que el pedido sea viable para nosotros y que el cliente reciba atención y calidad plenas.",
+    a: "El precio mínimo es de 10 € por pedido. No importa si la pieza pesa 5 gramos o 45 gramos — el mínimo garantiza que el pedido sea viable para nosotros y que el cliente reciba atención y calidad plenas.",
   },
   {
     q: "¿Cómo puedo obtener un presupuesto exacto para mi pieza?",
@@ -148,10 +148,10 @@ const BlogPrecioBcn = () => {
               </h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  Cuando buscas el precio de imprimir en 3D en Barcelona, probablemente encuentras respuestas muy dispares: desde "desde 5€" hasta "cientos de euros". Esa diferencia no es engaño — es que el precio de la impresión 3D depende de varios factores que cambian radicalmente de una pieza a otra.
+                  Cuando buscas el precio de imprimir en 3D en Barcelona, probablemente encuentras respuestas muy dispares: desde "desde 5 €" hasta "cientos de euros". Esa diferencia no es engaño — es que el precio de la impresión 3D depende de varios factores que cambian radicalmente de una pieza a otra.
                 </p>
                 <p>
-                  La realidad es que nadie puede darte un precio exacto sin ver tu archivo o, al menos, conocer el peso aproximado de la pieza y el material que necesitas. Un soporte de móvil sencillo en PLA puede costar 10€. Un prototipo funcional grande en Nylon puede costar 80€. Son el mismo proceso, pero con parámetros completamente distintos.
+                  La realidad es que nadie puede darte un precio exacto sin ver tu archivo o, al menos, conocer el peso aproximado de la pieza y el material que necesitas. Un soporte de móvil sencillo en PLA puede costar 10 €. Un prototipo funcional grande en Nylon puede costar 80 €. Son el mismo proceso, pero con parámetros completamente distintos.
                 </p>
                 <p>
                   Esta guía te explica exactamente qué factores determinan el precio, te da rangos de precios reales para los casos más comunes, y al final te mostramos la forma más rápida de obtener un presupuesto exacto para tu pieza específica — gratis, sin compromiso, en menos de una hora.
@@ -179,7 +179,7 @@ const BlogPrecioBcn = () => {
               </h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  El peso de la pieza en gramos es el indicador más práctico del coste, porque determina directamente la cantidad de material consumido y da una idea bastante buena del tiempo de impresión. Usamos una fórmula base sencilla: <strong className="text-foreground">gramos × 0,10€ + horas de impresión × 0,50€</strong>, con un mínimo de 10€ por pedido.
+                  El peso de la pieza en gramos es el indicador más práctico del coste, porque determina directamente la cantidad de material consumido y da una idea bastante buena del tiempo de impresión. Usamos una fórmula base sencilla: <strong className="text-foreground">gramos × 0,10 € + horas de impresión × 0,50 €</strong>, con un mínimo de 10 € por pedido.
                 </p>
                 <p>
                   A continuación, los rangos de precio más habituales en PLA (el material estándar):
@@ -199,22 +199,22 @@ const BlogPrecioBcn = () => {
                   <tbody className="divide-y divide-border/50">
                     <tr className="hover:bg-secondary/20 transition-colors">
                       <td className="px-4 py-3 font-medium">Pequeño (hasta 50 g)</td>
-                      <td className="px-4 py-3 text-accent font-semibold">desde 10€</td>
+                      <td className="px-4 py-3 text-accent font-semibold">desde 10 €</td>
                       <td className="px-4 py-3 text-foreground/70">Soporte de móvil, clip de repuesto, llavero, pieza pequeña</td>
                     </tr>
                     <tr className="hover:bg-secondary/20 transition-colors">
                       <td className="px-4 py-3 font-medium">Mediano (50–200 g)</td>
-                      <td className="px-4 py-3 text-accent font-semibold">15€ – 30€</td>
+                      <td className="px-4 py-3 text-accent font-semibold">15 € – 30 €</td>
                       <td className="px-4 py-3 text-foreground/70">Carcasa de dispositivo, engranaje, figura decorativa, organizador</td>
                     </tr>
                     <tr className="hover:bg-secondary/20 transition-colors">
                       <td className="px-4 py-3 font-medium">Grande (200–500 g)</td>
-                      <td className="px-4 py-3 text-accent font-semibold">30€ – 60€</td>
+                      <td className="px-4 py-3 text-accent font-semibold">30 € – 60 €</td>
                       <td className="px-4 py-3 text-foreground/70">Prototipo funcional, componente mecánico, maqueta arquitectónica</td>
                     </tr>
                     <tr className="hover:bg-secondary/20 transition-colors">
                       <td className="px-4 py-3 font-medium">Muy grande (500 g+)</td>
-                      <td className="px-4 py-3 text-accent font-semibold">desde 55€</td>
+                      <td className="px-4 py-3 text-accent font-semibold">desde 55 €</td>
                       <td className="px-4 py-3 text-foreground/70">Piezas industriales, estructuras grandes, impresiones en varias partes</td>
                     </tr>
                   </tbody>
@@ -322,7 +322,7 @@ const BlogPrecioBcn = () => {
                   <div className="rounded-xl border border-border px-5 py-4 bg-secondary/20">
                     <h3 className="font-semibold text-foreground mb-1">Servicios industriales online (Shapeways, Hubs, Craftcloud)</h3>
                     <p className="text-sm leading-relaxed">
-                      Pensados para producción en volumen y materiales industriales (SLS, MJF, resina). Para pedidos pequeños en FDM, resultan caros — raramente bajan de 25–40€ por pieza sencilla — y los plazos son de 5–15 días por el envío desde otro país. No son la opción adecuada si necesitas algo rápido o en pequeña cantidad.
+                      Pensados para producción en volumen y materiales industriales (SLS, MJF, resina). Para pedidos pequeños en FDM, resultan caros — raramente bajan de 25–40 € por pieza sencilla — y los plazos son de 5–15 días por el envío desde otro país. No son la opción adecuada si necesitas algo rápido o en pequeña cantidad.
                     </p>
                   </div>
 
@@ -336,7 +336,7 @@ const BlogPrecioBcn = () => {
                   <div className="rounded-xl border border-accent/30 px-5 py-4 bg-accent/5">
                     <h3 className="font-semibold text-foreground mb-1">Dimension3D Barcelona</h3>
                     <p className="text-sm leading-relaxed">
-                      Servicio profesional local con precios transparentes desde 10€, presupuesto en menos de 1 hora, plazo estándar de 2–5 días y express de 24–48h, recogida en Barcelona o envío a toda España. Respaldado por reseñas verificadas y soporte directo por WhatsApp. No somos el más barato en todos los casos, pero sí el más predecible y fiable para pedidos de 1 a 50 unidades.
+                      Servicio profesional local con precios transparentes desde 10 €, presupuesto en menos de 1 hora, plazo estándar de 2–5 días y express de 24–48h, recogida en Barcelona o envío a toda España. Respaldado por reseñas verificadas y soporte directo por WhatsApp. No somos el más barato en todos los casos, pero sí el más predecible y fiable para pedidos de 1 a 50 unidades.
                     </p>
                   </div>
                 </div>
@@ -352,7 +352,7 @@ const BlogPrecioBcn = () => {
               </h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  Nada mejor que ejemplos concretos. Aquí tienes seis encargos reales con sus precios aproximados, calculados con nuestra fórmula base (gramos × 0,10€ + horas × 0,50€, mínimo 10€):
+                  Nada mejor que ejemplos concretos. Aquí tienes seis encargos reales con sus precios aproximados, calculados con nuestra fórmula base (gramos × 0,10 € + horas × 0,50 €, mínimo 10 €):
                 </p>
               </div>
 
@@ -361,37 +361,37 @@ const BlogPrecioBcn = () => {
                   {
                     name: "Soporte de móvil",
                     detail: "PLA, ~20 g, ~1,5 h de impresión",
-                    price: "10€",
+                    price: "10 €",
                     note: "Precio mínimo aplicado",
                   },
                   {
                     name: "Pieza de recambio (clip de persiana)",
                     detail: "PETG, ~35 g, ~2 h de impresión",
-                    price: "10€ – 12€",
+                    price: "10 € – 12 €",
                     note: "PETG ×1,1 sobre base PLA",
                   },
                   {
                     name: "Carcasa de electrónica",
                     detail: "PLA, ~90 g, ~4 h de impresión",
-                    price: "11€ – 15€",
+                    price: "11 € – 15 €",
                     note: "Pieza mediana, geometría sencilla",
                   },
                   {
                     name: "Prototipo funcional mediano",
                     detail: "PETG, ~150 g, ~7 h de impresión",
-                    price: "22€ – 28€",
+                    price: "22 € – 28 €",
                     note: "Infill 25%, paredes estándar",
                   },
                   {
                     name: "Prototipo de ingeniería grande",
                     detail: "ABS, ~400 g, ~18 h de impresión",
-                    price: "48€ – 58€",
+                    price: "48 € – 58 €",
                     note: "ABS ×1,3, alta resistencia",
                   },
                   {
                     name: "Figura decorativa detallada",
                     detail: "PLA, ~280 g, ~14 h de impresión",
-                    price: "35€ – 45€",
+                    price: "35 € – 45 €",
                     note: "Alta resolución, soportes complejos",
                   },
                 ].map(({ name, detail, price, note }) => (
@@ -449,7 +449,7 @@ const BlogPrecioBcn = () => {
                 </div>
 
                 <p>
-                  No cobramos por dar presupuesto. No hay mínimo de pedido sorpresa más allá del que ya indicamos (10€). Y si tienes dudas sobre el material o el diseño, yo te asesora sin coste adicional.
+                  No cobramos por dar presupuesto. No hay mínimo de pedido sorpresa más allá del que ya indicamos (10 €). Y si tienes dudas sobre el material o el diseño, yo te asesora sin coste adicional.
                 </p>
               </div>
             </article>
@@ -490,7 +490,7 @@ const BlogPrecioBcn = () => {
             <h2 className="text-lg font-bold text-foreground mb-5">Otros servicios relacionados</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { to: "/impresion-3d-sin-pedido-minimo", label: "Sin pedido mínimo", desc: "Una sola pieza al mismo precio por unidad. Desde 10€ sin importe mínimo." },
+                { to: "/impresion-3d-sin-pedido-minimo", label: "Sin pedido mínimo", desc: "Una sola pieza al mismo precio por unidad. Desde 10 € sin importe mínimo." },
                 { to: "/repuesto-descatalogado", label: "Repuesto descatalogado", desc: "Reproducimos piezas que el fabricante ya no vende desde foto o la pieza original." },
               ].map(({ to, label, desc }) => (
                 <Link

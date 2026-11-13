@@ -35,7 +35,7 @@ const FAQS = [
   },
   {
     q: "¿Cuál es el precio mínimo para un pedido urgente?",
-    a: "El precio mínimo es de 10€, igual que para pedidos estándar. No cobramos recargo por urgencia en la mayoría de pedidos de tamaño normal. Para piezas muy grandes o complejas que requieran reorganizar la cola de producción, puede aplicarse una pequeña tarifa prioritaria que te comunicamos siempre antes de confirmar.",
+    a: "El precio mínimo es de 10 €, igual que para pedidos estándar. No cobramos recargo por urgencia en la mayoría de pedidos de tamaño normal. Para piezas muy grandes o complejas que requieran reorganizar la cola de producción, puede aplicarse una pequeña tarifa prioritaria que te comunicamos siempre antes de confirmar.",
   },
   {
     q: "¿Qué hago si no tengo el archivo STL de la pieza que necesito?",
@@ -141,7 +141,7 @@ const BlogUrgentesBcn = () => {
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona ofrece impresión 3D urgente con entrega en 24–48 horas desde 10€. El servicio express no tiene recargo para piezas de hasta 300 gramos. Presupuesto en menos de 1 hora. Materiales disponibles con urgencia: PLA, PETG, ABS, ASA y TPU. Recogida en Barcelona o envío urgente a toda España.
+                Dimension3D Barcelona ofrece impresión 3D urgente con entrega en 24–48 horas desde 10 €. El servicio express no tiene recargo para piezas de hasta 300 gramos. Presupuesto en menos de 1 hora. Materiales disponibles con urgencia: PLA, PETG, ABS, ASA y TPU. Recogida en Barcelona o envío urgente a toda España.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -350,12 +350,12 @@ const BlogUrgentesBcn = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  El servicio urgente de Dimension3D Barcelona no tiene recargo automático. El precio mínimo es 10€, igual para urgente que para estándar. Para la mayoría de piezas de hasta 300 gramos, el precio urgente es exactamente el mismo. Solo hay tarifa prioritaria para piezas muy grandes (más de 400 g o más de 20 horas de impresión) o entregas el mismo día antes de las 14h.
+                  El servicio urgente de Dimension3D Barcelona no tiene recargo automático. El precio mínimo es 10 €, igual para urgente que para estándar. Para la mayoría de piezas de hasta 300 gramos, el precio urgente es exactamente el mismo. Solo hay tarifa prioritaria para piezas muy grandes (más de 400 g o más de 20 horas de impresión) o entregas el mismo día antes de las 14h.
                 </p>
               </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  Somos transparentes con los precios: <strong className="text-foreground">el servicio urgente no tiene recargo automático</strong>. Para la mayoría de pedidos de tamaño normal — piezas de hasta 200–300 gramos — el precio es exactamente el mismo que para un pedido estándar, desde 10€.
+                  Somos transparentes con los precios: <strong className="text-foreground">el servicio urgente no tiene recargo automático</strong>. Para la mayoría de pedidos de tamaño normal — piezas de hasta 200–300 gramos — el precio es exactamente el mismo que para un pedido estándar, desde 10 €.
                 </p>
                 <p>
                   La razón es sencilla: si tenemos capacidad disponible y el pedido encaja en la cola de producción sin desplazar otros compromisos, no tiene sentido cobrarte más por ello. Nuestro objetivo es que vuelvas cuando necesites imprimir de nuevo, no exprimir cada pedido urgente.
@@ -408,31 +408,31 @@ const BlogUrgentesBcn = () => {
                   {
                     title: "Clip del lavavajillas roto",
                     meta: "PETG · ~15 g · entregado en menos de 8 horas",
-                    price: "10€",
+                    price: "10 €",
                     story: "El cesto del lavavajillas dejó de cerrarse por un clip plástico roto. El cliente nos mandó una foto a las 9h. A las 10h tenía el presupuesto. A las 17h recogió la pieza en Barcelona. El lavavajillas funcionando esa misma noche.",
                   },
                   {
                     title: "Prototipo para reunión con inversores",
                     meta: "PLA · ~180 g · entregado en 24 horas",
-                    price: "22€",
+                    price: "22 €",
                     story: "Una startup de dispositivos médicos necesitaba un prototipo de forma de su producto para una presentación al día siguiente. Nos enviaron el STL a las 18h. A las 9h del día siguiente la pieza estaba lista para recoger antes de la reunión a las 11h.",
                   },
                   {
                     title: "Pieza de armadura para cosplay",
                     meta: "PLA · ~240 g · entregado en 36 horas",
-                    price: "28€",
+                    price: "28 €",
                     story: "Para una convención de fin de semana, un cosplayer se dio cuenta el jueves por la tarde que le faltaba una pieza del peto. Con el archivo STL del modelo en mano, imprimimos durante la noche y la pieza estuvo lista el viernes al mediodía.",
                   },
                   {
                     title: "Soporte de rodamiento para maquinaria industrial",
                     meta: "PETG alta resistencia · ~320 g · entregado en 48 horas",
-                    price: "38€",
+                    price: "38 €",
                     story: "Una empresa de artes gráficas tenía una impresora industrial parada por un soporte de plástico roto. El recambio original tardaba 3 semanas. Imprimimos la pieza en PETG de alta resistencia como solución provisional. La máquina volvió a funcionar al segundo día.",
                   },
                   {
                     title: "Expositor para feria de diseño",
                     meta: "PLA · ~410 g (3 piezas) · entregado en 48 horas",
-                    price: "48€",
+                    price: "48 €",
                     story: "Un diseñador industrial necesitaba tres expositores personalizados para presentar sus productos en una feria. Los encargó con dos días de antelación. Imprimimos las tres piezas en paralelo durante la noche y las tuvo listas la mañana de la feria.",
                   },
                 ].map(({ title, meta, price, story }) => (
@@ -542,10 +542,10 @@ const BlogUrgentesBcn = () => {
 
         <div className="container px-4 pb-8 max-w-3xl mx-auto">
           <div className="rounded-xl border border-border bg-secondary/30 p-5 mb-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 10€</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 10 €</p>
             <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
               <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                ¿Solo necesitas una pieza? Desde 10€ sin pedido mínimo
+                ¿Solo necesitas una pieza? Desde 10 € sin pedido mínimo
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Imprime una sola pieza urgente sin necesidad de alcanzar ningún importe mínimo.

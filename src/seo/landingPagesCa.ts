@@ -161,7 +161,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Rangs de preu típics",
-        body: "Aquestes referències són realistes per a impressions FDM a Barcelona:\n\n• Peces petites (clip, pom, ganxo, figura petita): des de 10€.\n• Peces mitjanes (suport, organitzador, decoració, figura mitjana): normalment 20–60€.\n• Peces grans (cascos, gerros, carcasses grans, figures altes): normalment 60–250€.\n• Petites tirades: demana preu per unitat — les peces repetides surten més barates.\n\nSón referències de partida. El pressupost exacte depèn del teu arxiu, material i termini."
+        body: "Aquestes referències són realistes per a impressions FDM a Barcelona:\n\n• Peces petites (clip, pom, ganxo, figura petita): des de 10 €.\n• Peces mitjanes (suport, organitzador, decoració, figura mitjana): normalment 20–60 €.\n• Peces grans (cascos, gerros, carcasses grans, figures altes): normalment 60–250 €.\n• Petites tirades: demana preu per unitat — les peces repetides surten més barates.\n\nSón referències de partida. El pressupost exacte depèn del teu arxiu, material i termini."
       },
       {
         heading: "Descomptes per quantitat",
@@ -173,7 +173,7 @@ export const PAGES_CA: LandingContent[] = [
       }
     ],
     faqs: [
-      { q: "Quina és la impressió 3D més barata?", a: "Peces petites i simples en PLA des d'uns 10€. Materials més resistents o mides majors costen més." },
+      { q: "Quina és la impressió 3D més barata?", a: "Peces petites i simples en PLA des d'uns 10 €. Materials més resistents o mides majors costen més." },
       { q: "Cobreu pel pressupost?", a: "No. Els pressupostos són sempre gratis i només pagues si confirmes la comanda." },
       { q: "Per què la mateixa peça costa més en PETG o Nylon?", a: "Aquests filaments són més cars i imprimeixen més lentament amb paràmetres més exigents, però duren molt més en aplicacions amb esforç o exteriors." },
       { q: "Les quantitats grans surten més barates per peça?", a: "Sí. Indica'ns la quantitat i t'enviem un preu escalat." },
@@ -208,7 +208,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Quan la peça ja no es ven",
-        body: "Molts fabricants deixen de vendre recanvis al cap d'uns anys, deixant el propietari amb un producte perfectament funcional i un tros de plàstic de 5€ que falta. Podem fer enginyeria inversa de la peça a partir d'una foto clara amb escala, de la peça trencada original o de les teves mesures, i la imprimim en un material que duri més que l'original."
+        body: "Molts fabricants deixen de vendre recanvis al cap d'uns anys, deixant el propietari amb un producte perfectament funcional i un tros de plàstic de 5 € que falta. Podem fer enginyeria inversa de la peça a partir d'una foto clara amb escala, de la peça trencada original o de les teves mesures, i la imprimim en un material que duri més que l'original."
       },
       {
         heading: "Reparar en lloc de llençar",
@@ -222,7 +222,7 @@ export const PAGES_CA: LandingContent[] = [
     faqs: [
       { q: "Podeu substituir qualsevol peça de plàstic?", a: "La majoria de peces de plàstic simples sí. Clips molt fins i elàstics o peces per a molta calor poden requerir un material específic — t'avisem si no és viable." },
       { q: "Quant dura un recanvi imprès?", a: "Quan es fa amb el material adequat (PETG, ABS o Nylon en peces amb esforç), solen durar més que el plàstic injectat original." },
-      { q: "Reparar és més barat que comprar nou?", a: "Gairebé sempre. Una peça impresa costa normalment 10–60€ enfront de centenars per un electrodomèstic nou." },
+      { q: "Reparar és més barat que comprar nou?", a: "Gairebé sempre. Una peça impresa costa normalment 10–60 € enfront de centenars per un electrodomèstic nou." },
       { q: "Imprimiu peces per a equips antics?", a: "Sí. Càmeres, ràdios, joguines i electrodomèstics antics són alguns dels nostres encàrrecs preferits perquè ja no existeixen recanvis originals." },
       { q: "Quina informació ajuda a obtenir el resultat més precís al primer intent?", a: "Una foto clara de la peça trencada al costat d'un regle o moneda, una foto mostrant on es munta a l'aparell, i la marca i model del dispositiu. Com més context, millor l'ajust al primer intent." },
       { q: "Podeu fer recanvis en metall?", a: "No — treballem exclusivament amb filaments polimèrics (PLA, PETG, ABS/ASA, Nylon, TPU). Per a peces metàl·liques necessitaries un servei de mecanitzat CNC o fosa. Els nostres recanvis polimèrics sovint superen la durabilitat dels originals en aplicacions de baixa temperatura." }
@@ -263,7 +263,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Bona relació qualitat-preu i lliuraments ràpids",
-        body: "Com que el PLA imprimeix ràpid i de manera fiable, també és un dels materials més assequibles. Les peces petites en PLA comencen des de 10€ i la majoria de comandes en PLA surten en 2–5 dies laborables. Hi ha servei Express per a urgències."
+        body: "Com que el PLA imprimeix ràpid i de manera fiable, també és un dels materials més assequibles. Les peces petites en PLA comencen des de 10 € i la majoria de comandes en PLA surten en 2–5 dies laborables. Hi ha servei Express per a urgències."
       }
     ],
     faqs: [
@@ -310,7 +310,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Demana peces en PETG a Barcelona",
-        body: "Envia el teu arxiu STL/STEP o descriu la peça al formulari. Et suggerirem el gruix de paret i el farciment adequats perquè la peça sigui prou forta sense ser innecessàriament cara. Les peces petites en PETG comencen des de 12–15€."
+        body: "Envia el teu arxiu STL/STEP o descriu la peça al formulari. Et suggerirem el gruix de paret i el farciment adequats perquè la peça sigui prou forta sense ser innecessàriament cara. Les peces petites en PETG comencen des de 12–15 €."
       }
     ],
     faqs: [
@@ -357,7 +357,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Demana peces en TPU",
-        body: "Envia el teu arxiu STL/STEP o descriu el que necessites. Digues-nos com de flexible vols que es noti la peça — tova i tovota, tipus goma, o ferma però doblegable — i adaptem la geometria. Les peces petites en TPU comencen normalment a 15€."
+        body: "Envia el teu arxiu STL/STEP o descriu el que necessites. Digues-nos com de flexible vols que es noti la peça — tova i tovota, tipus goma, o ferma però doblegable — i adaptem la geometria. Les peces petites en TPU comencen normalment a 15 €."
       }
     ],
     faqs: [
@@ -498,7 +498,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Iteracions sense fricció",
-        body: "Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Sense subscripció, comanda mínima de 10€ per iteració, sense burocràcia — puges, revisem, pressupostem, aproves, imprimim. Per a clients que iteraren amb freqüència conservem el teu projecte en arxiu i podem rebre revisions per WhatsApp directament."
+        body: "Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Sense subscripció, comanda mínima de 10 € per iteració, sense burocràcia — puges, revisem, pressupostem, aproves, imprimim. Per a clients que iteraren amb freqüència conservem el teu projecte en arxiu i podem rebre revisions per WhatsApp directament."
       },
       {
         heading: "Del prototip a la tirada curta de producció",
@@ -551,7 +551,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "D'una peça a una tirada curta",
-        body: "Comanda mínima de 10€, sense tarifa de configuració. Imprimim peces funcionals individuals amb la mateixa facilitat que un lot de 50. Per a comandes repetides, conservem l'arxiu i els paràmetres per tal que les recomandes es gestionen en minuts. Demana preu per trams — el cost unitari baixa amb el volum."
+        body: "Comanda mínima de 10 €, sense tarifa de configuració. Imprimim peces funcionals individuals amb la mateixa facilitat que un lot de 50. Per a comandes repetides, conservem l'arxiu i els paràmetres per tal que les recomandes es gestionen en minuts. Demana preu per trams — el cost unitari baixa amb el volum."
       }
     ],
     faqs: [

@@ -17,17 +17,17 @@ const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Impresión 3D Sin Pedido Mínimo — Barcelona";
-const META_DESC = "Impresión 3D en Barcelona desde 10€ sin pedido mínimo. Un clip, un adaptador, un soporte. Presupuesto gratis en 1 hora, entrega en 24–48h.";
+const META_DESC = "Impresión 3D en Barcelona desde 10 € sin pedido mínimo. Un clip, un adaptador, un soporte. Presupuesto gratis en 1 hora, entrega en 24–48h.";
 const CANONICAL = `${SITE_URL}/impresion-3d-sin-pedido-minimo`;
 
 const FAQS = [
   {
     q: "¿Puedo encargar solo una pieza?",
-    a: "Sí. No hay pedido mínimo de ningún tipo en Dimension3D Barcelona. Puedes encargar una única pieza desde 10€. No hace falta alcanzar ningún importe mínimo ni comprar varias unidades del mismo modelo.",
+    a: "Sí. No hay pedido mínimo de ningún tipo en Dimension3D Barcelona. Puedes encargar una única pieza desde 10 €. No hace falta alcanzar ningún importe mínimo ni comprar varias unidades del mismo modelo.",
   },
   {
     q: "¿Cuánto cuesta una pieza pequeña de repuesto?",
-    a: "Las piezas pequeñas (menos de 20 gramos) suelen costar entre 10€ y 15€. Las piezas medianas (20–80 gramos) entre 15€ y 25€. El precio depende del material elegido y el tiempo de impresión. Si necesitamos modelar la pieza desde cero (porque no tienes archivo), se cotiza el modelado por separado. Presupuesto gratis y sin compromiso antes de confirmar.",
+    a: "Las piezas pequeñas (menos de 20 gramos) suelen costar entre 10 € y 15 €. Las piezas medianas (20–80 gramos) entre 15 € y 25 €. El precio depende del material elegido y el tiempo de impresión. Si necesitamos modelar la pieza desde cero (porque no tienes archivo), se cotiza el modelado por separado. Presupuesto gratis y sin compromiso antes de confirmar.",
   },
   {
     q: "¿Cuánto tarda una pieza pequeña en estar lista?",
@@ -35,11 +35,11 @@ const FAQS = [
   },
   {
     q: "¿Tienen envío mínimo para una sola pieza?",
-    a: "El envío a domicilio tiene un coste fijo de 5,90€ independientemente del número de piezas o el peso del pedido. Para pedidos en Barcelona, la recogida en taller no tiene ningún coste adicional. La cita previa es gratuita.",
+    a: "El envío a domicilio tiene un coste fijo de 5,90 € independientemente del número de piezas o el peso del pedido. Para pedidos en Barcelona, la recogida en taller no tiene ningún coste adicional. La cita previa es gratuita.",
   },
   {
     q: "¿Todos los materiales están disponibles para pedidos individuales?",
-    a: "Sí. PLA, PETG, ABS, ASA, TPU flexible, Nylon y compuestos de fibra de carbono (PLA-CF, PETG-CF, Nylon-CF) están disponibles para cualquier tamaño de pedido, incluyendo una sola pieza. El precio mínimo de 10€ se aplica independientemente del material.",
+    a: "Sí. PLA, PETG, ABS, ASA, TPU flexible, Nylon y compuestos de fibra de carbono (PLA-CF, PETG-CF, Nylon-CF) están disponibles para cualquier tamaño de pedido, incluyendo una sola pieza. El precio mínimo de 10 € se aplica independientemente del material.",
   },
 ];
 
@@ -56,12 +56,12 @@ const faqSchema = {
 const localBusinessSchema = ORGANIZATION_SCHEMA;
 
 const PART_EXAMPLES = [
-  { type: "Clips y retenes de plástico", weight: "3–15 g", price: "10–12€", mat: "PETG" },
-  { type: "Adaptadores y conectores", weight: "10–40 g", price: "10–18€", mat: "PLA / PETG" },
-  { type: "Soportes y brackets", weight: "20–80 g", price: "12–22€", mat: "PETG / ABS" },
-  { type: "Tapas y carcasas de repuesto", weight: "8–50 g", price: "10–20€", mat: "PLA / PETG" },
-  { type: "Bisagras y pernos de plástico", weight: "2–20 g", price: "10–14€", mat: "PETG" },
-  { type: "Piezas decorativas únicas", weight: "10–150 g", price: "10–30€", mat: "PLA" },
+  { type: "Clips y retenes de plástico", weight: "3–15 g", price: "10–12 €", mat: "PETG" },
+  { type: "Adaptadores y conectores", weight: "10–40 g", price: "10–18 €", mat: "PLA / PETG" },
+  { type: "Soportes y brackets", weight: "20–80 g", price: "12–22 €", mat: "PETG / ABS" },
+  { type: "Tapas y carcasas de repuesto", weight: "8–50 g", price: "10–20 €", mat: "PLA / PETG" },
+  { type: "Bisagras y pernos de plástico", weight: "2–20 g", price: "10–14 €", mat: "PETG" },
+  { type: "Piezas decorativas únicas", weight: "10–150 g", price: "10–30 €", mat: "PLA" },
 ];
 
 const SinPedidoMinimo = () => {
@@ -130,20 +130,20 @@ const SinPedidoMinimo = () => {
               Desde 1 pieza
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-5">
-              Impresión 3D Sin Pedido Mínimo en Barcelona — Desde 1 Pieza y 10€
+              Impresión 3D Sin Pedido Mínimo en Barcelona — Desde 1 Pieza y 10 €
             </h1>
 
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-6">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona imprime piezas únicas desde 10€. Puedes encargar un solo clip de 3 gramos, un adaptador de 50 gramos o un soporte de 200 gramos — el pedido mínimo es 10€ por encargo, sin mínimo de cantidad. Presupuesto gratis en menos de 1 hora. Entrega en 24–48 horas en Barcelona o envío a toda España por 5,90€.
+                Dimension3D Barcelona imprime piezas únicas desde 10 €. Puedes encargar un solo clip de 3 gramos, un adaptador de 50 gramos o un soporte de 200 gramos — el pedido mínimo es 10 € por encargo, sin mínimo de cantidad. Presupuesto gratis en menos de 1 hora. Entrega en 24–48 horas en Barcelona o envío a toda España por 5,90 €.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3 mb-8">
               {[
-                "Mínimo 10€ por pedido",
-                "Desde 10€ por pieza",
+                "Mínimo 10 € por pedido",
+                "Desde 10 € por pieza",
                 "Presupuesto en &lt;1h",
                 "Entrega 24–48h",
               ].map((tag) => (
@@ -180,15 +180,15 @@ const SinPedidoMinimo = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Sin pedido mínimo significa que una sola pieza tiene el mismo precio por unidad que un lote de cien. El precio mínimo de cualquier pedido en Dimension3D Barcelona es 10€, independientemente del peso, el número de unidades o el material elegido. No hay recargo por pedido pequeño ni tarifa de gestión adicional.
+                  Sin pedido mínimo significa que una sola pieza tiene el mismo precio por unidad que un lote de cien. El precio mínimo de cualquier pedido en Dimension3D Barcelona es 10 €, independientemente del peso, el número de unidades o el material elegido. No hay recargo por pedido pequeño ni tarifa de gestión adicional.
                 </p>
               </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  Muchos servicios de impresión 3D — tanto online como presenciales — imponen un pedido mínimo de entre 25€ y 60€. La razón comercial es que preparar una impresión tiene un tiempo de configuración fijo: abrir el archivo, revisar la geometría, colocar la pieza en la cama, ajustar los parámetros. Para que ese tiempo resulte rentable, muchos operadores exigen un mínimo.
+                  Muchos servicios de impresión 3D — tanto online como presenciales — imponen un pedido mínimo de entre 25 € y 60 €. La razón comercial es que preparar una impresión tiene un tiempo de configuración fijo: abrir el archivo, revisar la geometría, colocar la pieza en la cama, ajustar los parámetros. Para que ese tiempo resulte rentable, muchos operadores exigen un mínimo.
                 </p>
                 <p>
-                  En Dimension3D no funcionamos así. El precio desde 10€ ya cubre ese tiempo de configuración para piezas sencillas. Si necesitas un solo clip de repuesto de 3 gramos de PETG, el precio es 10€, no 40€ para «compensar» el tiempo de preparación.
+                  En Dimension3D no funcionamos así. El precio desde 10 € ya cubre ese tiempo de configuración para piezas sencillas. Si necesitas un solo clip de repuesto de 3 gramos de PETG, el precio es 10 €, no 40 € para «compensar» el tiempo de preparación.
                 </p>
                 <p>
                   La única excepción son las piezas que requieren modelado CAD desde cero (sin archivo digital y con geometría compleja) — en ese caso, el coste del modelado se cotiza por separado antes de confirmar nada.
@@ -206,7 +206,7 @@ const SinPedidoMinimo = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Fabricamos regularmente piezas individuales de entre 3 y 200 gramos para particulares y profesionales en Barcelona. Los más frecuentes: clips y retenes (10–12€), adaptadores y conectores (10–18€), soportes y brackets (12–22€), tapas de repuesto (10–20€) y bisagras de plástico (10–14€). Todos los precios incluyen material, impresión y revisión de calidad.
+                  Fabricamos regularmente piezas individuales de entre 3 y 200 gramos para particulares y profesionales en Barcelona. Los más frecuentes: clips y retenes (10–12 €), adaptadores y conectores (10–18 €), soportes y brackets (12–22 €), tapas de repuesto (10–20 €) y bisagras de plástico (10–14 €). Todos los precios incluyen material, impresión y revisión de calidad.
                 </p>
               </div>
 
@@ -270,17 +270,17 @@ const SinPedidoMinimo = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Todos los materiales del catálogo están disponibles para pedidos individuales: PLA (interior, decorativo, el más rápido), PETG (funcional, resistente a humedad, recomendado para recambios), ABS y ASA (alta temperatura y UV), TPU flexible, Nylon (alta carga mecánica) y compuestos de fibra de carbono. El precio mínimo de 10€ se aplica a cualquier material.
+                  Todos los materiales del catálogo están disponibles para pedidos individuales: PLA (interior, decorativo, el más rápido), PETG (funcional, resistente a humedad, recomendado para recambios), ABS y ASA (alta temperatura y UV), TPU flexible, Nylon (alta carga mecánica) y compuestos de fibra de carbono. El precio mínimo de 10 € se aplica a cualquier material.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  { mat: "PLA", use: "Decorativo, prototipos, piezas de interior", note: "El más rápido. Desde 10€." },
-                  { mat: "PETG", use: "Recambios funcionales, humedad, golpes", note: "Recomendado para piezas de repuesto. Desde 10€." },
-                  { mat: "ABS / ASA", use: "Alta temperatura (hasta 100°C), exterior, UV", note: "ASA especialmente para exteriores. Desde 10€." },
-                  { mat: "TPU", use: "Flexible, juntas, fundas, amortiguadores", note: "Elástico y resistente al impacto. Desde 10€." },
-                  { mat: "Nylon", use: "Alta carga mecánica, desgaste", note: "El más resistente mecánicamente. Desde 12€." },
-                  { mat: "PLA-CF / PETG-CF", use: "Rigidez máxima, aspecto técnico", note: "Fibra de carbono compuesta. Desde 14€." },
+                  { mat: "PLA", use: "Decorativo, prototipos, piezas de interior", note: "El más rápido. Desde 10 €." },
+                  { mat: "PETG", use: "Recambios funcionales, humedad, golpes", note: "Recomendado para piezas de repuesto. Desde 10 €." },
+                  { mat: "ABS / ASA", use: "Alta temperatura (hasta 100°C), exterior, UV", note: "ASA especialmente para exteriores. Desde 10 €." },
+                  { mat: "TPU", use: "Flexible, juntas, fundas, amortiguadores", note: "Elástico y resistente al impacto. Desde 10 €." },
+                  { mat: "Nylon", use: "Alta carga mecánica, desgaste", note: "El más resistente mecánicamente. Desde 12 €." },
+                  { mat: "PLA-CF / PETG-CF", use: "Rigidez máxima, aspecto técnico", note: "Fibra de carbono compuesta. Desde 14 €." },
                 ].map(({ mat, use, note }) => (
                   <div key={mat} className="rounded-xl border border-border bg-secondary/10 px-4 py-3">
                     <p className="font-bold text-foreground text-sm mb-0.5">{mat}</p>
@@ -301,7 +301,7 @@ const SinPedidoMinimo = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Para encargar una sola pieza, envía el archivo STL o una foto por WhatsApp al número del taller. Respondemos con presupuesto en menos de 1 hora, de 9:00 a 20:00. Confirmas, pagamos, imprimimos. La mayoría de piezas pequeñas están listas en 24 horas. Recogida gratuita en Barcelona o envío a domicilio por 5,90€.
+                  Para encargar una sola pieza, envía el archivo STL o una foto por WhatsApp al número del taller. Respondemos con presupuesto en menos de 1 hora, de 9:00 a 20:00. Confirmas, pagamos, imprimimos. La mayoría de piezas pequeñas están listas en 24 horas. Recogida gratuita en Barcelona o envío a domicilio por 5,90 €.
                 </p>
               </div>
               <div className="space-y-3">
@@ -309,7 +309,7 @@ const SinPedidoMinimo = () => {
                   { step: "01", title: "Envía el archivo o una foto", body: "Por WhatsApp o el formulario web. Si tienes el STL, el presupuesto es inmediato. Si solo tienes la pieza o unas fotos, lo revisamos y te respondemos en menos de 1 hora." },
                   { step: "02", title: "Recibe el presupuesto en menos de 1 hora", body: "Precio exacto, material recomendado y plazo de entrega. Sin sorpresas ni cargos ocultos. El presupuesto es siempre gratuito." },
                   { step: "03", title: "Confirma y arrancamos", body: "Con tu confirmación, la pieza entra en producción. Para pedidos urgentes, empezamos en horas, no días." },
-                  { step: "04", title: "Recoge o recibe en 24–48 horas", body: "Recogida sin coste en el estudio de Barcelona, con cita previa. Envío a toda España peninsular por 5,90€." },
+                  { step: "04", title: "Recoge o recibe en 24–48 horas", body: "Recogida sin coste en el estudio de Barcelona, con cita previa. Envío a toda España peninsular por 5,90 €." },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
@@ -345,7 +345,7 @@ const SinPedidoMinimo = () => {
                   ¿El fabricante ya no lo vende?
                 </p>
                 <p className="text-xs text-foreground/55 leading-relaxed mb-3">
-                  Reproducimos piezas descatalogadas desde foto o la pieza original. Mismo precio mínimo de 10€.
+                  Reproducimos piezas descatalogadas desde foto o la pieza original. Mismo precio mínimo de 10 €.
                 </p>
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent">
                   Reproducción de descatalogados <ArrowRight className="w-3 h-3" />
@@ -360,7 +360,7 @@ const SinPedidoMinimo = () => {
                   ¿Necesitas varias piezas para tu empresa?
                 </p>
                 <p className="text-xs text-foreground/55 leading-relaxed mb-3">
-                  Prototipos, recambios de maquinaria y piezas de marca para empresas. Desde 10€, NDA disponible.
+                  Prototipos, recambios de maquinaria y piezas de marca para empresas. Desde 10 €, NDA disponible.
                 </p>
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent">
                   Servicio para empresas <ArrowRight className="w-3 h-3" />
@@ -375,13 +375,13 @@ const SinPedidoMinimo = () => {
         <section ref={endRef as React.RefObject<HTMLElement>} className="py-16 md:py-20 bg-foreground text-background">
           <div className="container px-4 max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-              Mínimo 10€ por pedido · Sin cantidad mínima
+              Mínimo 10 € por pedido · Sin cantidad mínima
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-background mb-4">
               ¿Necesitas una sola pieza?
             </h2>
             <p className="text-background/70 leading-relaxed mb-8 max-w-lg mx-auto">
-              Mándanos el archivo STL o una foto por WhatsApp. En menos de una hora tienes presupuesto, sin compromiso. Pedido mínimo 10€, sin cantidad mínima.
+              Mándanos el archivo STL o una foto por WhatsApp. En menos de una hora tienes presupuesto, sin compromiso. Pedido mínimo 10 €, sin cantidad mínima.
             </p>
             <Button onClick={handleWhatsApp} variant="cta" size="lg" className="gap-2">
               <MessageCircle className="w-5 h-5" />

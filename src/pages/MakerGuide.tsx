@@ -123,13 +123,13 @@ const COPY: Record<string, GuideCopy> = {
       {
         heading: "8. The flat monthly fee",
         body: [
-          "After your free first month, we charge a flat monthly fee. The exact amount depends on your city and typical order volume — we agree it with you individually before your free month ends. Starting from just €2/month.",
+          "After your free first month, we charge a flat monthly fee. The exact amount depends on your city and typical order volume — we agree it with you individually before your free month ends. Starting from just 2 €/month.",
           "The fee is fixed. It doesn't change based on how many jobs you take or how much you earn. A busy month and a quiet month cost the same.",
           "We invoice by email or arrange a simple bank transfer. No platform, no subscription portal to manage.",
           "If you want to pause — you travel, your printer breaks, life happens — just tell us. We don't auto-charge and we're not a subscription trap.",
           "Why a flat fee instead of commission? Because commission creates a conflict of interest: we'd benefit from pushing high-value jobs to makers regardless of fit. A flat fee means our incentive is simply to keep you happy and active.",
         ],
-        callout: "From €2/month — agreed with you individually, no surprises",
+        callout: "From 2 €/month — agreed with you individually, no surprises",
       },
       {
         heading: "9. What Dimension3D provides",
@@ -258,13 +258,13 @@ const COPY: Record<string, GuideCopy> = {
       {
         heading: "8. La tarifa mensual fija",
         body: [
-          "Después del primer mes gratuito, cobramos una tarifa mensual fija. El importe exacto depende de tu ciudad y el volumen típico de pedidos — lo acordamos contigo individualmente antes de que acabe tu mes gratuito. Desde solo €2/mes.",
+          "Después del primer mes gratuito, cobramos una tarifa mensual fija. El importe exacto depende de tu ciudad y el volumen típico de pedidos — lo acordamos contigo individualmente antes de que acabe tu mes gratuito. Desde solo 2 €/mes.",
           "La tarifa es fija. No cambia según cuántos encargos aceptes o cuánto ganes. Un mes ajetreado y uno tranquilo cuestan lo mismo.",
           "Facturamos por email o acordamos una transferencia bancaria sencilla. Sin plataforma, sin portal de suscripción que gestionar.",
           "Si quieres pausar — viajas, tu impresora se estropea, la vida pasa — avísanos. No cobramos automáticamente y no somos una trampa de suscripción.",
           "¿Por qué tarifa fija en lugar de comisión? Porque la comisión crea un conflicto de intereses: nos beneficiaría empujar encargos de alto valor a los makers independientemente de si encajan. Una tarifa fija significa que nuestro incentivo es simplemente mantenerte contento y activo.",
         ],
-        callout: "Desde €2/mes — acordado individualmente contigo, sin sorpresas",
+        callout: "Desde 2 €/mes — acordado individualmente contigo, sin sorpresas",
       },
       {
         heading: "9. Qué te proporciona Dimension3D",
@@ -393,13 +393,13 @@ const COPY: Record<string, GuideCopy> = {
       {
         heading: "8. La tarifa mensual fixa",
         body: [
-          "Després del primer mes gratuït, cobrem una tarifa mensual fixa. L'import exacte depèn de la teva ciutat i el volum típic de comandes — ho acordem amb tu individualment abans que acabi el mes gratuït. Des de només €2/mes.",
+          "Després del primer mes gratuït, cobrem una tarifa mensual fixa. L'import exacte depèn de la teva ciutat i el volum típic de comandes — ho acordem amb tu individualment abans que acabi el mes gratuït. Des de només 2 €/mes.",
           "La tarifa és fixa. No canvia segons quants encàrrecs acceptis o quant guanyis. Un mes atabalat i un de tranquil costen el mateix.",
           "Facturem per email o acordem una transferència bancària senzilla. Sense plataforma, sense portal de subscripció a gestionar.",
           "Si vols pausar — viatges, la teva impressora es trenca, la vida passa — avisa'ns. No cobrem automàticament i no som una trampa de subscripció.",
           "Per què tarifa fixa en lloc de comissió? Perquè la comissió crea un conflicte d'interessos: ens beneficiaria empènyer encàrrecs d'alt valor als makers independentment de si encaixen. Una tarifa fixa significa que el nostre incentiu és simplement mantenir-te content i actiu.",
         ],
-        callout: "Des de €2/mes — acordat individualment amb tu, sense sorpreses",
+        callout: "Des de 2 €/mes — acordat individualment amb tu, sense sorpreses",
       },
       {
         heading: "9. Què et proporciona Dimension3D",

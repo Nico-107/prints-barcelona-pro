@@ -369,7 +369,7 @@ export const esTranslations: Record<string, string> = {
   "calc.adminTitle": "Estimador de precios",
   "calc.admin.weight": "Peso total",
   "calc.admin.hours": "Tiempo total de impresión",
-  "calc.admin.filamentCost": "Coste filamento (~€0.015/g)",
+  "calc.admin.filamentCost": "Coste filamento (~0.015 €/g)",
   "calc.admin.profit": "Beneficio estimado",
   "calc.color": "Preferencia de color",
   "calc.color.placeholder": "ej. negro, blanco, rojo, cualquiera",

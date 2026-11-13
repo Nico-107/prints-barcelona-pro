@@ -1,0 +1,19 @@
+import { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import { ArrowRight, CheckCircle2, MessageCircle, Package } from "lucide-react";
+import { FAQAccordion } from "@/components/ds";
+import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
+import LaunchOfferBanner from "@/components/LaunchOfferBanner";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
+import { ORGANIZATION_SCHEMA } from "@/seo/entities";
+
+const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
+
+const META_TITLE = "Impresión 3D Sin Pedido Mínimo — Barcelona";

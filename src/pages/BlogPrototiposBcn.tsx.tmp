@@ -1,0 +1,36 @@
+import { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import { ArrowRight, CheckCircle2, MessageCircle, Settings2 } from "lucide-react";
+import { FAQAccordion } from "@/components/ds";
+import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
+import LaunchOfferBanner from "@/components/LaunchOfferBanner";
+import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { capture } from "@/lib/analytics";
+
+const SITE_URL = "https://www.dimension3dprints.com";
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
+const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
+
+const META_TITLE = "Prototipos Rápidos y Piezas Funcionales en 3D — Barcelona";
+const META_DESC = "Impresión 3D de prototipos funcionales y piezas técnicas en Barcelona. Materiales de ingeniería, tolerancias ajustadas, entrega 24-48h.";
+const CANONICAL = `${SITE_URL}/blog/prototipos-rapidos-piezas-funcionales-barcelona`;
+
+const FAQS = [
+  {
+    q: "¿Qué materiales usáis para piezas funcionales y prototipos técnicos?",
+    a: "Dependemos de los requisitos mecánicos y ambientales de la pieza. Para prototipos funcionales de uso general recomendamos PETG: buena rigidez, resistencia al impacto y temperatura hasta 80°C. Para entornos con calor, UV o requisitos de impacto elevados usamos ABS o ASA. Para piezas que necesitan alta resistencia mecánica y al desgaste, Nylon (PA6 o PA12). Para casos de alto rendimiento — componentes que soportan carga, piezas cerca de fuentes de calor — usamos PC (policarbonato). Para máxima rigidez por peso, disponemos de filamentos de fibra de carbono (PLA-CF, PETG-CF, Nylon-CF). Antes de confirmar cualquier pedido, discutimos el material más adecuado para tu aplicación.",
+  },
+  {
+    q: "¿Qué tolerancias puedo esperar en impresión FDM? ¿Es suficiente para piezas funcionales?",
+    a: "La precisión típica de nuestras impresoras FDM calibradas es de ±0,2 mm en dimensiones generales. En ejes y agujeros de alta precisión, con los ajustes correctos de holgura en el diseño, podemos conseguir ajustes deslizantes o de presión fiables. Los factores que más afectan a la precisión son: la temperatura ambiente durante la impresión, la contracción térmica del material (más pronunciada en ABS y Nylon), la orientación de impresión y el tamaño de la pieza. Para dimensiones críticas como diámetros de eje, agujeros de tornillo o superficies de ajuste, recomendamos especificarlas en el archivo y confirmarlas en una primera pieza de prueba antes de una tirada mayor.",
+  },
+  {
+    q: "¿Podéis firmar un NDA para proyectos confidenciales?",
+    a: "Sí. Para proyectos sensibles — prototipos de producto pre-lanzamiento, componentes de maquinaria propietaria, diseños bajo patente — firmamos acuerdos de confidencialidad (NDA) sin coste adicional. Los archivos de los clientes nunca se comparten ni se utilizan para ningún otro fin. Trabajamos directamente con el equipo técnico o el responsable de I+D, sin intermediarios. Si tu proyecto requiere NDA, indícalo al contactar y te enviamos un borrador estándar o revisamos el tuyo.",
+  },
+  {
+    q: "¿Hay pedido mínimo para prototipos? ¿Y para tiradas cortas?",

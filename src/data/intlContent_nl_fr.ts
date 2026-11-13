@@ -13,7 +13,7 @@ export const nlHub: IntlHubContent = {
   metaDescription: "3D printen laten maken vanuit Nederland? Dimension3D stuurt je print vanuit Barcelona. Offerte binnen 1 uur, verzending € 5,90 vlak, geen douane binnen de EU.",
   eyebrow: "🇳🇱 3D Printen vanuit Barcelona · Levering in Nederland",
   h1: "3D Printen Laten Maken — Bestel Online, Geleverd in Nederland",
-  heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf €10, minimumbestelling €10.",
+  heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf 10 €, minimumbestelling 10 €.",
   ctaLabel: "Upload je bestand en zie de prijs",
   noRegistration: "Geen registratie · Geen verplichtingen",
   trustChips: ["Vanaf € 10", "Offerte in 1 uur", "Verzending € 5,90 getrackt", "Geen douane in de EU"],
