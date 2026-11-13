@@ -843,7 +843,7 @@ export const nlTranslations: Record<string, string> = {
   "lemon.steps.heading": "Zo werkt het",
   "lemon.hero.headline": "Alles wat je nodig hebt, gemaakt in 3D.",
   "lemon.hero.sub": "Stuur ons een foto van wat je nodig hebt — we reageren meestal binnen een uur.",
-  "lemon.location": "Werkplaats in Sants, Barcelona · afhalen of bezorging door heel Europa",
+  "lemon.location": "Studio in Les Corts, Barcelona · afhalen of bezorging door heel Europa",
   "nav.forBusiness": "Voor bedrijven",
   "nav.b2bProduction": "3D-printen voor Bedrijven",
   "nav.b2bPrototyping": "Prototypes voor Bedrijven",

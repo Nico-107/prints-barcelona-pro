@@ -675,7 +675,7 @@ export const enTranslations: Record<string, string> = {
   "lemon.steps.heading": "How it works",
   "lemon.hero.headline": "Whatever you need, made in 3D.",
   "lemon.hero.sub": "Send us a photo of what you need — we usually reply within the hour.",
-  "lemon.location": "Workshop in Sants, Barcelona · pickup or shipping across Spain",
+  "lemon.location": "Studio in Les Corts, Barcelona · pickup or shipping across Spain",
 
   // Part F — per-part cart keys
   "calc.parts.title": "Your parts ({count})",

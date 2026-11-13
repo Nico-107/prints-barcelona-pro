@@ -675,7 +675,7 @@ export const caTranslations: Record<string, string> = {
   "lemon.steps.heading": "Com funciona",
   "lemon.hero.headline": "El que necessites, fabricat en 3D.",
   "lemon.hero.sub": "Envia'ns una foto del que necessites — et responem en menys d'una hora.",
-  "lemon.location": "Taller a Sants, Barcelona · recollida o enviament a tota Espanya",
+  "lemon.location": "Estudi a Les Corts, Barcelona · recollida o enviament a tota Espanya",
 
   // Part F — per-part cart keys
   "calc.parts.title": "Les teves peces ({count})",

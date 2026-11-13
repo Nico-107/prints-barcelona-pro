@@ -843,7 +843,7 @@ export const deTranslations: Record<string, string> = {
   "lemon.steps.heading": "So funktioniert es",
   "lemon.hero.headline": "Alles, was Sie brauchen, in 3D gefertigt.",
   "lemon.hero.sub": "Senden Sie uns ein Foto von dem, was Sie benötigen — wir antworten normalerweise innerhalb einer Stunde.",
-  "lemon.location": "Werkstatt in Sants, Barcelona · Abholung oder Lieferung nach ganz Europa",
+  "lemon.location": "Studio in Les Corts, Barcelona · Abholung oder Lieferung nach ganz Europa",
   "nav.forBusiness": "Für Unternehmen",
   "nav.b2bProduction": "3D-Druck für Unternehmen",
   "nav.b2bPrototyping": "Prototypen für Unternehmen",
