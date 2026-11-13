@@ -224,7 +224,10 @@ const Header = () => {
                 </svg>
               )}
               <span aria-label="Dimension3D" className="font-bold tracking-tight text-sm" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif", color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}>
-                Dimension<span style={{ color: '#F5A524' }}>3D</span>
+                {/* Phase 9.contrast: on the white (variant A) header the gold
+                    wordmark drops to #B45309 so it clears 4.5:1 on white; on
+                    the dark (variant B) header it stays the bright gold. */}
+                Dimension<span style={{ color: isOverV2Hero ? '#F5A524' : '#B45309' }}>3D</span>
               </span>
             </Link>
 
@@ -410,10 +413,10 @@ const Header = () => {
                 <span className="hidden xl:inline" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF', whiteSpace: 'nowrap' }}>
                   <span style={{ color: '#F5A524' }}>★</span> {t("header.v2.rating")}
                 </span>
-                {/* Phase 2.6: language switcher present in variant B too */}
-                <div className="text-white [&_button]:text-white [&_button:hover]:text-white/80">
-                  <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
-                </div>
+                {/* Phase 2.6 + 9.contrast: language switcher in variant B;
+                    tone="dark" renders the trigger white so the code clears
+                    4.5:1 on the dark header. */}
+                <LanguageSelector landingTopicSlugs={landingTopicSlugs} tone="dark" />
                 {/* Phase 2.6: Seguir pedido present in variant B too */}
                 <Link
                   to="/track"
@@ -476,7 +479,10 @@ const Header = () => {
                   <span style={{ color: '#F5A524' }}>★</span> 4,8
                 </span>
               )}
-              <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
+              {/* Phase 9.contrast: mobile language switcher goes dark-tone on
+                  variant B so the lang code clears 4.5:1 against the
+                  dark header. */}
+              <LanguageSelector landingTopicSlugs={landingTopicSlugs} tone={isOverV2Hero ? "dark" : "light"} />
               <button
                 className="p-2 inline-flex items-center justify-center min-w-[44px] min-h-[44px]"
                 style={{ color: isOverV2Hero ? '#FFFFFF' : '#0F172A' }}

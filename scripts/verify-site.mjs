@@ -173,9 +173,119 @@ async function checkPage(page, url, variant, viewport, errors) {
   if (headerOverflow && headerOverflow.sw > headerOverflow.cw + 2)
     errors.push(`${url} [${variant} ${viewport.width}]: header overflows — scrollWidth=${headerOverflow.sw} clientWidth=${headerOverflow.cw}`);
 
-  // Scroll check: variant attribute must still match after scroll 1200.
-  await page.evaluate(() => window.scrollTo(0, 1200));
-  await page.waitForTimeout(80);
+  // Phase 9.contrast — header text ≥ 4.5:1 against what's behind it, measured
+  // at scroll 0 and scroll 1200, in both variants, on every page. Uses the
+  // WCAG relative-luminance formula; samples one visible text descendant of
+  // <header> (Logo span) + reads its computed color against the header's
+  // background OR the body background (whichever is visually behind it when
+  // the header's own bg is transparent).
+  async function measureHeaderContrast(atScroll) {
+    await page.evaluate((y) => window.scrollTo(0, y), atScroll);
+    await page.waitForTimeout(80);
+    return page.evaluate(() => {
+      function parse(c) {
+        const m = /rgba?\(([^)]+)\)/.exec(c);
+        if (!m) return null;
+        const p = m[1].split(",").map((x) => x.trim());
+        return { r: +p[0], g: +p[1], b: +p[2], a: p[3] == null ? 1 : +p[3] };
+      }
+      function lum({ r, g, b }) {
+        const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      }
+      function ratio(a, b) {
+        const la = lum(a), lb = lum(b);
+        const [L1, L2] = la >= lb ? [la, lb] : [lb, la];
+        return (L1 + 0.05) / (L2 + 0.05);
+      }
+      const header = document.querySelector("header");
+      if (!header) return null;
+      // Decide the effective background behind the header text:
+      //   1. If the header itself has a non-transparent background, use that.
+      //   2. Otherwise, probe the DOM stack at the header's mid-point and use
+      //      the first element behind the header that has a non-transparent
+      //      background.
+      //   3. Fall back to the <html> background, else white.
+      const headerBg = parse(getComputedStyle(header).backgroundColor);
+      let docBg = null;
+      if (headerBg && headerBg.a > 0.1) {
+        docBg = headerBg;
+      } else {
+        const r = header.getBoundingClientRect();
+        const probeX = Math.max(24, Math.min(r.width - 24, r.width / 2));
+        const probeY = Math.max(8, r.top + r.height / 2 + 4);
+        const stack = document.elementsFromPoint(probeX, probeY) || [];
+        let behind = stack.find((el) => el !== header && !header.contains(el));
+        while (behind && behind !== document.documentElement) {
+          const parsed = parse(getComputedStyle(behind).backgroundColor);
+          if (parsed && parsed.a > 0.1) { docBg = parsed; break; }
+          behind = behind.parentElement;
+        }
+        if (!docBg) {
+          const htmlBg = parse(getComputedStyle(document.documentElement).backgroundColor);
+          docBg = htmlBg ?? { r: 255, g: 255, b: 255, a: 1 };
+        }
+      }
+      const candidates = Array.from(header.querySelectorAll('span, a, button'));
+      const results = [];
+      function isVisible(el) {
+        // Walk up the DOM: if any ancestor is display:none, visibility:hidden,
+        // or has zero layout, this element is off-screen. Hidden-variant
+        // nodes (variant A utilities in variant B, etc.) must not count.
+        let node = el;
+        while (node && node !== document.documentElement) {
+          const s = getComputedStyle(node);
+          if (s.display === "none" || s.visibility === "hidden" || s.opacity === "0") return false;
+          node = node.parentElement;
+        }
+        const r = el.getBoundingClientRect();
+        return r.width > 1 && r.height > 1;
+      }
+      for (const el of candidates) {
+        if (!isVisible(el)) continue;
+        // Only measure elements whose OWN direct text node has visible
+        // content (otherwise we read a wrapper's inherited color against
+        // its descendants' text — e.g. an <a> wrapping a white <span>
+        // but inheriting a dark color from body, giving a false 1:1 fail).
+        const ownText = Array.from(el.childNodes)
+          .filter((n) => n.nodeType === 3)
+          .map((n) => n.textContent || "")
+          .join("")
+          .trim();
+        if (!ownText || ownText.length > 60) continue;
+        // Skip the brand wordmark colored accent "3D" and the standalone
+        // star glyph — both are logo/decorative per WCAG 1.4.3.
+        if (ownText === "3D" || ownText === "★") continue;
+        const text = ownText;
+        const style = getComputedStyle(el);
+        const fg = parse(style.color);
+        if (!fg) continue;
+        // Walk up from the text element until we find a non-transparent bg
+        // inside the header; otherwise fall back to what's behind the header.
+        let bg = null;
+        let node = el;
+        while (node && node !== document.body) {
+          const parsed = parse(getComputedStyle(node).backgroundColor);
+          if (parsed && parsed.a > 0.1) { bg = parsed; break; }
+          node = node.parentElement;
+          if (node === header.parentElement) break;
+        }
+        if (!bg) bg = docBg;
+        results.push({ text, ratio: ratio(fg, bg) });
+      }
+      results.sort((a, b) => a.ratio - b.ratio);
+      return results[0] ?? null;
+    });
+  }
+
+  for (const atScroll of [0, 1200]) {
+    const c = await measureHeaderContrast(atScroll);
+    if (c && c.ratio < 4.5) {
+      errors.push(`${url} [${variant} ${viewport.width}]: header contrast ${c.ratio.toFixed(2)} < 4.5:1 on "${c.text}" at scroll ${atScroll}`);
+    }
+  }
+
+  // Variant drift check (already scrolled to 1200 by the contrast measure).
   const htmlAfter = await page.getAttribute("html", "data-xp-site-variant");
   if (htmlAfter !== variant)
     errors.push(`${url} [${variant}]: variant drifted to ${htmlAfter} after scroll 1200`);
