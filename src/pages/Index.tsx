@@ -244,6 +244,17 @@ const Index = () => {
   useXpExposure(reviewsRef, "home_proof_r1");
   useXpExposure(heroRef, "home_v2");
 
+  // Phase 1.3: exactly one <h1> in the DOM. SSR ships both V1 + V2 heroes
+  // (CSS hides one); after hydrate we physically remove the inactive one so
+  // the live DOM has one hero + one <h1>, matching the variant.
+  // We read the html attribute directly (set pre-paint) to avoid the two-pass
+  // problem useVariant() would cause via its state hydration update.
+  useEffect(() => {
+    const v = document.documentElement.getAttribute("data-xp-site-variant");
+    const dropClass = v === "B" ? "xp-home-v1-only" : "xp-home-v2-only";
+    document.querySelectorAll("." + dropClass).forEach((el) => el.remove());
+  }, []);
+
   useEffect(() => {
     return () => {
       if (highlightTimerRef.current !== null) clearTimeout(highlightTimerRef.current);

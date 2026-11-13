@@ -128,6 +128,14 @@ const IntlHubPage = ({ content }: Props) => {
   const PAGE_URL = `${SITE_URL}${content.slug}`;
   const { t } = useLanguage();
 
+  // Phase 1.3: exactly one <h1> in the DOM. Same pattern as Index.tsx.
+  // Read the html attribute directly (set pre-paint) and remove once.
+  useEffect(() => {
+    const v = document.documentElement.getAttribute("data-xp-site-variant");
+    const dropClass = v === "B" ? "xp-home-v1-only" : "xp-home-v2-only";
+    document.querySelectorAll("." + dropClass).forEach((el) => el.remove());
+  }, []);
+
   const hubReviews = REVIEWS.slice(0, 3).map((r) => {
     const text = reviewText(r, content.lang);
     const isTranslated = content.lang !== r.originalLang;

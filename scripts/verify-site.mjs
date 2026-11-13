@@ -133,7 +133,9 @@ async function checkPage(page, url, variant, viewport, errors) {
   });
   // Force site_variant deterministically via the QA knob.
   const forced = `${url}${url.includes("?") ? "&" : "?"}xp=site_variant:${variant}`;
-  await page.goto(forced, { waitUntil: "domcontentloaded" });
+  await page.goto(forced, { waitUntil: "networkidle" });
+  // Give hydration-time useEffects (hero dedupe in Phase 1.3) a tick.
+  await page.waitForTimeout(150);
 
   const h1Count = await page.locator("h1").count();
   if (h1Count !== 1) errors.push(`${url} [${variant} ${viewport.width}]: expected 1 <h1>, got ${h1Count}`);
