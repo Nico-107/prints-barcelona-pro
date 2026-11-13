@@ -433,12 +433,11 @@ export function OrderPanel({
               <span className="text-xl font-bold">{displayPrice}</span>
             </div>
           )}
-          {fulfillment === "shipping" && (
-            <p className="text-xs text-muted-foreground text-right">
-              {t("calc.summary.shipping")} +{shippingFormatted}
-            </p>
-          )}
-          <DeliveryPromise language={language} urgency={urgency} fulfillment={fulfillment} />
+          {/* Phase 4.2: single delivery line. Earlier UI showed both
+              DeliveryPromise ("Listo y enviado el X + envío") and
+              CutoffLine ("Imprimimos mañana · sale el X") which said
+              nearly the same thing. We keep CutoffLine (above the buy
+              button) because it also expresses the 14:00 cutoff rule. */}
           {fulfillment === "pickup" && (
             <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
           )}
