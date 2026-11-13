@@ -126,14 +126,23 @@ function sampleRoutes() {
 async function checkPage(page, url, variant, viewport, errors) {
   await page.setViewportSize(viewport);
   const consoleErrors = [];
-  page.on("console", (msg) => {
+  const handler = (msg) => {
     if (msg.type() === "error") consoleErrors.push(msg.text());
-  });
-  // Force site_variant deterministically via the QA knob.
-  const forced = `${url}${url.includes("?") ? "&" : "?"}xp=site_variant:${variant}`;
-  await page.goto(forced, { waitUntil: "networkidle" });
-  // Give hydration-time useEffects (hero dedupe in Phase 1.3) a tick.
-  await page.waitForTimeout(150);
+  };
+  page.on("console", handler);
+  try {
+    // Force site_variant deterministically via the QA knob.
+    const forced = `${url}${url.includes("?") ? "&" : "?"}xp=site_variant:${variant}`;
+    // 'domcontentloaded' is enough — our hero-dedupe effect runs on mount.
+    // 'networkidle' hangs when analytics beacons keep the connection open.
+    await page.goto(forced, { waitUntil: "domcontentloaded", timeout: 10000 });
+    // Give hydration-time useEffects (hero dedupe in Phase 1.3) a tick.
+    await page.waitForTimeout(250);
+  } catch (err) {
+    errors.push(`${url} [${variant} ${viewport.width}]: navigation: ${err.message}`);
+    page.off("console", handler);
+    return;
+  }
 
   const h1Count = await page.locator("h1").count();
   if (h1Count !== 1) errors.push(`${url} [${variant} ${viewport.width}]: expected 1 <h1>, got ${h1Count}`);
@@ -173,6 +182,8 @@ async function checkPage(page, url, variant, viewport, errors) {
 
   if (consoleErrors.length)
     errors.push(`${url} [${variant}]: ${consoleErrors.length} console error(s): ${consoleErrors[0]}`);
+
+  page.off("console", handler);
 }
 
 async function runSample(baseUrl, routesOverride) {
