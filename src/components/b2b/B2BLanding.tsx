@@ -656,7 +656,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
                   </Button>
                   <Button
                     onClick={() => handleWhatsApp(c.whatsAppMsg)}
-                    variant="whatsapp"
+                    variant="outline"
                     className="gap-2 min-h-[52px] px-7 text-base font-semibold"
                   >
                     <MessageCircle className="w-4 h-4" aria-hidden="true" />
@@ -1125,7 +1125,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               </Button>
               <Button
                 onClick={() => handleWhatsApp(c.whatsAppMsg)}
-                variant="whatsapp"
+                variant="outline"
                 className="gap-2 min-h-[52px] px-7 text-base font-semibold"
               >
                 <MessageCircle className="w-4 h-4" aria-hidden="true" />
@@ -1182,7 +1182,7 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
               capture("b2b_sticky_cta_click", { which: "whatsapp", lang });
               handleWhatsApp(c.whatsAppMsg);
             }}
-            variant="whatsapp"
+            variant="outline"
             className="flex-1 gap-2 min-h-[52px] text-base font-semibold"
           >
             <MessageCircle className="w-4 h-4" aria-hidden="true" />
