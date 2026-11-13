@@ -1,6 +1,9 @@
 // Single source of truth for all customer reviews.
-// Sara's Spanish original is a TODO — Nico must paste it into originalEs below.
-// SARA_ES_ORIGINAL slot was empty when this file was created.
+// Sara's original is in English (originalLang: "en"); per 0.1 we treat the
+// English text as the source and translate from it. Other-language strings
+// are faithful translations. Excerpts are 20-word-or-fewer verbatim
+// substrings — no trailing ellipsis in the data; the template adds a single
+// '…' where the excerpt stops.
 
 export interface Review {
   name: string;
@@ -28,14 +31,14 @@ export const REVIEWS: Review[] = [
       pt: "Um lugar incrível! Mikolaj ajudou-me com um pedido urgente numa tarde de sexta-feira, e estava pronto na manhã seguinte. Não só entregou as minhas peças com um acabamento profissional, como foi pessoalmente ter comigo para as entregar. Absolutamente fantástico.",
     },
     excerpt: {
-      es: "estuvo listo a la mañana siguiente…",
-      ca: "estava llesta l'endemà al matí…",
-      en: "it was ready the very next morning…",
-      de: "sie war bereits am nächsten Morgen fertig…",
-      fr: "elle était prête dès le lendemain matin…",
-      it: "era pronto la mattina dopo…",
-      nl: "het was de volgende ochtend al klaar…",
-      pt: "estava pronto na manhã seguinte…",
+      es: "estuvo listo a la mañana siguiente",
+      ca: "estava llesta l'endemà al matí",
+      en: "it was ready the very next morning",
+      de: "sie war bereits am nächsten Morgen fertig",
+      fr: "elle était prête dès le lendemain matin",
+      it: "era pronto la mattina dopo",
+      nl: "het was de volgende ochtend al klaar",
+      pt: "estava pronto na manhã seguinte",
     },
   },
   {

@@ -30,11 +30,11 @@ const FAQS = [
   },
   {
     q: "¿El descuento del 20% aplica a todo el pedido?",
-    a: "Sí, el 20% se aplica sobre el precio final de la impresión (incluyendo cualquier descuento por cantidad si aplica). El único límite es el precio mínimo de 10€ por pedido — si tu pieza ya sale a 10€ (el mínimo del servicio), ese precio no se reduce más. Para pedidos de múltiples piezas o tiradas más grandes, el 20% siempre va sobre el total calculado.",
+    a: "Sí, el 20% se aplica sobre el precio final de la impresión (incluyendo cualquier descuento por cantidad si aplica). El único límite es el precio mínimo de 10 € por pedido — si tu pieza ya sale a 10 € (el mínimo del servicio), ese precio no se reduce más. Para pedidos de múltiples piezas o tiradas más grandes, el 20% siempre va sobre el total calculado.",
   },
   {
     q: "¿Hay un pedido mínimo para el descuento de estudiante?",
-    a: "No hay mínimo especial para el descuento de estudiante más allá del mínimo general del servicio (10€). Puedes pedir desde una sola pieza pequeña. Para proyectos grandes (TFM, maquetas de arquitectura a escala, tiradas de piezas para prototipado), el descuento del 20% sigue aplicando sobre el total, lo que representa un ahorro significativo.",
+    a: "No hay mínimo especial para el descuento de estudiante más allá del mínimo general del servicio (10 €). Puedes pedir desde una sola pieza pequeña. Para proyectos grandes (TFM, maquetas de arquitectura a escala, tiradas de piezas para prototipado), el descuento del 20% sigue aplicando sobre el total, lo que representa un ahorro significativo.",
   },
   {
     q: "¿Cuánto tarda la entrega para un TFG o proyecto con fecha límite?",
@@ -131,6 +131,29 @@ const StudentsBcn = () => {
             <p className="text-lg text-primary-foreground/75 leading-relaxed">
               ¿Estudiante de ingeniería, arquitectura o diseño? Imprime tu TFG, TFM, maqueta o prototipo con un 20% de descuento real. Solo necesitas tu carnet universitario o email .edu. Presupuesto gratis en menos de 1 hora.
             </p>
+            {/* Phase 3.5: estudiantes hero now carries the primary CTA. */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="gap-2">
+                <a href="/#calculator">Subir archivo y ver precio</a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="gap-2 text-primary-foreground border-primary-foreground/40 hover:bg-primary-foreground/10">
+                <a href="https://wa.me/34641302127" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+              </Button>
+            </div>
+            {/* Phase 3.5: 'cómo aplicar el 20%' three-step block. */}
+            <ol className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-primary-foreground/80">
+              {[
+                { n: "1", title: "Verifica", body: "Envía tu carnet o email .edu junto al archivo o foto." },
+                { n: "2", title: "Recibes el presupuesto", body: "Con el 20% ya aplicado — en menos de 1 hora laborable." },
+                { n: "3", title: "Apruebas e imprimimos", body: "Recoges en Les Corts o lo enviamos a casa (5,90 € envío)." },
+              ].map((s) => (
+                <li key={s.n} className="rounded-lg border border-primary-foreground/15 bg-primary-foreground/5 p-4">
+                  <div className="font-mono text-xs text-amber-300 mb-1">PASO {s.n}</div>
+                  <div className="font-semibold text-primary-foreground">{s.title}</div>
+                  <div className="mt-1 text-primary-foreground/70">{s.body}</div>
+                </li>
+              ))}
+            </ol>
             <div className="mt-8 flex flex-wrap gap-3">
               {[
                 "20% descuento verificado",
@@ -380,32 +403,32 @@ const StudentsBcn = () => {
                   {
                     label: "Pieza pequeña",
                     detail: "~20 g · piezas de clip, engranaje pequeño, accesorio de montaje",
-                    normal: "10€",
-                    student: "10€",
-                    note: "El precio mínimo del servicio es 10€ — en este caso el descuento está en el propio precio mínimo.",
+                    normal: "10 €",
+                    student: "10 €",
+                    note: "El precio mínimo del servicio es 10 € — en este caso el descuento está en el propio precio mínimo.",
                     highlight: false,
                   },
                   {
                     label: "Pieza mediana",
                     detail: "~150 g · soporte de sensor, componente de robot, parte de maqueta",
-                    normal: "~22€",
-                    student: "~18€",
-                    note: "Ahorro: ~4€ por pieza. Si necesitas 3 iteraciones del mismo componente, el ahorro total es de ~12€.",
+                    normal: "~22 €",
+                    student: "~18 €",
+                    note: "Ahorro: ~4 € por pieza. Si necesitas 3 iteraciones del mismo componente, el ahorro total es de ~12 €.",
                     highlight: true,
                   },
                   {
                     label: "Proyecto grande",
                     detail: "~400 g · maqueta de arquitectura, prototipo completo, chasis de robot",
-                    normal: "~48€",
-                    student: "~38€",
-                    note: "Ahorro: ~10€. Para proyectos que requieren varias piezas, los ahorros se acumulan rápidamente.",
+                    normal: "~48 €",
+                    student: "~38 €",
+                    note: "Ahorro: ~10 €. Para proyectos que requieren varias piezas, los ahorros se acumulan rápidamente.",
                     highlight: false,
                   },
                   {
                     label: "Tirada de piezas (10+ unidades)",
                     detail: "Ejemplo: 15 unidades de ~30 g cada una · componentes repetidos para proyecto",
-                    normal: "~42€ (con descuento qty 5%)",
-                    student: "~34€ (20% dto. estudiante sobre precio con descuento qty)",
+                    normal: "~42 € (con descuento qty 5%)",
+                    student: "~34 € (20% dto. estudiante sobre precio con descuento qty)",
                     note: "En tiradas, el descuento de estudiante se aplica después del descuento por cantidad — doble ahorro.",
                     highlight: false,
                   },

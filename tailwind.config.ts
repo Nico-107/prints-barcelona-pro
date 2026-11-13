@@ -101,6 +101,26 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        // Phase 2.1: fixed-step radii from the token file.
+        'ds-sm': '8px',
+        'ds-md': '12px',
+        'ds-lg': '20px',
+      },
+      boxShadow: {
+        // Phase 2.1: three DS shadows — card, elevated, overlay.
+        'ds-card':     '0 1px 2px rgba(15,23,42,0.05), 0 2px 8px rgba(15,23,42,0.06)',
+        'ds-elevated': '0 4px 14px rgba(15,23,42,0.08), 0 12px 32px rgba(15,23,42,0.10)',
+        'ds-overlay':  '0 24px 56px rgba(15,23,42,0.18)',
+      },
+      spacing: {
+        // Phase 2.1: section padding scale.
+        'ds-section-y':        '64px',
+        'ds-section-y-md':     '96px',
+        'ds-gutter':           '16px',
+        'ds-gutter-md':        '24px',
+      },
+      maxWidth: {
+        'ds-container': '1200px',
       },
       keyframes: {
         "accordion-down": {

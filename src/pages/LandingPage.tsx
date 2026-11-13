@@ -142,11 +142,15 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks", "Uneix-te a la xarxa de Makers");
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
+  // Phase 3.5: true facts only, pulled from configured sources.
+  // 250+ orders is the one owner-confirmed count; keep. The other chips cite
+  // concrete facts: location (Les Corts), rating from data/rating.ts, and
+  // the minimum order (from the engine configuration).
   const trustBadges = [
-    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`, `Standort ${pageCity.cityName}`, `Local a ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
-    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas", "Schnelle Lieferung", "Lliuraments Ràpids"), iconClass: "text-accent" },
-    { icon: Award, label: t("Quality Materials", "Materiales de Calidad", "Qualitätsmaterialien", "Materials de Qualitat"), iconClass: "text-accent" },
-    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida", "Individuelle Aufträge", "Comandes a Mida"), iconClass: "text-accent" },
+    { icon: MapPin, label: t(`Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
+    { icon: Zap, label: t("250+ orders", "250+ pedidos", "250+ Bestellungen", "250+ comandes"), iconClass: "text-accent" },
+    { icon: Award, label: t("4.8/5 · customer reviews", "4,8/5 · reseñas de clientes", "4,8/5 · Kundenbewertungen", "4,8/5 · ressenyes de clients"), iconClass: "text-accent" },
+    { icon: Settings2, label: t("From 1 piece · 10 € min.", "Desde 1 pieza · pedido mínimo 10 €", "Ab 1 Stück · 10 € min.", "Des de 1 peça · comanda mínima 10 €"), iconClass: "text-accent" },
   ];
 
   // Category label per page.category, translated with the same t() helper.
@@ -510,7 +514,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <section className="bg-secondary/30 py-16 md:py-20">
             <div className="container px-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-                {t(`Real prints from our ${pageCity.cityName} workshop`, `Impresiones reales de nuestro taller en ${pageCity.cityName}`, `Echte Drucke aus unserer Werkstatt in ${pageCity.cityName}`, `Impressions reals del nostre taller a ${pageCity.cityName}`)}
+                {t(`Real prints made in ${pageCity.cityName}`, `Impresiones reales hechas en ${pageCity.cityName}`, `Echte Drucke aus ${pageCity.cityName}`, `Impressions reals fetes a ${pageCity.cityName}`)}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
                 {page.galleryImages.map((img) => (
@@ -528,9 +532,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <div style={{ background: '#F6F8FC' }}>
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
               <UploadPanel
-                label={t("INSTANT PRICE — FROM €10", "PRECIO AL INSTANTE — DESDE 10 €", "SOFORTPREIS — AB 10 €", "PREU AL INSTANT — DES DE 10 €")}
+                label={t("INSTANT PRICE — FROM 10 €", "PRECIO AL INSTANTE — DESDE 10 €", "SOFORTPREIS — AB 10 €", "PREU AL INSTANT — DES DE 10 €")}
                 heading={t("Upload your files and see the price now.", "Sube tus archivos y ve el precio ahora.", "Lade deine Dateien hoch und sieh den Preis sofort.", "Puja els teus arxius i veu el preu ara.")}
-                description={t("No account required. €10 minimum order, no setup fee.", "Sin cuenta y sin compromiso. Pedido mínimo 10 € por pedido, sin tarifa de preparación.", "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr.", "Sense compte i sense compromís. Comanda mínima 10 € per comanda, sense tarifa de preparació.")}
+                description={t("No account required. 10 € minimum order, no setup fee.", "Sin cuenta y sin compromiso. Pedido mínimo 10 € por pedido, sin tarifa de preparación.", "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr.", "Sense compte i sense compromís. Comanda mínima 10 € per comanda, sense tarifa de preparació.")}
               >
                 <StlEstimator compact highlighted={calcHighlight} />
               </UploadPanel>

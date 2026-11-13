@@ -102,7 +102,7 @@ const Catalog = () => {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">¿No encuentras el repuesto?</p>
                 <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors leading-snug">
-                  Reproducimos piezas descatalogadas — desde 10€
+                  Reproducimos piezas descatalogadas — desde 10 €
                 </p>
               </div>
               <ArrowRight className="w-4 h-4 text-accent flex-shrink-0" />
@@ -112,9 +112,9 @@ const Catalog = () => {
               className="group flex items-center justify-between gap-3 rounded-xl border border-accent/30 bg-accent/5 px-4 py-3.5 hover:border-accent/60 hover:bg-accent/10 transition-colors"
             >
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Pedido mínimo: 10€</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Pedido mínimo: 10 €</p>
                 <p className="font-semibold text-foreground text-sm group-hover:text-accent transition-colors leading-snug">
-                  Una sola pieza desde 10€ — sin mínimo de cantidad
+                  Una sola pieza desde 10 € — sin mínimo de cantidad
                 </p>
               </div>
               <ArrowRight className="w-4 h-4 text-accent flex-shrink-0" />

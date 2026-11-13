@@ -17,7 +17,7 @@ const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Repuesto Descatalogado Barcelona — Reproducción 3D";
-const META_DESC = "Repuestos descatalogados reproducidos en 3D en Barcelona desde foto o la pieza original. Desde 10€. Presupuesto en 1 hora.";
+const META_DESC = "Repuestos descatalogados reproducidos en 3D en Barcelona desde foto o la pieza original. Desde 10 €. Presupuesto en 1 hora.";
 const CANONICAL = `${SITE_URL}/repuesto-descatalogado`;
 
 const FAQS = [
@@ -31,7 +31,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto tarda y cuánto cuesta reproducir un repuesto?",
-    a: "La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 10€. Clips, tapas y bisagras suelen quedar entre 10€ y 20€. Piezas más grandes o con modelado desde cero desde 25€. Presupuesto siempre gratis y sin compromiso antes de confirmar.",
+    a: "La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 10 €. Clips, tapas y bisagras suelen quedar entre 10 € y 20 €. Piezas más grandes o con modelado desde cero desde 25 €. Presupuesto siempre gratis y sin compromiso antes de confirmar.",
   },
   {
     q: "¿Tengo que tener el archivo STL del repuesto?",
@@ -133,14 +133,14 @@ const RepuestoDescatalogado = () => {
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona reproduce repuestos descatalogados en impresión 3D desde 10€. Si el fabricante ya no vende la pieza o la sirve en semanas, la reproducimos desde la pieza original, unas fotos o el número de referencia. Entrega en 24–48 horas. Presupuesto gratis en menos de 1 hora por WhatsApp.
+                Dimension3D Barcelona reproduce repuestos descatalogados en impresión 3D desde 10 €. Si el fabricante ya no vende la pieza o la sirve en semanas, la reproducimos desde la pieza original, unas fotos o el número de referencia. Entrega en 24–48 horas. Presupuesto gratis en menos de 1 hora por WhatsApp.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
               {[
                 "Sin STL necesario",
                 "Desde foto o pieza rota",
-                "Desde 10€",
+                "Desde 10 €",
                 "Listo en 24–48h",
               ].map((tag) => (
                 <div key={tag} className="flex items-center gap-2 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-2 text-sm text-primary-foreground/80">
@@ -203,7 +203,7 @@ const RepuestoDescatalogado = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Envía fotos de la pieza desde 3 ángulos con referencia de escala por WhatsApp. En menos de 1 hora te decimos si podemos reproducirla y a qué precio. Si la pieza ya existe en Thingiverse o Printables, lo decimos y reducimos el coste. Si no, la modelamos nosotros. La mayoría de piezas están listas en 24–48 horas; recogida en Barcelona o envío por 5,90€.
+                  Envía fotos de la pieza desde 3 ángulos con referencia de escala por WhatsApp. En menos de 1 hora te decimos si podemos reproducirla y a qué precio. Si la pieza ya existe en Thingiverse o Printables, lo decimos y reducimos el coste. Si no, la modelamos nosotros. La mayoría de piezas están listas en 24–48 horas; recogida en Barcelona o envío por 5,90 €.
                 </p>
               </div>
               <div className="space-y-6">
@@ -226,7 +226,7 @@ const RepuestoDescatalogado = () => {
                   {
                     step: "04",
                     title: "Recoges o enviamos a toda España",
-                    body: "Recogida sin coste en nuestro taller de Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 5,90€.",
+                    body: "Recogida sin coste en el estudio de Barcelona, con cita previa. O envío a domicilio a toda España peninsular por 5,90 €.",
                   },
                 ].map(({ step, title, body }) => (
                   <div key={step} className="flex gap-4">
@@ -252,7 +252,7 @@ const RepuestoDescatalogado = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Reproducimos cualquier pieza plástica con geometría definida: clips y retenes de electrodomésticos (10–12€), bisagras y pernos de muebles (10–14€), molduras y embellecedores de vehículos (12–20€), carcasas y tapas de electrónica (10–18€) y utillaje industrial ligero. El material se elige según el uso: PETG para piezas funcionales, ABS/ASA para exteriores, TPU para piezas flexibles.
+                  Reproducimos cualquier pieza plástica con geometría definida: clips y retenes de electrodomésticos (10–12 €), bisagras y pernos de muebles (10–14 €), molduras y embellecedores de vehículos (12–20 €), carcasas y tapas de electrónica (10–18 €) y utillaje industrial ligero. El material se elige según el uso: PETG para piezas funcionales, ABS/ASA para exteriores, TPU para piezas flexibles.
                 </p>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -302,7 +302,7 @@ const RepuestoDescatalogado = () => {
                   <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
                     Rueda cesto lavavajillas Bosch / Siemens
                   </p>
-                  <p className="text-xs text-foreground/55">Repuesto compatible. Desde 5€</p>
+                  <p className="text-xs text-foreground/55">Repuesto compatible. Desde 5 €</p>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                     Ver pieza <ArrowRight className="w-3 h-3" />
                   </span>
@@ -315,7 +315,7 @@ const RepuestoDescatalogado = () => {
                   <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
                     Adaptador manguera Gardena
                   </p>
-                  <p className="text-xs text-foreground/55">Compatible con sistemas Gardena. Desde 5€</p>
+                  <p className="text-xs text-foreground/55">Compatible con sistemas Gardena. Desde 5 €</p>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                     Ver pieza <ArrowRight className="w-3 h-3" />
                   </span>
@@ -366,7 +366,7 @@ const RepuestoDescatalogado = () => {
                 <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Servicio relacionado</p>
                 <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
                   <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                    Sin pedido mínimo — desde 1 pieza y 10€
+                    Sin pedido mínimo — desde 1 pieza y 10 €
                   </p>
                   <p className="text-xs text-foreground/55 leading-relaxed">
                     Imprime una sola pieza sin importe mínimo ni cantidad mínima de pedido.

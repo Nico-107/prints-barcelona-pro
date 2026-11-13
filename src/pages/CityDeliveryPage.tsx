@@ -38,7 +38,7 @@ const EN_SHARED_FAQS = [
   },
   {
     q: "Is there a minimum order?",
-    a: "The minimum order is €10. Most single small parts fall between €10 and €40. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.",
+    a: "The minimum order is 10 €. Most single small parts fall between 10 € and 40 €. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.",
   },
   {
     q: "Can you print in my specific material?",
@@ -57,7 +57,7 @@ const ES_SHARED_FAQS = [
   },
   {
     q: "¿Hay un pedido mínimo?",
-    a: "El pedido mínimo es de €10. La mayoría de piezas individuales pequeñas están entre €10 y €40. No hay cantidad mínima — imprimimos piezas únicas con la misma rapidez que pedidos de 50 unidades.",
+    a: "El pedido mínimo es de 10 €. La mayoría de piezas individuales pequeñas están entre 10 € y 40 €. No hay cantidad mínima — imprimimos piezas únicas con la misma rapidez que pedidos de 50 unidades.",
   },
   {
     q: "¿Podéis imprimir en mi material específico?",
@@ -357,10 +357,10 @@ const CityDeliveryPage = ({ config }: Props) => {
 
               <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
                 {(isES
-                  ? ["Desde €10", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 10€", "Sin registro"]
+                  ? ["Desde 10 €", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 10 €", "Sin registro"]
                   : isFR
                   ? ["À partir de 10 €", "Devis en 1 heure", "Livraison suivie", "Min. 10 €", "Sans inscription"]
-                  : ["From €10", "Quote in 1 hour", "Tracked delivery", "10 € min.", "No account needed"]
+                  : ["From 10 €", "Quote in 1 hour", "Tracked delivery", "10 € min.", "No account needed"]
                 ).map((label) => (
                   <span
                     key={label}
@@ -419,16 +419,9 @@ const CityDeliveryPage = ({ config }: Props) => {
                       <MessageCircle className="w-4 h-4" />
                       {isES ? "Coordinar recogida" : "Arrange pickup"}
                     </Button>
-                    <Button asChild variant="outline" size="lg">
-                      <a
-                        href="https://share.google/YX41aS8lcqOlHGrhD"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        {isES ? "Ver perfil en Google" : "View our Google Business Profile"}
-                      </a>
-                    </Button>
+                    {/* Phase 0.1: Google Business profile is suspended; link
+                        and label removed. Pickup is already explained in the
+                        header above, so this slot now just provides WhatsApp. */}
                   </div>
                 </div>
                 <div className="rounded-lg overflow-hidden border border-accent/20">
@@ -454,7 +447,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                 { value: "< 1 h", label: "TIEMPO DE PRESUPUESTO" },
                 { value: config.deliveryDays, label: `ENTREGA A ${config.city.toUpperCase()}` },
                 { value: "30+", label: "PAÍSES DE ENVÍO" },
-                { value: "€10", label: "PEDIDO MÍNIMO" },
+                { value: "10 €", label: "PEDIDO MÍNIMO" },
               ]
             : isFR
             ? [
@@ -467,7 +460,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                 { value: "< 1 h", label: "QUOTE TURNAROUND" },
                 { value: config.deliveryDays, label: `DELIVERY TO ${config.city.toUpperCase()}` },
                 { value: "30+", label: "COUNTRIES SHIPPED" },
-                { value: "€10", label: "MINIMUM ORDER" },
+                { value: "10 €", label: "MINIMUM ORDER" },
               ]
           }
           variant="light"
@@ -477,9 +470,9 @@ const CityDeliveryPage = ({ config }: Props) => {
         <div id="calculator" style={{ background: '#F6F8FC' }}>
           <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
             <UploadPanel
-              label="INSTANT PRICE — FROM €10"
+              label="INSTANT PRICE — FROM 10 €"
               heading="Upload your files and see the price now."
-              description="No account required. €10 minimum order, no setup fee. Shipping calculated at checkout."
+              description="No account required. 10 € minimum order, no setup fee. Shipping calculated at checkout."
             >
             {(() => {
             const iso2 = COUNTRY_TO_ISO2[config.country];
@@ -633,7 +626,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       </li>
                       <li>
                         <strong className="text-foreground">Entrega con mensajería seguida.</strong> Recibirás un
-                        número de seguimiento en cuanto el paquete salga de nuestro taller.
+                        número de seguimiento en cuanto el paquete salga del estudio.
                       </li>
                     </ol>
                   </div>
@@ -662,7 +655,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                             <strong className="text-foreground">Validez et nous imprimons.</strong> Une fois le devis confirmé, le travail entre dans notre file d'impression. La plupart des commandes standard sont expédiées sous 3–7 jours ouvrables.
                           </li>
                           <li>
-                            <strong className="text-foreground">Livraison avec suivi.</strong> Vous recevez un numéro de suivi dès que le colis quitte notre atelier.
+                            <strong className="text-foreground">Livraison avec suivi.</strong> Vous recevez un numéro de suivi dès que le colis quitte le studio.
                           </li>
                         </ol>
                       </>
@@ -688,7 +681,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                           </li>
                           <li>
                             <strong className="text-foreground">Tracked courier delivery.</strong> You receive a tracking
-                            number as soon as the parcel leaves our workshop.
+                            number as soon as the parcel leaves the studio.
                           </li>
                         </ol>
                       </>
@@ -779,8 +772,8 @@ const CityDeliveryPage = ({ config }: Props) => {
                       (horas de impresión). No hay tasas de configuración, ni cargos por revisión de archivos.
                     </p>
                     <p>
-                      El pedido mínimo es <strong className="text-foreground">€10</strong>. La mayoría de piezas
-                      individuales pequeñas están en el rango de €10–€40. El PLA es la opción más económica; los
+                      El pedido mínimo es <strong className="text-foreground">10 €</strong>. La mayoría de piezas
+                      individuales pequeñas están en el rango de 10 €–40 €. El PLA es la opción más económica; los
                       materiales de ingeniería como Policarbonato y composites de fibra de carbono están en el extremo
                       superior, pero siguen siendo mucho más asequibles que piezas equivalentes en resina o SLS.
                     </p>
@@ -830,8 +823,8 @@ const CityDeliveryPage = ({ config }: Props) => {
                           There are no set-up fees, no file review fees, and no platform charges.
                         </p>
                         <p>
-                          The minimum order is <strong className="text-foreground">€10</strong>. Most single small parts
-                          fall in the €10–€40 range. Material choice affects the per-gram cost: PLA is the most economical,
+                          The minimum order is <strong className="text-foreground">10 €</strong>. Most single small parts
+                          fall in the 10 €–40 € range. Material choice affects the per-gram cost: PLA is the most economical,
                           with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but
                           still far more affordable than equivalent resin or SLS parts from industrial bureaus.
                         </p>
@@ -868,7 +861,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       </li>
                       <li>
                         <strong className="text-foreground">Sin mínimo de cantidad.</strong> Imprimimos desde una sola pieza
-                        a partir de €10. Los servicios industriales suelen exigir lotes mínimos de 5 o 10 unidades.
+                        a partir de 10 €. Los servicios industriales suelen exigir lotes mínimos de 5 o 10 unidades.
                       </li>
                       <li>
                         <strong className="text-foreground">Revisión honesta del archivo.</strong> Un humano real
@@ -903,7 +896,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         <>
                           <li><strong className="text-foreground">Direct communication.</strong> You message the person who actually prints your part, not a support bot or a ticket queue. Questions are answered in minutes, not days.</li>
                           <li><strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing. Most orders ship within 3–7 business days from confirmation.</li>
-                          <li><strong className="text-foreground">No minimum quantity.</strong> We print single parts starting at €10. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
+                          <li><strong className="text-foreground">No minimum quantity.</strong> We print single parts starting at 10 €. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
                           <li><strong className="text-foreground">Honest file review.</strong> A real human checks every file before it goes to print. If your model has a wall that will fail, we tell you before we print it — not after, when the part arrives broken.</li>
                           <li><strong className="text-foreground">WhatsApp access.</strong> For urgent or complex projects, reach us directly — something no platform-based service can match. We aim to respond within the hour during business hours.</li>
                         </>
@@ -924,7 +917,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       { title: "Hub tecnológico europeo", body: "Barcelona acoge el Mobile World Congress y alberga el distrito de innovación 22@ — uno de los ecosistemas tecnológicos más densos de Europa. Somos un estudio profesional arraigado en esa infraestructura." },
                       { title: "Calidad de estudio, no de granja", body: "Somos un único estudio, no un marketplace que enruta tu archivo a la granja de impresión más barata. Las mismas máquinas, el mismo equipo, la misma calidad en cada pedido." },
                       { title: "Estándares europeos de fabricación", body: "Operamos bajo normativa europea: materiales certificados con trazabilidad, equipos calibrados periódicamente y control de calidad humano antes de cada envío." },
-                      { title: "Envío con seguimiento completo", body: "Todos los pedidos salen con seguimiento completo. Recibirás un enlace de seguimiento en el momento en que el paquete salga de nuestro taller — visibilidad total de Barcelona a tu puerta." },
+                      { title: "Envío con seguimiento completo", body: "Todos los pedidos salen con seguimiento completo. Recibirás un enlace de seguimiento en el momento en que el paquete salga del estudio — visibilidad total de Barcelona a tu puerta." },
                     ].map(({ title, body }) => (
                       <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
                         <h3 className="font-bold text-foreground mb-2 text-sm">{title}</h3>
@@ -944,13 +937,13 @@ const CityDeliveryPage = ({ config }: Props) => {
                           { title: "Hub technologique européen", body: "Barcelone accueille le Mobile World Congress et le district d'innovation 22@ — l'un des écosystèmes technologiques les plus denses d'Europe. Nous sommes un studio professionnel ancré dans cet environnement." },
                           { title: "Qualité studio, pas ferme d'impression", body: "Nous sommes un studio unique — pas une marketplace qui achemine votre fichier vers la ferme la moins chère. Mêmes machines, même équipe, qualité constante à chaque commande." },
                           { title: "Normes de fabrication européennes", body: "Nous opérons selon les normes de fabrication européennes : matériaux certifiés avec traçabilité complète, équipements calibrés régulièrement et contrôle qualité humain avant chaque expédition." },
-                          { title: "Livraison entièrement suivie", body: "Chaque commande est expédiée avec un suivi complet. Vous recevez un lien de suivi dès que le colis quitte notre atelier — visibilité totale de Barcelone à votre porte." },
+                          { title: "Livraison entièrement suivie", body: "Chaque commande est expédiée avec un suivi complet. Vous recevez un lien de suivi dès que le colis quitte le studio — visibilité totale de Barcelone à votre porte." },
                         ]
                       : [
                           { title: "European tech hub", body: "Barcelona hosts the Mobile World Congress and the 22@ innovation district — one of Europe's most concentrated technology ecosystems. We are a professional studio rooted in that environment." },
                           { title: "Studio quality, not a print farm", body: "We are a single studio — not a marketplace routing your file to whichever print farm is cheapest. Same machines, same team, consistent quality on every order." },
                           { title: "EU manufacturing standards", body: "We operate under European manufacturing norms: certified materials with full traceability, regularly calibrated equipment, and human quality control before every shipment leaves." },
-                          { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves our workshop — complete visibility from Barcelona to your door." },
+                          { title: "Fully tracked shipping", body: "Every order ships with full courier tracking. You receive a tracking link the moment your parcel leaves the studio — complete visibility from Barcelona to your door." },
                         ]
                     ).map(({ title, body }) => (
                       <div key={title} className="p-5 rounded-xl border border-border/50 bg-card">
@@ -970,7 +963,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   </h2>
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <p>
-                      Enviamos a través de mensajeros de confianza desde nuestro taller en Barcelona. Todos los pedidos
+                      Enviamos a través de mensajeros de confianza desdel estudio en Barcelona. Todos los pedidos
                       tienen seguimiento completo — recibirás un número de seguimiento en cuanto el paquete salga.
                     </p>
                     <div className="overflow-x-auto">
@@ -1006,7 +999,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                     </p>
                     <p className="not-prose text-sm bg-accent/5 border border-accent/20 rounded-lg px-4 py-3 text-muted-foreground">
                       <strong className="text-foreground">Coste de envío estimado a {config.city}:</strong>{" "}
-                      normalmente €8–15 para piezas pequeñas, €15–25 para pedidos más grandes. El coste exacto se confirma en el presupuesto antes de que apruebes el pedido.
+                      normalmente 8 €–15 para piezas pequeñas, 15 €–25 para pedidos más grandes. El coste exacto se confirma en el presupuesto antes de que apruebes el pedido.
                     </p>
                   </div>
                 </div>
@@ -1020,7 +1013,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                   <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed space-y-4">
                     <p>
                       {isFR
-                        ? "Nous expédions via des transporteurs de confiance depuis notre atelier à Barcelone. Toutes les commandes sont entièrement suivies — vous recevez un numéro de suivi dès que le colis nous quitte."
+                        ? "Nous expédions via des transporteurs de confiance depuis le studio à Barcelone. Toutes les commandes sont entièrement suivies — vous recevez un numéro de suivi dès que le colis nous quitte."
                         : "We ship via trusted courier partners, dispatching from our Barcelona workshop. All orders are fully tracked — you receive a tracking number as soon as the parcel leaves us."}
                     </p>
                     <div className="overflow-x-auto">
@@ -1071,7 +1064,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       </strong>{" "}
                       {isFR
                         ? "généralement 8–15 € pour les petites pièces, 15–25 € pour les commandes plus importantes. Le coût exact est confirmé dans votre devis avant que vous approuviez la commande."
-                        : "typically €8–15 for small parts, €15–25 for larger orders. The exact cost is confirmed in your quote before you approve the order."}
+                        : "typically 8 €–15 for small parts, 15 €–25 for larger orders. The exact cost is confirmed in your quote before you approve the order."}
                     </p>
                     {config.locale === "en_GB" && (
                       <p className="not-prose text-sm bg-secondary border border-border rounded-lg px-4 py-3 text-muted-foreground">

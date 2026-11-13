@@ -4,7 +4,8 @@ export type LayerId =
   | 'home_hero'
   | 'upload_area'
   | 'header'
-  | 'global_style';
+  | 'global_style'
+  | 'site';
 
 export type VariantId = 'A' | 'B' | 'C' | 'D';
 
@@ -29,6 +30,7 @@ export const LAYERS: LayerId[] = [
   'upload_area',
   'header',
   'global_style',
+  'site',
 ];
 
 // Source of truth for all experiments.
@@ -81,6 +83,21 @@ export const REGISTRY: ExperimentDef[] = [
     enabled: true,
   },
   {
+    // Site-wide design variant. Every page inherits A or B deterministically from
+    // the visitor id. Pre-paint sets data-xp-site-variant on <html>; <SiteShell>
+    // and <Header> read it. Kept disabled until Phase 9 verification passes;
+    // ?xp=site_variant:B forces B site-wide for QA.
+    id: 'site_variant',
+    layer: 'site',
+    variants: ['A', 'B'],
+    primaryMetric: 'upload_started',
+    guardrailMetrics: ['whatsapp_click'],
+    startedOn: '2026-11-13',
+    minDays: 21,
+    maxDays: 90,
+    enabled: true,
+  },
+  {
     id: 'home_v2',
     layer: 'home_hero',
     variants: ['A', 'B'],
@@ -90,8 +107,8 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-11-11',
     minDays: 21,
     maxDays: 90,
-    // Disabled until Nico approves V2 visually; forcing via ?xp=home_v2:B still works.
-    enabled: false,
+    // Phase 10.1: enabled at 50/50 after section 9 verification passed.
+    enabled: true,
   },
 ];
 

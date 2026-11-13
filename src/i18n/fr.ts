@@ -7,8 +7,8 @@ export const frTranslations: Record<string, string> = {
   "nav.projects": "Projets",
   "nav.reviews": "Avis clients",
   "nav.uploadFile": "Envoyer un fichier",
-  "nav.requestQuote": "Prix immédiat",
-  "nav.headerRating": "{rating}/5 sur Google",
+  "nav.requestQuote": "Voir mon prix",
+  "nav.headerRating": "{rating}/5",
   "nav.trackOrder": "Suivre ma commande",
 
   // Track page
@@ -172,8 +172,8 @@ export const frTranslations: Record<string, string> = {
   "reviews.subtitle": "Retours authentiques de clients avec lesquels nous avons travaillé",
   "reviews.based": "basé sur",
   "reviews.verified": "avis vérifiés",
-  "reviews.googleBadge": "{rating}/5 · {count} avis Google",
-  "reviews.writeOnGoogle": "Rédigez votre avis sur Google",
+  "reviews.googleBadge": "{rating}/5 · {count} avis clients",
+  "reviews.writeOnGoogle": "",
   "reviews.showMore": "Voir plus d'avis",
   "reviews.showLess": "Voir moins",
   "reviews.verifiedBadge": "Vérifié",
@@ -223,7 +223,7 @@ export const frTranslations: Record<string, string> = {
   "location.hoursLabel": "Retrait sur rendez-vous",
   "location.areas": "Les Corts · Eixample · Gràcia · Sarrià · Sants · Sant Martí · Nou Barris",
   "location.areasLabel": "Zones de livraison locale",
-  "location.viewMaps": "Voir sur Google Maps",
+  "location.viewMaps": "Voir la carte",
   "location.directions": "Itinéraire",
 
   // Pricing
@@ -426,7 +426,7 @@ export const frTranslations: Record<string, string> = {
   "calc.saveQuote.success": "C'est fait, nous vous l'envoyons. Prix valable 7 jours.",
   "calc.saveQuote.copyLink": "Copier le lien",
   "calc.saveQuote.copied": "Lien copié",
-  "calc.instantBuy.manualReview": "Que notre équipe le vérifie d'abord",
+  "calc.instantBuy.manualReview": "Que je le vérifie d'abord",
   "calc.instantBuy.manualReview.short": "Révision gratuite",
   "calc.instantBuy.fulfillment.pickup.short": "Retrait (gratuit)",
   "calc.instantBuy.fulfillment.shipping.short": "Livraison +{price}",
@@ -470,7 +470,7 @@ export const frTranslations: Record<string, string> = {
   "checker.overhang.needsSupport": "Des supports seront nécessaires",
   "checker.overhang.checkOrientation": "Vérifiez l'orientation — nombreux surplombs",
   "checker.overhang.disclaimer": "Estimation uniquement. Basée sur les normales de face — les besoins réels en support dépendent des paramètres du slicer et de l'orientation d'impression.",
-  "checker.cta.quote": "Prêt à imprimer ? Obtenir un prix instantané",
+  "checker.cta.quote": "Voir le prix de ce fichier",
   "checker.cta.filePrep": "Fichier à améliorer ? Lire le guide de préparation",
   "checker.reset": "Vérifier un autre fichier",
   "checker.error.parse": "Impossible de lire ce fichier. Assurez-vous qu'il s'agit d'un STL valide (binaire ou ASCII).",
@@ -594,12 +594,14 @@ export const frTranslations: Record<string, string> = {
   "calc.summary.express": "Supplément express",
   "calc.summary.shipping": "Livraison",
   "calc.summary.total": "Total",
+  "calc.breakdown.piece": "Pièce",
+  "calc.breakdown.minHelper": "Ta commande atteint le minimum de 10 € : tu peux ajouter des pièces jusqu'à ce montant sans frais supplémentaires.",
   "calc.fulfillment.pickupAddress": "Retrait : {address}",
   "calc.fulfillment.free": "gratuit",
   "calc.fulfillment.byAppointment": "sur rendez-vous",
   "calc.instantBuy.reviewHint": "Sans paiement maintenant : nous confirmons le prix final en moins d'1 heure.",
-  "calc.mixed.note": "Certains matériaux nécessitent une vérification rapide de notre équipe avant de facturer.",
-  "calc.error.checkout": "Nous n'avons pas pu lancer le paiement. Vérifiez les paramètres ou demandez à notre équipe de le vérifier.",
+  "calc.mixed.note": "Certains matériaux nécessitent une vérification rapide de ma part avant de facturer.",
+  "calc.error.checkout": "Nous n'avons pas pu lancer le paiement. Vérifiez les paramètres ou demandez-moi de le vérifier.",
 
   // Checkout redesign — Part G keys
   "calc.simple.qty": "Quantité",
@@ -686,7 +688,7 @@ export const frTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continuer vers le paiement",
   "calc.checkout.parts": "Vos pièces",
   "calc.checkout.summary": "Récapitulatif de commande",
-  "calc.checkout.largeFile": "Fichier volumineux : notre équipe confirme le prix.",
+  "calc.checkout.largeFile": "Fichier volumineux : je confirme le prix.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Paiement confirmé — votre commande est passée !",
   "calc.checkout.success.banner.body": "Nous vous tiendrons informé de l'avancement de votre impression. Merci pour votre commande.",
@@ -712,7 +714,7 @@ export const frTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Lendemain",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Les impressions multicolores ou les matériaux spéciaux sont d'abord examinés par notre équipe — vous recevrez un devis confirmé dans l'heure.",
+  "calc.actions.quoteOnlyWhy": "Les impressions multicolores ou les matériaux spéciaux sont d'abord je les examine — vous recevrez un devis confirmé dans l'heure.",
   "calc.color.name.any": "N'importe quelle couleur",
   "calc.color.name.White": "Blanc",
   "calc.color.name.Black": "Noir",
@@ -814,7 +816,7 @@ export const frTranslations: Record<string, string> = {
 
   // Lemon referral page
   "lemon.meta.title": "Impression 3D à Barcelone — Pièces sur mesure à la demande",
-  "lemon.meta.desc": "Nous fabriquons toute pièce en 3D à Barcelone. Envoyez une photo, obtenez un prix sous une heure, récupérez-le ou faites livrer. Dès 10 €, sans minimum.",
+  "lemon.meta.desc": "Nous fabriquons toute pièce en 3D à Barcelone. Envoyez une photo, obtenez un prix sous une heure, récupérez-le ou faites livrer. Dès 10 € minimum, à partir d.1 pièce.",
   "lemon.hero.title": "Tout ce dont vous avez besoin, fabriqué en 3D.",
   "lemon.hero.subtitle": "Une pièce cassée, un accessoire introuvable, une création unique.",
   "lemon.hero.detail": "Envoyez une photo ou un fichier — obtenez un prix en moins d'une heure.",
@@ -841,7 +843,7 @@ export const frTranslations: Record<string, string> = {
   "lemon.steps.heading": "Comment ça marche",
   "lemon.hero.headline": "Tout ce dont vous avez besoin, fabriqué en 3D.",
   "lemon.hero.sub": "Envoyez-nous une photo de ce dont vous avez besoin — nous répondons généralement dans l'heure.",
-  "lemon.location": "Atelier à Sants, Barcelone · retrait ou livraison dans toute l'Europe",
+  "lemon.location": "Studio à Les Corts, Barcelone · retrait ou livraison dans toute l'Europe",
   "nav.forBusiness": "Pour les entreprises",
   "nav.b2bProduction": "Impression 3D pour Entreprises",
   "nav.b2bPrototyping": "Prototypage pour Entreprises",
@@ -908,7 +910,7 @@ export const frTranslations: Record<string, string> = {
   // Item 4 — autumn discount
   "calc.autumn.badge": "Offre d'automne",
   "calc.autumn.line": "Remise d'automne −10 %",
-  "calc.autumn.nudge": "Ajoutez {amount} de plus et économisez 10 %",
+  "calc.autumn.nudge": "Dès 20 € de commande : −10 %",
 
   "calc.actions.quoteOnly.over-limit": "Les grandes commandes (plus de 200 €) sont examinées manuellement — nous vous envoyons le prix final en moins d'1 h.",
   "calc.actions.quoteOnly.oversize": "Une pièce est plus grande que notre imprimante (256 mm). Nous la révisons et vous proposons comment la diviser.",
@@ -953,7 +955,7 @@ export const frTranslations: Record<string, string> = {
   "home.final.heading": "Téléchargez votre fichier. Vous connaissez le prix en 10 secondes.",
   "home.whatwep.heading": "Ce que nous imprimons",
   "home.whatwep.subheading": "Des prototypes fonctionnels aux pièces finies du quotidien.",
-  "home.hero.cta": "Voir mon prix — à partir de 10 €",
+  "home.hero.cta": "Envoyer le fichier et voir le prix",
   "home.v2.h1.pre": "Impression 3D de",
   "home.v2.h1.highlight": "haute qualité",
   "home.v2.h1.post": "à Barcelone.",
@@ -994,7 +996,7 @@ export const frTranslations: Record<string, string> = {
   "home.why.col1.title": "Local à Barcelone",
   "home.why.col1.desc": "Production à Les Corts. Retrait sur rendez-vous ou livraison dans toute l'Espagne.",
   "home.why.col2.title": "24–48 h",
-  "home.why.col2.desc": "Délai habituel. Service express disponible sans supplément.",
+  "home.why.col2.desc": "Délai habituel. Pour des délais plus serrés, des tarifs plus rapides sont disponibles avec supplément.",
   "home.why.col3.title": "Une vraie personne",
   "home.why.col3.desc": "Nico vérifie chaque fichier avant d'imprimer et t'écrit sur WhatsApp.",
   "home.why.col4.title": "Haute qualité",

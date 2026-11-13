@@ -70,7 +70,7 @@ const C = {
       { n: "01", title: "Envía el brief", desc: "Rellena el formulario con la descripción, dimensiones, material preferido y nivel de urgencia. Adjunta archivo 3D o fotos si los tienes." },
       { n: "02", title: "Recibe el presupuesto", desc: "Te enviamos precio y plazo en menos de 1 hora (urgente: en 15 min). Sin compromiso, sin registro previo." },
       { n: "03", title: "Confirma y pagamos", desc: "Confirmas por email o WhatsApp, haces el pago online y la pieza entra en cola de impresión inmediatamente." },
-      { n: "04", title: "Recoge o recibe", desc: "Recogida en Les Corts (Barcelona) o envío a toda España. Urgente: recogida en mano en nuestro taller en menos de 4 h." },
+      { n: "04", title: "Recoge o recibe", desc: "Recogida en Les Corts (Barcelona) o envío a toda España. Urgente: recogida en mano en el estudio en menos de 4 h." },
     ],
     includedHeading: "Qué incluye el servicio",
     included: [
@@ -218,7 +218,7 @@ const C = {
       { n: "01", title: "Send the brief", desc: "Fill in the form with the description, dimensions, preferred material and urgency level. Attach a 3D file or photos if you have them." },
       { n: "02", title: "Get a quote", desc: "We send you price and timeline in under 1 hour (urgent: within 15 min). No commitment, no prior registration." },
       { n: "03", title: "Confirm and pay", desc: "You confirm by email or WhatsApp, make the payment online, and the part enters the print queue immediately." },
-      { n: "04", title: "Pick up or receive", desc: "Pickup in Les Corts (Barcelona) or shipping throughout Spain. Urgent: in-person pickup at our workshop in under 4 h." },
+      { n: "04", title: "Pick up or receive", desc: "Pickup in Les Corts (Barcelona) or shipping throughout Spain. Urgent: in-person pickup at the studio in under 4 h." },
     ],
     includedHeading: "What's included",
     included: [
@@ -366,7 +366,7 @@ const C = {
       { n: "01", title: "Envia el brief", desc: "Omple el formulari amb la descripció, dimensions, material preferit i nivell d'urgència. Adjunta arxiu 3D o fotos si en tens." },
       { n: "02", title: "Rep el pressupost", desc: "T'enviem preu i termini en menys d'1 hora (urgent: en 15 min). Sense compromís, sense registre previ." },
       { n: "03", title: "Confirma i paga", desc: "Confirmes per email o WhatsApp, fas el pagament online i la peça entra a la cua d'impressió immediatament." },
-      { n: "04", title: "Recull o rep", desc: "Recollida a Les Corts (Barcelona) o enviament a tota Espanya. Urgent: recollida en mà al nostre taller en menys de 4 h." },
+      { n: "04", title: "Recull o rep", desc: "Recollida a Les Corts (Barcelona) o enviament a tota Espanya. Urgent: recollida en mà a l'estudi en menys de 4 h." },
     ],
     includedHeading: "Què inclou el servei",
     included: [

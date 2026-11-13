@@ -26,15 +26,17 @@ const LANG_LABELS: Record<Language, string> = {
   pt: "Português",
 };
 
-const LANG_FLAGS: Record<Language, string> = {
-  es: "🇪🇸",
-  ca: "🇦🇩",
-  en: "🇬🇧",
-  de: "🇩🇪",
-  fr: "🇫🇷",
-  nl: "🇳🇱",
-  it: "🇮🇹",
-  pt: "🇵🇹",
+// Phase 2.6: no flag emojis. Language names in their own language only.
+// (Previously used Andorra's flag for Catalan, which is incorrect.)
+const LANG_CODES: Record<Language, string> = {
+  es: "ES",
+  ca: "CA",
+  en: "EN",
+  de: "DE",
+  fr: "FR",
+  nl: "NL",
+  it: "IT",
+  pt: "PT",
 };
 
 const ALL_LANGUAGES: Language[] = ["es", "ca", "en", "de", "fr", "nl", "it", "pt"];
@@ -151,7 +153,7 @@ const LanguageSelector = ({ landingTopicSlugs, hreflangMap }: Props) => {
                 }`}
               >
                 <span className="flex items-center gap-2">
-                  <span aria-hidden="true">{LANG_FLAGS[lang]}</span>
+                  <span aria-hidden="true" className="font-mono text-xs w-6 text-ds-text-muted">{LANG_CODES[lang]}</span>
                   {LANG_LABELS[lang]}
                 </span>
                 {isActive && <Check className="w-4 h-4 text-primary shrink-0" />}

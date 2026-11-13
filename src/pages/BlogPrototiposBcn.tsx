@@ -34,7 +34,7 @@ const FAQS = [
   },
   {
     q: "¿Hay pedido mínimo para prototipos? ¿Y para tiradas cortas?",
-    a: "No hay pedido mínimo en número de unidades — imprimimos desde una sola pieza. El precio mínimo por pedido es de 10€. Para tiradas cortas, aplicamos descuentos por cantidad: 5% de descuento a partir de 10 unidades, 10% a partir de 25 y 15% a partir de 50. Esto lo hace especialmente interesante para series de pre-producción antes de comprometerse con una inversión en moldes o fabricación en masa. Para pedidos de más de 50 unidades, contacta con nosotros para un presupuesto personalizado.",
+    a: "No hay pedido mínimo en número de unidades — imprimimos desde una sola pieza. El precio mínimo por pedido es de 10 €. Para tiradas cortas, aplicamos descuentos por cantidad: 5% de descuento a partir de 10 unidades, 10% a partir de 25 y 15% a partir de 50. Esto lo hace especialmente interesante para series de pre-producción antes de comprometerse con una inversión en moldes o fabricación en masa. Para pedidos de más de 50 unidades, contacta con nosotros para un presupuesto personalizado.",
   },
   {
     q: "¿Qué formatos de archivo aceptáis para prototipos y piezas técnicas?",
@@ -354,7 +354,7 @@ const BlogPrototiposBcn = () => {
                   Para tiradas cortas aplicamos descuentos por volumen que hacen el coste por unidad progresivamente más competitivo: <strong className="text-foreground">5% de descuento a partir de 10 unidades</strong>, <strong className="text-foreground">10% a partir de 25 unidades</strong> y <strong className="text-foreground">15% a partir de 50 unidades</strong>. A partir de 100 unidades, el precio por unidad suele ser lo suficientemente bajo para que valga la pena discutir el proyecto en detalle — contáctanos para un presupuesto personalizado.
                 </p>
                 <p>
-                  Una tirada corta en FDM antes de comprometerse con moldes de inyección tiene además un valor estratégico: validas que el diseño final funciona en producción, identificas posibles problemas de ensamble o de uso real, y puedes tener un primer lote de producto para clientes beta o para exposición comercial mientras preparas la fabricación en serie. El coste de un molde de inyección simple empieza en varios miles de euros — una tirada de 50 unidades en FDM puede costar entre 200€ y 800€ dependiendo del tamaño y el material, y te da información real sobre el producto antes de ese compromiso.
+                  Una tirada corta en FDM antes de comprometerse con moldes de inyección tiene además un valor estratégico: validas que el diseño final funciona en producción, identificas posibles problemas de ensamble o de uso real, y puedes tener un primer lote de producto para clientes beta o para exposición comercial mientras preparas la fabricación en serie. El coste de un molde de inyección simple empieza en varios miles de euros — una tirada de 50 unidades en FDM puede costar entre 200 € y 800 € dependiendo del tamaño y el material, y te da información real sobre el producto antes de ese compromiso.
                 </p>
               </div>
             </article>
@@ -377,7 +377,7 @@ const BlogPrototiposBcn = () => {
                   {
                     title: "Carcasa para prototipo de hardware de startup",
                     meta: "PETG · 2 iteraciones · entrega en 72h total",
-                    body: "Una startup de IoT necesitaba validar el diseño de la carcasa de su dispositivo antes de pedir el molde de inyección. La primera versión reveló que el Puerto USB quedaba 0,3 mm demasiado alto respecto al panel. Corrigieron el CAD y tuvieron la segunda versión impresa en 36 horas. El molde se encargó con el diseño de la segunda iteración, ahorrando un retrabajo de molde que habría costado 1.200€.",
+                    body: "Una startup de IoT necesitaba validar el diseño de la carcasa de su dispositivo antes de pedir el molde de inyección. La primera versión reveló que el Puerto USB quedaba 0,3 mm demasiado alto respecto al panel. Corrigieron el CAD y tuvieron la segunda versión impresa en 36 horas. El molde se encargó con el diseño de la segunda iteración, ahorrando un retrabajo de molde que habría costado 1.200 €.",
                   },
                   {
                     title: "Utillaje de montaje para taller de electrónica",
@@ -458,7 +458,7 @@ const BlogPrototiposBcn = () => {
               <Button
                 onClick={handleWhatsApp}
                 size="xl"
-                className="bg-[#25D366] hover:bg-[#1ebe5d] text-white shadow-lg gap-2"
+                variant="outline" className="gap-2"
               >
                 <MessageCircle className="w-5 h-5" />
                 Consultar por WhatsApp
