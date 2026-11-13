@@ -58,6 +58,14 @@ const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "materials-comparison",
   "turnaround-comparison",
   "technology-comparison",
+  // Blog posts routed through LandingPage are also articles.
+  "blog-pla-vs-petg",
+  "blog-imprimir-sin-impresora",
+  "blog-modelos-descargados",
+  "blog-cuanto-tarda",
+  "blog-que-se-puede-imprimir",
+  "blog-convertir-foto-3d",
+  "blog-piezas-recambio",
 ]);
 
 const DEFAULT_DATE_PUBLISHED = "2026-08-01";

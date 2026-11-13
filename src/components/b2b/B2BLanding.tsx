@@ -166,7 +166,8 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     htmlLang: "es",
     canonicalPath: "/impresion-3d-empresas-barcelona",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
-    metaDesc: "Impresión 3D para empresas en Barcelona: piezas funcionales, prototipos, recambios y tiradas cortas. Desde 10 €, sin tarifa de configuración. Presupuesto en 1h.",
+    // SEO baseline — rule 0.2: meta description is byte-frozen on this page.
+    metaDesc: "Impresión 3D para empresas en Barcelona: piezas funcionales, prototipos, recambios y tiradas cortas. Desde €10, sin tarifa de configuración. Presupuesto en 1h.",
     h1: "Impresión 3D para Empresas en Barcelona",
     heroPromise: "Más de 250 pedidos completados. Piezas listas en 2–5 días, presupuesto en 1 hora.",
     heroSub: "Sin tarifa de configuración. Pedido mínimo 10 €. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
@@ -360,7 +361,8 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     htmlLang: "ca",
     canonicalPath: "/ca/impressio-3d-empreses-barcelona",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
-    metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis, tirades curtes. Des de 10 €, sense tarifa. Pressupost en 1 h.",
+    // SEO baseline — rule 0.2: meta description is byte-frozen on this page.
+    metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis i tirades curtes. Des de €10, sense tarifa de configuració. Pressupost en 1 hora.",
     h1: "Impressió 3D per a Empreses a Barcelona",
     heroPromise: "Més de 250 comandes completades. Peces llestes en 2–5 dies, pressupost en 1 hora.",
     heroSub: "Sense tarifa de configuració. Comanda mínima 10 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
