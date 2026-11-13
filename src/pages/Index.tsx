@@ -242,7 +242,7 @@ const Index = () => {
   useSectionView(faqRef, "faq");
   useSectionView(b2bRef, "b2b");
   useXpExposure(reviewsRef, "home_proof_r1");
-  useXpExposure(heroRef, "home_v2");
+  // home_v2 merged into site_variant — SiteShell fires that exposure once per session.
 
   // Phase 1.3: exactly one <h1> in the DOM. SSR ships both V1 + V2 heroes
   // (CSS hides one); after hydrate we physically remove the inactive one so

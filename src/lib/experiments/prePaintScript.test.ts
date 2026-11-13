@@ -72,7 +72,8 @@ function expected(
   lang = 'es',
   now = Date.now()
 ): Record<string, string> {
-  if (isHoldout(vid)) return { 'data-xp-holdout': 'true' };
+  // Holdout removed — every visitor participates at an exact 50/50 split.
+  void isHoldout; // keep import for test-only legacy helpers below
 
   const eligible = experiments.filter(
     e => e.enabled && now < e.endMs && (!e.langs || e.langs.includes(lang))
@@ -126,21 +127,11 @@ describe('buildPrePaintScript', () => {
     expect(mismatches).toBe(0);
   });
 
-  it('holdout ids get no data-xp-<experiment-id> attribute', () => {
-    // Collect ten holdout ids quickly
-    const holdoutIds: string[] = [];
-    for (let i = 0; holdoutIds.length < 10 && i < 20_000; i++) {
-      if (isHoldout(`h-${i}`)) holdoutIds.push(`h-${i}`);
-    }
-    expect(holdoutIds.length).toBeGreaterThan(0);
-
-    for (const vid of holdoutIds) {
+  it('no visitor is placed in holdout (holdout removed — exact 50/50)', () => {
+    for (let i = 0; i < 2000; i++) {
+      const vid = `h-${i}`;
       const attrs = runScript(script, vid);
-      // Only data-xp-holdout should be set; no per-experiment attribute
-      for (const exp of experiments) {
-        expect(attrs[exp.attr]).toBeUndefined();
-      }
-      expect(attrs['data-xp-holdout']).toBe('true');
+      expect(attrs['data-xp-holdout']).toBeUndefined();
     }
   });
 
@@ -157,24 +148,8 @@ describe('buildPrePaintScript', () => {
     const expsWithExpired = [...experiments, expiredExp];
     const scriptWithExpired = buildPrePaintScript(expsWithExpired);
 
-    // Find a non-holdout visitor
-    let vid = '';
-    for (let i = 0; i < 1000; i++) {
-      if (!isHoldout(`noholdout-${i}`)) { vid = `noholdout-${i}`; break; }
-    }
-    expect(vid).not.toBe('');
-
+    const vid = 'any-visitor-123';
     const attrs = runScript(scriptWithExpired, vid);
     expect(attrs['data-xp-test-expired']).toBeUndefined();
-  });
-
-  it('holdout rate is between 8% and 12% over 2,000 ids', () => {
-    let holdoutCount = 0;
-    for (let i = 0; i < 2000; i++) {
-      if (isHoldout(`rate-${i}`)) holdoutCount++;
-    }
-    const rate = holdoutCount / 2000;
-    expect(rate).toBeGreaterThan(0.08);
-    expect(rate).toBeLessThan(0.12);
   });
 });

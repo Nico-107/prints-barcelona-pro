@@ -25,8 +25,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const siteVariant = useVariant();
-  // Dark theme applies site-wide in variant B (Phase 1.1). The home_v2
-  // experiment keeps its over-hero behaviour on the home page for A visitors.
+  // Dark theme applies site-wide in variant B (Phase 1.1). The old home_v2
+  // experiment has been merged into site_variant — one switch for B.
   const [isOverV2Hero, setIsOverV2Hero] = useState(siteVariant === "B");
   // Separate from isOverV2Hero: true only when a dark hero exists AND we are
   // still scrolled above it. Controls header background (transparent over the
@@ -64,14 +64,10 @@ const Header = () => {
         setIsOverDarkHero(rect.bottom > 10);
         return;
       }
-      // Legacy home_v2 behaviour for A visitors on home: dark only over hero.
-      const isV2 = document.documentElement.dataset.xpHomeV2 === 'B';
-      if (!isV2) { setIsOverV2Hero(false); setIsOverDarkHero(false); return; }
-      const heroEl = document.querySelector('[data-v2-hero]') as HTMLElement | null;
-      if (!heroEl) { setIsOverV2Hero(false); setIsOverDarkHero(false); return; }
-      const over = window.scrollY < heroEl.offsetHeight - 10;
-      setIsOverV2Hero(over);
-      setIsOverDarkHero(over);
+      // Variant A: always light header. (Previous home_v2 fallback removed —
+      // one switch now controls B site-wide via site_variant.)
+      setIsOverV2Hero(false);
+      setIsOverDarkHero(false);
     };
     check();
     window.addEventListener('scroll', check, { passive: true });

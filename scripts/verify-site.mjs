@@ -42,7 +42,7 @@ function assignVariant(vid, id, variants) {
   const f = hashFraction(vid + "::" + id);
   return variants[Math.floor(f * variants.length)];
 }
-function isHoldout(vid) { return hashFraction(vid + "::holdout") < 0.1; }
+// Holdout has been removed — site_variant is exactly 50/50 with no holdout.
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
@@ -286,39 +286,32 @@ if (!args.has("--seo")) {
 // when localStorage is unavailable) always resolve to A; holdout rate is
 // about 10% and holdout visitors never participate.
 if (!args.has("--seo")) {
-  console.log("\n9.4 Split test (10 000 random visitor ids) …");
+  console.log("\n9.4 Split test (10 000 random visitor ids, no holdout) …");
   const N = 10000;
-  let b = 0, holdout = 0;
+  let b = 0;
   const samples = [];
   for (let i = 0; i < N; i++) {
     const vid = randomUUID().replace(/-/g, "").slice(0, 18);
     samples.push(vid);
-    if (isHoldout(vid)) { holdout++; continue; }
     const v = assignVariant(vid, "site_variant", ["A", "B"]);
     if (v === "B") b++;
   }
-  const inSplit = N - holdout;
-  const pct = inSplit > 0 ? (b / inSplit) * 100 : 0;
+  const pct = (b / N) * 100;
   const stable = samples.every(
     (vid) => assignVariant(vid, "site_variant", ["A", "B"]) ===
              assignVariant(vid, "site_variant", ["A", "B"]),
   );
-  // Pre-paint shortcircuits to variants[0] when vid === 'bot' or UA matches
-  // bot/crawler/headless (see prePaintScript.ts); mirror here.
-  const botVariant = "A"; // first variant of site_variant
+  const botVariant = "A";
   const errs = [];
   if (pct < 48 || pct > 52) errs.push(`B share out of band: ${pct.toFixed(2)}% (want 48–52)`);
   if (!stable) errs.push("non-deterministic: same vid resolved to different variants");
-  // Separately: assert the pre-paint source contains the bot shortcircuit.
   const prePaintSrc = readFileSync(resolve(root, "src/lib/experiments/prePaintScript.ts"), "utf-8");
   if (!prePaintSrc.includes("isBot") || !prePaintSrc.includes("variant=exp.variants[0]"))
     errs.push("pre-paint script missing bot → variants[0] shortcircuit");
-  console.log(`   bot (via pre-paint shortcircuit) → ${botVariant}`);
-  const holdoutPct = (holdout / N) * 100;
-  if (holdoutPct < 8 || holdoutPct > 12)
-    errs.push(`holdout out of band: ${holdoutPct.toFixed(2)}% (want ~10)`);
+  if (prePaintSrc.includes("data-xp-holdout"))
+    errs.push("pre-paint script still references holdout (goal: exact 50/50, no holdout)");
   console.log(
-    `   N=${N}, holdout=${holdoutPct.toFixed(2)}%, B/(A+B)=${pct.toFixed(2)}%, stable=${stable}, bot→${botVariant}`,
+    `   N=${N}, B/N=${pct.toFixed(2)}%, stable=${stable}, bot→${botVariant}, holdout=none`,
   );
   for (const e of errs) console.log(`   ✗ ${e}`);
   if (errs.length) failed = true;
