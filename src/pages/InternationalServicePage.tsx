@@ -150,8 +150,11 @@ const InternationalServicePage = () => {
 
         <div className="container relative z-10 px-4 py-16">
           <div className="max-w-3xl mx-auto text-center">
+            {/* Phase 2.6: flag emoji removed. Phase 3.2: single delivery
+                line matching checkout (3–5 business days to Europe + 5,90 €
+                tracked). */}
             <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
-              🇬🇧 3D Printing from Barcelona · Ships Worldwide
+              3D Printing from Barcelona · Ships across Europe
             </div>
 
             <h1 className="text-[28px] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
@@ -159,18 +162,18 @@ const InternationalServicePage = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-primary-foreground/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery in 3–7 business days anywhere in Europe. From 10 €. No minimum quantity.
+              Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery in 3–5 business days across Europe. From 10 € minimum order, from one piece.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
               <Button variant="cta" size="xl" className="shadow-lg" data-ph-name="intl-hero-cta" onClick={() => scrollToCalc("hero")}>
-                Get an Instant Quote
+                Upload a file and see the price
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </div>
 
             <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
-              {["From 10 €", "Quote in 1 hour", "Ships to 30+ countries", "Tracked delivery", "No account needed"].map((label) => (
+              {["From 10 €", "Quote in 1 hour", "Shipping 5,90 € tracked", "3–5 business days to Europe", "No setup fee"].map((label) => (
                 <span key={label} className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
                   {label}
@@ -188,11 +191,13 @@ const InternationalServicePage = () => {
       </section>
 
       {/* Quick stats */}
+      {/* Phase 3.2: strip matches the checkout — shipping 5,90 € tracked,
+          minimum 10 €, delivery to Europe 3–5 business days. */}
       <FactsStrip
         items={[
           { value: "< 1 h", label: "QUOTE TURNAROUND" },
           { value: "3–5 days", label: "DELIVERY TO EUROPE" },
-          { value: "30+", label: "COUNTRIES SHIPPED" },
+          { value: "5,90 €", label: "SHIPPING TRACKED" },
           { value: "10 €", label: "MINIMUM ORDER" },
         ]}
         variant="light"
@@ -204,7 +209,7 @@ const InternationalServicePage = () => {
           <UploadPanel
             label="INSTANT PRICE — FROM 10 €"
             heading="Upload your files and see the price now."
-            description="No account required. 10 € minimum order, no setup fee. Shipping calculated at checkout."
+            description="No account required. 10 € minimum order, no setup fee. Shipping 5,90 € tracked to anywhere in Europe."
           >
             <StlEstimator compact shippingOnly />
           </UploadPanel>
@@ -253,7 +258,7 @@ const InternationalServicePage = () => {
                     <strong className="text-foreground">Human review within 1 hour.</strong> A real person checks your file for printability — wall thicknesses, overhangs, orientation — and confirms the exact price, lead time, and any material recommendations. If there's a potential problem, we tell you before we print anything.
                   </li>
                   <li>
-                    <strong className="text-foreground">Approve and we print.</strong> Once you confirm the quote, the job enters our print queue. Most standard orders ship within 3–7 business days. Express options are available for urgent needs.
+                    <strong className="text-foreground">Approve and we print.</strong> Once you confirm the quote, the job enters our print queue. Most standard orders ship within 3–5 business days. Express options are available for urgent needs.
                   </li>
                   <li>
                     <strong className="text-foreground">Tracked courier delivery.</strong> We dispatch via trusted carriers. You receive a tracking number as soon as the parcel leaves the studio. Typical delivery: 1–2 days within Spain, 3–5 days to most of Europe, 5–10 days worldwide.
@@ -356,7 +361,7 @@ const InternationalServicePage = () => {
                     <strong className="text-foreground">Direct communication.</strong> You message the person who actually prints your part, not a support bot or a ticket queue. Questions are answered in minutes, not days.
                   </li>
                   <li>
-                    <strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing, no review queues. Most orders ship within 3–7 business days from confirmation.
+                    <strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing, no review queues. Most orders ship within 3–5 business days from confirmation.
                   </li>
                   <li>
                     <strong className="text-foreground">No minimum quantity.</strong> Unlike many industrial services that require batch minimums of 5 or 10 units, we print single parts starting at 10 €.
