@@ -169,7 +169,7 @@ const Header = () => {
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-200",
           isOverV2Hero
-            ? isOverDarkHero
+            ? (isOverDarkHero && !isMenuOpen)
               ? "bg-transparent border-b border-transparent"
               : "bg-[#0B1020] border-b border-white/10 shadow-[0_1px_8px_rgba(0,0,0,0.25)]"
             : cn("bg-white border-b border-[#E3E8F0]", scrolled && "shadow-[0_1px_8px_rgba(15,23,42,0.08)]")
@@ -179,8 +179,21 @@ const Header = () => {
         <div className="container px-4 sm:px-6">
           <div className="flex items-center h-[var(--header-h)]">
 
-            {/* Logo */}
-            <Link to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"} className="flex items-center gap-2 shrink-0">
+            {/* Logo — on the home/hub page scrolls to top (Phase 2.6: was a no-op);
+                elsewhere navigates to that language's hub. */}
+            <Link
+              to={LANG_HUB[language as keyof typeof LANG_HUB] ?? "/"}
+              className="flex items-center gap-2 shrink-0"
+              onClick={(e) => {
+                const hub = LANG_HUB[language as keyof typeof LANG_HUB] ?? "/";
+                const path = location.pathname;
+                const onHub = path === hub || path === hub + "/" || (hub === "/" && path === "");
+                if (onHub) {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
               {isOverV2Hero ? (
                 <svg width="28" height="28" viewBox="0 0 120 120" aria-hidden="true">
                   <polygon points="60,26 94,62 60,98 26,62" fill="none" stroke="#FFFFFF" strokeWidth="8" strokeLinejoin="round"/>
@@ -215,16 +228,43 @@ const Header = () => {
               </span>
             </Link>
 
-            {/* Desktop primary nav — V2 black header reduced set */}
+            {/* Desktop primary nav — V2 dark header, matching the A grouped menu set */}
             {isOverV2Hero && (
-              <nav className="hidden lg:flex items-center gap-6 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15.5 }}>
+              <nav className="hidden lg:flex items-center gap-5 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15 }}>
                 {(() => {
                   const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
                   return (<>
-                    <button type="button" onClick={() => scrollToSection('precios')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.precios")}</button>
-                    <button type="button" onClick={() => scrollToSection('maquina')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.como")}</button>
-                    <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15.5 }}>{t("header.v2.empresas")}</Link>
-                    <button type="button" onClick={handleNoFile} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15.5, fontFamily: 'inherit' }}>{t("header.v2.sin")}</button>
+                    <button type="button" onClick={() => scrollToSection('precios')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
+                    <button type="button" onClick={() => scrollToSection('maquina')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
+                    <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15, whiteSpace: 'nowrap' }}>{t("header.v2.empresas")}</Link>
+                    <button type="button" onClick={handleNoFile} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.sin")}</button>
+
+                    {/* Phase 2.6: grouped Servicios + Recursos menus on variant B too */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="flex items-center gap-1 outline-none" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+                        {t("nav.services")}
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-56 bg-white border-[#E3E8F0] z-50">
+                        {servicesGroup.items.map((item) => {
+                          const href = slugForLang(item, language as any);
+                          return (
+                            <DropdownMenuItem key={item.slugEn} asChild>
+                              <Link to={href} onClick={() => capture("nav_click", { menu: "services", label_key: item.slugEn, href })} className="cursor-pointer">
+                                {itemLabel(item)}
+                              </Link>
+                            </DropdownMenuItem>
+                          );
+                        })}
+                        <DropdownMenuSeparator />
+                        <DropdownMenuLabel className="text-xs uppercase tracking-wide text-[#5B6577]">{t("nav.tools")}</DropdownMenuLabel>
+                        <DropdownMenuItem asChild>
+                          <Link to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"} onClick={() => capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })} className="cursor-pointer">
+                            {t("nav.fileChecker")}
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </>);
                 })()}
               </nav>
@@ -258,6 +298,10 @@ const Header = () => {
                   </Link>
                 );
               })()}
+              {/* Phase 2.6: Catálogo + Custom design hide below xl so the header
+                  fits in 1024/1228 across all 8 languages (German "Bestellung
+                  verfolgen" + "Sofortpreis" used to truncate at 1228). They
+                  live in the Servicios / Resources dropdowns at lg widths. */}
               {(() => {
                 const active = isActivePath("/catalogo");
                 return (
@@ -265,7 +309,7 @@ const Header = () => {
                     to="/catalogo"
                     onClick={() => capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" })}
                     className={cn(
-                      "text-sm font-medium transition-colors whitespace-nowrap",
+                      "hidden xl:inline-flex text-sm font-medium transition-colors whitespace-nowrap",
                       active ? "text-[#0F172A] font-semibold" : "text-[#5B6577] hover:text-[#0F172A]"
                     )}
                   >
@@ -281,7 +325,7 @@ const Header = () => {
                     to={href}
                     onClick={() => capture("nav_click", { menu: "main", label_key: "custom-design", href })}
                     className={cn(
-                      "text-sm font-medium transition-colors whitespace-nowrap",
+                      "hidden xl:inline-flex text-sm font-medium transition-colors whitespace-nowrap",
                       active ? "text-[#0F172A] font-semibold" : "text-[#5B6577] hover:text-[#0F172A]"
                     )}
                   >
@@ -360,16 +404,30 @@ const Header = () => {
               </DropdownMenu>
             </nav>
 
-            {/* Desktop utility nav — V2 black header */}
+            {/* Desktop utility nav — V2 dark header */}
             {isOverV2Hero && (
-              <div className="hidden lg:flex items-center gap-5">
-                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF' }}>
+              <div className="hidden lg:flex items-center gap-3">
+                <span className="hidden xl:inline" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: '#FFFFFF', whiteSpace: 'nowrap' }}>
                   <span style={{ color: '#F5A524' }}>★</span> {t("header.v2.rating")}
                 </span>
+                {/* Phase 2.6: language switcher present in variant B too */}
+                <div className="text-white [&_button]:text-white [&_button:hover]:text-white/80">
+                  <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
+                </div>
+                {/* Phase 2.6: Seguir pedido present in variant B too */}
+                <Link
+                  to="/track"
+                  onClick={() => capture("nav_click", { menu: "main", label_key: "track", href: "/track" })}
+                  className="flex items-center gap-1.5 whitespace-nowrap"
+                  style={{ color: '#FFFFFF', textDecoration: 'none', fontSize: 14 }}
+                >
+                  <PackageSearch className="w-4 h-4" />
+                  {t("nav.trackOrder")}
+                </Link>
                 <button
                   type="button"
                   onClick={() => openCalculatorFilePicker("header_v2")}
-                  style={{ background: '#F5A524', color: '#0B1020', fontWeight: 600, padding: '13px 22px', borderRadius: 10, fontSize: 16, border: 0, cursor: 'pointer', fontFamily: "'Inter', system-ui, sans-serif", whiteSpace: 'nowrap' }}
+                  style={{ background: '#F5A524', color: '#0B1020', fontWeight: 600, padding: '11px 18px', borderRadius: 10, fontSize: 15, border: 0, cursor: 'pointer', fontFamily: "'Inter', system-ui, sans-serif", whiteSpace: 'nowrap' }}
                 >
                   {t("header.v2.cta")}
                 </button>
@@ -392,10 +450,11 @@ const Header = () => {
               </div>
 
               <LanguageSelector landingTopicSlugs={landingTopicSlugs} />
-              <Button asChild variant="ghost" size="sm" className="text-[#5B6577] hover:text-[#0F172A]">
+              {/* Phase 2.6: label hides below xl so the German header fits at 1228. */}
+              <Button asChild variant="ghost" size="sm" className="text-[#5B6577] hover:text-[#0F172A]" aria-label={t("nav.trackOrder")}>
                 <Link to="/track" className="gap-1.5 whitespace-nowrap">
                   <PackageSearch className="w-4 h-4" />
-                  {t("nav.trackOrder")}
+                  <span className="hidden xl:inline">{t("nav.trackOrder")}</span>
                 </Link>
               </Button>
               <Button
