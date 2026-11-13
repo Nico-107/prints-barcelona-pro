@@ -268,6 +268,22 @@ export interface OrderPrice {
 }
 const rnd = (x: number) => Math.floor(x + 0.5);
 
+/**
+ * Conv 1.3: shared pricing flag. OFF by default — client and server
+ * must flip in lock-step so the client never shows a price the server
+ * would not charge. This constant is read here for forward compatibility;
+ * the shared source of truth is src/config/pricingFlags.ts on the client.
+ */
+const PRICING_FLAGS = {
+  MIN_ORDER_UNIT_STEP: false,
+} as const;
+
+/** Conv 1.3: subtotal = max(sum, 10 € + 1 € × (units − 1)). */
+function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number): number {
+  const stepFloorEur = EST.minimumEur + 1 * Math.max(0, totalUnits - 1);
+  return Math.max(rawTotalEur, stepFloorEur);
+}
+
 /** Price an order (all parts) — no setup fee; EUR 10 minimum surfaces as a separate minAdjCents line, long-job time tiers on the ORDER's print hours, one line per part. */
 export function priceOrder(parts: OrderPartInput[], urgency: string): OrderPrice {
   const reasons: string[] = [];
@@ -288,14 +304,17 @@ export function priceOrder(parts: OrderPartInput[], urgency: string): OrderPrice
     return m.priceMult * (x.quantity * x.estimate.grams * EST.plasticEurPerG + timeCost * weight);
   });
   const rawTotal = EST.setupEur + raw.reduce((a, b) => a + b, 0);
-  const base = Math.max(rawTotal, EST.minimumEur);
+  const totalUnits = parts.reduce((s, x) => s + x.quantity, 0);
+  const base = PRICING_FLAGS.MIN_ORDER_UNIT_STEP
+    ? Math.max(rawTotal, applyUnitStepMinimum(rawTotal, totalUnits))
+    : Math.max(rawTotal, EST.minimumEur);
   const total = base * up;
   const baseCents = rnd(base * 100), totalCents = rnd(total * 100);
   const setupCents = rnd(EST.setupEur * 100);
   const rawTotalCents = rnd(rawTotal * 100);
   const partCents = raw.map(r => rnd(r * 100));
-  // EUR 10 minimum surfaces as an explicit Stripe line; parts stay at their raw values.
-  const minAdjCents = rawTotal < EST.minimumEur ? baseCents - rawTotalCents : 0;
+  // Minimum (plain or unit-step) surfaces as an explicit Stripe line; parts stay at their raw values.
+  const minAdjCents = baseCents > rawTotalCents ? baseCents - rawTotalCents : 0;
   if (partCents.length) {
     const bi = partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0);
     // Absorb only the per-cent rounding residual into the largest part.
