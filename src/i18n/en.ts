@@ -994,7 +994,7 @@ export const enTranslations: Record<string, string> = {
   "home.why.col1.title": "Local in Barcelona",
   "home.why.col1.desc": "We produce in Les Corts. Pick up by appointment or ship anywhere in Spain.",
   "home.why.col2.title": "24–48 h",
-  "home.why.col2.desc": "Typical delivery. Express service available at no extra charge.",
+  "home.why.col2.desc": "Typical delivery. For tighter deadlines, faster tiers are available at their own surcharge.",
   "home.why.col3.title": "A real person",
   "home.why.col3.desc": "Nico reviews every file before printing and messages you on WhatsApp.",
   "home.why.col4.title": "High quality",

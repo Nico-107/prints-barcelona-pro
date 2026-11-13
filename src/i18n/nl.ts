@@ -994,7 +994,7 @@ export const nlTranslations: Record<string, string> = {
   "home.why.col1.title": "Lokaal in Barcelona",
   "home.why.col1.desc": "Productie in Les Corts. Ophalen op afspraak of verzending door heel Spanje.",
   "home.why.col2.title": "24–48 u",
-  "home.why.col2.desc": "Gebruikelijke levertijd. Expresservice zonder meerprijs beschikbaar.",
+  "home.why.col2.desc": "Gebruikelijke levertijd. Voor strakkere deadlines zijn er snellere tarieven met toeslag.",
   "home.why.col3.title": "Een echt persoon",
   "home.why.col3.desc": "Nico controleert elk bestand voor het printen en schrijft je op WhatsApp.",
   "home.why.col4.title": "Hoge kwaliteit",

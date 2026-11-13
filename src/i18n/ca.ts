@@ -988,7 +988,7 @@ export const caTranslations: Record<string, string> = {
   "home.why.col1.title": "Local a Barcelona",
   "home.why.col1.desc": "Fabriquem a Les Corts. Recollida amb cita o enviament a tota Espanya.",
   "home.why.col2.title": "24–48 h",
-  "home.why.col2.desc": "Lliurament habitual. Servei express disponible sense cost addicional.",
+  "home.why.col2.desc": "Lliurament habitual. Per a dates més ajustades, hi ha tiers més ràpids amb el seu sobrecost.",
   "home.why.col3.title": "Una persona real",
   "home.why.col3.desc": "Nico revisa cada arxiu abans d'imprimir i t'escriu per WhatsApp.",
   "home.why.col4.title": "Alta qualitat",

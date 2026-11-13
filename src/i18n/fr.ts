@@ -994,7 +994,7 @@ export const frTranslations: Record<string, string> = {
   "home.why.col1.title": "Local à Barcelone",
   "home.why.col1.desc": "Production à Les Corts. Retrait sur rendez-vous ou livraison dans toute l'Espagne.",
   "home.why.col2.title": "24–48 h",
-  "home.why.col2.desc": "Délai habituel. Service express disponible sans supplément.",
+  "home.why.col2.desc": "Délai habituel. Pour des délais plus serrés, des tarifs plus rapides sont disponibles avec supplément.",
   "home.why.col3.title": "Une vraie personne",
   "home.why.col3.desc": "Nico vérifie chaque fichier avant d'imprimer et t'écrit sur WhatsApp.",
   "home.why.col4.title": "Haute qualité",

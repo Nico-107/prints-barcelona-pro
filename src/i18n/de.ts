@@ -989,7 +989,7 @@ export const deTranslations: Record<string, string> = {
   "home.why.col1.title": "Lokal in Barcelona",
   "home.why.col1.desc": "Produktion in Les Corts. Abholung oder Versand überall in Spanien.",
   "home.why.col2.title": "24–48 h",
-  "home.why.col2.desc": "Typische Lieferzeit. Expressservice ohne Aufpreis verfügbar.",
+  "home.why.col2.desc": "Typische Lieferzeit. Für engere Termine gibt es schnellere Tarife mit Aufpreis.",
   "home.why.col3.title": "Ein echter Mensch",
   "home.why.col3.desc": "Nico prüft jede Datei vor dem Druck und schreibt dir per WhatsApp.",
   "home.why.col4.title": "Hohe Qualität",
