@@ -2704,15 +2704,43 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               hideParts={true}
               section="form"
             />
+            {/* Phase 4.4: on mobile the extras (cutoff, trust line, badges
+                and the secondary WhatsApp / review / save-quote row) live
+                in the scroll area so the fixed bottom panel is just total +
+                delivery + buy. `lg:hidden` keeps this out of the desktop
+                layout (where `section="actions"` already shows everything
+                in the right-column action slot). */}
+            {!isSubmittedQuote && (
+              <div className="lg:hidden">
+                <OrderPanel
+                  {...sharedOrderPanelProps}
+                  hideParts={true}
+                  section="actions-extras"
+                />
+              </div>
+            )}
           </div>
         );
 
         const actionSlot = isSubmittedQuote ? null : (
-          <OrderPanel
-            {...sharedOrderPanelProps}
-            hideParts={true}
-            section="actions"
-          />
+          <>
+            {/* Desktop: full actions in the right-column sticky area. */}
+            <div className="hidden lg:block">
+              <OrderPanel
+                {...sharedOrderPanelProps}
+                hideParts={true}
+                section="actions"
+              />
+            </div>
+            {/* Mobile: slim actions only — total + delivery choice + buy. */}
+            <div className="lg:hidden">
+              <OrderPanel
+                {...sharedOrderPanelProps}
+                hideParts={true}
+                section="actions-slim"
+              />
+            </div>
+          </>
         );
 
         return (

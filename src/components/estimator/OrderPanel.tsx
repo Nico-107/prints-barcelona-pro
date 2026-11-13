@@ -183,8 +183,15 @@ interface OrderPanelProps {
 
   adminMode: boolean;
 
-  /** Which section to render. Default 'all' preserves the original full layout. */
-  section?: 'all' | 'form' | 'actions';
+  /** Which section to render. Default 'all' preserves the original full layout.
+   *  Phase 4.4: for mobile we split the old 'actions' section into two:
+   *    - 'actions-slim': total + delivery choice + buy button (the fixed
+   *      bottom panel on mobile).
+   *    - 'actions-extras': cutoff line, reassurance, payment badges and
+   *      the secondary row (lives in the mobile scroll area so the fixed
+   *      panel doesn't cover half the screen).
+   *  Desktop keeps using 'actions' which is still the full combined layout. */
+  section?: 'all' | 'form' | 'actions' | 'actions-slim' | 'actions-extras';
 
   /** When section='actions', show quote-only reason when applicable */
   anyMulticolour?: boolean;
@@ -380,8 +387,10 @@ export function OrderPanel({
     };
   }, [onBuyButtonVisible]);
 
-  // ── 'actions' section only ─────────────────────────────────────────────────
-  if (section === 'actions') {
+  // ── 'actions' / 'actions-slim' / 'actions-extras' sections ────────────────
+  if (section === 'actions' || section === 'actions-slim' || section === 'actions-extras') {
+    const _isSlim = section === 'actions-slim';
+    const _isExtras = section === 'actions-extras';
     // Never silent: always show a reason when quote-only (STEP 1.4)
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible && quoteOnlyReasonKey !== null;
 
@@ -408,7 +417,8 @@ export function OrderPanel({
 
     return (
       <div className="space-y-3">
-        {/* Total + autumn discount + shipping sub-line */}
+        {/* Total + autumn discount + shipping sub-line — slim + full */}
+        {!_isExtras && (
         <div>
           {showAutumnDiscount ? (
             <div className="space-y-0.5">
@@ -447,14 +457,16 @@ export function OrderPanel({
             </p>
           )}
         </div>
+        )}
 
-        {/* Quote-only reason — never silent (STEP 1.4) */}
-        {showQuoteOnlyWhy && quoteOnlyReasonKey && (
+        {/* Quote-only reason — never silent (STEP 1.4). Stays in slim too
+            because it's the reason the user cannot instant-buy. */}
+        {!_isExtras && showQuoteOnlyWhy && quoteOnlyReasonKey && (
           <p className="text-xs text-muted-foreground">{t(quoteOnlyReasonKey)}</p>
         )}
 
-        {/* Single action error — at most one message */}
-        {actionError && (
+        {/* Single action error — at most one message. Slim shows it too. */}
+        {!_isExtras && actionError && (
           checkoutErrorCode === "FILE_TOO_LARGE" && actionError === checkoutError ? (
             <div className="space-y-2">
               <p
@@ -483,8 +495,10 @@ export function OrderPanel({
             {instantBuyEligible && !showManualReview ? (
               <>
                 {/* Compact fulfillment picker — same across all variants.
-                    Hidden on international pages where pickup isn't offered. */}
-                {!shippingOnly ? (
+                    Hidden on international pages where pickup isn't offered.
+                    Phase 4.4: shown once (in the slim mobile panel); the
+                    actions-extras view skips it. */}
+                {!_isExtras && !shippingOnly ? (
                   <>
                     <div
                       className="flex gap-2"
@@ -525,12 +539,13 @@ export function OrderPanel({
                       <p className="text-xs text-destructive" role="alert">{t("calc.instantBuy.fulfillment.required")}</p>
                     )}
                   </>
-                ) : (
+                ) : !_isExtras ? (
                   <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef} className="sr-only" />
-                )}
+                ) : null}
 
-                {/* Cutoff line (R7) — "Pide antes de las 14:00 → …" */}
-                {(() => {
+                {/* Cutoff line (R7) — moves to actions-extras on mobile so
+                    the slim bottom panel is just total + delivery + buy. */}
+                {!_isSlim && (() => {
                   const now = new Date();
                   const ship = computeShipDate(now, urgency);
                   const beforeCutoff = isBeforeCutoff(now);
@@ -545,6 +560,7 @@ export function OrderPanel({
 
                 {/* Big Buy button · trust line · payment badges · text links */}
                 <div className="space-y-2">
+                  {!_isExtras && (
                   <Button
                     variant="cta"
                     size="xl"
@@ -561,18 +577,24 @@ export function OrderPanel({
                         : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                     }
                   </Button>
-                  {/* Trust line — one 12px grey line (conv-27): ship date · review · refund */}
+                  )}
+                  {/* Phase 4.4: trust line + payment badges live in the
+                      extras view on mobile; the slim bottom panel keeps
+                      only total + delivery + buy. */}
+                  {!_isSlim && (
                   <p className="text-xs text-center text-slate-500 leading-snug">
                     {PAYMENT_CAPTURE_MODE === 'after_review'
                       ? t("calc.guarantee.afterReview")
                       : t("calc.guarantee.default")}
                   </p>
-                  <PaymentBadges language={language} />
+                  )}
+                  {!_isSlim && <PaymentBadges language={language} />}
                   {/* Phase 4.5: one tidy secondary row with icons.
                       Replaces the four separate text links with a compact
                       icon+label row — WhatsApp, Free review, Save quote.
-                      Still low-contrast underline-on-hover so the primary
-                      Comprar button stays visually dominant. */}
+                      Phase 4.4: hidden in the slim mobile panel — shows up
+                      in the extras view (above the sticky bar on mobile). */}
+                  {!_isSlim && (
                   <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px]" data-secondary-row>
                     <button
                       type="button"
@@ -598,6 +620,7 @@ export function OrderPanel({
                       <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
                     )}
                   </div>
+                  )}
                 </div>
               </>
             ) : (
