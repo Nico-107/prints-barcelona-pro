@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { toast as sonnerToast } from "sonner";
 import { buildQuoteLink } from "@/lib/quoteLink";
-import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
+import { Send, CreditCard, MessageCircle, Loader2, CheckCircle, AlertTriangle, ShieldCheck } from "lucide-react";
 import type { IneligibleReason } from "@/lib/instantBuy";
 import { REVIEW_EMPHASIS, REVIEW_EMPHASIS_MATERIALS, REVIEW_EMPHASIS_MAX_DIM_MM, REVIEW_EMPHASIS_MIN_QTY } from "@/config/checkoutUx";
 import { Button } from "@/components/ui/button";
@@ -568,33 +568,34 @@ export function OrderPanel({
                       : t("calc.guarantee.default")}
                   </p>
                   <PaymentBadges language={language} />
-                  {/* conv-27 §bug 9 — Review + WhatsApp are low-contrast text links,
-                      not full-size outlined buttons that compete with Comprar. */}
-                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[13px]">
+                  {/* Phase 4.5: one tidy secondary row with icons.
+                      Replaces the four separate text links with a compact
+                      icon+label row — WhatsApp, Free review, Save quote.
+                      Still low-contrast underline-on-hover so the primary
+                      Comprar button stays visually dominant. */}
+                  <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px]" data-secondary-row>
                     <button
                       type="button"
                       onClick={onWhatsApp}
                       disabled={isCheckingOut}
-                      className="text-slate-500 hover:text-slate-900 underline disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 hover:underline disabled:opacity-50"
                       data-ph-name="whatsapp-calculator"
                     >
+                      <MessageCircle className="w-3.5 h-3.5" />
                       {t("calc.result.whatsapp.short")}
                     </button>
-                    <span className="text-slate-300">·</span>
                     <button
                       type="button"
                       onClick={onManualReview}
                       disabled={isCheckingOut}
-                      className="text-slate-500 hover:text-slate-900 underline disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 hover:underline disabled:opacity-50"
                       data-ph-name="free-review"
                     >
+                      <ShieldCheck className="w-3.5 h-3.5" />
                       {t("calc.instantBuy.manualReview.short")}
                     </button>
                     {onSaveQuote && saveQuoteConfig && (
-                      <>
-                        <span className="text-slate-300">·</span>
-                        <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
-                      </>
+                      <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
                     )}
                   </div>
                 </div>
