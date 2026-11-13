@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { capture } from "@/lib/analytics";
 import { ORGANIZATION_SCHEMA } from "@/seo/entities";
@@ -572,6 +573,7 @@ const BlogUrgentesBcn = () => {
             ← Todas las guías
           </Link>
         </div>
+        <ArticleAugmentation lang="es" />
       </main>
 
       <Footer />

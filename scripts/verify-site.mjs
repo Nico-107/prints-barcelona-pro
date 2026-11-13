@@ -205,6 +205,46 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 8 — Blog posts / guides / comparisons (every language) render:
+  //   - [data-testid="article-template"] once
+  //   - [data-testid="article-toc"] once
+  //   - [data-testid="inline-cta"] × ≥ 2 (mid + end)
+  //   - NO primary <button> or CTA button inside the hero (page-hero).
+  const ARTICLE_PATTERNS = [
+    /^\/blog(\/|$)/,
+    /^\/guia-/, /^\/ca\/guia-/,
+    /^\/como-/, /^\/ca\/com-/,
+    /^\/how-to-/,
+    /^\/comparativa-/, /^\/comparison-/,
+    /^\/mejor-servicio-/, /^\/millor-servei-/,
+    /^\/best-/,
+    /^\/choosing-/,
+    /^\/de\/3d-druck-(kosten|materialien|datei-vorbereiten)/,
+    /^\/nl\/3d-printen-kosten/, /^\/nl\/materialen-3d-printen/, /^\/nl\/bestand-voorbereiden/,
+    /^\/fr\/prix-impression-3d/, /^\/fr\/materiaux-impression-3d/, /^\/fr\/preparer-fichier-impression-3d/,
+    /^\/it\/prezzi-stampa-3d/, /^\/it\/materiali-stampa-3d/, /^\/it\/preparare-file-stampa-3d/,
+    /^\/pt\/preco-impressao-3d/, /^\/pt\/materiais-impressao-3d/, /^\/pt\/preparar-ficheiro-impressao-3d/,
+    /^\/como-ganar-dinero-con-impresora-3d/, /^\/es-rentable-negocio-impresion-3d/, /^\/como-conseguir-clientes-impresion-3d/,
+    /^\/how-to-make-money-with-3d-printer/, /^\/is-3d-printing-business-profitable/, /^\/how-to-get-3d-printing-customers/,
+    /^\/geld-verdienen-mit-3d-drucker/, /^\/ist-3d-druck-geschaeft-rentabel/, /^\/kunden-fuer-3d-druck-finden/,
+  ];
+  const isArticle = ARTICLE_PATTERNS.some((re) => re.test(path)) && path !== "/blog";
+  if (isArticle) {
+    const at = await page.locator('[data-testid="article-template"]').count();
+    if (at < 1) errors.push(`${url} [${variant}]: missing [data-testid="article-template"]`);
+    const toc = await page.locator('[data-testid="article-toc"]').count();
+    if (toc < 1) errors.push(`${url} [${variant}]: missing [data-testid="article-toc"]`);
+    const ic = await page.locator('[data-testid="inline-cta"]').count();
+    if (ic < 2) errors.push(`${url} [${variant}]: inline-cta count ${ic}, want ≥ 2`);
+    // No primary button inside the page-hero.
+    const heroHasCta = await page.evaluate(() => {
+      const hero = document.querySelector('[data-testid="page-hero"]');
+      if (!hero) return false;
+      return !!hero.querySelector('button.bg-cta, button.bg-primary, [data-ph-name="article-inline-cta"], .bg-cta, .bg-primary');
+    });
+    if (heroHasCta) errors.push(`${url} [${variant}]: article hero should have no primary button`);
+  }
+
   // Item 7 — Price pages (every language): [data-testid="upload-card"]
   // appears BEFORE the first h2; [data-testid="engine-examples"] has 4
   // engine-computed rows.

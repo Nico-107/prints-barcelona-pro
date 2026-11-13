@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
@@ -526,6 +527,7 @@ const BlogPrototiposBcn = () => {
             ← Todas las guías
           </Link>
         </div>
+        <ArticleAugmentation lang="es" />
       </main>
 
       <Footer />

@@ -28,6 +28,7 @@ import SpecCard from "@/components/material/SpecCard";
 import MaterialCompare from "@/components/material/MaterialCompare";
 import PriceUploadCard from "@/components/price/PriceUploadCard";
 import EnginePriceTable from "@/components/city/EnginePriceTable";
+import ArticleAugmentation from "@/components/article/ArticleAugmentation";
 
 const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "prototypes",
@@ -430,15 +431,22 @@ const LandingPage = ({ page: pageProp }: Props) => {
               : page.h1
           }
           paragraph={heroSubtitle}
-          primaryButton={{
-            label: (
-              <>
-                {isMaker ? <Users style={{ width: 20, height: 20 }} /> : <Upload style={{ width: 20, height: 20 }} />}
-                {isMaker ? makerJoinLabel : primaryCtaLabel}
-              </>
-            ),
-            onClick: isMaker ? () => navigate("/makers") : scrollToCalc,
-          }}
+          // Item 8: article pages (guides/comparisons) must have NO primary
+          // button inside the hero. A mid-article and end-of-article
+          // inline-cta render instead (via ArticleAugmentation).
+          primaryButton={
+            GUIDE_TOPICS.has(page.topic)
+              ? undefined
+              : {
+                  label: (
+                    <>
+                      {isMaker ? <Users style={{ width: 20, height: 20 }} /> : <Upload style={{ width: 20, height: 20 }} />}
+                      {isMaker ? makerJoinLabel : primaryCtaLabel}
+                    </>
+                  ),
+                  onClick: isMaker ? () => navigate("/makers") : scrollToCalc,
+                }
+          }
           reassuranceItems={trustBadges.map(b => b.label)}
         />
 
@@ -475,6 +483,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
             </section>
             <SpeedTiers lang={pageLang} />
           </>
+        )}
+
+        {/* Item 8: guide/comparison topics are articles — render the
+            article augmentation (data-testid="article-template",
+            article-toc and two inline-ctas). Blog posts have their own. */}
+        {GUIDE_TOPICS.has(page.topic) && (
+          <ArticleAugmentation lang={pageLang} />
         )}
 
         {/* Item 7: price pages — upload-card goes BEFORE the first h2
