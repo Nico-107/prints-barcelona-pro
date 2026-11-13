@@ -294,16 +294,19 @@ const Header = () => {
               </span>
             </Link>
 
-            {/* Desktop primary nav — V2 dark header, matching the A grouped menu set */}
+            {/* Desktop primary nav — V2 dark header, matching the A grouped menu set.
+                Phase 2.6 fix-up: Precios / Cómo / Sin archivo hide below xl so
+                DE/FR labels don't push the header past 1440. All three are
+                still reachable via the Servicios dropdown. */}
             {isOverV2Hero && (
-              <nav className="hidden lg:flex items-center gap-5 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15 }}>
+              <nav className="hidden lg:flex items-center gap-4 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15 }}>
                 {(() => {
                   const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
                   return (<>
-                    <button type="button" onClick={() => scrollToSection('precios')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
-                    <button type="button" onClick={() => scrollToSection('maquina')} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
+                    <button type="button" onClick={() => scrollToSection('precios')} className="hidden xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
+                    <button type="button" onClick={() => scrollToSection('maquina')} className="hidden xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
                     <Link to={businessHref} style={{ color: '#FFFFFF', textDecoration: 'none', padding: '12px 0', fontSize: 15, whiteSpace: 'nowrap' }}>{t("header.v2.empresas")}</Link>
-                    <button type="button" onClick={handleNoFile} style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.sin")}</button>
+                    <button type="button" onClick={handleNoFile} className="hidden xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.sin")}</button>
 
                     {/* Phase 2.6 / Item 11: variant B grouped menus mirror
                         variant A — both render ≥ 4 data-testid="nav-menu-group". */}

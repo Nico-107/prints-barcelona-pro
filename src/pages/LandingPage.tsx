@@ -47,6 +47,8 @@ const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
 ]);
 
 
+// Original GUIDE_TOPICS set — retained so articleSchema's "TechArticle"
+// vs "Article" decision stays byte-identical to the SEO baseline.
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "choosing-service",
   "materials-guide",
@@ -58,7 +60,13 @@ const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "materials-comparison",
   "turnaround-comparison",
   "technology-comparison",
-  // Blog posts routed through LandingPage are also articles.
+]);
+
+// ARTICLE_TOPICS covers everything rendered as an article (guides + blog
+// posts). Used for Item 8 augmentation (article-template / toc / inline
+// CTAs / no hero button). Does NOT change the JSON-LD @type.
+const ARTICLE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  ...GUIDE_TOPICS,
   "blog-pla-vs-petg",
   "blog-imprimir-sin-impresora",
   "blog-modelos-descargados",
@@ -453,7 +461,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
           // button inside the hero. A mid-article and end-of-article
           // inline-cta render instead (via ArticleAugmentation).
           primaryButton={
-            GUIDE_TOPICS.has(page.topic)
+            ARTICLE_TOPICS.has(page.topic)
               ? undefined
               : {
                   label: (
@@ -510,8 +518,10 @@ const LandingPage = ({ page: pageProp }: Props) => {
 
         {/* Item 8: guide/comparison topics are articles — render the
             article augmentation (data-testid="article-template",
-            article-toc and two inline-ctas). Blog posts have their own. */}
-        {GUIDE_TOPICS.has(page.topic) && (
+            article-toc and two inline-ctas). ARTICLE_TOPICS includes
+            blog-* slugs routed via LandingPage; the 4 SEO blog posts
+            (BlogPrecioBcn etc.) render it directly. */}
+        {ARTICLE_TOPICS.has(page.topic) && (
           <ArticleAugmentation lang={pageLang} />
         )}
 
