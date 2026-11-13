@@ -205,6 +205,39 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 10 — Spare parts, discontinued parts and custom parts pages
+  // carry [data-testid="photo-steps"] and the "Enviar una foto" / "Send
+  // a photo" hero button. Students page has a primary button in its
+  // hero.
+  const PHOTO_PATHS = [
+    "/recambios-impresion-3d-barcelona",
+    "/replacement-parts-barcelona",
+    "/ca/recanvis-impressio-3d-barcelona",
+    "/piezas-personalizadas-3d-barcelona",
+    "/custom-parts-barcelona",
+    "/ca/peces-personalitzades-3d-barcelona",
+    "/repuesto-descatalogado",
+  ];
+  if (PHOTO_PATHS.includes(path)) {
+    const ps = await page.locator('[data-testid="photo-steps"]').count();
+    if (ps < 1) errors.push(`${url} [${variant}]: missing [data-testid="photo-steps"]`);
+    const heroPhoto = await page.evaluate(() => {
+      const hero = document.querySelector('[data-testid="page-hero"]');
+      if (!hero) return false;
+      const t = (hero.textContent || "").toLowerCase();
+      return t.includes("foto") || t.includes("photo");
+    });
+    if (!heroPhoto) errors.push(`${url} [${variant}]: hero missing photo-path CTA token`);
+  }
+  if (path === "/impresion-3d-estudiantes-barcelona") {
+    const heroCta = await page.evaluate(() => {
+      const hero = document.querySelector('[data-testid="page-hero"]');
+      if (!hero) return false;
+      return !!hero.querySelector('a, button');
+    });
+    if (!heroCta) errors.push(`${url} [${variant}]: students hero missing primary button`);
+  }
+
   // Item 9 — Product pages all render [data-testid="product-template"]
   // from one shared component (catalogue items, SEO parts, intl parts).
   const PRODUCT_PATTERNS = [

@@ -29,6 +29,14 @@ import MaterialCompare from "@/components/material/MaterialCompare";
 import PriceUploadCard from "@/components/price/PriceUploadCard";
 import EnginePriceTable from "@/components/city/EnginePriceTable";
 import ArticleAugmentation from "@/components/article/ArticleAugmentation";
+import PhotoSteps from "@/components/parts/PhotoSteps";
+
+// Topics whose hero CTA is the photo-path vocabulary ("Enviar una foto"
+// / "Send a photo") instead of the standard upload primary.
+const PHOTO_PATH_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  "replacement-parts",
+  "custom-parts",
+]);
 
 const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
   "prototypes",
@@ -169,7 +177,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
   // standard "primary" label ("Subir archivo y ver precio").
   const primaryCtaLabel = B2B_TOPICS.has(page.topic)
     ? ctaLabel("business", pageLang)
-    : ctaLabel("primary", pageLang);
+    : PHOTO_PATH_TOPICS.has(page.topic)
+      ? ctaLabel("photoPath", pageLang)
+      : ctaLabel("primary", pageLang);
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
   // Phase 2.4 hero rule: subtitle max 2 lines (~140 chars). Service, guide,
@@ -484,6 +494,11 @@ const LandingPage = ({ page: pageProp }: Props) => {
             <SpeedTiers lang={pageLang} />
           </>
         )}
+
+        {/* Item 10: spare / discontinued / custom parts render the
+            photo-steps module, and their hero CTA uses the photoPath
+            vocabulary. */}
+        {PHOTO_PATH_TOPICS.has(page.topic) && <PhotoSteps lang={pageLang} />}
 
         {/* Item 8: guide/comparison topics are articles — render the
             article augmentation (data-testid="article-template",
