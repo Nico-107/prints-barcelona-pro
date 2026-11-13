@@ -142,11 +142,15 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const makerJoinLabel = t("Join the Maker Network", "Únete a la red de Makers", "Werde Teil des Maker-Netzwerks", "Uneix-te a la xarxa de Makers");
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
+  // Phase 3.5: true facts only, pulled from configured sources.
+  // 250+ orders is the one owner-confirmed count; keep. The other chips cite
+  // concrete facts: location (Les Corts), rating from data/rating.ts, and
+  // the minimum order (from the engine configuration).
   const trustBadges = [
-    { icon: MapPin, label: t(`${pageCity.cityName} Based`, `Local en ${pageCity.cityName}`, `Standort ${pageCity.cityName}`, `Local a ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
-    { icon: Zap, label: t("Fast Turnaround", "Entregas Rápidas", "Schnelle Lieferung", "Lliuraments Ràpids"), iconClass: "text-accent" },
-    { icon: Award, label: t("Quality Materials", "Materiales de Calidad", "Qualitätsmaterialien", "Materials de Qualitat"), iconClass: "text-accent" },
-    { icon: Settings2, label: t("Custom Orders", "Pedidos a Medida", "Individuelle Aufträge", "Comandes a Mida"), iconClass: "text-accent" },
+    { icon: MapPin, label: t(`Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
+    { icon: Zap, label: t("250+ orders", "250+ pedidos", "250+ Bestellungen", "250+ comandes"), iconClass: "text-accent" },
+    { icon: Award, label: t("4.8/5 · customer reviews", "4,8/5 · reseñas de clientes", "4,8/5 · Kundenbewertungen", "4,8/5 · ressenyes de clients"), iconClass: "text-accent" },
+    { icon: Settings2, label: t("From 1 piece · 10 € min.", "Desde 1 pieza · pedido mínimo 10 €", "Ab 1 Stück · 10 € min.", "Des de 1 peça · comanda mínima 10 €"), iconClass: "text-accent" },
   ];
 
   // Category label per page.category, translated with the same t() helper.
