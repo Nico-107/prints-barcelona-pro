@@ -949,7 +949,7 @@ export const caTranslations: Record<string, string> = {
   "home.final.heading": "Puja el teu arxiu. En 10 segons saps el preu.",
   "home.whatwep.heading": "Què imprimim",
   "home.whatwep.subheading": "Des de prototips funcionals fins a peces finals d'ús diari.",
-  "home.hero.cta": "Veure el meu preu — des de 10 €",
+  "home.hero.cta": "Pujar arxiu i veure preu",
   "home.v2.h1.pre": "Impressió 3D de",
   "home.v2.h1.highlight": "alta qualitat",
   "home.v2.h1.post": "a Barcelona.",

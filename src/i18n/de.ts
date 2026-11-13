@@ -950,7 +950,7 @@ export const deTranslations: Record<string, string> = {
   "home.final.heading": "Lade deine Datei hoch. In 10 Sekunden kennst du den Preis.",
   "home.whatwep.heading": "Was wir drucken",
   "home.whatwep.subheading": "Von funktionalen Prototypen bis hin zu fertigen Alltagsteilen.",
-  "home.hero.cta": "Meinen Preis sehen — ab 10 €",
+  "home.hero.cta": "Datei hochladen und Preis sehen",
   "home.v2.h1.pre": "Hochwertiger",
   "home.v2.h1.highlight": "3D-Druck",
   "home.v2.h1.post": "in Barcelona.",

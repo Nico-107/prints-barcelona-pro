@@ -955,7 +955,7 @@ export const ptTranslations: Record<string, string> = {
   "home.final.heading": "Carrega o teu ficheiro. Sabes o preço num instante.",
   "home.whatwep.heading": "O que imprimimos",
   "home.whatwep.subheading": "De protótipos funcionais a peças acabadas para uso diário.",
-  "home.hero.cta": "Ver o meu preço — a partir de 10 €",
+  "home.hero.cta": "Carregar ficheiro e ver preço",
   "home.v2.h1.pre": "Impressão 3D de",
   "home.v2.h1.highlight": "alta qualidade",
   "home.v2.h1.post": "em Barcelona.",

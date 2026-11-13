@@ -955,7 +955,7 @@ export const nlTranslations: Record<string, string> = {
   "home.final.heading": "Upload je bestand. In 10 seconden weet je de prijs.",
   "home.whatwep.heading": "Wat we printen",
   "home.whatwep.subheading": "Van functionele prototypes tot afgewerkte dagelijkse onderdelen.",
-  "home.hero.cta": "Mijn prijs zien — vanaf 10 €",
+  "home.hero.cta": "Bestand uploaden en prijs zien",
   "home.v2.h1.pre": "Hoogwaardige",
   "home.v2.h1.highlight": "3D-print",
   "home.v2.h1.post": "in Barcelona.",

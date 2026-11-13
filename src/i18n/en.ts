@@ -955,7 +955,7 @@ export const enTranslations: Record<string, string> = {
   "home.final.heading": "Upload your file. Know the price in an instant.",
   "home.whatwep.heading": "What we print",
   "home.whatwep.subheading": "From functional prototypes to finished everyday parts.",
-  "home.hero.cta": "Get my price — from €10",
+  "home.hero.cta": "Upload file and see price",
   "home.v2.h1.pre": "Quality",
   "home.v2.h1.highlight": "3D printing",
   "home.v2.h1.post": "in Barcelona.",
