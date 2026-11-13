@@ -814,7 +814,7 @@ export const nlTranslations: Record<string, string> = {
 
   // Lemon referral page
   "lemon.meta.title": "3D Printen in Barcelona — Maatwerk op Aanvraag",
-  "lemon.meta.desc": "We maken elk onderdeel of accessoire in 3D in Barcelona. Stuur een foto, krijg een prijs binnen een uur, afhalen of laten bezorgen. Vanaf 10 €, geen minimum.",
+  "lemon.meta.desc": "We maken elk onderdeel of accessoire in 3D in Barcelona. Stuur een foto, krijg een prijs binnen een uur, afhalen of laten bezorgen. Vanaf 10 € minimumbestelling, vanaf 1 stuk.",
   "lemon.hero.title": "Alles wat je nodig hebt, gemaakt in 3D.",
   "lemon.hero.subtitle": "Een kapot onderdeel, een onvindbaar accessoire, een eenmalig stuk.",
   "lemon.hero.detail": "Stuur een foto of een bestand — krijg een prijs binnen een uur.",

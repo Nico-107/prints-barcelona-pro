@@ -24,7 +24,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Piezas únicas y pequeñas tiradas",
-        body: "No hay pedido mínimo. Tan contentos imprimimos un solo soporte de recambio como una pequeña serie de piezas idénticas para un taller, una clínica dental, un estudio de arquitectura o una tienda local. Para clientes habituales guardamos el archivo, así los reencargos son inmediatos."
+        body: "El pedido mínimo es de 10 € (sin mínimo por pieza). Tan contentos imprimimos un solo soporte de recambio como una pequeña serie de piezas idénticas para un taller, una clínica dental, un estudio de arquitectura o una tienda local. Para clientes habituales guardamos el archivo, así los reencargos son inmediatos."
       },
       {
         heading: "Pensadas para durar de verdad",
@@ -34,7 +34,7 @@ export const PAGES_ES: LandingContent[] = [
     faqs: [
       { q: "¿Podéis copiar una pieza rota a partir de una foto?", a: "En muchos casos sí — sobre todo piezas simétricas o con geometría sencilla. Envía una foto clara con regla o moneda como referencia y te lo confirmamos enseguida." },
       { q: "¿Qué material recomendáis para piezas a medida?", a: "PLA para piezas decorativas o sin esfuerzo, PETG para exteriores o carga moderada, ABS/ASA para resistencia al calor y TPU para piezas flexibles como mangos o juntas." },
-      { q: "¿Hay pedido mínimo?", a: "No. Imprimimos piezas únicas constantemente, y solo pagas por lo que pides." },
+      { q: "¿Hay pedido mínimo?", a: "El pedido mínimo es de 10 € por pedido — desde 1 pieza. Imprimimos piezas únicas constantemente, y solo pagas por lo que pides." },
       { q: "¿Qué precisión tienen las piezas a medida?", a: "La precisión típica en FDM es de unos ±0,2 mm. Para tolerancias más ajustadas afinamos parámetros y postprocesamos las superficies críticas." },
       { q: "¿Podéis recrear una pieza solo a partir de medidas, sin el original?", a: "Sí. Si puedes aportar medidas detalladas, fotos desde varios ángulos o un croquis técnico, podemos modelar e imprimir la pieza. Para geometrías complejas, una breve consulta ayuda a aclarar los requisitos de ajuste." },
       { q: "¿Qué pasa si la pieza impresa no encaja a la primera?", a: "La FDM mantiene una precisión típica de ±0,2 mm. Si un primer intento está ligeramente fuera para un ajuste de tolerancia ajustada, aplicamos una pequeña corrección dimensional (normalmente 0,1–0,2 mm) y reimprimimos a coste reducido." }
@@ -1384,7 +1384,7 @@ export const PAGES_ES: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. No hay pedido mínimo de unidades. El mínimo es 10 € por pedido. Imprimimos piezas únicas constantemente." },
+      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. El pedido mínimo es de 10 € por pedido, sin mínimo por unidad. Imprimimos piezas únicas constantemente." },
       { q: "¿Qué pasa si mi archivo tiene problemas?", a: "Revisamos el archivo antes de imprimir. Si hay problemas de grosor de pared, voladizos problemáticos u otros errores, te lo comunicamos antes de cobrar y sugerimos soluciones." },
       { q: "¿Podéis imprimir un modelo descargado de Makerworld, Printables o Cults3D?", a: "Sí. Si has descargado un modelo gratuito de cualquier plataforma y quieres que lo imprimamos, súbe el archivo STL directamente. Verificamos que sea imprimible y te damos precio." },
       { q: "¿Cuánto cuesta el envío a España?", a: "5,90 € por pedido a cualquier punto de Península, Baleares o Canarias. Los pedidos que superen cierto importe tienen envío gratuito (ver calculadora)." },
@@ -1541,7 +1541,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Impresión 3D Cerca de Mí en Barcelona — Recoge o Envío",
     metaDescription: "Impresión 3D cerca de ti en Barcelona. Recoge en Les Corts (Rambla de Brasil 53) o envío a casa. Barrios: Eixample, Gràcia, Sarrià, Sants y más.",
     h1: "Impresión 3D cerca de ti en Barcelona — recogida en Les Corts o envío a tu puerta",
-    intro: "Si buscas impresión 3D cerca de ti en Barcelona, Dimension3D está en el barrio de Les Corts, Rambla de Brasil 53. Podemos imprimir tu pieza y tenerla lista para recoger en el mismo día o enviarla a cualquier dirección de Barcelona y del resto de España. No hay pedido mínimo de distancia ni de cantidad.",
+    intro: "Si buscas impresión 3D cerca de ti en Barcelona, Dimension3D está en el barrio de Les Corts, Rambla de Brasil 53. Podemos imprimir tu pieza y tenerla lista para recoger en el mismo día o enviarla a cualquier dirección de Barcelona y del resto de España. Pedido mínimo 10 € por pedido, sin mínimo por pieza ni por zona.",
     sections: [
       {
         heading: "Punto de recogida: Les Corts, Rambla de Brasil",

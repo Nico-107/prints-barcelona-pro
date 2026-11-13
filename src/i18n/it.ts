@@ -814,7 +814,7 @@ export const itTranslations: Record<string, string> = {
 
   // Lemon referral page
   "lemon.meta.title": "Stampa 3D a Barcellona — Pezzi personalizzati su richiesta",
-  "lemon.meta.desc": "Realizziamo qualsiasi pezzo o accessorio in 3D a Barcellona. Invia una foto, ottieni un prezzo entro un'ora, ritiralo o fallo consegnare. Da 10 €, senza minimo.",
+  "lemon.meta.desc": "Realizziamo qualsiasi pezzo o accessorio in 3D a Barcellona. Invia una foto, ottieni un prezzo entro un'ora, ritiralo o fallo consegnare. Da 10 € minimo, da 1 pezzo.",
   "lemon.hero.title": "Tutto ciò di cui hai bisogno, fatto in 3D.",
   "lemon.hero.subtitle": "Un pezzo rotto, un accessorio introvabile, un pezzo unico.",
   "lemon.hero.detail": "Invia una foto o un file — ottieni un prezzo entro un'ora.",

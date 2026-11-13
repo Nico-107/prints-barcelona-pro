@@ -310,7 +310,7 @@ Las universidades técnicas de la Comunidad de Madrid — la Universidad Polité
 
 El proceso es el mismo independientemente del tamaño del pedido: subes tu archivo STL, STEP, OBJ o 3MF (o nos envías una foto si no tienes archivo), recibes un presupuesto desglosado en menos de 1 hora, apruebas el precio y producimos la pieza. Enviamos a Madrid con mensajería seguida — la mayoría de pedidos llegan al día siguiente o en dos días hábiles. Para proyectos con necesidades de materiales específicos (Polycarbonato, Nylon PA12, Nylon-CF, ABS para alta temperatura o TPU para piezas flexibles), te recomendamos la opción correcta en el presupuesto.
 
-Sin pedido mínimo por encima de 10 €, sin comisiones de plataforma, sin burocracia: subes tu archivo, nosotros producimos y tú recibes la pieza en Madrid.`,
+Pedido mínimo 10 €, desde 1 pieza, sin comisiones de plataforma, sin burocracia: subes tu archivo, nosotros producimos y tú recibes la pieza en Madrid.`,
     deliveryTableRow: ["Madrid y Comunidad de Madrid", "1–2 días hábiles"],
     shippingFaqQ: "¿Cuánto tarda el envío de Barcelona a Madrid?",
     shippingFaqA: "Los pedidos se producen en el estudio de Barcelona y llegan a domicilios en Madrid en 1–2 días hábiles mediante mensajería estándar con seguimiento. Para muchos envíos, la entrega se produce al día siguiente del despacho. Todos los envíos incluyen número de seguimiento en cuanto el paquete sale del taller.",
@@ -431,7 +431,7 @@ Sevilla tiene también un tejido artesanal y cultural singular. La Feria de Abri
 
 Lo que hace diferente nuestro servicio en Sevilla es la producción local: trabajamos con un maker verificado en la ciudad que imprime cada pieza, la revisa con fotografías de control de calidad y la tiene lista para recogida en Av. Parsi 21 (cita previa por WhatsApp) o la envía a cualquier punto de Sevilla y su provincia. Esto elimina el tiempo de tránsito desde Barcelona para pedidos locales y permite una comunicación directa en persona si el proyecto lo requiere.
 
-El proceso es directo: subes tu archivo STL, STEP, OBJ o 3MF (o nos envías una foto de la pieza si no tienes archivo), recibes un presupuesto transparente en menos de 1 hora en días laborables, apruebas el precio y producimos la pieza localmente en Sevilla. Sin tarifa de configuración, sin pedido mínimo por encima de los 10 €, y con control de calidad fotográfico antes de cada entrega.
+El proceso es directo: subes tu archivo STL, STEP, OBJ o 3MF (o nos envías una foto de la pieza si no tienes archivo), recibes un presupuesto transparente en menos de 1 hora en días laborables, apruebas el precio y producimos la pieza localmente en Sevilla. Sin tarifa de configuración, pedido mínimo de 10 € desde 1 pieza, y con control de calidad fotográfico antes de cada entrega.
 
 Para proyectos industriales o de ingeniería que necesitan materiales de alto rendimiento — ABS para resistencia a temperatura, Nylon para carga mecánica, PETG para exposición exterior o TPU flexible para juntas y cubiertas — nuestro maker local trabaja con el mismo rango de materiales que el taller de Barcelona. Te recomendamos el material correcto en el presupuesto según la función real de la pieza.`,
     deliveryTableRow: ["Sevilla y provincia (envío)", "2–3 días hábiles"],

@@ -648,7 +648,7 @@ export const enTranslations: Record<string, string> = {
 
   // Lemon Printers referral landing page (/lemon — noindex, NFC plaque traffic only)
   "lemon.meta.title": "3D Printing in Barcelona — Custom Parts on Demand",
-  "lemon.meta.desc": "We make any part or accessory in 3D in Barcelona. Send a photo, get a price within the hour, collect it or have it shipped. From €10, no minimum order.",
+  "lemon.meta.desc": "We make any part or accessory in 3D in Barcelona. Send a photo, get a price within the hour, collect it or have it shipped. From €10 minimum, from 1 piece.",
   "lemon.hero.title": "Whatever you need, made in 3D.",
   "lemon.hero.subtitle": "A broken part, an accessory you can't find, a one-off piece.",
   "lemon.hero.detail": "Send a photo or a file — get a price within the hour.",
