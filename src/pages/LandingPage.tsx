@@ -21,6 +21,17 @@ import { cta as ctaLabel } from "@/lib/ctaVocabulary";
 import type { Lang as CtaLang } from "@/lib/ctaVocabulary";
 import DeadlineModule from "@/components/urgent/DeadlineModule";
 import SpeedTiers from "@/components/urgent/SpeedTiers";
+import IterationTimeline from "@/components/b2b/IterationTimeline";
+import MaterialByNeed from "@/components/b2b/MaterialByNeed";
+import VolumePriceTable from "@/components/b2b/VolumePriceTable";
+
+const B2B_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
+  "prototypes",
+  "rapid-prototyping",
+  "functional-parts",
+  "short-run",
+  "business",
+]);
 
 
 const GUIDE_TOPICS: ReadonlySet<LandingTopic> = new Set<LandingTopic>([
@@ -147,7 +158,13 @@ const LandingPage = ({ page: pageProp }: Props) => {
   // Phase 2.5: one CTA vocabulary everywhere. Maker pages use the "maker"
   // label; customer landing pages use the "primary" label.
   const makerJoinLabel = ctaLabel("maker", pageLang);
-  const primaryCtaLabel = ctaLabel("primary", pageLang);
+  // Item 4 — B2B / prototype / short-run / functional-parts /
+  // rapid-prototyping pages use the business vocabulary ("Enviar mi
+  // proyecto" / "Send my project"); other customer pages use the
+  // standard "primary" label ("Subir archivo y ver precio").
+  const primaryCtaLabel = B2B_TOPICS.has(page.topic)
+    ? ctaLabel("business", pageLang)
+    : ctaLabel("primary", pageLang);
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
   // Phase 2.4 hero rule: subtitle max 2 lines (~140 chars). Service, guide,
@@ -453,6 +470,19 @@ const LandingPage = ({ page: pageProp }: Props) => {
               </div>
             </section>
             <SpeedTiers lang={pageLang} />
+          </>
+        )}
+
+        {/* Item 4: prototype / rapid-prototyping / functional-parts /
+            short-run / business pages get the iteration timeline, the
+            material-by-need cards, and the engine-driven volume price
+            table. Primary CTA override to the business ("Enviar mi
+            proyecto") label is applied below. */}
+        {B2B_TOPICS.has(page.topic) && (
+          <>
+            <IterationTimeline lang={pageLang} />
+            <MaterialByNeed lang={pageLang} />
+            <VolumePriceTable lang={pageLang} />
           </>
         )}
 

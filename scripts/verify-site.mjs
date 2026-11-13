@@ -205,6 +205,47 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 4 — Prototype / rapid-prototyping / functional-parts / short-run
+  // / B2B pages (es, en, ca) carry iteration-timeline + material-by-need +
+  // volume-price-table (3 rows × 3 qty columns from the engine). Primary
+  // CTA uses the business vocabulary ("Enviar mi proyecto" / "Send my
+  // project" / "Enviar el meu projecte").
+  const B2B_PATHS = [
+    "/prototipos-3d-barcelona",
+    "/prototype-printing-barcelona",
+    "/ca/prototips-3d-barcelona",
+    "/prototipado-rapido-barcelona",
+    "/rapid-prototyping-barcelona",
+    "/ca/prototipatge-rapid-barcelona",
+    "/piezas-funcionales-barcelona",
+    "/functional-parts-barcelona",
+    "/ca/peces-funcionals-barcelona",
+    "/tiradas-cortas-impresion-3d-barcelona",
+    "/short-run-3d-printing-barcelona",
+    // Note: no CA short-run page exists in the sitemap; omitted.
+    "/impresion-3d-empresas-barcelona",
+    "/3d-printing-for-business-barcelona",
+    "/ca/impressio-3d-empreses-barcelona",
+  ];
+  if (B2B_PATHS.includes(path)) {
+    const it = await page.locator('[data-testid="iteration-timeline"]').count();
+    if (it < 1) errors.push(`${url} [${variant}]: missing [data-testid="iteration-timeline"]`);
+    const mbn = await page.locator('[data-testid="material-by-need"]').count();
+    if (mbn < 1) errors.push(`${url} [${variant}]: missing [data-testid="material-by-need"]`);
+    const vpt = await page.locator('[data-testid="volume-price-table"] tbody tr').count();
+    if (vpt < 3) errors.push(`${url} [${variant}]: volume-price-table has ${vpt} rows, want ≥ 3`);
+    // Primary CTA vocabulary — must contain "proyecto" (es/ca) or "project" (en).
+    const expectedToken = path.startsWith("/ca/") ? "projecte" : /\/(?:prototype|rapid|functional|short|for-business|3d-printing-for-business)/.test(path) ? "project" : "proyecto";
+    const hasBusinessCta = await page.evaluate((tok) => {
+      const hero = document.querySelector('[data-testid="page-hero"]');
+      if (!hero) return false;
+      const t = (hero.textContent || "").toLowerCase();
+      return t.includes(tok);
+    }, expectedToken);
+    if (!hasBusinessCta)
+      errors.push(`${url} [${variant}]: hero missing business-vocabulary CTA token "${expectedToken}"`);
+  }
+
   // No horizontal overflow: document scrollWidth should match viewport width
   // (allow 2px for sub-pixel rounding and scrollbar).
   const overflow = await page.evaluate(() => ({

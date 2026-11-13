@@ -14,6 +14,9 @@ import { LinkCardGrid, QuoteFeature, StepCards, UploadPanel, FactsStrip } from "
 import { REVIEWS, reviewText } from "@/data/reviews";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
+import IterationTimeline from "@/components/b2b/IterationTimeline";
+import MaterialByNeed from "@/components/b2b/MaterialByNeed";
+import VolumePriceTable from "@/components/b2b/VolumePriceTable";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -839,6 +842,12 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
             </div>
           </div>
         </section>
+
+        {/* Item 4: shared B2B modules — iteration timeline, material-by-need,
+            engine-driven volume price table. */}
+        <IterationTimeline lang={lang} />
+        <MaterialByNeed lang={lang} />
+        <VolumePriceTable lang={lang} />
 
         {/* ── 5. SCALE + BATCH TABLE ── */}
         <section className="py-14 md:py-20 container px-4 max-w-4xl mx-auto">
