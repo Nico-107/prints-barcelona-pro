@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MessageCircle, ChevronRight } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ProductTemplate from "@/components/product/ProductTemplate";
 import { Button } from "@/components/ui/button";
 import { FAQAccordion } from "@/components/ds";
 import { whatsappUrl, ACTIVE_CITY } from "@/config/cities";
@@ -88,8 +86,8 @@ const IntlPartPage = ({ content }: Props) => {
     })),
   };
 
-  return (
-    <div className="min-h-screen bg-background">
+  const helmet = (
+    <>
       <Helmet>
         <html lang={content.locale} />
         <title>{content.metaTitle}</title>
@@ -112,10 +110,12 @@ const IntlPartPage = ({ content }: Props) => {
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
+    </>
+  );
 
-      <Header />
-
-      <main id="main-content" className="pt-[var(--header-h)]">
+  return (
+    <ProductTemplate lang={content.lang} helmet={helmet}>
+      <div>
         {/* Hero */}
         <section data-testid="page-hero" data-page-hero className="relative overflow-hidden ds-grid-bg py-20">
           <div className="absolute top-12 left-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
@@ -231,11 +231,8 @@ const IntlPartPage = ({ content }: Props) => {
             </Link>
           </div>
         </section>
-      </main>
-
-      <Footer />
-      <WhatsAppFloat />
-    </div>
+      </div>
+    </ProductTemplate>
   );
 };
 

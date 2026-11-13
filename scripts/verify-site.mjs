@@ -205,6 +205,24 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: missing WhatsApp deadline button`);
   }
 
+  // Item 9 — Product pages all render [data-testid="product-template"]
+  // from one shared component (catalogue items, SEO parts, intl parts).
+  const PRODUCT_PATTERNS = [
+    /^\/catalogo\/[a-z0-9-]+$/,
+    /^\/adaptador-vesa-monitor$/,
+    /^\/embudo-dosificador-cafe-58mm$/,
+    /^\/rueda-cesto-lavavajillas-bosch$/,
+    /^\/adaptador-manguera-gardena$/,
+    /^\/de\/[a-z0-9-]+-adapter$/, /^\/de\/vesa-monitor-adapter$/, /^\/de\/kaffee-trichter/,
+    /^\/fr\/[a-z0-9-]+-adaptateur$/, /^\/fr\/entonnoir-cafe/, /^\/fr\/vesa-adaptateur/,
+    /^\/it\/[a-z0-9-]+-adattatore$/, /^\/it\/imbuto-caffe/, /^\/it\/vesa-adattatore/,
+    /^\/nl\/vesa-monitor-adapter/, /^\/nl\/.+-adapter$/, /^\/nl\/koffie-dosering/,
+  ];
+  if (PRODUCT_PATTERNS.some((re) => re.test(path))) {
+    const pt = await page.locator('[data-testid="product-template"]').count();
+    if (pt < 1) errors.push(`${url} [${variant}]: missing [data-testid="product-template"]`);
+  }
+
   // Item 8 — Blog posts / guides / comparisons (every language) render:
   //   - [data-testid="article-template"] once
   //   - [data-testid="article-toc"] once
