@@ -28,6 +28,10 @@ const Header = () => {
   // Dark theme applies site-wide in variant B (Phase 1.1). The home_v2
   // experiment keeps its over-hero behaviour on the home page for A visitors.
   const [isOverV2Hero, setIsOverV2Hero] = useState(siteVariant === "B");
+  // Separate from isOverV2Hero: true only when a dark hero exists AND we are
+  // still scrolled above it. Controls header background (transparent over the
+  // hero, solid dark everywhere else in variant B).
+  const [isOverDarkHero, setIsOverDarkHero] = useState(false);
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,14 +49,29 @@ const Header = () => {
 
   useEffect(() => {
     const check = () => {
-      // Site variant B → dark header always, every page, every scroll pos.
-      if (siteVariant === "B") { setIsOverV2Hero(true); return; }
+      if (siteVariant === "B") {
+        // Variant B always uses the dark theme (white text, orange triangle
+        // logo, V2 nav). Background is transparent ONLY while the viewport is
+        // still over a dark hero section ([data-v2-hero] / [data-dark-hero]);
+        // once scrolled past it (or on pages without one) the header gets a
+        // solid #0B1020 background.
+        setIsOverV2Hero(true);
+        const heroEl = document.querySelector(
+          '[data-v2-hero], [data-dark-hero]'
+        ) as HTMLElement | null;
+        if (!heroEl) { setIsOverDarkHero(false); return; }
+        const rect = heroEl.getBoundingClientRect();
+        setIsOverDarkHero(rect.bottom > 10);
+        return;
+      }
       // Legacy home_v2 behaviour for A visitors on home: dark only over hero.
       const isV2 = document.documentElement.dataset.xpHomeV2 === 'B';
-      if (!isV2) { setIsOverV2Hero(false); return; }
+      if (!isV2) { setIsOverV2Hero(false); setIsOverDarkHero(false); return; }
       const heroEl = document.querySelector('[data-v2-hero]') as HTMLElement | null;
-      if (!heroEl) { setIsOverV2Hero(false); return; }
-      setIsOverV2Hero(window.scrollY < heroEl.offsetHeight - 10);
+      if (!heroEl) { setIsOverV2Hero(false); setIsOverDarkHero(false); return; }
+      const over = window.scrollY < heroEl.offsetHeight - 10;
+      setIsOverV2Hero(over);
+      setIsOverDarkHero(over);
     };
     check();
     window.addEventListener('scroll', check, { passive: true });
@@ -154,7 +173,9 @@ const Header = () => {
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-200",
           isOverV2Hero
-            ? "bg-transparent border-b border-transparent"
+            ? isOverDarkHero
+              ? "bg-transparent border-b border-transparent"
+              : "bg-[#0B1020] border-b border-white/10 shadow-[0_1px_8px_rgba(0,0,0,0.25)]"
             : cn("bg-white border-b border-[#E3E8F0]", scrolled && "shadow-[0_1px_8px_rgba(15,23,42,0.08)]")
         )}
         style={{ paddingTop: "env(safe-area-inset-top)" }}

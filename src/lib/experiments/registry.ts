@@ -95,7 +95,11 @@ export const REGISTRY: ExperimentDef[] = [
     startedOn: '2026-11-13',
     minDays: 21,
     maxDays: 90,
-    enabled: true,
+    // Disabled 2026-11-13 by owner: B header had unreadable contrast on
+    // pages without a dark hero (transparent bg + white text). Re-enable
+    // once owner signs off on the header-background fix landed alongside
+    // this flag change. ?xp=site_variant:B still forces B site-wide for QA.
+    enabled: false,
   },
   {
     id: 'home_v2',
