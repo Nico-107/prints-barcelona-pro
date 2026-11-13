@@ -17,13 +17,17 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { cn } from "@/lib/utils";
+import { useVariant } from "@/lib/useVariant";
 
 const XP_LANGS = ["es", "en", "ca"];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isOverV2Hero, setIsOverV2Hero] = useState(false);
+  const siteVariant = useVariant();
+  // Dark theme applies site-wide in variant B (Phase 1.1). The home_v2
+  // experiment keeps its over-hero behaviour on the home page for A visitors.
+  const [isOverV2Hero, setIsOverV2Hero] = useState(siteVariant === "B");
   const { t, language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,6 +45,9 @@ const Header = () => {
 
   useEffect(() => {
     const check = () => {
+      // Site variant B → dark header always, every page, every scroll pos.
+      if (siteVariant === "B") { setIsOverV2Hero(true); return; }
+      // Legacy home_v2 behaviour for A visitors on home: dark only over hero.
       const isV2 = document.documentElement.dataset.xpHomeV2 === 'B';
       if (!isV2) { setIsOverV2Hero(false); return; }
       const heroEl = document.querySelector('[data-v2-hero]') as HTMLElement | null;
@@ -54,7 +61,7 @@ const Header = () => {
       window.removeEventListener('scroll', check);
       window.removeEventListener('resize', check);
     };
-  }, []);
+  }, [siteVariant]);
 
   // Text depends only on language — same on server and first client render.
   const xpHeaderText = (key: string): string =>

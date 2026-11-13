@@ -150,6 +150,20 @@ function OutboundContactTracker() {
   return null;
 }
 
+// Mirrors the site-wide A/B variant attribute (set pre-paint on <html>) onto
+// <body>, so CSS and tests can select on it, and re-asserts it on every
+// route change in case any page clears it. Phase 1.2.
+function SiteVariantMirror() {
+  const location = useLocation();
+  useEffect(() => {
+    const v = document.documentElement.getAttribute("data-xp-site-variant");
+    if (v === "A" || v === "B") {
+      document.body.dataset.siteVariant = v;
+    }
+  }, [location.pathname]);
+  return null;
+}
+
 function AiReferralTracker() {
   useEffect(() => {
     const referrer = document.referrer;
@@ -175,6 +189,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <PostHogPageView />
+          <SiteVariantMirror />
           <AiReferralTracker />
           {/* LanguageNavigationSync must never be removed — it re-syncs the language context
               on every client-side navigation so language matches the URL without a full reload. */}
