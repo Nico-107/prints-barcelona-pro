@@ -176,7 +176,7 @@ export function CheckoutConfigurator({
   })();
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="checkout-configurator" data-mode={advancedMode ? "advanced" : "simple"}>
       {/* Mode toggle at the very top of the right column (conv-27) */}
       <div
         className="inline-flex p-0.5 rounded-[10px] bg-slate-100 text-xs font-medium"
@@ -358,8 +358,10 @@ export function CheckoutConfigurator({
             </div>
           </details>
         )}
-        {/* "¿No sabes cuál elegir?" — reveals the use-case chips inline per Prompt §1 */}
-        {!advancedMode && (
+        {/* "¿No sabes cuál elegir?" — reveals the use-case chips inline.
+            Conv 1.1: hidden in Simple mode; Advanced users have the chips
+            directly, Simple users keep the 6 material tiles alone. */}
+        {advancedMode && (
           <button
             type="button"
             onClick={() => {
@@ -373,17 +375,20 @@ export function CheckoutConfigurator({
         )}
       </div>
 
-      {/* Colour picker — key resets internal customMode state on scope change */}
-      <div>
-        <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.color.title")}</p>
-        <ColourPicker
-          key={scope}
-          value={effColor}
-          onChange={handleColorChange}
-          disabled={disabled}
-          t={t}
-        />
-      </div>
+      {/* Colour picker — Conv 1.1: Advanced only. Simple keeps default
+          "Cualquier color" and stops offering the choice up front. */}
+      {advancedMode && (
+        <div>
+          <p className="text-xs font-medium text-muted-foreground mb-2">{t("calc.color.title")}</p>
+          <ColourPicker
+            key={scope}
+            value={effColor}
+            onChange={handleColorChange}
+            disabled={disabled}
+            t={t}
+          />
+        </div>
+      )}
 
       {/* Advanced-only options (non-whole-order) */}
       {advancedMode && (
@@ -564,42 +569,9 @@ export function CheckoutConfigurator({
             </div>
           )}
 
-          {/* Plazo — Estándar / Urgente (+25%) */}
-          <div>
-            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("calc.simple.plazo")}</p>
-            <div className="grid grid-cols-2 gap-1.5" role="radiogroup" data-testid="simple-plazo">
-              <button
-                type="button"
-                role="radio"
-                aria-checked={urgency === "standard"}
-                data-testid="plazo-standard"
-                onClick={() => onUrgencyChange("standard")}
-                disabled={disabled}
-                className={`text-left px-3 py-2 rounded-[10px] border text-xs transition-colors disabled:opacity-50 ${
-                  urgency === "standard" ? "border-accent bg-accent/8" : "border-slate-200 bg-white hover:border-slate-300"
-                }`}
-              >
-                <span className="font-medium block">{t("calc.urgency.standard.label")}</span>
-                <span className="text-slate-500 block mt-0.5">{t("calc.simple.shipsOn").replace("{date}", shipStd)}</span>
-              </button>
-              <button
-                type="button"
-                role="radio"
-                aria-checked={urgency === "express"}
-                data-testid="plazo-express"
-                onClick={() => onUrgencyChange("express")}
-                disabled={disabled}
-                className={`text-left px-3 py-2 rounded-[10px] border text-xs transition-colors disabled:opacity-50 ${
-                  urgency === "express" ? "border-accent bg-accent/8" : "border-slate-200 bg-white hover:border-slate-300"
-                }`}
-              >
-                <span className="font-medium block">{t("calc.simple.urgent")} <span className="text-slate-500 font-normal">+25%</span></span>
-                <span className="text-slate-500 block mt-0.5">{t("calc.simple.shipsOn").replace("{date}", shipExp)}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Note — collapsed by default */}
+          {/* Note — collapsed by default. Conv 1.1: plazo (urgency) chips
+              moved to Advanced; Simple mode defaults to "standard" so the
+              user only sees 3D preview, material, qty, total and Buy. */}
           <div>
             {!noteOpen ? (
               <button

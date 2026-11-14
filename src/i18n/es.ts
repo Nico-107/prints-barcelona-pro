@@ -398,6 +398,8 @@ export const esTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / teléfono",
   "calc.contact.atLeastOne": "Introduce al menos un método de contacto — email o teléfono",
   "calc.contact.submit": "Enviar solicitud de presupuesto",
+  "calc.actions.reviewPrimary": "Pedir revisión gratis",
+  "calc.actions.reviewPrimaryHint": "Te confirmo precio y plazo en menos de 1 h laborable",
   "calc.trust.promise": "Pago seguro con Stripe · Recibo por email · Te escribimos en 1 h",
   "calc.trust.methods": "Tarjeta · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Pago seguro con",
