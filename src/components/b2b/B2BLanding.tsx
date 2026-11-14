@@ -226,7 +226,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     processSteps: [
       { title: "Envía tu STL, STEP o dibujo", body: "Sube el archivo al calculador o envíalo por WhatsApp. Aceptamos STL, STEP, IGES, OBJ y 3MF. Si solo tienes un dibujo o una foto de la pieza rota, también podemos trabajar con eso." },
       { title: "Presupuesto en 1 hora (o precio instantáneo)", body: "Las piezas con precio automático te dan un precio al instante. Para piezas más complejas, revisamos el archivo manualmente y respondemos en menos de 1 hora en horario laboral." },
-      { title: "Impresión y control de calidad", body: "Imprimimos en nuestra Bambu Lab X2D con cámara cerrada y cámara climatizada. Cada pieza se revisa antes de salir del taller." },
+      { title: "Impresión y control de calidad", body: "Imprimo en la Bambu Lab X2D con cámara cerrada y cámara climatizada. Cada pieza se revisa antes de salir del estudio." },
       { title: "Entrega en Barcelona o envío", body: "Recogida con cita previa en Barcelona. Envío a domicilio desde 5,90 € a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
     ],
     faqs: [
@@ -421,7 +421,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     processSteps: [
       { title: "Envia el teu STL, STEP o plànol", body: "Puja l'arxiu a la calculadora o envia'l per WhatsApp. Acceptem STL, STEP, IGES, OBJ i 3MF. Si només tens un plànol o una foto de la peça trencada, també podem treballar-hi." },
       { title: "Pressupost en 1 hora (o preu instantani)", body: "Les peces amb preu automàtic obtenen un preu al moment. Per a peces més complexes, revisem l'arxiu manualment i responem en menys d'1 hora en horari laboral." },
-      { title: "Impressió i control de qualitat", body: "Imprimim a la nostra Bambu Lab X2D amb cambra tancada i climatitzada. Cada peça es revisa abans de sortir del taller." },
+      { title: "Impressió i control de qualitat", body: "Imprimeixo a la Bambu Lab X2D amb cambra tancada i climatitzada. Cada peça es revisa abans de sortir de l'estudi." },
       { title: "Lliurament a Barcelona o enviament", body: "Recollida amb cita prèvia a Barcelona (Les Corts). Enviament des de 5,90€ a Espanya i la UE. La majoria de comandes llestes en 2–5 dies laborables; urgent en 24–48 h (amb recàrrec)." },
     ],
     faqs: [

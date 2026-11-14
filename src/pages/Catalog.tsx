@@ -80,13 +80,15 @@ const Catalog = () => {
         path="/catalogo"
       />
       <Header />
-      <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
+      {/* fix-polish §4.2: compact-hero top padding so the eyebrow doesn't
+          sit flush under the header on tool-/catalog-first pages. */}
+      <main id="main-content" className="min-h-screen bg-background pt-[calc(var(--header-h)+32px)] md:pt-[calc(var(--header-h)+56px)] pb-20">
         <div className="container px-4">
           <section data-testid="page-hero" data-page-hero className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
               Catálogo
             </p>
-            <h1 className="text-4xl font-bold text-foreground mb-3">
+            <h1 className="font-display font-extrabold tracking-tight leading-none mb-3" style={{ fontSize: "clamp(30px, 3.6vw, 44px)" }}>
               Productos personalizados
             </h1>
             <p className="text-muted-foreground max-w-lg mx-auto">

@@ -118,7 +118,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Cua prioritària sense perdre qualitat",
-        body: "Express no vol dir nyap. Continuem laminant amb suports adequats, temperatures calibrades i revisem cada peça abans que surti del taller. La diferència és que el teu encàrrec passa al davant de la cua i s'imprimeix a la següent màquina disponible."
+        body: "Express no vol dir nyap. Continuem laminant amb suports adequats, temperatures calibrades i revisem cada peça abans que surti de l'estudi. La diferència és que el teu encàrrec passa al davant de la cua i s'imprimeix a la següent màquina disponible."
       },
       {
         heading: "Recollida o lliurament ràpid a Barcelona",
@@ -151,7 +151,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "service",
     metaTitle: "Preu Impressió 3D Barcelona",
-    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 10€, sense comanda mínima. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
+    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 10€, des d'1 peça. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
     h1: "Preu d'Impressió 3D a Barcelona",
     intro: "Una de les primeres preguntes de qualsevol client és: quant costarà la meva impressió 3D? En aquesta pàgina expliquem exactament què determina el preu d'una impressió 3D a Barcelona, amb exemples realistes, perquè puguis planificar el teu projecte sense sorpreses.",
     sections: [

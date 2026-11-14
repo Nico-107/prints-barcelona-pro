@@ -654,16 +654,75 @@ serve(async (req: Request) => {
       const v3LangStr = typeof body.language === "string" ? body.language : "";
       const v3Lines = stripeLinesV3(priced, vBody.pieces, v3LangStr, v3AutumnDiscountCents);
 
+      // Section 2.1: upload the client-captured preview PNG once and reuse the
+      // URL as the product image on every print line (not just line_items[0]).
+      const v3PreviewUrl = await uploadCheckoutPreview(supabaseV3, preview);
+
+      // Section 2.1: localised "3D print:" prefix for the product description.
+      // Falls back to English.
+      const v3DescPrefix =
+        v3LangStr === "es" ? "Impresión 3D"
+        : v3LangStr === "ca" ? "Impressió 3D"
+        : v3LangStr === "de" ? "3D-Druck"
+        : v3LangStr === "fr" ? "Impression 3D"
+        : v3LangStr === "nl" ? "3D-print"
+        : v3LangStr === "it" ? "Stampa 3D"
+        : v3LangStr === "pt" ? "Impressão 3D"
+        : "3D print";
+
+      // Section 2.1: material, colour, quantity and part size (mm) per line.
+      function v3DescForPiece(pIdx: number): string {
+        const p = vBody.pieces[pIdx];
+        const est = priced.estimates[pIdx];
+        const sizeMm = `${Math.round(est.sizeXMm)}×${Math.round(est.sizeYMm)}×${Math.round(est.heightMm)} mm`;
+        const bits = [
+          p.material,
+          p.color ? p.color : null,
+          `×${p.quantity}`,
+          sizeMm,
+          `${p.infill}%`,
+        ].filter(Boolean) as string[];
+        return `${v3DescPrefix}: ${p.name} — ${bits.join(" · ")}`.slice(0, 500);
+      }
+
       const v3Params = new URLSearchParams({ "mode": "payment" });
       // Abandoned-checkout recovery — lets Stripe email the customer a resume link.
       // Do NOT set payment_method_types; Stripe uses dashboard-configured dynamic methods.
-      
+
       v3Lines.forEach((line, i) => {
         v3Params.set(`line_items[${i}][quantity]`, "1");
         v3Params.set(`line_items[${i}][price_data][currency]`, "eur");
         v3Params.set(`line_items[${i}][price_data][unit_amount]`, String(line.cents));
         v3Params.set(`line_items[${i}][price_data][product_data][name]`, line.name);
       });
+
+      // Section 2.1: for each print line (not setup/minimum/express), attach
+      // the description + preview image. Print lines come first in v3Lines,
+      // one per priced.order.parts entry whose costCents > 0, in the same order.
+      {
+        let v3LineIdx = 0;
+        priced.order.parts.forEach((pl, pIdx) => {
+          if (pl.costCents <= 0) return;
+          v3Params.set(
+            `line_items[${v3LineIdx}][price_data][product_data][description]`,
+            v3DescForPiece(pIdx),
+          );
+          if (v3PreviewUrl) {
+            v3Params.set(
+              `line_items[${v3LineIdx}][price_data][product_data][images][0]`,
+              v3PreviewUrl,
+            );
+          }
+          v3LineIdx++;
+        });
+      }
+
+      // Section 2.2: Stripe checkout page language mirrors the site language.
+      // Catalan falls back to Spanish because Stripe has no `ca` locale.
+      const v3StripeLocale =
+        v3LangStr === "ca" ? "es"
+        : (["es", "en", "de", "fr", "it", "nl", "pt"].includes(v3LangStr) ? v3LangStr : "auto");
+      v3Params.set("locale", v3StripeLocale);
 
       v3Params.set("metadata[order_id]", v3OrderRow.id);
       v3Params.set("metadata[order_number]", String(v3OrderRow.order_number));
@@ -689,8 +748,7 @@ serve(async (req: Request) => {
       if (typeof source_path === "string" && source_path.trim()) v3Params.set("metadata[source_path]", source_path.trim().slice(0, 200));
       if (typeof page_language === "string" && page_language.trim()) v3Params.set("metadata[page_language]", page_language.trim().slice(0, 20));
 
-      applyCheckoutPolicy(v3Params, vBody.fulfillment, v3DiscountedSubtotal, v3Lines.length,
-        await uploadCheckoutPreview(supabaseV3, preview));
+      applyCheckoutPolicy(v3Params, vBody.fulfillment, v3DiscountedSubtotal, v3Lines.length);
 
       if (typeof body.contactEmail === "string" && body.contactEmail.trim()) {
         v3Params.set("customer_email", body.contactEmail.trim());

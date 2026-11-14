@@ -35,6 +35,21 @@
 
 ## International Language Hubs
 
-- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ for German-speaking customers
-- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub: order online, delivery to France
-- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub: online ordering and delivery to the Netherlands
+- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ for German-speaking customers. From €10, flat €5.90 shipping, no customs within the EU, typical delivery 3–5 working days.
+- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub: order online, delivery to France. À partir de 10 €, 5,90 € forfait, pas de douane, 3–5 jours ouvrés.
+- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub: online ordering and delivery to the Netherlands. Vanaf €10, vaste €5,90 verzending, geen douane, 2–4 werkdagen.
+- [Stampa 3D online (IT)](https://www.dimension3dprints.com/it/stampa-3d-online) — Italian hub: ordini online, spedizione in Italia. Da 10 €, spedizione piatta 5,90 €, nessuna dogana UE, 3–5 giorni lavorativi.
+- [Impressão 3D Online (PT)](https://www.dimension3dprints.com/pt/impressao-3d-online) — Portuguese hub: encomendar online, envio para Portugal. A partir de 10 €, envio fixo 5,90 €, sem alfândega UE, 2–4 dias úteis.
+
+## International City Pages (city + price queries)
+
+- IT: [Milano](https://www.dimension3dprints.com/it/stampa-3d-milano), [Torino](https://www.dimension3dprints.com/it/stampa-3d-torino), [Roma](https://www.dimension3dprints.com/it/stampa-3d-roma), [Napoli](https://www.dimension3dprints.com/it/stampa-3d-napoli), [Bologna](https://www.dimension3dprints.com/it/stampa-3d-bologna)
+- DE: [Berlin](https://www.dimension3dprints.com/de/3d-druck-berlin), [München](https://www.dimension3dprints.com/de/3d-druck-muenchen)
+- FR: [Paris](https://www.dimension3dprints.com/fr/impression-3d-paris), [Lyon](https://www.dimension3dprints.com/fr/impression-3d-lyon)
+- NL: [Amsterdam](https://www.dimension3dprints.com/nl/3d-printen-amsterdam), [Rotterdam](https://www.dimension3dprints.com/nl/3d-printen-rotterdam)
+- PT: [Lisboa](https://www.dimension3dprints.com/pt/impressao-3d-lisboa), [Porto](https://www.dimension3dprints.com/pt/impressao-3d-porto)
+
+## Tools (per language)
+
+- STL checker: [EN](https://www.dimension3dprints.com/3d-file-checker), [ES](https://www.dimension3dprints.com/verificador-archivo-3d), [CA](https://www.dimension3dprints.com/comprovador-arxiu-3d), [DE](https://www.dimension3dprints.com/de/3d-datei-pruefen), [FR](https://www.dimension3dprints.com/fr/verificateur-fichier-3d), [NL](https://www.dimension3dprints.com/nl/3d-bestand-controleren), [IT](https://www.dimension3dprints.com/it/verifica-file-3d), [PT](https://www.dimension3dprints.com/pt/verificador-ficheiro-3d)
+- Design from photo: [EN](https://www.dimension3dprints.com/design-your-3d-part), [ES](https://www.dimension3dprints.com/disena-tu-pieza-3d), [CA](https://www.dimension3dprints.com/dissenya-la-teva-peca-3d), [DE](https://www.dimension3dprints.com/de/3d-design-aus-foto), [FR](https://www.dimension3dprints.com/fr/conception-3d-depuis-photo), [NL](https://www.dimension3dprints.com/nl/3d-ontwerp-van-foto), [IT](https://www.dimension3dprints.com/it/progetta-pezzo-3d), [PT](https://www.dimension3dprints.com/pt/desenho-3d-a-partir-de-foto)

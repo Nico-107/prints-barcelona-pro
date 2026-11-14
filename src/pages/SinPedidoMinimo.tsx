@@ -301,7 +301,7 @@ const SinPedidoMinimo = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  Para encargar una sola pieza, envía el archivo STL o una foto por WhatsApp al número del taller. Respondemos con presupuesto en menos de 1 hora, de 9:00 a 20:00. Confirmas, pagamos, imprimimos. La mayoría de piezas pequeñas están listas en 24 horas. Recogida gratuita en Barcelona o envío a domicilio por 5,90 €.
+                  Para encargar una sola pieza, envía el archivo STL o una foto por WhatsApp al número del estudio. Respondemos con presupuesto en menos de 1 hora, de 9:00 a 20:00. Confirmas, pagamos, imprimimos. La mayoría de piezas pequeñas están listas en 24 horas. Recogida gratuita en Barcelona o envío a domicilio por 5,90 €.
                 </p>
               </div>
               <div className="space-y-3">

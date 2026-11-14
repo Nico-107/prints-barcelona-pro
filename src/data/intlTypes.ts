@@ -28,6 +28,19 @@ export interface IntlHubContent {
   guideLinks: Array<{ to: string; label: string }>;
   orgAlternateNames: string[]; // country-specific alternate names for Organization JSON-LD
   materialLabel?: string;     // localized "Material" for price table header; defaults to "Material"
+
+  // Section 6.4 additions — plain facts an assistant can quote.
+  answerBlock?: {
+    heading: string;
+    facts: string[]; // 5–8 plain sentences; number-first ("From 10 €, …")
+  };
+  costTable?: {
+    caption: string;
+    headers: { part: string; shipping: string; total: string };
+    rows: Array<{ label: string; partEur: string; shippingEur: string; totalEur: string }>;
+  };
+  shippingHeading?: string;
+  shippingText?: string;      // one shipping + customs paragraph, markdown allowed
 }
 
 export interface IntlCityContent {

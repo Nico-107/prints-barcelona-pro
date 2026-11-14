@@ -143,10 +143,23 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
 
   const isEs = language === "es";
   const isCa = language === "ca";
-  const groupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) =>
-    isCa ? g.labelCa : isEs ? g.labelEs : g.labelEn;
-  const itemLabel = (i: { labelEn: string; labelEs: string; labelCa: string }) =>
-    isCa ? i.labelCa : isEs ? i.labelEs : i.labelEn;
+  // fix-polish §2.1 / §3: pick the per-language label when the menu item
+  // defines one; fall back to labelEn for languages without a variant.
+  type Lbl = { labelEn: string; labelEs: string; labelCa: string; labelDe?: string; labelFr?: string; labelNl?: string; labelIt?: string; labelPt?: string };
+  const pickLabel = (x: Lbl) => {
+    switch (language) {
+      case "ca": return x.labelCa;
+      case "es": return x.labelEs;
+      case "de": return x.labelDe ?? x.labelEn;
+      case "fr": return x.labelFr ?? x.labelEn;
+      case "nl": return x.labelNl ?? x.labelEn;
+      case "it": return x.labelIt ?? x.labelEn;
+      case "pt": return x.labelPt ?? x.labelEn;
+      default: return x.labelEn;
+    }
+  };
+  const groupLabel = (g: Lbl) => pickLabel(g);
+  const itemLabel = (i: Lbl) => pickLabel(i);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);

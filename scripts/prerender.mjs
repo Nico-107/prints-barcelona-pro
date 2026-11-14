@@ -38,6 +38,16 @@ const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker
   "/3d-file-checker",          // FileChecker EN
   "/verificador-archivo-3d",   // FileChecker ES
   "/comprovador-arxiu-3d",     // FileChecker CA
+  "/de/3d-datei-pruefen",         // FileChecker DE (section 6.6)
+  "/fr/verificateur-fichier-3d",  // FileChecker FR (section 6.6)
+  "/nl/3d-bestand-controleren",   // FileChecker NL (section 6.6)
+  "/it/verifica-file-3d",         // FileChecker IT (section 6.6)
+  "/pt/verificador-ficheiro-3d",  // FileChecker PT (section 6.6)
+  "/de/3d-design-aus-foto",         // DesignRequest DE (section 6.6)
+  "/fr/conception-3d-depuis-photo", // DesignRequest FR (section 6.6)
+  "/nl/3d-ontwerp-van-foto",        // DesignRequest NL (section 6.6)
+  "/it/progetta-pezzo-3d",          // DesignRequest IT (section 6.6)
+  "/pt/desenho-3d-a-partir-de-foto", // DesignRequest PT (section 6.6)
   "/politica-devoluciones",    // Quality Guarantee / Return Policy
   "/repuesto-descatalogado",        // Discontinued parts service page
   "/impresion-3d-sin-pedido-minimo", // No minimum order service page

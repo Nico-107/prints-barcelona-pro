@@ -424,7 +424,7 @@ export const itTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ File stampabile: entra nella stampante, senza errori",
   "calc.printability.oversize": "⚠ Troppo grande in un pezzo — lo dividiamo e lo revisioniamo (preventivo gratuito)",
   "calc.printability.parseError": "⚠ File non leggibile. Controllalo o chiedici aiuto.",
-  "calc.exitToast.sure": "Sicuro? Il tuo pezzo è pronto.",
+  "calc.exitToast.sure": "Il tuo file non è ancora stato inviato. Chiudendo, non verrà messo in coda nulla.",
   "calc.exitToast.back": "Torna all'ordine",
   "calc.saveQuote.link": "Inviami questo preventivo",
   "calc.saveQuote.placeholder": "tu@email.com",
@@ -603,8 +603,8 @@ export const itTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Pezzo",
   "calc.breakdown.pieces": "Pezzi",
   "calc.breakdown.minHelper": "Il tuo ordine raggiunge il minimo di 10 €: puoi aggiungere pezzi fino a quella cifra senza costi aggiuntivi.",
-  "calc.breakdown.minHelperShort": "Ordine minimo 10 € · altri pezzi da +1 €",
-  "calc.reassurance.review": "Controllo il tuo file prima della stampa. Se non è stampabile, rimborso completo.",
+  "calc.breakdown.minHelperShort": "Ordine minimo 10 €. I tuoi pezzi arrivano a {parts}: puoi aggiungere altri pezzi allo stesso prezzo fino a raggiungere 10 €.",
+  "calc.reassurance.review": "Controllo il tuo file prima della stampa. Se qualcosa non torna ti scrivo e non stampo senza il tuo OK. Se non è stampabile, rimborso completo.",
   "calc.legal.acceptBuyingLine": "Acquistando accetti le Condizioni di vendita e l'Informativa privacy",
   "calc.fulfillment.pickupAddress": "Ritiro: {address}",
   "calc.fulfillment.free": "gratuito",
@@ -758,7 +758,7 @@ export const itTranslations: Record<string, string> = {
 
   // DesignRequest page
   "design.meta.title": "Servizio di Design 3D Barcellona — Senza File, da una Foto",
-  "design.meta.description": "Servizio di progettazione 3D a Barcellona — nessun file 3D necessario. Invia una foto o descrivi il pezzo e lo progettiamo e stampiamo noi. Preventivo gratuito in 1 ora.",
+  "design.meta.description": "Servizio di progettazione 3D da Barcellona — nessun file 3D necessario. Invia una foto, preventivo gratuito in 1 ora, spedizione UE.",
   "design.hero.badge": "Nessun file 3D richiesto",
   "design.hero.heading": "Nessun file 3D? Nessun problema.",
   "design.hero.intro": "La maggior parte dei nostri clienti arriva con un'idea, una foto o un pezzo rotto — non un file pronto per la stampa. Descrivi ciò di cui hai bisogno e pensiamo a tutto noi.",

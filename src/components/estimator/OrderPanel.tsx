@@ -9,7 +9,7 @@ import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/l
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { useXpExposure } from "@/lib/experiments";
-import { AUTUMN_DISCOUNT, PAYMENT_CAPTURE_MODE } from "@/config/policies";
+import { AUTUMN_DISCOUNT } from "@/config/policies";
 import { computeShipDate, formatShipDate, cutoffLine, isBeforeCutoff } from "@/lib/shipDate";
 import { capture } from "@/lib/analytics";
 import { EST } from "@/lib/estimator/core";
@@ -85,7 +85,9 @@ function SaveQuoteRow({
       >
         {t("calc.saveQuote.link")}
       </button>
-      <span className="text-slate-300">·</span>
+      {/* fix-polish §1.5: no explicit "·" — the `gap-x-4` on the row
+          already spaces items, and the "·" leaks onto its own line when
+          the row wraps. */}
       <button
         type="button"
         onClick={handleCopyLink}
@@ -578,10 +580,10 @@ export function OrderPanel({
                     }
                   </Button>
                   )}
-                  {/* Conv 1.9: reassurance line directly below the Buy
-                      button in both full and slim layouts — "Reviso tu
-                      archivo antes de imprimir. Si no se puede imprimir,
-                      reembolso completo." */}
+                  {/* fix-polish §1.3: one reassurance line under the Buy
+                      button, first person singular. Previously we rendered
+                      two near-identical lines (calc.reassurance.review and
+                      calc.guarantee.default) stacked on top of each other. */}
                   {!_isExtras && (
                   <p className="text-xs text-center text-slate-600 leading-snug" data-testid="buy-reassurance">
                     {t("calc.reassurance.review")}
@@ -589,20 +591,11 @@ export function OrderPanel({
                   )}
                   {/* Conv-legal 3: implicit-acceptance notice. No checkbox,
                       no extra step; one small line linking to the two
-                      binding documents. */}
+                      binding documents. (Kept during the fix-polish merge
+                      alongside the deduped reassurance above — §1.3.) */}
                   {!_isExtras && (
                   <p className="text-[11px] text-center text-slate-500 leading-snug" data-testid="checkout-legal-line">
                     {t("calc.legal.acceptBuyingLine")}
-                  </p>
-                  )}
-                  {/* Phase 4.4: trust line + payment badges live in the
-                      extras view on mobile; the slim bottom panel keeps
-                      only total + delivery + buy. */}
-                  {!_isSlim && (
-                  <p className="text-xs text-center text-slate-500 leading-snug">
-                    {PAYMENT_CAPTURE_MODE === 'after_review'
-                      ? t("calc.guarantee.afterReview")
-                      : t("calc.guarantee.default")}
                   </p>
                   )}
                   {!_isSlim && <PaymentBadges language={language} />}

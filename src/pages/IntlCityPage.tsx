@@ -210,14 +210,31 @@ const IntlCityPage = ({ content }: Props) => {
         </div>
 
         {/* Item 5: delivery timeline + engine price table. Transit days come
-            from INTL_MARKETS for the page's country. */}
+            from INTL_MARKETS for the page's country.
+            Section 6.5: localised H2 "Prices of 3D printing with delivery to <city>" sits above the
+            engine price table so the page answers the "<city> + price" query
+            pattern Semrush shows ranking from positions 8–11. */}
         {(() => {
           const market = INTL_MARKETS.find((m) => m.code === content.countryCode);
           const transitRaw = market?.typicalDeliveryDays ?? "3–5 business days";
           const transitDays = transitRaw.replace(/\s+(business days|días hábiles|días laborables|jours ouvrés|jours ouvrables|Werktage|werkdagen|giorni lavorativi|dias úteis)\s*$/i, "");
+          const priceHeading =
+            content.lang === "es" ? `Precios de impresión 3D con entrega en ${content.city}`
+            : content.lang === "ca" ? `Preus d'impressió 3D amb lliurament a ${content.city}`
+            : content.lang === "de" ? `3D-Druck Preise mit Lieferung nach ${content.city}`
+            : content.lang === "fr" ? `Prix d'impression 3D avec livraison à ${content.city}`
+            : content.lang === "nl" ? `Prijzen voor 3D printen met levering in ${content.city}`
+            : content.lang === "it" ? `Prezzi stampa 3D con spedizione a ${content.city}`
+            : content.lang === "pt" ? `Preços de impressão 3D com envio para ${content.city}`
+            : `3D printing prices with delivery to ${content.city}`;
           return (
             <>
               <DeliveryTimeline lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} transitDays={transitDays} shippingPrice="5,90 €" />
+              <section className="pt-8 pb-0 bg-background">
+                <div className="container px-4 max-w-4xl mx-auto">
+                  <h2 className="font-bold text-foreground text-xl md:text-2xl">{priceHeading}</h2>
+                </div>
+              </section>
               <EnginePriceTable lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} testId="city-price-table" />
             </>
           );

@@ -4,12 +4,20 @@ interface HeroProps {
   variant: 'centered' | 'split-image';
   starLine?: ReactNode;
   h1: ReactNode;
+  /**
+   * fix-polish §4.5: on pages that prerender BOTH variants (home, hubs),
+   * one of the two must not be a real <h1> so every built HTML has exactly
+   * one <h1>. Pass "div" for the variant that is removed-after-hydrate so
+   * the heading still reads as level-1 for assistive tech but doesn't count
+   * for SEO. Default "h1".
+   */
+  h1Element?: 'h1' | 'div';
   paragraph: string;
   /** Mobile-only paragraph override (shown instead of paragraph on ≤767px) */
   mobileParagraph?: string;
-  primaryButton?: { label: ReactNode; onClick: () => void };
+  primaryButton?: { label: ReactNode; onClick: () => void; testid?: string };
   /** Outlined secondary button (WhatsApp, etc.) — links to href */
-  secondaryButton?: { label: string; href: string };
+  secondaryButton?: { label: string; href: string; testid?: string };
   /** Small text link below buttons (e.g. "send me the link") */
   sendLinkButton?: { label: string; onClick: () => void };
   reassuranceItems?: string[];
@@ -24,10 +32,12 @@ interface HeroProps {
 
 /** Centered (V1) hero — dark grid background, no image */
 function CenteredHero({
-  starLine, h1, paragraph, primaryButton, secondaryButton, sendLinkButton,
+  starLine, h1, h1Element = 'h1', paragraph, primaryButton, secondaryButton, sendLinkButton,
   reassuranceItems = [], noFileLink, factsItems = [],
   extendBehindHeader = true,
 }: HeroProps) {
+  const HeadingTag: any = h1Element === 'div' ? 'div' : 'h1';
+  const headingAria = h1Element === 'div' ? { role: 'heading', 'aria-level': 1 } : {};
   return (
     <section
       data-testid="page-hero"
@@ -75,7 +85,8 @@ function CenteredHero({
             </div>
           )}
 
-          <h1
+          <HeadingTag
+            {...headingAria}
             style={{
               margin: 0,
               fontFamily: "'Inter Tight', system-ui, sans-serif",
@@ -87,7 +98,7 @@ function CenteredHero({
             }}
           >
             {h1}
-          </h1>
+          </HeadingTag>
 
           <p
             data-testid="hero-subtitle"
@@ -106,6 +117,7 @@ function CenteredHero({
             <button
               type="button"
               data-hero-cta="true"
+              data-testid={primaryButton.testid}
               onClick={primaryButton.onClick}
               className="ds-btn-primary"
               style={{
@@ -123,6 +135,7 @@ function CenteredHero({
           {secondaryButton && (
             <a
               href={secondaryButton.href}
+              data-testid={secondaryButton.testid}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -252,8 +265,10 @@ function CenteredHero({
 
 /** Split-image (V2) hero — black bg, image right, text left */
 function SplitImageHero({
-  starLine, h1, paragraph, mobileParagraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage, mobileExtras,
+  starLine, h1, h1Element = 'h1', paragraph, mobileParagraph, primaryButton, secondaryButton, sendLinkButton, reassuranceItems = [], noFileLink, splitImage, mobileExtras,
 }: HeroProps) {
+  const HeadingTag: any = h1Element === 'div' ? 'div' : 'h1';
+  const headingAria = h1Element === 'div' ? { role: 'heading', 'aria-level': 1 } : {};
   return (
     <section
       data-testid="page-hero"
@@ -303,7 +318,8 @@ function SplitImageHero({
             </div>
           )}
 
-          <h1
+          <HeadingTag
+            {...headingAria}
             style={{
               margin: 0,
               fontFamily: "'Bricolage Grotesque', 'Inter Tight', system-ui, sans-serif",
@@ -314,7 +330,7 @@ function SplitImageHero({
             }}
           >
             {h1}
-          </h1>
+          </HeadingTag>
 
           {/* Desktop paragraph */}
           <p
@@ -346,6 +362,7 @@ function SplitImageHero({
           <button
             type="button"
             data-hero-cta="true"
+            data-testid={primaryButton?.testid}
             onClick={primaryButton?.onClick}
             className="ds-btn-primary"
             style={{
@@ -396,6 +413,7 @@ function SplitImageHero({
           {secondaryButton && (
             <a
               href={secondaryButton.href}
+              data-testid={secondaryButton.testid}
               className="ds-v2-mobile-only"
               style={{
                 display: 'flex',
@@ -486,8 +504,8 @@ function SplitImageHero({
             />
             <picture>
               <source
-                srcSet="/img/x2d/x2d-inside-480.webp 480w, /img/x2d/x2d-inside-960.webp 960w, /img/x2d/x2d-inside-1600.webp 1600w"
-                sizes="(max-width: 900px) 100vw, 50vw"
+                srcSet="/img/x2d/x2d-inside-480.webp 480w, /img/x2d/x2d-inside-960.webp 960w, /img/x2d/x2d-inside-1600.webp 1600w, /img/x2d/x2d-inside-2560.webp 2560w"
+                sizes="(max-width: 900px) 100vw, 70vw"
                 type="image/webp"
               />
               <img
