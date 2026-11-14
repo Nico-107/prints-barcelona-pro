@@ -36,12 +36,24 @@ export interface MenuItem {
   labelEn: string;
   labelEs: string;
   labelCa: string;
+  // fix-polish §2.1 / §3: optional per-language overrides for the five
+  // non-primary locales. When absent, Header/Footer falls back to labelEn.
+  labelDe?: string;
+  labelFr?: string;
+  labelNl?: string;
+  labelIt?: string;
+  labelPt?: string;
 }
 
 export interface MenuGroup {
   labelEn: string;
   labelEs: string;
   labelCa: string;
+  labelDe?: string;
+  labelFr?: string;
+  labelNl?: string;
+  labelIt?: string;
+  labelPt?: string;
   items: MenuItem[];
 }
 
@@ -66,7 +78,8 @@ const staticItem = (
   slug: string,
   labelEn: string,
   labelEs: string,
-  labelCa: string
+  labelCa: string,
+  extras: Pick<MenuItem, "labelDe" | "labelFr" | "labelNl" | "labelIt" | "labelPt"> = {},
 ): MenuItem => ({
   slugEn: slug,
   slugEs: slug,
@@ -74,6 +87,7 @@ const staticItem = (
   labelEn,
   labelEs,
   labelCa,
+  ...extras,
 });
 
 export const SERVICES_MENU: MenuGroup[] = [
@@ -139,7 +153,13 @@ export const SERVICES_MENU: MenuGroup[] = [
     labelEs: "Popular",
     labelCa: "Popular",
     items: [
-      staticItem("/impresion-3d-sin-pedido-minimo", "No Minimum Order", "Sin Pedido Mínimo", "Sense Comanda Mínima"),
+      staticItem("/impresion-3d-sin-pedido-minimo", "From 1 piece", "Desde 1 pieza", "Des d'1 peça", {
+        labelDe: "Ab 1 Stück",
+        labelFr: "Dès 1 pièce",
+        labelNl: "Vanaf 1 stuk",
+        labelIt: "Da 1 pezzo",
+        labelPt: "A partir de 1 peça",
+      }),
       staticItem("/repuesto-descatalogado", "Discontinued Parts", "Repuesto Descatalogado", "Recanvi Descatalogat"),
       staticItem("/adaptador-vesa-monitor", "VESA Monitor Adapter", "Adaptador VESA Monitor", "Adaptador VESA Monitor"),
       staticItem("/embudo-dosificador-cafe-58mm", "Coffee Dosing Funnel", "Embudo Café 58mm", "Embut Cafè 58mm"),
