@@ -216,7 +216,6 @@ Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher
     countryCode: "DE",
     city: "München",
     altSlug: "/3d-printing-delivery-munich",
-    noindex: true,
 
     metaTitle: "3D-Druck mit Lieferung nach München",
     metaDescription:
