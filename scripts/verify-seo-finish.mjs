@@ -219,12 +219,12 @@ function checkCheckoutFunctionImage() {
     return;
   }
   const src = readFileSync(idxFile, "utf-8") + "\n" + readFileSync(polFile, "utf-8");
-  // Must set product_data[images][...] on at least line_items[1] (print lines)
-  // — not just on line_items[0], which is the pre-existing support for the
-  // preview on a single line. The spec says the image + description must be
-  // on the Stripe line item that shows what they are buying.
-  const perLineImagePattern = /line_items\[\$\{?i\}?\]\[price_data\]\[product_data\]\[images\]\[0\]/;
-  const perLineDescPattern = /line_items\[\$\{?i\}?\]\[price_data\]\[product_data\]\[description\]/;
+  // Must set product_data[images][...] on each print line_item — not just
+  // on line_items[0]. The spec says the image + description must be on the
+  // Stripe line item that shows what they are buying. The template literal
+  // placeholder is whatever variable the loop uses.
+  const perLineImagePattern = /line_items\[\$\{[A-Za-z_$][\w$]*\}\]\[price_data\]\[product_data\]\[images\]\[0\]/;
+  const perLineDescPattern = /line_items\[\$\{[A-Za-z_$][\w$]*\}\]\[price_data\]\[product_data\]\[description\]/;
   if (!perLineImagePattern.test(src)) {
     pushFail("E", "checkout function does not set product_data[images][0] on each print line_item");
   }
