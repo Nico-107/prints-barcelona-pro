@@ -51,6 +51,9 @@ const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker
   "/politica-devoluciones",    // Quality Guarantee / Return Policy
   "/repuesto-descatalogado",        // Discontinued parts service page
   "/impresion-3d-sin-pedido-minimo", // No minimum order service page
+  "/foto",                           // fix-polish §5.1 — mobile photo-path (noindex)
+  "/photo",                          // fix-polish §5.1 — mobile photo-path EN (noindex)
+  "/nl/3d-ontwerp-laten-maken",      // fix-polish §5.2 — new NL design-service landing
   "/lemon",                          // NFC referral landing (noindex — prerendered for shell only)
 ];
 

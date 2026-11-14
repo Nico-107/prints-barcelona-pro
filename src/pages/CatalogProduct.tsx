@@ -298,6 +298,72 @@ const CatalogProduct = () => {
                 )}
               </div>
             </section>
+
+            {/* fix-polish §5.5: material, size, lead time pulled from the engine
+                + three FAQ entries so catalog product pages are no longer thin. */}
+            <section className="mt-16 max-w-3xl mx-auto text-[15px] leading-relaxed text-foreground/85 space-y-10">
+              <div>
+                <h2 className="text-xl font-bold text-foreground mb-3">Material, tamaño y plazo</h2>
+                <ul className="space-y-2 list-disc pl-5">
+                  <li>
+                    <strong>Material por defecto:</strong>{" "}
+                    PLA — una elección segura para la mayoría de los objetos personalizados.
+                    Si prefieres PETG (más resistente), ASA (soporta exterior) o TPU (flexible), indícalo en el formulario:
+                    reviso el pedido antes de imprimir y confirmo si cambia el precio.
+                  </li>
+                  <li>
+                    <strong>Tamaños disponibles:</strong>{" "}
+                    {(() => {
+                      const sizeField = product.fields.find(f => /size|tama|mida|größe|dimens/i.test(f.key));
+                      return sizeField?.options?.join(" · ") ?? "estándar del producto";
+                    })()}
+                    . Para medidas fuera de estos rangos, usa el verificador de archivo en{" "}
+                    <a href="/verificador-archivo-3d" className="text-accent underline">/verificador-archivo-3d</a>{" "}
+                    o escríbeme por WhatsApp con la medida que necesitas.
+                  </li>
+                  <li>
+                    <strong>Plazo:</strong> producción en 2–5 días laborables desde la confirmación, envío estándar 24–48 h a
+                    España peninsular, 48–72 h al resto de UE. Para pedidos con fecha ajustada hay servicio express
+                    con 24–48 h de producción y un recargo del 25 %.
+                  </li>
+                  <li>
+                    <strong>Precio:</strong> €{product.priceLow}–€{product.priceHigh} por unidad según la combinación de
+                    tamaño, color y acabado. El pedido mínimo es 10 €.
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 className="text-xl font-bold text-foreground mb-4">Preguntas frecuentes</h2>
+                <dl className="space-y-4">
+                  <div>
+                    <dt className="font-semibold text-foreground">¿Puedo pedir el producto con mi logo o texto?</dt>
+                    <dd className="text-sm text-muted-foreground mt-1">
+                      Sí. Las opciones de personalización aparecen en el formulario de arriba (texto, nombre, fecha).
+                      Si quieres un logo o un diseño específico que no cabe en una de las opciones, mándanos el archivo
+                      vectorial (SVG, AI) o una imagen de alta resolución por WhatsApp y te confirmamos si es viable
+                      antes de aceptar el pedido.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-foreground">¿Qué pasa si el producto llega dañado?</dt>
+                    <dd className="text-sm text-muted-foreground mt-1">
+                      Si el producto llega dañado o con un defecto de impresión, lo reemplazamos sin coste. Avísanos por
+                      WhatsApp con una foto en los 7 días siguientes a la entrega y gestionamos el reenvío. Enviamos siempre
+                      con mensajería tracked y el embalaje es a prueba de golpes razonables.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-foreground">¿Puedo pedir varias unidades con personalización distinta?</dt>
+                    <dd className="text-sm text-muted-foreground mt-1">
+                      Sí. Para pedidos de 2 o más unidades con personalizaciones diferentes (p. ej. varios nombres o colores),
+                      indícalo en el campo de notas al enviar el formulario. Para pedidos de 10+ unidades, el precio por unidad
+                      baja; mándanos un WhatsApp con la cantidad y te hacemos un presupuesto ajustado antes de confirmar.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </section>
           </div>
         </div>
       </div>

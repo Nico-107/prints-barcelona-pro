@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import PictureImg from "@/components/PictureImg";
 import { Button } from "@/components/ui/button";
-import { PAGES_BY_SLUG, SITE_URL, SOCIAL_IMAGE_URL, SLUGS_BY_TOPIC } from "@/seo/registry";
+import { PAGES_BY_SLUG, SITE_URL, SOCIAL_IMAGE_URL, SLUGS_BY_TOPIC, ALL_PAGES } from "@/seo/registry";
 import type { LandingContent, LandingTopic } from "@/seo/landingPages";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, CITIES, whatsappUrl } from "@/config/cities";
@@ -798,19 +798,32 @@ const LandingPage = ({ page: pageProp }: Props) => {
           variant="dark"
         />
 
-        {/* Related pages */}
-        {page.related.length > 0 && (
-          <section className="py-16 md:py-20 bg-[#F6F8FC]">
-            <div className="container px-4 max-w-5xl mx-auto">
-              <h2 className="text-xl font-bold text-[#0F172A] mb-8 text-center" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif" }}>
-                {t("Related services", "Servicios relacionados", "Weiterführende Themen", "Serveis relacionats")}
-              </h2>
-              <LinkCardGrid
-                items={page.related.map(r => ({ href: r.slug, title: r.label }))}
-              />
-            </div>
-          </section>
-        )}
+        {/* fix-polish §5.3: every indexable LandingPage gets a related
+            block of 4–6 links. If the page declares `related`, use that;
+            otherwise fall back to other pages in the same language and
+            topic cluster so no indexable page is link-isolated. */}
+        {(() => {
+          const explicit = page.related.map(r => ({ href: r.slug, title: r.label }));
+          const needed = Math.max(0, 4 - explicit.length);
+          const already = new Set<string>([page.slug, ...explicit.map(e => e.href)]);
+          const fallback = ALL_PAGES
+            .filter(p => p.lang === page.lang && !already.has(p.slug))
+            .sort((a, b) => (a.topic === page.topic ? -1 : 1) - (b.topic === page.topic ? -1 : 1))
+            .slice(0, needed + 2) // aim for up to 6 total
+            .map(p => ({ href: p.slug, title: p.metaTitle.split(" — ")[0] }));
+          const items = [...explicit, ...fallback].slice(0, 6);
+          if (items.length < 4) return null;
+          return (
+            <section className="py-16 md:py-20 bg-[#F6F8FC]" data-testid="related-links">
+              <div className="container px-4 max-w-5xl mx-auto">
+                <h2 className="text-xl font-bold text-[#0F172A] mb-8 text-center" style={{ fontFamily: "'Inter Tight', system-ui, sans-serif" }}>
+                  {t("Related services", "Servicios relacionados", "Weiterführende Themen", "Serveis relacionats")}
+                </h2>
+                <LinkCardGrid items={items} />
+              </div>
+            </section>
+          );
+        })()}
       </main>
 
       <Footer />

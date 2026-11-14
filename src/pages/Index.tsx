@@ -359,6 +359,14 @@ const Index = () => {
   };
 
   const handleNoFile = () => {
+    // fix-polish §5.1: on mobile (≤640 px), send visitors to the 3-screen
+    // /foto flow (camera → describe + size → contact). Desktop keeps the
+    // full /disena-tu-pieza-3d page which has the extended layout.
+    const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches;
+    if (isMobile) {
+      navigate(language === "en" ? "/photo" : "/foto");
+      return;
+    }
     const url = language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "en" ? "/design-your-3d-part" : "/disena-tu-pieza-3d";
     navigate(url);
   };
