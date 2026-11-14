@@ -483,6 +483,42 @@ const Index = () => {
       <Header />
 
       <main id="main-content">
+        {/* ── MOBILE PHOTO PATH (section 3.1 + 3.4) ── */}
+        {/* Under 768 px: two equal big buttons so a phone-only visitor who */}
+        {/* doesn't have a file can still get somewhere useful. Rendered at */}
+        {/* the top of main so it is on the first screen above the hero. */}
+        <div
+          className="md:hidden"
+          style={{ padding: "16px 16px 0", display: "flex", flexDirection: "column", gap: 10 }}
+          data-testid="mobile-photo-path"
+        >
+          <Link
+            to={designRequestUrl}
+            data-testid="mobile-send-photo"
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              background: "#F5A524", color: "#0F172A", fontWeight: 700, fontSize: 16,
+              padding: "14px 20px", borderRadius: 12, textDecoration: "none",
+              minHeight: 48,
+            }}
+          >
+            {t("home.mobile.sendPhoto") || "Enviar una foto"}
+          </Link>
+          <a
+            href={whatsappUrl()}
+            data-testid="mobile-whatsapp-cta"
+            onClick={() => capture("whatsapp_click", { location: "home_mobile_top", path: "/" })}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              background: "#ffffff", color: "#0F172A", fontWeight: 700, fontSize: 16,
+              padding: "14px 20px", borderRadius: 12, textDecoration: "none",
+              border: "1.5px solid #0F172A", minHeight: 48,
+            }}
+          >
+            {t("home.mobile.whatsapp") || "Escribir por WhatsApp"}
+          </a>
+        </div>
+
         {/* ── HERO V1 (default / A variant) ── */}
         <div ref={heroRef} className="xp-home-v1-only">
           <DsHero
