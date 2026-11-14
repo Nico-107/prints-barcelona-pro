@@ -488,8 +488,8 @@ const Index = () => {
         {/* doesn't have a file can still get somewhere useful. Rendered at */}
         {/* the top of main so it is on the first screen above the hero. */}
         <div
-          className="md:hidden"
-          style={{ padding: "16px 16px 0", display: "flex", flexDirection: "column", gap: 10 }}
+          hidden
+          style={{ display: "none" }}
           data-testid="mobile-photo-path"
         >
           <Link
