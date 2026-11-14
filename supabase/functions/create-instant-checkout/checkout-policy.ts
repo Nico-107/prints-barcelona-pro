@@ -11,16 +11,20 @@ export function chargeAllowed(subtotalCents: number, fulfillment: string): boole
     subtotalCents + shippingChargeCents(fulfillment, subtotalCents) <= MAX_CHARGE_CENTS;
 }
 
-export function applyCheckoutPolicy(params: URLSearchParams, fulfillment: string, subtotalCents: number, lineCount: number, previewUrl?: string): void {
-  params.set("locale", "auto");
-  params.set("phone_number_collection[enabled]", "true");
-  if (previewUrl) params.set("line_items[0][price_data][product_data][images][0]", previewUrl);
-  if (fulfillment !== "shipping") return;
-  SHIP_COUNTRIES.forEach((country, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, country));
-  params.set(`line_items[${lineCount}][quantity]`, "1");
-  params.set(`line_items[${lineCount}][price_data][currency]`, "eur");
-  params.set(`line_items[${lineCount}][price_data][unit_amount]`, String(shippingChargeCents(fulfillment, subtotalCents)));
-  params.set(`line_items[${lineCount}][price_data][product_data][name]`, "Envío");
+// Section 2.1 + 2.2 + 2.3: product_data images, description and locale are
+// now set at the call site per line. applyCheckoutPolicy only handles the
+// policy concerns — phone collection, shipping address collection (only when
+// shipping is chosen; section 2.3), and the shipping line item.
+export function applyCheckoutPolicy(params: URLSearchParams, fulfillment: string, subtotalCents: number, lineCount: number): void {
+  if (fulfillment === "shipping") {
+    params.set("phone_number_collection[enabled]", "true");
+    SHIP_COUNTRIES.forEach((country, i) => params.set(`shipping_address_collection[allowed_countries][${i}]`, country));
+    params.set(`line_items[${lineCount}][quantity]`, "1");
+    params.set(`line_items[${lineCount}][price_data][currency]`, "eur");
+    params.set(`line_items[${lineCount}][price_data][unit_amount]`, String(shippingChargeCents(fulfillment, subtotalCents)));
+    params.set(`line_items[${lineCount}][price_data][product_data][name]`, "Envío");
+  }
+  // Pickup: no phone, no address — section 2.3 ("Ask for less").
 }
 
 export function decodePreviewPng(value: unknown): Uint8Array | null {

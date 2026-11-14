@@ -18,6 +18,17 @@ const MAX_BYTES = 250 * 1024 * 1024;
 const SLUG_ES = "/verificador-archivo-3d";
 const SLUG_EN = "/3d-file-checker";
 const SLUG_CA = "/comprovador-arxiu-3d";
+// Section 6.6: five new language variants of the file checker.
+const SLUG_DE = "/de/3d-datei-pruefen";
+const SLUG_FR = "/fr/verificateur-fichier-3d";
+const SLUG_NL = "/nl/3d-bestand-controleren";
+const SLUG_IT = "/it/verifica-file-3d";
+const SLUG_PT = "/pt/verificador-ficheiro-3d";
+
+const CHECKER_SLUGS: Record<string, string> = {
+  es: SLUG_ES, en: SLUG_EN, ca: SLUG_CA,
+  de: SLUG_DE, fr: SLUG_FR, nl: SLUG_NL, it: SLUG_IT, pt: SLUG_PT,
+};
 
 // PLA density + typical 15% infill + 2 wall loops (mirrors StlEstimator defaults)
 const PLA_DENSITY = 1.24;          // g/cm³
@@ -28,6 +39,11 @@ const FILE_PREP_SLUG: Record<string, string> = {
   es: "/como-preparar-archivo-impresion-3d",
   ca: "/how-to-prepare-file-for-3d-printing",  // CA has no separate file-prep page yet
   en: "/how-to-prepare-file-for-3d-printing",
+  de: "/de/3d-druck-datei-vorbereiten",
+  fr: "/fr/preparer-fichier-impression-3d",
+  nl: "/nl/3d-printbestand-voorbereiden",
+  it: "/it/preparare-file-stampa-3d",
+  pt: "/pt/preparar-ficheiro-impressao-3d",
 };
 
 interface AnalysisResult {
@@ -42,10 +58,8 @@ interface AnalysisResult {
 const FileChecker = () => {
   const { t, language } = useLanguage();
 
-  const canonicalSlug =
-    language === "ca" ? SLUG_CA : language === "en" ? SLUG_EN : SLUG_ES;
-  const htmlLang =
-    language === "ca" ? "ca" : language === "en" ? "en" : "es";
+  const canonicalSlug = CHECKER_SLUGS[language] ?? SLUG_ES;
+  const htmlLang = language;
 
   const [isDragging, setIsDragging] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -128,6 +142,11 @@ const FileChecker = () => {
         <link rel="alternate" hrefLang="es" href={`${SITE_URL}${SLUG_ES}`} />
         <link rel="alternate" hrefLang="en" href={`${SITE_URL}${SLUG_EN}`} />
         <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${SLUG_CA}`} />
+        <link rel="alternate" hrefLang="de" href={`${SITE_URL}${SLUG_DE}`} />
+        <link rel="alternate" hrefLang="fr" href={`${SITE_URL}${SLUG_FR}`} />
+        <link rel="alternate" hrefLang="nl" href={`${SITE_URL}${SLUG_NL}`} />
+        <link rel="alternate" hrefLang="it" href={`${SITE_URL}${SLUG_IT}`} />
+        <link rel="alternate" hrefLang="pt" href={`${SITE_URL}${SLUG_PT}`} />
         <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${SLUG_ES}`} />
         <script type="application/ld+json">{JSON.stringify(howToSchema)}</script>
       </Helmet>

@@ -21,14 +21,23 @@ const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const SLUG_ES = "/disena-tu-pieza-3d";
 const SLUG_EN = "/design-your-3d-part";
 const SLUG_CA = "/dissenya-la-teva-peca-3d";
+// Section 6.6: five new language variants of the design-from-photo page.
+const SLUG_DE = "/de/3d-design-aus-foto";
+const SLUG_FR = "/fr/conception-3d-depuis-photo";
+const SLUG_NL = "/nl/3d-ontwerp-van-foto";
+const SLUG_IT = "/it/progetta-pezzo-3d";
+const SLUG_PT = "/pt/desenho-3d-a-partir-de-foto";
+
+const DESIGN_SLUGS: Record<string, string> = {
+  es: SLUG_ES, en: SLUG_EN, ca: SLUG_CA,
+  de: SLUG_DE, fr: SLUG_FR, nl: SLUG_NL, it: SLUG_IT, pt: SLUG_PT,
+};
 
 const DesignRequest = () => {
   const { t, language } = useLanguage();
 
-  const canonicalSlug =
-    language === "ca" ? SLUG_CA : language === "en" ? SLUG_EN : SLUG_ES;
-  const htmlLang =
-    language === "ca" ? "ca" : language === "en" ? "en" : "es";
+  const canonicalSlug = DESIGN_SLUGS[language] ?? SLUG_ES;
+  const htmlLang = language;
 
   const [photos, setPhotos] = useState<File[]>([]);
   const [photoError, setPhotoError] = useState<string | null>(null);
@@ -198,6 +207,11 @@ const DesignRequest = () => {
         <link rel="alternate" hrefLang="es" href={`${SITE_URL}${SLUG_ES}`} />
         <link rel="alternate" hrefLang="en" href={`${SITE_URL}${SLUG_EN}`} />
         <link rel="alternate" hrefLang="ca" href={`${SITE_URL}${SLUG_CA}`} />
+        <link rel="alternate" hrefLang="de" href={`${SITE_URL}${SLUG_DE}`} />
+        <link rel="alternate" hrefLang="fr" href={`${SITE_URL}${SLUG_FR}`} />
+        <link rel="alternate" hrefLang="nl" href={`${SITE_URL}${SLUG_NL}`} />
+        <link rel="alternate" hrefLang="it" href={`${SITE_URL}${SLUG_IT}`} />
+        <link rel="alternate" hrefLang="pt" href={`${SITE_URL}${SLUG_PT}`} />
         <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${SLUG_ES}`} />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(designArticleSchema)}</script>

@@ -102,6 +102,31 @@ export const DE_HUB: IntlHubContent = {
     { to: "/de/3d-druck-datei-vorbereiten", label: "Datei vorbereiten" },
     { to: "/de/3d-druck-materialien", label: "Materialien im Überblick" },
   ],
+
+  answerBlock: {
+    heading: "Auf einen Blick",
+    facts: [
+      "Ab 10 € pro Teil; Mindestbestellwert 10 €, keine Einrichtungsgebühr.",
+      "Versand nach Deutschland: pauschal 5,90 € mit Sendungsverfolgung.",
+      "Typische Lieferzeit: 3–5 Werktage nach Freigabe.",
+      "Akzeptierte Formate: STL, OBJ, STEP, 3MF.",
+      "Zahlung per Karte, Apple Pay oder Google Pay.",
+      "Kein Zoll: Spanien und Deutschland sind beide in der EU.",
+    ],
+  },
+  costTable: {
+    caption: "Beispiele für Gesamtkosten geliefert nach Deutschland (PLA, ×1 Teil, MwSt. enthalten).",
+    headers: { part: "Teil", shipping: "Versand", total: "Gesamt" },
+    rows: [
+      { label: "Klein (≈ 10 g)",   partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Mittel (≈ 50 g)",  partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
+      { label: "Groß (≈ 200 g)",   partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+    ],
+  },
+  shippingHeading: "Versand und Zoll",
+  shippingText: `Das Paket startet in Barcelona mit einem europäischen Expressdienstleister und trifft in der Regel in 3–5 Werktagen in Deutschland ein. Der Preis ist eine Pauschale von 5,90 € – unabhängig vom Gewicht.
+
+Es fallen keine Zollformalitäten oder Einfuhrabgaben an: Spanien und Deutschland sind beide EU-Mitglieder. Die spanische Mehrwertsteuer ist im Preis an der Kasse bereits enthalten. Sie erhalten die Sendungsnummer, sobald der Kurier das Paket abholt.`,
 };
 
 // ---------------------------------------------------------------------------
@@ -191,7 +216,6 @@ Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher
     countryCode: "DE",
     city: "München",
     altSlug: "/3d-printing-delivery-munich",
-    noindex: true,
 
     metaTitle: "3D-Druck mit Lieferung nach München",
     metaDescription:

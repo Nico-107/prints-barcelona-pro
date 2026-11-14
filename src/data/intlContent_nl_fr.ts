@@ -87,6 +87,31 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
     { to: "/nl/3d-printbestand-voorbereiden", label: "Bestand voorbereiden" },
     { to: "/nl/3d-print-materialen", label: "Materialen vergelijken" },
   ],
+
+  answerBlock: {
+    heading: "Kort samengevat",
+    facts: [
+      "Vanaf € 10 per stuk; minimumbestelling € 10, geen installatiekosten.",
+      "Verzending naar Nederland: vaste € 5,90, met track & trace.",
+      "Typische levertijd: 2–4 werkdagen na goedkeuring.",
+      "Geaccepteerde formaten: STL, OBJ, STEP, 3MF.",
+      "Betalen met kaart, Apple Pay of Google Pay.",
+      "Geen douane: Spanje en Nederland zitten beide in de EU.",
+    ],
+  },
+  costTable: {
+    caption: "Voorbeelden van geleverde kosten in Nederland (PLA, ×1 stuk, btw inclusief).",
+    headers: { part: "Stuk", shipping: "Verzending", total: "Totaal" },
+    rows: [
+      { label: "Klein (≈ 10 g)",   partEur: "€ 10,00", shippingEur: "€ 5,90", totalEur: "€ 15,90" },
+      { label: "Middel (≈ 50 g)",  partEur: "€ 15,00", shippingEur: "€ 5,90", totalEur: "€ 20,90" },
+      { label: "Groot (≈ 200 g)",  partEur: "€ 40,00", shippingEur: "€ 5,90", totalEur: "€ 45,90" },
+    ],
+  },
+  shippingHeading: "Verzending en douane",
+  shippingText: `Het pakket vertrekt uit Barcelona met een Europese expres-vervoerder en arriveert gewoonlijk in 2–4 werkdagen in Nederland. De prijs is een vaste € 5,90 ongeacht het gewicht.
+
+Er zijn geen douaneformaliteiten of invoerrechten: Spanje en Nederland behoren beide tot de EU. De Spaanse btw is al inbegrepen in de prijs bij afrekenen. Je ontvangt het track & trace-nummer zodra de koerier het pakket ophaalt.`,
 };
 
 // ─── NL CITIES ─────────────────────────────────────────────────────────────────
@@ -157,7 +182,6 @@ export const nlRotterdam: IntlCityContent = {
   locale: "nl-NL",
   countryCode: "NL",
   city: "Rotterdam",
-  noindex: true,
   metaTitle: "3D Printen Rotterdam — Bestel Online, Levering 3–5 Werkdagen",
   metaDescription: "3D printservice voor Rotterdam. Offerte binnen 1 uur, vaste verzending € 5,90, in de regel 3–5 werkdagen levering. Geen douane (EU). Minimumbestelling € 10.",
   eyebrow: "3D printservice voor Rotterdam",
@@ -569,6 +593,31 @@ export const frHub: IntlHubContent = {
     { to: "/fr/preparer-fichier-impression-3d", label: "Préparer son fichier" },
     { to: "/fr/materiaux-impression-3d", label: "Comparer les matériaux" },
   ],
+
+  answerBlock: {
+    heading: "En bref",
+    facts: [
+      "À partir de 10 € la pièce ; commande minimum 10 €, sans frais de mise en route.",
+      "Livraison en France : forfait 5,90 € avec suivi.",
+      "Délais habituels : 3–5 jours ouvrés après validation.",
+      "Formats acceptés : STL, OBJ, STEP, 3MF.",
+      "Paiement par carte, Apple Pay ou Google Pay.",
+      "Pas de douane : l'Espagne et la France sont dans l'UE.",
+    ],
+  },
+  costTable: {
+    caption: "Exemples de coût livré en France (PLA, ×1 pièce, TVA incluse).",
+    headers: { part: "Pièce", shipping: "Expédition", total: "Total" },
+    rows: [
+      { label: "Petite (≈ 10 g)",   partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Moyenne (≈ 50 g)",  partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
+      { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+    ],
+  },
+  shippingHeading: "Expédition et douane",
+  shippingText: `Le colis part de Barcelone avec un transporteur express européen et arrive habituellement en 3–5 jours ouvrés en France métropolitaine. Le tarif est un forfait de 5,90 € quel que soit le poids.
+
+Aucune formalité douanière ni droit additionnel : l'Espagne et la France font toutes deux partie de l'Union européenne. La TVA espagnole est déjà incluse dans le prix affiché à la caisse. Vous recevez le numéro de suivi dès que le transporteur prend en charge le colis.`,
 };
 
 // ─── FR CITIES ─────────────────────────────────────────────────────────────────
@@ -693,7 +742,6 @@ export const frLyon: IntlCityContent = {
   slug: "/fr/impression-3d-lyon",
   lang: "fr",
   locale: "fr-FR",
-  noindex: true,
   countryCode: "FR",
   city: "Lyon",
   metaTitle: "Impression 3D Lyon — Devis en 1 Heure, Livraison 2–4 Jours",

@@ -104,6 +104,8 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     { to: "/it/stampa-3d-milano", label: "Stampa 3D Milano" },
     { to: "/it/stampa-3d-torino", label: "Stampa 3D Torino" },
     { to: "/it/stampa-3d-roma", label: "Stampa 3D Roma" },
+    { to: "/it/stampa-3d-napoli", label: "Stampa 3D Napoli" },
+    { to: "/it/stampa-3d-bologna", label: "Stampa 3D Bologna" },
   ],
 
   guideLinks: [
@@ -111,6 +113,31 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     { to: "/it/preparare-file-stampa-3d", label: "Preparare il file" },
     { to: "/it/materiali-stampa-3d", label: "Guida ai materiali" },
   ],
+
+  answerBlock: {
+    heading: "In breve",
+    facts: [
+      "Da 10 € a pezzo; ordine minimo 10 €, nessun costo di setup.",
+      "Spedizione tracciata in Italia a tariffa piatta 5,90 €.",
+      "Tempi tipici: 3–5 giorni lavorativi dall'approvazione.",
+      "Formati accettati: STL, OBJ, STEP, 3MF.",
+      "Pagamento con carta, Apple Pay o Google Pay.",
+      "Nessuna dogana: Spagna e Italia sono entrambe nell'UE.",
+    ],
+  },
+  costTable: {
+    caption: "Esempi di costo consegnato in Italia (PLA, ×1 pezzo, IVA inclusa).",
+    headers: { part: "Pezzo", shipping: "Spedizione", total: "Totale" },
+    rows: [
+      { label: "Piccolo (≈ 10 g)",  partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Medio (≈ 50 g)",    partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
+      { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+    ],
+  },
+  shippingHeading: "Spedizione e dogana",
+  shippingText: `Il pacco parte da Barcellona con un corriere espresso europeo e arriva solitamente in 3–5 giorni lavorativi in Italia. Il costo è una tariffa piatta di 5,90 € indipendentemente dal peso.
+
+Non ci sono procedure doganali né dazi aggiuntivi: Spagna e Italia sono entrambe nell'Unione Europea. L'IVA spagnola è già inclusa nel prezzo che vedi a checkout. Ricevi il numero di tracciatura non appena il corriere ritira il pacco.`,
 };
 
 // ─── IT City: Milano ─────────────────────────────────────────
@@ -189,7 +216,6 @@ export const itCityTorino: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Torino",
-  noindex: true,
   metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 10 €",
   metaDescription:
     "Stampa 3D FDM da Barcellona, spedizione a Torino in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
@@ -307,6 +333,142 @@ Per inviare il file e ricevere il preventivo — immediato per ordini ≤ 200 �
 
   siblingLinks: [
     { to: "/it/stampa-3d-milano", label: "Stampa 3D Milano" },
+    { to: "/it/stampa-3d-torino", label: "Stampa 3D Torino" },
+  ],
+
+  guideLinks: [
+    { to: "/it/prezzi-stampa-3d", label: "Guida ai prezzi stampa 3D" },
+    { to: "/it/preparare-file-stampa-3d", label: "Come preparare il file" },
+    { to: "/it/materiali-stampa-3d", label: "Guida ai materiali" },
+  ],
+};
+
+// ─── IT City: Napoli ─────────────────────────────────────────
+
+export const itCityNapoli: IntlCityContent = {
+  slug: "/it/stampa-3d-napoli",
+  lang: "it",
+  locale: "it-IT",
+  countryCode: "IT",
+  city: "Napoli",
+  metaTitle: "Stampa 3D Online con Spedizione a Napoli — Da 10 €",
+  metaDescription:
+    "Stampa 3D FDM da Barcellona, spedizione a Napoli in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+  h1: "Stampa 3D Online con Spedizione a Napoli",
+  eyebrow: "Spedizione a Napoli · Solitamente 3–5 giorni lavorativi",
+
+  introText: `Napoli non è solo la terza città d'Italia per popolazione: è il baricentro di un'area metropolitana che unisce tradizione manifatturiera, ricerca universitaria e una delle scene creative più dinamiche del Mediterraneo. Il servizio di stampa 3D online di Dimension3D si rivolge a tutti questi mondi con le stesse regole semplici: ordine minimo 10 €, preventivo in un'ora nei giorni lavorativi, spedizione tracciata a 5,90 € indipendentemente dal peso.
+
+L'Università Federico II, la Parthenope e la Vanvitelli alimentano una domanda continua di componenti stampati in 3D per laboratori di ingegneria, scienze della vita e beni culturali. Studenti, dottorandi e ricercatori cercano servizi che non richiedano preventivi lunghi o ordini minimi fuori scala: il nostro flusso — carica, prezzo immediato fino a 200 €, approvazione, pagamento online — risolve esattamente questo collo di bottiglia. La possibilità di accettare file STEP direttamente dai software CAD più diffusi (SolidWorks, Fusion 360, Rhino) riduce il tempo di preparazione e abbassa il rischio di errori di triangolazione nelle mesh STL.
+
+Il tessuto produttivo dell'area flegrea e del casertano ospita numerose PMI specializzate in componentistica meccanica, elettronica e aerospazio. Sono proprio queste aziende a usare la stampa FDM come strumento di prototipazione rapida: dime di controllo, supporti di montaggio, prototipi di housing per dispositivi elettronici, piccole serie di parti di ricambio per macchine di produzione obsolete. Materiali come ABS, ASA e Nylon, stampati nella camera chiusa del nostro Bambu Lab X2D, coprono la maggior parte dei requisiti tecnici con tolleranze controllate.
+
+Il polo tecnologico di San Giovanni a Teduccio ospita Apple Academy e un numero crescente di startup hardware. In questo ecosistema la velocità di iterazione è decisiva: ottenere un prototipo funzionale in 3–5 giorni lavorativi, con un costo pienamente trasparente e la possibilità di modificare il file tra un'iterazione e l'altra, è un vantaggio concreto rispetto ai cicli lunghi delle officine meccaniche tradizionali.
+
+La scena creativa napoletana — designer, scenografi, cosplayer, modellisti — trova nella stampa 3D online una risorsa per produrre pezzi unici o piccole serie di oggetti personalizzati: miniature, prop, gioielli tecnici, accessori per eventi e installazioni. Il PLA copre la maggior parte dei casi d'uso estetici; il PETG colorato o trasparente apre possibilità aggiuntive per superfici tecniche e diffusori ottici. L'ampia gamma di colori e materiali disponibili consente di scegliere la combinazione più adatta già in fase di preventivo.
+
+Dal punto di vista logistico, Napoli è ben servita dalla rete europea dei corrieri espressi. La spedizione da Barcellona non comporta formalità doganali: Spagna e Italia fanno entrambe parte del mercato unico UE. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è una tariffa piatta di 5,90 €, utile quando si consolidano più pezzi in un unico ordine per ottimizzare il costo logistico unitario.
+
+Per iniziare, carica il file STL, OBJ, STEP o 3MF e scegli il materiale. Il prezzo appare immediatamente per ordini fino a 200 €; oltre soglia, un tecnico risponde entro un'ora lavorativa con preventivo su misura. Per domande preliminari il team è raggiungibile su WhatsApp negli orari lavorativi spagnoli (CET/CEST, identici a quelli italiani).`,
+
+  deliveryNote:
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Napoli. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+
+  faqs: [
+    {
+      q: "Quanto costa stampare un pezzo in 3D a Napoli?",
+      a: "Il prezzo parte da 10 € a pezzo (ordine minimo). Per pezzi piccoli (10–50 g) il totale consegnato a Napoli è tipicamente 15,90–20,90 € includendo i 5,90 € di spedizione.",
+    },
+    {
+      q: "Quanto tempo ci vuole per ricevere il pacco a Napoli?",
+      a: "Solitamente 3–5 giorni lavorativi dalla conferma dell'ordine. La spedizione è intra-UE, nessuna dogana.",
+    },
+    {
+      q: "Posso ritirare l'ordine di persona a Napoli?",
+      a: "No, lo studio è a Barcellona. L'unica modalità per Napoli è la spedizione tracciata a 5,90 €. Se ti serve il ritiro in sede, puoi passare dal nostro studio a Barcellona nei giorni lavorativi su appuntamento.",
+    },
+    {
+      q: "Qual è l'ordine minimo?",
+      a: "L'ordine minimo è 10 €. Nessun costo di setup, nessuna tariffa di preparazione.",
+    },
+  ],
+
+  whatsappMsg:
+    "Ciao Dimension3D! Sono a Napoli e vorrei un preventivo per la stampa 3D. Posso inviare il file?",
+
+  hubLink: { to: "/it/stampa-3d-online", label: "Stampa 3D Online Italia" },
+
+  siblingLinks: [
+    { to: "/it/stampa-3d-milano", label: "Stampa 3D Milano" },
+    { to: "/it/stampa-3d-roma", label: "Stampa 3D Roma" },
+    { to: "/it/stampa-3d-torino", label: "Stampa 3D Torino" },
+  ],
+
+  guideLinks: [
+    { to: "/it/prezzi-stampa-3d", label: "Guida ai prezzi stampa 3D" },
+    { to: "/it/preparare-file-stampa-3d", label: "Come preparare il file" },
+    { to: "/it/materiali-stampa-3d", label: "Guida ai materiali" },
+  ],
+};
+
+// ─── IT City: Bologna ────────────────────────────────────────
+
+export const itCityBologna: IntlCityContent = {
+  slug: "/it/stampa-3d-bologna",
+  lang: "it",
+  locale: "it-IT",
+  countryCode: "IT",
+  city: "Bologna",
+  metaTitle: "Stampa 3D Online con Spedizione a Bologna — Da 10 €",
+  metaDescription:
+    "Stampa 3D FDM da Barcellona, spedizione a Bologna in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+  h1: "Stampa 3D Online con Spedizione a Bologna",
+  eyebrow: "Spedizione a Bologna · Solitamente 3–5 giorni lavorativi",
+
+  introText: `Bologna è il crocevia industriale, universitario e creativo dell'Emilia-Romagna. La sua posizione geografica nel cuore della Pianura Padana la rende uno snodo logistico naturale tra il Nord e il Centro Italia, e la vicinanza a distretti produttivi di fama mondiale — motor valley, packaging valley, biomedicale di Mirandola — crea un bacino di utenza che per la stampa 3D online è particolarmente strategico.
+
+L'Alma Mater Studiorum, la più antica università d'Europa, conta oltre 80.000 studenti distribuiti tra le sue facoltà di ingegneria, design, medicina e scienze. Il dipartimento di Ingegneria Industriale e il dipartimento di Architettura sono utilizzatori naturali della prototipazione FDM: dai progetti di studenti per corsi di meccatronica, alle tesi sperimentali, ai laboratori di ricerca su biomateriali, droni, robotica di servizio. Il nostro flusso di lavoro — upload file, prezzo immediato fino a 200 €, pagamento online, consegna in 3–5 giorni lavorativi — si adatta perfettamente a ritmi accademici con scadenze fisse e budget contenuti.
+
+La motor valley emiliana (Ferrari, Lamborghini, Ducati, Dallara, HPE Coxa) ha sede nei dintorni di Modena e Bologna. L'ecosistema di fornitori di secondo e terzo livello che gravita attorno a questi marchi utilizza la stampa 3D industriale per prototipi e piccole serie di componenti funzionali. Il nostro servizio si inserisce tipicamente nel segmento dei pezzi tecnici one-off o dei prototipi di verifica: fixture di montaggio, supporti per prove in galleria del vento, housing per centraline elettroniche, modelli di accoppiamento tra parti meccaniche. I materiali più richiesti sono PETG, ABS e Nylon, tutti stampabili con la camera chiusa del nostro X2D per garantire stabilità termica e assenza di warping.
+
+La packaging valley (Bologna–Modena–Reggio Emilia) è il distretto mondiale del packaging automatico. Le aziende di quest'area producono macchine per il confezionamento alimentare, farmaceutico e cosmetico. La stampa 3D FDM è uno strumento quotidiano per realizzare componenti di presa, guide di nastro, inserti di formatura e piccole parti di sostituzione su macchine in esercizio da decenni. La nostra capacità di accettare file STEP direttamente dai software CAD più diffusi riduce il tempo necessario per passare dal disegno al pezzo finito.
+
+Il distretto biomedicale di Mirandola, poco distante da Bologna, è uno dei più importanti d'Europa. Aziende produttrici di dispositivi medici e consumabili monouso utilizzano la stampa 3D per prototipi di housing, ergonomia di impugnature, modelli anatomici di studio. Il PLA e il PETG sono i materiali più usati; per applicazioni a maggiore resistenza chimica o termica è possibile valutare ABS e Nylon.
+
+La scena creativa bolognese — tipografi, designer, studi di illustrazione, agenzie di comunicazione — utilizza la stampa 3D per produrre oggetti di comunicazione, premi aziendali, modelli da esposizione e pezzi unici per eventi. La fiera Cersaie e il Salone del Mobile.Milano (frequentato da molti studi emiliani) sono occasioni concrete per presentare prototipi prodotti con questo servizio.
+
+Dal punto di vista logistico, Bologna è ben collegata ai principali corrieri espressi europei. Grazie al mercato unico UE, la spedizione da Barcellona non prevede formalità doganali né oneri aggiuntivi. I tempi di consegna tipici sono di 3–5 giorni lavorativi dall'approvazione dell'ordine, con una tariffa piatta di 5,90 €. Carica il file sul sito per ricevere il preventivo immediato fino a 200 €, oppure contattaci su WhatsApp per un confronto preliminare.`,
+
+  deliveryNote:
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Bologna. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+
+  faqs: [
+    {
+      q: "Quanto costa stampare un pezzo in 3D a Bologna?",
+      a: "Il prezzo parte da 10 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,90 € (10 € di stampa + 5,90 € di spedizione).",
+    },
+    {
+      q: "Quanto tempo ci vuole per ricevere il pacco a Bologna?",
+      a: "Solitamente 3–5 giorni lavorativi dalla conferma dell'ordine. La spedizione è intra-UE, nessuna dogana.",
+    },
+    {
+      q: "Lavorate con PMI della motor valley e della packaging valley?",
+      a: "Sì. Accettiamo ordini B2B con fatturazione. Per ordini ricorrenti o piccole serie è possibile concordare condizioni su misura via WhatsApp o email.",
+    },
+    {
+      q: "Qual è l'ordine minimo?",
+      a: "L'ordine minimo è 10 €. Nessun costo di setup.",
+    },
+  ],
+
+  whatsappMsg:
+    "Ciao Dimension3D! Sono a Bologna e vorrei un preventivo per la stampa 3D. Posso inviare il file?",
+
+  hubLink: { to: "/it/stampa-3d-online", label: "Stampa 3D Online Italia" },
+
+  siblingLinks: [
+    { to: "/it/stampa-3d-milano", label: "Stampa 3D Milano" },
+    { to: "/it/stampa-3d-roma", label: "Stampa 3D Roma" },
     { to: "/it/stampa-3d-torino", label: "Stampa 3D Torino" },
   ],
 
@@ -651,6 +813,31 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     { to: "/pt/preparar-ficheiro-impressao-3d", label: "Preparar o ficheiro" },
     { to: "/pt/materiais-impressao-3d", label: "Guia de materiais" },
   ],
+
+  answerBlock: {
+    heading: "Em resumo",
+    facts: [
+      "A partir de 10 € por peça; encomenda mínima 10 €, sem custo de configuração.",
+      "Envio rastreado para Portugal a tarifa fixa de 5,90 €.",
+      "Prazos típicos: 2–4 dias úteis após aprovação.",
+      "Formatos aceites: STL, OBJ, STEP, 3MF.",
+      "Pagamento com cartão, Apple Pay ou Google Pay.",
+      "Sem alfândega: Espanha e Portugal estão ambos na UE.",
+    ],
+  },
+  costTable: {
+    caption: "Exemplos de custo entregue em Portugal (PLA, ×1 peça, IVA incluído).",
+    headers: { part: "Peça", shipping: "Envio", total: "Total" },
+    rows: [
+      { label: "Pequena (≈ 10 g)", partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Média (≈ 50 g)",   partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
+      { label: "Grande (≈ 200 g)", partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+    ],
+  },
+  shippingHeading: "Envio e alfândega",
+  shippingText: `A encomenda parte de Barcelona com transportador expresso europeu e chega habitualmente em 2–4 dias úteis a Portugal. O custo é uma tarifa fixa de 5,90 € independentemente do peso.
+
+Não há procedimentos aduaneiros nem direitos adicionais: Espanha e Portugal fazem parte da União Europeia. O IVA espanhol já está incluído no preço que vê no checkout. Recebe o número de rastreio assim que o transportador recolhe o pacote.`,
 };
 
 // ─── PT City: Lisboa ─────────────────────────────────────────
@@ -726,7 +913,6 @@ export const ptCityPorto: IntlCityContent = {
   locale: "pt-PT",
   countryCode: "PT",
   city: "Porto",
-  noindex: true,
   metaTitle: "Impressão 3D Online com Envio para o Porto",
   metaDescription:
     "Impressão 3D FDM de Barcelona, envio para o Porto em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.",
@@ -1013,7 +1199,7 @@ export const ptGuideMaterials: IntlGuideContent = {
 
 export const IT_PAGES = {
   hub: itHub,
-  cities: [itCityMilano, itCityTorino, itCityRoma],
+  cities: [itCityMilano, itCityTorino, itCityRoma, itCityNapoli, itCityBologna],
   guides: [itGuidePrice, itGuideFilePrep, itGuideMaterials],
 };
 

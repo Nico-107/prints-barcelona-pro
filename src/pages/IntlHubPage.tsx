@@ -344,8 +344,22 @@ const IntlHubPage = ({ content }: Props) => {
           );
         })()}
 
+        {/* Answer block — plain, quotable facts (hub-answer) */}
+        {content.answerBlock && (
+          <section data-testid="hub-answer" className="py-10 md:py-14 bg-background">
+            <div className="container px-4 max-w-[720px] mx-auto">
+              <h2 className="font-bold text-foreground text-xl mb-4">{content.answerBlock.heading}</h2>
+              <ul className="list-disc pl-5 space-y-2 text-muted-foreground leading-relaxed">
+                {content.answerBlock.facts.map((f, i) => (
+                  <li key={i}>{renderInline(f)}</li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
         {/* Calculator */}
-        <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
+        <div id="calculator" data-testid="hub-upload-card" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
           <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
             <UploadPanel
               label={content.lang === "de" ? "SOFORTPREIS — AB 10 €" : content.lang === "fr" ? "PRIX INSTANTANÉ — DÈS 10 €" : content.lang === "nl" ? "DIRECTE PRIJS — VANAF 10 €" : content.lang === "it" ? "PREZZO ISTANTANEO — DA 10 €" : content.lang === "pt" ? "PREÇO INSTANTÂNEO — A PARTIR DE 10 €" : "INSTANT PRICE — FROM 10 €"}
@@ -367,7 +381,7 @@ const IntlHubPage = ({ content }: Props) => {
         )}
 
         {/* How it works */}
-        <section className="bg-secondary/20 py-14 md:py-20">
+        <section data-testid="hub-steps" className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
             <div className="max-w-[720px] mx-auto">
               <div className="prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
@@ -377,8 +391,39 @@ const IntlHubPage = ({ content }: Props) => {
           </div>
         </section>
 
+        {/* Delivered-cost table (hub-cost-table) */}
+        {content.costTable && (
+          <section data-testid="hub-cost-table" className="py-14 md:py-20 bg-background">
+            <div className="container px-4 max-w-[720px] mx-auto">
+              <p className="text-sm text-muted-foreground mb-4">{content.costTable.caption}</p>
+              <div className="overflow-x-auto rounded-lg border border-border">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-muted/50">
+                      <th className="px-4 py-3 text-left font-medium">—</th>
+                      <th className="px-4 py-3 text-right font-medium">{content.costTable.headers.part}</th>
+                      <th className="px-4 py-3 text-right font-medium">{content.costTable.headers.shipping}</th>
+                      <th className="px-4 py-3 text-right font-medium">{content.costTable.headers.total}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {content.costTable.rows.map((r, i) => (
+                      <tr key={i} className="border-t border-border">
+                        <td className="px-4 py-3 font-medium">{r.label}</td>
+                        <td className="px-4 py-3 text-right tabular-nums">{r.partEur}</td>
+                        <td className="px-4 py-3 text-right tabular-nums">{r.shippingEur}</td>
+                        <td className="px-4 py-3 text-right tabular-nums font-semibold">{r.totalEur}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* What we print */}
-        <section className="py-14 md:py-20 bg-background">
+        <section data-testid="hub-customers" className="py-14 md:py-20 bg-background">
           <div className="container px-4">
             <div className="max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.whatWePrint)}
@@ -387,7 +432,7 @@ const IntlHubPage = ({ content }: Props) => {
         </section>
 
         {/* Materials */}
-        <section className="bg-secondary/20 py-14 md:py-20">
+        <section data-testid="hub-materials" className="bg-secondary/20 py-14 md:py-20">
           <div className="container px-4">
             <div className="max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
               {renderProse(content.materialsText)}
@@ -396,7 +441,7 @@ const IntlHubPage = ({ content }: Props) => {
         </section>
 
         {/* Price table */}
-        <section className="py-14 md:py-20 bg-background">
+        <section data-testid="hub-price-table" className="py-14 md:py-20 bg-background">
           <div className="container px-4 max-w-[720px] mx-auto">
             <p className="text-sm text-muted-foreground mb-4">{content.priceTableCaption}</p>
             <div className="overflow-x-auto rounded-lg border border-border">
@@ -429,14 +474,26 @@ const IntlHubPage = ({ content }: Props) => {
         </section>
 
         {/* File formats */}
-        <section className="py-14 bg-secondary/20">
+        <section data-testid="hub-formats" className="py-14 bg-secondary/20">
           <div className="container px-4 max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
             {renderProse(content.fileFormatsText)}
           </div>
         </section>
 
+        {/* Shipping & customs (hub-shipping) */}
+        {content.shippingText && (
+          <section data-testid="hub-shipping" className="py-14 md:py-20 bg-background">
+            <div className="container px-4 max-w-[720px] mx-auto prose prose-sm md:prose-base max-w-none text-muted-foreground leading-relaxed">
+              {content.shippingHeading && (
+                <h2 className="font-bold text-foreground text-xl mb-4">{content.shippingHeading}</h2>
+              )}
+              {renderProse(content.shippingText)}
+            </div>
+          </section>
+        )}
+
         {/* FAQ */}
-        <section className="py-14 md:py-20 bg-[#F6F8FC]">
+        <section data-testid="hub-faq" className="py-14 md:py-20 bg-[#F6F8FC]">
           <div className="container px-4 max-w-[720px] mx-auto">
             <FAQAccordion
               items={content.faqs.map(f => ({ question: f.q, answer: f.a }))}
@@ -454,8 +511,8 @@ const IntlHubPage = ({ content }: Props) => {
         )}
 
         {/* City and guide links */}
-        {(content.cityLinks.length > 0 || content.guideLinks.length > 0) && (
-          <section className="py-14 bg-background">
+        <section data-testid="hub-links" className="py-14 bg-background">
+          {(content.cityLinks.length > 0 || content.guideLinks.length > 0) && (
             <div className="container px-4 max-w-5xl mx-auto">
               <LinkCardGrid
                 items={[
@@ -464,15 +521,17 @@ const IntlHubPage = ({ content }: Props) => {
                 ]}
               />
             </div>
-          </section>
-        )}
+          )}
+        </section>
 
         {/* Reviews */}
-        <QuoteFeature
-          featured={hubReviews[0]}
-          secondary={hubReviews.slice(1)}
-          variant="dark"
-        />
+        <div data-testid="hub-reviews">
+          <QuoteFeature
+            featured={hubReviews[0]}
+            secondary={hubReviews.slice(1)}
+            variant="dark"
+          />
+        </div>
 
         {/* Founder section — V2 only */}
         <div className="xp-home-v2-only">
@@ -488,11 +547,13 @@ const IntlHubPage = ({ content }: Props) => {
         </div>
 
         {/* Final CTA band */}
-        <FinalCta
-          heading={content.h1}
-          cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
-          reassurance={content.noRegistration}
-        />
+        <div data-testid="hub-final-cta">
+          <FinalCta
+            heading={content.h1}
+            cta={{ label: content.ctaLabel, onClick: () => scrollToCalc("final") }}
+            reassurance={content.noRegistration}
+          />
+        </div>
     </HubTemplate>
   );
 };

@@ -25,7 +25,7 @@ import StudentsBcn from "./pages/StudentsBcn";
 import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
-import InternationalServicePage from "./pages/InternationalServicePage";
+import { EN_HUB } from "@/data/intlContent_en";
 import CityDeliveryPage from "./pages/CityDeliveryPage";
 import DesignRequest from "./pages/DesignRequest";
 import Catalog from "./pages/Catalog";
@@ -74,7 +74,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/ca" element={<Index />} />
-                <Route path="/3d-printing-service" element={<InternationalServicePage />} />
+                <Route path="/3d-printing-service" element={<IntlHubPage content={EN_HUB} />} />
                 <Route path="/track" element={<Track />} />
                 <Route path="/makers" element={<Makers />} />
                 <Route path="/maker-guide" element={<MakerGuide />} />
@@ -97,6 +97,11 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/design-your-3d-part" element={<DesignRequest />} />
                 <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
                 <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
+                <Route path="/de/3d-design-aus-foto" element={<DesignRequest />} />
+                <Route path="/fr/conception-3d-depuis-photo" element={<DesignRequest />} />
+                <Route path="/nl/3d-ontwerp-van-foto" element={<DesignRequest />} />
+                <Route path="/it/progetta-pezzo-3d" element={<DesignRequest />} />
+                <Route path="/pt/desenho-3d-a-partir-de-foto" element={<DesignRequest />} />
                 {partPages.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<PartPage part={p} />} />
                 ))}
@@ -106,6 +111,11 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/3d-file-checker" element={<FileChecker />} />
                 <Route path="/verificador-archivo-3d" element={<FileChecker />} />
                 <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
+                <Route path="/de/3d-datei-pruefen" element={<FileChecker />} />
+                <Route path="/fr/verificateur-fichier-3d" element={<FileChecker />} />
+                <Route path="/nl/3d-bestand-controleren" element={<FileChecker />} />
+                <Route path="/it/verifica-file-3d" element={<FileChecker />} />
+                <Route path="/pt/verificador-ficheiro-3d" element={<FileChecker />} />
                 <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
                 <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
                 <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />

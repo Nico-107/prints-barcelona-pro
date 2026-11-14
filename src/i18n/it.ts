@@ -757,7 +757,7 @@ export const itTranslations: Record<string, string> = {
 
   // DesignRequest page
   "design.meta.title": "Servizio di Design 3D Barcellona — Senza File, da una Foto",
-  "design.meta.description": "Servizio di progettazione 3D a Barcellona — nessun file 3D necessario. Invia una foto o descrivi il pezzo e lo progettiamo e stampiamo noi. Preventivo gratuito in 1 ora.",
+  "design.meta.description": "Servizio di progettazione 3D da Barcellona — nessun file 3D necessario. Invia una foto, preventivo gratuito in 1 ora, spedizione UE.",
   "design.hero.badge": "Nessun file 3D richiesto",
   "design.hero.heading": "Nessun file 3D? Nessun problema.",
   "design.hero.intro": "La maggior parte dei nostri clienti arriva con un'idea, una foto o un pezzo rotto — non un file pronto per la stampa. Descrivi ciò di cui hai bisogno e pensiamo a tutto noi.",

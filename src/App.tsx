@@ -33,7 +33,8 @@ const BlogRecambiosBcn = lazy(() => import("./pages/BlogRecambiosBcn"));
 const BlogPrototiposBcn = lazy(() => import("./pages/BlogPrototiposBcn"));
 const StudentsBcn = lazy(() => import("./pages/StudentsBcn"));
 const Blog = lazy(() => import("./pages/Blog"));
-const InternationalServicePage = lazy(() => import("./pages/InternationalServicePage"));
+// /3d-printing-service now renders IntlHubPage with EN_HUB — see section 6.4.
+import { EN_HUB } from "@/data/intlContent_en";
 const CityDeliveryPage = lazy(() => import("./pages/CityDeliveryPage"));
 const Catalog = lazy(() => import("./pages/Catalog"));
 const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
@@ -250,7 +251,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/ca" element={<Index />} />
-              <Route path="/3d-printing-service" element={<InternationalServicePage />} />
+              <Route path="/3d-printing-service" element={<IntlHubPage content={EN_HUB} />} />
               <Route path="/track" element={<Track />} />
               {/* Conv 4.1 + 4.6: internal tooling, noindex. */}
               <Route path="/internal" element={<Internal />} />
@@ -284,9 +285,19 @@ const App = () => (
               <Route path="/design-your-3d-part" element={<DesignRequest />} />
               <Route path="/disena-tu-pieza-3d" element={<DesignRequest />} />
               <Route path="/dissenya-la-teva-peca-3d" element={<DesignRequest />} />
+              <Route path="/de/3d-design-aus-foto" element={<DesignRequest />} />
+              <Route path="/fr/conception-3d-depuis-photo" element={<DesignRequest />} />
+              <Route path="/nl/3d-ontwerp-van-foto" element={<DesignRequest />} />
+              <Route path="/it/progetta-pezzo-3d" element={<DesignRequest />} />
+              <Route path="/pt/desenho-3d-a-partir-de-foto" element={<DesignRequest />} />
               <Route path="/3d-file-checker" element={<FileChecker />} />
               <Route path="/verificador-archivo-3d" element={<FileChecker />} />
               <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
+              <Route path="/de/3d-datei-pruefen" element={<FileChecker />} />
+              <Route path="/fr/verificateur-fichier-3d" element={<FileChecker />} />
+              <Route path="/nl/3d-bestand-controleren" element={<FileChecker />} />
+              <Route path="/it/verifica-file-3d" element={<FileChecker />} />
+              <Route path="/pt/verificador-ficheiro-3d" element={<FileChecker />} />
               <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
               <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
               <Route path="/politica-devoluciones" element={<ReturnPolicy />} />
