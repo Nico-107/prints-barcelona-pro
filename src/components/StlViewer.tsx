@@ -493,13 +493,19 @@ export default function StlViewer({
 
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        // Conv 1.5: STL/3MF/OBJ are Z-up by convention; the three.js viewer
+        // is Y-up. Rotate the geometry −90° around X so the file's Z-axis
+        // becomes the viewer's up axis (model sits flat on the grid).
+        // Display-only: weight, time and price are computed from the raw
+        // (unrotated) positions in the engine and are not affected here.
+        geometry.rotateX(-Math.PI / 2);
         geometry.computeBoundingBox();
         const box = geometry.boundingBox!;
         const center = new THREE.Vector3();
         box.getCenter(center);
-        geometry.translate(-center.x, -box.min.y - center.y + center.y, -center.z);
-        box.getCenter(center);
-        geometry.translate(-center.x, 0, -center.z);
+        // After Z-up → Y-up rotation, box.min.y is the lowest point of the
+        // model; translate so that sits on y = 0 (the grid plane).
+        geometry.translate(-center.x, -box.min.y, -center.z);
         geometry.computeBoundingBox();
 
         const boxSize = new THREE.Vector3();
@@ -540,11 +546,16 @@ export default function StlViewer({
         // Apply current props to material immediately
         applyMaterialProfile(THREE, material, (materialRef as unknown as { propKey?: string }).propKey ?? undefined, colour);
 
-        // Wireframe bbox
+        // Conv 1.5: labels show file-axis dimensions (X, Y, Z of the source
+        // STL/3MF/OBJ), not viewer-axis dimensions. After the Z-up → Y-up
+        // rotation above: viewer-Y spans what was file-Z, viewer-Z spans
+        // what was file-Y. Remap so dimsMm.{x,y,z} always equal the file's
+        // {x,y,z}. Price, weight and time are computed independently from
+        // the raw file bounds and are unaffected.
         const dimsRounded = {
           x: parseFloat(boxSize.x.toFixed(1)),
-          y: parseFloat(boxSize.y.toFixed(1)),
-          z: parseFloat(boxSize.z.toFixed(1)),
+          y: parseFloat(boxSize.z.toFixed(1)),
+          z: parseFloat(boxSize.y.toFixed(1)),
         };
         setRawDimsMm(dimsRounded);
         setUnitWarning(getUnitWarning(dimsRounded));
@@ -557,12 +568,14 @@ export default function StlViewer({
         wire.position.y = boxSize.y / 2;
         mesh.add(wire);
 
-        // Label anchors — pushed further out so they don't overlap the part
+        // Label anchors — pushed further out so they don't overlap the part.
+        // After rotation: viewer +Y is file +Z (label Z there); viewer +Z is
+        // file −Y so we pin the file-Y label on the −viewer-Z side.
         const push = maxDim * 0.08;
         projDataRef.current = {
           xPt: new THREE.Vector3(boxSize.x / 2 + push, boxSize.y / 2, 0),
-          yPt: new THREE.Vector3(0, boxSize.y + push, 0),
-          zPt: new THREE.Vector3(0, boxSize.y / 2, boxSize.z / 2 + push),
+          yPt: new THREE.Vector3(0, boxSize.y / 2, -boxSize.z / 2 - push),
+          zPt: new THREE.Vector3(0, boxSize.y + push, 0),
           comparePt: new THREE.Vector3(maxDim / 2 + 60, 15, 0),
         };
 

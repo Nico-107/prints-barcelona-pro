@@ -246,9 +246,14 @@ const IntlHubPage = ({ content }: Props) => {
     })),
   };
 
+  // Conv 6.1: html lang must be a bare 2-letter ISO 639-1 code per language,
+  // not a BCP-47 region tag (fr-FR / de-DE). Intl formatting still uses the
+  // full locale from content.locale below.
+  const htmlLangCode = (content.locale ?? "en").split("-")[0];
+
   const helmet = (
     <Helmet>
-        <html lang={content.locale} />
+        <html lang={htmlLangCode} />
         <title>{content.metaTitle}</title>
         <meta name="description" content={content.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />

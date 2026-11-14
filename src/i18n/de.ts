@@ -370,6 +370,8 @@ export const deTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / Telefon",
   "calc.contact.atLeastOne": "Geben Sie mindestens eine Kontaktmöglichkeit an — E-Mail oder Telefon",
   "calc.contact.submit": "Angebotsanfrage senden",
+  "calc.actions.reviewPrimary": "Kostenlose Prüfung anfordern",
+  "calc.actions.reviewPrimaryHint": "Preis und Liefertermin bestätige ich innerhalb von 1 Std. werktags",
   "calc.trust.promise": "Sichere Zahlung mit Stripe · Bestätigung per E-Mail · Antwort in 1 Std.",
   "calc.trust.methods": "Karte · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Sichere Zahlung mit",

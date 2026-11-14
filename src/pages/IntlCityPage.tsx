@@ -136,10 +136,13 @@ const IntlCityPage = ({ content }: Props) => {
   const enSlug = content.altSlug;
   const isNativeLang = content.lang !== "en";
 
+  // Conv 6.1: bare 2-letter ISO code — not the BCP-47 region tag.
+  const htmlLangCode = (content.locale ?? "en").split("-")[0];
+
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <html lang={content.locale} />
+        <html lang={htmlLangCode} />
         <title>{content.metaTitle}</title>
         <meta name="description" content={content.metaDescription} />
         <link rel="canonical" href={PAGE_URL} />

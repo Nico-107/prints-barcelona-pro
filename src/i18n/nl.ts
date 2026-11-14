@@ -370,6 +370,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / telefoon",
   "calc.contact.atLeastOne": "Voer minimaal één contactmethode in — e-mail of telefoon",
   "calc.contact.submit": "Offerteaanvraag versturen",
+  "calc.actions.reviewPrimary": "Gratis controle aanvragen",
+  "calc.actions.reviewPrimaryHint": "Ik bevestig prijs en levertijd binnen 1 werkuur",
   "calc.trust.promise": "Veilige betaling via Stripe · Bevestiging per email · Reactie binnen 1 u",
   "calc.trust.methods": "Kaart · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Veilige betaling met",

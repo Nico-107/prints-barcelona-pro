@@ -370,6 +370,8 @@ export const itTranslations: Record<string, string> = {
   "calc.contact.phone": "WhatsApp / telefono",
   "calc.contact.atLeastOne": "Inserisci almeno un metodo di contatto — email o telefono",
   "calc.contact.submit": "Invia richiesta di preventivo",
+  "calc.actions.reviewPrimary": "Richiedi una revisione gratuita",
+  "calc.actions.reviewPrimaryHint": "Ti confermo prezzo e tempi entro 1 h lavorativa",
   "calc.trust.promise": "Pagamento sicuro con Stripe · Ricevuta via email · Ti rispondiamo in 1 h",
   "calc.trust.methods": "Carta · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Pagamento sicuro con",

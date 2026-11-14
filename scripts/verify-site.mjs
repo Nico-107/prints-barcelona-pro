@@ -404,6 +404,70 @@ async function checkPage(page, url, variant, viewport, errors) {
       errors.push(`${url} [${variant}]: hero missing business-vocabulary CTA token "${expectedToken}"`);
   }
 
+  // Conv bug #2 — on every non-home route, both header slots ship in the
+  // prerendered HTML so the correct one is already visible before paint.
+  // The flash disappears because there is no React swap between A and B.
+  if (!isAdminLike && path !== "/" && !path.endsWith("/ca") && path !== "/ca") {
+    const slotCount = await page.locator('[data-xp-slot="site_variant"]').count();
+    if (slotCount < 2)
+      errors.push(`${url} [${variant}]: expected 2 [data-xp-slot="site_variant"] wrappers (A+B), got ${slotCount}`);
+    const slotA = await page.locator('[data-testid="header-slot-A"]').count();
+    const slotB = await page.locator('[data-testid="header-slot-B"]').count();
+    if (slotA < 1 || slotB < 1)
+      errors.push(`${url} [${variant}]: missing header-slot-A (${slotA}) or header-slot-B (${slotB})`);
+  }
+
+  // Conv bug #1 — on home variant B under 768px the hero eyebrow sits
+  // below the fixed header. Fails if any part of the eyebrow bbox
+  // overlaps the header bbox.
+  if (variant === "B" && viewport.width < 768 && (path === "/" || path === "/ca")) {
+    const overlap = await page.evaluate(() => {
+      const eb = document.querySelector('[data-testid="hero-eyebrow-v2"]');
+      const hd = document.querySelector("header");
+      if (!eb || !hd) return null;
+      const er = eb.getBoundingClientRect();
+      const hr = hd.getBoundingClientRect();
+      return { eyebrowTop: er.top, eyebrowBottom: er.bottom, headerBottom: hr.bottom };
+    });
+    if (overlap && overlap.eyebrowTop < overlap.headerBottom - 1)
+      errors.push(`${url} [B ${viewport.width}]: hero eyebrow overlaps header — eyebrow top=${Math.round(overlap.eyebrowTop)}, header bottom=${Math.round(overlap.headerBottom)}`);
+  }
+
+  // Conv bug #3 — /prototipos-3d-barcelona hero subtitle is a complete
+  // sentence, not truncated with "…".
+  if (path === "/prototipos-3d-barcelona") {
+    const text = await page.locator('[data-testid="hero-subtitle"]').first().textContent();
+    if (text && (text.trim().endsWith("…") || text.trim().endsWith("...")))
+      errors.push(`${url} [${variant}]: hero subtitle is truncated: ${JSON.stringify(text.trim().slice(-30))}`);
+    if (!text || text.trim().length < 20)
+      errors.push(`${url} [${variant}]: hero subtitle missing or too short`);
+  }
+
+  // Conv bug #4 — urgent pages' speed-tiers heading never contains the
+  // English word "tier"/"tiers" in a non-English language.
+  if (URGENT_PATHS.includes(path)) {
+    const heading = await page.locator('[data-testid="speed-tiers-heading"]').first().textContent();
+    if (heading) {
+      const lang = path.startsWith("/en") || path.startsWith("/urgent") ? "en" : path.startsWith("/ca") ? "ca" : path.startsWith("/de/") ? "de" : path.startsWith("/fr/") ? "fr" : path.startsWith("/it/") ? "it" : path.startsWith("/nl/") ? "nl" : path.startsWith("/pt/") ? "pt" : "es";
+      if (lang !== "en" && /\btier\b|\btiers\b/i.test(heading))
+        errors.push(`${url} [${variant}]: non-English speed-tiers heading contains "tier(s)": ${JSON.stringify(heading)}`);
+    }
+  }
+
+  // Conv 1.1 — Simple mode shows only preview, material, qty,
+  // pickup/shipping, total and Buy. On any page that renders a
+  // CheckoutConfigurator, verify Simple is the default and advanced-only
+  // controls (colour-picker, per-plazo chips) are hidden.
+  const cfg = await page.locator('[data-testid="checkout-configurator"]').first();
+  if (await cfg.count()) {
+    const mode = await cfg.getAttribute("data-mode");
+    if (mode !== "simple")
+      errors.push(`${url} [${variant}]: configurator default mode is ${mode}, want "simple"`);
+    const plazoChips = await page.locator('[data-testid="simple-plazo"]').count();
+    if (mode === "simple" && plazoChips > 0)
+      errors.push(`${url} [${variant}]: Simple mode still renders [data-testid="simple-plazo"] (should be Advanced-only)`);
+  }
+
   // No horizontal overflow: document scrollWidth should match viewport width
   // (allow 2px for sub-pixel rounding and scrollbar).
   const overflow = await page.evaluate(() => ({

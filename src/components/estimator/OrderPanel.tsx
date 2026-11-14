@@ -665,20 +665,27 @@ export function OrderPanel({
                   </button>
                 </div>
 
-                {/* Quote-only: primary orange + small WhatsApp */}
+                {/* Conv 1.4: quote-only path (over-limit or not instant-
+                    eligible) shows the review request as the primary action.
+                    Same orange CTA style as Buy; one-line confirmation hint
+                    directly beneath it. */}
                 <Button
                   variant="cta"
                   size="xl"
                   className="w-full gap-2 text-lg font-semibold max-lg:h-[60px]"
-                  data-ph-name="send-my-order"
+                  data-testid="review-primary-btn"
+                  data-ph-name="review-request-primary"
                   onClick={onSubmitQuote}
                   disabled={isSubmittingQuote}
                 >
                   {isSubmittingQuote
                     ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : <><Send className="w-4 h-4" />{t("calc.contact.submit")}</>
+                    : <><ShieldCheck className="w-4 h-4" />{t("calc.actions.reviewPrimary")}</>
                   }
                 </Button>
+                <p className="text-xs text-center text-slate-600 leading-snug" data-testid="review-primary-hint">
+                  {t("calc.actions.reviewPrimaryHint")}
+                </p>
                 <button
                   type="button"
                   onClick={onWhatsApp}

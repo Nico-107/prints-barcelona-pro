@@ -1384,6 +1384,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         total: bundle.total,
         material: materialKey,
       });
+      // Conv 4.4: lead counterpart for the save-quote path.
+      capture("quote_emailed", {
+        source: "save_quote",
+        email_domain: email.includes("@") ? email.split("@")[1]?.toLowerCase() : undefined,
+        path: typeof window !== "undefined" ? window.location.pathname : undefined,
+      });
     } catch (err) {
       console.warn("[StlEstimator] save-quote failed:", err);
     }
@@ -1530,6 +1536,23 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         total_units: bundle!.totalUnits,
         is_mixed: uniqueMatsQ.length > 1,
         materials_count: uniqueMatsQ.length,
+        source_page: window.location.pathname,
+      });
+      // Conv 4.4: review_requested is the lead-side counterpart —
+      // every quote submission is also a review request. Carries the
+      // same pricing context so "leads" can be compared against
+      // instant-buy orders in the dashboard (section 4.7).
+      capture('review_requested', {
+        quote_id,
+        material: uniqueMatsQ.length === 1 ? uniqueMatsQ[0] : "MIXED",
+        urgency,
+        file_count: validFiles.length,
+        piece_count: validFiles.length,
+        total_units: bundle!.totalUnits,
+        value_estimate_mid: Math.round(bundle!.total),
+        currency: "EUR",
+        has_email: !!contactEmail.trim(),
+        has_phone: !!contactPhone.trim(),
         source_page: window.location.pathname,
       });
       if (ref) identifyUser(ref);
