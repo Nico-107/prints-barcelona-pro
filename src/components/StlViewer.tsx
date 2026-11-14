@@ -19,13 +19,8 @@ interface StlViewerProps {
   material?: string;
   touchAction?: string;
   language?: string;
-  /** External scale factor for display (1 = original, 2 = 200%). */
-  scaleFactor?: number;
-  onScaleChange?: (scale: number) => void;
   /** Part mass in grams — shown in the summary line. */
   massGrams?: number;
-  /** Show scale slider (Advanced mode). */
-  showScaleControl?: boolean;
 }
 
 // ─── Localised viewer labels ───────────────────────────────────────────────────
@@ -38,10 +33,6 @@ const VIEWER_LABELS: Record<string, Record<string, string>> = {
   coinLabel: { es: 'Moneda 1 €', en: '€1 coin', ca: 'Moneda 1 €', it: 'Moneta 1 €', de: '1-€-Münze', fr: 'Pièce 1 €', nl: '€1 munt', pt: 'Moeda 1 €' },
   cardLabel: { es: 'Tarjeta bancaria', en: 'Bank card', ca: 'Targeta bancària', it: 'Carta bancaria', de: 'Bankkarte', fr: 'Carte bancaire', nl: 'Bankkaart', pt: 'Cartão bancário' },
   a4Label:   { es: 'Folio A4', en: 'A4 sheet', ca: 'Full A4', it: 'Foglio A4', de: 'A4-Blatt', fr: 'Feuille A4', nl: 'A4-vel', pt: 'Folha A4' },
-  scaleLabel: { es: 'Tamaño', en: 'Scale', ca: 'Mida', it: 'Scala', de: 'Größe', fr: 'Taille', nl: 'Grootte', pt: 'Tamanho' },
-  cmChip:  { es: 'Está en cm', en: 'In cm', ca: 'Està en cm', it: 'In cm', de: 'In cm', fr: 'En cm', nl: 'In cm', pt: 'Em cm' },
-  inChip:  { es: 'Está en pulgadas', en: 'In inches', ca: 'Està en polzades', it: 'In pollici', de: 'In Zoll', fr: 'En pouces', nl: 'In inches', pt: 'Em polegadas' },
-  origChip: { es: 'Original', en: 'Original', ca: 'Original', it: 'Originale', de: 'Original', fr: 'Original', nl: 'Origineel', pt: 'Original' },
 };
 const tv = (key: string, lang?: string) =>
   VIEWER_LABELS[key]?.[lang ?? 'es'] ?? VIEWER_LABELS[key]?.['es'] ?? key;
@@ -210,7 +201,7 @@ function applyMaterialProfile(THREE: any, material: any, matKey: string | undefi
 
 export default function StlViewer({
   file, size = 240, onError, onReady, colour, material, touchAction,
-  language, scaleFactor = 1, onScaleChange, massGrams, showScaleControl,
+  language, massGrams,
 }: StlViewerProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -219,7 +210,6 @@ export default function StlViewer({
   const [unitWarning, setUnitWarning] = useState<"unit-small" | "unit-large" | null>(null);
   const [showDims, setShowDims] = useState(true);
   const [compareMode, setCompareMode] = useState<CompareMode>("off");
-  const [localScale, setLocalScale] = useState(100);
   const [isFullscreen, setIsFullscreen] = useState(false);
   // iOS fallback: no requestFullscreen; use absolute 100vw × 100vh overlay
   const [overlayFallback, setOverlayFallback] = useState(false);
@@ -257,12 +247,7 @@ export default function StlViewer({
   useEffect(() => {
     setRawDimsMm(null);
     setUnitWarning(null);
-    setLocalScale(100);
   }, [file]);
-
-  useEffect(() => {
-    setLocalScale(Math.round(scaleFactor * 100));
-  }, [scaleFactor]);
 
   const handleDimsToggle = () => {
     const next = !showDimsRef.current;
@@ -296,12 +281,6 @@ export default function StlViewer({
       const r = rendererRef.current, s = sceneRef.current, c = cameraRef.current;
       if (r && s && c) r.render(s, c);
     }
-  };
-
-  const handleScaleSlider = (pct: number) => {
-    const clamped = Math.max(25, Math.min(400, pct));
-    setLocalScale(clamped);
-    onScaleChange?.(clamped / 100);
   };
 
   // ── Fullscreen / overlay fallback ───────────────────────────────────────
@@ -813,10 +792,7 @@ export default function StlViewer({
 
   if (hasError) return null;
 
-  const s = scaleFactor;
-  const dimsMm = rawDimsMm
-    ? { x: rawDimsMm.x * s, y: rawDimsMm.y * s, z: rawDimsMm.z * s }
-    : null;
+  const dimsMm = rawDimsMm;
 
   const compareCaptions: Record<CompareMode, string> = {
     off: "", coin: tv("coinLabel", language), card: tv("cardLabel", language), a4: tv("a4Label", language),
@@ -946,55 +922,6 @@ export default function StlViewer({
         </div>
       )}
 
-      {/* Scale control (advanced) */}
-      {showScaleControl && !isLoading && !hasError && (
-        <div style={{
-          position: "absolute", bottom: 40, left: 8, right: 8,
-          background: "rgba(255,255,255,0.92)", borderRadius: 8,
-          padding: "8px 12px", boxShadow: "0 1px 6px rgba(0,0,0,.12)",
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: "#333" }}>{tv("scaleLabel", language)}</span>
-            <input
-              type="range"
-              min={25} max={400} step={5}
-              value={localScale}
-              onChange={e => handleScaleSlider(Number(e.target.value))}
-              style={{ flex: 1, height: 20 }}
-            />
-            <input
-              type="number"
-              min={25} max={400} step={5}
-              value={localScale}
-              onChange={e => handleScaleSlider(Number(e.target.value))}
-              style={{ width: 52, fontSize: 11, padding: "2px 4px", border: "1px solid #ccc", borderRadius: 4, textAlign: "center" }}
-            />
-            <span style={{ fontSize: 11, color: "#666" }}>%</span>
-          </div>
-          <div style={{ display: "flex", gap: 4 }}>
-            {[
-              { label: tv("cmChip", language), scale: 1000 },
-              { label: tv("inChip", language), scale: 2540 },
-              { label: tv("origChip", language), scale: 100 },
-            ].map(({ label, scale }) => (
-              <button
-                key={scale}
-                onClick={() => handleScaleSlider(scale)}
-                style={{
-                  fontSize: 10, padding: "2px 7px", borderRadius: 10,
-                  border: `1px solid ${localScale === scale ? "#e05050" : "#ccc"}`,
-                  background: localScale === scale ? "#fff0f0" : "#f8f8f8",
-                  color: localScale === scale ? "#cc3333" : "#555",
-                  cursor: "pointer", whiteSpace: "nowrap",
-                }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Dimension summary — one clean line at the bottom */}
       {dimsMm && !isLoading && (
         <div
@@ -1036,24 +963,6 @@ export default function StlViewer({
           }}
         >
           {unitWarning === "unit-small" ? "⚠ Part < 3 mm" : "⚠ Part > 600 mm"}
-          {showScaleControl && (
-            <span style={{ marginLeft: 6 }}>
-              {" · "}
-              <button
-                onClick={() => handleScaleSlider(1000)}
-                style={{ background: "none", border: "none", color: "#856404", cursor: "pointer", fontSize: 10, textDecoration: "underline", padding: 0 }}
-              >
-                {tv("cmChip", language)}
-              </button>
-              {" · "}
-              <button
-                onClick={() => handleScaleSlider(2540)}
-                style={{ background: "none", border: "none", color: "#856404", cursor: "pointer", fontSize: 10, textDecoration: "underline", padding: 0 }}
-              >
-                {tv("inChip", language)}
-              </button>
-            </span>
-          )}
         </div>
       )}
     </div>

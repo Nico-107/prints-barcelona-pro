@@ -44,7 +44,7 @@ function SaveQuoteRow({
   t,
 }: {
   onSaveQuote: (email: string) => Promise<void>;
-  config: { material: string; colour: string; qty: number; urgency: string; scale: number };
+  config: { material: string; colour: string; qty: number; urgency: string };
   t: (key: string) => string;
 }) {
   const [open, setOpen] = useState(false);
@@ -214,7 +214,7 @@ interface OrderPanelProps {
   /** Save-quote callback (R10). Returns once the quote_requests insert settles. */
   onSaveQuote?: (email: string) => Promise<void>;
   /** Current configurator values — encoded into the copyable share link. */
-  saveQuoteConfig?: { material: string; colour: string; qty: number; urgency: string; scale: number };
+  saveQuoteConfig?: { material: string; colour: string; qty: number; urgency: string };
 }
 
 export function OrderPanel({

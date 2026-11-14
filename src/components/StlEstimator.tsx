@@ -25,7 +25,7 @@ import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
 import { AUTUMN_DISCOUNT } from "@/config/policies";
 import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
-import { CHECKOUT_MAX_BYTES, isBinaryStl, scaleStlBuffer } from "@/lib/stlPrepare";
+import { CHECKOUT_MAX_BYTES, isBinaryStl } from "@/lib/stlPrepare";
 import { ContactFields } from "./estimator/ContactFields";
 import type { Language } from "@/lib/pathLanguage";
 import { summarizeParts } from "@/lib/summarizeParts";
@@ -184,7 +184,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   useXpExposure(uploadAreaExposureRef, "upload_area_r1");
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
-  const [scaleByFileId, setScaleByFileId] = useState<Record<string, number>>({});
   const [isDragging, setIsDragging] = useState(false);
   const [parsing, setParsing] = useState(false);
   const [parsingHasLargeFile, setParsingHasLargeFile] = useState(false);
@@ -362,27 +361,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
   const costByFileId: Record<string, number> = {};
-  // Apply per-file scale to volume+bounds before pricing (scale doesn't touch pricing logic)
-  const scaledParsedFiles: ParsedFile[] = parsedFiles.map(f => {
-    const s = scaleByFileId[f.id] ?? 1;
-    if (s === 1) return f;
-    const s3 = s * s * s;
-    const analysis = f.analysis ? {
-      ...f.analysis,
-      volumeMm3: f.analysis.volumeMm3 * s3,
-      boundsMm: f.analysis.boundsMm.map(v => v * s) as [number, number, number],
-      orientations: f.analysis.orientations.map(o => ({
-        ...o,
-        sizeXMm: o.sizeXMm * s,
-        sizeYMm: o.sizeYMm * s,
-        heightMm: o.heightMm * s,
-        overhangCm2: o.overhangCm2 * s * s,
-        fitsPlate: o.sizeXMm * s <= 256 && o.sizeYMm * s <= 256,
-      })),
-    } : f.analysis;
-    return { ...f, volumeMm3: f.volumeMm3 * s3, analysis };
-  });
-  const bundle: BundleEstimateV3 | null = computeBundleV3(scaledParsedFiles, defaults, urgency);
+  const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
   if (bundle) {
     validFiles.forEach((f, i) => { costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0; });
   }
@@ -671,7 +650,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         const capturedLang = language;
         const capturedMulticolour = multicolour;
         const capturedDefaults: PartDefaults = { ...nextDefaults };
-        const capturedScale = { ...scaleByFileId };
 
         const capturedGzOriginals = [...gzippedOriginalsRef.current];
         gzippedOriginalsRef.current = [];
@@ -685,18 +663,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             for (const f of validForUpload) {
               const sanitized = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
               const path = `${uploadTimestamp}-${sanitized}`;
-              const fileScale = capturedScale[f.id] ?? 1;
-              let uploadBlob: Blob | File;
-              if (fileScale !== 1) {
-                const rawBuf = await f.file!.arrayBuffer();
-                const scaledBuf = scaleStlBuffer(rawBuf, fileScale);
-                uploadBlob = new Blob([scaledBuf], { type: "model/stl" });
-              } else {
-                uploadBlob = f.file!;
-              }
               const { error: uploadErr } = await supabaseAnon.storage
                 .from("print-requests")
-                .upload(path, uploadBlob);
+                .upload(path, f.file!);
               if (!uploadErr) {
                 uploadedPaths.push(path);
                 uploadedNames.push(f.name);
@@ -2211,7 +2180,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       colour={viewerColour}
                       material={effectivePartSettings(stepperFile, defaults).material}
                       language={language}
-                      scaleFactor={scaleByFileId[stepperFile.id] ?? 1}
                     />
                   </Suspense>
                 </div>
@@ -2410,7 +2378,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             colour: colorPref,
             qty: validFiles.reduce((s, f) => s + f.qty, 0) || 1,
             urgency,
-            scale: validFiles[0] ? (scaleByFileId[validFiles[0].id] ?? 1) : 1,
           },
         } as const;
 
@@ -2442,10 +2409,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       onReady={() => setViewerStateInModal("ready")}
                       onError={() => setViewerStateInModal("failed")}
                       language={language}
-                      scaleFactor={scaleByFileId[stepperFile.id] ?? 1}
-                      onScaleChange={(s) => setScaleByFileId(prev => ({ ...prev, [stepperFile.id]: s }))}
                       massGrams={bundle?.orderResult.parts[validFiles.indexOf(stepperFile)]?.gramsPerUnit}
-                      showScaleControl={advancedMode}
                     />
                   </Suspense>
                   {viewerStateInModal === "ready" && isMulti && (

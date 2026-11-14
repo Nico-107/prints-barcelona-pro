@@ -5,8 +5,8 @@
  * re-opens the modal with that config pre-selected. Encoded fields:
  *
  *   material (string key), colour (string), qty (int), urgency (string),
- *   scale (number, 1 = original), fileId (optional — the storage path if the
- *   upload already has one; null otherwise).
+ *   fileId (optional — the storage path if the upload already has one;
+ *   null otherwise).
  *
  * Uses a compact JSON → base64url payload so the hash stays short-ish and
  * survives Google Docs / Slack URL shorteners that choke on `#` fragments
@@ -18,7 +18,6 @@ export interface QuoteLinkConfig {
   colour: string;
   qty: number;
   urgency: string;
-  scale: number;
   fileId?: string | null;
 }
 
@@ -54,14 +53,14 @@ export function encodeQuoteHash(config: QuoteLinkConfig): string {
     c: config.colour,
     q: config.qty,
     u: config.urgency,
-    s: config.scale,
     f: config.fileId ?? null,
   };
   const encoded = b64urlEncode(payload);
   return encoded ? `#${HASH_KEY}=${encoded}` : "";
 }
 
-/** Decode a URL hash fragment into a QuoteLinkConfig. Returns null if absent/invalid. */
+/** Decode a URL hash fragment into a QuoteLinkConfig. Returns null if absent/invalid.
+ *  The legacy `s` (scale) key is accepted but ignored — old links still open cleanly. */
 export function decodeQuoteHash(hash: string): QuoteLinkConfig | null {
   if (!hash) return null;
   const raw = hash.replace(/^#/, "");
@@ -69,14 +68,13 @@ export function decodeQuoteHash(hash: string): QuoteLinkConfig | null {
   for (const p of parts) {
     const [k, v] = p.split("=");
     if (k === HASH_KEY && v) {
-      const payload = b64urlDecode<{ m: string; c: string; q: number; u: string; s: number; f: string | null }>(v);
+      const payload = b64urlDecode<{ m: string; c: string; q: number; u: string; f: string | null }>(v);
       if (!payload) return null;
       return {
         material: String(payload.m ?? "PLA"),
         colour: String(payload.c ?? ""),
         qty: Number.isFinite(payload.q) ? Math.max(1, Math.floor(payload.q as number)) : 1,
         urgency: String(payload.u ?? "standard"),
-        scale: Number.isFinite(payload.s) ? Math.max(0.01, payload.s as number) : 1,
         fileId: payload.f ?? null,
       };
     }
