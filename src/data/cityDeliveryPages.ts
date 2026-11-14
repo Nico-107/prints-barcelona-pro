@@ -89,6 +89,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       label: "Functional Prototypes & Industrial Parts",
       description: "From rapid prototyping to production-ready functional parts",
     },
+    extraFaqs: [
+      {
+        q: "Combien coûte une pièce imprimée en 3D livrée à Paris ?",
+        a: "La commande minimum est de 10 €. Pour une pièce petite (10–50 g), le total livré à Paris est typiquement de 15,90 € à 22,90 €, livraison 5,90 € incluse. Le prix exact dépend du volume de la pièce, du matériau et de la finition. Utilisez la calculatrice en haut de page pour un devis instantané.",
+      },
+      {
+        q: "Travaillez-vous avec des entreprises et des ingénieurs d'Île-de-France ?",
+        a: "Oui. Nous travaillons régulièrement avec des startups de Station F, des bureaux d'études, des équipes R&D dans l'aéronautique et l'automobile francilienne. Factures avec TVA européenne (inversion de TVA possible pour les entreprises B2B avec numéro de TVA intracommunautaire), NDA sur demande et réassorts rapides sur fichier déjà validé.",
+      },
+      {
+        q: "Quels matériaux techniques sont disponibles pour une livraison à Paris ?",
+        a: "Nous imprimons en PLA, PETG, ABS, ASA, TPU flexible, Nylon (PA12/PA6), Polycarbonate et composites fibre de carbone (PLA-CF, PETG-CF, Nylon-CF). Pour des pièces exposées aux intempéries ou aux UV (applications extérieures Île-de-France), l'ASA est généralement conseillé. Pour des pièces soumises à charge mécanique, le Nylon-CF offre un excellent compromis résistance/poids.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-london",
@@ -113,6 +127,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       label: "Replacement Parts & Custom Components",
       description: "One-off parts, repairs, and hard-to-source components",
     },
+    extraFaqs: [
+      {
+        q: "How much do I pay in total for a small 3D-printed part delivered to London?",
+        a: "The minimum order is €10. For a small part (10–50 g) the total delivered to London is typically €18–28 all-in, covering the part, the €5.90 shipping fee from Barcelona, and routine UK import handling. For orders for personal use under £135, UK import VAT does not apply; commercial orders over that threshold incur UK VAT at 20%, which the courier collects at delivery.",
+      },
+      {
+        q: "Do you work with UK engineering and design studios?",
+        a: "Yes. We regularly ship to Shoreditch hardware studios, South Kensington design consultancies, product teams in Cambridge and Oxford, and architectural firms across London. Commercial invoices are provided with every UK shipment, VAT is handled transparently, and we can arrange recurring production runs on validated files to simplify logistics.",
+      },
+      {
+        q: "Which materials are available for London orders?",
+        a: "Full range: PLA, PETG, ABS, ASA, flexible TPU, Nylon (PA12/PA6), Polycarbonate, and carbon-fibre composites (PLA-CF, PETG-CF, Nylon-CF). For UK applications where outdoor or UV resistance matters, ASA is usually the right pick. For high-stiffness structural parts we recommend PETG-CF or Nylon-CF.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-amsterdam",
@@ -144,6 +172,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       label: "Student & Maker Projects",
       description: "One-off parts for students, makers, and side projects",
     },
+    extraFaqs: [
+      {
+        q: "How much does a 3D print delivered to Amsterdam cost?",
+        a: "The minimum order is €10. A small part (10–50 g) typically totals €16–22 all-in including the €5.90 shipping fee from Barcelona. For larger engineering parts or batches, the per-unit price falls as print time is shared across pieces; the calculator on this page gives a live price for your exact file.",
+      },
+      {
+        q: "Do you work with the Dutch hardware and robotics ecosystem?",
+        a: "Yes — we ship routinely to startups in Amsterdam and Rotterdam, deep-tech teams in Brainport Eindhoven, robotics labs around TU Delft, and precision engineering suppliers in the ASML supply network. EU reverse-charge VAT applies for Dutch businesses with a valid BTW number, and we handle NDAs on request before any sensitive file reaches the workshop.",
+      },
+      {
+        q: "Can you print engineering-grade materials for Dutch customers?",
+        a: "The full range: PLA, PETG, ABS, ASA, flexible TPU, Nylon (PA12/PA6), Polycarbonate, PLA-CF, PETG-CF, Nylon-CF. For outdoor or UV-exposed applications we recommend ASA or PETG. For load-bearing structural parts, Nylon-CF has a very good stiffness-to-weight ratio while staying print-feasible on FDM.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-berlin",
@@ -175,6 +217,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       label: "Functional Prototypes & Industrial Parts",
       description: "From rapid prototyping to production-ready functional parts",
     },
+    extraFaqs: [
+      {
+        q: "Wie viel kostet ein 3D-gedrucktes Teil mit Lieferung nach Berlin?",
+        a: "Der Mindestbestellwert liegt bei 10 €. Ein kleines Teil (10–50 g) kostet typischerweise 16–23 € inklusive der 5,90 € Versandkosten aus Barcelona. Für größere technische Teile oder Serien sinkt der Stückpreis, weil Rüst- und Druckzeiten auf mehrere Teile verteilt werden; der Preisrechner auf dieser Seite gibt dir das exakte Live-Angebot.",
+      },
+      {
+        q: "Arbeitet ihr mit deutschen Startups und dem Mittelstand zusammen?",
+        a: "Ja — regelmäßig. Hardware-Startups in Mitte und Kreuzberg, Mittelstand-Zulieferer für die Automobilindustrie, R&D-Teams in Industrie 4.0 — Rechnungen mit EU-Reverse-Charge-VAT für B2B-Kunden mit gültiger USt-IdNr., NDA auf Wunsch, Nachbestellungen auf validierten Dateien ohne erneuten Review-Zyklus.",
+      },
+      {
+        q: "Welche technischen Materialien sind für Berlin verfügbar?",
+        a: "Die volle Palette: PLA, PETG, ABS, ASA, flexibles TPU, Nylon (PA12/PA6), Polycarbonat sowie Carbonfaser-Verbundwerkstoffe (PLA-CF, PETG-CF, Nylon-CF). Für Außen- oder UV-exponierte Anwendungen in deutschem Klima ist ASA die empfohlene Wahl. Für strukturelle Lastteile empfehlen wir PETG-CF oder Nylon-CF.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-milan",
@@ -206,6 +262,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       label: "Functional Prototypes & Industrial Parts",
       description: "From rapid prototyping to production-ready functional parts",
     },
+    extraFaqs: [
+      {
+        q: "Quanto costa un pezzo stampato in 3D consegnato a Milano?",
+        a: "L'ordine minimo è 10 €. Per un pezzo piccolo (10–50 g) il totale consegnato a Milano è tipicamente 16–23 € inclusa la spedizione fissa di 5,90 € da Barcellona. Per pezzi più grandi o piccole serie il costo unitario scende perché i tempi di preparazione vengono distribuiti su più pezzi; il preventivatore in alto dà il prezzo esatto in tempo reale.",
+      },
+      {
+        q: "Lavorate con l'industria automotive e il design milanese?",
+        a: "Sì. Spediamo regolarmente a studi di prodotto di Brera e Porta Nuova, fornitori automotive della Val Padana, studi di architettura che lavorano con Salone del Mobile, team R&D di aziende lombarde. Fatturazione B2B con reverse charge IVA UE per aziende con P.IVA valida, NDA su richiesta.",
+      },
+      {
+        q: "Quali materiali tecnici sono disponibili per Milano?",
+        a: "Gamma completa: PLA, PETG, ABS, ASA, TPU flessibile, Nylon (PA12/PA6), Policarbonato e compositi in fibra di carbonio (PLA-CF, PETG-CF, Nylon-CF). Per pezzi esposti a temperature elevate (automotive underbonnet, ad esempio) consigliamo ABS o ASA. Per leggerezza strutturale, Nylon-CF offre un ottimo rapporto resistenza/peso.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-rome",
@@ -238,6 +308,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       label: "Functional Prototypes & Industrial Parts",
       description: "From rapid prototyping to production-ready functional parts",
     },
+    extraFaqs: [
+      {
+        q: "Quanto costa un pezzo in 3D consegnato a Roma?",
+        a: "L'ordine minimo è 10 €. Per pezzi piccoli (10–50 g) il totale consegnato a Roma è tipicamente 16–23 € inclusa la spedizione fissa di 5,90 € da Barcellona. Il preventivo è in tempo reale fino a 200 €; oltre, un tecnico risponde entro un'ora lavorativa.",
+      },
+      {
+        q: "Lavorate con studi di architettura e laboratori di conservazione a Roma?",
+        a: "Sì. Spediamo regolarmente a studi che lavorano su modelli in scala per presentazioni urbanistiche, a laboratori di restauro per la riproduzione di componenti di ricambio, e a facoltà di ingegneria di Sapienza e Tor Vergata. La possibilità di accettare file STEP direttamente dai CAD più diffusi riduce il tempo di preparazione.",
+      },
+      {
+        q: "Quali materiali sono disponibili per Roma?",
+        a: "Gamma completa: PLA, PETG, ABS, ASA, TPU flessibile, Nylon (PA12/PA6), Policarbonato e compositi in fibra di carbonio. Per modelli architettonici in scala il PLA bianco o grigio è lo standard. Per pezzi funzionali con tolleranze serrate consigliamo PETG o ABS a seconda dell'esposizione termica.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-lisbon",
@@ -264,6 +348,20 @@ export const CITY_PAGES: CityPageConfig[] = [
       nativeUrl: "/pt/impressao-3d-lisboa",
     },
     articleInLanguage: "pt",
+    extraFaqs: [
+      {
+        q: "Quanto custa uma peça impressa em 3D entregue em Lisboa?",
+        a: "A encomenda mínima é 10 €. Para uma peça pequena (10–50 g) o total entregue em Lisboa é tipicamente 16–22 € incluindo os 5,90 € de portes a partir de Barcelona. Encomendas acima de 200 € recebem orçamento manual num prazo de 1 hora em dias úteis.",
+      },
+      {
+        q: "Trabalham com empresas e ateliês de design portugueses?",
+        a: "Sim. Enviamos regularmente para startups do Beato Tech City, ateliês de design na Baixa, laboratórios universitários da NOVA e do IST, e equipas de engenharia por todo o país. Facturação B2B com reverse charge do IVA para empresas com NIF intracomunitário válido, NDA a pedido antes de qualquer ficheiro sensível entrar no estúdio.",
+      },
+      {
+        q: "Que materiais técnicos estão disponíveis para Lisboa?",
+        a: "Gama completa: PLA, PETG, ABS, ASA, TPU flexível, Nylon (PA12/PA6), Policarbonato e compósitos com fibra de carbono. Para peças funcionais com exposição ao calor, ABS ou ASA são as escolhas padrão; para resistência mecânica máxima, Nylon-CF.",
+      },
+    ],
   },
   {
     slug: "/3d-printing-delivery-new-york",
