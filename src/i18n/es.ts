@@ -702,7 +702,7 @@ export const esTranslations: Record<string, string> = {
   "calc.breakdown.pieces": "Piezas",
   "calc.breakdown.minHelper": "Tu pedido llega al mínimo de 10 €: puedes añadir piezas hasta ese importe sin pagar más.",
   "calc.breakdown.minHelperShort": "Pedido mínimo 10 €. Tus piezas suman {parts}: puedes añadir más piezas por el mismo precio hasta llegar a 10 €.",
-  "calc.reassurance.review": "Reviso tu archivo antes de imprimir. Si no se puede imprimir, reembolso completo.",
+  "calc.reassurance.review": "Reviso tu archivo antes de imprimir. Si algo no cuadra te escribo y no imprimo sin tu OK. Si no se puede imprimir, reembolso completo.",
   "calc.fulfillment.pickupAddress": "Recogida: {address}",
   "calc.fulfillment.free": "gratis",
   "calc.fulfillment.byAppointment": "con cita previa",

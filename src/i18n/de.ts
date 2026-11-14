@@ -604,7 +604,7 @@ export const deTranslations: Record<string, string> = {
   "calc.breakdown.pieces": "Teile",
   "calc.breakdown.minHelper": "Deine Bestellung erreicht das 10 €-Minimum: Du kannst Teile bis zu diesem Betrag ohne Aufpreis hinzufügen.",
   "calc.breakdown.minHelperShort": "Mindestbestellwert 10 €. Deine Teile kommen auf {parts}: Du kannst weitere Teile zum gleichen Preis hinzufügen, bis die 10 € erreicht sind.",
-  "calc.reassurance.review": "Ich prüfe deine Datei vor dem Druck. Nicht druckbar? Volle Rückerstattung.",
+  "calc.reassurance.review": "Ich prüfe deine Datei vor dem Druck. Wenn etwas nicht passt, schreibe ich dir zuerst und drucke nie ohne dein OK. Nicht druckbar? Volle Rückerstattung.",
   "calc.fulfillment.pickupAddress": "Abholung: {address}",
   "calc.fulfillment.free": "kostenlos",
   "calc.fulfillment.byAppointment": "nach Terminvereinbarung",

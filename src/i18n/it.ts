@@ -604,7 +604,7 @@ export const itTranslations: Record<string, string> = {
   "calc.breakdown.pieces": "Pezzi",
   "calc.breakdown.minHelper": "Il tuo ordine raggiunge il minimo di 10 €: puoi aggiungere pezzi fino a quella cifra senza costi aggiuntivi.",
   "calc.breakdown.minHelperShort": "Ordine minimo 10 €. I tuoi pezzi arrivano a {parts}: puoi aggiungere altri pezzi allo stesso prezzo fino a raggiungere 10 €.",
-  "calc.reassurance.review": "Controllo il tuo file prima della stampa. Se non è stampabile, rimborso completo.",
+  "calc.reassurance.review": "Controllo il tuo file prima della stampa. Se qualcosa non torna ti scrivo e non stampo senza il tuo OK. Se non è stampabile, rimborso completo.",
   "calc.fulfillment.pickupAddress": "Ritiro: {address}",
   "calc.fulfillment.free": "gratuito",
   "calc.fulfillment.byAppointment": "su appuntamento",
