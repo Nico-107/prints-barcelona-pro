@@ -805,6 +805,29 @@ if (!args.has("--seo")) {
   if (contentErrors.length) failed = true;
 }
 
+// ─── fix-polish §4.5 — exactly one <h1> per built HTML file ────────────────
+if (!args.has("--seo")) {
+  console.log("\n4.5 Exactly one <h1> per prerendered page …");
+  const h1Errors = [];
+  let scannedH1 = 0;
+  function walkH1(dir) {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      const st = statSync(p);
+      if (st.isDirectory()) { walkH1(p); continue; }
+      if (!p.endsWith(".html")) continue;
+      scannedH1++;
+      const html = readFileSync(p, "utf-8");
+      const n = (html.match(/<h1\b/gi) || []).length;
+      if (n !== 1) h1Errors.push(`${p.replace(DIST, "")}: expected 1 <h1>, got ${n}`);
+    }
+  }
+  walkH1(DIST);
+  console.log(`   scanned: ${scannedH1} HTML files, errors: ${h1Errors.length}`);
+  for (const e of h1Errors.slice(0, 50)) console.log(`   ✗ ${e}`);
+  if (h1Errors.length) failed = true;
+}
+
 // ─── 9.4 Split test ────────────────────────────────────────────────────────
 // Confirms the deterministic hash: 10,000 random visitor ids resolve to
 // B between 48% and 52%; same visitorId yields the same variant on every

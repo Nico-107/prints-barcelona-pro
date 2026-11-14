@@ -307,6 +307,8 @@ const IntlHubPage = ({ content }: Props) => {
         </div>
 
         {/* V2 hero — split-image, extends behind fixed header via built-in marginTop=-header-h */}
+        {/* fix-polish §4.5: h1Element="div" so only variant A's heading is a
+            real <h1> in the prerendered HTML. */}
         <div className="xp-home-v2-only">
           <DsHero
             variant="split-image"
@@ -318,6 +320,7 @@ const IntlHubPage = ({ content }: Props) => {
               </span>
             }
             h1={content.h1}
+            h1Element="div"
             paragraph={content.heroSubtitle ?? content.promise.split("\n\n")[0]}
             primaryButton={{
               label: <>{content.ctaLabel} <ArrowRight style={{ width: 20, height: 20 }} /></>,

@@ -519,6 +519,9 @@ const Index = () => {
         </div>
 
         {/* ── HERO V2 (B variant) ── */}
+        {/* fix-polish §4.5: variant B's heading renders as a role=heading
+            div so the prerendered HTML has exactly one real <h1> (variant
+            A's). Variant B still reads as level-1 for assistive tech. */}
         <div className="xp-home-v2-only">
           <DsHero
             variant="split-image"
@@ -528,6 +531,7 @@ const Index = () => {
               </span>
             }
             h1={v2H1}
+            h1Element="div"
             paragraph={t("home.hero.p")}
             mobileParagraph={t("home.v2.hero.p.mobile")}
             primaryButton={{
