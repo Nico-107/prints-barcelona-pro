@@ -173,7 +173,9 @@ const CatalogProduct = () => {
 
   return (
     <ProductTemplate lang={language} helmet={helmet}>
-      <div className="pb-20">
+      {/* fix-polish §4.2: top padding so the product hero doesn't sit
+          flush under the header. */}
+      <div className="pt-8 md:pt-14 pb-20">
         <div className="container px-4">
           <div className="max-w-4xl mx-auto">
             <section data-testid="page-hero" data-page-hero className="grid md:grid-cols-2 gap-10 items-start">

@@ -157,23 +157,10 @@ export function CheckoutConfigurator({
   const hasAnyOverrides = validFiles.some(f => isPartCustomized(f));
   const overrideCount = validFiles.filter(f => isPartCustomized(f)).length;
 
-  // Simple-mode qty target — the active part (scope) or first valid file
-  const simpleQtyFile = (() => {
-    if (activeFileId) return validFiles.find(f => f.id === activeFileId) ?? validFiles[0];
-    return validFiles[0];
-  })();
-  const simpleQty = simpleQtyFile?.qty ?? 1;
-
   // Ship-date labels for the Plazo pills (Simple mode)
   const now = new Date();
   const shipStd = formatShipDate(computeShipDate(now, "standard"), language);
   const shipExp = formatShipDate(computeShipDate(now, "express"), language);
-  const unitPriceStr = (() => {
-    if (!simpleQtyFile || simpleQty <= 1) return null;
-    const cents = costByFileId[simpleQtyFile.id];
-    if (!cents) return null;
-    return formatEUR((cents / simpleQty) / 100, language as Parameters<typeof formatEUR>[1]);
-  })();
 
   return (
     <div className="space-y-4" data-testid="checkout-configurator" data-mode={advancedMode ? "advanced" : "simple"}>
@@ -534,41 +521,13 @@ export function CheckoutConfigurator({
         </div>
       )}
 
-      {/* Simple mode: Cantidad + Plazo + Note link (conv-27 §bug 8) */}
+      {/* Simple mode: Note link (conv-27 §bug 8).
+          fix-polish §1.4: the duplicate "CANTIDAD" stepper used to live
+          here; it has been removed. Quantities live only in the parts
+          list (PartSummaryList), so single- and multi-part orders show
+          exactly one stepper per part. */}
       {!advancedMode && (
         <>
-          {/* Cantidad */}
-          {simpleQtyFile && onQtyChange && (
-            <div>
-              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("calc.simple.qty")}</p>
-              <div className="flex items-center gap-3">
-                <div
-                  className="inline-flex items-center h-10 rounded-[10px] border border-slate-200 bg-white overflow-hidden"
-                  data-testid="simple-qty-stepper"
-                >
-                  <button
-                    type="button"
-                    onClick={() => { onQtyChange(simpleQtyFile.id, simpleQty - 1); capture("part_settings_changed", { field: "qty", material: effMaterial }); }}
-                    disabled={simpleQty <= 1 || disabled}
-                    className="w-10 h-full flex items-center justify-center text-slate-700 hover:bg-slate-50 disabled:opacity-40"
-                    aria-label="−"
-                  >−</button>
-                  <span className="w-10 text-center text-sm font-medium tabular-nums select-none">{simpleQty}</span>
-                  <button
-                    type="button"
-                    onClick={() => { onQtyChange(simpleQtyFile.id, simpleQty + 1); capture("part_settings_changed", { field: "qty", material: effMaterial }); }}
-                    disabled={simpleQty >= 999 || disabled}
-                    className="w-10 h-full flex items-center justify-center text-slate-700 hover:bg-slate-50 disabled:opacity-40"
-                    aria-label="+"
-                  >+</button>
-                </div>
-                {unitPriceStr && (
-                  <span className="text-xs text-slate-500 tabular-nums">{unitPriceStr}{t("calc.simple.perUnit")}</span>
-                )}
-              </div>
-            </div>
-          )}
-
           {/* Note — collapsed by default. Conv 1.1: plazo (urgency) chips
               moved to Advanced; Simple mode defaults to "standard" so the
               user only sees 3D preview, material, qty, total and Buy. */}

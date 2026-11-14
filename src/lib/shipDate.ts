@@ -93,16 +93,21 @@ export function shipDateLine(
       default:   return short ? `Pickup ${formatted}` : `Ready for pickup on ${formatted}`;
     }
   }
-  // Shipping — never promise an arrival date; "+ envío" acknowledges the carrier handoff
+  // Shipping — never promise an arrival date; "+ envío" acknowledges the
+  // carrier handoff.
+  // fix-polish §1.6: the short form is used in exit-intent cards and the
+  // mobile sticky bar — BEFORE the order is placed — so past participles
+  // ("Enviado el", "Sent on", "Expédié le") read like something already
+  // happened. Switch the short form to future ("Sale el", "Ships on").
   switch (language) {
-    case "es": return short ? `Enviado el ${formatted}` : `Listo y enviado el ${formatted} + envío`;
-    case "ca": return short ? `Enviat el ${formatted}` : `Llest i enviat el ${formatted} + enviament`;
-    case "pt": return short ? `Enviado a ${formatted}` : `Pronto e enviado a ${formatted} + envio`;
-    case "fr": return short ? `Expédié le ${formatted}` : `Prêt et expédié le ${formatted} + livraison`;
+    case "es": return short ? `Sale el ${formatted}` : `Listo y enviado el ${formatted} + envío`;
+    case "ca": return short ? `Surt el ${formatted}` : `Llest i enviat el ${formatted} + enviament`;
+    case "pt": return short ? `Sai a ${formatted}` : `Pronto e enviado a ${formatted} + envio`;
+    case "fr": return short ? `Envoi le ${formatted}` : `Prêt et expédié le ${formatted} + livraison`;
     case "de": return short ? `Versand ${formatted}` : `Fertig und versendet am ${formatted} + Versand`;
-    case "nl": return short ? `Verzonden op ${formatted}` : `Klaar en verzonden op ${formatted} + verzending`;
-    case "it": return short ? `Spedito il ${formatted}` : `Pronto e spedito il ${formatted} + spedizione`;
-    default:   return short ? `Shipped ${formatted}` : `Ready and shipped ${formatted} + delivery`;
+    case "nl": return short ? `Verzending op ${formatted}` : `Klaar en verzonden op ${formatted} + verzending`;
+    case "it": return short ? `Spedizione il ${formatted}` : `Pronto e spedito il ${formatted} + spedizione`;
+    default:   return short ? `Ships ${formatted}` : `Ready and shipped ${formatted} + delivery`;
   }
 }
 
