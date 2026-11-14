@@ -1042,9 +1042,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setFulfillmentAttempted(false);
   }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
 
-  // Pre-select fulfillment: shipping everywhere, pickup on pages that offer it (STEP 2.1).
+  // fix-polish §1.7 — owner decision: delivery is NOT auto-selected for a
+  // fresh visitor. Pickup-first referral pages (refPickupAvailable, e.g.
+  // the local Barcelona pickup landing) keep their pickup pre-select
+  // because the page topic itself promises pickup. Everyone else sees
+  // null: the user picks pickup or shipping themselves, and `buy_blocked`
+  // already enforces it via a scroll-to + focus on the fulfilment picker.
   useEffect(() => {
-    setFulfillment(refPickupAvailable ? "pickup" : "shipping");
+    setFulfillment(refPickupAvailable ? "pickup" : null);
   }, [language, refCity, refPickupAvailable]);
 
   // Detect Stripe return URLs on page load
