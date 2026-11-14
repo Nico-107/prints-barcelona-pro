@@ -132,6 +132,23 @@ const IntlHubPage = ({ content }: Props) => {
     const v = document.documentElement.getAttribute("data-xp-site-variant");
     const dropClass = v === "B" ? "xp-home-v1-only" : "xp-home-v2-only";
     document.querySelectorAll("." + dropClass).forEach((el) => el.remove());
+    // fix-polish §4.5: promote variant B's div-h1 to a real <h1> post-
+    // hydrate so the live DOM has exactly one h1 regardless of variant.
+    if (v === "B") {
+      const hero = document.querySelector('[data-testid="page-hero"]');
+      if (hero) {
+        const divH1 = hero.querySelector('div[role="heading"][aria-level="1"]');
+        if (divH1) {
+          const real = document.createElement("h1");
+          for (const attr of Array.from(divH1.attributes)) {
+            if (attr.name === "role" || attr.name === "aria-level") continue;
+            real.setAttribute(attr.name, attr.value);
+          }
+          while (divH1.firstChild) real.appendChild(divH1.firstChild);
+          divH1.replaceWith(real);
+        }
+      }
+    }
   }, []);
 
   const hubReviews = REVIEWS.slice(0, 3).map((r) => {
