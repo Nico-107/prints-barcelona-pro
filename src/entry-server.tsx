@@ -25,7 +25,7 @@ import StudentsBcn from "./pages/StudentsBcn";
 import Blog from "./pages/Blog";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
-import InternationalServicePage from "./pages/InternationalServicePage";
+import { EN_HUB } from "@/data/intlContent_en";
 import CityDeliveryPage from "./pages/CityDeliveryPage";
 import DesignRequest from "./pages/DesignRequest";
 import Catalog from "./pages/Catalog";
@@ -74,7 +74,7 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/ca" element={<Index />} />
-                <Route path="/3d-printing-service" element={<InternationalServicePage />} />
+                <Route path="/3d-printing-service" element={<IntlHubPage content={EN_HUB} />} />
                 <Route path="/track" element={<Track />} />
                 <Route path="/makers" element={<Makers />} />
                 <Route path="/maker-guide" element={<MakerGuide />} />

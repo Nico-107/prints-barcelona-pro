@@ -111,6 +111,31 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     { to: "/it/preparare-file-stampa-3d", label: "Preparare il file" },
     { to: "/it/materiali-stampa-3d", label: "Guida ai materiali" },
   ],
+
+  answerBlock: {
+    heading: "In breve",
+    facts: [
+      "Da 10 € a pezzo; ordine minimo 10 €, nessun costo di setup.",
+      "Spedizione tracciata in Italia a tariffa piatta 5,90 €.",
+      "Tempi tipici: 3–5 giorni lavorativi dall'approvazione.",
+      "Formati accettati: STL, OBJ, STEP, 3MF.",
+      "Pagamento con carta, Apple Pay o Google Pay.",
+      "Nessuna dogana: Spagna e Italia sono entrambe nell'UE.",
+    ],
+  },
+  costTable: {
+    caption: "Esempi di costo consegnato in Italia (PLA, ×1 pezzo, IVA inclusa).",
+    headers: { part: "Pezzo", shipping: "Spedizione", total: "Totale" },
+    rows: [
+      { label: "Piccolo (≈ 10 g)",  partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Medio (≈ 50 g)",    partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
+      { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+    ],
+  },
+  shippingHeading: "Spedizione e dogana",
+  shippingText: `Il pacco parte da Barcellona con un corriere espresso europeo e arriva solitamente in 3–5 giorni lavorativi in Italia. Il costo è una tariffa piatta di 5,90 € indipendentemente dal peso.
+
+Non ci sono procedure doganali né dazi aggiuntivi: Spagna e Italia sono entrambe nell'Unione Europea. L'IVA spagnola è già inclusa nel prezzo che vedi a checkout. Ricevi il numero di tracciatura non appena il corriere ritira il pacco.`,
 };
 
 // ─── IT City: Milano ─────────────────────────────────────────
@@ -651,6 +676,31 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     { to: "/pt/preparar-ficheiro-impressao-3d", label: "Preparar o ficheiro" },
     { to: "/pt/materiais-impressao-3d", label: "Guia de materiais" },
   ],
+
+  answerBlock: {
+    heading: "Em resumo",
+    facts: [
+      "A partir de 10 € por peça; encomenda mínima 10 €, sem custo de configuração.",
+      "Envio rastreado para Portugal a tarifa fixa de 5,90 €.",
+      "Prazos típicos: 2–4 dias úteis após aprovação.",
+      "Formatos aceites: STL, OBJ, STEP, 3MF.",
+      "Pagamento com cartão, Apple Pay ou Google Pay.",
+      "Sem alfândega: Espanha e Portugal estão ambos na UE.",
+    ],
+  },
+  costTable: {
+    caption: "Exemplos de custo entregue em Portugal (PLA, ×1 peça, IVA incluído).",
+    headers: { part: "Peça", shipping: "Envio", total: "Total" },
+    rows: [
+      { label: "Pequena (≈ 10 g)", partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Média (≈ 50 g)",   partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
+      { label: "Grande (≈ 200 g)", partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+    ],
+  },
+  shippingHeading: "Envio e alfândega",
+  shippingText: `A encomenda parte de Barcelona com transportador expresso europeu e chega habitualmente em 2–4 dias úteis a Portugal. O custo é uma tarifa fixa de 5,90 € independentemente do peso.
+
+Não há procedimentos aduaneiros nem direitos adicionais: Espanha e Portugal fazem parte da União Europeia. O IVA espanhol já está incluído no preço que vê no checkout. Recebe o número de rastreio assim que o transportador recolhe o pacote.`,
 };
 
 // ─── PT City: Lisboa ─────────────────────────────────────────

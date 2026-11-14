@@ -33,7 +33,8 @@ const BlogRecambiosBcn = lazy(() => import("./pages/BlogRecambiosBcn"));
 const BlogPrototiposBcn = lazy(() => import("./pages/BlogPrototiposBcn"));
 const StudentsBcn = lazy(() => import("./pages/StudentsBcn"));
 const Blog = lazy(() => import("./pages/Blog"));
-const InternationalServicePage = lazy(() => import("./pages/InternationalServicePage"));
+// /3d-printing-service now renders IntlHubPage with EN_HUB — see section 6.4.
+import { EN_HUB } from "@/data/intlContent_en";
 const CityDeliveryPage = lazy(() => import("./pages/CityDeliveryPage"));
 const Catalog = lazy(() => import("./pages/Catalog"));
 const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
@@ -250,7 +251,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/ca" element={<Index />} />
-              <Route path="/3d-printing-service" element={<InternationalServicePage />} />
+              <Route path="/3d-printing-service" element={<IntlHubPage content={EN_HUB} />} />
               <Route path="/track" element={<Track />} />
               {/* Conv 4.1 + 4.6: internal tooling, noindex. */}
               <Route path="/internal" element={<Internal />} />
