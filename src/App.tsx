@@ -181,6 +181,53 @@ function AiReferralTracker() {
   return null;
 }
 
+/**
+ * Conv 4.2 — fire `order_paid` on the client side when the visitor
+ * returns from Stripe with ?checkout=success. De-duplicated by order id
+ * using localStorage so a refresh never double-counts. The server webhook
+ * fires its own authoritative `order_paid` from stripeWebhookHelpers; both
+ * carry the same order_id so PostHog can de-dupe at query time too.
+ */
+function StripeReturnTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const status = params.get("checkout");
+    if (!status) return;
+    const orderId = params.get("order_id") ?? params.get("session_id") ?? null;
+    if (status === "cancelled") {
+      capture("instant_checkout_cancelled", {});
+      return;
+    }
+    if (status !== "success") return;
+    const dedupeKey = `dim3d-order-paid-${orderId ?? location.pathname}`;
+    try {
+      if (localStorage.getItem(dedupeKey)) return;
+      localStorage.setItem(dedupeKey, String(Date.now()));
+    } catch { /* ignore */ }
+    const valueParam = params.get("value_eur") ?? params.get("amount") ?? null;
+    const value = valueParam ? parseFloat(valueParam) : undefined;
+    const fulfillment = (params.get("fulfillment") as "pickup" | "shipping" | null) ?? undefined;
+    const shippingParam = params.get("shipping_eur");
+    const itemCountParam = params.get("item_count");
+    capture("order_paid", {
+      channel: "stripe",
+      order_id: orderId ?? undefined,
+      value_eur: Number.isFinite(value) ? value : undefined,
+      currency: "EUR",
+      fulfillment: fulfillment ?? undefined,
+      shipping_eur: shippingParam ? parseFloat(shippingParam) : undefined,
+      item_count: itemCountParam ? parseInt(itemCountParam, 10) : undefined,
+      material: params.get("material") ?? undefined,
+      price_bucket: params.get("price_bucket") ?? undefined,
+      country: params.get("country") ?? undefined,
+      language: params.get("language") ?? undefined,
+      source: params.get("utm_source") ?? undefined,
+    });
+  }, [location.pathname, location.search]);
+  return null;
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -193,6 +240,7 @@ const App = () => (
           <PostHogPageView />
           <SiteVariantMirror />
           <AiReferralTracker />
+          <StripeReturnTracker />
           {/* LanguageNavigationSync must never be removed — it re-syncs the language context
               on every client-side navigation so language matches the URL without a full reload. */}
           <LanguageNavigationSync />

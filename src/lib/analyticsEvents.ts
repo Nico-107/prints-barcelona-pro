@@ -406,6 +406,31 @@ export interface EventMap {
   exit_shortcut: ExitShortcutProps;
   order_paid: OrderPaidProps;
   quote_emailed: QuoteEmailedProps;
+  // Conv 4.4: lead events — quote_submitted (existing) also fires
+  // review_requested so the funnel split by source can compare leads
+  // with instant orders. photo_request_submitted is fired from the
+  // mobile photo flow (section 3.2).
+  review_requested: {
+    quote_id: string;
+    material?: string;
+    urgency?: string;
+    file_count?: number;
+    piece_count?: number;
+    total_units?: number;
+    value_estimate_mid?: number;
+    currency?: string;
+    has_email?: boolean;
+    has_phone?: boolean;
+    source_page?: string;
+  };
+  photo_request_submitted: {
+    has_email?: boolean;
+    has_phone?: boolean;
+    source_page?: string;
+    note_length?: number;
+    attachments?: number;
+    lang?: string;
+  };
   modal_time_open: ModalTimeOpenProps;
 
   // Legacy / page-level events already used across the site
