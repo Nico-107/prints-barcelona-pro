@@ -854,6 +854,13 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
   </url>
   <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-ontwerp-laten-maken</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-ontwerp-laten-maken"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
+  </url>
+  <url>
     <loc>https://www.dimension3dprints.com/it/progetta-pezzo-3d</loc>
     <lastmod>2026-11-14</lastmod>
     <priority>0.8</priority>
