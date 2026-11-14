@@ -2861,7 +2861,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                               setMobileModalOpen(true);
                               sonnerToast.dismiss(toastId);
                             }}
-                            className="mt-2 w-full rounded-md bg-accent text-accent-foreground text-xs font-medium px-2 py-1"
+                            className="mt-2 w-full rounded-md bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 shadow-sm hover:bg-cta/90"
                           >
                             {backLabel}
                           </button>
