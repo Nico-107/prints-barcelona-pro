@@ -701,7 +701,7 @@ export const caTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Peça",
   "calc.breakdown.pieces": "Peces",
   "calc.breakdown.minHelper": "La teva comanda arriba al mínim de 10 €: pots afegir peces fins a aquest import sense pagar més.",
-  "calc.breakdown.minHelperShort": "Comanda mínima 10 € · afegeix més peces des de +1 €",
+  "calc.breakdown.minHelperShort": "Comanda mínima 10 €. Les teves peces sumen {parts}: pots afegir més peces pel mateix preu fins arribar a 10 €.",
   "calc.reassurance.review": "Reviso el teu arxiu abans d'imprimir. Si no es pot imprimir, reembossament complet.",
   "calc.fulfillment.pickupAddress": "Recollida: {address}",
   "calc.fulfillment.free": "gratuïta",

@@ -603,7 +603,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Peça",
   "calc.breakdown.pieces": "Peças",
   "calc.breakdown.minHelper": "A tua encomenda atinge o mínimo de 10 €: podes adicionar peças até esse valor sem custo adicional.",
-  "calc.breakdown.minHelperShort": "Encomenda mínima 10 € · mais peças desde +1 €",
+  "calc.breakdown.minHelperShort": "Encomenda mínima 10 €. As tuas peças somam {parts}: podes adicionar mais peças pelo mesmo preço até chegar a 10 €.",
   "calc.reassurance.review": "Verifico o teu ficheiro antes de imprimir. Se não for imprimível, reembolso total.",
   "calc.fulfillment.pickupAddress": "Levantamento: {address}",
   "calc.fulfillment.free": "gratuito",

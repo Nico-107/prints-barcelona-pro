@@ -603,7 +603,7 @@ export const deTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Teil",
   "calc.breakdown.pieces": "Teile",
   "calc.breakdown.minHelper": "Deine Bestellung erreicht das 10 €-Minimum: Du kannst Teile bis zu diesem Betrag ohne Aufpreis hinzufügen.",
-  "calc.breakdown.minHelperShort": "Mindestbestellwert 10 € · weitere Teile ab +1 €",
+  "calc.breakdown.minHelperShort": "Mindestbestellwert 10 €. Deine Teile kommen auf {parts}: Du kannst weitere Teile zum gleichen Preis hinzufügen, bis die 10 € erreicht sind.",
   "calc.reassurance.review": "Ich prüfe deine Datei vor dem Druck. Nicht druckbar? Volle Rückerstattung.",
   "calc.fulfillment.pickupAddress": "Abholung: {address}",
   "calc.fulfillment.free": "kostenlos",

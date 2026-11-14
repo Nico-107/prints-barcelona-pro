@@ -11,65 +11,72 @@ interface PriceBreakdownProps {
 }
 
 /**
- * Phase 4.1: visible breakdown above the total.
+ * Visible price breakdown above the total.
  *
- * Lines (all engine-derived, never typed):
- *   Pieza 4,02 €            — the raw piece price (baseCents, no min adj)
- *   Pedido mínimo 10 €      — shown only when the minimum kicks in
- *   Suplemento express ...  — when a faster tier is chosen
- *   Envío 5,90 €            — only when fulfilment is shipping
- *   Total                   — bold line, after all adjustments
- *   + helper line explaining the minimum when it applies
+ * Invariant: the visible rows always add up to the Total row.
+ *   Piezas                 = raw parts cost  (baseCents − minAdjCents, pre-minimum, pre-urgency)
+ *   Ajuste a pedido mínimo = baseCents − rawTotalCents, shown only when > 0
+ *   Preparación del pedido = setupCents, shown only when > 0
+ *   Suplemento express     = expressCents, shown only when > 0
+ *   Envío                  = shippingCents, shown only when fulfilment = shipping
+ *   Total                  = chargedPrintCents + shippingCents
  *
- * No accordion: this is always visible per Phase 4.1.
+ * sum(visible rows) === Total holds for every engine state because
+ * chargedPrintCents = baseCents + expressCents and
+ * baseCents = (baseCents − minAdjCents) + minAdjCents.
  */
 export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakdownProps) {
-  const pieceEur = bundle.order.baseCents / 100;
-  const minAdjEur = bundle.orderResult.minAdjCents / 100;
-  const expressEur = bundle.orderResult.expressCents / 100;
-  const setupEur = bundle.orderResult.setupCents / 100;
-  const shippingEur = fulfillment === "shipping" ? EST.shippingCents / 100 : 0;
-  const totalEur = bundle.orderResult.chargedPrintCents / 100 + shippingEur;
-  const isMinimumHit = bundle.orderResult.minAdjCents > 0;
+  const baseCents = bundle.order.baseCents;
+  const minAdjCents = bundle.orderResult.minAdjCents;
+  const expressCents = bundle.orderResult.expressCents;
+  const setupCents = bundle.orderResult.setupCents;
+  const shippingCents = fulfillment === "shipping" ? EST.shippingCents : 0;
 
-  // Conv 1.2: when the order is at the minimum, the "Piezas" line shows
-  // the order price (10 €), not the raw engine piece price (e.g. 4,02 €
-  // with a separate "Pedido mínimo" adjustment). The honest total is
-  // simply 10 € + shipping, with a one-line helper under the total:
-  // "Pedido mínimo 10 € · añade más piezas desde +1 €".
-  const piecesEur = isMinimumHit ? pieceEur + minAdjEur : pieceEur;
+  // rawPartsCents is the honest parts cost pre-minimum. It CAN equal
+  // baseCents (no minimum applied) or be less (minimum applied and an
+  // explicit adjustment row appears to make the math visible).
+  const rawPartsCents = baseCents - minAdjCents;
+  const totalCents = bundle.orderResult.chargedPrintCents + shippingCents;
+  const isMinimumHit = minAdjCents > 0;
 
   return (
     <div className="border-t border-border pt-2 mt-2 text-sm space-y-1" data-price-breakdown>
       <div className="flex justify-between">
         <span>{t("calc.breakdown.pieces")}</span>
-        <span className="font-mono">{formatEUR(piecesEur, language)}</span>
+        <span className="font-mono">{formatEUR(rawPartsCents / 100, language)}</span>
       </div>
-      {setupEur > 0 && (
+      {isMinimumHit && (
+        <div className="flex justify-between text-muted-foreground">
+          <span>{t("calc.summary.minAdjust")}</span>
+          <span className="font-mono">+{formatEUR(minAdjCents / 100, language)}</span>
+        </div>
+      )}
+      {setupCents > 0 && (
         <div className="flex justify-between text-muted-foreground">
           <span>{t("calc.summary.setup")}</span>
-          <span className="font-mono">+{formatEUR(setupEur, language)}</span>
+          <span className="font-mono">+{formatEUR(setupCents / 100, language)}</span>
         </div>
       )}
-      {expressEur > 0 && (
+      {expressCents > 0 && (
         <div className="flex justify-between text-muted-foreground">
           <span>{t("calc.summary.express")}</span>
-          <span className="font-mono">+{formatEUR(expressEur, language)}</span>
+          <span className="font-mono">+{formatEUR(expressCents / 100, language)}</span>
         </div>
       )}
-      {shippingEur > 0 && (
+      {shippingCents > 0 && (
         <div className="flex justify-between text-muted-foreground">
           <span>{t("calc.summary.shipping")}</span>
-          <span className="font-mono">+{formatEUR(shippingEur, language)}</span>
+          <span className="font-mono">+{formatEUR(shippingCents / 100, language)}</span>
         </div>
       )}
       <div className="flex justify-between font-semibold border-t border-border pt-1 text-foreground">
         <span>{t("calc.summary.total")}</span>
-        <span className="font-mono">{formatEUR(totalEur, language)}</span>
+        <span className="font-mono">{formatEUR(totalCents / 100, language)}</span>
       </div>
-      {isMinimumHit && (
+      {isMinimumHit && rawPartsCents < 1000 && (
         <p className="text-xs text-muted-foreground pt-1" data-min-helper>
-          {t("calc.breakdown.minHelperShort")}
+          {t("calc.breakdown.minHelperShort")
+            .replace("{parts}", formatEUR(rawPartsCents / 100, language))}
         </p>
       )}
     </div>

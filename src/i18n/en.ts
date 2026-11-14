@@ -701,7 +701,7 @@ export const enTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Part",
   "calc.breakdown.pieces": "Parts",
   "calc.breakdown.minHelper": "Your order reaches the 10 € minimum: you can add parts up to that amount at no extra cost.",
-  "calc.breakdown.minHelperShort": "10 € minimum order · add more parts from +1 €",
+  "calc.breakdown.minHelperShort": "10 € minimum order. Your parts come to {parts}: you can add more parts for the same price up to 10 €.",
   "calc.reassurance.review": "I review your file before printing. If it can't be printed, full refund.",
   "calc.fulfillment.pickupAddress": "Pickup: {address}",
   "calc.fulfillment.free": "free",

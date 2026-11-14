@@ -701,7 +701,7 @@ export const esTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Pieza",
   "calc.breakdown.pieces": "Piezas",
   "calc.breakdown.minHelper": "Tu pedido llega al mínimo de 10 €: puedes añadir piezas hasta ese importe sin pagar más.",
-  "calc.breakdown.minHelperShort": "Pedido mínimo 10 € · añade más piezas desde +1 €",
+  "calc.breakdown.minHelperShort": "Pedido mínimo 10 €. Tus piezas suman {parts}: puedes añadir más piezas por el mismo precio hasta llegar a 10 €.",
   "calc.reassurance.review": "Reviso tu archivo antes de imprimir. Si no se puede imprimir, reembolso completo.",
   "calc.fulfillment.pickupAddress": "Recogida: {address}",
   "calc.fulfillment.free": "gratis",

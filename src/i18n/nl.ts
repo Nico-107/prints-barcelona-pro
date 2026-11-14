@@ -603,7 +603,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.breakdown.piece": "Onderdeel",
   "calc.breakdown.pieces": "Onderdelen",
   "calc.breakdown.minHelper": "Je bestelling bereikt het minimum van 10 €: je kunt tot dat bedrag extra onderdelen toevoegen zonder meerprijs.",
-  "calc.breakdown.minHelperShort": "Minimum bestelling 10 € · extra onderdelen vanaf +1 €",
+  "calc.breakdown.minHelperShort": "Minimum bestelling 10 €. Je onderdelen komen op {parts}: je kunt meer onderdelen voor dezelfde prijs toevoegen tot aan 10 €.",
   "calc.reassurance.review": "Ik controleer je bestand voordat ik print. Niet printbaar? Volledige terugbetaling.",
   "calc.fulfillment.pickupAddress": "Afhalen: {address}",
   "calc.fulfillment.free": "gratis",
