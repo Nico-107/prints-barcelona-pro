@@ -17,14 +17,49 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, PAGES_BY_SLUG, slugForLang } from "@/seo/registry";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { cn } from "@/lib/utils";
-import { useVariant } from "@/lib/useVariant";
+import { useVariant, type SiteVariant } from "@/lib/useVariant";
 
 const XP_LANGS = ["es", "en", "ca"];
 
-const Header = () => {
+interface HeaderProps {
+  /**
+   * If set, this Header locks to the given variant and ignores useVariant().
+   * SiteShell uses this to render BOTH headers in the HTML so the correct one
+   * is visible before paint (CSS-switched by data-xp-site-variant on <html>),
+   * eliminating the A→B flash on non-home pages.
+   */
+  forcedVariant?: SiteVariant;
+}
+
+/**
+ * Wrapper that eliminates the A→B hydration flash on variant B.
+ *
+ * When no `forcedVariant` is passed, we render BOTH header markups in the
+ * prerendered HTML and let CSS keyed on html[data-xp-site-variant] (set
+ * pre-paint) show only the matching one. No React re-render on hydration
+ * swaps the DOM, so B visitors never see A's header for a frame.
+ */
+const Header = (props: HeaderProps = {}) => {
+  if (props.forcedVariant) return <HeaderInner forcedVariant={props.forcedVariant} />;
+  return (
+    <>
+      <div data-xp-slot="site_variant" data-xp-v="A" data-testid="header-slot-A" style={{ display: 'contents' }}>
+        <HeaderInner forcedVariant="A" />
+      </div>
+      <div data-xp-slot="site_variant" data-xp-v="B" data-testid="header-slot-B" style={{ display: 'contents' }}>
+        <HeaderInner forcedVariant="B" />
+      </div>
+    </>
+  );
+};
+
+export default Header;
+
+const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const siteVariant = useVariant();
+  const hookVariant = useVariant();
+  const siteVariant = forcedVariant ?? hookVariant;
   // Dark theme applies site-wide in variant B (Phase 1.1). The old home_v2
   // experiment has been merged into site_variant — one switch for B.
   const [isOverV2Hero, setIsOverV2Hero] = useState(siteVariant === "B");
@@ -709,5 +744,3 @@ const Header = () => {
     </>
   );
 };
-
-export default Header;

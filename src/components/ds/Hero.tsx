@@ -90,6 +90,7 @@ function CenteredHero({
           </h1>
 
           <p
+            data-testid="hero-subtitle"
             style={{
               margin: 0,
               fontSize: 'clamp(16.5px, 2vw, 21px)',
@@ -263,8 +264,8 @@ function SplitImageHero({
       style={{
         background: '#000000',
         color: '#FFFFFF',
-        marginTop: 'calc(-1 * var(--header-h))',
-        paddingTop: 'var(--header-h)',
+        marginTop: 'calc(-1 * (var(--header-h) + env(safe-area-inset-top)))',
+        paddingTop: 'calc(var(--header-h) + env(safe-area-inset-top))',
         contain: 'layout',
       }}
     >
@@ -289,6 +290,7 @@ function SplitImageHero({
         >
           {starLine && (
             <div
+              data-testid="hero-eyebrow-v2"
               className="ds-hero-split-eyebrow"
               style={{
                 fontFamily: "'JetBrains Mono', monospace",

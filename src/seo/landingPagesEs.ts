@@ -59,7 +59,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Prototipos 3D en Barcelona | Prototipado Rápido FDM",
     metaDescription: "Prototipado rápido en Barcelona para startups, ingenieros y estudiantes. Prototipos funcionales, validación de producto, tiradas piloto. Plazos rápidos.",
     h1: "Prototipos 3D en Barcelona",
-    intro: "Dimension3D es el aliado en Barcelona para cualquiera que esté iterando sobre un producto físico — startups validando su primer hardware, ingenieros freelance, diseñadores industriales, estudiantes universitarios e inventores. Imprimimos prototipos funcionales que puedes probar de verdad, no solo enseñar.",
+    intro: "Imprimimos prototipos funcionales en Barcelona en 24–72 h: piezas que puedes probar de verdad, no simples maquetas de presentación. Trabajamos con startups validando hardware, ingenieros freelance, diseñadores industriales, estudiantes universitarios e inventores.",
     sections: [
       {
         heading: "Prototipado rápido para no parar tu proyecto",

@@ -15,50 +15,50 @@ const COPY: Record<Lang, {
   noSurcharge: string;
 }> = {
   es: {
-    heading: "Tiers de velocidad",
-    tier: "Tier", ready: "Listo el", surcharge: "Recargo",
+    heading: "Plazos de entrega",
+    tier: "Plazo", ready: "Listo el", surcharge: "Recargo",
     std: "Estándar", exp: "Express", urg: "Urgente",
     noSurcharge: "sin recargo",
   },
   ca: {
-    heading: "Nivells de velocitat",
-    tier: "Nivell", ready: "Llest el", surcharge: "Recàrrec",
+    heading: "Terminis d'entrega",
+    tier: "Termini", ready: "Llest el", surcharge: "Recàrrec",
     std: "Estàndard", exp: "Express", urg: "Urgent",
     noSurcharge: "sense recàrrec",
   },
   en: {
-    heading: "Speed tiers",
+    heading: "Delivery times",
     tier: "Tier", ready: "Ready", surcharge: "Surcharge",
     std: "Standard", exp: "Express", urg: "Urgent",
     noSurcharge: "no surcharge",
   },
   de: {
-    heading: "Geschwindigkeits-Tiers",
-    tier: "Tier", ready: "Fertig am", surcharge: "Aufschlag",
+    heading: "Lieferzeiten",
+    tier: "Stufe", ready: "Fertig am", surcharge: "Aufschlag",
     std: "Standard", exp: "Express", urg: "Dringend",
     noSurcharge: "ohne Aufschlag",
   },
   fr: {
-    heading: "Tiers de vitesse",
-    tier: "Tier", ready: "Prêt le", surcharge: "Supplément",
+    heading: "Délais de livraison",
+    tier: "Niveau", ready: "Prêt le", surcharge: "Supplément",
     std: "Standard", exp: "Express", urg: "Urgent",
     noSurcharge: "sans supplément",
   },
   nl: {
-    heading: "Snelheid-tiers",
-    tier: "Tier", ready: "Klaar op", surcharge: "Toeslag",
+    heading: "Levertijden",
+    tier: "Niveau", ready: "Klaar op", surcharge: "Toeslag",
     std: "Standaard", exp: "Express", urg: "Urgent",
     noSurcharge: "zonder toeslag",
   },
   it: {
-    heading: "Tier di velocità",
-    tier: "Tier", ready: "Pronto il", surcharge: "Sovrapprezzo",
+    heading: "Tempi di consegna",
+    tier: "Livello", ready: "Pronto il", surcharge: "Sovrapprezzo",
     std: "Standard", exp: "Express", urg: "Urgente",
     noSurcharge: "senza sovrapprezzo",
   },
   pt: {
-    heading: "Tiers de velocidade",
-    tier: "Tier", ready: "Pronto a", surcharge: "Recargo",
+    heading: "Prazos de entrega",
+    tier: "Prazo", ready: "Pronto a", surcharge: "Recargo",
     std: "Padrão", exp: "Express", urg: "Urgente",
     noSurcharge: "sem recargo",
   },
@@ -78,7 +78,7 @@ export default function SpeedTiers({ lang }: { lang: Lang }) {
     return (
       <section data-testid="speed-tiers" data-page-section="speed-tiers" className="py-10 md:py-14 bg-white">
         <div className="container max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">{copy.heading}</h2>
+          <h2 data-testid="speed-tiers-heading" className="text-2xl md:text-3xl font-bold text-foreground mb-5">{copy.heading}</h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border border-border rounded-lg overflow-hidden">
               <thead className="bg-secondary/40">
@@ -109,7 +109,7 @@ export default function SpeedTiers({ lang }: { lang: Lang }) {
   return (
     <section data-testid="speed-tiers" data-page-section="speed-tiers" className="py-10 md:py-14 bg-white">
       <div className="container max-w-3xl mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-5">{copy.heading}</h2>
+        <h2 data-testid="speed-tiers-heading" className="text-2xl md:text-3xl font-bold text-foreground mb-5">{copy.heading}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm border border-border rounded-lg overflow-hidden">
             <thead className="bg-secondary/40">
