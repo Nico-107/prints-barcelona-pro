@@ -253,11 +253,13 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
       label: groupLabel(guidesGroup),
       items: guidesGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
     },
-    {
+    // fix-polish §3: the Popular menu is Spanish-only (static items whose
+    // target pages exist only in Spanish). Hide on intl locales.
+    ...((isEs || isCa || language === "en") ? [{
       key: "popular",
       label: groupLabel(popularGroup),
-      items: popularGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
-    },
+      items: popularGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" as const })),
+    }] : []),
     {
       key: "blog",
       label: blogGroupLabel,
@@ -349,7 +351,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             {isOverV2Hero && (
               <nav className="hidden lg:flex items-center gap-4 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15 }}>
                 {(() => {
-                  const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+                  const businessHref = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
                   return (<>
                     <button type="button" onClick={() => scrollToSection('precios')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
                     <button type="button" onClick={() => scrollToSection('maquina')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
@@ -415,7 +417,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                 </button>
               ))}
               {(() => {
-                const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+                const businessHref = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
                 return (
                   <Link
                     to={businessHref}
@@ -435,7 +437,8 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                   fits in 1024/1228 across all 8 languages (German "Bestellung
                   verfolgen" + "Sofortpreis" used to truncate at 1228). They
                   live in the Servicios / Resources dropdowns at lg widths. */}
-              {(() => {
+              {(isEs || isCa || language === "en") && (() => {
+                // fix-polish §3: /catalogo is Spanish-only — hide on intl.
                 const active = isActivePath("/catalogo");
                 return (
                   <Link
@@ -633,7 +636,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
 
             {/* For Business */}
             {(() => {
-              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+              const businessHref = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
               return (
                 <Link
                   to={businessHref}
@@ -658,6 +661,8 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
               </button>
             ))}
 
+            {/* fix-polish §3: /catalogo is Spanish-only — hide on intl. */}
+            {(isEs || isCa || language === "en") && (
             <Link
               to="/catalogo"
               onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" }); }}
@@ -668,6 +673,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             >
               {t("nav.catalog")}
             </Link>
+            )}
 
             {(() => {
               const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";

@@ -805,6 +805,55 @@ if (!args.has("--seo")) {
   if (contentErrors.length) failed = true;
 }
 
+// ─── fix-polish §3 — intl pages must not link to Spanish-slug URLs ────────
+if (!args.has("--seo")) {
+  console.log("\n3 Intl header/footer links point to in-language or English pages …");
+  // A Spanish-only slug lives at the root (starts with /) and never under
+  // /ca, /de, /fr, /nl, /it, /pt or /3d-… (the English-service naming).
+  // We flag any link inside <header> or <footer> on a non-es/ca page whose
+  // href starts with an es-only slug prefix.
+  const ES_SLUGS = [
+    "/impresion-3d-", "/piezas-", "/prototipos-", "/prototipado-", "/recambios-",
+    "/precio-impresion-", "/tiradas-cortas-", "/catalogo", "/disena-tu-pieza-3d",
+    "/sobre-nosotros", "/impresion-pla-", "/impresion-petg-", "/impresion-tpu-",
+    "/miniaturas-", "/mejor-servicio-",
+  ];
+  const intlErrors = [];
+  let scannedIntl = 0;
+  function walkIntl(dir) {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      const st = statSync(p);
+      if (st.isDirectory()) { walkIntl(p); continue; }
+      if (!p.endsWith(".html")) continue;
+      const route = p.replace(DIST, "").replace(/\/index\.html$/, "").replace(/\.html$/, "");
+      // Only check the non-es/ca intl pages.
+      if (!/^\/(de|fr|nl|it|pt)\//.test(route)) continue;
+      scannedIntl++;
+      const html = readFileSync(p, "utf-8");
+      const headerMatch = html.match(/<header\b[\s\S]*?<\/header>/i);
+      const footerMatch = html.match(/<footer\b[\s\S]*?<\/footer>/i);
+      const slabs = [headerMatch?.[0], footerMatch?.[0]].filter(Boolean);
+      for (const slab of slabs) {
+        for (const m of slab.matchAll(/href="([^"]+)"/g)) {
+          const href = m[1];
+          if (!href.startsWith("/")) continue;
+          for (const bad of ES_SLUGS) {
+            if (href.startsWith(bad)) {
+              intlErrors.push(`${p.replace(DIST, "")}: header/footer links to es-slug ${href}`);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  walkIntl(DIST);
+  console.log(`   scanned: ${scannedIntl} intl HTML files, errors: ${intlErrors.length}`);
+  for (const e of intlErrors.slice(0, 50)) console.log(`   ✗ ${e}`);
+  if (intlErrors.length) failed = true;
+}
+
 // ─── fix-polish §4.1 — no hero paragraph ends with "..." or "…" ───────────
 if (!args.has("--seo")) {
   console.log("\n4.1 Hero subtitles are not truncated …");
