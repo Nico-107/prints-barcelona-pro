@@ -460,7 +460,7 @@ export const frTranslations: Record<string, string> = {
 
   // File Checker
   "checker.meta.title": "Vérificateur STL Gratuit — Fichier 3D Prêt ?",
-  "checker.meta.description": "Vérificateur STL gratuit dans le navigateur. Dimensions, poids PLA estimé et analyse des surplombs en quelques secondes — sans inscription, sans envoi au serveur.",
+  "checker.meta.description": "Vérificateur STL gratuit dans le navigateur. Dimensions, poids PLA estimé et surplombs en quelques secondes — sans inscription.",
   "checker.badge": "Outil gratuit · Sans inscription",
   "checker.heading": "Votre fichier 3D est-il prêt à imprimer ?",
   "checker.subheading": "Déposez votre STL — dimensions, poids estimé et analyse des surplombs instantanément. Sans inscription. Votre fichier ne quitte pas votre appareil.",
@@ -757,7 +757,7 @@ export const frTranslations: Record<string, string> = {
 
   // DesignRequest page
   "design.meta.title": "Service de conception 3D Barcelone — sans fichier",
-  "design.meta.description": "Service de conception 3D à Barcelone — aucun fichier 3D nécessaire. Envoyez une photo ou décrivez votre pièce et nous la concevons et l'imprimons pour vous. Devis gratuit en 1 heure.",
+  "design.meta.description": "Service de conception 3D depuis Barcelone — aucun fichier nécessaire. Envoyez une photo, devis gratuit en 1 heure, livraison UE.",
   "design.hero.badge": "Aucun fichier 3D requis",
   "design.hero.heading": "Pas de fichier 3D ? Pas de problème.",
   "design.hero.intro": "La plupart de nos clients arrivent avec une idée, une photo ou une pièce cassée — pas un fichier prêt à imprimer. Décrivez ce dont vous avez besoin et nous nous occupons de tout.",

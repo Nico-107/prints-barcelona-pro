@@ -779,6 +779,98 @@
     <xhtml:link rel="alternate" hreflang="ca" href="https://www.dimension3dprints.com/comprovador-arxiu-3d"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
   </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-datei-pruefen</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-datei-pruefen"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/verificateur-fichier-3d</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/verificateur-fichier-3d"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-bestand-controleren</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-bestand-controleren"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/verifica-file-3d</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/verifica-file-3d"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/verificador-ficheiro-3d</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/verificador-ficheiro-3d"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/3d-file-checker"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/verificador-archivo-3d"/>
+  </url>
+
+  <!-- DESIGN REQUEST — 5 new language variants (section 6.6) -->
+  <url>
+    <loc>https://www.dimension3dprints.com/de/3d-design-aus-foto</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.dimension3dprints.com/de/3d-design-aus-foto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/fr/conception-3d-depuis-photo</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.dimension3dprints.com/fr/conception-3d-depuis-photo"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/nl/3d-ontwerp-van-foto</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.dimension3dprints.com/nl/3d-ontwerp-van-foto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/it/progetta-pezzo-3d</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.dimension3dprints.com/it/progetta-pezzo-3d"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+  </url>
+  <url>
+    <loc>https://www.dimension3dprints.com/pt/desenho-3d-a-partir-de-foto</loc>
+    <lastmod>2026-11-14</lastmod>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://www.dimension3dprints.com/pt/desenho-3d-a-partir-de-foto"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dimension3dprints.com/design-your-3d-part"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dimension3dprints.com/disena-tu-pieza-3d"/>
+  </url>
 
   <!-- PIEZAS FUNCIONALES -->
   <url>
