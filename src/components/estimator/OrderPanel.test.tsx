@@ -242,8 +242,11 @@ describe("OrderPanel section prop", () => {
       />
     );
     const html = container.innerHTML;
-    // Primary button (Send quote) should be present
-    expect(html).toContain("calc.contact.submit");
+    // Conv 1.4: quote-only path shows "Pedir revisión gratis" as the
+    // primary button (same orange CTA). The old generic "send quote"
+    // submit label is gone.
+    expect(html).toContain("calc.actions.reviewPrimary");
+    expect(html).toContain("calc.actions.reviewPrimaryHint");
     // Contact fields (email/phone inputs) should NOT be in actions section
     expect(container.querySelector('input[type="email"]')).toBeNull();
     expect(container.querySelector('input[type="tel"]')).toBeNull();
