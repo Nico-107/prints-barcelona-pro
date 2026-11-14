@@ -166,6 +166,10 @@ const Footer = () => {
                 <Link to="/3d-printing-service" className={linkCls}>International service</Link>
                 <Link to="/track" className={linkCls}>{t("nav.trackOrder")}</Link>
                 <Link to="/creator" className={linkCls}>{t("footer.nav.aboutCreator")}</Link>
+                {/* fix-polish §5.3: about page reachable from every footer. */}
+                <Link to={isEs || isCa ? "/sobre-nosotros" : "/about"} className={linkCls}>
+                  {isEs ? "Sobre nosotros" : isCa ? "Sobre nosaltres" : language === "de" ? "Über uns" : language === "fr" ? "À propos" : language === "nl" ? "Over ons" : language === "it" ? "Chi siamo" : language === "pt" ? "Sobre nós" : "About"}
+                </Link>
                 <Link to="/privacy" className={linkCls}>{t("footer.nav.privacy")}</Link>
                 <button
                   type="button"
@@ -201,7 +205,7 @@ const Footer = () => {
           ))}
           {(() => {
             const guidesGroup = SERVICES_MENU.find((g) => g.labelEn === "Guides");
-            const designSlug = isCa ? "/dissenya-la-teva-peca-3d" : isEs ? "/disena-tu-pieza-3d" : "/design-your-3d-part";
+            const designSlug = isCa ? "/dissenya-la-teva-peca-3d" : isEs ? "/disena-tu-pieza-3d" : language === "de" ? "/de/3d-design-aus-foto" : language === "fr" ? "/fr/conception-3d-depuis-photo" : language === "nl" ? "/nl/3d-ontwerp-van-foto" : language === "it" ? "/it/progetta-pezzo-3d" : language === "pt" ? "/pt/desenho-3d-a-partir-de-foto" : "/design-your-3d-part";
             return (
               <div>
                 {acc('Guides', t("footer.guides"),
@@ -215,7 +219,7 @@ const Footer = () => {
                     ))}
                     <li><Link to={designSlug} className={linkCls}>{t("nav.customDesign")}</Link></li>
                     <li>
-                      <Link to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : "/3d-file-checker"} className={linkCls}>
+                      <Link to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker"} className={linkCls}>
                         {t("nav.fileChecker")}
                       </Link>
                     </li>

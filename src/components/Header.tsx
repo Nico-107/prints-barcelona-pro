@@ -212,7 +212,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
 
   const toolsGroupLabel = isCa ? "Eines" : isEs ? "Herramientas" : "Tools";
   const blogGroupLabel = isCa ? "Blog i articles" : isEs ? "Blog y artículos" : "Blog & articles";
-  const fileCheckerHref = isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker";
+  const fileCheckerHref = isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker";
   const trackHref = "/track";
   const blogHref = "/blog";
 
@@ -454,7 +454,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                 );
               })()}
               {(() => {
-                const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+                const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : language === "de" ? "/de/3d-design-aus-foto" : language === "fr" ? "/fr/conception-3d-depuis-photo" : language === "nl" ? "/nl/3d-ontwerp-van-foto" : language === "it" ? "/it/progetta-pezzo-3d" : language === "pt" ? "/pt/desenho-3d-a-partir-de-foto" : "/design-your-3d-part";
                 const active = isActivePath(href);
                 return (
                   <Link
@@ -676,7 +676,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             )}
 
             {(() => {
-              const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+              const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : language === "de" ? "/de/3d-design-aus-foto" : language === "fr" ? "/fr/conception-3d-depuis-photo" : language === "nl" ? "/nl/3d-ontwerp-van-foto" : language === "it" ? "/it/progetta-pezzo-3d" : language === "pt" ? "/pt/desenho-3d-a-partir-de-foto" : "/design-your-3d-part";
               return (
                 <Link
                   to={href}
@@ -692,8 +692,8 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             })()}
 
             <Link
-              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-              onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
+              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker"}
+              onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker" })}
               }
               className="flex items-center min-h-[52px] px-4 rounded-xl text-base font-medium text-[#0F172A] hover:bg-[#F6F8FC] transition-colors"
             >
