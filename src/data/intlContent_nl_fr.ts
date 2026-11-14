@@ -816,7 +816,7 @@ La scène des start-ups franciliennes, portée par Station F, la Halle Freyssine
 
 Comment commander depuis Paris ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou WhatsApp. Les jours ouvrables, vous recevez habituellement votre devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route. Commande minimum de 10 €. Expédition fixe de 5,90 € depuis Barcelone vers Paris. Livraison habituellement sous 2–4 jours ouvrables. Aucune formalité douanière — France et Espagne, marché intérieur européen.
 
-Notre atelier à Barcelone est équipé du Bambu Lab X2D, une imprimante à enceinte fermée et chauffée qui garantit des conditions stables pour tous les matériaux : PLA, PETG, ABS, ASA, TPU, Nylon et composites fibres de carbone. Vous ne savez pas quel matériau choisir ? Décrivez l'usage de votre pièce — nous vous conseillons gratuitement.`,
+Mon studio à Barcelone est équipé du Bambu Lab X2D, une imprimante à enceinte fermée et chauffée qui garantit des conditions stables pour tous les matériaux : PLA, PETG, ABS, ASA, TPU, Nylon et composites fibres de carbone. Tu ne sais pas quel matériau choisir ? Décris l'usage de ta pièce — je te conseille gratuitement.`,
   faqs: [
     {
       q: "Quel est le délai de livraison de Barcelone vers Paris ?",

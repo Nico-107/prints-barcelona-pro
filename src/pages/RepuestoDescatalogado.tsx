@@ -215,7 +215,7 @@ const RepuestoDescatalogado = () => {
                   {
                     step: "01",
                     title: "Nos mandas fotos o la pieza",
-                    body: "Por WhatsApp, desde al menos 3 ángulos (frontal, lateral, posterior) junto a una regla o moneda para escala. Si tienes la pieza físicamente, puedes traerla al taller o enviárnosla.",
+                    body: "Por WhatsApp, desde al menos 3 ángulos (frontal, lateral, posterior) junto a una regla o moneda para escala. Si tienes la pieza físicamente, puedes traerla al estudio o enviárnosla.",
                   },
                   {
                     step: "02",

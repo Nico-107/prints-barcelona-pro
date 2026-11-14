@@ -665,7 +665,7 @@ export const caTranslations: Record<string, string> = {
   "lemon.steps.2.title": "Rep el preu",
   "lemon.steps.2.desc": "Normalment responem en menys d'una hora, de dilluns a dissabte.",
   "lemon.steps.3.title": "Recull-ho a Barcelona o t'ho enviem",
-  "lemon.steps.3.desc": "Recollida al taller sense cost. Enviament a domicili a tota Espanya.",
+  "lemon.steps.3.desc": "Recollida a l'estudi sense cost. Enviament a domicili a tota Espanya.",
   "lemon.price.title": "Des de 10 €",
   "lemon.price.subtitle": "Comanda mínima: 10 €.",
   "lemon.price.desc": "Comanda mínima 10 €, sense tarifa de configuració.",

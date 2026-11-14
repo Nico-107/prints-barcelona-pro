@@ -143,7 +143,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Same-day and fast turnaround when you need it",
-        body: "Standard orders ship in 2–5 business days. For genuinely urgent jobs we offer an Express service in 24–48 hours, and same-day production when our queue allows it. If you have a deadline — an event, a client demo, a broken appliance you need back in service — tell us upfront and we'll be honest about what's possible.\n\nWe never ship a print that we wouldn't keep ourselves. Each part is checked for layer adhesion, dimensional accuracy and finish before it leaves the workshop."
+        body: "Standard orders ship in 2–5 business days. For genuinely urgent jobs we offer an Express service in 24–48 hours, and same-day production when the queue allows it. If you have a deadline — an event, a client demo, a broken appliance you need back in service — tell us upfront and we'll be honest about what's possible.\n\nI never ship a print I wouldn't keep myself. Each part is checked for layer adhesion, dimensional accuracy and finish before it leaves the studio."
       },
       {
         heading: "How the process works",
@@ -284,7 +284,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Priority queue, no design corners cut",
-        body: "Express doesn't mean sloppy. We still slice with proper supports, calibrated temperatures and post-check every part before it leaves the workshop. The difference is that your job moves to the top of the queue and runs on the next available printer instead of waiting for a slot."
+        body: "Express doesn't mean sloppy. I still slice with proper supports, calibrated temperatures and post-check every part before it leaves the studio. The difference is that your job moves to the top of the queue and runs on the next available printer instead of waiting for a slot."
       },
       {
         heading: "Pickup or fast Barcelona delivery",
@@ -1288,7 +1288,7 @@ export const PAGES_EN: LandingContent[] = [
     sections: [
       {
         heading: "Standard — the default, and usually the right choice",
-        body: "Standard service covers the vast majority of orders. A 2–5 business day lead time gives us room to review the file properly, select optimal print settings, monitor the run, and perform a quality check before the part leaves the workshop. It supports all materials we stock — from basic PLA to Nylon-CF — because there is no time pressure forcing compromises on drying, enclosure warm-up, or print speed.\n\nStandard is also the most cost-effective tier by design. If your project has a flexible deadline, standard is almost always the right choice. The price multiplier is ×1.0 — the number you see on the estimator is what you pay, with no urgency surcharge."
+        body: "Standard service covers the vast majority of orders. A 2–5 business day lead time gives me room to review the file properly, select optimal print settings, monitor the run, and perform a quality check before the part leaves the studio. It supports all materials I stock — from basic PLA to Nylon-CF — because there is no time pressure forcing compromises on drying, enclosure warm-up, or print speed.\n\nStandard is also the most cost-effective tier by design. If your project has a flexible deadline, standard is almost always the right choice. The price multiplier is ×1.0 — the number you see on the estimator is what you pay, with no urgency surcharge."
       },
       {
         heading: "Express — 24 to 48 hours",
@@ -1460,8 +1460,8 @@ export const PAGES_EN: LandingContent[] = [
         body: "Nico is the founder and lead technician at Dimension3D. Originally from Poland, he moved to Barcelona where he combined his passion for technical design with FDM technology. He has 4 years of hands-on 3D printing experience and has been printing for customers since 2024, starting as a personal project and growing into a full service for real customers.\n\nHis technical background explains the Dimension3D approach: every order is reviewed before printing, every material is chosen based on the actual function of the part, and every customer gets a direct human response — not an automated confirmation."
       },
       {
-        heading: "The workshop and machines",
-        body: "Our main workshop is at Rambla de Brasil, 53, in the Les Corts neighbourhood of Barcelona. We work with a fleet of FDM printers centred on the Bambu Lab X2D with AMS (Automatic Material System), which enables multicolour printing with up to 4 filaments in a single part.\n\nWe work exclusively with FDM — we do not print in resin or SLS. FDM is the most versatile technology for functional parts, replacement parts and short-run production in technical materials like PETG, ABS/ASA, TPU and Nylon. When FDM is not the right fit for a job, we say so clearly."
+        heading: "The studio and machines",
+        body: "The studio is at Rambla de Brasil, 53, in the Les Corts neighbourhood of Barcelona. I work with a fleet of FDM printers centred on the Bambu Lab X2D with AMS (Automatic Material System), which enables multicolour printing with up to 4 filaments in a single part.\n\nI work exclusively with FDM — I do not print in resin or SLS. FDM is the most versatile technology for functional parts, replacement parts and short-run production in technical materials like PETG, ABS/ASA, TPU and Nylon. When FDM is not the right fit for a job, I say so clearly."
       },
       {
         heading: "250+ orders and what we have learned",
@@ -1477,11 +1477,11 @@ export const PAGES_EN: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "Who runs Dimension3D?", a: "Dimension3D is run by Nico (Mikołaj Szczełkun), founder and lead technician, working from a workshop in Barcelona." },
+      { q: "Who runs Dimension3D?", a: "Dimension3D is run by Nico (Mikołaj Szczełkun), founder and lead technician, working from a studio in Barcelona." },
       { q: "How many orders have you completed?", a: "Over 250 orders, for individuals, startups, workshops, clinics and students." },
       { q: "Do you sign NDAs for confidential projects?", a: "Yes. We sign NDAs regularly for hardware startups and R&D departments. Send us a WhatsApp or email to arrange this." },
       { q: "What languages do you work in?", a: "Spanish, Catalan, English and Polish." },
-      { q: "Are you a physical studio or online only?", a: "Both. We have a physical workshop at Rambla de Brasil, 53 (Les Corts, Barcelona) for local pickup. We also ship to all of Spain and the EU." },
+      { q: "Are you a physical studio or online only?", a: "Both. The physical studio is at Rambla de Brasil, 53 (Les Corts, Barcelona) for local pickup. I also ship to all of Spain and the EU." },
     ],
     galleryImages: pick("custom-brackets.jpg", "intake-manifold.jpg", "blue-molds.jpg", "curved-parts.jpg", "red-adapter.jpg", "black-intake.jpg"),
     related: [

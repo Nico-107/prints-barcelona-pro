@@ -118,7 +118,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Cua prioritària sense perdre qualitat",
-        body: "Express no vol dir nyap. Continuem laminant amb suports adequats, temperatures calibrades i revisem cada peça abans que surti del taller. La diferència és que el teu encàrrec passa al davant de la cua i s'imprimeix a la següent màquina disponible."
+        body: "Express no vol dir nyap. Continuem laminant amb suports adequats, temperatures calibrades i revisem cada peça abans que surti de l'estudi. La diferència és que el teu encàrrec passa al davant de la cua i s'imprimeix a la següent màquina disponible."
       },
       {
         heading: "Recollida o lliurament ràpid a Barcelona",

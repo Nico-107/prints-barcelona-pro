@@ -118,7 +118,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Cola prioritaria sin perder calidad",
-        body: "Express no significa chapuza. Seguimos laminando con soportes adecuados, temperaturas calibradas y revisamos cada pieza antes de que salga del taller. La diferencia es que tu encargo pasa al frente de la cola y se imprime en la siguiente máquina disponible."
+        body: "Express no significa chapuza. Seguimos laminando con soportes adecuados, temperaturas calibradas y revisamos cada pieza antes de que salga del estudio. La diferencia es que tu encargo pasa al frente de la cola y se imprime en la siguiente máquina disponible."
       },
       {
         heading: "Recogida o entrega rápida en Barcelona",
@@ -1122,7 +1122,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "Estándar — el nivel por defecto, y casi siempre el correcto",
-        body: "El servicio estándar cubre la gran mayoría de pedidos. Un plazo de 2–5 días laborables nos da margen para revisar el archivo correctamente, seleccionar los parámetros de impresión óptimos, supervisar el proceso y realizar un control de calidad antes de que la pieza salga del taller. Admite todos los materiales de nuestra selección — desde PLA básico hasta Nylon-CF — porque la ausencia de presión de tiempo evita compromisos en el secado, el precalentamiento de la cámara o la velocidad de impresión.\n\nEl servicio estándar es también el más rentable por diseño. Si tu proyecto tiene una fecha límite flexible, el estándar es casi siempre la elección correcta. El multiplicador de precio es ×1,0 — el número que ves en el estimador es lo que pagas, sin recargo por urgencia."
+        body: "El servicio estándar cubre la gran mayoría de pedidos. Un plazo de 2–5 días laborables nos da margen para revisar el archivo correctamente, seleccionar los parámetros de impresión óptimos, supervisar el proceso y realizar un control de calidad antes de que la pieza salga del estudio. Admite todos los materiales de nuestra selección — desde PLA básico hasta Nylon-CF — porque la ausencia de presión de tiempo evita compromisos en el secado, el precalentamiento de la cámara o la velocidad de impresión.\n\nEl servicio estándar es también el más rentable por diseño. Si tu proyecto tiene una fecha límite flexible, el estándar es casi siempre la elección correcta. El multiplicador de precio es ×1,0 — el número que ves en el estimador es lo que pagas, sin recargo por urgencia."
       },
       {
         heading: "Express — de 24 a 48 horas",
@@ -1601,8 +1601,8 @@ export const PAGES_ES: LandingContent[] = [
         body: "Nico es el fundador y técnico principal de Dimension3D. Estudió en Polonia y se mudó a Barcelona, donde combinó su pasión por el diseño técnico con la tecnología FDM. Nico lleva 4 años trabajando con impresoras 3D y comenzó a imprimir para clientes en 2024, primero como proyecto personal y luego construyendo Dimension3D como un servicio real para clientes reales.\n\nSu formación técnica y su obsesión por los detalles explican el enfoque de Dimension3D: cada pedido se revisa antes de imprimir, cada material se elige según la función real de la pieza, y cada cliente recibe una respuesta directa, no automatizada."
       },
       {
-        heading: "El taller y las máquinas",
-        body: "El taller principal está en la Rambla de Brasil, 53, barrio de Les Corts, Barcelona. Trabajamos con una flota de impresoras FDM centradas en la Bambu Lab X2D con sistema AMS (Automatic Material System), que permite impresión multicolor de hasta 4 filamentos en la misma pieza.\n\nUsamos exclusivamente tecnología FDM — no fabricamos en resina ni en SLS. FDM es la tecnología más versátil para piezas funcionales, recambios y producción a corto plazo con materiales técnicos como PETG, ABS/ASA, TPU y Nylon. Para aplicaciones que requieren mayor detalle superficial o materiales especiales que FDM no cubre, lo comunicamos abiertamente y remitimos a quien puede ayudar mejor."
+        heading: "El estudio y las máquinas",
+        body: "El estudio principal está en la Rambla de Brasil, 53, barrio de Les Corts, Barcelona. Trabajamos con una flota de impresoras FDM centradas en la Bambu Lab X2D con sistema AMS (Automatic Material System), que permite impresión multicolor de hasta 4 filamentos en la misma pieza.\n\nUsamos exclusivamente tecnología FDM — no fabricamos en resina ni en SLS. FDM es la tecnología más versátil para piezas funcionales, recambios y producción a corto plazo con materiales técnicos como PETG, ABS/ASA, TPU y Nylon. Para aplicaciones que requieren mayor detalle superficial o materiales especiales que FDM no cubre, lo comunicamos abiertamente y remitimos a quien puede ayudar mejor."
       },
       {
         heading: "250+ pedidos y lo que hemos aprendido",
@@ -1843,7 +1843,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Plazo de entrega total: de pedido a puerta",
-        body: "El tiempo de impresión es solo una parte del plazo total. El ciclo completo desde que confirmas el pedido hasta que recibes la pieza:\n\n• **Revisión del archivo**: normalmente menos de 1 hora en horario laboral.\n• **Cola de impresión**: según la carga del taller, de inmediato a 24h.\n• **Impresión**: según la pieza, de 1 a 30 horas.\n• **Acabado y control de calidad**: 30–60 min (retirada de soportes, limpieza).\n• **Preparación del envío**: mismo día si termina antes de las 16:00.\n• **Tránsito**: 1–2 días laborables para Península.\n\n**En total (servicio estándar)**: 2–5 días laborables desde la confirmación."
+        body: "El tiempo de impresión es solo una parte del plazo total. El ciclo completo desde que confirmas el pedido hasta que recibes la pieza:\n\n• **Revisión del archivo**: normalmente menos de 1 hora en horario laboral.\n• **Cola de impresión**: según la carga del estudio, de inmediato a 24h.\n• **Impresión**: según la pieza, de 1 a 30 horas.\n• **Acabado y control de calidad**: 30–60 min (retirada de soportes, limpieza).\n• **Preparación del envío**: mismo día si termina antes de las 16:00.\n• **Tránsito**: 1–2 días laborables para Península.\n\n**En total (servicio estándar)**: 2–5 días laborables desde la confirmación."
       },
       {
         heading: "Servicio Express: 24–48 horas",
@@ -1963,7 +1963,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "La opción más práctica: mandarnos la foto",
-        body: "Para la mayoría de los casos — especialmente recambios de piezas rotas — no necesitas ninguna de las opciones anteriores. En Dimension3D modelamos la pieza desde cero a partir de:\n\n• **Fotos claras** de la pieza desde varios ángulos, con una referencia de tamaño (regla, moneda).\n• **Medidas** de las dimensiones críticas si las tienes.\n• **La pieza original** (si es posible traerla al taller para tomarle medidas exactas).\n\nEl diseño tiene un coste adicional (desde 20 € para piezas sencillas) que se cotiza antes de empezar. Para piezas sencillas con geometría clara (clips, tiradores, soportes simétricos), solemos poder modelar desde una buena foto."
+        body: "Para la mayoría de los casos — especialmente recambios de piezas rotas — no necesitas ninguna de las opciones anteriores. En Dimension3D modelamos la pieza desde cero a partir de:\n\n• **Fotos claras** de la pieza desde varios ángulos, con una referencia de tamaño (regla, moneda).\n• **Medidas** de las dimensiones críticas si las tienes.\n• **La pieza original** (si es posible traerla al estudio para tomarle medidas exactas).\n\nEl diseño tiene un coste adicional (desde 20 € para piezas sencillas) que se cotiza antes de empezar. Para piezas sencillas con geometría clara (clips, tiradores, soportes simétricos), solemos poder modelar desde una buena foto."
       },
       {
         heading: "Herramientas gratuitas para convertir fotos en 3D",
