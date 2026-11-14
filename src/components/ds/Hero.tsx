@@ -7,9 +7,9 @@ interface HeroProps {
   paragraph: string;
   /** Mobile-only paragraph override (shown instead of paragraph on ≤767px) */
   mobileParagraph?: string;
-  primaryButton?: { label: ReactNode; onClick: () => void };
+  primaryButton?: { label: ReactNode; onClick: () => void; testid?: string };
   /** Outlined secondary button (WhatsApp, etc.) — links to href */
-  secondaryButton?: { label: string; href: string };
+  secondaryButton?: { label: string; href: string; testid?: string };
   /** Small text link below buttons (e.g. "send me the link") */
   sendLinkButton?: { label: string; onClick: () => void };
   reassuranceItems?: string[];
@@ -106,6 +106,7 @@ function CenteredHero({
             <button
               type="button"
               data-hero-cta="true"
+              data-testid={primaryButton.testid}
               onClick={primaryButton.onClick}
               className="ds-btn-primary"
               style={{
@@ -123,6 +124,7 @@ function CenteredHero({
           {secondaryButton && (
             <a
               href={secondaryButton.href}
+              data-testid={secondaryButton.testid}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -346,6 +348,7 @@ function SplitImageHero({
           <button
             type="button"
             data-hero-cta="true"
+            data-testid={primaryButton?.testid}
             onClick={primaryButton?.onClick}
             className="ds-btn-primary"
             style={{
@@ -396,6 +399,7 @@ function SplitImageHero({
           {secondaryButton && (
             <a
               href={secondaryButton.href}
+              data-testid={secondaryButton.testid}
               className="ds-v2-mobile-only"
               style={{
                 display: 'flex',
@@ -486,8 +490,8 @@ function SplitImageHero({
             />
             <picture>
               <source
-                srcSet="/img/x2d/x2d-inside-480.webp 480w, /img/x2d/x2d-inside-960.webp 960w, /img/x2d/x2d-inside-1600.webp 1600w"
-                sizes="(max-width: 900px) 100vw, 50vw"
+                srcSet="/img/x2d/x2d-inside-480.webp 480w, /img/x2d/x2d-inside-960.webp 960w, /img/x2d/x2d-inside-1600.webp 1600w, /img/x2d/x2d-inside-2560.webp 2560w"
+                sizes="(max-width: 900px) 100vw, 70vw"
                 type="image/webp"
               />
               <img

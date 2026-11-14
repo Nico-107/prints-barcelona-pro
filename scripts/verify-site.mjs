@@ -53,6 +53,22 @@ if (!existsSync(DIST)) {
   process.exit(2);
 }
 
+// Load every i18n key so we can detect raw keys leaking into rendered text
+// (happens when t() is given a key that doesn't exist in the active language
+// — t() falls back to the key itself).
+const I18N_KEYS = (() => {
+  const keys = new Set();
+  const dir = resolve(root, "src/i18n");
+  for (const f of readdirSync(dir)) {
+    if (!f.endsWith(".ts")) continue;
+    const text = readFileSync(join(dir, f), "utf-8");
+    for (const m of text.matchAll(/^\s*"([a-zA-Z0-9_.]+)"\s*:/gm)) {
+      if (/\b[a-z]+\.[a-z]+\.[a-zA-Z]+\b/.test(m[1])) keys.add(m[1]);
+    }
+  }
+  return keys;
+})();
+
 // ─── Tiny static server over dist/ ─────────────────────────────────────────
 
 const MIME = {
@@ -636,6 +652,16 @@ async function checkPage(page, url, variant, viewport, errors) {
       }
     }
   }
+
+  // i18n key leak — any visible text matching /\b[a-z]+\.[a-z]+\.[a-zA-Z]+\b/
+  // that is also a real i18n key means t() was called with a missing key and
+  // fell back to rendering the key itself. Measured on visible text (innerText
+  // respects CSS visibility) so dev-only hidden copies don't trigger it.
+  const visibleText = await page.evaluate(() => document.body.innerText || "");
+  const candidates = [...visibleText.matchAll(/\b[a-z]+\.[a-z]+\.[a-zA-Z]+\b/g)].map((m) => m[0]);
+  const leaked = [...new Set(candidates.filter((c) => I18N_KEYS.has(c)))];
+  if (leaked.length)
+    errors.push(`${url} [${variant} ${viewport.width}]: raw i18n key(s) rendered on page: ${leaked.slice(0, 5).join(", ")}`);
 
   // Variant drift check (already scrolled to 1200 by the contrast measure).
   const htmlAfter = await page.getAttribute("html", "data-xp-site-variant");
