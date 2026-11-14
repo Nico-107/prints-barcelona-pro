@@ -424,7 +424,7 @@ export const frTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Fichier prêt à imprimer : tient dans l'imprimante, sans erreur",
   "calc.printability.oversize": "⚠ Trop grand en une pièce — nous le découpons et le vérifions (devis gratuit)",
   "calc.printability.parseError": "⚠ Fichier illisible. Vérifiez-le ou demandez-nous de l'aide.",
-  "calc.exitToast.sure": "Sûr ? Votre pièce est prête.",
+  "calc.exitToast.sure": "Ton fichier n'a pas encore été envoyé. Rien ne sera mis en file si tu fermes.",
   "calc.exitToast.back": "Retour à la commande",
   "calc.saveQuote.link": "M'envoyer ce devis",
   "calc.saveQuote.placeholder": "vous@email.com",

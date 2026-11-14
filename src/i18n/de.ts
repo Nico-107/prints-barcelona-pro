@@ -424,7 +424,7 @@ export const deTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Druckbereit: passt in den Drucker, keine Fehler",
   "calc.printability.oversize": "⚠ Zu groß für ein Teil — wir teilen und prüfen es (kostenloses Angebot)",
   "calc.printability.parseError": "⚠ Datei konnte nicht gelesen werden. Prüf sie oder frag uns.",
-  "calc.exitToast.sure": "Sicher? Dein Teil ist bereit.",
+  "calc.exitToast.sure": "Deine Datei wurde noch nicht gesendet. Wenn du schließt, wird nichts in die Warteschlange gestellt.",
   "calc.exitToast.back": "Zurück zur Bestellung",
   "calc.saveQuote.link": "Mir dieses Angebot schicken",
   "calc.saveQuote.placeholder": "du@email.com",

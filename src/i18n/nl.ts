@@ -424,7 +424,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Printklaar: past in de printer, geen fouten",
   "calc.printability.oversize": "⚠ Te groot voor één stuk — we splitsen en controleren het (gratis offerte)",
   "calc.printability.parseError": "⚠ Bestand kan niet gelezen worden. Controleer het of vraag ons om hulp.",
-  "calc.exitToast.sure": "Zeker? Je onderdeel staat klaar.",
+  "calc.exitToast.sure": "Je bestand is nog niet verzonden. Als je sluit wordt er niets in de wachtrij gezet.",
   "calc.exitToast.back": "Terug naar bestelling",
   "calc.saveQuote.link": "Mail me deze offerte",
   "calc.saveQuote.placeholder": "jij@email.com",

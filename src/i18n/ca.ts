@@ -452,7 +452,7 @@ export const caTranslations: Record<string, string> = {
   "calc.printability.ok": "✓ Arxiu imprimible: cap a la impressora, sense errors",
   "calc.printability.oversize": "⚠ Massa gran per a una peça — la dividim i revisem (pressupost gratis)",
   "calc.printability.parseError": "⚠ No hem pogut llegir l'arxiu. Revisa'l o demana'ns ajuda.",
-  "calc.exitToast.sure": "Segur? La teva peça està llesta.",
+  "calc.exitToast.sure": "El teu arxiu encara no s'ha enviat. Res quedarà a la cua si tanques.",
   "calc.exitToast.back": "Tornar a la comanda",
   "calc.saveQuote.link": "Envia'm aquest pressupost",
   "calc.saveQuote.placeholder": "el_teu@email.com",
