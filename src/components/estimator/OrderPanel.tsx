@@ -85,7 +85,9 @@ function SaveQuoteRow({
       >
         {t("calc.saveQuote.link")}
       </button>
-      <span className="text-slate-300">·</span>
+      {/* fix-polish §1.5: no explicit "·" — the `gap-x-4` on the row
+          already spaces items, and the "·" leaks onto its own line when
+          the row wraps. */}
       <button
         type="button"
         onClick={handleCopyLink}
