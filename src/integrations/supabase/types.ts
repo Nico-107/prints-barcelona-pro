@@ -47,15 +47,64 @@ export type Database = {
         }
         Relationships: []
       }
+      order_events: {
+        Row: {
+          actor: string | null
+          created_at: string
+          email_id: string | null
+          id: string
+          kind: string
+          message: string | null
+          order_id: string
+          status: string | null
+          visible_to_customer: boolean
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          email_id?: string | null
+          id?: string
+          kind: string
+          message?: string | null
+          order_id: string
+          status?: string | null
+          visible_to_customer?: boolean
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          email_id?: string | null
+          id?: string
+          kind?: string
+          message?: string | null
+          order_id?: string
+          status?: string | null
+          visible_to_customer?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_events_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       orders: {
         Row: {
+          carrier: string | null
           created_at: string
           customer_email: string | null
+          customer_name: string | null
           customer_phone: string
+          delivered_at: string | null
           eta: string | null
           file_paths: string[]
           fulfillment: string
           id: string
+          internal_notes: string
+          label_url: string | null
           notes: string
           order_number: number
           payment_method: string | null
@@ -64,22 +113,33 @@ export type Database = {
           photos: string[]
           pieces: Json | null
           product_title: string
+          shipment_ref: string | null
+          shipped_at: string | null
           shipping_address: Json | null
           status: string
           stripe_payment_link: string | null
+          total_paid_cents: number | null
+          tracking_number: string | null
+          tracking_token: string
+          tracking_url: string | null
           updated_at: string
           utm_content: string | null
           utm_medium: string | null
           utm_source: string | null
         }
         Insert: {
+          carrier?: string | null
           created_at?: string
           customer_email?: string | null
+          customer_name?: string | null
           customer_phone: string
+          delivered_at?: string | null
           eta?: string | null
           file_paths?: string[]
           fulfillment?: string
           id?: string
+          internal_notes?: string
+          label_url?: string | null
           notes?: string
           order_number?: number
           payment_method?: string | null
@@ -88,22 +148,33 @@ export type Database = {
           photos?: string[]
           pieces?: Json | null
           product_title?: string
+          shipment_ref?: string | null
+          shipped_at?: string | null
           shipping_address?: Json | null
           status?: string
           stripe_payment_link?: string | null
+          total_paid_cents?: number | null
+          tracking_number?: string | null
+          tracking_token?: string
+          tracking_url?: string | null
           updated_at?: string
           utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
         }
         Update: {
+          carrier?: string | null
           created_at?: string
           customer_email?: string | null
+          customer_name?: string | null
           customer_phone?: string
+          delivered_at?: string | null
           eta?: string | null
           file_paths?: string[]
           fulfillment?: string
           id?: string
+          internal_notes?: string
+          label_url?: string | null
           notes?: string
           order_number?: number
           payment_method?: string | null
@@ -112,9 +183,15 @@ export type Database = {
           photos?: string[]
           pieces?: Json | null
           product_title?: string
+          shipment_ref?: string | null
+          shipped_at?: string | null
           shipping_address?: Json | null
           status?: string
           stripe_payment_link?: string | null
+          total_paid_cents?: number | null
+          tracking_number?: string | null
+          tracking_token?: string
+          tracking_url?: string | null
           updated_at?: string
           utm_content?: string | null
           utm_medium?: string | null
@@ -395,6 +472,33 @@ export type Database = {
       }
     }
     Functions: {
+      gen_order_tracking_token: {
+        Args: Record<string, never>
+        Returns: string
+      }
+      get_order_by_token: {
+        Args: { _token: string }
+        Returns: {
+          carrier: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          customer_events: Json
+          customer_notes: string
+          delivered_at: string | null
+          eta: string | null
+          first_name: string | null
+          fulfillment: string
+          order_number: number
+          photos: string[]
+          pieces_summary: Json
+          shipped_at: string | null
+          status: string
+          tracking_number: string | null
+          tracking_url: string | null
+          updated_at: string
+        }[]
+      }
       get_order_tracking: {
         Args: { _order_number: number; _phone_last3: string }
         Returns: {
