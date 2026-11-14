@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import SocialMeta from "@/components/SocialMeta";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, Loader2, Camera, Image as ImageIcon, X, ArrowLeft, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
@@ -219,6 +220,7 @@ const PhotoRequest = () => {
         <link rel="canonical" href={`https://www.dimension3dprints.com${canonicalSlug}`} />
         <meta name="robots" content="noindex,follow" />
       </Helmet>
+      <SocialMeta title={c.title} description={c.subtitle} path={canonicalSlug} />
       <Header />
       <main id="main-content" className="flex-1 bg-background pt-[calc(var(--header-h)+24px)] pb-10">
         <div className="container px-4 max-w-md mx-auto">

@@ -28,6 +28,7 @@ import NotFound from "./pages/NotFound";
 import { EN_HUB } from "@/data/intlContent_en";
 import CityDeliveryPage from "./pages/CityDeliveryPage";
 import DesignRequest from "./pages/DesignRequest";
+import PhotoRequest from "./pages/PhotoRequest";
 import Catalog from "./pages/Catalog";
 import CatalogProduct from "./pages/CatalogProduct";
 import Creator from "./pages/Creator";
@@ -102,6 +103,9 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/nl/3d-ontwerp-van-foto" element={<DesignRequest />} />
                 <Route path="/it/progetta-pezzo-3d" element={<DesignRequest />} />
                 <Route path="/pt/desenho-3d-a-partir-de-foto" element={<DesignRequest />} />
+                {/* fix-polish §5.1 — mobile photo-path */}
+                <Route path="/foto" element={<PhotoRequest />} />
+                <Route path="/photo" element={<PhotoRequest />} />
                 {partPages.map((p) => (
                   <Route key={p.slug} path={p.slug} element={<PartPage part={p} />} />
                 ))}
