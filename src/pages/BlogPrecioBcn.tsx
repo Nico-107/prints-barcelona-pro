@@ -15,7 +15,7 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const META_TITLE = "Precio Impresión 3D en Barcelona — Desde 10 €";
-const META_DESC = "¿Cuánto cuesta imprimir en 3D en Barcelona? Desde 10 €, sin pedido mínimo. 250+ pedidos. Tabla de tarifas por material y tamaño. Presupuesto en 1 h.";
+const META_DESC = "¿Cuánto cuesta imprimir en 3D en Barcelona? Desde 10 €, desde 1 pieza. 250+ pedidos. Tabla de tarifas por material y tamaño. Presupuesto en 1 h.";
 const CANONICAL = `${SITE_URL}/blog/precio-impresion-3d-barcelona`;
 
 const FAQS = [
@@ -491,7 +491,7 @@ const BlogPrecioBcn = () => {
             <h2 className="text-lg font-bold text-foreground mb-5">Otros servicios relacionados</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
-                { to: "/impresion-3d-sin-pedido-minimo", label: "Sin pedido mínimo", desc: "Una sola pieza al mismo precio por unidad. Desde 10 € sin importe mínimo." },
+                { to: "/impresion-3d-sin-pedido-minimo", label: "Desde 1 pieza", desc: "Una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 10 €." },
                 { to: "/repuesto-descatalogado", label: "Repuesto descatalogado", desc: "Reproducimos piezas que el fabricante ya no vende desde foto o la pieza original." },
               ].map(({ to, label, desc }) => (
                 <Link

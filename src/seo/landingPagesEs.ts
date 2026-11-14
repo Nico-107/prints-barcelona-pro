@@ -1235,7 +1235,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Tiradas Cortas de Impresión 3D en Barcelona",
-    metaDescription: "Tiradas cortas de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas. Sin pedido mínimo. Presupuesto en 1 h, desde 10€.",
+    metaDescription: "Tiradas cortas de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas. Desde 1 pieza. Presupuesto en 1 h, desde 10€.",
     h1: "Tiradas Cortas de Impresión 3D en Barcelona — Producción en Lote Sin Configuración",
     intro: "La producción en tirada corta se sitúa entre un prototipo único y una fabricación en serie: necesitas más de una pieza, pero no miles. En Dimension3D gestionamos lotes desde una sola unidad hasta varios cientos de piezas idénticas con el mismo plazo y calidad de material que un pedido de prototipo. Pedido mínimo de 10 €, sin tarifa de configuración, factura incluida para pedidos de empresa.",
     sections: [
@@ -1354,8 +1354,8 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "service",
     metaTitle: "Impresión 3D Online — Envío a Toda España desde 10€",
-    metaDescription: "Servicio de impresión 3D online sin pedido mínimo. Sube STL, 3MF, OBJ o STEP, recibe precio en 1h, envío a toda España por 5,90€. Desde 10€.",
-    h1: "Impresión 3D online, sin pedido mínimo y con envío a casa",
+    metaDescription: "Servicio de impresión 3D online desde 1 pieza. Sube STL, 3MF, OBJ o STEP, recibe precio en 1h, envío a toda España por 5,90€. Pedido mínimo 10€.",
+    h1: "Impresión 3D online, desde 1 pieza y con envío a casa",
     intro: "Dimension3D es un servicio de impresión 3D online desde Barcelona. Sube tu archivo, recibe un precio en menos de 1 hora, y recibe la pieza en casa en 2–5 días laborables en cualquier punto de España. Pedido mínimo 10 €, sin setup fee, y un humano revisa cada pedido antes de imprimir.",
     sections: [
       {

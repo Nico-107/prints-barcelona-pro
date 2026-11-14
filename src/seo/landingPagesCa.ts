@@ -151,7 +151,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "service",
     metaTitle: "Preu Impressió 3D Barcelona",
-    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 10€, sense comanda mínima. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
+    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 10€, des d'1 peça. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
     h1: "Preu d'Impressió 3D a Barcelona",
     intro: "Una de les primeres preguntes de qualsevol client és: quant costarà la meva impressió 3D? En aquesta pàgina expliquem exactament què determina el preu d'una impressió 3D a Barcelona, amb exemples realistes, perquè puguis planificar el teu projecte sense sorpreses.",
     sections: [
