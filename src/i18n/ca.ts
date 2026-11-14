@@ -615,7 +615,7 @@ export const caTranslations: Record<string, string> = {
   "design.step1.heading": "Explica'ns què necessites",
   "design.step1.desc": "Envia una foto, un esbós o una descripció de la peça. Si la foto inclou la peça real, posa una regla o una moneda al costat per a l'escala.",
   "design.step2.heading": "Dissenyem i et mostrem com quedarà",
-  "design.step2.desc": "El nostre equip modela la peça amb eines de visualització 3D perquè puguis veure el resultat abans d'imprimir res. Reps la proposta i l'aproves.",
+  "design.step2.desc": "Modelo la peça amb eines de visualització 3D perquè puguis veure el resultat abans d'imprimir res. Reps la proposta i l'aproves.",
   "design.step3.heading": "Aproves i imprimim",
   "design.step3.desc": "Un cop dones el vistiplau, imprimim amb el material més adequat. Pots recollir a Barcelona o te l'enviem a casa.",
   "design.form.heading": "Explica'ns què necessites",

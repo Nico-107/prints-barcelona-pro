@@ -432,7 +432,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.saveQuote.success": "Pronto, enviamos-te. Preço válido 7 dias.",
   "calc.saveQuote.copyLink": "Copiar link",
   "calc.saveQuote.copied": "Link copiado",
-  "calc.instantBuy.manualReview": "Que a nossa equipa reveja primeiro",
+  "calc.instantBuy.manualReview": "Que eu reveja primeiro",
   "calc.instantBuy.manualReview.short": "Revisão gratuita",
   "calc.instantBuy.fulfillment.pickup.short": "Levantamento (grátis)",
   "calc.instantBuy.fulfillment.shipping.short": "Envio +{price}",
@@ -609,7 +609,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.fulfillment.free": "gratuito",
   "calc.fulfillment.byAppointment": "com marcação",
   "calc.instantBuy.reviewHint": "Sem pagamento agora: confirmamos o preço final em menos de 1 hora.",
-  "calc.mixed.note": "Alguns materiais precisam de uma revisão rápida pela nossa equipa antes de cobrarmos.",
+  "calc.mixed.note": "Alguns materiais precisam de uma revisão rápida minha antes de cobrar.",
   "calc.error.checkout": "Não conseguimos iniciar o pagamento. Verifique as definições ou peça à nossa equipa para analisar.",
 
   // Checkout redesign — Part G keys
@@ -697,7 +697,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.checkout.reopen": "Continuar para pagamento",
   "calc.checkout.parts": "As suas peças",
   "calc.checkout.summary": "Resumo do pedido",
-  "calc.checkout.largeFile": "Ficheiro grande: a nossa equipa confirma o preço.",
+  "calc.checkout.largeFile": "Ficheiro grande: confirmo o preço contigo.",
   "calc.checkout.size": "{x} × {y} × {z} mm",
   "calc.checkout.success.banner.title": "Pagamento confirmado — o seu pedido foi efetuado!",
   "calc.checkout.success.banner.body": "Entraremos em contacto com atualizações sobre a impressão. Obrigado pelo seu pedido.",
@@ -723,7 +723,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.urgency.urgentNextDay": "Dia seguinte",
 
   // Checkout polish (Prompt 5)
-  "calc.actions.quoteOnlyWhy": "Impressões multicolor ou materiais especiais são revistos primeiro pela nossa equipa — receberá um orçamento confirmado em 1 hora.",
+  "calc.actions.quoteOnlyWhy": "Impressões multicolor ou materiais especiais reviso primeiro eu — recebes um orçamento confirmado em 1 hora.",
   "calc.color.name.any": "Qualquer cor",
   "calc.color.name.White": "Branco",
   "calc.color.name.Black": "Preto",
@@ -764,7 +764,7 @@ export const ptTranslations: Record<string, string> = {
   "design.step1.heading": "Diga-nos o que precisa",
   "design.step1.desc": "Envie uma foto, esboço ou descrição da peça. Quanto mais detalhes, melhor — mas mesmo uma descrição aproximada é suficiente para começar.",
   "design.step2.heading": "Desenhamos e mostramos como vai ficar",
-  "design.step2.desc": "A nossa equipa modela a peça com ferramentas de visualização 3D para que possa ver exatamente como vai ficar antes de qualquer impressão. Revê e aprova.",
+  "design.step2.desc": "Modelo a peça com ferramentas de visualização 3D para que vejas exatamente como vai ficar antes de qualquer impressão. Revês e aprovas.",
   "design.step3.heading": "Aprova e imprimimos",
   "design.step3.desc": "Depois de aprovar o design, imprimimos no material mais adequado. Levante em Barcelona ou enviamos para si.",
   "design.form.heading": "Diga-nos o que precisa",

@@ -764,7 +764,7 @@ export const frTranslations: Record<string, string> = {
   "design.step1.heading": "Dites-nous ce dont vous avez besoin",
   "design.step1.desc": "Envoyez une photo, un croquis ou une description de la pièce. Plus vous nous donnez de détails, mieux c'est — mais même une description approximative suffit pour commencer.",
   "design.step2.heading": "Nous la concevons et vous montrons son aspect",
-  "design.step2.desc": "Notre équipe modélise la pièce avec des outils de visualisation 3D pour que vous puissiez voir exactement son apparence avant toute impression. Vous révisez et approuvez.",
+  "design.step2.desc": "Je modélise la pièce avec des outils de visualisation 3D pour que tu puisses voir exactement son apparence avant toute impression. Tu révises et approuves.",
   "design.step3.heading": "Vous approuvez et nous imprimons",
   "design.step3.desc": "Une fois le design validé, nous l'imprimons dans le matériau le plus adapté. Récupérez-le à Barcelone ou nous vous le livrons.",
   "design.form.heading": "Dites-nous ce dont vous avez besoin",

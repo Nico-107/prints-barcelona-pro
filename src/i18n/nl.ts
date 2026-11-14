@@ -764,7 +764,7 @@ export const nlTranslations: Record<string, string> = {
   "design.step1.heading": "Vertel ons wat je nodig hebt",
   "design.step1.desc": "Stuur een foto, schets of beschrijving van het onderdeel. Meer details is beter — maar zelfs een ruwe beschrijving is genoeg om te beginnen.",
   "design.step2.heading": "We ontwerpen het en laten je zien hoe het eruitziet",
-  "design.step2.desc": "Ons team modelleert het onderdeel met 3D-visualisatietools zodat je precies kunt zien hoe het eruit ziet voordat er wordt geprint. Jij bekijkt en keurt goed.",
+  "design.step2.desc": "Ik modelleer het onderdeel met 3D-visualisatietools zodat je precies kunt zien hoe het eruit ziet voordat er wordt geprint. Jij bekijkt en keurt goed.",
   "design.step3.heading": "Je keurt goed en we printen",
   "design.step3.desc": "Als je het ontwerp hebt goedgekeurd, printen we het in het meest geschikte materiaal. Haal het op in Barcelona of we sturen het naar je toe.",
   "design.form.heading": "Vertel ons wat je nodig hebt",
