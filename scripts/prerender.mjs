@@ -22,7 +22,7 @@ if (existsSync(envPath)) {
 }
 
 // Load the SSR bundle produced by `vite build --ssr`.
-const { render, ALL_PAGES, CITY_PAGES, partPages, ALL_INTL_SLUGS } = await import(
+const { render, ALL_PAGES, CITY_PAGES, partPages, ALL_INTL_SLUGS, LEGAL_ROUTES } = await import(
   resolve(root, "dist-ssr/entry-server.js")
 );
 
@@ -42,6 +42,7 @@ const routes = ["/", "/ca", "/3d-printing-service", "/track", "/makers", "/maker
   "/repuesto-descatalogado",        // Discontinued parts service page
   "/impresion-3d-sin-pedido-minimo", // No minimum order service page
   "/lemon",                          // NFC referral landing (noindex — prerendered for shell only)
+  ...LEGAL_ROUTES.map((r) => r.slug), // Legal: 4 pages × 8 languages
 ];
 
 let ok = 0;

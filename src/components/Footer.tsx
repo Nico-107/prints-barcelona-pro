@@ -5,6 +5,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { LEGAL_IDENTITY } from "@/config/legalIdentity";
+import { legalLinksForLang, legalLineText } from "@/config/legalLinks";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
@@ -303,7 +305,26 @@ const Footer = () => {
         </div>
 
         <div className={`border-t ${dividerCls} mt-8 pt-8 text-center`}>
-          <p className="text-[#B8C4DA]/50 text-sm">
+          {/* Legal line + 4 localised legal links. Owner registered as
+              autónomo on 13 Nov 2026. Single source of truth lives in
+              src/config/legalIdentity.ts — address may change Jan 2027. */}
+          <p data-testid="footer-legal-line" className="text-[#B8C4DA]/50 text-xs">
+            {legalLineText()}
+          </p>
+          <ul data-testid="footer-legal-links" className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2 text-[11px] text-[#B8C4DA]/50">
+            {legalLinksForLang(language).map((lk) => (
+              <li key={lk.key}>
+                <Link
+                  to={lk.slug}
+                  data-testid={`footer-legal-${lk.key}`}
+                  className="hover:text-[#B8C4DA]/80 transition-colors"
+                >
+                  {lk.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="text-[#B8C4DA]/50 text-sm mt-4">
             © {new Date().getFullYear()} Dimension3D{brandSuffix}. {t("footer.copyright")}
           </p>
           <p className="text-[#B8C4DA]/40 text-xs mt-2">

@@ -703,6 +703,7 @@ export const esTranslations: Record<string, string> = {
   "calc.breakdown.minHelper": "Tu pedido llega al mínimo de 10 €: puedes añadir piezas hasta ese importe sin pagar más.",
   "calc.breakdown.minHelperShort": "Pedido mínimo 10 € · añade más piezas desde +1 €",
   "calc.reassurance.review": "Reviso tu archivo antes de imprimir. Si no se puede imprimir, reembolso completo.",
+  "calc.legal.acceptBuyingLine": "Al comprar aceptas las Condiciones de venta y la Política de privacidad",
   "calc.fulfillment.pickupAddress": "Recogida: {address}",
   "calc.fulfillment.free": "gratis",
   "calc.fulfillment.byAppointment": "con cita previa",

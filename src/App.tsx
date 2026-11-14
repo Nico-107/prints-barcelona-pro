@@ -16,6 +16,7 @@ import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import { partPages } from "@/data/partsPages";
 import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS } from "@/data/intlRegistry";
+import { LEGAL_ROUTES } from "@/pages/legal";
 
 const Track = lazy(() => import("./pages/Track"));
 const Internal = lazy(() => import("./pages/Internal"));
@@ -301,6 +302,12 @@ const App = () => (
               ))}
               {INTL_PARTS.map((c) => (
                 <Route key={c.slug} path={c.slug} element={<IntlPartPage content={c} />} />
+              ))}
+              {/* Legal: 4 pages × 8 languages (Conv-legal). Slugs live in
+                  src/config/legalLinks.ts and are the source of truth for
+                  the footer, sitemap and hreflang. */}
+              {LEGAL_ROUTES.map((r) => (
+                <Route key={r.slug} path={r.slug} element={<r.Component />} />
               ))}
               {/* NFC referral landing — noindex, not in sitemap, not linked from nav/footer */}
               <Route path="/lemon" element={<Lemon />} />

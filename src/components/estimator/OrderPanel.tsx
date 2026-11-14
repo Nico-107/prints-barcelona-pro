@@ -587,6 +587,14 @@ export function OrderPanel({
                     {t("calc.reassurance.review")}
                   </p>
                   )}
+                  {/* Conv-legal 3: implicit-acceptance notice. No checkbox,
+                      no extra step; one small line linking to the two
+                      binding documents. */}
+                  {!_isExtras && (
+                  <p className="text-[11px] text-center text-slate-500 leading-snug" data-testid="checkout-legal-line">
+                    {t("calc.legal.acceptBuyingLine")}
+                  </p>
+                  )}
                   {/* Phase 4.4: trust line + payment badges live in the
                       extras view on mobile; the slim bottom panel keeps
                       only total + delivery + buy. */}

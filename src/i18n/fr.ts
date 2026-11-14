@@ -605,6 +605,7 @@ export const frTranslations: Record<string, string> = {
   "calc.breakdown.minHelper": "Ta commande atteint le minimum de 10 € : tu peux ajouter des pièces jusqu'à ce montant sans frais supplémentaires.",
   "calc.breakdown.minHelperShort": "Commande minimum 10 € · pièces supplémentaires à partir de +1 €",
   "calc.reassurance.review": "Je vérifie ton fichier avant l'impression. S'il n'est pas imprimable, remboursement intégral.",
+  "calc.legal.acceptBuyingLine": "En achetant, vous acceptez les Conditions de vente et la Politique de confidentialité",
   "calc.fulfillment.pickupAddress": "Retrait : {address}",
   "calc.fulfillment.free": "gratuit",
   "calc.fulfillment.byAppointment": "sur rendez-vous",

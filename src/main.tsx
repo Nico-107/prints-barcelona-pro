@@ -6,10 +6,17 @@ import { captureFirstTouch } from "./lib/firstTouch";
 import App from "./App.tsx";
 import "./index.css";
 
-// Set to true ONLY after enabling cookieless mode in the PostHog PROJECT settings.
-// If this is true while the project setting is off, PostHog silently discards all
-// cookieless events — total data loss for non-consenting visitors. Ship OFF.
-const COOKIELESS_ENABLED = false;
+// Legal / Conv-legal 2.3: ENABLE cookieless mode. Before any banner answer
+// and after "reject", posthog-js runs in cookieless mode — no persistent id,
+// no device storage — but still sends every pageview and custom event (uploads,
+// price shown, Buy clicks, WhatsApp clicks). After "accept" the SDK flips to
+// the normal mode with a persistent id and session recording is enabled.
+//
+// REQUIRES: cookieless mode must also be enabled in the PostHog project
+// settings (Project settings → Autocapture → Enable cookieless mode). Until
+// the project flag is on, cookieless events are silently dropped. See owner
+// steps printed at the end of the legal branch push report.
+const COOKIELESS_ENABLED = true;
 
 const phKey = (import.meta.env.VITE_POSTHOG_KEY as string | undefined)?.trim();
 const phHost = (import.meta.env.VITE_POSTHOG_HOST as string | undefined)?.trim();

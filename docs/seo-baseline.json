@@ -267,7 +267,7 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Dimension3D\",\"item\":\"https://www.dimension3dprints.com\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"3D Printing Service\",\"item\":\"https://www.dimension3dprints.com/3d-printing-service\"}]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"inLanguage\":\"en\",\"headline\":\"Professional 3D Printing Service — Ship Anywhere in Europe\",\"description\":\"Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From 10 €.\",\"url\":\"https://www.dimension3dprints.com/3d-printing-service\",\"author\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"url\":\"https://www.dimension3dprints.com/sobre-nosotros\"},\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\"}},\"datePublished\":\"2026-08-01\",\"dateModified\":\"2026-09-03\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://www.dimension3dprints.com/3d-printing-service\"},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\"}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"How long does shipping take to my country?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"From our Barcelona studio: Spain 1–2 business days, France/Germany/Italy/Netherlands/Portugal 3–5 business days, rest of Europe 4–6 business days, worldwide (US, UK, Australia) 5–10 business days. All shipments are tracked.\"}},{\"@type\":\"Question\",\"name\":\"What file formats do you accept?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"We accept STL, STEP, OBJ, 3MF, and IGES. Direct exports from SolidWorks, Fusion 360, Onshape, CATIA, and FreeCAD work without any conversion. If you only have a drawing or photo, contact us and we can discuss options.\"}},{\"@type\":\"Question\",\"name\":\"Is there a minimum order?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"The minimum order is 10 €. Most single small parts fall between 10 € and 40 €. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.\"}},{\"@type\":\"Question\",\"name\":\"Can you print in my specific material?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"We stock PLA, PETG, ABS, ASA, TPU, Nylon (PA12/PA6), Polycarbonate, and carbon-fibre composite variants of several materials. If you need a specific colour or grade not listed, ask — we can often source it. Send your file with a description of the use case and we will recommend the best option.\"}},{\"@type\":\"Question\",\"name\":\"How is the price calculated?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Price depends on two factors: the weight of the printed part (grams of filament used) and the machine time (hours). There are no hidden set-up fees or file review charges. Shipping is calculated based on destination and parcel weight and is shown clearly before you confirm the order. Use the online calculator for an instant estimate.\"}}]}</script>",
-      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil, 53\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
+      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"legalName\":\"Dimension 3D Prints\",\"taxID\":\"Y6681921K\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil 53, 2º 2ª\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"@id\":\"https://www.dimension3dprints.com/#website\",\"name\":\"Dimension3D\",\"url\":\"https://www.dimension3dprints.com\",\"publisher\":{\"@id\":\"https://www.dimension3dprints.com/#business\"}}</script>"
     ],
     "h1": "Professional 3D Printing Service — Ship Anywhere in Europe"
@@ -374,6 +374,24 @@
     ],
     "h1": "Adaptador VESA para Monitor"
   },
+  "/aviso-legal": {
+    "title": "Aviso legal",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Aviso legal e identificación del titular de Dimension 3D Prints — autónomo en Barcelona.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Aviso legal"
+  },
   "/best-3d-printing-service-barcelona": {
     "title": "Best 3D Printing Service Barcelona — Matched by Use Case",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"No single best 3D printing service fits every project. This guide shows what to prioritise — urgency, custom parts, business use, or gifts.\"/>",
@@ -444,7 +462,7 @@
     "jsonLd": [
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa\",\"description\":\"Guía de impresión 3D urgente en Barcelona: cuándo pedirla, plazos reales por material, precios sin recargo. Entrega en 24–48h.\",\"author\":{\"@type\":\"Organization\",\"name\":\"Dimension3D Barcelona\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Dimension3D Barcelona\",\"url\":\"https://www.dimension3dprints.com\"},\"datePublished\":\"2026-06-29\",\"dateModified\":\"2026-09-28\",\"inLanguage\":\"es\",\"url\":\"https://www.dimension3dprints.com/blog/impresion-3d-urgente-barcelona\",\"image\":\"https://www.dimension3dprints.com/og/share-default.png\"}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"¿Con qué rapidez puedo tener mi pieza impresa en 3D en Barcelona?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Para pedidos urgentes, el plazo estándar es de 24 a 48 horas desde la confirmación del pedido. En casos muy simples y con material disponible, podemos entregar el mismo día. El tiempo exacto depende del tamaño de la pieza, el material y la carga de trabajo en el momento del pedido — te lo confirmamos al dar el presupuesto.\"}},{\"@type\":\"Question\",\"name\":\"¿Qué formatos de archivo aceptáis para pedidos urgentes?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Aceptamos STL, OBJ, 3MF y STEP. Si tienes el archivo en otro formato (IGES, SolidWorks, Fusion 360), también podemos trabajar con él en la mayoría de casos. Si no tienes ningún archivo digital, envíanos una foto clara de la pieza rota o un croquis con medidas — para piezas sencillas podemos modelarla nosotros mismos.\"}},{\"@type\":\"Question\",\"name\":\"¿Puedo recoger la pieza en Barcelona o hay que esperar el envío?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Para pedidos en Barcelona, ofrecemos recogida en persona con cita previa — es la opción más rápida y no tiene coste de envío. También enviamos por mensajería urgente a toda España (24h laborable) si estás fuera de Barcelona o prefieres recibirlo en casa u oficina.\"}},{\"@type\":\"Question\",\"name\":\"¿Cuál es el precio mínimo para un pedido urgente?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"El precio mínimo es de 10 €, igual que para pedidos estándar. No cobramos recargo por urgencia en la mayoría de pedidos de tamaño normal. Para piezas muy grandes o complejas que requieran reorganizar la cola de producción, puede aplicarse una pequeña tarifa prioritaria que te comunicamos siempre antes de confirmar.\"}},{\"@type\":\"Question\",\"name\":\"¿Qué hago si no tengo el archivo STL de la pieza que necesito?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"No hay problema. Si la pieza es accesible (aunque esté rota), puedes enviarnos fotos desde varios ángulos junto con las medidas clave. Para piezas estándar o de repuesto comunes, muchas veces encontramos el modelo en repositorios públicos como Thingiverse o Printables. Si la pieza es única, te cotizamos el modelado 3D por separado antes de imprimir.\"}}]}</script>",
-      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil, 53\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
+      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"legalName\":\"Dimension 3D Prints\",\"taxID\":\"Y6681921K\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil 53, 2º 2ª\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Inicio\",\"item\":\"https://www.dimension3dprints.com/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Guías\",\"item\":\"https://www.dimension3dprints.com/blog\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Impresión urgente 24h\",\"item\":\"https://www.dimension3dprints.com/blog/impresion-3d-urgente-barcelona\"}]}</script>"
     ],
     "h1": "Cuándo y Cómo Pedir Impresión 3D Urgente en Barcelona — Guía Completa"
@@ -556,6 +574,24 @@
     ],
     "h1": "Piezas Rotas y Recambios en 3D Barcelona — De la Foto a la Pieza en 24h"
   },
+  "/ca/avis-legal": {
+    "title": "Avís legal",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Avís legal i identificació del titular de Dimension 3D Prints.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Avís legal"
+  },
   "/ca/comparativa-materials-impressio-3d": {
     "title": "Comparativa de Materials per a Impressió 3D",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Comparativa costat a costat dels materials FDM que treballem: PLA, PETG, ABS, ASA, TPU, Nylon i variants de fibra de carbono.\"/>",
@@ -573,6 +609,24 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"TechArticle\",\"headline\":\"Comparativa de Materials per a Impressió 3D — Quin Material és l'Adequat per a la teva Peça?\",\"description\":\"Comparativa costat a costat dels materials FDM que treballem: PLA, PETG, ABS, ASA, TPU, Nylon i variants de fibra de carbono.\",\"inLanguage\":\"ca\",\"author\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"url\":\"https://www.dimension3dprints.com/sobre-nosotros\"},\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\"}},\"datePublished\":\"2026-10-01\",\"dateModified\":\"2026-10-11\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://www.dimension3dprints.com/ca/comparativa-materials-impressio-3d\"},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\"}</script>"
     ],
     "h1": "Comparativa de Materials per a Impressió 3D — Quin Material és l&#x27;Adequat per a la teva Peça?"
+  },
+  "/ca/condicions-de-venda": {
+    "title": "Condicions de venda",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Condicions de venda: preus en EUR amb IVA, comanda mínima, terminis i garantia.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Condicions de venda"
   },
   "/ca/impressio-3d-empreses-barcelona": {
     "title": "Impressió 3D per a Empreses a Barcelona",
@@ -665,8 +719,8 @@
     "h1": "Impressió 3D Flexible en TPU a Barcelona"
   },
   "/ca": {
-    "title": "Impressió 3D a Barcelona — Des de 10€, Pressupost en 1h",
-    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Peces a mida, prototips i recanvis a Barcelona. Pressupost gratis en menys d&#x27;1 hora. Des de 10€, sense comanda mínima. Recollida local o enviament.\"/>",
+    "title": "Impressió 3D a Barcelona — Des de 10 €, Pressupost en 1h",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Peces a mida, prototips i recanvis a Barcelona. Pressupost gratis en menys d&#x27;1 hora. Des de 10 €, des d&#x27;1 peça. Recollida local o enviament.\"/>",
     "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/ca/\"/>",
     "hreflangs": [
       "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/\"/>",
@@ -677,7 +731,7 @@
     "jsonLd": [
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"Quant triga una comanda?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Les comandes express triguen entre 24 i 48 hores. Les estàndard, entre 2 i 5 dies laborables.\"}},{\"@type\":\"Question\",\"name\":\"Quins materials utilitzeu?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Treballem amb PLA, PETG, ABS/ASA, TPU flexible i materials especials com Niló amb fibra de carboni.\"}},{\"@type\":\"Question\",\"name\":\"Com envio el meu arxiu?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Per WhatsApp o el nostre formulari web. Acceptem STL, OBJ, 3MF i STEP, entre altres.\"}},{\"@type\":\"Question\",\"name\":\"Feu comandes urgents?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sí, oferim servei express amb lliurament en 24-48h a Barcelona.\"}},{\"@type\":\"Question\",\"name\":\"On esteu?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Som un servei amb seu a Barcelona amb recollida local amb cita prèvia i enviament a tota Espanya.\"}}]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Service\",\"name\":\"Impresión 3D Barcelona\",\"serviceType\":\"3D Printing Service\",\"provider\":{\"@id\":\"https://www.dimension3dprints.com/#business\"},\"areaServed\":{\"@type\":\"City\",\"name\":\"Barcelona\"},\"offers\":{\"@type\":\"Offer\",\"priceCurrency\":\"EUR\",\"price\":\"10\",\"description\":\"Impresión 3D desde 10€ con presupuesto en 1 hora\"}}</script>",
-      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil, 53\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
+      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"legalName\":\"Dimension 3D Prints\",\"taxID\":\"Y6681921K\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil 53, 2º 2ª\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"@id\":\"https://www.dimension3dprints.com/#website\",\"name\":\"Dimension3D\",\"url\":\"https://www.dimension3dprints.com\",\"publisher\":{\"@id\":\"https://www.dimension3dprints.com/#business\"}}</script>"
     ],
     "h1": "Impressió 3D de qualitat a Barcelona."
@@ -735,6 +789,42 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Peces 3D a Mida a Barcelona — De Fitxer a Peça en 24–48h\",\"description\":\"Peces 3D a mida a Barcelona des del teu STL, STEP o foto. Recanvis funcionals, suports, clips de cotxe i prototips. Pressupost professional en menys d'1 hora.\",\"inLanguage\":\"ca\",\"author\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"url\":\"https://www.dimension3dprints.com/sobre-nosotros\"},\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\"}},\"datePublished\":\"2026-08-01\",\"dateModified\":\"2026-08-10\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://www.dimension3dprints.com/ca/peces-personalitzades-3d-barcelona\"},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\"}</script>"
     ],
     "h1": "Peces 3D a Mida a Barcelona — De Fitxer a Peça en 24–48h"
+  },
+  "/ca/politica-de-cookies": {
+    "title": "Política de cookies",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Política de cookies: què s&#x27;emmagatzema i mode sense cookies per als rebutjos.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Política de cookies"
+  },
+  "/ca/politica-de-privacitat": {
+    "title": "Política de privacitat",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Política de privacitat: dades, finalitat, bases legals, destinataris i drets RGPD.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Política de privacitat"
   },
   "/ca/preu-impressio-3d-barcelona": {
     "title": "Preu Impressió 3D Barcelona",
@@ -999,6 +1089,42 @@
     ],
     "h1": "El teu arxiu 3D està llest per imprimir?"
   },
+  "/condiciones-de-venta": {
+    "title": "Condiciones de venta",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Condiciones de venta: precios en EUR con IVA, pedido mínimo 10 €, plazos, pago, desistimiento y garantía.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Condiciones de venta"
+  },
+  "/cookie-policy": {
+    "title": "Cookie policy",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Cookie policy: what we store, duration and cookieless mode for visitors who reject.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Cookie policy"
+  },
   "/creator": {
     "title": "About the Builder",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Mikołaj Szczełkun (Nico) built this platform solo — learn more about him and his other projects.\"/>",
@@ -1151,6 +1277,42 @@
     ],
     "h1": "Bosch Geschirrspülkorb Räder — Kompatibles 4er-Ersatzset"
   },
+  "/de/cookie-richtlinie": {
+    "title": "Cookie-Richtlinie",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Cookie-Richtlinie: was gespeichert wird und cookieless-Modus für Ablehnungen.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Cookie-Richtlinie"
+  },
+  "/de/datenschutz": {
+    "title": "Datenschutz",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Datenschutz: erhobene Daten, Zwecke, Rechtsgrundlagen, Empfänger und DSGVO-Rechte.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Datenschutz"
+  },
   "/de/gardena-schlauch-adapter": {
     "title": "Gardena Schlauch Adapter GHT — Verbindet beide Standards",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"3D-gedruckter Adapter für GHT 3/4-Zoll-Schlauchverschraubungen auf Gardena-Schnellkupplungen. PETG mit Gummidichtung. Ab 9 € · Versand nach Deutschland.\"/>",
@@ -1166,6 +1328,42 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"Ist dies ein Originalteil von Gardena?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Nein. Es handelt sich um ein Eigendesign von Dimension3D. Keine Zugehörigkeit zu Gardena oder einem Schlauchhersteller.\"}},{\"@type\":\"Question\",\"name\":\"Ist der Adapter wasserdicht?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Mit einer passenden Gummidichtung (Spezifikation im Lieferumfang enthalten) dichtet der Adapter bei normalem Gartenwasserdruck zuverlässig ab.\"}},{\"@type\":\"Question\",\"name\":\"Wie lange dauert die Lieferung nach Deutschland?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"In der Regel 3–5 Werktage ab Versand aus Barcelona. EU-interner Versand, kein Zoll.\"}}]}</script>"
     ],
     "h1": "Gardena Schlauch Adapter — GHT zu Gardena-Schnellkupplung"
+  },
+  "/de/impressum": {
+    "title": "Impressum",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Impressum und Anbieterkennzeichnung von Dimension 3D Prints — Einzelunternehmer in Barcelona.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Impressum"
+  },
+  "/de/verkaufsbedingungen": {
+    "title": "Verkaufsbedingungen",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Verkaufsbedingungen: EUR-Preise inkl. MwSt., Mindestbestellwert 10 €, Lieferzeiten und Garantie.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Verkaufsbedingungen"
   },
   "/de/vesa-monitor-adapter": {
     "title": "VESA Monitor Adapter",
@@ -1277,6 +1475,24 @@
     ],
     "h1": "Adaptateur VESA pour Moniteur — Impression 3D sur mesure"
   },
+  "/fr/conditions-de-vente": {
+    "title": "Conditions de vente",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Conditions de vente : prix en EUR TTC, commande minimale 10 €, délais et garantie.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Conditions de vente"
+  },
   "/fr/impression-3d-en-ligne": {
     "title": "Impression 3D en Ligne · Livraison France | Dimension3D",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Faire imprimer en 3D depuis la France : devis en moins d&#x27;1 heure, livraison 9,90 € fixe, en général 2–4 jours ouvrables. Pas de droits de douane (UE).\"/>",
@@ -1367,6 +1583,60 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"Quel est le matériau le moins cher ?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Le PLA est le moins cher. Le PETG est légèrement plus cher. L'ABS et le Nylon sont plus onéreux en raison du coût matière et des temps d'impression plus longs.\"}},{\"@type\":\"Question\",\"name\":\"Quel matériau est recommandé pour une utilisation extérieure ?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"L'ASA est le meilleur choix pour une exposition extérieure prolongée grâce à sa résistance aux UV. Le PETG est une bonne option secondaire si l'exposition UV est limitée.\"}},{\"@type\":\"Question\",\"name\":\"Peut-on imprimer une pièce flexible ?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Oui. Nous imprimons en TPU pour les applications flexibles.\"}},{\"@type\":\"Question\",\"name\":\"Comment savoir quel matériau me convient ?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Décrivez l'utilisation de la pièce dans votre commande — contraintes mécaniques, environnement, temperature, exposition à l'humidité. Nous vous conseillons gratuitement le matériau le plus adapté.\"}}]}</script>"
     ],
     "h1": "Matériaux Impression 3D — Quel Matériau Choisir pour Votre Projet ?"
+  },
+  "/fr/mentions-legales": {
+    "title": "Mentions légales",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Mentions légales et identification du titulaire de Dimension 3D Prints — auto-entrepreneur à Barcelone.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Mentions légales"
+  },
+  "/fr/politique-de-confidentialite": {
+    "title": "Politique de confidentialité",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Politique de confidentialité : données collectées, finalités, bases légales et droits RGPD.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Politique de confidentialité"
+  },
+  "/fr/politique-de-cookies": {
+    "title": "Politique de cookies",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Politique de cookies : ce qui est stocké et mode sans cookies pour les refus.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Politique de cookies"
   },
   "/fr/preparer-fichier-impression-3d": {
     "title": "Préparer son Fichier pour l&#x27;Impression 3D — STL, OBJ, 3MF",
@@ -1649,7 +1919,7 @@
     "hreflangs": [],
     "jsonLd": [
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"¿Puedo encargar solo una pieza?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sí. No hay pedido mínimo de ningún tipo en Dimension3D Barcelona. Puedes encargar una única pieza desde 10 €. No hace falta alcanzar ningún importe mínimo ni comprar varias unidades del mismo modelo.\"}},{\"@type\":\"Question\",\"name\":\"¿Cuánto cuesta una pieza pequeña de repuesto?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Las piezas pequeñas (menos de 20 gramos) suelen costar entre 10 € y 15 €. Las piezas medianas (20–80 gramos) entre 15 € y 25 €. El precio depende del material elegido y el tiempo de impresión. Si necesitamos modelar la pieza desde cero (porque no tienes archivo), se cotiza el modelado por separado. Presupuesto gratis y sin compromiso antes de confirmar.\"}},{\"@type\":\"Question\",\"name\":\"¿Cuánto tarda una pieza pequeña en estar lista?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Las piezas pequeñas (menos de 50 gramos) están listas habitualmente en 24 horas. Piezas medianas en 2 a 3 días laborables. Con el servicio urgente, la mayoría de piezas pequeñas se entregan en el mismo día o al día siguiente.\"}},{\"@type\":\"Question\",\"name\":\"¿Tienen envío mínimo para una sola pieza?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"El envío a domicilio tiene un coste fijo de 5,90 € independientemente del número de piezas o el peso del pedido. Para pedidos en Barcelona, la recogida en taller no tiene ningún coste adicional. La cita previa es gratuita.\"}},{\"@type\":\"Question\",\"name\":\"¿Todos los materiales están disponibles para pedidos individuales?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sí. PLA, PETG, ABS, ASA, TPU flexible, Nylon y compuestos de fibra de carbono (PLA-CF, PETG-CF, Nylon-CF) están disponibles para cualquier tamaño de pedido, incluyendo una sola pieza. El precio mínimo de 10 € se aplica independientemente del material.\"}}]}</script>",
-      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil, 53\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
+      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"legalName\":\"Dimension 3D Prints\",\"taxID\":\"Y6681921K\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil 53, 2º 2ª\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Inicio\",\"item\":\"https://www.dimension3dprints.com/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Sin pedido mínimo\",\"item\":\"https://www.dimension3dprints.com/impresion-3d-sin-pedido-minimo\"}]}</script>"
     ],
     "h1": "Impresión 3D Sin Pedido Mínimo en Barcelona — Desde 1 Pieza y 10 €"
@@ -1727,8 +1997,8 @@
     "h1": "Impresión 3D Flexible en TPU en Barcelona"
   },
   "/": {
-    "title": "Impresión 3D en Barcelona — Desde 10€, Presupuesto en 1h",
-    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Piezas a medida, prototipos y recambios en Barcelona. Presupuesto gratis en menos de 1 hora. Desde 10€, sin pedido mínimo. Recogida local o envío.\"/>",
+    "title": "Impresión 3D en Barcelona — Desde 10 €, Presupuesto en 1h",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Piezas a medida, prototipos y recambios en Barcelona. Presupuesto gratis en menos de 1 hora. Desde 10 €, desde 1 pieza. Recogida local o envío.\"/>",
     "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/\"/>",
     "hreflangs": [
       "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/\"/>",
@@ -1739,7 +2009,7 @@
     "jsonLd": [
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"¿Cuánto tarda un pedido?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Normalmente entre 24 y 48 horas para pedidos express. Pedidos estándar entre 2 y 5 días laborables.\"}},{\"@type\":\"Question\",\"name\":\"¿Qué materiales usáis?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Trabajamos con PLA, PETG, ABS/ASA, TPU flexible y materiales especiales como Nylon con fibra de carbono.\"}},{\"@type\":\"Question\",\"name\":\"¿Cómo envío mi archivo?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Por WhatsApp o nuestro formulario web. Aceptamos STL, OBJ, 3MF y STEP, entre otros.\"}},{\"@type\":\"Question\",\"name\":\"¿Hacéis pedidos urgentes?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sí, ofrecemos servicio express con entrega en 24-48h en Barcelona.\"}},{\"@type\":\"Question\",\"name\":\"¿Dónde estáis?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Somos un servicio basado en Barcelona con recogida local con cita previa y envío a toda España.\"}}]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Service\",\"name\":\"Impresión 3D Barcelona\",\"serviceType\":\"3D Printing Service\",\"provider\":{\"@id\":\"https://www.dimension3dprints.com/#business\"},\"areaServed\":{\"@type\":\"City\",\"name\":\"Barcelona\"},\"offers\":{\"@type\":\"Offer\",\"priceCurrency\":\"EUR\",\"price\":\"10\",\"description\":\"Impresión 3D desde 10€ con presupuesto en 1 hora\"}}</script>",
-      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil, 53\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
+      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"legalName\":\"Dimension 3D Prints\",\"taxID\":\"Y6681921K\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil 53, 2º 2ª\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"@id\":\"https://www.dimension3dprints.com/#website\",\"name\":\"Dimension3D\",\"url\":\"https://www.dimension3dprints.com\",\"publisher\":{\"@id\":\"https://www.dimension3dprints.com/#business\"}}</script>"
     ],
     "h1": "Impresión 3D de calidad en Barcelona."
@@ -1796,6 +2066,24 @@
     ],
     "h1": "Adattatore VESA per Monitor — Stampa 3D su misura"
   },
+  "/it/condizioni-di-vendita": {
+    "title": "Condizioni di vendita",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Condizioni di vendita: prezzi in EUR con IVA, ordine minimo 10 €, tempi e garanzia.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Condizioni di vendita"
+  },
   "/it/imbuto-dosatore-caffe-58mm": {
     "title": "Imbuto Dosatore Caffè 58mm — Stampa 3D magnetico antispreco",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Imbuto dosatore magnetico per portafiltri da 58 mm. Stampato in PETG. Niente caffè fuori dal portafiltro. Da 11 € · Spedizione in Italia.\"/>",
@@ -1812,6 +2100,42 @@
     ],
     "h1": "Imbuto Dosatore Magnetico 58mm — Stampa 3D per Barista"
   },
+  "/it/informativa-cookie": {
+    "title": "Informativa cookie",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Informativa cookie: cosa viene memorizzato e modalità senza cookie per chi rifiuta.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Informativa cookie"
+  },
+  "/it/informativa-privacy": {
+    "title": "Informativa privacy",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Informativa privacy: dati raccolti, finalità, basi giuridiche e diritti GDPR.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Informativa privacy"
+  },
   "/it/materiali-stampa-3d": {
     "title": "Materiali per Stampa 3D FDM — PLA, PETG, ABS, Nylon",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Guida ai materiali FDM: PLA, PETG, ABS e Nylon a confronto. Resistenza meccanica, temperatura, casi pratici. Scegli il materiale giusto per il tuo progetto.\"/>",
@@ -1823,6 +2147,24 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"Qual è il materiale più economico?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Il PLA è il materiale più economico. Il costo aumenta nell'ordine PLA < PETG < ABS < Nylon.\"}},{\"@type\":\"Question\",\"name\":\"Posso usare ABS per pezzi esposti al sole in estate?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"L'ABS regge meglio del PLA al calore, ma la temperatura interna di un'auto in estate (fino a 70–80 °C) è al limite della sua temperatura di esercizio. Per applicazioni esterne critiche, considera materiali specifici come ASA (contattaci per disponibilità).\"}},{\"@type\":\"Question\",\"name\":\"Il Nylon è adatto per ingranaggi piccoli?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sì, il Nylon è uno dei materiali FDM più adatti per ingranaggi grazie alla bassa frizione e alla resistenza all'usura. Per moduli inferiori a 0,5 mm, la risoluzione FDM potrebbe non essere sufficiente: contattaci con i dettagli del progetto.\"}},{\"@type\":\"Question\",\"name\":\"Offrite altri materiali oltre a questi quattro?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Per materiali speciali come TPU, PETG-CF o fibra di carbonio, contattaci prima di caricare il file. La disponibilità dipende dalla programmazione della produzione.\"}}]}</script>"
     ],
     "h1": "Guida ai Materiali per Stampa 3D FDM"
+  },
+  "/it/note-legali": {
+    "title": "Note legali",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Note legali e identificazione del titolare di Dimension 3D Prints — libero professionista a Barcellona.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Note legali"
   },
   "/it/preparare-file-stampa-3d": {
     "title": "Come Preparare il File per la Stampa 3D — Guida FDM",
@@ -1936,6 +2278,24 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"HowTo\",\"name\":\"Kunden für 3D-Druck finden — das eigentliche Problem\",\"description\":\"Drucker läuft, aber niemand bestellt? Praktischer Kundenaufbau-Guide für 3D-Druck-Maker: Google Business Profil, Marktplätze, saubere Fotografie\",\"inLanguage\":\"de\",\"author\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"url\":\"https://www.dimension3dprints.com/sobre-nosotros\"},\"datePublished\":\"2026-08-02\",\"dateModified\":\"2026-10-15\",\"step\":[{\"@type\":\"HowToStep\",\"position\":1,\"name\":\"Google Business Profil — der kostenlose Eintrag, den jeder Maker vergisst\",\"text\":\"Google Business Profil (früher Google My Business) ist ein kostenloser Eintrag, der deinen 3D-Druck-Service auf Google Maps und in den lokalen Ergebnisblock oben in der lokalen Suche bringt. Es ist das einzelne Marketing-Werkzeug mit der höchsten Hebelwirkung für einen ortsgebundenen Dienst.\"},{\"@type\":\"HowToStep\",\"position\":2,\"name\":\"Einem bestehenden Druck-Netzwerk beitreten — Aufträge, die zu dir kommen, kostenlos\",\"text\":\"Alles andere auf dieser Seite ist ein Kanal, den du selbst aufbauen musst, und jeder braucht Monate an Konsistenz, bevor er zuverlässig Aufträge produziert. Wenn du einen kürzeren Weg willst, ist der Beitritt zu einem bestehenden lokalen Druck-Netzwerk die risikoarme Option.\"},{\"@type\":\"HowToStep\",\"position\":3,\"name\":\"Lokale Marktplätze — wo Leute ohnehin schon suchen\",\"text\":\"In Deutschland ist Kleinanzeigen (früher eBay Kleinanzeigen) der Ort, an den man geht, wenn man etwas Konkretes lokal sucht. Die Gemeinsamkeit ist, dass die Leute bereits dort sind und aktiv suchen.\"},{\"@type\":\"HowToStep\",\"position\":4,\"name\":\"Deine Drucke ordentlich fotografieren — der größte Einzelhebel\",\"text\":\"Der Unterschied zwischen einer Anzeige, die verkauft, und einer, die es nicht tut, ist sehr oft das Foto. Drucke vor sauberem Hintergrund bei weichem Tageslicht sehen aus wie ein professioneller Katalog.\"},{\"@type\":\"HowToStep\",\"position\":5,\"name\":\"Transparente Preise — Reibung reduzieren, nicht Marge\",\"text\":\"Jede Kundennachricht, in der gefragt wird was kostet das, ist eine Nachricht, für die du dir Zeit hättest sparen können. Vorab veröffentlichte transparente Preise verwandeln Interessierte in Kunden.\"},{\"@type\":\"HowToStep\",\"position\":6,\"name\":\"Reaktionsgeschwindigkeit — der unterschätzte Wettbewerbsvorteil\",\"text\":\"Im Dienstleistungsbereich gewinnt häufig, wer zuerst antwortet. Wenn ein Kunde dieselbe Anfrage an drei Maker schickt und einer antwortet innerhalb von dreißig Minuten, bekommt der Schnelle den Auftrag in den meisten Fällen.\"},{\"@type\":\"HowToStep\",\"position\":7,\"name\":\"Wiederkehrende Kunden vs. Einmalkunden — wo das eigentliche Geschäft steckt\",\"text\":\"Einmalkunden zahlen die Rechnung am Dienstag. Wiederkehrende Kunden sind das eigentliche Geschäft.\"}]}</script>"
     ],
     "h1": "Kunden für 3D-Druck finden — das eigentliche Problem"
+  },
+  "/legal-notice": {
+    "title": "Legal notice",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Legal notice and owner identification of Dimension 3D Prints — sole trader based in Barcelona.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Legal notice"
   },
   "/lemon": {
     "title": "Impresión 3D en Barcelona — Piezas a Medida",
@@ -2170,6 +2530,78 @@
     ],
     "h1": "3D Printen Rotterdam — Bestel Online, Geleverd aan Huis"
   },
+  "/nl/cookiebeleid": {
+    "title": "Cookiebeleid",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Cookiebeleid: wat wordt opgeslagen en cookieloze modus voor bezoekers die weigeren.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Cookiebeleid"
+  },
+  "/nl/juridische-informatie": {
+    "title": "Juridische informatie",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Juridische informatie en identificatie van de eigenaar van Dimension 3D Prints.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Juridische informatie"
+  },
+  "/nl/privacybeleid": {
+    "title": "Privacybeleid",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Privacybeleid: verzamelde gegevens, doeleinden, grondslagen en AVG-rechten.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Privacybeleid"
+  },
+  "/nl/verkoopvoorwaarden": {
+    "title": "Verkoopvoorwaarden",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Verkoopvoorwaarden: prijzen in EUR incl. btw, minimumbestelling 10 €, levertijden en garantie.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Verkoopvoorwaarden"
+  },
   "/nl/vesa-monitor-adapter": {
     "title": "VESA Monitor Adapter — 3D-geprinte oplossing op maat",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"3D-geprinte adapter voor monitoren zonder VESA-bevestiging. Verbindt elk scherm met VESA 100×100-armen. Vanaf € 18 · Levering in Nederland.\"/>",
@@ -2258,6 +2690,42 @@
     ],
     "h1": "PLA 3D Printing in Barcelona"
   },
+  "/politica-de-cookies": {
+    "title": "Política de cookies",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Política de cookies de Dimension 3D Prints: qué se almacena, duración y modo sin cookies para rechazos.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Política de cookies"
+  },
+  "/politica-de-privacidad": {
+    "title": "Política de privacidad",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Política de privacidad: datos recogidos, finalidad, bases legales, destinatarios y derechos RGPD.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Política de privacidad"
+  },
   "/politica-devoluciones": {
     "title": "Política de Devoluciones — Dimension3D",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Garantía de calidad en impresión 3D: si la pieza llega con defecto o no coincide con el presupuesto, cuéntanoslo en 7 días y lo resolvemos sin coste adicional.\"/>",
@@ -2304,6 +2772,24 @@
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"How Dimension3D collects anonymous analytics data and uses cookies.\"/>",
     "canonical": "",
     "hreflangs": [],
+    "jsonLd": [],
+    "h1": "Privacy policy"
+  },
+  "/privacy-policy": {
+    "title": "Privacy policy",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Privacy policy: data collected, purposes, legal bases, recipients and GDPR rights.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
     "jsonLd": [],
     "h1": "Privacy policy"
   },
@@ -2361,6 +2847,24 @@
     ],
     "h1": "Prototype 3D Printing in Barcelona"
   },
+  "/pt/condicoes-de-venda": {
+    "title": "Condições de venda",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Condições de venda: preços em EUR com IVA, encomenda mínima 10 €, prazos e garantia.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Condições de venda"
+  },
   "/pt/impressao-3d-lisboa": {
     "title": "Impressão 3D com Envio para Lisboa — A partir de 10 €",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Impressão 3D FDM de Barcelona, envio para Lisboa em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.\"/>",
@@ -2414,6 +2918,24 @@
     ],
     "h1": "Impressão 3D Online com Envio para o Porto"
   },
+  "/pt/informacoes-legais": {
+    "title": "Informações legais",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Informações legais e identificação do titular da Dimension 3D Prints.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/avis-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/impressum\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/legal-notice\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/mentions-legales\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/note-legali\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/juridische-informatie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/informacoes-legais\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/aviso-legal\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Informações legais"
+  },
   "/pt/materiais-impressao-3d": {
     "title": "Materiais para Impressão 3D FDM — PLA, PETG, ABS, Nylon",
     "description": "<meta data-rh=\"true\" name=\"description\" content=\"Guia dos materiais FDM: PLA, PETG, ABS e Nylon comparados. Resistência, temperatura e casos práticos. Escolha o material certo para o seu projecto 3D.\"/>",
@@ -2425,6 +2947,42 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"Qual é o material mais económico?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"O PLA é o material mais económico. O custo aumenta na seguinte ordem: PLA < PETG < ABS < Nylon.\"}},{\"@type\":\"Question\",\"name\":\"Posso utilizar ABS para peças expostas ao sol no Verão?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"O ABS suporta melhor o calor do que o PLA, mas a temperatura interior de um automóvel no Verão (até 70–80 °C) situa-se no limite da sua temperatura de serviço. Para aplicações externas críticas, considere materiais específicos como o ASA (contacte-nos para disponibilidade).\"}},{\"@type\":\"Question\",\"name\":\"O Nylon é adequado para engrenagens pequenas?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Sim, o Nylon é um dos materiais FDM mais adequados para engrenagens graças ao baixo atrito e à resistência ao desgaste. Para módulos inferiores a 0,5 mm, a resolução FDM pode não ser suficiente: contacte-nos com os detalhes do projecto.\"}},{\"@type\":\"Question\",\"name\":\"Disponibilizam outros materiais para além destes quatro?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Para materiais especiais como TPU, PETG-CF ou fibra de carbono, contacte-nos antes de carregar o ficheiro. A disponibilidade depende do planeamento da produção.\"}}]}</script>"
     ],
     "h1": "Guia de Materiais para Impressão 3D FDM"
+  },
+  "/pt/politica-de-cookies": {
+    "title": "Política de cookies",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Política de cookies: o que é armazenado e modo sem cookies para quem recusa.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/cookie-richtlinie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/cookie-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-cookie\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/cookiebeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-cookies\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-cookies\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Política de cookies"
+  },
+  "/pt/politica-de-privacidade": {
+    "title": "Política de privacidade",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Política de privacidade: dados recolhidos, finalidades, bases legais e direitos RGPD.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/politica-de-privacitat\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/datenschutz\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/privacy-policy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/politique-de-confidentialite\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/informativa-privacy\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/privacybeleid\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/politica-de-privacidade\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/politica-de-privacidad\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Política de privacidade"
   },
   "/pt/preco-impressao-3d": {
     "title": "Preço Impressão 3D Online — Guia Completo 2026",
@@ -2511,7 +3069,7 @@
     "hreflangs": [],
     "jsonLd": [
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"FAQPage\",\"mainEntity\":[{\"@type\":\"Question\",\"name\":\"¿Podéis reproducir cualquier repuesto descatalogado?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Si es una pieza plástica con geometría definida, casi siempre podemos. Necesitamos la pieza original (aunque esté rota), fotografías desde varios ángulos con referencia de escala, o el número de referencia del fabricante. Las piezas que no podemos reproducir son las metálicas (solo trabajamos FDM plástico) y las que requieren tolerancias de precisión menores de ±0,1 mm. Mándanos una foto y en menos de una hora te decimos si es viable.\"}},{\"@type\":\"Question\",\"name\":\"¿Qué material uso si el fabricante ya no lo vende?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Seleccionamos el material en función del uso de la pieza: PETG para piezas funcionales resistentes a humedad y golpes, ABS/ASA para exteriores o exposición al calor, TPU para piezas flexibles, Nylon para alta carga mecánica. En muchos casos el material impreso supera en durabilidad al plástico original.\"}},{\"@type\":\"Question\",\"name\":\"¿Cuánto tarda y cuánto cuesta reproducir un repuesto?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 10 €. Clips, tapas y bisagras suelen quedar entre 10 € y 20 €. Piezas más grandes o con modelado desde cero desde 25 €. Presupuesto siempre gratis y sin compromiso antes de confirmar.\"}},{\"@type\":\"Question\",\"name\":\"¿Tengo que tener el archivo STL del repuesto?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"No. Si tienes la pieza física (aunque esté rota), la medimos y modelamos nosotros. Si solo tienes fotos, podemos reproducir piezas con geometría clara. También buscamos el modelo en repositorios públicos como Thingiverse, Printables y GrabCAD — muchas piezas de electrodomésticos y vehículos populares ya existen en la comunidad.\"}},{\"@type\":\"Question\",\"name\":\"¿Cuánto aguanta una pieza impresa en 3D comparada con el original?\",\"acceptedAnswer\":{\"@type\":\"Answer\",\"text\":\"Depende del material elegido, pero PETG y Nylon tienen una resistencia mecánica comparable o superior a los plásticos de inyección de gama media. Para aplicaciones de alta temperatura o exposición UV usamos ABS o ASA. Llevamos años sustituyendo piezas de electrodomésticos, muebles y vehículos con resultados duraderos.\"}}]}</script>",
-      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil, 53\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
+      "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":[\"LocalBusiness\",\"ProfessionalService\"],\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"legalName\":\"Dimension 3D Prints\",\"taxID\":\"Y6681921K\",\"alternateName\":[\"Dimension 3D Prints\",\"Dimension3D BCN\",\"Dimension 3D Barcelona\"],\"url\":\"https://www.dimension3dprints.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\",\"width\":512,\"height\":512},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\",\"telephone\":\"+34 672 051 147\",\"email\":\"hola@dimension3dprints.com\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Rambla del Brasil 53, 2º 2ª\",\"addressLocality\":\"Barcelona\",\"postalCode\":\"08028\",\"addressRegion\":\"Cataluña\",\"addressCountry\":\"ES\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":41.3806,\"longitude\":2.1317},\"priceRange\":\"€\",\"currenciesAccepted\":\"EUR\",\"paymentAccepted\":\"Credit Card, Bank Transfer\",\"areaServed\":[{\"@type\":\"City\",\"name\":\"Barcelona\"},{\"@type\":\"City\",\"name\":\"Madrid\"},{\"@type\":\"City\",\"name\":\"Valencia\"},{\"@type\":\"City\",\"name\":\"Sevilla\"},{\"@type\":\"Country\",\"name\":\"Spain\"},{\"@type\":\"Country\",\"iso6166code\":\"ES\"},{\"@type\":\"Country\",\"iso6166code\":\"PT\"},{\"@type\":\"Country\",\"iso6166code\":\"FR\"},{\"@type\":\"Country\",\"iso6166code\":\"DE\"},{\"@type\":\"Country\",\"iso6166code\":\"IT\"},{\"@type\":\"Country\",\"iso6166code\":\"NL\"},{\"@type\":\"Country\",\"iso6166code\":\"BE\"},{\"@type\":\"Country\",\"iso6166code\":\"LU\"},{\"@type\":\"Country\",\"iso6166code\":\"AT\"},{\"@type\":\"Country\",\"iso6166code\":\"IE\"},{\"@type\":\"Country\",\"iso6166code\":\"PL\"},{\"@type\":\"Country\",\"iso6166code\":\"DK\"},{\"@type\":\"Country\",\"iso6166code\":\"SE\"},{\"@type\":\"Country\",\"iso6166code\":\"FI\"}],\"knowsAbout\":[\"FDM 3D printing\",\"3D printing service\",\"rapid prototyping\",\"CAD design\",\"PLA printing\",\"PETG printing\",\"TPU flexible printing\",\"Nylon printing\",\"multicolor FDM\",\"replacement parts\",\"functional parts\"],\"founder\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"jobTitle\":\"Founder & 3D Printing Specialist\"},\"sameAs\":[\"https://www.instagram.com/dimension3dprints/\",\"https://www.tiktok.com/@dimension3dprints\",\"https://www.youtube.com/@dimension3dprints\",\"https://www.linkedin.com/company/dimension3dprints/\"]}</script>",
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Inicio\",\"item\":\"https://www.dimension3dprints.com/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Repuesto descatalogado\",\"item\":\"https://www.dimension3dprints.com/repuesto-descatalogado\"}]}</script>"
     ],
     "h1": "Repuesto Descatalogado — Lo Imprimimos en 3D en Barcelona"
@@ -2562,6 +3120,24 @@
       "<script data-rh=\"true\" type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Sobre Dimension3D: el estudio detrás de cada pieza\",\"description\":\"Dimension3D es un estudio de impresión 3D FDM en Barcelona fundado por Nico (Mikołaj Szczełkun). 250+ pedidos, Bambu Lab X2D, servicio online a toda España.\",\"inLanguage\":\"es\",\"author\":{\"@type\":\"Person\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros#founder\",\"name\":\"Mikołaj Szczełkun\",\"url\":\"https://www.dimension3dprints.com/sobre-nosotros\"},\"publisher\":{\"@type\":\"Organization\",\"@id\":\"https://www.dimension3dprints.com/#business\",\"name\":\"Dimension3D\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://www.dimension3dprints.com/logo.png\"}},\"datePublished\":\"2026-11-11\",\"dateModified\":\"2026-11-11\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://www.dimension3dprints.com/sobre-nosotros\"},\"image\":\"https://www.dimension3dprints.com/og/share-default.png\"}</script>"
     ],
     "h1": "Sobre Dimension3D: el estudio detrás de cada pieza"
+  },
+  "/terms-of-sale": {
+    "title": "Terms of sale",
+    "description": "<meta data-rh=\"true\" name=\"description\" content=\"Terms of sale: EUR prices incl. VAT, €10 minimum order, timelines, payment, withdrawal and warranty.\"/>",
+    "canonical": "<link data-rh=\"true\" rel=\"canonical\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+    "hreflangs": [
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"ca\" href=\"https://www.dimension3dprints.com/ca/condicions-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"de\" href=\"https://www.dimension3dprints.com/de/verkaufsbedingungen\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"en\" href=\"https://www.dimension3dprints.com/terms-of-sale\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"es\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"fr\" href=\"https://www.dimension3dprints.com/fr/conditions-de-vente\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"it\" href=\"https://www.dimension3dprints.com/it/condizioni-di-vendita\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"nl\" href=\"https://www.dimension3dprints.com/nl/verkoopvoorwaarden\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"pt\" href=\"https://www.dimension3dprints.com/pt/condicoes-de-venda\"/>",
+      "<link data-rh=\"true\" rel=\"alternate\" hrefLang=\"x-default\" href=\"https://www.dimension3dprints.com/condiciones-de-venta\"/>"
+    ],
+    "jsonLd": [],
+    "h1": "Terms of sale"
   },
   "/tiradas-cortas-impresion-3d-barcelona": {
     "title": "Tiradas Cortas de Impresión 3D en Barcelona",

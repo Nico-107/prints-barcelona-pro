@@ -703,6 +703,7 @@ export const enTranslations: Record<string, string> = {
   "calc.breakdown.minHelper": "Your order reaches the 10 € minimum: you can add parts up to that amount at no extra cost.",
   "calc.breakdown.minHelperShort": "10 € minimum order · add more parts from +1 €",
   "calc.reassurance.review": "I review your file before printing. If it can't be printed, full refund.",
+  "calc.legal.acceptBuyingLine": "By buying you accept the Terms of sale and the Privacy policy",
   "calc.fulfillment.pickupAddress": "Pickup: {address}",
   "calc.fulfillment.free": "free",
   "calc.fulfillment.byAppointment": "by appointment",

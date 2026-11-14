@@ -1,5 +1,6 @@
 import { SITE_URL } from "./registry";
 import { SHIP_COUNTRIES } from "@/lib/instantBuy";
+import { LEGAL_IDENTITY } from "@/config/legalIdentity";
 
 // Shared brand identity referenced by both Article/HowTo `author` fields on
 // landing pages and by the top-level LocalBusiness block on the homepage.
@@ -23,6 +24,12 @@ export const ORGANIZATION_SCHEMA = {
   "@type": ["LocalBusiness", "ProfessionalService"],
   "@id": `${SITE_URL}/#business`,
   name: "Dimension3D",
+  // Conv-legal 3: expose the registered legal name + Spanish NIF (taxID)
+  // on the Organization entity so Google can match the business to the
+  // autónomo registration. Owner name/NIF/address live in one place —
+  // src/config/legalIdentity.ts.
+  legalName: LEGAL_IDENTITY.tradingName,
+  taxID: LEGAL_IDENTITY.nif,
   alternateName: ["Dimension 3D Prints", "Dimension3D BCN", "Dimension 3D Barcelona"],
   url: SITE_URL,
   logo: {
@@ -36,11 +43,14 @@ export const ORGANIZATION_SCHEMA = {
   email: "hola@dimension3dprints.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rambla del Brasil, 53",
-    addressLocality: "Barcelona",
-    postalCode: "08028",
+    // Conv-legal 3 + 0: single source of truth for the business address
+    // (owner may move in Jan 2027 — one edit updates every JSON-LD, the
+    // footer and the legal pages).
+    streetAddress: `${LEGAL_IDENTITY.address.street}, ${LEGAL_IDENTITY.address.floor}`,
+    addressLocality: LEGAL_IDENTITY.address.city,
+    postalCode: LEGAL_IDENTITY.address.postalCode,
     addressRegion: "Cataluña",
-    addressCountry: "ES",
+    addressCountry: LEGAL_IDENTITY.address.countryCode,
   },
   geo: {
     "@type": "GeoCoordinates",

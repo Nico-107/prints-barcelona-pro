@@ -41,6 +41,7 @@ import { ALL_PAGES, PAGES_BY_SLUG } from "@/seo/registry";
 import { CITY_PAGES } from "@/data/cityDeliveryPages";
 import { partPages } from "@/data/partsPages";
 import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS, ALL_INTL_SLUGS } from "@/data/intlRegistry";
+import { LEGAL_ROUTES } from "@/pages/legal";
 import IntlHubPage from "./pages/IntlHubPage";
 import IntlCityPage from "./pages/IntlCityPage";
 import IntlGuidePage from "./pages/IntlGuidePage";
@@ -48,7 +49,7 @@ import IntlPartPage from "./pages/IntlPartPage";
 import { pathLanguage } from "@/lib/pathLanguage";
 import type { Language } from "@/contexts/LanguageContext";
 
-export { ALL_PAGES, CITY_PAGES, partPages, ALL_INTL_SLUGS };
+export { ALL_PAGES, CITY_PAGES, partPages, ALL_INTL_SLUGS, LEGAL_ROUTES };
 
 type HelmetServerContext = {
   helmet?: HelmetServerState | null;
@@ -110,6 +111,10 @@ export function render(url: string): { html: string; helmetContext: HelmetServer
                 <Route path="/repuesto-descatalogado" element={<RepuestoDescatalogado />} />
                 <Route path="/impresion-3d-sin-pedido-minimo" element={<SinPedidoMinimo />} />
                 <Route path="/lemon" element={<Lemon />} />
+                {/* Legal: 4 pages × 8 languages — src/config/legalLinks.ts */}
+                {LEGAL_ROUTES.map((r) => (
+                  <Route key={r.slug} path={r.slug} element={<r.Component />} />
+                ))}
                 {INTL_HUBS.map((c) => (
                   <Route key={c.slug} path={c.slug} element={<IntlHubPage content={c} />} />
                 ))}

@@ -605,6 +605,7 @@ export const deTranslations: Record<string, string> = {
   "calc.breakdown.minHelper": "Deine Bestellung erreicht das 10 €-Minimum: Du kannst Teile bis zu diesem Betrag ohne Aufpreis hinzufügen.",
   "calc.breakdown.minHelperShort": "Mindestbestellwert 10 € · weitere Teile ab +1 €",
   "calc.reassurance.review": "Ich prüfe deine Datei vor dem Druck. Nicht druckbar? Volle Rückerstattung.",
+  "calc.legal.acceptBuyingLine": "Mit dem Kauf akzeptierst du die Verkaufsbedingungen und den Datenschutz",
   "calc.fulfillment.pickupAddress": "Abholung: {address}",
   "calc.fulfillment.free": "kostenlos",
   "calc.fulfillment.byAppointment": "nach Terminvereinbarung",
