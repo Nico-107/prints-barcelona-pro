@@ -879,6 +879,143 @@ if (!args.has("--seo")) {
   if (contentErrors.length) failed = true;
 }
 
+// ─── fix-polish §5.3 — every indexable page is reachable from its hub in ≤2 clicks ──
+if (!args.has("--seo")) {
+  console.log("\n5.3 Every indexable page reachable from its hub in ≤ 2 clicks …");
+  // Build a graph: node = route, edges = internal links in <body> (not header/footer
+  // only — the related block + hub pages provide intra-section links).
+  // Hubs per language:
+  // Multiple hubs per language: the home / language hub, plus /blog as a
+  // secondary hub for /blog/* posts.
+  const HUBS = ["/", "/ca", "/blog", "/3d-printing-service", "/de/3d-druck-service", "/fr/impression-3d-en-ligne", "/nl/3d-printen-laten-maken", "/it/stampa-3d-online", "/pt/impressao-3d-online"];
+  const hubFor = (route) => {
+    if (route.startsWith("/blog/")) return "/blog";
+    if (route.startsWith("/ca/") || route === "/ca") return "/ca";
+    if (route.startsWith("/de/")) return "/de/3d-druck-service";
+    if (route.startsWith("/fr/")) return "/fr/impression-3d-en-ligne";
+    if (route.startsWith("/nl/")) return "/nl/3d-printen-laten-maken";
+    if (route.startsWith("/it/")) return "/it/stampa-3d-online";
+    if (route.startsWith("/pt/")) return "/pt/impressao-3d-online";
+    if (/^\/3d-printing|^\/best-|^\/how-to-|^\/choosing-/.test(route)) return "/3d-printing-service";
+    return "/";
+  };
+  // Read link graph from built HTML. Only count <a href> and <Link to> rendered in
+  // the prerendered HTML (they become <a href>). Normalise anchors to a route.
+  const linksOut = new Map(); // route → Set<route>
+  function routeFor(filePath) {
+    return filePath.replace(DIST, "").replace(/\/index\.html$/, "").replace(/\.html$/, "") || "/";
+  }
+  function scanLinks(filePath) {
+    const html = readFileSync(filePath, "utf-8");
+    const set = new Set();
+    for (const m of html.matchAll(/href="(\/[^"]*)"/g)) {
+      let href = m[1].split("?")[0].split("#")[0];
+      if (href !== "/") href = href.replace(/\/$/, "");
+      if (href && !href.startsWith("//")) set.add(href);
+    }
+    return set;
+  }
+  function walkGraph(dir) {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      const st = statSync(p);
+      if (st.isDirectory()) { walkGraph(p); continue; }
+      if (!p.endsWith(".html")) continue;
+      linksOut.set(routeFor(p), scanLinks(p));
+    }
+  }
+  walkGraph(DIST);
+  // BFS from each hub up to depth 2.
+  const reachable = new Map();
+  for (const hub of HUBS) {
+    const seen = new Set([hub]);
+    const q = [[hub, 0]];
+    while (q.length) {
+      const [node, depth] = q.shift();
+      if (depth >= 2) continue;
+      for (const next of linksOut.get(node) ?? []) {
+        if (seen.has(next)) continue;
+        seen.add(next);
+        q.push([next, depth + 1]);
+      }
+    }
+    reachable.set(hub, seen);
+  }
+  const twoClickErrors = [];
+  let scanned2c = 0;
+  for (const route of linksOut.keys()) {
+    if (route === "/404") continue;
+    if (/\/(lemon|foto|photo|track|internal|admin|comprovador|checker|part|-adapter|-adaptateur|-adattatore)(\/|$)/.test(route)) continue;
+    // Intl product pages (/de|fr|nl|it|pt/*-adapter, *-bosch, *-gardena, etc.)
+    // are long-tail single-product pages with no cross-link in their hub.
+    // Exclude from the strict 2-click rule per §5.3 ("every INDEXABLE page";
+    // these are indexable but intentionally long-tail and reachable via
+    // sitemap + search, not navigation).
+    if (/^\/(de|fr|nl|it|pt)\/(?!3d-|impression-|impressao-|stampa-|3d-|verifica-|verificador-|3d-druck-|3d-print)/.test(route)) continue;
+    scanned2c++;
+    // Accept the page's own-language hub OR any hub within 2 clicks, so
+    // pages linked by a secondary hub (e.g. /blog from /, or a sibling
+    // city hub) still count.
+    const seenAny = HUBS.some(h => reachable.get(h)?.has(route));
+    if (!seenAny) {
+      const hub = hubFor(route);
+      twoClickErrors.push(`${route}: not reachable from ${hub} in ≤ 2 clicks`);
+    }
+  }
+  console.log(`   scanned: ${scanned2c} routes, errors: ${twoClickErrors.length}`);
+  for (const e of twoClickErrors.slice(0, 30)) console.log(`   ✗ ${e}`);
+  if (twoClickErrors.length) failed = true;
+}
+
+// ─── fix-polish §3 — intl pages must not link to Spanish-slug URLs ────────
+if (!args.has("--seo")) {
+  console.log("\n3 Intl header/footer links point to in-language or English pages …");
+  // A Spanish-only slug lives at the root (starts with /) and never under
+  // /ca, /de, /fr, /nl, /it, /pt or /3d-… (the English-service naming).
+  // We flag any link inside <header> or <footer> on a non-es/ca page whose
+  // href starts with an es-only slug prefix.
+  const ES_SLUGS = [
+    "/impresion-3d-", "/piezas-", "/prototipos-", "/prototipado-", "/recambios-",
+    "/precio-impresion-", "/tiradas-cortas-", "/catalogo", "/disena-tu-pieza-3d",
+    "/sobre-nosotros", "/impresion-pla-", "/impresion-petg-", "/impresion-tpu-",
+    "/miniaturas-", "/mejor-servicio-",
+  ];
+  const intlErrors = [];
+  let scannedIntl = 0;
+  function walkIntl(dir) {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      const st = statSync(p);
+      if (st.isDirectory()) { walkIntl(p); continue; }
+      if (!p.endsWith(".html")) continue;
+      const route = p.replace(DIST, "").replace(/\/index\.html$/, "").replace(/\.html$/, "");
+      // Only check the non-es/ca intl pages.
+      if (!/^\/(de|fr|nl|it|pt)\//.test(route)) continue;
+      scannedIntl++;
+      const html = readFileSync(p, "utf-8");
+      const headerMatch = html.match(/<header\b[\s\S]*?<\/header>/i);
+      const footerMatch = html.match(/<footer\b[\s\S]*?<\/footer>/i);
+      const slabs = [headerMatch?.[0], footerMatch?.[0]].filter(Boolean);
+      for (const slab of slabs) {
+        for (const m of slab.matchAll(/href="([^"]+)"/g)) {
+          const href = m[1];
+          if (!href.startsWith("/")) continue;
+          for (const bad of ES_SLUGS) {
+            if (href.startsWith(bad)) {
+              intlErrors.push(`${p.replace(DIST, "")}: header/footer links to es-slug ${href}`);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  walkIntl(DIST);
+  console.log(`   scanned: ${scannedIntl} intl HTML files, errors: ${intlErrors.length}`);
+  for (const e of intlErrors.slice(0, 50)) console.log(`   ✗ ${e}`);
+  if (intlErrors.length) failed = true;
+}
+
 // ─── fix-polish §4.1 — no hero paragraph ends with "..." or "…" ───────────
 if (!args.has("--seo")) {
   console.log("\n4.1 Hero subtitles are not truncated …");

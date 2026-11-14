@@ -212,7 +212,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
 
   const toolsGroupLabel = isCa ? "Eines" : isEs ? "Herramientas" : "Tools";
   const blogGroupLabel = isCa ? "Blog i articles" : isEs ? "Blog y artículos" : "Blog & articles";
-  const fileCheckerHref = isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker";
+  const fileCheckerHref = isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker";
   const trackHref = "/track";
   const blogHref = "/blog";
 
@@ -253,11 +253,13 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
       label: groupLabel(guidesGroup),
       items: guidesGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
     },
-    {
+    // fix-polish §3: the Popular menu is Spanish-only (static items whose
+    // target pages exist only in Spanish). Hide on intl locales.
+    ...((isEs || isCa || language === "en") ? [{
       key: "popular",
       label: groupLabel(popularGroup),
-      items: popularGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" })),
-    },
+      items: popularGroup.items.map((i) => ({ key: i.slugEn, label: itemLabel(i), href: slugForLang(i, language as any), menu: "resources" as const })),
+    }] : []),
     {
       key: "blog",
       label: blogGroupLabel,
@@ -349,7 +351,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             {isOverV2Hero && (
               <nav className="hidden lg:flex items-center gap-4 ml-6 mr-auto" style={{ color: '#FFFFFF', fontSize: 15 }}>
                 {(() => {
-                  const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+                  const businessHref = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
                   return (<>
                     <button type="button" onClick={() => scrollToSection('precios')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.precios")}</button>
                     <button type="button" onClick={() => scrollToSection('maquina')} className="hidden 2xl:inline-flex" style={{ color: '#FFFFFF', background: 'none', border: 0, cursor: 'pointer', padding: '12px 0', fontSize: 15, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>{t("header.v2.como")}</button>
@@ -415,7 +417,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                 </button>
               ))}
               {(() => {
-                const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+                const businessHref = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
                 return (
                   <Link
                     to={businessHref}
@@ -435,7 +437,8 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                   fits in 1024/1228 across all 8 languages (German "Bestellung
                   verfolgen" + "Sofortpreis" used to truncate at 1228). They
                   live in the Servicios / Resources dropdowns at lg widths. */}
-              {(() => {
+              {(isEs || isCa || language === "en") && (() => {
+                // fix-polish §3: /catalogo is Spanish-only — hide on intl.
                 const active = isActivePath("/catalogo");
                 return (
                   <Link
@@ -451,7 +454,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                 );
               })()}
               {(() => {
-                const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+                const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : language === "de" ? "/de/3d-design-aus-foto" : language === "fr" ? "/fr/conception-3d-depuis-photo" : language === "nl" ? "/nl/3d-ontwerp-van-foto" : language === "it" ? "/it/progetta-pezzo-3d" : language === "pt" ? "/pt/desenho-3d-a-partir-de-foto" : "/design-your-3d-part";
                 const active = isActivePath(href);
                 return (
                   <Link
@@ -633,7 +636,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
 
             {/* For Business */}
             {(() => {
-              const businessHref = SLUGS_BY_TOPIC["business"][language as keyof typeof SLUGS_BY_TOPIC["business"]] ?? "/impresion-3d-empresas-barcelona";
+              const businessHref = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
               return (
                 <Link
                   to={businessHref}
@@ -658,6 +661,8 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
               </button>
             ))}
 
+            {/* fix-polish §3: /catalogo is Spanish-only — hide on intl. */}
+            {(isEs || isCa || language === "en") && (
             <Link
               to="/catalogo"
               onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "main", label_key: "catalog", href: "/catalogo" }); }}
@@ -668,9 +673,10 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             >
               {t("nav.catalog")}
             </Link>
+            )}
 
             {(() => {
-              const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : "/design-your-3d-part";
+              const href = isEs ? "/disena-tu-pieza-3d" : isCa ? "/dissenya-la-teva-peca-3d" : language === "de" ? "/de/3d-design-aus-foto" : language === "fr" ? "/fr/conception-3d-depuis-photo" : language === "nl" ? "/nl/3d-ontwerp-van-foto" : language === "it" ? "/it/progetta-pezzo-3d" : language === "pt" ? "/pt/desenho-3d-a-partir-de-foto" : "/design-your-3d-part";
               return (
                 <Link
                   to={href}
@@ -686,8 +692,8 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
             })()}
 
             <Link
-              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker"}
-              onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : "/3d-file-checker" })}
+              to={isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker"}
+              onClick={() => { setIsMenuOpen(false); capture("nav_click", { menu: "services", label_key: "file-checker", href: isEs ? "/verificador-archivo-3d" : isCa ? "/comprovador-arxiu-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker" })}
               }
               className="flex items-center min-h-[52px] px-4 rounded-xl text-base font-medium text-[#0F172A] hover:bg-[#F6F8FC] transition-colors"
             >

@@ -86,6 +86,7 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
     { to: "/nl/3d-printen-kosten", label: "Wat kost 3D printen?" },
     { to: "/nl/3d-printbestand-voorbereiden", label: "Bestand voorbereiden" },
     { to: "/nl/3d-print-materialen", label: "Materialen vergelijken" },
+    { to: "/nl/3d-ontwerp-laten-maken", label: "3D ontwerp laten maken" },
   ],
 
   answerBlock: {
@@ -173,6 +174,7 @@ Of je nu een prototype maakt voor een Amsterdamse hardwarestartup, een onderdeel
     { to: "/nl/3d-printen-kosten", label: "Wat kost 3D printen?" },
     { to: "/nl/3d-printbestand-voorbereiden", label: "Bestand voorbereiden" },
     { to: "/nl/3d-print-materialen", label: "Materialen vergelijken" },
+    { to: "/nl/3d-ontwerp-laten-maken", label: "3D ontwerp laten maken" },
   ],
 };
 
@@ -232,6 +234,7 @@ We printen op een Bambu Lab X2D, een gesloten printer met verwarmde kamer. Dat g
     { to: "/nl/3d-printen-kosten", label: "Wat kost 3D printen?" },
     { to: "/nl/3d-printbestand-voorbereiden", label: "Bestand voorbereiden" },
     { to: "/nl/3d-print-materialen", label: "Materialen vergelijken" },
+    { to: "/nl/3d-ontwerp-laten-maken", label: "3D ontwerp laten maken" },
   ],
 };
 
@@ -292,6 +295,7 @@ We drukken op een Bambu Lab X2D met gesloten, verwarmde kamer — dat borgt stab
     { to: "/nl/3d-printen-kosten", label: "Wat kost 3D printen?" },
     { to: "/nl/3d-printbestand-voorbereiden", label: "Bestand voorbereiden" },
     { to: "/nl/3d-print-materialen", label: "Materialen vergelijken" },
+    { to: "/nl/3d-ontwerp-laten-maken", label: "3D ontwerp laten maken" },
   ],
 };
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { MessageCircle, MapPin, Clock, Truck, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang } from "@/seo/registry";
+import { SERVICES_MENU, SLUGS_BY_TOPIC, slugForLang, HUB_SLUG_BY_LANG } from "@/seo/registry";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
 import { LEGAL_IDENTITY } from "@/config/legalIdentity";
@@ -48,7 +48,7 @@ const Footer = () => {
   const itemLabel = (i: Lbl) => pickLabel(i);
 
   const forBusinessLabel = t("footer.forBusiness");
-  const businessSlug = SLUGS_BY_TOPIC["business"][language] ?? "/3d-printing-for-business-barcelona";
+  const businessSlug = (SLUGS_BY_TOPIC["business"] as Record<string, string | undefined>)[language] ?? "/3d-printing-for-business-barcelona";
 
   const tGroupLabel = (g: { labelEn: string; labelEs: string; labelCa: string }) => {
     const keyMap: Record<string, string> = {
@@ -160,27 +160,37 @@ const Footer = () => {
             {acc('quicklinks', t("footer.quickLinks"),
               <div className="flex flex-col gap-1.5">
                 <Link to={businessSlug} className={linkCls}>{forBusinessLabel}</Link>
-                <Link to="/" className={linkCls}>{t("footer.nav.home")}</Link>
+                {/* fix-polish §3: home points at the language-appropriate
+                    hub on intl locales so intl pages don't link back to /. */}
+                <Link to={HUB_SLUG_BY_LANG[language as keyof typeof HUB_SLUG_BY_LANG] ?? "/"} className={linkCls}>{t("footer.nav.home")}</Link>
                 <Link to="/makers" className={linkCls}>{t("nav.becomeMaker")}</Link>
                 <Link to="/maker-guide" className={linkCls}>{t("footer.nav.makerGuide")}</Link>
                 <Link to="/3d-printing-service" className={linkCls}>International service</Link>
                 <Link to="/track" className={linkCls}>{t("nav.trackOrder")}</Link>
                 <Link to="/creator" className={linkCls}>{t("footer.nav.aboutCreator")}</Link>
+                {/* fix-polish §5.3: about page reachable from every footer. */}
+                <Link to={isEs || isCa ? "/sobre-nosotros" : "/about"} className={linkCls}>
+                  {isEs ? "Sobre nosotros" : isCa ? "Sobre nosaltres" : language === "de" ? "Über uns" : language === "fr" ? "À propos" : language === "nl" ? "Over ons" : language === "it" ? "Chi siamo" : language === "pt" ? "Sobre nós" : "About"}
+                </Link>
                 <Link to="/privacy" className={linkCls}>{t("footer.nav.privacy")}</Link>
                 <button
                   type="button"
                   className={`${linkCls} text-left`}
                   onClick={() => document.dispatchEvent(new Event("cookie-prefs-open"))}
                 >{t("cookie.banner.prefs")}</button>
-                <Link to="/politica-devoluciones" className={linkCls}>{t("footer.returnPolicy")}</Link>
+                {/* fix-polish §3: /politica-devoluciones is Spanish-only */}
+                {(isEs || isCa) && (
+                  <Link to="/politica-devoluciones" className={linkCls}>{t("footer.returnPolicy")}</Link>
+                )}
               </div>
             )}
           </div>
         </div>
 
-        {/* SEO links: Services / Materials / For Business / Specialties / Guides */}
+        {/* SEO links: Services / Materials / For Business / Specialties / Guides.
+            fix-polish §3: Popular is Spanish-only — exclude on intl pages. */}
         <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 pb-10 border-b ${dividerCls}`}>
-          {SERVICES_MENU.filter((g) => g.labelEn !== "Guides").map((group) => (
+          {SERVICES_MENU.filter((g) => g.labelEn !== "Guides" && (g.labelEn !== "Popular" || isEs || isCa || language === "en")).map((group) => (
             <div key={group.labelEn}>
               {acc(group.labelEn, tGroupLabel(group),
                 <ul className="flex flex-col gap-1.5">
@@ -197,7 +207,7 @@ const Footer = () => {
           ))}
           {(() => {
             const guidesGroup = SERVICES_MENU.find((g) => g.labelEn === "Guides");
-            const designSlug = isCa ? "/dissenya-la-teva-peca-3d" : isEs ? "/disena-tu-pieza-3d" : "/design-your-3d-part";
+            const designSlug = isCa ? "/dissenya-la-teva-peca-3d" : isEs ? "/disena-tu-pieza-3d" : language === "de" ? "/de/3d-design-aus-foto" : language === "fr" ? "/fr/conception-3d-depuis-photo" : language === "nl" ? "/nl/3d-ontwerp-van-foto" : language === "it" ? "/it/progetta-pezzo-3d" : language === "pt" ? "/pt/desenho-3d-a-partir-de-foto" : "/design-your-3d-part";
             return (
               <div>
                 {acc('Guides', t("footer.guides"),
@@ -211,11 +221,14 @@ const Footer = () => {
                     ))}
                     <li><Link to={designSlug} className={linkCls}>{t("nav.customDesign")}</Link></li>
                     <li>
-                      <Link to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : "/3d-file-checker"} className={linkCls}>
+                      <Link to={isCa ? "/comprovador-arxiu-3d" : isEs ? "/verificador-archivo-3d" : language === "de" ? "/de/3d-datei-pruefen" : language === "fr" ? "/fr/verificateur-fichier-3d" : language === "nl" ? "/nl/3d-bestand-controleren" : language === "it" ? "/it/verifica-file-3d" : language === "pt" ? "/pt/verificador-ficheiro-3d" : "/3d-file-checker"} className={linkCls}>
                         {t("nav.fileChecker")}
                       </Link>
                     </li>
-                    <li><Link to="/catalogo" className={linkCls}>{t("nav.catalog")}</Link></li>
+                    {/* fix-polish §3: /catalogo is Spanish-only, suppress on intl pages */}
+                    {(isEs || isCa || language === "en") && (
+                      <li><Link to="/catalogo" className={linkCls}>{t("nav.catalog")}</Link></li>
+                    )}
                     <li>
                       <Link to={isCa ? "/como-ganar-dinero-con-impresora-3d" : isEs ? "/como-ganar-dinero-con-impresora-3d" : "/how-to-make-money-with-a-3d-printer"} className={linkCls}>
                         {isCa ? "Guanyar diners amb impressora 3D" : isEs ? "Ganar dinero con impresora 3D" : "Make Money With a 3D Printer"}
@@ -238,7 +251,12 @@ const Footer = () => {
           })()}
         </div>
 
-        {/* Delivery cities + popular products */}
+        {/* Delivery cities + popular products.
+            fix-polish §3: the Spanish city deliveries and the /catalogo
+            products are only published in Spanish. Non-es/ca pages
+            (/de/*, /fr/*, /nl/*, /it/*, /pt/*) would have pointed into
+            Spanish-only URLs — suppress both blocks on those locales. */}
+        {(isEs || isCa || language === "en") && (
         <div className={`grid md:grid-cols-2 gap-8 mb-10 pb-10 border-b ${dividerCls}`}>
           <div>
             {acc('delivery', t("footer.cities"),
@@ -263,6 +281,7 @@ const Footer = () => {
             )}
           </div>
         </div>
+        )}
 
         {/* International */}
         <div className={`mb-10 pb-10 border-b ${dividerCls}`}>

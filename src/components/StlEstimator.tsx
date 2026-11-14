@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send, Upload } from "lucide-react";
+import { X, Loader2, RefreshCw, Calculator, Plus, CheckCircle, AlertTriangle, Send, Upload, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -2834,17 +2834,29 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       const priceStr = instantTotalPrice != null ? formatEUR(instantTotalPrice, language) : "";
                       const backLabel = t("calc.exitToast.back");
                       const sureLabel = t("calc.exitToast.sure");
-                      // Custom render so the existing exit-popup e2e selectors
-                      // (data-testid="exit-popup", data-testid="exit-popup-dismiss")
-                      // still match the lightweight toast.
+                      // fix-polish §1.6 — one card: not-sent reassurance, orange
+                      // "Volver al pedido" primary, three one-tap exits
+                      // (WhatsApp, save quote by email, copy share link) and a
+                      // reason-chip row that fires `exit_reason` on tap.
+                      const waHref = `${whatsappUrl()}?text=${encodeURIComponent(`${priceStr} ${window.location.href}`)}`;
+                      const copyLink = async () => {
+                        try { await navigator.clipboard.writeText(window.location.href); sonnerToast(t("calc.saveQuote.copied")); }
+                        catch { /* clipboard denied on http */ }
+                      };
+                      const REASONS = [
+                        t("calc.exitReason.price"),
+                        t("calc.exitReason.unsure"),
+                        t("calc.exitReason.compare"),
+                        t("calc.exitReason.delivery"),
+                      ];
                       sonnerToast.custom((toastId) => (
                         <div
                           data-testid="exit-popup"
                           role="status"
-                          className="rounded-lg border border-border bg-background shadow-lg p-3 min-w-[260px]"
+                          className="rounded-lg border border-border bg-background shadow-lg p-4 min-w-[300px] max-w-sm space-y-3"
                         >
                           <div className="flex items-start justify-between gap-3">
-                            <div>
+                            <div className="min-w-0">
                               <p className="font-semibold text-sm">{priceStr} · {ship}</p>
                               <p className="text-xs text-muted-foreground mt-0.5">{sureLabel}</p>
                             </div>
@@ -2866,12 +2878,57 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                               setMobileModalOpen(true);
                               sonnerToast.dismiss(toastId);
                             }}
-                            className="mt-2 w-full rounded-md bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 shadow-sm hover:bg-cta/90"
+                            className="w-full rounded-md bg-cta text-cta-foreground text-sm font-semibold px-3 py-2 shadow-sm hover:bg-cta/90"
                           >
                             {backLabel}
                           </button>
+                          {/* Three one-tap exits */}
+                          <div className="grid grid-cols-3 gap-2 text-[11px]" data-testid="exit-popup-exits">
+                            <a
+                              href={waHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => { capture('exit_popup_action' as any, { action: 'whatsapp' }); sonnerToast.dismiss(toastId); }}
+                              className="flex items-center justify-center gap-1 rounded-md border border-input px-2 py-1.5 text-foreground hover:bg-muted/50"
+                              data-ph-name="exit-wa"
+                            >
+                              <MessageCircle className="w-3 h-3" /> WhatsApp
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => { setExitPopupReviewExpanded(true); setExitPopupVariant('quote'); setShowExitIntent(true); capture('exit_popup_action' as any, { action: 'save_quote' }); sonnerToast.dismiss(toastId); }}
+                              className="flex items-center justify-center gap-1 rounded-md border border-input px-2 py-1.5 text-foreground hover:bg-muted/50"
+                              data-ph-name="exit-save-quote"
+                            >
+                              <Send className="w-3 h-3" /> {t("calc.saveQuote.link")}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => { copyLink(); capture('exit_popup_action' as any, { action: 'copy_link' }); }}
+                              className="flex items-center justify-center gap-1 rounded-md border border-input px-2 py-1.5 text-foreground hover:bg-muted/50"
+                              data-ph-name="exit-copy-link"
+                            >
+                              {t("calc.saveQuote.copyLink")}
+                            </button>
+                          </div>
+                          {/* Reason chips */}
+                          <div className="pt-1" data-testid="exit-popup-reasons">
+                            <p className="text-[11px] text-muted-foreground mb-1">{t("calc.exitReason.prompt")}</p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {REASONS.map((label) => (
+                                <button
+                                  key={label}
+                                  type="button"
+                                  onClick={() => { capture('exit_reason' as any, { reason: label, price_eur: instantTotalPrice ?? chargedPrice }); sonnerToast.dismiss(toastId); }}
+                                  className="text-[11px] rounded-full border border-input bg-background px-2.5 py-1 text-foreground hover:bg-muted/50"
+                                >
+                                  {label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                      ), { duration: 10_000 });
+                      ), { duration: 15_000 });
                     } else {
                       setExitPopupVariant(variant);
                       setShowExitIntent(true);

@@ -41,6 +41,8 @@ const Catalog = lazy(() => import("./pages/Catalog"));
 const CatalogProduct = lazy(() => import("./pages/CatalogProduct"));
 const Creator = lazy(() => import("./pages/Creator"));
 const DesignRequest = lazy(() => import("./pages/DesignRequest"));
+const PhotoRequest = lazy(() => import("./pages/PhotoRequest"));
+const NlDesignService = lazy(() => import("./pages/NlDesignService"));
 const FileChecker = lazy(() => import("./pages/FileChecker"));
 const ReturnPolicy = lazy(() => import("./pages/ReturnPolicy"));
 const PartPage = lazy(() => import("./pages/PartPage"));
@@ -291,6 +293,11 @@ const App = () => (
               <Route path="/nl/3d-ontwerp-van-foto" element={<DesignRequest />} />
               <Route path="/it/progetta-pezzo-3d" element={<DesignRequest />} />
               <Route path="/pt/desenho-3d-a-partir-de-foto" element={<DesignRequest />} />
+              {/* fix-polish §5.1 — mobile photo-path, three screens */}
+              <Route path="/foto" element={<PhotoRequest />} />
+              <Route path="/photo" element={<PhotoRequest />} />
+              {/* fix-polish §5.2 — new NL design-service landing */}
+              <Route path="/nl/3d-ontwerp-laten-maken" element={<NlDesignService />} />
               <Route path="/3d-file-checker" element={<FileChecker />} />
               <Route path="/verificador-archivo-3d" element={<FileChecker />} />
               <Route path="/comprovador-arxiu-3d" element={<FileChecker />} />
