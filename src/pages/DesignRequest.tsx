@@ -218,7 +218,8 @@ const DesignRequest = () => {
       </Helmet>
       <SocialMeta title={t("design.meta.title")} description={t("design.meta.description")} path={canonicalSlug} />
       <Header />
-      <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
+      {/* fix-polish §4.2 */}
+      <main id="main-content" className="min-h-screen bg-background pt-[calc(var(--header-h)+32px)] md:pt-[calc(var(--header-h)+56px)] pb-20">
         <div className="container px-4 max-w-2xl">
 
           {/* Hero */}

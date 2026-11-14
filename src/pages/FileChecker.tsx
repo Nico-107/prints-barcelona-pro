@@ -154,7 +154,9 @@ const FileChecker = () => {
 
       <Header />
 
-      <main id="main-content" className="min-h-screen bg-background pt-[var(--header-h)] pb-20">
+      {/* fix-polish §4.2: compact-hero top padding so the eyebrow isn't
+          flush under the header on a tool-first page. */}
+      <main id="main-content" className="min-h-screen bg-background pt-[calc(var(--header-h)+32px)] md:pt-[calc(var(--header-h)+56px)] pb-20">
         <div className="container px-4 max-w-2xl">
 
           {/* Hero */}
