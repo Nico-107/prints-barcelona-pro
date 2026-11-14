@@ -727,11 +727,15 @@ if (!args.has("--seo")) {
 }
 
 // ─── 9.5 (partial): content tests over every built HTML file ───────────────
-// Walks dist/ and asserts the forbidden-wording list from 0.1 + 2.10 is
-// absent. Covers only what's been fixed on this branch so far.
+// Walks dist/ and asserts the forbidden-wording list from 0.1 + 2.10 + fix-
+// polish 2.1-2.5 is absent. `pathAllow` names paths where the phrase IS
+// authorised (owner decision). `pathLimit`, when present, means the phrase
+// is only banned on those paths.
 if (!args.has("--seo")) {
   console.log("\n9.5 Content tests over every built page …");
   const forbidden = [
+    // 0.1 — "taller / workshop / Werkstatt / atelier / officina / oficina"
+    //        as a place about Dimension3D.
     { needle: "nuestro taller", why: "'taller' as a place — see 0.1" },
     { needle: "nostre taller", why: "'taller' as a place (ca) — see 0.1" },
     { needle: "our workshop", why: "'workshop' as a place — see 0.1" },
@@ -739,10 +743,39 @@ if (!args.has("--seo")) {
     { needle: "notre atelier", why: "'atelier' as a place — see 0.1" },
     { needle: "nostra officina", why: "'officina' as a place — see 0.1" },
     { needle: "nossa oficina", why: "'oficina' as a place — see 0.1" },
+    // 2.10 — unverified speed promise and Google mentions.
     { needle: "precio en 10 segundos", why: "unverified speed promise — 2.10" },
     { needle: "price in 10 seconds", why: "unverified speed promise — 2.10" },
     { needle: "/5 on Google", why: "no Google mentions — 0.1" },
     { needle: "/5 en Google", why: "no Google mentions — 0.1" },
+    // fix-polish 2.1 + 2.2 — "no minimum order" family in visible text.
+    // Only /impresion-3d-sin-pedido-minimo/ is authorised to contain these.
+    { needle: "Sin Pedido Mínimo", why: "menu-label 2.1", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "sin pedido mínimo", why: "visible 2.1/2.2", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "No Minimum Order", why: "menu-label 2.1 (en)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "no minimum order", why: "visible 2.1/2.2 (en)", pathAllow: ["/impresion-3d-sin-pedido-minimo", "/how-to-choose-3d-printing-service-barcelona", "/choosing-a-3d-printing-service-barcelona"] },
+    { needle: "Sense Comanda Mínima", why: "menu-label 2.1 (ca)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "sense comanda mínima", why: "visible 2.1/2.2 (ca)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "Kein Mindestbestellwert", why: "menu-label 2.1 (de)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "ohne Mindestbestellwert", why: "visible 2.1/2.2 (de)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "sans commande minimum", why: "visible 2.1/2.2 (fr)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "senza ordine minimo", why: "visible 2.1/2.2 (it)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "zonder minimumbestelling", why: "visible 2.1/2.2 (nl)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    { needle: "sem encomenda mínima", why: "visible 2.1/2.2 (pt)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    // fix-polish 2.3 — "our team" family (plural first-person about D3D).
+    { needle: "nuestro equipo", why: "2.3 plural-team" },
+    { needle: "el nostre equip", why: "2.3 plural-team (ca)" },
+    { needle: "notre équipe", why: "2.3 plural-team (fr)" },
+    { needle: "Unser Team", why: "2.3 plural-team (de)" },
+    { needle: "unser Team", why: "2.3 plural-team (de)" },
+    { needle: "A nossa equipa", why: "2.3 plural-team (pt)" },
+    { needle: "a nossa equipa", why: "2.3 plural-team (pt)" },
+    { needle: "Ons team", why: "2.3 plural-team (nl)" },
+    { needle: "ons team", why: "2.3 plural-team (nl)" },
+    // fix-polish 2.5 — "tiers" is OK on city pages (tier-1/tier-2), banned
+    // on the home FAQ where it was English jargon stapled into es / ca.
+    { needle: "hay tiers", why: "2.5 English 'tiers' in es home copy" },
+    { needle: "hi ha tiers", why: "2.5 English 'tiers' in ca home copy" },
   ];
   const contentErrors = [];
   let scanned = 0;
@@ -753,11 +786,16 @@ if (!args.has("--seo")) {
       if (st.isDirectory()) { walk(p); continue; }
       if (!p.endsWith(".html")) continue;
       scanned++;
+      const route = p.replace(DIST, "").replace(/\/index\.html$/, "").replace(/\.html$/, "");
       const html = readFileSync(p, "utf-8");
-      for (const { needle, why } of forbidden) {
-        if (html.includes(needle)) {
-          contentErrors.push(`${p.replace(DIST, "")}: forbidden ${JSON.stringify(needle)} (${why})`);
-        }
+      // Extract only visible text so meta descriptions / og tags don't fire
+      // false positives. Keep <title> content because the title is visible
+      // in the browser tab.
+      const body = html.replace(/<meta[^>]*>/gi, "").replace(/<link[^>]*>/gi, "").replace(/<script[\s\S]*?<\/script>/gi, "");
+      for (const { needle, why, pathAllow } of forbidden) {
+        if (!body.includes(needle)) continue;
+        if (pathAllow && pathAllow.some((a) => route === a || route.startsWith(a + "/"))) continue;
+        contentErrors.push(`${p.replace(DIST, "")}: forbidden ${JSON.stringify(needle)} (${why})`);
       }
     }
   }
