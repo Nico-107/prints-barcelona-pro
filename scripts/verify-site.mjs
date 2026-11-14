@@ -805,6 +805,37 @@ if (!args.has("--seo")) {
   if (contentErrors.length) failed = true;
 }
 
+// ─── fix-polish §4.1 — no hero paragraph ends with "..." or "…" ───────────
+if (!args.has("--seo")) {
+  console.log("\n4.1 Hero subtitles are not truncated …");
+  const truncErrors = [];
+  let scannedTrunc = 0;
+  function walkTrunc(dir) {
+    for (const entry of readdirSync(dir)) {
+      const p = join(dir, entry);
+      const st = statSync(p);
+      if (st.isDirectory()) { walkTrunc(p); continue; }
+      if (!p.endsWith(".html")) continue;
+      scannedTrunc++;
+      const html = readFileSync(p, "utf-8");
+      // hero-subtitle testid used by CenteredHero; split-image hero has the
+      // paragraph in a <p> inside ds-hero-split-text. We match both.
+      const subs = [
+        ...(html.matchAll(/data-testid="hero-subtitle"[^>]*>([\s\S]*?)</g) || []),
+      ];
+      for (const m of subs) {
+        const text = m[1].replace(/<[^>]+>/g, "").trim();
+        if (/(\.\.\.|…)$/.test(text))
+          truncErrors.push(`${p.replace(DIST, "")}: hero subtitle truncated: …${text.slice(-40)}`);
+      }
+    }
+  }
+  walkTrunc(DIST);
+  console.log(`   scanned: ${scannedTrunc} HTML files, errors: ${truncErrors.length}`);
+  for (const e of truncErrors.slice(0, 50)) console.log(`   ✗ ${e}`);
+  if (truncErrors.length) failed = true;
+}
+
 // ─── fix-polish §4.5 — exactly one <h1> per built HTML file ────────────────
 if (!args.has("--seo")) {
   console.log("\n4.5 Exactly one <h1> per prerendered page …");

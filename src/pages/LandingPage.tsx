@@ -198,24 +198,29 @@ const LandingPage = ({ page: pageProp }: Props) => {
       : ctaLabel("primary", pageLang);
   const makerHowLabel = t("How it works", "Cómo funciona", "So funktioniert es", "Com funciona");
 
-  // Phase 2.4 hero rule: subtitle max 2 lines (~140 chars). Service, guide,
-  // blog and about pages used to put a 5–9 line paragraph centered inside
-  // the hero; we now keep the first sentence (or ~140 chars) in the hero
-  // and move the rest to a lead paragraph directly below. Text is
-  // unchanged — just repositioned.
+  // fix-polish §4.1: hero subtitle is one or two COMPLETE sentences, never
+  // truncated with "...". If the intro is short enough it lives whole in
+  // the hero. Otherwise we take the first one-or-two sentences (<=160
+  // chars) and move the remainder into the lead paragraph below the hero.
+  // Pages whose first sentence alone is >160 chars are a page-content
+  // problem: we accept the full first sentence rather than cut mid-word.
   const splitHeroIntro = (intro: string): { short: string; rest: string } => {
     const trimmed = (intro ?? "").trim();
     if (!trimmed) return { short: "", rest: "" };
-    const firstSentenceMatch = trimmed.match(/^[^.?!]*[.?!]/);
-    const first = firstSentenceMatch ? firstSentenceMatch[0].trim() : trimmed;
-    if (trimmed.length <= 145) return { short: trimmed, rest: "" };
-    if (first.length <= 145) return { short: first, rest: trimmed.slice(first.length).trim() };
-    // Long first sentence: split at the last space before 140 chars.
-    const soft = trimmed.slice(0, 140);
-    const cut = soft.lastIndexOf(" ");
-    const shortCut = (cut > 0 ? trimmed.slice(0, cut) : soft).trim() + "…";
-    const rest = trimmed.slice((cut > 0 ? cut : 140)).trim();
-    return { short: shortCut, rest };
+    if (trimmed.length <= 160) return { short: trimmed, rest: "" };
+    const sentences = trimmed.match(/[^.!?]+[.!?]+\s*/g) ?? [trimmed];
+    let acc = "";
+    let used = 0;
+    for (const s of sentences) {
+      const next = (acc + s).trim();
+      if (next.length > 160 && acc) break;
+      acc = next;
+      used += s.length;
+      if (acc.length >= 100) break;
+    }
+    const short = acc || sentences[0].trim();
+    const rest = trimmed.slice(used).trim();
+    return { short, rest };
   };
   const { short: heroSubtitle, rest: heroLeadRest } = splitHeroIntro(page.intro);
 
