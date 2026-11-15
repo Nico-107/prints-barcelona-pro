@@ -942,6 +942,18 @@ const Admin = () => {
         {/* ── Orders tab ────────────────────────────────────────────────────── */}
         {activeTab === "orders" && (
           <>
+            {/* Phase 2 banner — the new work-queue surfaces live at /admin/queue,
+                /admin/print-queue, /admin/quotes-inbox, /admin/search. The legacy
+                tabs on this page keep working during the transition. */}
+            <div className="mb-4 rounded-lg border bg-slate-50 p-3 text-sm flex flex-wrap items-center gap-2 justify-between">
+              <span className="text-slate-700">Nuevo panel:</span>
+              <div className="flex flex-wrap gap-2">
+                <a className="underline" href="/admin/queue">Cola de pedidos</a>
+                <a className="underline" href="/admin/print-queue">Cola de impresión</a>
+                <a className="underline" href="/admin/quotes-inbox">Revisiones</a>
+                <a className="underline" href="/admin/search">Buscar</a>
+              </div>
+            </div>
             <div className="flex items-center gap-3 mb-6 flex-wrap">
               <div className="relative flex-1 min-w-[200px]">
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
