@@ -18,6 +18,7 @@ import { partPages } from "@/data/partsPages";
 import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS } from "@/data/intlRegistry";
 
 const Track = lazy(() => import("./pages/Track"));
+const OrderPage = lazy(() => import("./pages/OrderPage"));
 const Internal = lazy(() => import("./pages/Internal"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminOrders = lazy(() => import("./pages/AdminOrders"));
@@ -255,6 +256,7 @@ const App = () => (
               <Route path="/ca" element={<Index />} />
               <Route path="/3d-printing-service" element={<IntlHubPage content={EN_HUB} />} />
               <Route path="/track" element={<Track />} />
+              <Route path="/pedido/:token" element={<OrderPage />} />
               {/* Conv 4.1 + 4.6: internal tooling, noindex. */}
               <Route path="/internal" element={<Internal />} />
               <Route path="/makers" element={<Makers />} />

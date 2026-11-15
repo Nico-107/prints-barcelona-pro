@@ -21,26 +21,52 @@ const Track = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const [orderNumber, setOrderNumber] = useState(params.get("order") || "");
-  const [phone3, setPhone3] = useState("");
+  // Item 1.5: single input accepts either email OR last 3 digits of the phone.
+  // The confirmation email promises "email or phone"; we pick the right lookup
+  // based on what the user typed.
+  const [credential, setCredential] = useState("");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<any>(null);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const num = parseInt(orderNumber.trim(), 10);
-    const digits = phone3.trim();
-    if (!num || digits.length !== 3) {
+    const raw = credential.trim();
+    if (!num || raw.length === 0) {
       toast({ title: t("track.error.title"), description: t("track.error.invalid"), variant: "destructive" });
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase.rpc("get_order_tracking", {
-      _order_number: num,
-      _phone_last3: digits,
-    });
+    const isEmail = raw.includes("@");
+    let row: any = null;
+    let error: unknown = null;
+    if (isEmail) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res = await (supabase as any).rpc("get_order_tracking_by_email", {
+        _order_number: num,
+        _email: raw.toLowerCase(),
+      });
+      if (res.error) {
+        // Fallback: try the digits-only variant if the user put @ by mistake.
+        error = res.error;
+      } else {
+        row = Array.isArray(res.data) ? res.data[0] : res.data;
+      }
+    }
+    if (!row) {
+      const digitsOnly = raw.replace(/\D/g, "").slice(-3);
+      if (digitsOnly.length === 3) {
+        const res = await supabase.rpc("get_order_tracking", {
+          _order_number: num,
+          _phone_last3: digitsOnly,
+        });
+        row = Array.isArray(res.data) ? res.data[0] : res.data;
+        error = res.error ?? error;
+      }
+    }
     setLoading(false);
-    const row = Array.isArray(data) ? data[0] : data;
-    if (error || !row) {
+    if (!row) {
+      void navigate; void error;
       toast({ title: t("track.error.title"), description: t("track.error.notFound"), variant: "destructive" });
       return;
     }
@@ -90,17 +116,16 @@ const Track = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1.5">{t("track.phone3")}</label>
+                <label className="block text-sm font-medium mb-1.5">Email o últimos 3 dígitos del teléfono</label>
                 <Input
                   type="text"
-                  inputMode="numeric"
-                  maxLength={3}
-                  placeholder="422"
-                  value={phone3}
-                  onChange={(e) => setPhone3(e.target.value.replace(/\D/g, ""))}
-                  className="h-12 text-lg tracking-widest"
+                  inputMode="text"
+                  placeholder="tucorreo@email.com  ·  422"
+                  value={credential}
+                  onChange={(e) => setCredential(e.target.value)}
+                  className="h-12 text-lg"
                 />
-                <p className="text-xs text-muted-foreground mt-1.5">{t("track.phone3.hint")}</p>
+                <p className="text-xs text-muted-foreground mt-1.5">Usa el email o el teléfono que nos facilitaste al hacer el pedido.</p>
               </div>
               <Button type="submit" variant="accent" size="lg" className="w-full" disabled={loading}>
                 {loading ? t("track.searching") : t("track.search")}
