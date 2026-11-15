@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { renderOwnerQuoteEmail, type OwnerEmailPiece } from "../_shared/ownerEmailTemplates.ts";
+
+const SITE_ORIGIN = "https://www.dimension3dprints.com";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
@@ -383,6 +386,55 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Processing quote request: ${safeMaterial} ${infillPct ?? 0}% ${wallsLabel} (IP: ${clientIP})`);
 
+    // Item 1.3: new owner-email template for the [REVISIÓN] path.
+    const firstNameOrLocal = ((): string => {
+      const addr = contactEmail?.trim() ?? "";
+      const local = addr ? addr.split("@")[0] : "";
+      return local || safePhone || "cliente";
+    })();
+    const ownerPieces: OwnerEmailPiece[] = Array.isArray(pieces)
+      ? pieces.map((p: PieceSpec) => ({
+          name: String(p.name ?? "pieza"),
+          quantity: Number(p.quantity ?? 1),
+          material: String(p.material ?? material ?? ""),
+          color: p.color ?? null,
+          infill: typeof p.infill === "number" ? p.infill : null,
+          wallLoops: typeof p.wallLoops === "number" ? p.wallLoops : null,
+          quality: p.quality ?? null,
+          supports: typeof p.supports === "boolean" ? p.supports : null,
+          grams: p.gramsPerUnit ?? p.est?.gramsPerUnit ?? null,
+          hours: p.est?.hours ?? null,
+        }))
+      : [];
+    const materialSummary = (() => {
+      const mats = Array.from(new Set(ownerPieces.map((p) => p.material).filter(Boolean)));
+      if (mats.length === 1) return mats[0];
+      return mats.length > 1 ? `MIX (${mats.join(",")})` : (material ?? null);
+    })();
+    const countryGuess = (() => {
+      const addr = contactEmail?.trim() ?? "";
+      const tld = addr.includes("@") ? addr.split("@")[1]?.split(".").pop() : null;
+      if (tld && tld.length === 2) return tld.toUpperCase();
+      return (pageLanguage ?? "ES").toUpperCase();
+    })();
+    const ownerEmail = renderOwnerQuoteEmail({
+      firstNameOrLocal,
+      customerMessage: notes ?? null,
+      customerEmail: contactEmail?.trim() || null,
+      customerPhone: contactPhone?.trim() || null,
+      totalCents: priceExact != null ? Math.round(Number(priceExact) * 100) : null,
+      countryCode: countryGuess,
+      materialSummary,
+      totalUnits: totalUnits ?? null,
+      pieces: ownerPieces,
+      adminOrderUrl: quote_id
+        ? `${SITE_ORIGIN}/admin?quote=${encodeURIComponent(String(quote_id))}`
+        : `${SITE_ORIGIN}/admin`,
+      zipDownloadUrl: null,
+      sourcePath: sourcePath ?? null,
+      pageLanguage: pageLanguage ?? null,
+    });
+
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -392,56 +444,8 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Dimension3D <noreply@dimension3dprints.com>",
         to: recipients,
-        subject: (() => {
-          const lang = (pageLanguage ?? safeLang ?? "es").toLowerCase();
-          const flag = lang === "en" ? "🇬🇧" : lang === "de" ? "🇩🇪" : lang === "fr" ? "🇫🇷" : lang === "it" ? "🇮🇹" : lang === "nl" ? "🇳🇱" : lang === "pt" ? "🇵🇹" : "🇪🇸";
-          const path = sourcePath ? sourcePath : "web";
-          const price = priceExact != null ? `€${Number(priceExact).toFixed(2)}` : `€${Math.round(priceLow ?? 0)}–€${Math.round(priceHigh ?? 0)}`;
-          return `[REVISIÓN] ${flag} ${lang.toUpperCase()} · ${path} — ${safeMaterial} · ${price}`;
-        })(),
-        html: `
-          <div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;color:#0f172a;">
-            <h1 style="color:#0f172a;font-size:20px;margin-bottom:4px;">Nueva solicitud de presupuesto</h1>
-            ${quote_id ? `<p style="font-size:12px;color:#9ca3af;margin-top:0;">ID: ${sanitize(quote_id)}</p>` : ""}
-
-            <div style="background:#f1f5f9;padding:20px;border-radius:8px;margin:16px 0;">
-              <h2 style="color:#334155;margin-top:0;font-size:15px;">Contacto</h2>
-              ${safeEmail ? `<p style="margin:4px 0;"><strong>Email:</strong> <a href="mailto:${safeEmail}" style="color:#0284c7;">${safeEmail}</a></p>` : ""}
-              ${safePhone ? `<p style="margin:4px 0;"><strong>WhatsApp / Tel:</strong> ${safePhone}</p>` : ""}
-              <p style="margin:4px 0;"><strong>Idioma:</strong> ${safeLang}</p>
-            </div>
-
-            <div style="background:#fffbeb;padding:20px;border-radius:8px;margin:16px 0;">
-              <h2 style="color:#92400e;margin-top:0;font-size:15px;">Detalles del presupuesto</h2>
-              <p style="margin:4px 0;font-size:15px;"><strong>Urgencia:</strong> ${safeUrgency}</p>
-              ${pieces?.some(p => p.material && KNOWN_QUOTE_MATERIALS.has(p.material))
-                ? `<p style="margin:4px 0;"><strong>Especificaciones:</strong> por pieza (ver STL)</p>`
-                : `<p style="margin:4px 0;"><strong>Material:</strong> ${safeMaterial}</p>
-              ${safeColor ? `<p style="margin:4px 0;"><strong>Color:</strong> ${safeColor}</p>` : ""}
-              <p style="margin:4px 0;"><strong>Relleno:</strong> ${infillPct ?? 0}%</p>
-              <p style="margin:4px 0;"><strong>Perímetros:</strong> ${wallsLabel}</p>`}
-              <p style="margin:4px 0;"><strong>Peso:</strong> ${Number(totalGrams ?? 0).toFixed(1)} g &nbsp;·&nbsp; <strong>Tiempo:</strong> ${Number(totalHours ?? 0).toFixed(1)} h &nbsp;·&nbsp; <strong>Unidades:</strong> ${totalUnits ?? 0}</p>
-              <p style="margin:4px 0;"><strong>Precio mostrado:</strong> €${Math.round(priceLow ?? 0)}–€${Math.round(priceHigh ?? 0)}</p>
-              ${priceExact != null ? `<p style="font-size:16px;font-weight:bold;color:#065f46;margin:8px 0 0 0;">Precio calculado: EUR ${Number(priceExact).toFixed(2)}</p>` : ""}
-              ${fulfillment ? `<p style="margin:4px 0;"><strong>Fulfillment:</strong> ${sanitize(fulfillment)}</p>` : ""}
-            </div>
-
-            ${stlSectionHtml}
-
-            <div style="background:#f0f9ff;padding:16px;border-radius:8px;margin:16px 0;font-size:13px;">
-              <h2 style="color:#0369a1;margin-top:0;font-size:14px;">Origen</h2>
-              ${sourcePath ? `<p style="margin:3px 0;"><strong>Página:</strong> ${sanitize(sourcePath)}</p>` : ""}
-              ${pageLanguage ? `<p style="margin:3px 0;"><strong>Idioma página:</strong> ${sanitize(pageLanguage)}</p>` : ""}
-              ${browserLanguage ? `<p style="margin:3px 0;"><strong>Idioma navegador:</strong> ${sanitize(browserLanguage)}</p>` : ""}
-              ${referrer ? `<p style="margin:3px 0;"><strong>Referrer:</strong> ${sanitize(referrer)}</p>` : ""}
-              ${utm ? `<p style="margin:3px 0;"><strong>UTM:</strong> ${sanitize(JSON.stringify(utm))}</p>` : ""}
-            </div>
-
-            <p style="color:#9ca3af;font-size:12px;margin-top:16px;">
-              Dimension3D — calculadora automática
-            </p>
-          </div>
-        `,
+        subject: ownerEmail.subject,
+        html: ownerEmail.html,
       }),
     });
 

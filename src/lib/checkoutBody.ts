@@ -31,6 +31,11 @@ export interface CheckoutBody {
   quantity: number;
   filePaths: string[];
   fileNames: string[];
+  /** Files the customer uploaded while the price window was open but did not
+   *  buy (removed from cart, images used as references, link-only STLs, etc.).
+   *  Each entry is {path, name}. The server stores this on the order so the
+   *  owner sees "Subidos pero no comprados" (item 1.3). */
+  uploadedNotPurchased?: Array<{ path: string; name: string }>;
   contactEmail: string | null;
   contactPhone: string | null;
   language: string;
@@ -100,6 +105,26 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
     multicolour: pc.multicolour,
   })));
 
+  // #264 fix: file_paths must align with priced pieces, not everything the
+  // user ever uploaded. Build them from uploaded.byId keyed on the pieces
+  // that actually made the cart, then surface the leftover uploads in a
+  // dedicated field so the owner email can call them out separately.
+  const purchasedPaths: string[] = [];
+  const purchasedNames: string[] = [];
+  const keptIds = new Set<string>();
+  for (const f of p.validFiles) {
+    const path = p.uploaded.byId[f.id];
+    if (!path) continue;
+    purchasedPaths.push(path);
+    purchasedNames.push(f.name);
+    keptIds.add(path);
+  }
+  const uploadedNotPurchased: Array<{ path: string; name: string }> = [];
+  p.uploaded.paths.forEach((path, i) => {
+    if (keptIds.has(path)) return;
+    uploadedNotPurchased.push({ path, name: p.uploaded.names[i] ?? path });
+  });
+
   return {
     pricingVersion: 3,
     urgency: p.urgency,
@@ -111,8 +136,9 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
     infill: summary.infillNum,
     wallLoops: summary.isUniform ? summary.wallLoops : null,
     quantity: p.bundle.totalUnits,
-    filePaths: p.uploaded.paths,
-    fileNames: p.uploaded.names,
+    filePaths: purchasedPaths,
+    fileNames: purchasedNames,
+    uploadedNotPurchased: uploadedNotPurchased.length > 0 ? uploadedNotPurchased : undefined,
     contactEmail: p.contactEmail.trim() || null,
     contactPhone: p.contactPhone.trim() || null,
     language: p.language,

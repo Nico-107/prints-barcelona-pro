@@ -1,9 +1,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { renderOwnerPurchaseEmail, type OwnerPurchaseEmailPiece } from "../_shared/ownerEmailTemplates.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_RECIPIENT = "dimension3dprintsbcn@gmail.com";
+const CUSTOMER_REPLY_TO = "dimension3dprintsbcn@gmail.com";
 const TRACK_URL = "https://www.dimension3dprints.com/track";
+const SITE_ORIGIN = "https://www.dimension3dprints.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -123,19 +126,21 @@ const shell = (inner: string) => `
   </div>
 `;
 
-async function sendEmail(to: string[], subject: string, html: string) {
+async function sendEmail(to: string[], subject: string, html: string, opts: { replyTo?: string } = {}) {
+  const body: Record<string, unknown> = {
+    from: "Dimension3D <noreply@dimension3dprints.com>",
+    to,
+    subject,
+    html,
+  };
+  if (opts.replyTo) body.reply_to = opts.replyTo;
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${RESEND_API_KEY}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      from: "Dimension3D <noreply@dimension3dprints.com>",
-      to,
-      subject,
-      html,
-    }),
+    body: JSON.stringify(body),
   });
   if (!res.ok) {
     const details = await res.text();
@@ -297,81 +302,106 @@ serve(async (req: Request) => {
 
     const clientContact = safeEmail ?? safePhone ?? "sin contacto";
 
-    // ---------- ADMIN COPY ----------
-    const adminHtml = shell(`
-      <div style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:16px 20px;margin-bottom:24px;">
-        <p style="color:#0f172a;font-size:13px;font-weight:700;margin:0 0 8px 0;text-transform:uppercase;letter-spacing:.05em;">Cliente</p>
-        ${safeName ? `<p style="margin:4px 0;"><strong>Nombre:</strong> ${safeName}</p>` : ""}
-        <p style="margin:4px 0;"><strong>Email:</strong> ${safeEmail ? sanitize(safeEmail) : "—"}</p>
-        <p style="margin:4px 0;"><strong>Teléfono:</strong> ${safePhone ? sanitize(safePhone) : "—"}</p>
-      </div>
+    // ---------- ADMIN COPY (item 1.3: shared layout, new subject, uploads-not-bought) ----------
+    // Fetch the order row to get shipping_address, uploaded_not_purchased, and the admin deep link.
+    let orderRow: Record<string, unknown> | null = null;
+    try {
+      const { data: row } = await admin
+        .from("orders")
+        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents")
+        .eq("order_number", orderNumber)
+        .maybeSingle();
+      orderRow = row as Record<string, unknown> | null;
+    } catch (_e) {
+      // Older schema without uploaded_not_purchased — retry without it
+      try {
+        const { data: row } = await admin
+          .from("orders")
+          .select("id, shipping_address, total_paid_cents")
+          .eq("order_number", orderNumber)
+          .maybeSingle();
+        orderRow = row as Record<string, unknown> | null;
+      } catch (_e2) { /* ignore */ }
+    }
 
-      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:0 0 24px 0;">
-        <h2 style="color:#92400e;margin:0 0 12px 0;font-size:16px;">Pedido #${orderNumber}</h2>
-        <p style="margin:6px 0;"><strong>Material:</strong> ${safeMaterial}</p>
-        <p style="margin:6px 0;"><strong>Color:</strong> ${safeColor ?? "—"}</p>
-        <p style="margin:6px 0;"><strong>Relleno:</strong> ${infill != null ? sanitize(String(infill)) : "—"}</p>
-        <p style="margin:6px 0;"><strong>Paredes:</strong> ${wallLoops != null ? sanitize(String(wallLoops)) : "—"}</p>
-        ${Array.isArray(pieces) && pieces.length > 0
-          ? (() => {
-              const hasPerPart = pieces.some((p: ConfirmationPiece) => p.material);
-              const hasCost    = pieces.some((p: ConfirmationPiece) => p.costCents != null);
-              const hasEst     = pieces.some((p: ConfirmationPiece) => p.est != null);
-              const thStyle    = "text-align:left;padding:3px 6px;background:#f1f5f9;border:1px solid #e2e8f0;";
-              const tdStyle    = "padding:3px 6px;border:1px solid #e2e8f0;";
-              const tdR        = "padding:3px 6px;border:1px solid #e2e8f0;text-align:right;";
-              const perPartCols = hasPerPart ? 6 : 0;
-              const estCols     = hasEst ? 3 : 0;
-              return `<p style="margin:6px 0;"><strong>Cantidad total:</strong> ${quantity ?? 1}</p>
-             <table style="width:100%;border-collapse:collapse;margin:6px 0 8px 0;font-size:12px;">
-               <thead><tr>
-                 <th style="${thStyle}">Pieza</th>
-                 <th style="${thStyle}text-align:right;">Cant.</th>
-                 ${hasPerPart ? `<th style="${thStyle}">Material</th><th style="${thStyle}">Relleno</th><th style="${thStyle}">Paredes</th><th style="${thStyle}">Color</th><th style="${thStyle}">Calidad</th><th style="${thStyle}">Soportes</th>` : ""}
-                 ${hasEst ? `<th style="${thStyle}text-align:right;">g/u</th><th style="${thStyle}text-align:right;">h</th><th style="${thStyle}">Orient.</th>` : ""}
-                 ${hasCost ? `<th style="${thStyle}text-align:right;">Importe</th>` : ""}
-               </tr></thead>
-               <tbody>
-                 ${pieces.map((p: ConfirmationPiece) => `<tr>
-                   <td style="${tdStyle}">${sanitize(p.name)}</td>
-                   <td style="${tdR}">${p.quantity}</td>
-                   ${hasPerPart ? `<td style="${tdStyle}">${p.material ? sanitize(p.material) : "—"}</td><td style="${tdStyle}">${p.infill != null ? sanitize(String(p.infill)) + "%" : "—"}</td><td style="${tdStyle}">${p.wallLoops != null ? sanitize(String(p.wallLoops)) : "—"}</td><td style="${tdStyle}">${p.color ? sanitize(p.color) : "—"}</td><td style="${tdStyle}">${p.quality ? sanitize(p.quality) : "—"}</td><td style="${tdStyle}">${p.supports != null ? (p.supports ? "sí" : "no") : "—"}</td>` : ""}
-                   ${hasEst ? `<td style="${tdR}">${p.est?.gramsPerUnit != null ? Number(p.est.gramsPerUnit).toFixed(1) : "—"}</td><td style="${tdR}">${p.est?.hours != null ? Number(p.est.hours).toFixed(2) : "—"}</td><td style="${tdStyle}">${p.orientation != null ? sanitize(String(p.orientation)) : "—"}</td>` : ""}
-                   ${hasCost ? `<td style="${tdR}">${p.costCents != null ? "€" + (p.costCents / 100).toFixed(2) : "—"}</td>` : ""}
-                 </tr>`).join("")}
-                 <tr style="font-weight:bold;border-top:2px solid #cbd5e1;">
-                   <td style="${tdStyle}">Total</td>
-                   <td style="${tdR}">${pieces.reduce((s: number, p: ConfirmationPiece) => s + p.quantity, 0)}</td>
-                   ${hasPerPart ? `<td colspan="${perPartCols}" style="${tdStyle}"></td>` : ""}
-                   ${hasEst ? `<td colspan="${estCols}" style="${tdStyle}"></td>` : ""}
-                   ${hasCost ? `<td style="${tdR}"></td>` : ""}
-                 </tr>
-               </tbody>
-             </table>`;
-            })()
-          : `<p style="margin:6px 0;"><strong>Cantidad:</strong> ${quantity ?? 1}</p>`
-        }
-        <p style="margin:6px 0;"><strong>Entrega:</strong> ${fulfillment ? sanitize(String(fulfillment)) : "—"}</p>
-        ${addressHtml}
-        <p style="margin:6px 0;"><strong>Precio pagado:</strong> &euro;${price.toFixed(2)}</p>
-        ${deliveryHtml}
-      </div>
+    const orderId = (orderRow?.id as string | undefined) ?? "";
+    const totalPaidCents = ((): number => {
+      if (orderRow && typeof orderRow.total_paid_cents === "number") return orderRow.total_paid_cents as number;
+      return Math.round(price * 100);
+    })();
 
-      ${filesBlock}
+    const uploadedNotPurchasedRaw = (orderRow?.uploaded_not_purchased as unknown) ?? [];
+    const uploadedNotPurchased: Array<{ path: string; name: string }> = Array.isArray(uploadedNotPurchasedRaw)
+      ? (uploadedNotPurchasedRaw as Array<Record<string, unknown>>)
+          .filter((x) => x && typeof x.path === "string" && typeof x.name === "string")
+          .map((x) => ({ path: x.path as string, name: x.name as string }))
+      : [];
+    const uploadedSigned = [] as Array<{ name: string; signedUrl: string | null }>;
+    for (const u of uploadedNotPurchased) {
+      const { data } = await admin.storage
+        .from("print-requests")
+        .createSignedUrl(u.path, 60 * 60 * 24 * 7);
+      uploadedSigned.push({ name: u.name, signedUrl: data?.signedUrl ?? null });
+    }
 
-      ${(sourcePath || pageLanguage) ? `
-      <div style="background:#f0f9ff;padding:14px 16px;border-radius:8px;margin:16px 0;font-size:12px;color:#334155;">
-        <p style="font-weight:700;margin:0 0 6px 0;color:#0369a1;">Origen</p>
-        ${sourcePath ? `<p style="margin:2px 0;"><strong>Página:</strong> ${sanitize(sourcePath)}</p>` : ""}
-        ${pageLanguage ? `<p style="margin:2px 0;"><strong>Idioma:</strong> ${sanitize(pageLanguage)}</p>` : ""}
-      </div>` : ""}
-    `);
+    const addrObj = (orderRow?.shipping_address as Record<string, unknown> | undefined) ?? (shippingAddress as Record<string, unknown> | undefined) ?? null;
+    const flatAddr: Record<string, unknown> | null = (() => {
+      if (!addrObj) return null;
+      if (addrObj.address && typeof addrObj.address === "object") return addrObj.address as Record<string, unknown>;
+      return addrObj as Record<string, unknown>;
+    })();
+    const destCountry = flatAddr && typeof flatAddr.country === "string" ? (flatAddr.country as string) : null;
+    const destCity    = flatAddr && typeof flatAddr.city    === "string" ? (flatAddr.city    as string) : null;
+
+    const ownerPieces: OwnerPurchaseEmailPiece[] = Array.isArray(pieces)
+      ? (pieces as ConfirmationPiece[]).map((p) => ({
+          name: String(p.name ?? ""),
+          quantity: Number(p.quantity ?? 1),
+          material: String(p.material ?? ""),
+          color: p.color ?? null,
+          priceCents: typeof p.costCents === "number" ? p.costCents : null,
+          infill: typeof p.infill === "number" ? p.infill : (p.infill != null ? Number(p.infill) : null),
+          wallLoops: typeof p.wallLoops === "number" ? p.wallLoops : (p.wallLoops != null ? Number(p.wallLoops) : null),
+          quality: p.quality ?? null,
+          supports: typeof p.supports === "boolean" ? p.supports : null,
+          orientation: p.orientation ?? null,
+          grams: p.est?.gramsPerUnit ?? null,
+          hours: p.est?.hours ?? null,
+        }))
+      : [{ name: "Pieza", quantity: Number(quantity ?? 1), material: String(material ?? ""), color: resolvedColor }];
+
+    const adminOrderUrl = orderId
+      ? `${SITE_ORIGIN}/admin?order=${encodeURIComponent(orderId)}`
+      : `${SITE_ORIGIN}/admin`;
+    const zipDownloadUrl = `${supabaseUrl}/functions/v1/order-files-zip?order_number=${encodeURIComponent(String(orderNumber))}`;
+
+    const ownerEmail = renderOwnerPurchaseEmail({
+      orderNumber: Number(orderNumber),
+      totalPaidCents,
+      paymentMethod: paymentMethod ?? null,
+      customerName: customerName ?? null,
+      customerEmail: safeEmail ?? null,
+      customerPhone: safePhone ?? null,
+      fulfillment: (fulfillment === "pickup" ? "pickup" : "shipping"),
+      destinationCountry: destCountry,
+      destinationCity: destCity,
+      shippingAddress: flatAddr,
+      shipByIso: deliveryDate ?? null,
+      pieces: ownerPieces,
+      uploadedNotPurchased: uploadedSigned,
+      adminOrderUrl,
+      zipDownloadUrl,
+      sourcePath: sourcePath ?? null,
+      pageLanguage: pageLanguage ?? null,
+    });
 
     const adminResult = await sendEmail(
       [ADMIN_RECIPIENT],
-      `[COMPRA INSTANTÁNEA] Pedido #${orderNumber} confirmado — cliente: ${clientContact}`,
-      adminHtml,
+      ownerEmail.subject,
+      ownerEmail.html,
     );
+    // Old formatting helpers kept for the customer copy (1.4 rewrites it).
+    void clientContact; void filesBlock; void addressHtml; void deliveryHtml; void safeMaterial; void safeColor;
 
     // ---------- CUSTOMER COPY ----------
     let customerEmailId: string | null = null;
@@ -407,6 +437,7 @@ serve(async (req: Request) => {
         [safeEmail],
         `Pedido #${orderNumber} confirmado — Dimension3D`,
         customerHtml,
+        { replyTo: CUSTOMER_REPLY_TO },
       );
       customerEmailId = customerResult.id ?? null;
     }

@@ -628,23 +628,60 @@ serve(async (req: Request) => {
         ? `3D Print — ${v3UniqueMats[0]}${v3Pieces[0].color ? ` (${v3Pieces[0].color})` : ""}`
         : `3D Print — Mixed (${v3UniqueMats.join(", ")})`;
 
-      const { data: v3OrderRow, error: v3OrderErr } = await supabaseV3
-        .from("orders")
-        .insert({
-          product_title: v3ProductTitle,
-          customer_phone: (typeof body.contactPhone === "string" && body.contactPhone.trim()) || "see notes",
-          customer_email: (typeof body.contactEmail === "string" && body.contactEmail.trim()) || null,
-          status: "awaiting_payment",
-          fulfillment: vBody.fulfillment,
-          notes: v3Notes,
-          photos: [],
-          payment_method: "stripe",
-          payment_status: "pending",
-          file_paths: Array.isArray(body.filePaths) ? body.filePaths.map(String) : [],
-          pieces: v3Pieces,
-        })
-        .select("id, order_number")
-        .single();
+      // Item 1.3: uploaded-but-not-purchased files are kept separately so
+      // the owner email can call them out. Fall back to [] when the client
+      // is an older build that doesn't send the field.
+      const uploadedNotPurchasedRaw = (body as Record<string, unknown>).uploadedNotPurchased;
+      const uploadedNotPurchased = Array.isArray(uploadedNotPurchasedRaw)
+        ? uploadedNotPurchasedRaw.filter(
+            (x): x is { path: string; name: string } =>
+              !!x && typeof (x as { path?: unknown }).path === "string" && typeof (x as { name?: unknown }).name === "string"
+          )
+        : [];
+
+      const orderInsertPayload: Record<string, unknown> = {
+        product_title: v3ProductTitle,
+        customer_phone: (typeof body.contactPhone === "string" && body.contactPhone.trim()) || "see notes",
+        customer_email: (typeof body.contactEmail === "string" && body.contactEmail.trim()) || null,
+        status: "awaiting_payment",
+        fulfillment: vBody.fulfillment,
+        notes: v3Notes,
+        photos: [],
+        payment_method: "stripe",
+        payment_status: "pending",
+        file_paths: Array.isArray(body.filePaths) ? body.filePaths.map(String) : [],
+        pieces: v3Pieces,
+      };
+      if (uploadedNotPurchased.length > 0) {
+        orderInsertPayload.uploaded_not_purchased = uploadedNotPurchased;
+      }
+
+      let v3OrderRow: { id: string; order_number: number } | null = null;
+      let v3OrderErr: { message?: string } | null = null;
+      {
+        const first = await supabaseV3
+          .from("orders")
+          .insert(orderInsertPayload)
+          .select("id, order_number")
+          .single();
+        v3OrderRow = first.data;
+        v3OrderErr = first.error ?? null;
+        // Degrade gracefully when the migration is not deployed yet.
+        if (
+          v3OrderErr &&
+          typeof v3OrderErr.message === "string" &&
+          v3OrderErr.message.toLowerCase().includes("uploaded_not_purchased")
+        ) {
+          const { uploaded_not_purchased: _drop, ...retry } = orderInsertPayload;
+          const second = await supabaseV3
+            .from("orders")
+            .insert(retry)
+            .select("id, order_number")
+            .single();
+          v3OrderRow = second.data;
+          v3OrderErr = second.error ?? null;
+        }
+      }
 
       if (v3OrderErr || !v3OrderRow) {
         console.error("Order insert failed (v3):", v3OrderErr);

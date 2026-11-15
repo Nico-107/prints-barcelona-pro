@@ -798,6 +798,26 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     estimateShownRef.current = false;
     modalShownRef.current = false;
     setParsedFiles(prev => prev.filter(f => f.id !== id));
+    // #264 fix: drop the removed file from the pre-upload ref so that the
+    // file_paths submitted to checkout matches the current cart. Without
+    // this, orders end up with more file_paths than priced pieces.
+    const ref = uploadedRef.current;
+    if (ref && ref.byId[id]) {
+      const removedPath = ref.byId[id];
+      const nextById: Record<string, string> = {};
+      for (const [fid, p] of Object.entries(ref.byId)) {
+        if (fid === id) continue;
+        nextById[fid] = p;
+      }
+      const nextPaths: string[] = [];
+      const nextNames: string[] = [];
+      ref.paths.forEach((p, i) => {
+        if (p === removedPath) return;
+        nextPaths.push(p);
+        nextNames.push(ref.names[i] ?? "");
+      });
+      uploadedRef.current = { paths: nextPaths, names: nextNames, byId: nextById };
+    }
     if (scope === id) setScope("all");
   };
 

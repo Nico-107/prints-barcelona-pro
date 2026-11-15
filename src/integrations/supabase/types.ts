@@ -123,6 +123,7 @@ export type Database = {
           tracking_token: string
           tracking_url: string | null
           updated_at: string
+          uploaded_not_purchased: Json
           utm_content: string | null
           utm_medium: string | null
           utm_source: string | null
@@ -158,6 +159,7 @@ export type Database = {
           tracking_token?: string
           tracking_url?: string | null
           updated_at?: string
+          uploaded_not_purchased?: Json
           utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
@@ -193,6 +195,7 @@ export type Database = {
           tracking_token?: string
           tracking_url?: string | null
           updated_at?: string
+          uploaded_not_purchased?: Json
           utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null

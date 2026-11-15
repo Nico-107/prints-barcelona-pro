@@ -194,3 +194,32 @@ describe("Guard — urgency MUST be present (server rejects if missing)", () => 
     expect(r.ok).toBe(false);
   });
 });
+
+describe("#264 fix — file_paths matches purchased pieces, leftovers go to uploadedNotPurchased", () => {
+  it("drops orphan paths that have no matching piece", () => {
+    const files = [file("a", "box.stl", 1, boxAnalysis), file("b", "tbeam.stl", 1, tAnalysis)];
+    const bundle = computeBundleV3(files, defaultsStd, "standard")!;
+    const uploaded = {
+      paths: ["1700000000-box.stl", "1700000000-tbeam.stl", "1700000000-removed.stl"],
+      names: ["box.stl", "tbeam.stl", "removed.stl"],
+      byId: { a: "1700000000-box.stl", b: "1700000000-tbeam.stl" },
+    };
+    const body = buildCheckoutBody({ ...baseParams, validFiles: files, defaults: defaultsStd, bundle, uploaded });
+    expect(body.filePaths).toEqual(["1700000000-box.stl", "1700000000-tbeam.stl"]);
+    expect(body.fileNames).toEqual(["box.stl", "tbeam.stl"]);
+    expect(body.uploadedNotPurchased).toEqual([{ path: "1700000000-removed.stl", name: "removed.stl" }]);
+  });
+
+  it("omits uploadedNotPurchased when every uploaded path is in the cart", () => {
+    const files = [file("a", "box.stl", 1, boxAnalysis)];
+    const bundle = computeBundleV3(files, defaultsStd, "standard")!;
+    const uploaded = {
+      paths: ["1700000000-box.stl"],
+      names: ["box.stl"],
+      byId: { a: "1700000000-box.stl" },
+    };
+    const body = buildCheckoutBody({ ...baseParams, validFiles: files, defaults: defaultsStd, bundle, uploaded });
+    expect(body.filePaths).toEqual(["1700000000-box.stl"]);
+    expect(body.uploadedNotPurchased).toBeUndefined();
+  });
+});
