@@ -285,6 +285,112 @@ serve(async (req: Request) => {
             if (mailErr) console.error("send-order-confirmation failed:", mailErr);
           }
         }
+      } else if (session.metadata?.quote_id) {
+        // Phase 3: a quote link was paid — convert the quote into an order
+        // and trigger the normal confirmation emails. Idempotent via
+        // quote_paid_at.
+        const quoteId: string = session.metadata.quote_id;
+        try {
+          const { data: existingPaid } = await adminClient
+            .from("quote_requests")
+            .select("quote_paid_at, converted_order_id")
+            .eq("id", quoteId)
+            .maybeSingle();
+          if (existingPaid?.quote_paid_at || existingPaid?.converted_order_id) {
+            console.log(`[idempotency] Quote ${quoteId} already converted — skipping`);
+          } else {
+            const { data: q } = await adminClient
+              .from("quote_requests")
+              .select("id, contact_email, contact_phone, material, color, infill, wall_loops, pieces, file_paths, quote_price_cents, quote_shipping_cents, quote_production_days, quote_fulfillment, page_language")
+              .eq("id", quoteId)
+              .maybeSingle();
+            if (q) {
+              const stripeEmail = session.customer_details?.email ?? session.customer_email ?? q.contact_email ?? null;
+              const stripePhone = session.customer_details?.phone ?? q.contact_phone ?? "see notes";
+              const shippingAddr = session.shipping_details ?? session.collected_information?.shipping_details ?? null;
+              const pieces = Array.isArray(q.pieces) ? q.pieces : [];
+              const totalPaidCents = (q.quote_price_cents ?? 0) + (q.quote_shipping_cents ?? 0);
+              const productTitle = `3D Print — ${q.material ?? "Mixed"}${q.color ? ` (${q.color})` : ""}`;
+              const insertPayload: Record<string, unknown> = {
+                product_title: productTitle,
+                customer_phone: stripePhone,
+                customer_email: stripeEmail,
+                status: "quote_approved",
+                fulfillment: q.quote_fulfillment ?? "pickup",
+                notes: "",
+                photos: [],
+                payment_method: "stripe",
+                payment_status: "paid",
+                file_paths: Array.isArray(q.file_paths) ? q.file_paths : [],
+                pieces: pieces,
+                total_paid_cents: totalPaidCents,
+                shipping_address: shippingAddr,
+                language: q.page_language ?? "es",
+              };
+              // Degrade when the Phase 1 columns are not present yet.
+              let insertedOrder: { id: string; order_number: number; tracking_token?: string | null } | null = null;
+              let tryErr: { message?: string } | null = null;
+              {
+                const first = await adminClient
+                  .from("orders")
+                  .insert(insertPayload)
+                  .select("id, order_number, tracking_token")
+                  .single();
+                insertedOrder = first.data;
+                tryErr = first.error ?? null;
+                if (tryErr && typeof tryErr.message === "string" && tryErr.message.toLowerCase().includes("column")) {
+                  // Strip the phase-1-only fields and retry
+                  const {
+                    total_paid_cents: _a, language: _b, ...retry
+                  } = insertPayload;
+                  const second = await adminClient
+                    .from("orders")
+                    .insert(retry)
+                    .select("id, order_number")
+                    .single();
+                  insertedOrder = (second.data as typeof insertedOrder) ?? null;
+                  tryErr = second.error ?? null;
+                }
+              }
+              if (tryErr || !insertedOrder) {
+                console.error(`Quote ${quoteId} → order conversion failed:`, tryErr?.message);
+                dbUpdateFailed = true;
+              } else {
+                await adminClient
+                  .from("quote_requests")
+                  .update({ quote_paid_at: new Date().toISOString(), converted_order_id: insertedOrder.id, status: "accepted" })
+                  .eq("id", quoteId);
+                order = insertedOrder as unknown as typeof order;
+                // Fire the normal order-confirmation path (owner + customer emails)
+                const { error: mailErr } = await adminClient.functions.invoke("send-order-confirmation", {
+                  body: {
+                    orderNumber: insertedOrder.order_number,
+                    finalPrice: totalPaidCents / 100,
+                    material: q.material ?? "",
+                    color: q.color ?? null,
+                    quantity: pieces.length || 1,
+                    fulfillment: q.quote_fulfillment ?? "pickup",
+                    shippingAddress: shippingAddr,
+                    filePaths: Array.isArray(q.file_paths) ? q.file_paths : [],
+                    fileNames: Array.isArray(q.file_paths) ? (q.file_paths as string[]).map((p) => String(p)) : [],
+                    customerEmail: stripeEmail,
+                    customerPhone: stripePhone,
+                    customerName: session.customer_details?.name ?? null,
+                    pieces,
+                    language: q.page_language ?? "es",
+                    paymentMethod: "stripe",
+                    stripePaymentLink: null,
+                    sourcePath: null,
+                    pageLanguage: q.page_language ?? null,
+                  },
+                });
+                if (mailErr) console.error("send-order-confirmation (quote→order) failed:", mailErr);
+              }
+            }
+          }
+        } catch (err) {
+          console.error("Quote conversion error:", err);
+        }
       } else if (orderNumber) {
         // Legacy payment-link flow
 

@@ -9,8 +9,12 @@ import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
+import { Loader2, Send } from "lucide-react";
 import { countryFlag, type AdminQuote } from "@/lib/adminTypes";
+import { FREE_SHIPPING_FROM_EUR } from "@/config/freeShipping";
 
 function timeAgo(iso: string): string {
   const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
@@ -157,10 +161,107 @@ export default function QuotesInboxPage() {
                 ))}
               </ul>
             </section>
+
+            {/* 3.1: Send-quote form */}
+            <SendQuoteForm quote={selected} onSent={() => { setSelectedId(null); /* reload is handled by useEffect on mount; keep simple */ }} />
+
+            {/* 3.4: Reply templates */}
+            <ReplyTemplates quote={selected} />
           </Card>
         ) : null}
       </main>
       <Footer />
     </div>
+  );
+}
+
+function SendQuoteForm({ quote: q, onSent }: { quote: AdminQuote; onSent: () => void }) {
+  const [priceEur, setPriceEur] = useState<string>(((q.estimated_price_low + q.estimated_price_high) / 2 || 0).toFixed(2));
+  const [productionDays, setProductionDays] = useState<string>("5");
+  const [message, setMessage] = useState("");
+  const [fulfillment, setFulfillment] = useState<"pickup" | "shipping">((q.fulfillment === "shipping" ? "shipping" : "pickup"));
+  const [shippingEur, setShippingEur] = useState<string>("15");
+  const [busy, setBusy] = useState(false);
+
+  // Free shipping when pieces total ≥ FREE_SHIPPING_FROM_EUR (phase 3 rule
+  // applied in this flow only).
+  const priceNum = Number(priceEur) || 0;
+  const shippingFree = fulfillment === "shipping" && priceNum >= FREE_SHIPPING_FROM_EUR;
+  const shippingCentsResolved = fulfillment === "pickup" ? 0 : (shippingFree ? 0 : Math.round(Number(shippingEur) * 100));
+
+  const send = async () => {
+    setBusy(true);
+    const { error } = await supabase.functions.invoke("send-customer-quote", {
+      body: {
+        quote_id: q.id,
+        price_cents: Math.round(priceNum * 100),
+        shipping_cents: shippingCentsResolved,
+        production_days: Number(productionDays) || 5,
+        message: message.trim() || null,
+        fulfillment,
+      },
+    });
+    setBusy(false);
+    if (error) { toast({ title: "No pude enviar", description: String(error.message ?? error), variant: "destructive" }); return; }
+    toast({ title: "Presupuesto enviado" });
+    onSent();
+  };
+
+  return (
+    <section className="border rounded-lg p-4 space-y-3">
+      <div className="font-semibold text-sm flex items-center gap-2"><Send className="w-4 h-4" /> Enviar presupuesto</div>
+      <div className="grid md:grid-cols-4 gap-3 text-sm">
+        <label><span className="text-muted-foreground">Precio piezas €</span><Input value={priceEur} onChange={(e) => setPriceEur(e.target.value)} inputMode="decimal" /></label>
+        <label><span className="text-muted-foreground">Días</span><Input value={productionDays} onChange={(e) => setProductionDays(e.target.value)} inputMode="numeric" /></label>
+        <label>
+          <span className="text-muted-foreground">Entrega</span>
+          <select value={fulfillment} onChange={(e) => setFulfillment(e.target.value as "pickup" | "shipping")} className="w-full border rounded-md px-2 py-1">
+            <option value="pickup">Recogida</option>
+            <option value="shipping">Envío</option>
+          </select>
+        </label>
+        <label>
+          <span className="text-muted-foreground">Envío €</span>
+          <Input value={shippingFree ? "0 (gratis)" : shippingEur} onChange={(e) => setShippingEur(e.target.value)} disabled={fulfillment === "pickup" || shippingFree} inputMode="decimal" />
+        </label>
+      </div>
+      <Textarea placeholder="Mensaje opcional al cliente" value={message} onChange={(e) => setMessage(e.target.value)} rows={3} />
+      <div className="flex justify-end">
+        <Button onClick={send} disabled={busy || !priceNum}>{busy ? "Enviando…" : "Enviar al cliente"}</Button>
+      </div>
+      {shippingFree ? <p className="text-xs text-muted-foreground">Envío gratuito aplicado (pedido ≥ {FREE_SHIPPING_FROM_EUR} €).</p> : null}
+    </section>
+  );
+}
+
+function ReplyTemplates({ quote: q }: { quote: AdminQuote }) {
+  // 3.4: templates in Spanish; owner edits before sending via mailto or WA.
+  const email = q.contact_email ?? "";
+  const phone = (q.contact_phone ?? "").replace(/\D/g, "");
+  const templates = [
+    { key: "need_more", title: "Necesito más datos", body: "Hola, antes de preparar el presupuesto necesito algunas dimensiones críticas: ¿puedes decirme [dimensión] y [dimensión]? Gracias." },
+    { key: "not_printable", title: "Pieza no imprimible tal cual", body: "Hola, la pieza requiere ajustes para poder imprimirse (pared mínima / orientación). Puedo prepararla por un pequeño coste de adaptación — ¿te envío el presupuesto incluyéndolo?" },
+    { key: "sent", title: "Presupuesto enviado", body: "Hola, te acabo de enviar el presupuesto. Cuando lo tengas, puedes aceptarlo y pagar desde el mismo enlace. Cualquier duda por aquí." },
+  ];
+  return (
+    <section className="border rounded-lg p-4 space-y-3">
+      <div className="font-semibold text-sm">Plantillas de respuesta</div>
+      <ul className="space-y-2 text-sm">
+        {templates.map((t) => {
+          const mail = `mailto:${email}?subject=${encodeURIComponent("Dimension3D")}&body=${encodeURIComponent(t.body)}`;
+          const wa = phone ? `https://wa.me/${phone}?text=${encodeURIComponent(t.body)}` : "";
+          return (
+            <li key={t.key} className="border-t pt-2">
+              <div className="font-medium">{t.title}</div>
+              <div className="text-xs text-muted-foreground whitespace-pre-wrap mb-1">{t.body}</div>
+              <div className="flex gap-2 text-xs">
+                {email ? <a className="underline" href={mail}>Email</a> : null}
+                {wa ? <a className="underline" href={wa} target="_blank" rel="noreferrer">WhatsApp</a> : null}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }

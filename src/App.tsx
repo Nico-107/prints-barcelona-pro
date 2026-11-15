@@ -19,6 +19,7 @@ import { INTL_HUBS, INTL_CITIES, INTL_GUIDES, INTL_PARTS } from "@/data/intlRegi
 
 const Track = lazy(() => import("./pages/Track"));
 const OrderPage = lazy(() => import("./pages/OrderPage"));
+const QuotePage = lazy(() => import("./pages/QuotePage"));
 const AdminOrdersQueue = lazy(() => import("./pages/admin/OrdersQueue"));
 const AdminPrintQueue = lazy(() => import("./pages/admin/PrintQueue"));
 const AdminQuotesInbox = lazy(() => import("./pages/admin/QuotesInbox"));
@@ -261,6 +262,7 @@ const App = () => (
               <Route path="/3d-printing-service" element={<IntlHubPage content={EN_HUB} />} />
               <Route path="/track" element={<Track />} />
               <Route path="/pedido/:token" element={<OrderPage />} />
+              <Route path="/presupuesto/:token" element={<QuotePage />} />
               {/* Conv 4.1 + 4.6: internal tooling, noindex. */}
               <Route path="/internal" element={<Internal />} />
               <Route path="/makers" element={<Makers />} />
