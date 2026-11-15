@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { renderOwnerPurchaseEmail, type OwnerPurchaseEmailPiece } from "../_shared/ownerEmailTemplates.ts";
+import { renderOrderConfirmed, toLangKey, type CustomerLang } from "../_shared/customerEmailTemplates.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_RECIPIENT = "dimension3dprintsbcn@gmail.com";
@@ -49,6 +50,8 @@ interface ConfirmationPayload {
   // Source tracking (Item 6)
   sourcePath?: string | null;
   pageLanguage?: string | null;
+  /** Customer language — drives the customer email translation (item 1.4). */
+  language?: string | null;
 }
 
 const sanitize = (s: string): string =>
@@ -224,6 +227,7 @@ serve(async (req: Request) => {
       pieces,
       sourcePath,
       pageLanguage,
+      language,
     } = payload;
 
     if (!orderNumber) {
@@ -308,12 +312,12 @@ serve(async (req: Request) => {
     try {
       const { data: row } = await admin
         .from("orders")
-        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents")
+        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language")
         .eq("order_number", orderNumber)
         .maybeSingle();
       orderRow = row as Record<string, unknown> | null;
     } catch (_e) {
-      // Older schema without uploaded_not_purchased — retry without it
+      // Degrade for older schemas (pre-phase-1 migration).
       try {
         const { data: row } = await admin
           .from("orders")
@@ -403,40 +407,60 @@ serve(async (req: Request) => {
     // Old formatting helpers kept for the customer copy (1.4 rewrites it).
     void clientContact; void filesBlock; void addressHtml; void deliveryHtml; void safeMaterial; void safeColor;
 
-    // ---------- CUSTOMER COPY ----------
+    // ---------- CUSTOMER COPY (item 1.4) ----------
+    // If the customer has no email, skip silently — the admin copy still ran
+    // and the owner can see "sin email" in the admin.
     let customerEmailId: string | null = null;
     if (safeEmail) {
-      const customerHtml = shell(`
-        <p style="color:#334155;">${safeName ? `Hola ${safeName}, ` : ""}¡tu pedido está confirmado!</p>
+      const orderLang = (orderRow?.language as string | undefined) ?? language ?? pageLanguage ?? "es";
+      const customerLang: CustomerLang = toLangKey(orderLang);
+      const trackingToken = (orderRow?.tracking_token as string | undefined) ?? null;
+      const customerCtx = {
+        orderNumber: Number(orderNumber),
+        trackingToken: trackingToken ?? "",
+        firstName: customerName ? String(customerName).trim().split(" ")[0] : (safeEmail.split("@")[0] ?? null),
+        customerLanguage: customerLang,
+        siteOrigin: SITE_ORIGIN,
+        whatsappNumber: "+34672051147",
+      };
+      const customerPieces = (ownerPieces ?? []).map((p) => ({
+        name: p.name,
+        quantity: p.quantity,
+        material: p.material,
+        color: p.color ?? null,
+      }));
+      const { subject: customerSubject, html: customerHtml } = renderOrderConfirmed({
+        ctx: customerCtx,
+        pieces: customerPieces,
+        totalPaidCents,
+        fulfillment: (fulfillment === "pickup" ? "pickup" : "shipping"),
+        shipByIso: deliveryDate ?? null,
+        pickupReadyIso: fulfillment === "pickup" ? (deliveryDate ?? null) : null,
+      });
 
-        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0;">
-          <h2 style="color:#92400e;margin:0 0 12px 0;font-size:16px;">Detalles del pedido</h2>
-          <p style="margin:6px 0;"><strong>Número de pedido:</strong> #${orderNumber}</p>
-          <p style="margin:6px 0;"><strong>Material:</strong> ${safeMaterial}${safeColor ? ` / ${safeColor}` : ""}</p>
-          <p style="margin:6px 0;"><strong>Cantidad:</strong> ${quantity ?? 1}</p>
-          <p style="margin:6px 0;"><strong>Precio:</strong> &euro;${price.toFixed(2)}</p>
-          ${deliveryHtml}
-        </div>
+      // If the token is missing (older order before migration), also append a
+      // fallback plain-text pointer to /track so the customer can still find
+      // the order. We do this by setting the button to /track as a safety net.
+      let finalHtml = customerHtml;
+      if (!trackingToken) {
+        finalHtml = finalHtml.replace(
+          `href="${SITE_ORIGIN}/pedido/"`,
+          `href="${TRACK_URL}"`
+        );
+      }
 
-        ${buildPaymentBlock(paymentMethod, stripePaymentLink, orderNumber)}
-
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;margin:24px 0;text-align:center;">
-          <p style="color:#166534;font-size:15px;margin:0 0 12px 0;font-weight:600;">Sigue tu pedido en cualquier momento</p>
-          <a href="${TRACK_URL}"
-             style="display:inline-block;background:#f59e0b;color:#0f172a;padding:12px 28px;text-decoration:none;border-radius:6px;font-weight:700;font-size:15px;">
-            Ver seguimiento &rarr; #${orderNumber}
-          </a>
-          <p style="color:#166534;font-size:13px;margin:14px 0 0 0;">
-            Entra en <a href="${TRACK_URL}" style="color:#166534;">${TRACK_URL}</a> e introduce tu número de pedido
-            <strong>#${orderNumber}</strong> junto con el email o el teléfono que nos facilitaste.
-          </p>
-        </div>
-      `);
+      // Stripe-link payment fallback: preserve the pre-existing payment block
+      // when the order is still awaiting payment. We append it below the
+      // template body so the new structure stays intact.
+      const paymentFallback = buildPaymentBlock(paymentMethod, stripePaymentLink, orderNumber);
+      if (paymentFallback && paymentMethod === "stripe") {
+        finalHtml = finalHtml.replace("</body>", `<!-- payment -->${paymentFallback}</body>`);
+      }
 
       const customerResult = await sendEmail(
         [safeEmail],
-        `Pedido #${orderNumber} confirmado — Dimension3D`,
-        customerHtml,
+        customerSubject,
+        finalHtml,
         { replyTo: CUSTOMER_REPLY_TO },
       );
       customerEmailId = customerResult.id ?? null;
