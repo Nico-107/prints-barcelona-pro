@@ -656,13 +656,13 @@ serve(async (req: Request) => {
         orderInsertPayload.uploaded_not_purchased = uploadedNotPurchased;
       }
 
-      let v3OrderRow: { id: string; order_number: number } | null = null;
+      let v3OrderRow: { id: string; order_number: number; tracking_token?: string | null } | null = null;
       let v3OrderErr: { message?: string } | null = null;
       {
         const first = await supabaseV3
           .from("orders")
           .insert(orderInsertPayload)
-          .select("id, order_number")
+          .select("id, order_number, tracking_token")
           .single();
         v3OrderRow = first.data;
         v3OrderErr = first.error ?? null;
@@ -676,7 +676,7 @@ serve(async (req: Request) => {
           const second = await supabaseV3
             .from("orders")
             .insert(retry)
-            .select("id, order_number")
+            .select("id, order_number, tracking_token")
             .single();
           v3OrderRow = second.data;
           v3OrderErr = second.error ?? null;
@@ -770,7 +770,19 @@ serve(async (req: Request) => {
       if (v3AutumnDiscountCents > 0) {
         v3Params.set("metadata[autumn_discount_cents]", String(v3AutumnDiscountCents));
       }
-      v3Params.set("success_url", `${SITE_URL}${validReturnPath}?checkout=success`);
+      // Item 1.6: include order_number + tracking_token in the success URL so
+      // the success banner can show the real order number and link straight
+      // to /pedido/<token>. token is omitted if the Phase 1 migration isn't
+      // deployed yet (older schemas return no tracking_token on insert).
+      const v3SuccessParams = new URLSearchParams({ checkout: "success" });
+      v3SuccessParams.set("order_id", v3OrderRow.id);
+      v3SuccessParams.set("order_number", String(v3OrderRow.order_number));
+      if (v3OrderRow.tracking_token) {
+        v3SuccessParams.set("tracking_token", v3OrderRow.tracking_token);
+      }
+      v3SuccessParams.set("fulfillment", vBody.fulfillment);
+      v3SuccessParams.set("value_eur", (priced.chargeCents / 100).toFixed(2));
+      v3Params.set("success_url", `${SITE_URL}${validReturnPath}?${v3SuccessParams.toString()}`);
       v3Params.set("cancel_url", `${SITE_URL}${validReturnPath}?checkout=cancelled`);
 
       const { ph_distinct_id, ph_session_id, utm_source, utm_medium, utm_content, utm_campaign, product_type, customer_ref, source_path, page_language } = body;

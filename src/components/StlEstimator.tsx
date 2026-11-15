@@ -305,6 +305,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [checkoutErrorCode, setCheckoutErrorCode] = useState<string | null>(null);
   const [preUploadDone, setPreUploadDone] = useState(false);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
+  // Item 1.6: parameters passed back by Stripe on success_url so the banner
+  // can show the order number and link straight to /pedido/<token>.
+  const [successInfo, setSuccessInfo] = useState<{ orderNumber: number | null; trackingToken: string | null; fulfillment: "pickup" | "shipping" | null }>({ orderNumber: null, trackingToken: null, fulfillment: null });
   const [showManualReview, setShowManualReview] = useState(false);
   // Keep fulfillment null initially even on shippingOnly pages — the user still
   // explicitly picks shipping (only visible option). Pre-selecting it causes
@@ -1054,6 +1057,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         if (raw) { stash = JSON.parse(raw); sessionStorage.removeItem("dim3d-checkout-ctx"); }
       } catch {}
       setCheckoutResult("success");
+      const orderNumberParam = params.get("order_number");
+      const trackingTokenParam = params.get("tracking_token");
+      const fulfillmentParam = params.get("fulfillment");
+      setSuccessInfo({
+        orderNumber: orderNumberParam ? Number(orderNumberParam) : null,
+        trackingToken: trackingTokenParam ?? null,
+        fulfillment: (fulfillmentParam === "pickup" || fulfillmentParam === "shipping") ? fulfillmentParam : null,
+      });
       capture('checkout_returned', { result: 'success' });
       // Dedup: only fire instant_checkout_completed once per browser session
       const completedKey = "dim3d-checkout-completed";
@@ -2965,11 +2976,36 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         </div>
         )}
         {checkoutResult === "success" && (
-          <div className="max-w-xl mx-auto mb-6 rounded-xl bg-whatsapp/10 border border-whatsapp/25 px-5 py-4 flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-whatsapp shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-foreground">{t("calc.checkout.success.banner.title")}</p>
-              <p className="text-sm text-muted-foreground mt-0.5">{t("calc.checkout.success.banner.body")}</p>
+          <div className="max-w-xl mx-auto mb-6 rounded-xl bg-whatsapp/10 border border-whatsapp/25 px-5 py-5">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-whatsapp shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="font-semibold text-foreground">
+                  {t("calc.checkout.success.banner.title")}
+                  {successInfo.orderNumber ? <> &middot; <span className="font-mono">#{successInfo.orderNumber}</span></> : null}
+                </p>
+                <p className="text-sm text-muted-foreground mt-0.5">{t("calc.checkout.success.banner.body")}</p>
+                <ol className="mt-3 text-sm text-foreground list-decimal pl-5 space-y-1">
+                  <li>Revisamos tus archivos.</li>
+                  <li>Imprimimos y hacemos control de calidad.</li>
+                  <li>
+                    {successInfo.fulfillment === "pickup"
+                      ? "Te avisamos por email cuando puedas pasar a recoger."
+                      : "Te enviamos el número de seguimiento al salir del estudio."}
+                  </li>
+                </ol>
+                {successInfo.trackingToken ? (
+                  <div className="mt-4">
+                    <a
+                      href={`/pedido/${encodeURIComponent(successInfo.trackingToken)}`}
+                      className="inline-flex items-center gap-2 rounded-md bg-foreground text-background px-4 py-2 text-sm font-semibold hover:opacity-90"
+                      data-testid="success-order-page-button"
+                    >
+                      Ver mi pedido &rarr;
+                    </a>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         )}
