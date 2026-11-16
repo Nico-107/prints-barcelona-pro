@@ -22,6 +22,34 @@
       "when": 1792088482130,
       "tag": "0002_source_tracking",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794818177146,
+      "tag": "0003_phase1_after_purchase",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794818190178,
+      "tag": "0004_uploaded_not_purchased",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794818208217,
+      "tag": "0005_get_order_tracking_by_email",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794818223271,
+      "tag": "0006_phase3_quote_accept_pay",
+      "breakpoints": true
     }
   ]
 }
