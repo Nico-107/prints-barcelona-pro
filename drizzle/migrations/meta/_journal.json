@@ -43,6 +43,13 @@
       "when": 1794818208217,
       "tag": "0005_get_order_tracking_by_email",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794818223271,
+      "tag": "0006_phase3_quote_accept_pay",
+      "breakpoints": true
     }
   ]
 }

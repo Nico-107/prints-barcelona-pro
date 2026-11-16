@@ -296,6 +296,17 @@ export type Database = {
           product_name: string | null
           product_slug: string | null
           quantity: number
+          quote_expires_at: string | null
+          quote_fulfillment: string | null
+          quote_message: string | null
+          quote_paid_at: string | null
+          quote_price_cents: number | null
+          quote_production_days: number | null
+          quote_reminder_sent_at: string | null
+          quote_sent_at: string | null
+          quote_shipping_cents: number
+          quote_stripe_link: string | null
+          quote_token: string
           referrer_domain: string | null
           source_path: string | null
           status: string
@@ -330,6 +341,17 @@ export type Database = {
           product_name?: string | null
           product_slug?: string | null
           quantity: number
+          quote_expires_at?: string | null
+          quote_fulfillment?: string | null
+          quote_message?: string | null
+          quote_paid_at?: string | null
+          quote_price_cents?: number | null
+          quote_production_days?: number | null
+          quote_reminder_sent_at?: string | null
+          quote_sent_at?: string | null
+          quote_shipping_cents?: number
+          quote_stripe_link?: string | null
+          quote_token?: string
           referrer_domain?: string | null
           source_path?: string | null
           status?: string
@@ -364,6 +386,17 @@ export type Database = {
           product_name?: string | null
           product_slug?: string | null
           quantity?: number
+          quote_expires_at?: string | null
+          quote_fulfillment?: string | null
+          quote_message?: string | null
+          quote_paid_at?: string | null
+          quote_price_cents?: number | null
+          quote_production_days?: number | null
+          quote_reminder_sent_at?: string | null
+          quote_sent_at?: string | null
+          quote_shipping_cents?: number
+          quote_stripe_link?: string | null
+          quote_token?: string
           referrer_domain?: string | null
           source_path?: string | null
           status?: string
@@ -527,6 +560,29 @@ export type Database = {
           product_title: string
           status: string
           updated_at: string
+        }[]
+      }
+      get_quote_by_token: {
+        Args: { _token: string }
+        Returns: {
+          color: string
+          created_at: string
+          first_name: string
+          id: string
+          infill: string
+          material: string
+          page_language: string
+          pieces: Json
+          quote_expires_at: string
+          quote_fulfillment: string
+          quote_message: string
+          quote_paid_at: string
+          quote_price_cents: number
+          quote_production_days: number
+          quote_sent_at: string
+          quote_shipping_cents: number
+          quote_stripe_link: string
+          wall_loops: number
         }[]
       }
       has_role: {
