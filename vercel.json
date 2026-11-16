@@ -15,10 +15,16 @@
   ],
   "rewrites": [
     { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin/queue", "destination": "/index.html" },
+    { "source": "/admin/print-queue", "destination": "/index.html" },
+    { "source": "/admin/quotes-inbox", "destination": "/index.html" },
+    { "source": "/admin/search", "destination": "/index.html" },
     { "source": "/admin-orders", "destination": "/index.html" },
     { "source": "/admin-makers", "destination": "/index.html" },
     { "source": "/internal", "destination": "/index.html" },
-    { "source": "/catalogo/:slug*", "destination": "/index.html" }
+    { "source": "/catalogo/:slug*", "destination": "/index.html" },
+    { "source": "/pedido/:token*", "destination": "/index.html" },
+    { "source": "/presupuesto/:token*", "destination": "/index.html" }
   ],
   "headers": [
     {
