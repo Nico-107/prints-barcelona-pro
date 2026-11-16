@@ -514,6 +514,21 @@ export type Database = {
           updated_at: string
         }[]
       }
+      get_order_tracking_by_email: {
+        Args: { _email: string; _order_number: number }
+        Returns: {
+          created_at: string
+          eta: string
+          fulfillment: string
+          id: string
+          notes: string
+          order_number: number
+          photos: string[]
+          product_title: string
+          status: string
+          updated_at: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
