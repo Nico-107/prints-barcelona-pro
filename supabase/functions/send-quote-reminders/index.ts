@@ -7,6 +7,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { renderCustomerQuoteEmail } from "../_shared/customerQuoteTemplate.ts";
+import { authenticateCronRequest } from "../_shared/cron-auth.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SITE_ORIGIN = "https://www.dimension3dprints.com";
@@ -19,6 +20,7 @@ const corsHeaders = {
 
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const cronAuthFailure = authenticateCronRequest(req);
   try {
     const authHeader = req.headers.get("Authorization") ?? "";
     const bearer = authHeader.replace(/^Bearer\s+/i, "").trim();
@@ -32,7 +34,7 @@ serve(async (req: Request) => {
         return claims?.role === "service_role";
       } catch { return false; }
     })();
-    if (!(bearer === serviceRoleKey || isServiceJwt)) {
+    if (!(bearer === serviceRoleKey || isServiceJwt) && cronAuthFailure !== null) {
       return new Response("Unauthorized", { status: 401, headers: corsHeaders });
     }
 
