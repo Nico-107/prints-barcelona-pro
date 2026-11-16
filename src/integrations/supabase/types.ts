@@ -47,64 +47,15 @@ export type Database = {
         }
         Relationships: []
       }
-      order_events: {
-        Row: {
-          actor: string | null
-          created_at: string
-          email_id: string | null
-          id: string
-          kind: string
-          message: string | null
-          order_id: string
-          status: string | null
-          visible_to_customer: boolean
-        }
-        Insert: {
-          actor?: string | null
-          created_at?: string
-          email_id?: string | null
-          id?: string
-          kind: string
-          message?: string | null
-          order_id: string
-          status?: string | null
-          visible_to_customer?: boolean
-        }
-        Update: {
-          actor?: string | null
-          created_at?: string
-          email_id?: string | null
-          id?: string
-          kind?: string
-          message?: string | null
-          order_id?: string
-          status?: string | null
-          visible_to_customer?: boolean
-        }
-        Relationships: [
-          {
-            foreignKeyName: "order_events_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       orders: {
         Row: {
-          carrier: string | null
           created_at: string
           customer_email: string | null
-          customer_name: string | null
           customer_phone: string
-          delivered_at: string | null
           eta: string | null
           file_paths: string[]
           fulfillment: string
           id: string
-          internal_notes: string
-          label_url: string | null
           notes: string
           order_number: number
           payment_method: string | null
@@ -113,34 +64,22 @@ export type Database = {
           photos: string[]
           pieces: Json | null
           product_title: string
-          shipment_ref: string | null
-          shipped_at: string | null
           shipping_address: Json | null
           status: string
           stripe_payment_link: string | null
-          total_paid_cents: number | null
-          tracking_number: string | null
-          tracking_token: string
-          tracking_url: string | null
           updated_at: string
-          uploaded_not_purchased: Json
           utm_content: string | null
           utm_medium: string | null
           utm_source: string | null
         }
         Insert: {
-          carrier?: string | null
           created_at?: string
           customer_email?: string | null
-          customer_name?: string | null
           customer_phone: string
-          delivered_at?: string | null
           eta?: string | null
           file_paths?: string[]
           fulfillment?: string
           id?: string
-          internal_notes?: string
-          label_url?: string | null
           notes?: string
           order_number?: number
           payment_method?: string | null
@@ -149,34 +88,22 @@ export type Database = {
           photos?: string[]
           pieces?: Json | null
           product_title?: string
-          shipment_ref?: string | null
-          shipped_at?: string | null
           shipping_address?: Json | null
           status?: string
           stripe_payment_link?: string | null
-          total_paid_cents?: number | null
-          tracking_number?: string | null
-          tracking_token?: string
-          tracking_url?: string | null
           updated_at?: string
-          uploaded_not_purchased?: Json
           utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
         }
         Update: {
-          carrier?: string | null
           created_at?: string
           customer_email?: string | null
-          customer_name?: string | null
           customer_phone?: string
-          delivered_at?: string | null
           eta?: string | null
           file_paths?: string[]
           fulfillment?: string
           id?: string
-          internal_notes?: string
-          label_url?: string | null
           notes?: string
           order_number?: number
           payment_method?: string | null
@@ -185,17 +112,10 @@ export type Database = {
           photos?: string[]
           pieces?: Json | null
           product_title?: string
-          shipment_ref?: string | null
-          shipped_at?: string | null
           shipping_address?: Json | null
           status?: string
           stripe_payment_link?: string | null
-          total_paid_cents?: number | null
-          tracking_number?: string | null
-          tracking_token?: string
-          tracking_url?: string | null
           updated_at?: string
-          uploaded_not_purchased?: Json
           utm_content?: string | null
           utm_medium?: string | null
           utm_source?: string | null
@@ -305,17 +225,6 @@ export type Database = {
           utm_medium: string | null
           utm_source: string | null
           wall_loops: number
-          quote_token: string
-          quote_price_cents: number | null
-          quote_shipping_cents: number
-          quote_production_days: number | null
-          quote_message: string | null
-          quote_sent_at: string | null
-          quote_expires_at: string | null
-          quote_fulfillment: string | null
-          quote_stripe_link: string | null
-          quote_paid_at: string | null
-          quote_reminder_sent_at: string | null
         }
         Insert: {
           browser_language?: string | null
@@ -350,17 +259,6 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           wall_loops: number
-          quote_token?: string
-          quote_price_cents?: number | null
-          quote_shipping_cents?: number
-          quote_production_days?: number | null
-          quote_message?: string | null
-          quote_sent_at?: string | null
-          quote_expires_at?: string | null
-          quote_fulfillment?: string | null
-          quote_stripe_link?: string | null
-          quote_paid_at?: string | null
-          quote_reminder_sent_at?: string | null
         }
         Update: {
           browser_language?: string | null
@@ -395,17 +293,6 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           wall_loops?: number
-          quote_token?: string
-          quote_price_cents?: number | null
-          quote_shipping_cents?: number
-          quote_production_days?: number | null
-          quote_message?: string | null
-          quote_sent_at?: string | null
-          quote_expires_at?: string | null
-          quote_fulfillment?: string | null
-          quote_stripe_link?: string | null
-          quote_paid_at?: string | null
-          quote_reminder_sent_at?: string | null
         }
         Relationships: [
           {
@@ -508,56 +395,6 @@ export type Database = {
       }
     }
     Functions: {
-      gen_order_tracking_token: {
-        Args: Record<string, never>
-        Returns: string
-      }
-      get_order_by_token: {
-        Args: { _token: string }
-        Returns: {
-          carrier: string | null
-          city: string | null
-          country: string | null
-          created_at: string
-          customer_events: Json
-          customer_notes: string
-          delivered_at: string | null
-          eta: string | null
-          first_name: string | null
-          fulfillment: string
-          order_number: number
-          photos: string[]
-          pieces_summary: Json
-          shipped_at: string | null
-          status: string
-          tracking_number: string | null
-          tracking_url: string | null
-          updated_at: string
-        }[]
-      }
-      get_quote_by_token: {
-        Args: { _token: string }
-        Returns: {
-          id: string
-          created_at: string
-          quote_sent_at: string | null
-          quote_expires_at: string | null
-          quote_paid_at: string | null
-          quote_price_cents: number | null
-          quote_shipping_cents: number
-          quote_production_days: number | null
-          quote_message: string | null
-          quote_fulfillment: string | null
-          quote_stripe_link: string | null
-          material: string
-          color: string | null
-          infill: string
-          wall_loops: number
-          pieces: Json
-          first_name: string | null
-          page_language: string | null
-        }[]
-      }
       get_order_tracking: {
         Args: { _order_number: number; _phone_last3: string }
         Returns: {
