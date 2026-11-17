@@ -1097,12 +1097,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }
       return;
     }
-    // If an email was typed but is invalid, show the error (phone is not required for Stripe)
-    if (contactEmail.trim() && !isValidEmail(contactEmail)) {
-      capture('buy_blocked', { reason: 'invalid_email' });
-      setContactTouched(true);
-      return;
-    }
     if (!uploadedRef.current || instantTotalPrice === null) {
       capture('buy_blocked', { reason: 'uploading' });
       setCheckoutErrorCode("UPLOADING");

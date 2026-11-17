@@ -863,7 +863,8 @@ export function OrderPanel({
             )}
           </div>
 
-          {/* Contact fields */}
+          {/* Contact fields — hidden for instant-buy flow; shown for manual review */}
+          {(!instantBuyEligible || showManualReview) && (
           <ContactFields
             email={contactEmail}
             phone={contactPhone}
@@ -875,6 +876,7 @@ export function OrderPanel({
             onPhoneChange={onContactPhoneChange}
             onNameChange={onContactNameChange}
           />
+          )}
           {/* Errors only in section='all'; section='form' defers to 'actions' bar */}
           {section === 'all' && quoteError && <p className="text-xs text-destructive" role="alert">{quoteError}</p>}
           {section === 'all' && checkoutError && instantBuyEligible && !showManualReview && (
