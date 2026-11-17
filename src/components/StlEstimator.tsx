@@ -45,6 +45,7 @@ import { PartSummaryList } from "./estimator/PartSummaryList";
 import { SavedQuoteBar } from "./SavedQuoteBar";
 import { saveQuoteLocally, clearSavedQuote } from "@/lib/savedQuoteStore";
 import type { SavedQuoteEntry } from "@/lib/savedQuoteStore";
+import { LowerPricePanel } from "./estimator/LowerPricePanel";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -1518,6 +1519,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
   };
 
+  // 4.4: Apply a price-lowering option from the LowerPricePanel
+  const handleApplyLowerPrice = (patch: Partial<{ infillPct: number; quality: QualityKey; fulfillment: "pickup" | "shipping"; urgency: "standard" | "express" | "urgent" }>) => {
+    if (patch.infillPct !== undefined) setInfillPct(patch.infillPct);
+    if (patch.quality !== undefined) setQuality(patch.quality);
+    if (patch.fulfillment !== undefined) setFulfillment(patch.fulfillment);
+    if (patch.urgency !== undefined) setUrgency(patch.urgency);
+  };
+
   // 4.3: Restore settings from a saved quote (IndexedDB) when the visitor clicks "Resume"
   const handleResumeQuote = (entry: SavedQuoteEntry) => {
     setMaterialKey(entry.material);
@@ -2866,6 +2875,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               hideParts={true}
               section="form"
             />
+            {/* 4.4: Lower-price panel */}
+            {showLowerPrice && bundle && (
+              <LowerPricePanel
+                parsedFiles={parsedFiles}
+                defaults={defaults}
+                urgency={urgency}
+                fulfillment={fulfillment}
+                shippingOnly={!!shippingOnly}
+                pricingVersion={pricingVersion}
+                currentTotal={bundle.orderResult.chargedPrintCents / 100}
+                language={language as Language}
+                t={t}
+                onApply={handleApplyLowerPrice}
+                onClose={() => setShowLowerPrice(false)}
+              />
+            )}
             {/* Phase 4.4: on mobile the extras (cutoff, trust line, badges
                 and the secondary WhatsApp / review / save-quote row) live
                 in the scroll area so the fixed bottom panel is just total +
