@@ -2,8 +2,10 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 import { isSuccessfulCheckout } from "./payment-policy.ts";
+import { wrapEmail, escapeHtml, renderButton } from "../_shared/emailLayout.ts";
 
 const STRIPE_WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
 const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
 
@@ -457,6 +459,82 @@ serve(async (req: Request) => {
       session.id,
       !!rawPHId,
     );
+  }
+
+  // 4.5: Abandoned-checkout recovery email
+  if (event.type === "checkout.session.expired") {
+    try {
+      const session = event.data.object;
+      const customerEmail = session.customer_details?.email ?? session.customer_email ?? null;
+      const promotionsConsent = session.consent?.promotions ?? null;
+      const recoveryUrl = session.after_expiration?.recovery?.url ?? null;
+      const lang = (session.metadata?.page_language ?? "es") as string;
+
+      if (customerEmail && promotionsConsent === "opt_in" && recoveryUrl && RESEND_API_KEY) {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        const adminClient = createClient(supabaseUrl, serviceRoleKey);
+
+        // Idempotency + 7-day dedup: skip if a recovery was sent in the last 7 days for this email
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 3600_000).toISOString();
+        const { data: existing } = await adminClient
+          .from("checkout_recoveries")
+          .select("id")
+          .eq("customer_email", customerEmail.toLowerCase())
+          .gte("sent_at", sevenDaysAgo)
+          .maybeSingle();
+
+        if (!existing) {
+          const T: Record<string, { subject: string; preheader: string; title: string; body: string; cta: string }> = {
+            es: { subject: "Tu carrito de Dimension3D sigue aquí", preheader: "Retoma tu pedido donde lo dejaste.", title: "Tu pedido sigue aquí", body: "No completaste tu pago. Tu carrito sigue guardado y puedes retomar el pedido con un solo clic.", cta: "Retomar mi pedido" },
+            ca: { subject: "El teu carret de Dimension3D segueix aquí", preheader: "Reprèn la teva comanda on la vas deixar.", title: "La teva comanda segueix aquí", body: "No vas completar el pagament. El teu carret segueix guardat i pots reprendre la comanda amb un sol clic.", cta: "Reprendre la meva comanda" },
+            en: { subject: "Your Dimension3D cart is still here", preheader: "Pick up your order where you left off.", title: "Your order is still here", body: "You didn't complete your payment. Your cart is still saved and you can resume your order with one click.", cta: "Resume my order" },
+            de: { subject: "Dein Dimension3D-Warenkorb wartet noch", preheader: "Setze deine Bestellung fort, wo du aufgehört hast.", title: "Deine Bestellung wartet", body: "Du hast die Zahlung nicht abgeschlossen. Dein Warenkorb ist noch gespeichert und du kannst deine Bestellung mit einem Klick fortsetzen.", cta: "Meine Bestellung fortsetzen" },
+            fr: { subject: "Ton panier Dimension3D t'attend toujours", preheader: "Reprends ta commande là où tu l'as laissée.", title: "Ta commande est toujours là", body: "Tu n'as pas finalisé ton paiement. Ton panier est toujours enregistré et tu peux reprendre ta commande en un clic.", cta: "Reprendre ma commande" },
+            nl: { subject: "Je Dimension3D-winkelwagen wacht nog", preheader: "Ga verder met je bestelling waar je gebleven was.", title: "Je bestelling wacht", body: "Je hebt de betaling niet afgerond. Je winkelwagen is nog opgeslagen en je kunt je bestelling met één klik hervatten.", cta: "Mijn bestelling hervatten" },
+            it: { subject: "Il tuo carrello Dimension3D ti aspetta ancora", preheader: "Riprendi il tuo ordine dove l'hai lasciato.", title: "Il tuo ordine è ancora qui", body: "Non hai completato il pagamento. Il tuo carrello è ancora salvato e puoi riprendere l'ordine con un clic.", cta: "Riprendi il mio ordine" },
+            pt: { subject: "O teu carrinho Dimension3D ainda está aqui", preheader: "Retoma o teu pedido onde paraste.", title: "O teu pedido ainda está aqui", body: "Não concluíste o pagamento. O teu carrinho ainda está guardado e podes retomar o pedido com um clique.", cta: "Retomar o meu pedido" },
+          };
+          const t = T[lang] ?? T.es;
+          const bodyHtml = `
+            <p style="margin:0 0 16px;font-size:15px;color:#334155;">${escapeHtml(t.body)}</p>
+            ${renderButton(recoveryUrl, t.cta)}`;
+          const html = wrapEmail({ preheader: t.preheader, title: t.title, bodyHtml, language: lang as any });
+
+          await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ from: "Dimension3D <noreply@dimension3dprints.com>", to: [customerEmail], subject: t.subject, html }),
+          });
+
+          await adminClient.from("checkout_recoveries").insert({
+            stripe_session_id: session.id,
+            customer_email: customerEmail.toLowerCase(),
+            recovery_url: recoveryUrl,
+            language: lang,
+          });
+          console.log(`[checkout_recovery] Sent recovery email to ${customerEmail} (session ${session.id})`);
+        }
+      }
+    } catch (err: any) {
+      console.error("[checkout_recovery] Error:", err?.message ?? err);
+    }
+  }
+
+  // 4.5: Mark abandoned checkout recovered when session was completed via recovery URL
+  if (event.type === "checkout.session.completed" && event.data.object.recovered_from) {
+    try {
+      const session = event.data.object;
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const adminClient = createClient(supabaseUrl, serviceRoleKey);
+      await adminClient.from("checkout_recoveries")
+        .update({ recovered: true, recovered_session_id: session.id })
+        .eq("stripe_session_id", session.recovered_from);
+      console.log(`[checkout_recovery] Marked session ${session.recovered_from} as recovered (new: ${session.id})`);
+    } catch (err: any) {
+      console.error("[checkout_recovery] Mark recovered error:", err?.message ?? err);
+    }
   }
 
   return new Response(JSON.stringify({ received: true }), {

@@ -52,6 +52,37 @@ const requestCounts = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW_MS = 60000;
 const MAX_REQUESTS_PER_WINDOW = 10;
 
+// 4.5: Wrapper that adds abandoned-checkout recovery params and retries once
+// without consent_collection if Stripe rejects it (some accounts don't support it).
+let _consentCollectionRejected = false;
+async function createStripeSession(params: URLSearchParams): Promise<{ ok: boolean; session?: Record<string, any>; errorText?: string }> {
+  const expiresAt = Math.floor(Date.now() / 1000) + 7200; // now + 2h
+  params.set("after_expiration[recovery][enabled]", "true");
+  params.set("expires_at", String(expiresAt));
+
+  if (!_consentCollectionRejected) {
+    params.set("consent_collection[promotions]", "auto");
+  }
+
+  const headers = { Authorization: `Bearer ${STRIPE_SECRET_KEY}`, "Content-Type": "application/x-www-form-urlencoded" };
+  const res = await fetch("https://api.stripe.com/v1/checkout/sessions", { method: "POST", headers, body: params });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    if (!_consentCollectionRejected && errText.includes("consent_collection")) {
+      // Stripe rejected consent_collection for this account — retry without it, log once
+      console.warn("[create-instant-checkout] consent_collection rejected by Stripe — retrying without it");
+      _consentCollectionRejected = true;
+      params.delete("consent_collection[promotions]");
+      const res2 = await fetch("https://api.stripe.com/v1/checkout/sessions", { method: "POST", headers, body: params });
+      if (!res2.ok) return { ok: false, errorText: await res2.text() };
+      return { ok: true, session: await res2.json() };
+    }
+    return { ok: false, errorText: errText };
+  }
+  return { ok: true, session: await res.json() };
+}
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const rec = requestCounts.get(ip);
@@ -961,22 +992,12 @@ serve(async (req: Request) => {
         v3Params.set("customer_email", body.contactEmail.trim());
       }
 
-      const v3Res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${STRIPE_SECRET_KEY}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: v3Params,
-      });
-
-      if (!v3Res.ok) {
-        const err = await v3Res.text();
-        console.error("Stripe v3 checkout session failed:", err);
-        return json({ error: "STRIPE_SESSION_FAILED", details: err }, 502);
+      const v3Result = await createStripeSession(v3Params);
+      if (!v3Result.ok) {
+        console.error("Stripe v3 checkout session failed:", v3Result.errorText);
+        return json({ error: "STRIPE_SESSION_FAILED", details: v3Result.errorText }, 502);
       }
-
-      const v3Session = await v3Res.json();
+      const v3Session = v3Result.session!;
       console.log(`Instant checkout v3 session created for order ${v3OrderRow.id} (#${v3OrderRow.order_number})`);
 
       // Item 3: server-side checkout event (immune to ad blockers)
@@ -1181,17 +1202,12 @@ serve(async (req: Request) => {
 
       if (typeof body.contactEmail === "string" && body.contactEmail.trim()) v4Params.set("customer_email", body.contactEmail.trim());
 
-      const v4Res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${STRIPE_SECRET_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
-        body: v4Params,
-      });
-      if (!v4Res.ok) {
-        const err4 = await v4Res.text();
-        console.error("Stripe v4 checkout session failed:", err4);
-        return json({ error: "STRIPE_SESSION_FAILED", details: err4 }, 502);
+      const v4Result = await createStripeSession(v4Params);
+      if (!v4Result.ok) {
+        console.error("Stripe v4 checkout session failed:", v4Result.errorText);
+        return json({ error: "STRIPE_SESSION_FAILED", details: v4Result.errorText }, 502);
       }
-      const v4Session = await v4Res.json();
+      const v4Session = v4Result.session!;
       console.log(`Instant checkout v4 session created for order ${v4OrderRow.id} (#${v4OrderRow.order_number})`);
 
       const v4PhId = typeof body.ph_distinct_id === "string" && body.ph_distinct_id.trim() ? body.ph_distinct_id.trim() : null;
