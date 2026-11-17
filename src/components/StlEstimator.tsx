@@ -3411,7 +3411,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         {showExitSurvey && (
           <ExitReasonCard
             priceBucket={exitSurveyPriceBucket.current}
+            onReturnToOrder={() => setMobileModalOpen(true)}
             onClose={() => setShowExitSurvey(false)}
+            quoteLink={bundle ? buildQuoteLink(window.location.origin, window.location.pathname, { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency }) : undefined}
+            total={bundle?.total}
           />
         )}
       </div>

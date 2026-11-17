@@ -924,6 +924,15 @@ export const nlTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Iets anders",
   "survey.exit.thanks": "Bedankt voor je reactie!",
   "survey.exit.whatsapp": "Chatten via WhatsApp",
+  "survey.exit.returnToOrder": "Terug naar bestelling",
+  "survey.exit.reason.delivery": "Levertijd",
+  "survey.exit.reason.unknown": "Ik ken Dimension3D niet",
+  "survey.exit.reason.browsing_new": "Wou alleen de prijs zien",
+  "survey.exit.offerCode.title": "Bedankt. Zal ik je 20 % op deze bestelling sturen? Geldig 48 u.",
+  "survey.exit.offerCode.email": "jou@email.nl",
+  "survey.exit.offerCode.cta": "Stuur me de code",
+  "survey.exit.offerCode.sent": "Code verstuurd! Controleer je email.",
+  "survey.exit.offerCode.other": "Nog iets toe te voegen?",
 
   // Item 2 — new file types
   "calc.upload.format": "STL, OBJ, 3MF, GLB — of een foto van wat u nodig heeft",

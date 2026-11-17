@@ -924,6 +924,15 @@ export const enTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Something else",
   "survey.exit.thanks": "Thanks for letting us know!",
   "survey.exit.whatsapp": "Chat on WhatsApp",
+  "survey.exit.returnToOrder": "Return to order",
+  "survey.exit.reason.delivery": "Delivery time",
+  "survey.exit.reason.unknown": "I don't know Dimension3D",
+  "survey.exit.reason.browsing_new": "Just wanted to see the price",
+  "survey.exit.offerCode.title": "Thanks. Want me to send you 20 % off this order? Valid 48 h.",
+  "survey.exit.offerCode.email": "your@email.com",
+  "survey.exit.offerCode.cta": "Send me the code",
+  "survey.exit.offerCode.sent": "Code sent! Check your email.",
+  "survey.exit.offerCode.other": "Anything else to add?",
 
   // Item 2: new file formats + image flow
   "calc.upload.format": "STL, OBJ, 3MF, GLB — or a photo of what you need",

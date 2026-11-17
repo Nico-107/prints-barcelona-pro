@@ -924,6 +924,15 @@ export const ptTranslations: Record<string, string> = {
   "survey.exit.reason.other": "Outro motivo",
   "survey.exit.thanks": "Obrigado pelo teu feedback!",
   "survey.exit.whatsapp": "Falar no WhatsApp",
+  "survey.exit.returnToOrder": "Voltar ao pedido",
+  "survey.exit.reason.delivery": "Prazo de entrega",
+  "survey.exit.reason.unknown": "Não conheço a Dimension3D",
+  "survey.exit.reason.browsing_new": "Só queria ver o preço",
+  "survey.exit.offerCode.title": "Obrigado. Envio-te 20 % neste pedido? Válido 48 h.",
+  "survey.exit.offerCode.email": "teu@email.pt",
+  "survey.exit.offerCode.cta": "Enviar-me o código",
+  "survey.exit.offerCode.sent": "Código enviado! Verifica o teu email.",
+  "survey.exit.offerCode.other": "Algo mais a acrescentar?",
 
   // Item 2 — new file types
   "calc.upload.format": "STL, OBJ, 3MF, GLB — ou uma foto do que precisa",
