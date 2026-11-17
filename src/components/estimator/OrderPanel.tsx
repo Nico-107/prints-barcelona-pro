@@ -163,9 +163,9 @@ interface OrderPanelProps {
   advancedMode: boolean;
   instantBuyEligible: boolean;
   isCheckingOut: boolean;
+  preUploadDone: boolean;
   checkoutWaiting?: boolean;
   checkoutTimedOut?: boolean;
-  preUploadDone: boolean;
   isSubmittingQuote: boolean;
   showManualReview: boolean;
   hasSubmitted: boolean;
@@ -252,9 +252,9 @@ export function OrderPanel({
   advancedMode,
   instantBuyEligible,
   isCheckingOut,
+  preUploadDone,
   checkoutWaiting = false,
   checkoutTimedOut = false,
-  preUploadDone,
   isSubmittingQuote,
   showManualReview,
   hasSubmitted,
@@ -546,21 +546,7 @@ export function OrderPanel({
                     )}
                   </>
                 ) : !_isExtras ? (
-                  // 1.1: ship-only — show a plain shipping line instead of hidden picker
-                  <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef}>
-                    {(() => {
-                      const now = new Date();
-                      const ship = computeShipDate(now, urgency);
-                      const shipFormatted = formatShipDate(ship, language);
-                      return (
-                        <p className="text-xs text-muted-foreground">
-                          {t("calc.shippingOnly.line")
-                            .replace("{price}", shippingFormatted)
-                            .replace("{date}", shipFormatted)}
-                        </p>
-                      );
-                    })()}
-                  </div>
+                  <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef} className="sr-only" />
                 ) : null}
 
                 {/* Cutoff line (R7) — moves to actions-extras on mobile so
@@ -599,9 +585,7 @@ export function OrderPanel({
                     }
                   </Button>
                   {checkoutTimedOut && (
-                    <p className="text-xs text-destructive text-center" data-testid="buy-timeout-msg" role="alert">
-                      {t("calc.checkout.error.uploadTimeout")}
-                    </p>
+                    <p data-testid="buy-timeout-msg" role="alert" className="text-xs text-center text-destructive">{t("calc.checkout.error.uploadTimeout")}</p>
                   )}
                   </>
                   )}
@@ -792,7 +776,6 @@ export function OrderPanel({
                   onSettingsChange={s => onPartSettingsChange(f.id, s)}
                   onResetSettings={() => onResetPartSettings(f.id)}
                   onApplyToAll={() => onApplyToAll(f.id)}
-                  onFreeReview={onManualReview}
                 />
               );
             })}
@@ -875,8 +858,7 @@ export function OrderPanel({
             )}
           </div>
 
-          {/* Contact fields — hidden for instant-buy flow; shown for manual review */}
-          {(!instantBuyEligible || showManualReview) && (
+          {/* Contact fields */}
           <ContactFields
             email={contactEmail}
             phone={contactPhone}
@@ -888,7 +870,6 @@ export function OrderPanel({
             onPhoneChange={onContactPhoneChange}
             onNameChange={onContactNameChange}
           />
-          )}
           {/* Errors only in section='all'; section='form' defers to 'actions' bar */}
           {section === 'all' && quoteError && <p className="text-xs text-destructive" role="alert">{quoteError}</p>}
           {section === 'all' && checkoutError && instantBuyEligible && !showManualReview && (
@@ -943,9 +924,7 @@ export function OrderPanel({
                   }
                 </Button>
                 {checkoutTimedOut && (
-                  <p className="text-xs text-destructive text-center" data-testid="buy-timeout-msg" role="alert">
-                    {t("calc.checkout.error.uploadTimeout")}
-                  </p>
+                  <p data-testid="buy-timeout-msg" role="alert" className="text-xs text-center text-destructive">{t("calc.checkout.error.uploadTimeout")}</p>
                 )}
                 <p className="text-[11px] text-center text-muted-foreground leading-tight">
                   {t("calc.trust.promise")}

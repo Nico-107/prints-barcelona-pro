@@ -375,7 +375,7 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
     expect(pickupBtn!.className).toContain("border-accent");
   });
 
-  it("Buy Now button disabled when preUploadDone=false in actions section", () => {
+  it("Buy Now button enabled when preUploadDone=false (upload in progress)", () => {
     const container = mountPanel(
       <OrderPanel
         {...BASE_PROPS}
@@ -389,12 +389,11 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
         instantTotalPrice={10.00}
       />
     );
-    // When preUploadDone=false the button shows the uploading spinner, not the normal label
-    const html = container.innerHTML;
-    expect(html).toContain("calc.instantBuy.uploading");
-    // Buy Now button (data-testid) should be disabled
+    // Bug 1.2 fix: button is always enabled when not checkoutWaiting.
+    // preUploadDone=false no longer disables the button — instead the click
+    // triggers the checkout-waiting state with a 20s timeout.
     const buyNowBtn = container.querySelector('[data-testid="buy-now-btn"]') as HTMLButtonElement | null;
-    expect(buyNowBtn?.disabled).toBe(true);
+    expect(buyNowBtn?.disabled).toBe(false);
   });
 });
 

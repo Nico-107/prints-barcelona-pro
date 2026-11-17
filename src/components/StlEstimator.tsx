@@ -40,7 +40,6 @@ import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
 import { PartSummaryList } from "./estimator/PartSummaryList";
-import { ErrorBoundary } from "./ErrorBoundary";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -305,10 +304,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [checkoutErrorCode, setCheckoutErrorCode] = useState<string | null>(null);
   const [preUploadDone, setPreUploadDone] = useState(false);
-  const [checkoutWaiting, setCheckoutWaiting] = useState(false);
-  const [checkoutTimedOut, setCheckoutTimedOut] = useState(false);
-  const buyPendingRef = useRef(false);
-  const checkoutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   // Item 1.6: parameters passed back by Stripe on success_url so the banner
   // can show the order number and link straight to /pedido/<token>.
@@ -340,6 +335,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalOpenTimeRef = useRef<number | null>(null);
   const [showExitSurvey, setShowExitSurvey] = useState(false);
   const exitSurveyPriceBucket = useRef<string | undefined>(undefined);
+  const [checkoutWaiting, setCheckoutWaiting] = useState(false);
+  const [checkoutTimedOut, setCheckoutTimedOut] = useState(false);
+  const buyPendingRef = useRef(false);
+  const checkoutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (showExitIntent) {
@@ -421,6 +420,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     // Reset per-estimate refs — new files mean a fresh estimate and upload
     uploadedRef.current = null;
     setPreUploadDone(false);
+    buyPendingRef.current = false;
+    setCheckoutWaiting(false);
+    setCheckoutTimedOut(false);
+    if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
 
     setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
     setParsing(true);
@@ -869,9 +872,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setCheckoutError(null);
     setCheckoutResult(null);
     setShowManualReview(false);
+    buyPendingRef.current = false;
     setCheckoutWaiting(false);
     setCheckoutTimedOut(false);
-    buyPendingRef.current = false;
     if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
     setFulfillment(null);
     setFulfillmentAttempted(false);
@@ -1043,22 +1046,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setFulfillmentAttempted(false);
   }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
 
-  // 1.2: when Buy was clicked during upload, auto-proceed once upload finishes.
-  useEffect(() => {
-    if (preUploadDone && buyPendingRef.current && uploadedRef.current && instantTotalPrice !== null) {
-      buyPendingRef.current = false;
-      setCheckoutWaiting(false);
-      setCheckoutTimedOut(false);
-      if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
-      handleInstantBuy();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [preUploadDone]);
-
-  // 1.1 fix: ship-only pages (shippingOnly=true) have no fulfillment picker,
-  // so shipping must be pre-selected — otherwise Buy fires buy_blocked forever.
-  // Pickup-first referral pages keep their pickup pre-select.
-  // All other pages keep null so the visitor explicitly chooses.
+  // fix-polish §1.7 — owner decision: delivery is NOT auto-selected for a
+  // fresh visitor. Pickup-first referral pages (refPickupAvailable, e.g.
+  // the local Barcelona pickup landing) keep their pickup pre-select
+  // because the page topic itself promises pickup. Everyone else sees
+  // null: the user picks pickup or shipping themselves, and `buy_blocked`
+  // already enforces it via a scroll-to + focus on the fulfilment picker.
   useEffect(() => {
     setFulfillment(shippingOnly ? "shipping" : refPickupAvailable ? "pickup" : null);
   }, [language, refCity, refPickupAvailable, shippingOnly]);
@@ -1117,20 +1110,30 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       }
       return;
     }
-    if (!uploadedRef.current || instantTotalPrice === null) {
+    // If an email was typed but is invalid, show the error (phone is not required for Stripe)
+    if (contactEmail.trim() && !isValidEmail(contactEmail)) {
+      capture('buy_blocked', { reason: 'invalid_email' });
+      setContactTouched(true);
+      return;
+    }
+    if (!preUploadDone || instantTotalPrice === null) {
       capture('buy_blocked', { reason: 'uploading' });
       capture('buy_wait_shown', {});
       buyPendingRef.current = true;
       setCheckoutWaiting(true);
       setCheckoutTimedOut(false);
       if (checkoutTimeoutRef.current) clearTimeout(checkoutTimeoutRef.current);
+      const checkoutTimeoutMs: number =
+        typeof window !== "undefined" && (window as { __dim3d_checkout_timeout_ms?: number }).__dim3d_checkout_timeout_ms != null
+          ? (window as { __dim3d_checkout_timeout_ms?: number }).__dim3d_checkout_timeout_ms!
+          : 20_000;
       checkoutTimeoutRef.current = setTimeout(() => {
         if (buyPendingRef.current) {
           setCheckoutTimedOut(true);
           setCheckoutWaiting(false);
           buyPendingRef.current = false;
         }
-      }, 20_000);
+      }, checkoutTimeoutMs);
       return;
     }
     setIsCheckingOut(true);
@@ -1371,6 +1374,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setCheckoutError(t("calc.checkout.error.default"));
     }
   };
+
+  // When an upload finishes while Buy was already clicked (checkoutWaiting),
+  // auto-proceed to checkout without requiring another click.
+  useEffect(() => {
+    if (preUploadDone && buyPendingRef.current && instantTotalPrice !== null) {
+      buyPendingRef.current = false;
+      setCheckoutWaiting(false);
+      setCheckoutTimedOut(false);
+      if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
+      handleInstantBuy();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preUploadDone]);
 
   /** Save-quote (R10 / Prompt §10). Reuses the quote_requests table with a
    *  distinctive [PRESUPUESTO GUARDADO] prefix in the notes field so Nico
@@ -2176,9 +2192,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     className="w-full"
                     onClick={() => { capture('checkout_reopened', {}); setMobileModalOpen(true); }}
                   >
-                    {instantTotalPrice !== null
-                      ? t("calc.checkout.reopen.priced").replace("{price}", formatEUR(instantTotalPrice, language))
-                      : t("calc.checkout.reopen")}
+                    {t("calc.checkout.reopen")}
                   </Button>
                 </div>
               )
@@ -2407,9 +2421,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           advancedMode,
           instantBuyEligible,
           isCheckingOut,
+          preUploadDone,
           checkoutWaiting,
           checkoutTimedOut,
-          preUploadDone,
           isSubmittingQuote,
           showManualReview,
           hasSubmitted,
@@ -2794,7 +2808,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         );
 
         return (
-          <ErrorBoundary t={t}>
           <CheckoutDialog
             open={mobileModalOpen}
             onOpenChange={(open) => {
@@ -2969,7 +2982,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             rightSlot={rightSlot}
             actionSlot={actionSlot}
           />
-          </ErrorBoundary>
         );
       })()}
 
