@@ -160,13 +160,6 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pricingVersion]);
 
-  // Fire promo_line_shown once per mount when v4 and bundle is present
-  useEffect(() => {
-    if (!bundle || pricingVersion !== 4 || adminMode) return;
-    capture("promo_line_shown", { has_public_code: !!publicCode, code: publicCode?.code });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!bundle, pricingVersion]);
-
   // Auto-apply ?code=XXXX from URL when v4 probe is active
   useEffect(() => {
     if (pricingVersion !== 4) return;
@@ -174,7 +167,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const urlCode = params?.get("code")?.toUpperCase();
     if (!urlCode || appliedPromo?.code === urlCode) return;
     import("@/integrations/supabase/client").then(({ supabase }) => {
-      supabase.rpc("validate_promo", { p_code: urlCode }).then(({ data }) => {
+      (supabase as any).rpc("validate_promo", { p_code: urlCode }).then(({ data }: { data: any }) => {
         if (data?.valid && typeof data.pct === "number") {
           setAppliedPromo({ code: urlCode, pct: data.pct });
           capture("promo_applied", { code: urlCode, pct: data.pct, source: "url" });
@@ -440,6 +433,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const instantTotalPrice = instantBuyEligible
     ? chargedPrice - autumnDiscountCents / 100 - promoDiscountCents / 100 + shippingFeeForDisplay
     : null;
+
+  // Fire promo_line_shown once per mount when v4 and bundle is present
+  useEffect(() => {
+    if (!bundle || pricingVersion !== 4 || adminMode) return;
+    capture("promo_line_shown", { has_public_code: !!publicCode, code: publicCode?.code });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!bundle, pricingVersion]);
 
   const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
     const remaining = MAX_FILES - parsedFiles.length;

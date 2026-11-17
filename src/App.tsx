@@ -24,6 +24,8 @@ const AdminOrdersQueue = lazy(() => import("./pages/admin/OrdersQueue"));
 const AdminPrintQueue = lazy(() => import("./pages/admin/PrintQueue"));
 const AdminQuotesInbox = lazy(() => import("./pages/admin/QuotesInbox"));
 const AdminSearch = lazy(() => import("./pages/admin/AdminSearch"));
+const AdminCodes = lazy(() => import("./pages/admin/PromoCodesAdmin"));
+const AdminLeads = lazy(() => import("./pages/admin/LeadsAdmin"));
 const Internal = lazy(() => import("./pages/Internal"));
 const Admin = lazy(() => import("./pages/Admin"));
 const AdminOrders = lazy(() => import("./pages/AdminOrders"));
@@ -279,6 +281,8 @@ const App = () => (
               <Route path="/admin/print-queue" element={<AdminPrintQueue />} />
               <Route path="/admin/quotes-inbox" element={<AdminQuotesInbox />} />
               <Route path="/admin/search" element={<AdminSearch />} />
+              <Route path="/admin/codes" element={<AdminCodes />} />
+              <Route path="/admin/leads" element={<AdminLeads />} />
               <Route path="/admin-orders" element={<AdminOrders />} />
               <Route path="/admin-makers" element={<AdminMakers />} />
               <Route path="/3d-printing-for-business-barcelona" element={<B2BPage page={PAGES_BY_SLUG["/3d-printing-for-business-barcelona"]} />} />

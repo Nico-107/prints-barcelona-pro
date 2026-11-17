@@ -219,6 +219,14 @@ serve(async (req: Request) => {
             order = updatedOrder ?? null;
             console.log("Instant order " + orderId + " marked paid + quote_approved");
 
+            // Increment promo uses when payment completes (not at session creation)
+            const promoCodeMeta = session.metadata?.promo_code;
+            if (promoCodeMeta) {
+              await adminClient.rpc("increment_promo_uses", { p_code: promoCodeMeta }).catch(
+                (e: unknown) => console.error("[stripe-webhook] increment_promo_uses failed:", e)
+              );
+            }
+
             const notes = order?.notes ?? "";
             const orderPieces: Array<Record<string, unknown>> | null =
               Array.isArray(order?.pieces) ? (order!.pieces as Array<Record<string, unknown>>) : null;
@@ -408,6 +416,14 @@ serve(async (req: Request) => {
             .from("orders")
             .update({ payment_status: "paid" })
             .eq("order_number", parseInt(orderNumber));
+
+          // Increment promo uses if this order had a promo code
+          const promoCodeMeta = session.metadata?.promo_code;
+          if (!error && promoCodeMeta) {
+            await adminClient.rpc("increment_promo_uses", { p_code: promoCodeMeta }).catch(
+              (e: unknown) => console.error("[stripe-webhook] increment_promo_uses failed:", e)
+            );
+          }
 
           if (error) {
             console.error("Failed to update payment_status for order #" + orderNumber + ":", error);

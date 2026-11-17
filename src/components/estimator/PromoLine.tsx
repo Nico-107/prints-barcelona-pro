@@ -69,7 +69,7 @@ export function PromoLine({
     setValidating(true);
     setError(null);
     try {
-      const { data, error: rpcErr } = await supabase.rpc("validate_promo", { p_code: code });
+      const { data, error: rpcErr } = await (supabase as any).rpc("validate_promo", { p_code: code }) as { data: any; error: any };
       if (rpcErr || !data?.valid) {
         setError(t("calc.promo.invalid"));
         capture("promo_invalid", { code });
