@@ -9,16 +9,17 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const POSTHOG_KEY = Deno.env.get("POSTHOG_KEY");
 const POSTHOG_HOST = Deno.env.get("POSTHOG_HOST");
 
-// B2: server-side order_paid — idempotent via Stripe session.id as PostHog uuid, 3s timeout
+// 6.1: server-side PostHog capture — 3s timeout, idempotent via session.id as uuid
 // Required env vars: POSTHOG_KEY (project API key), POSTHOG_HOST (e.g. https://eu.i.posthog.com)
-async function captureOrderPaid(
+async function captureServerEvent(
+  event: string,
   distinctId: string,
   properties: Record<string, unknown>,
   idempotencyKey: string,
   processPersonProfile: boolean,
 ): Promise<void> {
   if (!POSTHOG_KEY || !POSTHOG_HOST) {
-    console.error("[order_paid] Missing env var — POSTHOG_KEY:", !!POSTHOG_KEY, "POSTHOG_HOST:", !!POSTHOG_HOST);
+    console.error(`[${event}] Missing env var — POSTHOG_KEY:`, !!POSTHOG_KEY, "POSTHOG_HOST:", !!POSTHOG_HOST);
     return;
   }
   const controller = new AbortController();
@@ -29,7 +30,7 @@ async function captureOrderPaid(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         api_key: POSTHOG_KEY,
-        event: "order_paid",
+        event,
         distinct_id: distinctId,
         uuid: idempotencyKey,
         properties: {
@@ -41,15 +42,25 @@ async function captureOrderPaid(
     });
     if (!res.ok) {
       const body = await res.text().catch(() => "(unreadable)");
-      console.error(`[order_paid] PostHog returned ${res.status}: ${body}`);
+      console.error(`[${event}] PostHog returned ${res.status}: ${body}`);
     } else {
-      console.log(`[order_paid] Captured for ${distinctId} (session ${idempotencyKey})`);
+      console.log(`[${event}] Captured for ${distinctId} (key ${idempotencyKey})`);
     }
   } catch (e: any) {
-    console.error("[order_paid] Capture failed:", e?.message ?? e);
+    console.error(`[${event}] Capture failed:`, e?.message ?? e);
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** Backward-compat wrapper — fires order_paid_server (6.1) */
+async function captureOrderPaid(
+  distinctId: string,
+  properties: Record<string, unknown>,
+  idempotencyKey: string,
+  processPersonProfile: boolean,
+): Promise<void> {
+  await captureServerEvent("order_paid_server", distinctId, properties, idempotencyKey, processPersonProfile);
 }
 
 async function verifyStripeSignature(body: string, signature: string, secret: string): Promise<boolean> {
@@ -463,6 +474,7 @@ serve(async (req: Request) => {
 
   // 4.5: Abandoned-checkout recovery email
   if (event.type === "checkout.session.expired") {
+    let recoverySent = false;
     try {
       const session = event.data.object;
       const customerEmail = session.customer_details?.email ?? session.customer_email ?? null;
@@ -513,9 +525,26 @@ serve(async (req: Request) => {
             recovery_url: recoveryUrl,
             language: lang,
           });
+          recoverySent = true;
           console.log(`[checkout_recovery] Sent recovery email to ${customerEmail} (session ${session.id})`);
         }
       }
+
+      // 6.1: checkout_expired_server — fires for every expired session
+      const phId = session.metadata?.ph_distinct_id ?? null;
+      await captureServerEvent(
+        "checkout_expired_server",
+        phId || ("anon_expired_" + session.id),
+        {
+          stripe_session_id: session.id,
+          recovery_sent: recoverySent,
+          country: session.customer_details?.address?.country ?? null,
+          pricing_version: session.metadata?.pricing_version ? Number(session.metadata.pricing_version) : null,
+          ph_distinct_id: phId,
+        },
+        "expired_" + session.id,
+        !!phId,
+      );
     } catch (err: any) {
       console.error("[checkout_recovery] Error:", err?.message ?? err);
     }
