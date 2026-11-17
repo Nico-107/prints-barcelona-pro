@@ -602,6 +602,7 @@ export const deTranslations: Record<string, string> = {
   "calc.parts.remove": "Teil entfernen",
   "calc.summary.setup": "Auftragseinrichtung (einmalig)",
   "calc.summary.minAdjust": "Anpassung auf das Minimum von 10 €",
+  "calc.summary.minAdjust.v4": "Anpassung auf das Minimum von 9,90 €",
   "calc.summary.express": "Expressaufschlag",
   "calc.summary.shipping": "Versand",
   "calc.summary.total": "Gesamt",

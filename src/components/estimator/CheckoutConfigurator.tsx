@@ -59,6 +59,7 @@ interface CheckoutConfiguratorProps {
   /** Selected (scoped or first) part — used to drive the Simple-mode qty stepper. */
   activeFileId?: string;
   onQtyChange?: (id: string, qty: number) => void;
+  v4?: boolean;
 }
 
 export function CheckoutConfigurator({
@@ -73,6 +74,7 @@ export function CheckoutConfigurator({
   onPartSettingsChange, onResetPartSettings, onApplyToAll,
   onClearFieldFromAllParts, replacedCount,
   activeFileId, onQtyChange,
+  v4 = false,
 }: CheckoutConfiguratorProps) {
   const [noteOpen, setNoteOpen] = useState(!!notesText && notesText.length > 0);
 
@@ -138,12 +140,13 @@ export function CheckoutConfigurator({
   const deltas = useMemo(() => {
     const vf = deltaFiles;
     if (!vf.length) return { materials: {} as Record<string, string>, qualities: {} as Record<string, string>, strengths: {} as Record<string, string> };
+    const flags = v4 ? { v4: true } : undefined;
     const materials: Record<string, string> = {};
-    for (const m of INSTANT_MATERIALS) materials[m] = materialDelta(vf, deltaDefaults, urgency, m).formatted;
+    for (const m of INSTANT_MATERIALS) materials[m] = materialDelta(vf, deltaDefaults, urgency, m, flags).formatted;
     const qualities: Record<string, string> = {};
-    for (const q of QUALITY_OPTIONS) qualities[q.key] = qualityDelta(vf, deltaDefaults, urgency, q.key).formatted;
+    for (const q of QUALITY_OPTIONS) qualities[q.key] = qualityDelta(vf, deltaDefaults, urgency, q.key, flags).formatted;
     const strengths: Record<string, string> = {};
-    for (const s of STRENGTH_PRESETS) strengths[s.key] = strengthDelta(vf, deltaDefaults, urgency, s.key, s.infill, s.walls).formatted;
+    for (const s of STRENGTH_PRESETS) strengths[s.key] = strengthDelta(vf, deltaDefaults, urgency, s.key, s.infill, s.walls, flags).formatted;
     return { materials, qualities, strengths };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validFiles, deltaDefaults, urgency, scope]);

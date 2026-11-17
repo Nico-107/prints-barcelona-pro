@@ -213,6 +213,8 @@ interface OrderPanelProps {
   urgency?: string;
   /** When true, hide the pickup button entirely (international pages: ship-only). */
   shippingOnly?: boolean;
+  /** When true, pricing uses v4 engine (charm rounding, 9,90 € minimum). */
+  v4?: boolean;
   /** Save-quote callback (R10). Returns once the quote_requests insert settles. */
   onSaveQuote?: (email: string) => Promise<void>;
   /** Current configurator values — encoded into the copyable share link. */
@@ -278,6 +280,7 @@ export function OrderPanel({
   supportHeavy = false,
   urgency = "standard",
   shippingOnly = false,
+  v4 = false,
   onSaveQuote,
   saveQuoteConfig,
 }: OrderPanelProps) {
@@ -785,7 +788,7 @@ export function OrderPanel({
 
       {/* Order summary moved to the pinned actions bar (conv-27 §bug 5).
           "Why this price?" stays as a collapsible — it's informational, not a duplicate. */}
-      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} language={lang} />}
+      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} language={lang} v4={v4} />}
 
       {/* Notes */}
       {renderForm && !instantEligibleMaterials && !effectiveAnyMulticolour && (

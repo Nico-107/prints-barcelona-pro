@@ -8,6 +8,7 @@ interface PriceBreakdownProps {
   fulfillment: "pickup" | "shipping" | null;
   t: (key: string) => string;
   language: Language;
+  v4?: boolean;
 }
 
 /**
@@ -25,7 +26,7 @@ interface PriceBreakdownProps {
  * chargedPrintCents = baseCents + expressCents and
  * baseCents = (baseCents − minAdjCents) + minAdjCents.
  */
-export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakdownProps) {
+export function PriceBreakdown({ bundle, fulfillment, t, language, v4 }: PriceBreakdownProps) {
   const baseCents = bundle.order.baseCents;
   const minAdjCents = bundle.orderResult.minAdjCents;
   const expressCents = bundle.orderResult.expressCents;
@@ -47,7 +48,7 @@ export function PriceBreakdown({ bundle, fulfillment, t, language }: PriceBreakd
       </div>
       {isMinimumHit && (
         <div className="flex justify-between text-muted-foreground">
-          <span>{t("calc.summary.minAdjust")}</span>
+          <span>{t(v4 ? "calc.summary.minAdjust.v4" : "calc.summary.minAdjust")}</span>
           <span className="font-mono">+{formatEUR(minAdjCents / 100, language)}</span>
         </div>
       )}

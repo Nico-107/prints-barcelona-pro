@@ -602,6 +602,7 @@ export const itTranslations: Record<string, string> = {
   "calc.parts.remove": "Rimuovi pezzo",
   "calc.summary.setup": "Preparazione ordine (una volta)",
   "calc.summary.minAdjust": "Adeguamento al minimo di 10 €",
+  "calc.summary.minAdjust.v4": "Adeguamento al minimo di 9,90 €",
   "calc.summary.express": "Supplemento express",
   "calc.summary.shipping": "Spedizione",
   "calc.summary.total": "Totale",

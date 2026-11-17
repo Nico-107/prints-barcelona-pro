@@ -700,6 +700,7 @@ export const enTranslations: Record<string, string> = {
   "calc.parts.remove": "Remove part",
   "calc.summary.setup": "Order setup (once)",
   "calc.summary.minAdjust": "Adjustment to the €10 minimum",
+  "calc.summary.minAdjust.v4": "Adjustment to the €9.90 minimum",
   "calc.summary.express": "Express surcharge",
   "calc.summary.shipping": "Shipping",
   "calc.summary.total": "Total",
