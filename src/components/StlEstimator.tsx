@@ -42,6 +42,9 @@ import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
 import { PartSummaryList } from "./estimator/PartSummaryList";
+import { SavedQuoteBar } from "./SavedQuoteBar";
+import { saveQuoteLocally, clearSavedQuote } from "@/lib/savedQuoteStore";
+import type { SavedQuoteEntry } from "@/lib/savedQuoteStore";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -441,6 +444,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     capture("promo_line_shown", { has_public_code: !!publicCode, code: publicCode?.code });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!bundle, pricingVersion]);
+
+  // 4.3: Auto-save quote to IndexedDB whenever the bundle updates with valid files
+  useEffect(() => {
+    if (!bundle || !validFiles.length || adminMode) return;
+    const firstName = validFiles[0]?.name ?? null;
+    saveQuoteLocally({
+      material: materialKey,
+      colour: colorPref,
+      qty: bundle.totalUnits,
+      urgency,
+      fileId: validFiles[0]?.id ?? null,
+      fileName: firstName,
+      total: bundle.total,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bundle?.total, validFiles.length, materialKey, colorPref, urgency]);
 
   const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -1112,6 +1131,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         if (raw) { stash = JSON.parse(raw); sessionStorage.removeItem("dim3d-checkout-ctx"); }
       } catch {}
       setCheckoutResult("success");
+      clearSavedQuote();
       const orderNumberParam = params.get("order_number");
       const trackingTokenParam = params.get("tracking_token");
       const fulfillmentParam = params.get("fulfillment");
@@ -1496,6 +1516,15 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     } catch (err) {
       console.warn("[StlEstimator] save-quote failed:", err);
     }
+  };
+
+  // 4.3: Restore settings from a saved quote (IndexedDB) when the visitor clicks "Resume"
+  const handleResumeQuote = (entry: SavedQuoteEntry) => {
+    setMaterialKey(entry.material);
+    setColorPref(entry.colour);
+    setUrgency(entry.urgency as typeof urgency);
+    clearSavedQuote();
+    inputRef.current?.click();
   };
 
   const handleManualReview = () => {
@@ -3138,6 +3167,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             </p>
           </div>
         )}
+        <SavedQuoteBar
+          language={language as Language}
+          t={t}
+          onResume={handleResumeQuote}
+          hasFiles={parsedFiles.length > 0}
+        />
         {inner}
 
         {/* Exit-intent dialog — 3 variants: priced, quote, failed */}
