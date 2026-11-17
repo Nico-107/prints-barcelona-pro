@@ -29,30 +29,21 @@ test("Exit-reason card appears after modal open ≥5 s and dismissed", async ({ 
 
   await page.goto("/");
 
-  // Upload file
+  // Upload file — the modal opens automatically
   const fileInput = page.locator('input[type="file"]').first();
   await fileInput.setInputFiles(CUBE_STL);
 
-  // Wait for buy or review button (upload + price)
-  const buyBtn = page.locator('[data-testid="buy-now-btn"]').last();
-  const reviewBtn = page.locator('[data-testid="review-btn"]').last();
-  await buyBtn.or(reviewBtn).last().waitFor({ state: "visible", timeout: 25000 });
-
-  // Open modal
-  if (await buyBtn.isVisible().catch(() => false)) {
-    await buyBtn.click();
-  } else {
-    await reviewBtn.click();
-  }
-
-  // Confirm dialog is open
+  // Wait for the modal to open and price to resolve
   const dialog = page.locator('[role="dialog"]').first();
-  await dialog.waitFor({ state: "visible", timeout: 8000 });
+  await dialog.waitFor({ state: "visible", timeout: 25000 });
 
-  // Wait ≥5 s so the modal-open timer qualifies
+  // Wait for the visible buy button (last one in DOM — inside mobile footer, not hidden desktop section)
+  await dialog.locator('[data-testid="buy-now-btn"]').last().waitFor({ state: "visible", timeout: 20000 });
+
+  // Keep modal open ≥5 s so the timer qualifies
   await page.waitForTimeout(5500);
 
-  // Close the modal
+  // Close the modal via the X button
   const closeBtn = dialog.locator('button[aria-label]').first();
   await closeBtn.click();
 
@@ -74,28 +65,22 @@ test("Exit-reason: chip fires and transitions to code-offer form", async ({ page
   const fileInput = page.locator('input[type="file"]').first();
   await fileInput.setInputFiles(CUBE_STL);
 
-  const buyBtn = page.locator('[data-testid="buy-now-btn"]').last();
-  const reviewBtn = page.locator('[data-testid="review-btn"]').last();
-  await buyBtn.or(reviewBtn).last().waitFor({ state: "visible", timeout: 25000 });
+  // Wait for modal + price
+  const dialog = page.locator('[role="dialog"]').first();
+  await dialog.waitFor({ state: "visible", timeout: 25000 });
+  await dialog.locator('[data-testid="buy-now-btn"]').last().waitFor({ state: "visible", timeout: 20000 });
 
-  if (await buyBtn.isVisible().catch(() => false)) {
-    await buyBtn.click();
-  } else {
-    await reviewBtn.click();
-  }
-
-  await page.locator('[role="dialog"]').first().waitFor({ state: "visible", timeout: 8000 });
   await page.waitForTimeout(5500);
 
-  const closeBtn = page.locator('[role="dialog"]').first().locator('button[aria-label]').first();
+  const closeBtn = dialog.locator('button[aria-label]').first();
   await closeBtn.click();
 
   // Card appears
   await page.locator('[data-testid="exit-not-sent"]').waitFor({ state: "visible", timeout: 3000 });
 
-  // Click the first chip (Precio / Price)
-  const chips = page.locator('[data-testid="exit-not-sent"]').locator("..").locator("button");
-  await chips.first().click();
+  // Click the first chip — target the flex-wrap sibling div of exit-not-sent
+  const firstChip = page.locator('[data-testid="exit-not-sent"] ~ div.flex-wrap button').first();
+  await firstChip.click();
 
   // After chip, the code-offer form should appear (email input)
   const emailInput = page.locator('input[type="email"][data-ph-mask]').last();

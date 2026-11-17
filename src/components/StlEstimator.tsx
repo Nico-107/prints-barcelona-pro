@@ -307,10 +307,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-  // Set data-estimator-open on body so CookieConsentBanner can hide itself
+  // Set data-estimator-open on body so CookieConsentBanner can hide itself.
+  // Also seed modalOpenTimeRef so the exit-survey 5s gate works for programmatic
+  // opens (setMobileModalOpen(true) from file upload) where Radix does not fire onOpenChange(true).
   useEffect(() => {
     if (mobileModalOpen) {
       document.body.setAttribute("data-estimator-open", "1");
+      if (!modalOpenTimeRef.current) modalOpenTimeRef.current = Date.now();
     } else {
       document.body.removeAttribute("data-estimator-open");
     }
@@ -2945,6 +2948,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 // Exit survey replaces exit-intent when modal was open ≥5s and no lead yet
                 if (!open && !isSubmittedQuote && !showManualReview && !isCheckingOut && checkoutResult !== "success"
                     && wasLongEnough && !hasExitSurveyBeenShown() && !hasLeadBeenSubmitted()) {
+                  setMobileModalOpen(false);
                   setShowExitSurvey(true);
                   // Store the price bucket for the survey
                   if (bundle) {
