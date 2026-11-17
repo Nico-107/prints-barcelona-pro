@@ -51,6 +51,7 @@ export interface CheckoutBody {
   // Source tracking (Item 6)
   source_path?: string | null;
   page_language?: string | null;
+  promo_code?: string | null;
 }
 
 export interface BuildCheckoutBodyParams {
@@ -75,6 +76,7 @@ export interface BuildCheckoutBodyParams {
   returnPath?: string;
   sourcePath?: string | null;
   pageLanguage?: string | null;
+  promoCode?: string | null;
 }
 
 export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
@@ -154,5 +156,6 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
     returnPath: p.returnPath,
     source_path: p.sourcePath ?? null,
     page_language: p.pageLanguage ?? null,
+    promo_code: p.promoCode ?? null,
   };
 }

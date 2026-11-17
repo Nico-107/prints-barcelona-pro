@@ -397,6 +397,11 @@ export interface EventMap {
   contact_entered: ContactEnteredProps;
   buy_clicked: BuyClickedProps;
   buy_wait_shown: Record<string, never>;
+  pricing_version_resolved: { version: 3 | 4; source: 'cache' | 'fetch' };
+  promo_line_shown: { has_public_code: boolean; code?: string };
+  promo_applied: { code: string; pct: number; source: 'public' | 'manual' | 'url' };
+  promo_invalid: { code: string };
+  student_code_requested: { email_domain: string };
   review_clicked: ReviewClickedProps;
   whatsapp_from_modal: WhatsappFromModalProps;
   stripe_redirect: StripeRedirectProps;

@@ -18,7 +18,8 @@ import { effectivePartSettings } from "@/lib/pricing";
 import type { Scope } from "./estimator/PartScopeBar";
 import { computeBundleV3 } from "@/lib/estimate";
 import type { BundleEstimateV3 } from "@/lib/estimate";
-import { usePricingVersion, freeShippingThresholdCents } from "@/lib/usePricingVersion";
+import { usePricingProbe, freeShippingThresholdCents } from "@/lib/usePricingVersion";
+import type { AppliedPromo } from "@/components/estimator/PromoLine";
 import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
 import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
@@ -150,7 +151,38 @@ interface Props {
 export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false, shippingOnly = false, compact = false }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
-  const pricingVersion = usePricingVersion();
+  const { version: pricingVersion, publicCode } = usePricingProbe();
+
+  // Fire pricing_version_resolved once per mount when probe settles
+  useEffect(() => {
+    if (adminMode) return;
+    capture("pricing_version_resolved", { version: pricingVersion, source: "fetch" });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pricingVersion]);
+
+  // Fire promo_line_shown once per mount when v4 and bundle is present
+  useEffect(() => {
+    if (!bundle || pricingVersion !== 4 || adminMode) return;
+    capture("promo_line_shown", { has_public_code: !!publicCode, code: publicCode?.code });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!bundle, pricingVersion]);
+
+  // Auto-apply ?code=XXXX from URL when v4 probe is active
+  useEffect(() => {
+    if (pricingVersion !== 4) return;
+    const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    const urlCode = params?.get("code")?.toUpperCase();
+    if (!urlCode || appliedPromo?.code === urlCode) return;
+    import("@/integrations/supabase/client").then(({ supabase }) => {
+      supabase.rpc("validate_promo", { p_code: urlCode }).then(({ data }) => {
+        if (data?.valid && typeof data.pct === "number") {
+          setAppliedPromo({ code: urlCode, pct: data.pct });
+          capture("promo_applied", { code: urlCode, pct: data.pct, source: "url" });
+        }
+      });
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pricingVersion]);
 
   // Fire calculator_seen and upload_area_view when section is ≥50% visible
   useEffect(() => {
@@ -339,6 +371,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const exitSurveyPriceBucket = useRef<string | undefined>(undefined);
   const [checkoutWaiting, setCheckoutWaiting] = useState(false);
   const [checkoutTimedOut, setCheckoutTimedOut] = useState(false);
+  const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
   const buyPendingRef = useRef(false);
   const checkoutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -392,16 +425,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const ineligibleReasons = instantBuyStatus.reasons;
   const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
 
-  // Autumn discount (client display only — server re-computes at checkout)
-  const autumnOfferActive = Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
+  // Autumn discount (client display only — v3 only; v4 uses promo codes)
+  const autumnOfferActive = pricingVersion !== 4 && Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
   const autumnDiscountCents = (autumnOfferActive && bundle && bundle.orderResult.chargedPrintCents >= AUTUMN_DISCOUNT.minCents)
     ? Math.round(bundle.orderResult.chargedPrintCents * AUTUMN_DISCOUNT.pct / 100)
+    : 0;
+  // Promo discount (v4 only)
+  const promoDiscountCents = (pricingVersion === 4 && appliedPromo && bundle)
+    ? Math.round(bundle.orderResult.chargedPrintCents * appliedPromo.pct / 100)
     : 0;
 
   const freeShipThreshCents = freeShippingThresholdCents(pricingVersion);
   const shippingFeeForDisplay = fulfillment === "shipping" && bundle && bundle.order.totalCents < freeShipThreshCents ? EST.shippingCents / 100 : 0;
   const instantTotalPrice = instantBuyEligible
-    ? chargedPrice - autumnDiscountCents / 100 + shippingFeeForDisplay
+    ? chargedPrice - autumnDiscountCents / 100 - promoDiscountCents / 100 + shippingFeeForDisplay
     : null;
 
   const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
@@ -876,6 +913,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setCheckoutError(null);
     setCheckoutResult(null);
     setShowManualReview(false);
+    setAppliedPromo(null);
     buyPendingRef.current = false;
     setCheckoutWaiting(false);
     setCheckoutTimedOut(false);
@@ -1196,6 +1234,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         returnPath: window.location.pathname,
         sourcePath: window.location.pathname,
         pageLanguage: language,
+        promoCode: pricingVersion === 4 ? (appliedPromo?.code ?? null) : null,
       });
       const measureFileMb = (() => {
         const bytes = validFiles.reduce((s, x) => s + x.sizeBytes, 0);
@@ -2424,6 +2463,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             });
           },
           autumnDiscountCents,
+          publicCode: pricingVersion === 4 ? publicCode : null,
+          appliedPromo: pricingVersion === 4 ? appliedPromo : null,
+          onApplyPromo: (promo: AppliedPromo) => setAppliedPromo(promo),
+          onRemovePromo: () => setAppliedPromo(null),
+          promoDiscountCents,
           advancedMode,
           instantBuyEligible,
           isCheckingOut,
