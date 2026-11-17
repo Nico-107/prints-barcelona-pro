@@ -248,7 +248,7 @@ export function PartRow({
                   disabled={disabled}
                   className="w-full h-8 rounded-md border border-input bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-60"
                 >
-                  {[2,3,4,5,6,7,8].map(v => (
+                  {[2,3,4].map(v => (
                     <option key={v} value={v}>{t(`calc.walls.${v}`)}</option>
                   ))}
                 </select>
