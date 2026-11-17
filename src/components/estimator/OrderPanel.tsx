@@ -542,7 +542,21 @@ export function OrderPanel({
                     )}
                   </>
                 ) : !_isExtras ? (
-                  <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef} className="sr-only" />
+                  // 1.1: ship-only — show a plain shipping line instead of hidden picker
+                  <div data-testid="compact-fulfillment-picker" ref={fulfillmentPickerRef}>
+                    {(() => {
+                      const now = new Date();
+                      const ship = computeShipDate(now, urgency);
+                      const shipFormatted = formatShipDate(ship, language);
+                      return (
+                        <p className="text-xs text-muted-foreground">
+                          {t("calc.shippingOnly.line")
+                            .replace("{price}", shippingFormatted)
+                            .replace("{date}", shipFormatted)}
+                        </p>
+                      );
+                    })()}
+                  </div>
                 ) : null}
 
                 {/* Cutoff line (R7) — moves to actions-extras on mobile so

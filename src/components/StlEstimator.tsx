@@ -40,6 +40,7 @@ import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
 import { PartSummaryList } from "./estimator/PartSummaryList";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -1034,15 +1035,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setFulfillmentAttempted(false);
   }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
 
-  // fix-polish §1.7 — owner decision: delivery is NOT auto-selected for a
-  // fresh visitor. Pickup-first referral pages (refPickupAvailable, e.g.
-  // the local Barcelona pickup landing) keep their pickup pre-select
-  // because the page topic itself promises pickup. Everyone else sees
-  // null: the user picks pickup or shipping themselves, and `buy_blocked`
-  // already enforces it via a scroll-to + focus on the fulfilment picker.
+  // 1.1 fix: ship-only pages (shippingOnly=true) have no fulfillment picker,
+  // so shipping must be pre-selected — otherwise Buy fires buy_blocked forever.
+  // Pickup-first referral pages keep their pickup pre-select.
+  // All other pages keep null so the visitor explicitly chooses.
   useEffect(() => {
-    setFulfillment(refPickupAvailable ? "pickup" : null);
-  }, [language, refCity, refPickupAvailable]);
+    setFulfillment(shippingOnly ? "shipping" : refPickupAvailable ? "pickup" : null);
+  }, [language, refCity, refPickupAvailable, shippingOnly]);
 
   // Detect Stripe return URLs on page load
   useEffect(() => {
@@ -2767,6 +2766,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         );
 
         return (
+          <ErrorBoundary t={t}>
           <CheckoutDialog
             open={mobileModalOpen}
             onOpenChange={(open) => {
@@ -2941,6 +2941,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             rightSlot={rightSlot}
             actionSlot={actionSlot}
           />
+          </ErrorBoundary>
         );
       })()}
 
