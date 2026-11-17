@@ -285,7 +285,7 @@ const rnd = (x: number) => Math.floor(x + 0.5);
  * where `sum` is the raw total (pre-urgency, pre-minimum) and `units`
  * is the total quantity across all parts. Applied in cents.
  */
-function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number, minimumEur = EST.minimumEur): number {
+function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number, minimumEur: number = EST.minimumEur): number {
   const stepFloorEur = minimumEur + 1 * Math.max(0, totalUnits - 1);
   return Math.max(rawTotalEur, stepFloorEur);
 }
