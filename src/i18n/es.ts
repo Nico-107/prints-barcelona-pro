@@ -814,6 +814,7 @@ export const esTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Pago cancelado",
   "calc.checkout.cancelled.body": "No se ha realizado ningún cargo. Sube tus archivos de nuevo para reintentar o solicita una revisión.",
   "calc.checkout.error.fileNotFound": "Todavía estamos subiendo tu archivo. Inténtalo de nuevo en unos segundos.",
+  "calc.checkout.error.uploadTimeout": "La subida está tardando más de lo esperado. Reintentar o enviar la revisión gratis.",
   "calc.checkout.error.priceMismatch": "El precio ha cambiado. Actualiza la página e inténtalo de nuevo.",
   "calc.checkout.error.default": "No hemos podido abrir la página de pago. Envíanos el pedido y te enviamos un enlace de pago en 1 h.",
   "calc.checkout.error.sendOrder": "Enviar mi pedido y recibir un enlace de pago",

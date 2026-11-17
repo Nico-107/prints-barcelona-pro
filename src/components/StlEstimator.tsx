@@ -305,6 +305,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [checkoutErrorCode, setCheckoutErrorCode] = useState<string | null>(null);
   const [preUploadDone, setPreUploadDone] = useState(false);
+  const [checkoutWaiting, setCheckoutWaiting] = useState(false);
+  const [checkoutTimedOut, setCheckoutTimedOut] = useState(false);
+  const buyPendingRef = useRef(false);
+  const checkoutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [checkoutResult, setCheckoutResult] = useState<"success" | "cancelled" | null>(null);
   // Item 1.6: parameters passed back by Stripe on success_url so the banner
   // can show the order number and link straight to /pedido/<token>.
@@ -865,6 +869,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setCheckoutError(null);
     setCheckoutResult(null);
     setShowManualReview(false);
+    setCheckoutWaiting(false);
+    setCheckoutTimedOut(false);
+    buyPendingRef.current = false;
+    if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
     setFulfillment(null);
     setFulfillmentAttempted(false);
     setScope("all");
@@ -1035,6 +1043,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setFulfillmentAttempted(false);
   }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
 
+  // 1.2: when Buy was clicked during upload, auto-proceed once upload finishes.
+  useEffect(() => {
+    if (preUploadDone && buyPendingRef.current && uploadedRef.current && instantTotalPrice !== null) {
+      buyPendingRef.current = false;
+      setCheckoutWaiting(false);
+      setCheckoutTimedOut(false);
+      if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
+      handleInstantBuy();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preUploadDone]);
+
   // 1.1 fix: ship-only pages (shippingOnly=true) have no fulfillment picker,
   // so shipping must be pre-selected — otherwise Buy fires buy_blocked forever.
   // Pickup-first referral pages keep their pickup pre-select.
@@ -1099,8 +1119,18 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     }
     if (!uploadedRef.current || instantTotalPrice === null) {
       capture('buy_blocked', { reason: 'uploading' });
-      setCheckoutErrorCode("UPLOADING");
-      setCheckoutError(t("calc.checkout.error.fileNotFound"));
+      capture('buy_wait_shown', {});
+      buyPendingRef.current = true;
+      setCheckoutWaiting(true);
+      setCheckoutTimedOut(false);
+      if (checkoutTimeoutRef.current) clearTimeout(checkoutTimeoutRef.current);
+      checkoutTimeoutRef.current = setTimeout(() => {
+        if (buyPendingRef.current) {
+          setCheckoutTimedOut(true);
+          setCheckoutWaiting(false);
+          buyPendingRef.current = false;
+        }
+      }, 20_000);
       return;
     }
     setIsCheckingOut(true);
@@ -2377,6 +2407,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           advancedMode,
           instantBuyEligible,
           isCheckingOut,
+          checkoutWaiting,
+          checkoutTimedOut,
           preUploadDone,
           isSubmittingQuote,
           showManualReview,

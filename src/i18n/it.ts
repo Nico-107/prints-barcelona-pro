@@ -716,6 +716,7 @@ export const itTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Pagamento annullato",
   "calc.checkout.cancelled.body": "Nessun importo è stato addebitato. Carica di nuovo i tuoi file per riprovare o richiedi una revisione.",
   "calc.checkout.error.fileNotFound": "Stiamo ancora caricando il file. Riprova tra qualche secondo.",
+  "calc.checkout.error.uploadTimeout": "Il caricamento sta richiedendo più tempo del previsto. Riprova o richiedi una revisione gratuita.",
   "calc.checkout.error.priceMismatch": "Il prezzo è cambiato. Aggiorna la pagina e riprova.",
   "calc.checkout.error.default": "Non siamo riusciti ad aprire la pagina di pagamento. Inviaci l'ordine e ti invieremo un link di pagamento entro 1 h.",
   "calc.checkout.error.sendOrder": "Invia il mio ordine e ricevi un link di pagamento",

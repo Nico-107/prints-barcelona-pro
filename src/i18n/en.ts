@@ -815,6 +815,7 @@ export const enTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Checkout cancelled",
   "calc.checkout.cancelled.body": "No charge was made. Upload your files again to retry or request a review.",
   "calc.checkout.error.fileNotFound": "We're still uploading your file. Try again in a few seconds.",
+  "calc.checkout.error.uploadTimeout": "Upload is taking longer than expected. Retry or request a free review.",
   "calc.checkout.error.priceMismatch": "The price changed. Refresh and try again.",
   "calc.checkout.error.default": "We couldn't open the payment page. Send us the order and we'll send you a payment link within 1 h.",
   "calc.checkout.error.sendOrder": "Send my order and get a payment link",

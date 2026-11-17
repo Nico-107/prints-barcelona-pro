@@ -814,6 +814,7 @@ export const caTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Pagament cancel·lat",
   "calc.checkout.cancelled.body": "No s'ha realitzat cap càrrec. Torna a pujar els teus arxius per reintentar o sol·licita una revisió.",
   "calc.checkout.error.fileNotFound": "Encara estem pujant el teu fitxer. Torna-ho a intentar en uns segons.",
+  "calc.checkout.error.uploadTimeout": "La pujada tarda més del compte. Reintenta o demana una revisió gratuïta.",
   "calc.checkout.error.priceMismatch": "El preu ha canviat. Actualitza la pàgina i torna-ho a intentar.",
   "calc.checkout.error.default": "No hem pogut obrir la pàgina de pagament. Envia'ns la comanda i t'enviarem un enllaç de pagament en 1 h.",
   "calc.checkout.error.sendOrder": "Enviar la meva comanda i rebre un enllaç de pagament",

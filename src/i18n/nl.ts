@@ -716,6 +716,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Betaling geannuleerd",
   "calc.checkout.cancelled.body": "Er is geen bedrag in rekening gebracht. Upload uw bestanden opnieuw om het opnieuw te proberen of vraag een beoordeling aan.",
   "calc.checkout.error.fileNotFound": "We uploaden je bestand nog. Probeer het over een paar seconden opnieuw.",
+  "calc.checkout.error.uploadTimeout": "De upload duurt langer dan verwacht. Opnieuw proberen of gratis beoordeling aanvragen.",
   "calc.checkout.error.priceMismatch": "De prijs is veranderd. Ververs de pagina en probeer het opnieuw.",
   "calc.checkout.error.default": "We konden de betaalpagina niet openen. Stuur ons de bestelling en we sturen je binnen 1 h een betaallink.",
   "calc.checkout.error.sendOrder": "Mijn bestelling verzenden en een betaallink ontvangen",

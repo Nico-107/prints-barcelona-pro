@@ -716,6 +716,7 @@ export const deTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Bezahlung abgebrochen",
   "calc.checkout.cancelled.body": "Es wurde kein Betrag belastet. Laden Sie Ihre Dateien erneut hoch, um es zu wiederholen, oder fordern Sie eine Prüfung an.",
   "calc.checkout.error.fileNotFound": "Wir laden deine Datei noch hoch. Versuche es in einigen Sekunden erneut.",
+  "calc.checkout.error.uploadTimeout": "Der Upload dauert länger als erwartet. Erneut versuchen oder kostenlose Prüfung anfordern.",
   "calc.checkout.error.priceMismatch": "Der Preis hat sich geändert. Lade die Seite neu und versuche es erneut.",
   "calc.checkout.error.default": "Wir konnten die Zahlungsseite nicht öffnen. Sende uns deine Bestellung und wir senden dir innerhalb 1 h einen Zahlungslink.",
   "calc.checkout.error.sendOrder": "Bestellung senden und Zahlungslink erhalten",
