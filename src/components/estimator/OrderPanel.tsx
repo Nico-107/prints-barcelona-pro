@@ -36,24 +36,21 @@ function CutoffLine({ line, beforeCutoff }: { line: string; beforeCutoff: boolea
   );
 }
 
-/** Save-quote inline row (R10 / Prompt §10).
- *  Renders two small links:
- *    - "Enviarme este presupuesto" → opens an email input, submits via onSaveQuote
- *    - "Copiar enlace"             → copies the shareable hash URL to clipboard
- *  The onSaveQuote callback is responsible for the quote_requests insert. */
-function SaveQuoteRow({
+/** Save-quote button — 4.1 secondary row entry.
+ *  Button label is "Guardar presupuesto"; tapping opens an inline email field
+ *  with the hint "Te envío este presupuesto y un recordatorio...". */
+function SaveQuoteButton({
   onSaveQuote,
-  config,
   t,
+  disabled,
 }: {
   onSaveQuote: (email: string) => Promise<void>;
-  config: { material: string; colour: string; qty: number; urgency: string };
   t: (key: string) => string;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,21 +58,12 @@ function SaveQuoteRow({
     setSubmitting(true);
     try {
       await onSaveQuote(email.trim());
-      setSubmitted(true);
       sonnerToast(t("calc.saveQuote.success"));
-      setTimeout(() => { setOpen(false); setSubmitted(false); setEmail(""); }, 1500);
+      setOpen(false);
+      setEmail("");
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleCopyLink = async () => {
-    if (typeof window === "undefined") return;
-    const link = buildQuoteLink(window.location.origin, window.location.pathname, config);
-    try {
-      await navigator.clipboard.writeText(link);
-      sonnerToast(t("calc.saveQuote.copied"));
-    } catch { /* ignore clipboard rejection on insecure contexts */ }
   };
 
   return (
@@ -83,44 +71,108 @@ function SaveQuoteRow({
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
-        className="text-slate-500 hover:text-slate-900 underline"
+        disabled={disabled}
+        className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 hover:underline disabled:opacity-50"
         data-testid="save-quote-link"
+        data-ph-name="save-quote"
       >
-        {t("calc.saveQuote.link")}
+        <Send className="w-3.5 h-3.5" />
+        {t("calc.saveQuote.cta")}
       </button>
-      {/* fix-polish §1.5: no explicit "·" — the `gap-x-4` on the row
-          already spaces items, and the "·" leaks onto its own line when
-          the row wraps. */}
-      <button
-        type="button"
-        onClick={handleCopyLink}
-        className="text-slate-500 hover:text-slate-900 underline"
-        data-testid="copy-quote-link"
-      >
-        {t("calc.saveQuote.copyLink")}
-      </button>
-      {open && !submitted && (
-        <form onSubmit={handleSubmit} className="basis-full flex gap-1.5 items-center mt-1.5">
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder={t("calc.saveQuote.placeholder")}
-            data-testid="save-quote-email"
-            className="flex-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-accent/50"
-          />
-          <button
-            type="submit"
-            disabled={submitting}
-            data-testid="save-quote-submit"
-            className="shrink-0 px-2.5 py-1 rounded-md bg-accent text-accent-foreground text-xs font-medium disabled:opacity-50"
-          >
-            {t("calc.saveQuote.send")}
-          </button>
+      {open && (
+        <form onSubmit={handleSubmit} className="basis-full flex flex-col gap-1 mt-2">
+          <p className="text-[11px] text-slate-400 leading-tight">{t("calc.saveQuote.hint")}</p>
+          <div className="flex gap-1.5">
+            <input
+              type="email"
+              required
+              autoFocus
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder={t("calc.saveQuote.placeholder")}
+              data-testid="save-quote-email"
+              className="flex-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-accent/50"
+            />
+            <button
+              type="submit"
+              disabled={submitting}
+              data-testid="save-quote-submit"
+              className="shrink-0 px-2.5 py-1 rounded-md bg-accent text-accent-foreground text-xs font-medium disabled:opacity-50"
+            >
+              {submitting ? <Loader2 className="w-3 h-3 animate-spin" /> : t("calc.saveQuote.send")}
+            </button>
+          </div>
         </form>
       )}
     </>
+  );
+}
+
+/** ⋯ button that reveals WhatsApp and copy-link. */
+function MoreMenu({
+  onWhatsApp,
+  config,
+  t,
+  disabled,
+}: {
+  onWhatsApp: () => void;
+  config: { material: string; colour: string; qty: number; urgency: string };
+  t: (key: string) => string;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [open]);
+
+  const handleCopyLink = async () => {
+    if (typeof window === "undefined") return;
+    const link = buildQuoteLink(window.location.origin, window.location.pathname, config);
+    try { await navigator.clipboard.writeText(link); sonnerToast(t("calc.saveQuote.copied")); }
+    catch { /* ignore */ }
+    setOpen(false);
+  };
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        disabled={disabled}
+        className="inline-flex items-center gap-0.5 text-slate-500 hover:text-slate-900 disabled:opacity-50 px-1"
+        aria-label={t("calc.secondary.more")}
+        data-ph-name="secondary-more"
+      >
+        <span className="text-base leading-none">···</span>
+      </button>
+      {open && (
+        <div className="absolute bottom-full right-0 mb-1 z-20 bg-white border border-slate-200 rounded-lg shadow-md p-2 flex flex-col gap-2 min-w-[140px]">
+          <button
+            type="button"
+            onClick={() => { onWhatsApp(); setOpen(false); }}
+            className="inline-flex items-center gap-1.5 text-sm text-slate-700 hover:text-slate-900 whitespace-nowrap"
+            data-ph-name="whatsapp-secondary"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            {t("calc.result.whatsapp.short")}
+          </button>
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className="inline-flex items-center gap-1.5 text-sm text-slate-700 hover:text-slate-900 whitespace-nowrap"
+            data-testid="copy-quote-link"
+          >
+            <CreditCard className="w-3.5 h-3.5 opacity-0 absolute" />
+            {t("calc.saveQuote.copyLink")}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -230,6 +282,10 @@ interface OrderPanelProps {
   onSaveQuote?: (email: string) => Promise<void>;
   /** Current configurator values — encoded into the copyable share link. */
   saveQuoteConfig?: { material: string; colour: string; qty: number; urgency: string };
+  /** Opens the "Bajar el precio" panel (4.4). Only shown when bundle > 14,90 €. */
+  onLowerPrice?: () => void;
+  /** Whether "Bajar el precio" is available for this order. */
+  canLowerPrice?: boolean;
 }
 
 export function OrderPanel({
@@ -299,6 +355,8 @@ export function OrderPanel({
   promoDiscountCents = 0,
   onSaveQuote,
   saveQuoteConfig,
+  onLowerPrice,
+  canLowerPrice = false,
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -660,16 +718,20 @@ export function OrderPanel({
                       in the extras view (above the sticky bar on mobile). */}
                   {!_isSlim && (
                   <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[13px]" data-secondary-row>
-                    <button
-                      type="button"
-                      onClick={onWhatsApp}
-                      disabled={isCheckingOut}
-                      className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 hover:underline disabled:opacity-50"
-                      data-ph-name="whatsapp-calculator"
-                    >
-                      <MessageCircle className="w-3.5 h-3.5" />
-                      {t("calc.result.whatsapp.short")}
-                    </button>
+                    {onSaveQuote && (
+                      <SaveQuoteButton onSaveQuote={onSaveQuote} t={t} disabled={isCheckingOut} />
+                    )}
+                    {canLowerPrice && onLowerPrice && (
+                      <button
+                        type="button"
+                        onClick={onLowerPrice}
+                        disabled={isCheckingOut}
+                        className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 hover:underline disabled:opacity-50"
+                        data-ph-name="lower-price"
+                      >
+                        {t("calc.lowerPrice.cta")}
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={onManualReview}
@@ -680,8 +742,8 @@ export function OrderPanel({
                       <ShieldCheck className="w-3.5 h-3.5" />
                       {t("calc.instantBuy.manualReview.short")}
                     </button>
-                    {onSaveQuote && saveQuoteConfig && (
-                      <SaveQuoteRow onSaveQuote={onSaveQuote} config={saveQuoteConfig} t={t} />
+                    {saveQuoteConfig && (
+                      <MoreMenu onWhatsApp={onWhatsApp} config={saveQuoteConfig} t={t} disabled={isCheckingOut} />
                     )}
                   </div>
                   )}

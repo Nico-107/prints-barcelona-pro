@@ -596,6 +596,14 @@ export interface EventMap {
   sticky_bar_shown: {
     page_path?: string;
   };
+
+  // ---- Section 4: reaching non-buyers ----
+  saved_quote_bar_shown: { total: number; file_name?: string };
+  saved_quote_bar_clicked: { action: 'resume' | 'dismiss' };
+  lower_price_opened: { total: number };
+  lower_price_option_applied: { option: string; saving_eur: number };
+  budget_sent: { amount_eur: number; email_domain?: string };
+  exit_code_requested: { email_domain?: string };
 }
 
 export type EventName = keyof EventMap;

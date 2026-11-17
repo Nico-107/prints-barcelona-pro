@@ -37,7 +37,7 @@ import type { UseCase } from "@/lib/materialGuide";
 import { toast as sonnerToast } from "sonner";
 import { OrderPanel } from "./estimator/OrderPanel";
 import { formatShipDate, computeShipDate, shipDateLine } from "@/lib/shipDate";
-import { decodeQuoteHash } from "@/lib/quoteLink";
+import { decodeQuoteHash, buildQuoteLink } from "@/lib/quoteLink";
 import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
@@ -349,6 +349,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [exitPopupLinkValue, setExitPopupLinkValue] = useState("");
   const [exitPopupLinkSubmitting, setExitPopupLinkSubmitting] = useState(false);
   const [exitPopupLinkSubmitted, setExitPopupLinkSubmitted] = useState(false);
+  const [showLowerPrice, setShowLowerPrice] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
   const [scope, setScope] = useState<Scope>("all");
@@ -1441,12 +1442,31 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const noteBody = (notesText ?? "").trim();
     const note = `[PRESUPUESTO GUARDADO — sin revisión pedida]${noteBody ? `\n\n${noteBody}` : ""}`;
     try {
-      // Fire-and-forget hash, so quote_saved doesn't expose the raw email in PostHog
       let emailHash = "";
       try {
         const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email.toLowerCase().trim()));
         emailHash = Array.from(new Uint8Array(buf)).slice(0, 8).map(b => b.toString(16).padStart(2, "0")).join("");
       } catch { /* hash-less event is still useful */ }
+
+      const quoteLink = typeof window !== "undefined"
+        ? buildQuoteLink(window.location.origin, window.location.pathname, { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency })
+        : "";
+
+      // 4.1: save to saved_quotes + send customer email via edge function
+      supabase.functions.invoke("save-quote", {
+        body: {
+          email: email.trim(),
+          quoteLink,
+          total: bundle.total,
+          language,
+          sourcePage: typeof window !== "undefined" ? window.location.pathname : undefined,
+          quotePayload: { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency },
+          files: validFiles.map(f => ({ name: f.name, material: effectivePartSettings(f, defaults).material, qty: f.qty })),
+          unsubscribeBase: typeof window !== "undefined" ? window.location.origin : undefined,
+        },
+      }).catch(e => console.warn("[save-quote edge fn]", e));
+
+      // Also keep existing quote_requests row for the leads admin view
       const insertPayload: TablesInsert<"quote_requests"> = {
         contact_email: email.trim(),
         color: colorPref || null,
@@ -1467,16 +1487,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         pieces: [{ note }] as Json,
       };
       await supabaseAnon.from("quote_requests").insert(insertPayload);
+
       capture("quote_saved", {
         email_hash: emailHash,
         total: bundle.total,
         material: materialKey,
-      });
-      // Conv 4.4: lead counterpart for the save-quote path.
-      capture("quote_emailed", {
-        source: "save_quote",
-        email_domain: email.includes("@") ? email.split("@")[1]?.toLowerCase() : undefined,
-        path: typeof window !== "undefined" ? window.location.pathname : undefined,
       });
     } catch (err) {
       console.warn("[StlEstimator] save-quote failed:", err);
@@ -2502,6 +2517,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             qty: validFiles.reduce((s, f) => s + f.qty, 0) || 1,
             urgency,
           },
+          canLowerPrice: !!(bundle && bundle.orderResult.chargedPrintCents > 1490),
+          onLowerPrice: () => { setShowLowerPrice(true); capture("lower_price_opened", { total: bundle ? bundle.total : 0 }); },
         } as const;
 
         const leftSlot = (

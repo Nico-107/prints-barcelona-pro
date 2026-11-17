@@ -26,7 +26,8 @@
     { "source": "/internal", "destination": "/index.html" },
     { "source": "/catalogo/:slug*", "destination": "/index.html" },
     { "source": "/pedido/:token*", "destination": "/index.html" },
-    { "source": "/presupuesto/:token*", "destination": "/index.html" }
+    { "source": "/presupuesto/:token*", "destination": "/index.html" },
+    { "source": "/baja", "destination": "/index.html" }
   ],
   "headers": [
     {
