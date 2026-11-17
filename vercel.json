@@ -19,6 +19,8 @@
     { "source": "/admin/print-queue", "destination": "/index.html" },
     { "source": "/admin/quotes-inbox", "destination": "/index.html" },
     { "source": "/admin/search", "destination": "/index.html" },
+    { "source": "/admin/codes", "destination": "/index.html" },
+    { "source": "/admin/leads", "destination": "/index.html" },
     { "source": "/admin-orders", "destination": "/index.html" },
     { "source": "/admin-makers", "destination": "/index.html" },
     { "source": "/internal", "destination": "/index.html" },

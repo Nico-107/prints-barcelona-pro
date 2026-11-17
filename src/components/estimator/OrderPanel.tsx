@@ -22,6 +22,9 @@ import { PaymentBadges } from "./PaymentBadges";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
 import { formatEUR } from "@/lib/formatPrice";
 import type { Language } from "@/lib/pathLanguage";
+import type { PublicPromoCode } from "@/lib/usePricingVersion";
+import { PromoLine } from "./PromoLine";
+import type { AppliedPromo } from "./PromoLine";
 
 const FAST_PICKUP_MATERIALS = ["PLA", "PETG", "TPU"];
 
@@ -215,6 +218,14 @@ interface OrderPanelProps {
   shippingOnly?: boolean;
   /** When true, pricing uses v4 engine (charm rounding, 9,90 € minimum). */
   v4?: boolean;
+  /** Active public promo code from probe (v4 only). */
+  publicCode?: PublicPromoCode | null;
+  /** Currently applied promo code (v4 only). */
+  appliedPromo?: AppliedPromo | null;
+  onApplyPromo?: (promo: AppliedPromo) => void;
+  onRemovePromo?: () => void;
+  /** Promo discount in cents (v4, pre-computed). */
+  promoDiscountCents?: number;
   /** Save-quote callback (R10). Returns once the quote_requests insert settles. */
   onSaveQuote?: (email: string) => Promise<void>;
   /** Current configurator values — encoded into the copyable share link. */
@@ -281,6 +292,11 @@ export function OrderPanel({
   urgency = "standard",
   shippingOnly = false,
   v4 = false,
+  publicCode = null,
+  appliedPromo = null,
+  onApplyPromo,
+  onRemovePromo,
+  promoDiscountCents = 0,
   onSaveQuote,
   saveQuoteConfig,
 }: OrderPanelProps) {
@@ -404,18 +420,24 @@ export function OrderPanel({
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible && quoteOnlyReasonKey !== null;
 
     const printCents = bundle.orderResult.chargedPrintCents;
-    const offerActive = Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
-    const showAutumnDiscount = autumnDiscountCents > 0 && offerActive;
-    const showAutumnNudge = !showAutumnDiscount && offerActive &&
+    const offerActive = !v4 && Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
+    const showAutumnDiscount = !v4 && autumnDiscountCents > 0 && offerActive;
+    const showAutumnNudge = !v4 && !showAutumnDiscount && offerActive &&
       printCents >= 1000 && printCents < AUTUMN_DISCOUNT.minCents;
     const nudgeAmountEur = showAutumnNudge ? (AUTUMN_DISCOUNT.minCents - printCents) / 100 : 0;
 
     const originalPrice = instantBuyEligible && instantTotalPrice !== null
       ? formatEUR(instantTotalPrice + autumnDiscountCents / 100, lang)
       : formatEUR(bundle.total + autumnDiscountCents / 100, lang);
+    // For v4 with promo, struck-through price is instantTotalPrice + promo discount
+    const originalPriceV4 = instantBuyEligible && instantTotalPrice !== null
+      ? formatEUR(instantTotalPrice + promoDiscountCents / 100, lang)
+      : formatEUR(bundle.total, lang);
     const displayPrice = instantBuyEligible && instantTotalPrice !== null
       ? formatEUR(instantTotalPrice, lang)
-      : formatEUR(bundle.total - autumnDiscountCents / 100, lang);
+      : v4
+        ? formatEUR(bundle.total, lang)
+        : formatEUR(bundle.total - autumnDiscountCents / 100, lang);
 
     // Single action error: checkout beats quote (Buy Now context > Review context)
     const actionError = checkoutError && instantBuyEligible && !showManualReview
@@ -426,10 +448,43 @@ export function OrderPanel({
 
     return (
       <div className="space-y-3">
-        {/* Total + autumn discount + shipping sub-line — slim + full */}
+        {/* Total + discount + promo line — slim + full */}
         {!_isExtras && (
         <div>
-          {showAutumnDiscount ? (
+          {v4 ? (
+            <div className="space-y-1">
+              {appliedPromo ? (
+                <div className="space-y-0.5">
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
+                    <span className="text-sm text-muted-foreground line-through">{originalPriceV4}</span>
+                  </div>
+                  <div className="flex justify-between items-baseline">
+                    <span className="text-sm font-semibold">&nbsp;</span>
+                    <span className="text-xl font-bold">{displayPrice}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex justify-between items-baseline">
+                  <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
+                  <span className="text-xl font-bold">{displayPrice}</span>
+                </div>
+              )}
+              {/* PromoLine — only thing allowed between total and Buy button */}
+              {onApplyPromo && onRemovePromo && (
+                <PromoLine
+                  publicCode={publicCode ?? null}
+                  appliedPromo={appliedPromo ?? null}
+                  printTotalCents={bundle.orderResult.chargedPrintCents}
+                  onApply={onApplyPromo}
+                  onRemove={onRemovePromo}
+                  t={t}
+                  language={lang}
+                  disabled={disabled}
+                />
+              )}
+            </div>
+          ) : showAutumnDiscount ? (
             <div className="space-y-0.5">
               <div className="flex justify-between items-baseline">
                 <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
@@ -452,11 +507,7 @@ export function OrderPanel({
               <span className="text-xl font-bold">{displayPrice}</span>
             </div>
           )}
-          {/* Phase 4.2: single delivery line. Earlier UI showed both
-              DeliveryPromise ("Listo y enviado el X + envío") and
-              CutoffLine ("Imprimimos mañana · sale el X") which said
-              nearly the same thing. We keep CutoffLine (above the buy
-              button) because it also expresses the 14:00 cutoff rule. */}
+          {/* Phase 4.2: single delivery line. */}
           {fulfillment === "pickup" && (
             <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
           )}

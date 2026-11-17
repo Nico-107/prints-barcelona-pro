@@ -668,7 +668,20 @@ serve(async (req: Request) => {
 
     // ── PROBE ──────────────────────────────────────────────────────────────────
     if (body?.probe === true) {
-      return json({ pricing_version: 4, promo: true });
+      let publicCode: { code: string; pct: number; ends_at: string } | null = null;
+      try {
+        const probeClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+        const now = new Date().toISOString();
+        const { data } = await probeClient.from("promo_codes")
+          .select("code, pct, ends_at")
+          .eq("active", true).eq("kind", "public")
+          .lte("starts_at", now).gte("ends_at", now)
+          .order("pct", { ascending: false }).limit(1).maybeSingle();
+        if (data?.code && typeof data.pct === "number" && data.ends_at) {
+          publicCode = { code: String(data.code), pct: Number(data.pct), ends_at: String(data.ends_at) };
+        }
+      } catch { /* probe must not fail — public_code stays null */ }
+      return json({ pricing_version: 4, promo: true, public_code: publicCode });
     }
 
     // ── V3 PATH ────────────────────────────────────────────────────────────────
@@ -1018,11 +1031,24 @@ serve(async (req: Request) => {
       if (!evalResult4.value) return json({ error: "INVALID_PRICE" }, 400);
       const { body: vBody4, priced: priced4, shippingCents: v4ShipCents, chargeCents: v4ChargeCents } = evalResult4.value;
 
-      // Promo code validation — section 3 adds DB lookup; for now, any submitted code is ignored
-      // (promoDiscountCents = 0 means no discount applied; the front-end sends promoCode only after validation)
-      const v4PromoCode = '';
-      const v4PromoPct = 0;
-      const v4PromoDiscountCents = 0;
+      // Promo code validation — look up in DB; apply to print total only
+      let v4PromoCode = '';
+      let v4PromoPct = 0;
+      let v4PromoDiscountCents = 0;
+      if (val4.promoCode) {
+        const promoClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+        const customerEmailForPromo = typeof body.contactEmail === "string" ? body.contactEmail.trim() : null;
+        const { data: promoValidResult, error: promoErr } = await promoClient.rpc("validate_promo", {
+          p_code: val4.promoCode, p_email: customerEmailForPromo || null,
+        });
+        if (!promoErr && promoValidResult?.valid === true && typeof promoValidResult.pct === "number") {
+          v4PromoCode = val4.promoCode;
+          v4PromoPct = promoValidResult.pct;
+          v4PromoDiscountCents = Math.round(priced4.order.totalCents * v4PromoPct / 100);
+        } else {
+          return json({ error: "PROMO_INVALID" }, 400);
+        }
+      }
 
       if (!chargeAllowed(vBody4.fulfillment === 'shipping' ? v4ChargeCents - v4ShipCents : v4ChargeCents, vBody4.fulfillment)) {
         return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
@@ -1044,7 +1070,8 @@ serve(async (req: Request) => {
         "Instant checkout v4 (self-service, charm pricing).",
         `Material: ${v4IsUniform ? v4UniqueMats[0] : `Mixed (${v4UniqueMats.join(", ")})`}.`,
         `Qty ${v4TotalQty}, urgency ${vBody4.urgency}, fulfillment ${vBody4.fulfillment}.`,
-        `Precio calculado: EUR ${(v4ChargeCents / 100).toFixed(2)}.`,
+        v4PromoCode ? `Promo: ${v4PromoCode} −${v4PromoPct}% = −${(v4PromoDiscountCents / 100).toFixed(2)} EUR.` : "",
+        `Precio calculado: EUR ${((v4ChargeCents - v4PromoDiscountCents) / 100).toFixed(2)}.`,
         body.language ? `Language: ${body.language}.` : "",
       ].filter(Boolean).join(" ");
 
@@ -1124,6 +1151,11 @@ serve(async (req: Request) => {
       v4Params.set("metadata[pricing_version]", "4");
       v4Params.set("metadata[part_count]", String(v4Pieces.length));
       v4Params.set("metadata[materials]", v4UniqueMats.join(",").slice(0, 200));
+      if (v4PromoCode) {
+        v4Params.set("metadata[promo_code]", v4PromoCode);
+        v4Params.set("metadata[promo_pct]", String(v4PromoPct));
+        v4Params.set("metadata[promo_discount_cents]", String(v4PromoDiscountCents));
+      }
 
       const { ph_distinct_id: ph4id, ph_session_id: ph4sid, utm_source: us4, utm_medium: um4, utm_content: uc4, utm_campaign: uca4, source_path: sp4, page_language: pl4 } = body;
       if (typeof ph4id === "string" && ph4id.trim()) v4Params.set("metadata[ph_distinct_id]", ph4id.trim().slice(0, 500));
@@ -1140,7 +1172,8 @@ serve(async (req: Request) => {
       v4SuccessParams.set("order_number", String(v4OrderRow.order_number));
       if (v4OrderRow.tracking_token) v4SuccessParams.set("tracking_token", v4OrderRow.tracking_token);
       v4SuccessParams.set("fulfillment", vBody4.fulfillment);
-      v4SuccessParams.set("value_eur", (v4ChargeCents / 100).toFixed(2));
+      const v4FinalChargeCents = v4ChargeCents - v4PromoDiscountCents;
+      v4SuccessParams.set("value_eur", (v4FinalChargeCents / 100).toFixed(2));
       v4Params.set("success_url", `${SITE_URL}${validReturnPath}?${v4SuccessParams.toString()}`);
       v4Params.set("cancel_url", `${SITE_URL}${validReturnPath}?checkout=cancelled`);
 
