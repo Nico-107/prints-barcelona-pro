@@ -215,9 +215,20 @@ export function analyzeTriangles(tri: Float32Array): MeshAnalysis {
   return { triangles: n, skipped, volumeMm3: V, insideOut: sgn < 0, boundsMm: [ext[0], ext[1], ext[2]], orientations };
 }
 
-export function tierCostEur(hours: number): number {
+/** v4 overlay: third tier 1.95 €/h (was 2.75), minimum 9,90 €. */
+export const EST_V4 = {
+  minimumEur: 9.9,
+  timeTiers: [ { upToH: 3, eurPerH: 4.95 }, { upToH: 8, eurPerH: 3.85 }, { upToH: Infinity, eurPerH: 1.95 } ] as readonly { upToH: number; eurPerH: number }[],
+};
+
+/** Round print total to nearest x,90 (v4). min 9,90. charm(521)=990 charm(1240)=1290 charm(8027)=7990. */
+export function charmCents(cents: number): number {
+  return Math.max(990, Math.floor((cents - 90) / 100 + 0.5) * 100 + 90);
+}
+
+export function tierCostEur(hours: number, tiers: readonly { upToH: number; eurPerH: number }[] = EST.timeTiers): number {
   let prev = 0, cost = 0;
-  for (const t of EST.timeTiers) { if (hours > prev) cost += (Math.min(hours, t.upToH) - prev) * t.eurPerH; prev = t.upToH; }
+  for (const t of tiers) { if (hours > prev) cost += (Math.min(hours, t.upToH) - prev) * t.eurPerH; prev = t.upToH; }
   return cost;
 }
 
@@ -274,20 +285,22 @@ const rnd = (x: number) => Math.floor(x + 0.5);
  * where `sum` is the raw total (pre-urgency, pre-minimum) and `units`
  * is the total quantity across all parts. Applied in cents.
  */
-function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number): number {
-  const stepFloorEur = EST.minimumEur + 1 * Math.max(0, totalUnits - 1);
+function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number, minimumEur: number = EST.minimumEur): number {
+  const stepFloorEur = minimumEur + 1 * Math.max(0, totalUnits - 1);
   return Math.max(rawTotalEur, stepFloorEur);
 }
 
-/** Price an order (all parts) — no setup fee; EUR 10 minimum surfaces as a separate minAdjCents line, long-job time tiers on the ORDER's print hours, one line per part. */
+/** Price an order (all parts) — no setup fee; minimum surfaces as a separate minAdjCents line, long-job time tiers on the ORDER's print hours, one line per part. */
 export function priceOrder(
   parts: OrderPartInput[],
   urgency: string,
-  flags: { minOrderUnitStep?: boolean } = {},
+  flags: { minOrderUnitStep?: boolean; v4?: boolean } = {},
 ): OrderPrice {
   const reasons: string[] = [];
   const up = EST.urgency[urgency] ?? 1;
   const p = EST.plate;
+  const tiers = flags.v4 ? EST_V4.timeTiers : EST.timeTiers;
+  const minimumEur = flags.v4 ? EST_V4.minimumEur : EST.minimumEur;
   let footprint = 0, marg = 0;
   const margs = parts.map(x => Math.max(x.estimate.timeSec - x.estimate.fixedSec, 0) * x.quantity);
   parts.forEach((x, i) => { footprint += x.quantity * (x.estimate.sizeXMm + p.gapMm) * (x.estimate.sizeYMm + p.gapMm); marg += margs[i]; });
@@ -295,7 +308,7 @@ export function priceOrder(
   const fixed = parts.length ? parts[0].estimate.fixedSec : 0;
   const orderSec = plates * fixed + marg;
   const orderHours = orderSec / 3600;
-  const timeCost = tierCostEur(orderHours);
+  const timeCost = tierCostEur(orderHours, tiers);
   const nTypes = Math.max(parts.length, 1);
   const raw: number[] = parts.map((x, i) => {
     const m = EST.materials[x.material] ?? EST.materials.PLA;
@@ -305,20 +318,31 @@ export function priceOrder(
   const rawTotal = EST.setupEur + raw.reduce((a, b) => a + b, 0);
   const totalUnits = parts.reduce((s, x) => s + x.quantity, 0);
   const base = flags.minOrderUnitStep
-    ? Math.max(rawTotal, applyUnitStepMinimum(rawTotal, totalUnits))
-    : Math.max(rawTotal, EST.minimumEur);
+    ? Math.max(rawTotal, applyUnitStepMinimum(rawTotal, totalUnits, minimumEur))
+    : Math.max(rawTotal, minimumEur);
   const total = base * up;
-  const baseCents = rnd(base * 100), totalCents = rnd(total * 100);
   const setupCents = rnd(EST.setupEur * 100);
   const rawTotalCents = rnd(rawTotal * 100);
   const partCents = raw.map(r => rnd(r * 100));
-  // EUR 10 minimum (or unit-step floor when the flag is on) surfaces as
-  // an explicit Stripe line; parts stay at their raw values.
-  const minAdjCents = baseCents > rawTotalCents ? baseCents - rawTotalCents : 0;
-  if (partCents.length) {
-    const bi = partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0);
-    // Absorb only the per-cent rounding residual into the largest part.
-    partCents[bi] += rawTotalCents - setupCents - partCents.reduce((a, b) => a + b, 0);
+  const bi = partCents.length ? partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0) : -1;
+  // Absorb per-cent rounding residual into the largest part.
+  if (bi >= 0) partCents[bi] += rawTotalCents - setupCents - partCents.reduce((a, b) => a + b, 0);
+
+  let baseCents: number, totalCents: number, minAdjCents: number;
+  if (flags.v4) {
+    const preBaseCents = rnd(base * 100);
+    const charmBase = charmCents(preBaseCents);
+    // Minimum below 9,90: minAdj covers it; charm leaves 990 unchanged.
+    minAdjCents = rawTotalCents < 990 ? 990 - rawTotalCents : 0;
+    // For orders above minimum: absorb charm delta (up or down) into largest part.
+    if (bi >= 0 && rawTotalCents >= 990) partCents[bi] += charmBase - rawTotalCents;
+    baseCents = charmBase;
+    totalCents = charmCents(rnd(total * 100));
+  } else {
+    baseCents = rnd(base * 100);
+    totalCents = rnd(total * 100);
+    // EUR minimum surfaces as an explicit Stripe line; parts stay at their raw values.
+    minAdjCents = baseCents > rawTotalCents ? baseCents - rawTotalCents : 0;
   }
   const expressCents = totalCents - baseCents;
   let instantEligible = totalCents <= EST.instantMaxCents;
@@ -471,6 +495,122 @@ export function computeAutumnDiscount(printSubtotalCents: number): number {
 }
 // CHECKOUT-V3-END
 
+// CHECKOUT-V4-START
+// =====================================================================================
+// Checkout v4 contract: validation, server-side pricing and Stripe line items. Pure TypeScript.
+// Builds on V3_INSTANT validation rules; uses priceOrder({ v4: true }) for charm rounding.
+// This exact block lives in BOTH src/lib/checkoutV4.ts and the create-instant-checkout edge function.
+// scripts/check-estimator-sync.mjs fails the build if either differs.
+// =====================================================================================
+export interface V4Body { pricingVersion: 4; urgency: string; fulfillment: 'pickup' | 'shipping'; exactPrice: number; promoCode?: string; pieces: V3Piece[] }
+
+const failV4 = (error: string): V3Result<any> => ({ ok: false, error });
+const isIntV4 = (x: unknown): x is number => typeof x === 'number' && Number.isInteger(x);
+
+export function validateV4(body: any): V3Result<V4Body> {
+  if (!body || body.pricingVersion !== 4) return failV4('INVALID_VERSION');
+  if (!(body.urgency in EST.urgency)) return failV4('INVALID_URGENCY');
+  if (body.fulfillment !== 'pickup' && body.fulfillment !== 'shipping') return failV4('INVALID_FULFILLMENT');
+  if (typeof body.exactPrice !== 'number' || !isFinite(body.exactPrice) || body.exactPrice < 0 || body.exactPrice > 10000) return failV4('INVALID_PRICE');
+  if (body.promoCode !== undefined && (typeof body.promoCode !== 'string' || body.promoCode.length > 32)) return failV4('INVALID_PROMO');
+  const ps = body.pieces;
+  if (!Array.isArray(ps) || ps.length < 1 || ps.length > V3_INSTANT.maxPieces) return failV4('INVALID_PIECES');
+  for (const p of ps) {
+    if (!p || typeof p !== 'object') return failV4('INVALID_PIECES');
+    if (typeof p.name !== 'string' || p.name.length < 1) return failV4('INVALID_PIECES');
+    if (typeof p.path !== 'string' || p.path.length < 1 || p.path.length > 300 || p.path.includes('..') || p.path.startsWith('/')) return failV4('INVALID_PATH');
+    if (p.multicolour === true) return failV4('INSTANT_NOT_AVAILABLE');
+    if (typeof p.material !== 'string' || !EST.materials[p.material]?.instant) return failV4('INVALID_MATERIAL');
+    if (!isIntV4(p.infill) || !V3_INSTANT.infill.includes(p.infill)) return failV4('INVALID_INFILL');
+    if (!isIntV4(p.wallLoops) || !V3_INSTANT.wallLoops.includes(p.wallLoops)) return failV4('INVALID_WALLS');
+    if (!isIntV4(p.quantity) || p.quantity < 1 || p.quantity > V3_INSTANT.maxQuantity) return failV4('INVALID_QUANTITY');
+    if (typeof p.quality !== 'string' || !V3_INSTANT.quality.includes(p.quality)) return failV4('INVALID_QUALITY');
+    if (typeof p.supports !== 'boolean') return failV4('INVALID_SUPPORTS');
+    if (!(p.orientation === 'auto' || (isIntV4(p.orientation) && p.orientation >= 0 && p.orientation <= 5))) return failV4('INVALID_ORIENTATION');
+  }
+  return { ok: true, value: { pricingVersion: 4, urgency: body.urgency, fulfillment: body.fulfillment, exactPrice: body.exactPrice, promoCode: typeof body.promoCode === 'string' ? body.promoCode.slice(0, 32).toUpperCase() : undefined, pieces: ps.map((p: V3Piece) => ({ name: String(p.name).slice(0, V3_INSTANT.maxNameLen), quantity: p.quantity, path: p.path, material: p.material, infill: p.infill, wallLoops: p.wallLoops, quality: p.quality, supports: p.supports, orientation: p.orientation, color: typeof p.color === 'string' ? p.color.slice(0, 60) : null })) } };
+}
+
+export function priceV4(v: V4Body, analyses: MeshAnalysis[]): V3Priced {
+  const estimates = v.pieces.map((p, i) => estimatePart(analyses[i], { material: p.material, infillPct: p.infill, wallLoops: p.wallLoops, quality: p.quality as QualityKey, supports: p.supports, orientation: p.orientation }));
+  const order = priceOrder(v.pieces.map((p, i) => ({ name: p.name, quantity: p.quantity, material: p.material, estimate: estimates[i] })), v.urgency, { v4: true });
+  return { estimates, order };
+}
+
+/** Server decision for v4: validation -> pricing -> limits -> price match. exactPrice = charm-rounded print total in EUR, excluding shipping. */
+export function evaluateV4(body: any, analyses: MeshAnalysis[]): V3Result<{ body: V4Body; priced: V3Priced; shippingCents: number; chargeCents: number }> {
+  const v = validateV4(body);
+  if (!v.ok) return failV4(v.error as string);
+  const val = v.value as V4Body;
+  if (analyses.length !== val.pieces.length) return failV4('INVALID_PIECES');
+  const priced = priceV4(val, analyses);
+  const r = priced.order.reasons;
+  if (r.some(x => x.startsWith('oversize'))) return failV4('OVERSIZE_PART');
+  if (r.includes('over-limit')) return failV4('PRICE_ABOVE_INSTANT_LIMIT');
+  if (!priced.order.instantEligible) return failV4('INSTANT_NOT_AVAILABLE');
+  if (Math.abs(Math.round(val.exactPrice * 100) - priced.order.totalCents) > 2) return failV4('PRICE_MISMATCH');
+  // v4: free shipping threshold is 9990 (9,90 €), v3 was 10000
+  const shippingCents = val.fulfillment === 'shipping' && priced.order.totalCents < 9990 ? 590 : 0;
+  return { ok: true, value: { body: val, priced, shippingCents, chargeCents: priced.order.totalCents + shippingCents } };
+}
+
+/**
+ * Stripe line items for v4 — no autumn discount; promoDiscountCents applied proportionally across print lines.
+ * Sum == order.totalCents (before promo), or (order.totalCents - promoDiscountCents) with promo.
+ */
+export function stripeLinesV4(
+  priced: V3Priced,
+  pieces: V3Piece[],
+  language: string,
+  promoCode = '',
+  promoPct = 0,
+  promoDiscountCents = 0,
+): { name: string; cents: number }[] {
+  const L = language === 'es'
+    ? { fill: 'relleno', setup: 'Preparación del pedido', min: 'Ajuste al pedido mínimo (9,90 €)', exp: 'Suplemento express', disc: (c: string, p: number) => `Descuento ${c} −${p} %` }
+    : language === 'ca'
+    ? { fill: 'farciment', setup: 'Preparació de la comanda', min: 'Ajust a la comanda mínima (9,90 €)', exp: 'Suplement exprés', disc: (c: string, p: number) => `Descompte ${c} −${p} %` }
+    : language === 'de'
+    ? { fill: 'Füllung', setup: 'Auftragseinrichtung', min: 'Anpassung auf Mindestbestellung (9,90 €)', exp: 'Expressaufschlag', disc: (c: string, p: number) => `Rabatt ${c} −${p} %` }
+    : language === 'fr'
+    ? { fill: 'remplissage', setup: 'Préparation de la commande', min: "Ajustement au minimum (9,90 €)", exp: 'Supplément express', disc: (c: string, p: number) => `Remise ${c} −${p} %` }
+    : language === 'nl'
+    ? { fill: 'vulling', setup: 'Ordervoorbereiding', min: 'Aanpassing aan minimumbestelling (9,90 €)', exp: 'Expresstoeslag', disc: (c: string, p: number) => `Korting ${c} −${p} %` }
+    : language === 'it'
+    ? { fill: 'riempimento', setup: 'Preparazione ordine', min: "Adeguamento al minimo d'ordine (9,90 €)", exp: 'Supplemento express', disc: (c: string, p: number) => `Sconto ${c} −${p} %` }
+    : language === 'pt'
+    ? { fill: 'preenchimento', setup: 'Preparação do pedido', min: "Ajuste ao mínimo do pedido (9,90 €)", exp: 'Suplemento expresso', disc: (c: string, p: number) => `Desconto ${c} −${p} %` }
+    : { fill: 'infill', setup: 'Order setup', min: 'Adjustment to the €9.90 minimum', exp: 'Express surcharge', disc: (c: string, p: number) => `Discount ${c} −${p} %` };
+
+  const printLines: { name: string; cents: number }[] = [];
+  priced.order.parts.forEach((pl, i) => {
+    if (pl.costCents <= 0) return;
+    const p = pieces[i];
+    printLines.push({ name: `${p.name} — ${p.material}, ${p.infill}% ${L.fill}, ×${p.quantity}`.slice(0, 120), cents: pl.costCents });
+  });
+
+  if (promoDiscountCents > 0 && promoCode && promoPct > 0 && printLines.length > 0) {
+    const printTotal = printLines.reduce((s, l) => s + l.cents, 0);
+    let distributed = 0;
+    for (let i = 0; i < printLines.length - 1; i++) {
+      const share = Math.round((printLines[i].cents / printTotal) * promoDiscountCents);
+      printLines[i].cents -= share;
+      printLines[i].name = `${printLines[i].name} · ${L.disc(promoCode, promoPct)}`.slice(0, 120);
+      distributed += share;
+    }
+    const last = printLines[printLines.length - 1];
+    last.cents -= (promoDiscountCents - distributed);
+    last.name = `${last.name} · ${L.disc(promoCode, promoPct)}`.slice(0, 120);
+  }
+
+  const lines: { name: string; cents: number }[] = [...printLines];
+  if (priced.order.setupCents > 0) lines.push({ name: L.setup, cents: priced.order.setupCents });
+  if (priced.order.minAdjCents > 0) lines.push({ name: L.min, cents: priced.order.minAdjCents });
+  if (priced.order.expressCents > 0) lines.push({ name: L.exp, cents: priced.order.expressCents });
+  return lines;
+}
+// CHECKOUT-V4-END
+
 // AUTUMN-DISCOUNT-START
 // Autumn discount settings — kept in sync with create-instant-checkout edge function.
 // scripts/check-estimator-sync.mjs fails the build if the two copies differ.
@@ -525,6 +665,11 @@ serve(async (req: Request) => {
 
     const rawReturnPath = typeof body?.returnPath === "string" ? body.returnPath : "";
     const validReturnPath = /^\/[a-z0-9\-/]{0,120}$/.test(rawReturnPath) ? rawReturnPath : "";
+
+    // ── PROBE ──────────────────────────────────────────────────────────────────
+    if (body?.probe === true) {
+      return json({ pricing_version: 4, promo: true });
+    }
 
     // ── V3 PATH ────────────────────────────────────────────────────────────────
     if (body?.pricingVersion === 3) {
@@ -835,6 +980,199 @@ serve(async (req: Request) => {
       });
 
       return json({ checkoutUrl: v3Session.url, autumn_discount_cents: v3AutumnDiscountCents || undefined });
+    }
+
+    // ── V4 PATH ────────────────────────────────────────────────────────────────
+    if (body?.pricingVersion === 4) {
+      const pre4 = validateV4(body);
+      if (!pre4.ok) return json({ error: pre4.error }, 400);
+      const val4 = pre4.value as V4Body;
+
+      if (!STRIPE_SECRET_KEY) return json({ error: "STRIPE_NOT_CONFIGURED" }, 500);
+
+      const supabaseV4 = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      );
+
+      const analyses4: MeshAnalysis[] = [];
+      let totalBytes4 = 0;
+      const MAX_FILE_BYTES4 = 30 * 1024 * 1024;
+      const MAX_TOTAL_BYTES4 = 60 * 1024 * 1024;
+      for (let pi = 0; pi < val4.pieces.length; pi++) {
+        const piece = val4.pieces[pi];
+        const { data: fileBlob, error: dlErr } = await supabaseV4.storage.from("print-requests").download(piece.path);
+        if (dlErr || !fileBlob) return json({ error: "FILE_NOT_FOUND" }, 400);
+        if (fileBlob.size > MAX_FILE_BYTES4) return json({ error: "FILE_TOO_LARGE_FOR_INSTANT" }, 400);
+        totalBytes4 += fileBlob.size;
+        if (totalBytes4 > MAX_TOTAL_BYTES4) return json({ error: "FILE_TOO_LARGE_FOR_INSTANT" }, 400);
+        const buf4 = await fileBlob.arrayBuffer();
+        const tri4 = stlToTriangles(buf4);
+        const analysis4 = analyzeTriangles(tri4);
+        if (tri4.length === 0 || !Number.isFinite(analysis4.volumeMm3) || analysis4.volumeMm3 <= 0) return json({ error: "INVALID_FILE" }, 400);
+        analyses4.push(analysis4);
+      }
+
+      const evalResult4 = evaluateV4(body, analyses4);
+      if (!evalResult4.ok) return json({ error: evalResult4.error }, 400);
+      if (!evalResult4.value) return json({ error: "INVALID_PRICE" }, 400);
+      const { body: vBody4, priced: priced4, shippingCents: v4ShipCents, chargeCents: v4ChargeCents } = evalResult4.value;
+
+      // Promo code validation — section 3 adds DB lookup; for now, any submitted code is ignored
+      // (promoDiscountCents = 0 means no discount applied; the front-end sends promoCode only after validation)
+      const v4PromoCode = '';
+      const v4PromoPct = 0;
+      const v4PromoDiscountCents = 0;
+
+      if (!chargeAllowed(vBody4.fulfillment === 'shipping' ? v4ChargeCents - v4ShipCents : v4ChargeCents, vBody4.fulfillment)) {
+        return json({ error: "PRICE_ABOVE_INSTANT_LIMIT" }, 400);
+      }
+
+      const v4Pieces = vBody4.pieces.map((p, i) => ({
+        name: p.name, quantity: p.quantity, path: p.path, material: p.material,
+        infill: p.infill, wallLoops: p.wallLoops, quality: p.quality, supports: p.supports,
+        orientation: p.orientation, color: p.color ?? null, multicolour: false,
+        gramsPerUnit: priced4.order.parts[i].grams,
+        hoursPerUnit: parseFloat((priced4.order.parts[i].timeSec / 3600).toFixed(4)),
+        costCents: priced4.order.parts[i].costCents,
+      }));
+
+      const v4UniqueMats = [...new Set(v4Pieces.map(p => p.material))];
+      const v4IsUniform = v4UniqueMats.length === 1;
+      const v4TotalQty = v4Pieces.reduce((s, p) => s + p.quantity, 0);
+      const v4Notes = [
+        "Instant checkout v4 (self-service, charm pricing).",
+        `Material: ${v4IsUniform ? v4UniqueMats[0] : `Mixed (${v4UniqueMats.join(", ")})`}.`,
+        `Qty ${v4TotalQty}, urgency ${vBody4.urgency}, fulfillment ${vBody4.fulfillment}.`,
+        `Precio calculado: EUR ${(v4ChargeCents / 100).toFixed(2)}.`,
+        body.language ? `Language: ${body.language}.` : "",
+      ].filter(Boolean).join(" ");
+
+      const v4ProductTitle = v4IsUniform
+        ? `3D Print — ${v4UniqueMats[0]}${v4Pieces[0].color ? ` (${v4Pieces[0].color})` : ""}`
+        : `3D Print — Mixed (${v4UniqueMats.join(", ")})`;
+
+      const uploadedNotPurchasedRaw4 = (body as Record<string, unknown>).uploadedNotPurchased;
+      const uploadedNotPurchased4 = Array.isArray(uploadedNotPurchasedRaw4)
+        ? uploadedNotPurchasedRaw4.filter((x): x is { path: string; name: string } =>
+            !!x && typeof (x as { path?: unknown }).path === "string" && typeof (x as { name?: unknown }).name === "string")
+        : [];
+
+      const orderInsertPayload4: Record<string, unknown> = {
+        product_title: v4ProductTitle, status: "awaiting_payment",
+        fulfillment: vBody4.fulfillment, notes: v4Notes,
+        photos: [], payment_method: "stripe", payment_status: "pending",
+        file_paths: Array.isArray(body.filePaths) ? body.filePaths.map(String) : [],
+        pieces: v4Pieces,
+        customer_phone: (typeof body.contactPhone === "string" && body.contactPhone.trim()) || "see notes",
+        customer_email: (typeof body.contactEmail === "string" && body.contactEmail.trim()) || null,
+      };
+      if (uploadedNotPurchased4.length > 0) orderInsertPayload4.uploaded_not_purchased = uploadedNotPurchased4;
+
+      let v4OrderRow: { id: string; order_number: number; tracking_token?: string | null } | null = null;
+      let v4OrderErr: { message?: string } | null = null;
+      {
+        const first = await supabaseV4.from("orders").insert(orderInsertPayload4).select("id, order_number, tracking_token").single();
+        v4OrderRow = first.data; v4OrderErr = first.error ?? null;
+        if (v4OrderErr && typeof v4OrderErr.message === "string" && v4OrderErr.message.toLowerCase().includes("uploaded_not_purchased")) {
+          const { uploaded_not_purchased: _drop, ...retry } = orderInsertPayload4;
+          const second = await supabaseV4.from("orders").insert(retry).select("id, order_number, tracking_token").single();
+          v4OrderRow = second.data; v4OrderErr = second.error ?? null;
+        }
+      }
+      if (v4OrderErr || !v4OrderRow) {
+        console.error("Order insert failed (v4):", v4OrderErr);
+        return json({ error: "ORDER_INSERT_FAILED", details: v4OrderErr?.message }, 500);
+      }
+
+      const v4LangStr = typeof body.language === "string" ? body.language : "";
+      const v4Lines = stripeLinesV4(priced4, vBody4.pieces, v4LangStr, v4PromoCode, v4PromoPct, v4PromoDiscountCents);
+      const v4PreviewUrl = await uploadCheckoutPreview(supabaseV4, preview);
+
+      const v4DescPrefix = v4LangStr === "es" ? "Impresión 3D" : v4LangStr === "ca" ? "Impressió 3D"
+        : v4LangStr === "de" ? "3D-Druck" : v4LangStr === "fr" ? "Impression 3D"
+        : v4LangStr === "nl" ? "3D-print" : v4LangStr === "it" ? "Stampa 3D"
+        : v4LangStr === "pt" ? "Impressão 3D" : "3D print";
+
+      const v4Params = new URLSearchParams({ mode: "payment" });
+      v4Lines.forEach((line, i) => {
+        v4Params.set(`line_items[${i}][quantity]`, "1");
+        v4Params.set(`line_items[${i}][price_data][currency]`, "eur");
+        v4Params.set(`line_items[${i}][price_data][unit_amount]`, String(line.cents));
+        v4Params.set(`line_items[${i}][price_data][product_data][name]`, line.name);
+      });
+      {
+        let v4LineIdx = 0;
+        priced4.order.parts.forEach((pl, pIdx) => {
+          if (pl.costCents <= 0) return;
+          const p = vBody4.pieces[pIdx];
+          const est = priced4.estimates[pIdx];
+          const sizeMm = `${Math.round(est.sizeXMm)}×${Math.round(est.sizeYMm)}×${Math.round(est.heightMm)} mm`;
+          v4Params.set(`line_items[${v4LineIdx}][price_data][product_data][description]`,
+            `${v4DescPrefix}: ${p.name} — ${[p.material, p.color, `×${p.quantity}`, sizeMm, `${p.infill}%`].filter(Boolean).join(" · ")}`.slice(0, 500));
+          if (v4PreviewUrl) v4Params.set(`line_items[${v4LineIdx}][price_data][product_data][images][0]`, v4PreviewUrl);
+          v4LineIdx++;
+        });
+      }
+
+      const v4StripeLocale = v4LangStr === "ca" ? "es"
+        : (["es", "en", "de", "fr", "it", "nl", "pt"].includes(v4LangStr) ? v4LangStr : "auto");
+      v4Params.set("locale", v4StripeLocale);
+      v4Params.set("metadata[order_id]", v4OrderRow.id);
+      v4Params.set("metadata[order_number]", String(v4OrderRow.order_number));
+      v4Params.set("metadata[fulfillment]", vBody4.fulfillment);
+      v4Params.set("metadata[pricing_version]", "4");
+      v4Params.set("metadata[part_count]", String(v4Pieces.length));
+      v4Params.set("metadata[materials]", v4UniqueMats.join(",").slice(0, 200));
+
+      const { ph_distinct_id: ph4id, ph_session_id: ph4sid, utm_source: us4, utm_medium: um4, utm_content: uc4, utm_campaign: uca4, source_path: sp4, page_language: pl4 } = body;
+      if (typeof ph4id === "string" && ph4id.trim()) v4Params.set("metadata[ph_distinct_id]", ph4id.trim().slice(0, 500));
+      if (typeof ph4sid === "string" && ph4sid.trim()) v4Params.set("metadata[ph_session_id]", ph4sid.trim().slice(0, 500));
+      if (typeof us4 === "string" && us4.trim()) v4Params.set("metadata[utm_source]", us4.trim().slice(0, 100));
+      if (typeof um4 === "string" && um4.trim()) v4Params.set("metadata[utm_medium]", um4.trim().slice(0, 100));
+      if (typeof uc4 === "string" && uc4.trim()) v4Params.set("metadata[utm_content]", uc4.trim().slice(0, 100));
+      if (typeof uca4 === "string" && uca4.trim()) v4Params.set("metadata[utm_campaign]", uca4.trim().slice(0, 100));
+      if (typeof sp4 === "string" && sp4.trim()) v4Params.set("metadata[source_path]", sp4.trim().slice(0, 200));
+      if (typeof pl4 === "string" && pl4.trim()) v4Params.set("metadata[page_language]", pl4.trim().slice(0, 20));
+
+      const v4SuccessParams = new URLSearchParams({ checkout: "success" });
+      v4SuccessParams.set("order_id", v4OrderRow.id);
+      v4SuccessParams.set("order_number", String(v4OrderRow.order_number));
+      if (v4OrderRow.tracking_token) v4SuccessParams.set("tracking_token", v4OrderRow.tracking_token);
+      v4SuccessParams.set("fulfillment", vBody4.fulfillment);
+      v4SuccessParams.set("value_eur", (v4ChargeCents / 100).toFixed(2));
+      v4Params.set("success_url", `${SITE_URL}${validReturnPath}?${v4SuccessParams.toString()}`);
+      v4Params.set("cancel_url", `${SITE_URL}${validReturnPath}?checkout=cancelled`);
+
+      applyCheckoutPolicy(v4Params, vBody4.fulfillment, priced4.order.totalCents, v4Lines.length);
+
+      if (typeof body.contactEmail === "string" && body.contactEmail.trim()) v4Params.set("customer_email", body.contactEmail.trim());
+
+      const v4Res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${STRIPE_SECRET_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
+        body: v4Params,
+      });
+      if (!v4Res.ok) {
+        const err4 = await v4Res.text();
+        console.error("Stripe v4 checkout session failed:", err4);
+        return json({ error: "STRIPE_SESSION_FAILED", details: err4 }, 502);
+      }
+      const v4Session = await v4Res.json();
+      console.log(`Instant checkout v4 session created for order ${v4OrderRow.id} (#${v4OrderRow.order_number})`);
+
+      const v4PhId = typeof body.ph_distinct_id === "string" && body.ph_distinct_id.trim() ? body.ph_distinct_id.trim() : null;
+      await capturePostHog("checkout_session_created_server", v4PhId ?? ("anon_" + v4OrderRow.id), {
+        order_number: v4OrderRow.order_number,
+        value: v4ChargeCents / 100,
+        pricing_version: 4,
+        fulfillment: vBody4.fulfillment,
+        part_count: v4Pieces.length,
+        materials: v4UniqueMats.join(","),
+        $session_id: typeof body.ph_session_id === "string" ? body.ph_session_id.trim() : null,
+      });
+
+      return json({ checkoutUrl: v4Session.url });
     }
 
     return json({ error: "VERSION_OUTDATED" }, 400);

@@ -18,6 +18,7 @@ import { effectivePartSettings } from "@/lib/pricing";
 import type { Scope } from "./estimator/PartScopeBar";
 import { computeBundleV3 } from "@/lib/estimate";
 import type { BundleEstimateV3 } from "@/lib/estimate";
+import { usePricingVersion, freeShippingThresholdCents } from "@/lib/usePricingVersion";
 import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
 import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
@@ -149,6 +150,7 @@ interface Props {
 export function StlEstimator({ adminMode = false, highlighted = false, refCity, refDays, refPickupAvailable, forceQuoteOnly = false, shippingOnly = false, compact = false }: Props) {
   const { t, language } = useLanguage();
   const pickupCity = refCity ?? ACTIVE_CITY.cityName;
+  const pricingVersion = usePricingVersion();
 
   // Fire calculator_seen and upload_area_view when section is ≥50% visible
   useEffect(() => {
@@ -368,7 +370,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
   const costByFileId: Record<string, number> = {};
-  const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency);
+  const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency, { v4: pricingVersion === 4 });
   if (bundle) {
     validFiles.forEach((f, i) => { costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0; });
   }
@@ -396,8 +398,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     ? Math.round(bundle.orderResult.chargedPrintCents * AUTUMN_DISCOUNT.pct / 100)
     : 0;
 
+  const freeShipThreshCents = freeShippingThresholdCents(pricingVersion);
+  const shippingFeeForDisplay = fulfillment === "shipping" && bundle && bundle.order.totalCents < freeShipThreshCents ? EST.shippingCents / 100 : 0;
   const instantTotalPrice = instantBuyEligible
-    ? chargedPrice - autumnDiscountCents / 100 + (fulfillment === "shipping" ? EST.shippingCents / 100 : 0)
+    ? chargedPrice - autumnDiscountCents / 100 + shippingFeeForDisplay
     : null;
 
   const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
@@ -602,7 +606,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     if (!adminMode) {
       const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
-      const nextBundle = computeBundleV3(nextFiles, nextDefaults, urgency);
+      const nextBundle = computeBundleV3(nextFiles, nextDefaults, urgency, { v4: pricingVersion === 4 });
       if (nextBundle) {
         const priceMid = (nextBundle.low + nextBundle.high) / 2;
         const priceBucket = priceMid < 15 ? "<15" : priceMid < 30 ? "15-30" : priceMid < 60 ? "30-60" : priceMid < 100 ? "60-100" : ">100";
@@ -1169,13 +1173,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       const uniqueMats = [...new Set(validFiles.map(f => effectivePartSettings(f, defaults).material))];
       const checkoutRef = contactEmail.trim() ? await customerRef(contactEmail.trim()) : null;
       const storedUtm = getStoredUTM();
-      const shippingFee = fulfillment === "shipping" ? EST.shippingCents / 100 : 0;
+      const shippingFee = fulfillment === "shipping" && bundle!.order.totalCents < freeShipThreshCents ? EST.shippingCents / 100 : 0;
       const checkoutBodyPayload = buildCheckoutBody({
         validFiles,
         defaults,
         bundle: bundle!,
         urgency,
         fulfillment: fulfillment!,
+        pricingVersion,
         uploaded: uploadedRef.current!,
         contactEmail,
         contactPhone,
@@ -2310,6 +2315,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 onApplyToAll={handleApplyToAll}
                 onClearFieldFromAllParts={clearFieldFromAllParts}
                 replacedCount={replacedCount}
+                v4={pricingVersion === 4}
               />
 
               {/* Admin debug box */}
@@ -2444,6 +2450,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           supportHeavy: bundle?.supportHeavy ?? false,
           urgency,
           shippingOnly,
+          v4: pricingVersion === 4,
           onSaveQuote: handleSaveQuote,
           saveQuoteConfig: {
             material: materialKey,
@@ -2762,6 +2769,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               replacedCount={replacedCount}
               activeFileId={stepperFile?.id}
               onQtyChange={updateQty}
+              v4={pricingVersion === 4}
             />
             <OrderPanel
               {...sharedOrderPanelProps}

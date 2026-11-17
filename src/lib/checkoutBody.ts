@@ -18,7 +18,7 @@ export interface CheckoutPieceV3 {
 }
 
 export interface CheckoutBody {
-  pricingVersion: 3;
+  pricingVersion: 3 | 4;
   urgency: string;
   fulfillment: "pickup" | "shipping";
   exactPrice: number;
@@ -59,6 +59,7 @@ export interface BuildCheckoutBodyParams {
   bundle: BundleEstimateV3;
   urgency: string;
   fulfillment: "pickup" | "shipping";
+  pricingVersion?: 3 | 4;
   uploaded: { paths: string[]; names: string[]; byId: Record<string, string> };
   contactEmail: string;
   contactPhone: string;
@@ -126,7 +127,7 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
   });
 
   return {
-    pricingVersion: 3,
+    pricingVersion: p.pricingVersion ?? 3,
     urgency: p.urgency,
     fulfillment: p.fulfillment,
     exactPrice: p.bundle.order.totalCents / 100,

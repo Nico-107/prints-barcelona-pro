@@ -602,6 +602,7 @@ export const frTranslations: Record<string, string> = {
   "calc.parts.remove": "Retirer la pièce",
   "calc.summary.setup": "Préparation de la commande (une fois)",
   "calc.summary.minAdjust": "Ajustement au minimum de 10 €",
+  "calc.summary.minAdjust.v4": "Ajustement au minimum de 9,90 €",
   "calc.summary.express": "Supplément express",
   "calc.summary.shipping": "Livraison",
   "calc.summary.total": "Total",

@@ -700,6 +700,7 @@ export const caTranslations: Record<string, string> = {
   "calc.parts.remove": "Treu la peça",
   "calc.summary.setup": "Preparació de la comanda (un cop)",
   "calc.summary.minAdjust": "Ajust al mínim de 10 €",
+  "calc.summary.minAdjust.v4": "Ajust al mínim de 9,90 €",
   "calc.summary.express": "Suplement exprés",
   "calc.summary.shipping": "Enviament",
   "calc.summary.total": "Total",

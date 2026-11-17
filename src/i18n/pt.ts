@@ -602,6 +602,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.parts.remove": "Remover peça",
   "calc.summary.setup": "Preparação do pedido (uma vez)",
   "calc.summary.minAdjust": "Ajuste ao mínimo de 10 €",
+  "calc.summary.minAdjust.v4": "Ajuste ao mínimo de 9,90 €",
   "calc.summary.express": "Suplemento express",
   "calc.summary.shipping": "Envio",
   "calc.summary.total": "Total",

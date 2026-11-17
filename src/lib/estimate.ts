@@ -21,6 +21,7 @@ export function computeBundleV3(
   parts: ParsedFileForPricing[],
   defaults: PartDefaults,
   urgency: string,
+  flags: { v4?: boolean } = {},
 ): BundleEstimateV3 | null {
   const validParts = parts.filter(p => !p.parseError && p.analysis && p.analysis.volumeMm3 > 0);
   if (validParts.length === 0) return null;
@@ -38,7 +39,7 @@ export function computeBundleV3(
     return { name: p.id, quantity: p.qty, material: eff.material, estimate };
   });
 
-  const order = priceOrder(inputs, urgency);
+  const order = priceOrder(inputs, urgency, flags);
 
   // savedByOrientationEur: price with orientation 0 minus chosen price (>= 0)
   const worstInputs = validParts.map(p => {
@@ -53,7 +54,7 @@ export function computeBundleV3(
     });
     return { name: p.id, quantity: p.qty, material: eff.material, estimate: e0 };
   });
-  const worstOrder = priceOrder(worstInputs, urgency);
+  const worstOrder = priceOrder(worstInputs, urgency, flags);
   const savedByOrientationEur = Math.max(0, (worstOrder.totalCents - order.totalCents) / 100);
 
   let totalGrams = 0;

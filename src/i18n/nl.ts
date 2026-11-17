@@ -602,6 +602,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.parts.remove": "Onderdeel verwijderen",
   "calc.summary.setup": "Ordervoorbereiding (eenmalig)",
   "calc.summary.minAdjust": "Aanpassing naar het minimum van 10 €",
+  "calc.summary.minAdjust.v4": "Aanpassing naar het minimum van 9,90 €",
   "calc.summary.express": "Expresstoeslag",
   "calc.summary.shipping": "Verzending",
   "calc.summary.total": "Totaal",
