@@ -2575,7 +2575,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <div className={`relative rounded-xl overflow-hidden transition-all bg-white ${
                   mobileViewerExpanded
                     ? "flex-1 min-h-[220px]"
-                    : "lg:flex-1 lg:min-h-[400px] max-lg:h-[40vh] max-lg:min-h-[220px] shrink-0"
+                    : "lg:h-[34vh] lg:max-h-[34vh] lg:shrink-0 max-lg:h-[130px] shrink-0"
                 }`}>
                   <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
                     <StlViewer
@@ -2606,7 +2606,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       className="lg:hidden absolute top-2 right-2 text-[11px] text-accent bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full whitespace-nowrap shadow-sm"
                       data-testid="viewer-expand-mobile"
                     >
-                      {mobileViewerExpanded ? "↑" : t("calc.viewer.expand")}
+                      {mobileViewerExpanded ? t("calc.viewer.collapse") : t("calc.viewer.expand")}
                     </button>
                   )}
                 </div>
