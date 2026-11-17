@@ -802,6 +802,7 @@ export const caTranslations: Record<string, string> = {
   "calc.checkout.title": "La teva peça",
   "calc.checkout.close": "Tancar",
   "calc.checkout.reopen": "Continuar al pagament",
+  "calc.checkout.reopen.priced": "Continuar · {price}",
   "calc.checkout.parts": "Les teves peces",
   "calc.checkout.summary": "Resum de la comanda",
   "calc.checkout.largeFile": "Fitxer gran: jo confirma el preu.",

@@ -704,6 +704,7 @@ export const ptTranslations: Record<string, string> = {
   "calc.checkout.title": "A tua peça",
   "calc.checkout.close": "Fechar",
   "calc.checkout.reopen": "Continuar para pagamento",
+  "calc.checkout.reopen.priced": "Continuar · {price}",
   "calc.checkout.parts": "As suas peças",
   "calc.checkout.summary": "Resumo do pedido",
   "calc.checkout.largeFile": "Ficheiro grande: confirmo o preço contigo.",

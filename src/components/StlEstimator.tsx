@@ -2152,7 +2152,9 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     className="w-full"
                     onClick={() => { capture('checkout_reopened', {}); setMobileModalOpen(true); }}
                   >
-                    {t("calc.checkout.reopen")}
+                    {instantTotalPrice !== null
+                      ? t("calc.checkout.reopen.priced").replace("{price}", formatEUR(instantTotalPrice, language))
+                      : t("calc.checkout.reopen")}
                   </Button>
                 </div>
               )

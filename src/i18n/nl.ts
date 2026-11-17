@@ -704,6 +704,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.checkout.title": "Jouw onderdeel",
   "calc.checkout.close": "Sluiten",
   "calc.checkout.reopen": "Doorgaan naar betaling",
+  "calc.checkout.reopen.priced": "Doorgaan · {price}",
   "calc.checkout.parts": "Jouw onderdelen",
   "calc.checkout.summary": "Besteloverzicht",
   "calc.checkout.largeFile": "Groot bestand: ik bevestig de prijs.",

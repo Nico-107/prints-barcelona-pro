@@ -803,6 +803,7 @@ export const enTranslations: Record<string, string> = {
   "calc.checkout.title": "Your part",
   "calc.checkout.close": "Close",
   "calc.checkout.reopen": "Continue to checkout",
+  "calc.checkout.reopen.priced": "Continue · {price}",
   "calc.checkout.parts": "Your parts",
   "calc.checkout.summary": "Order summary",
   "calc.checkout.largeFile": "Large file: I confirm the price.",
