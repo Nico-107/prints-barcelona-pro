@@ -702,6 +702,8 @@ export const caTranslations: Record<string, string> = {
   "calc.parts.defaultsTitle": "Ajustos per defecte per a totes les peces",
   "calc.parts.qty": "Quantitat",
   "calc.parts.remove": "Treu la peça",
+  "calc.parts.size": "Mida",
+  "calc.parts.sizeWrong": "No és la mida correcta?",
   "calc.summary.setup": "Preparació de la comanda (un cop)",
   "calc.summary.minAdjust": "Ajust al mínim de 10 €",
   "calc.summary.express": "Suplement exprés",

@@ -702,6 +702,8 @@ export const enTranslations: Record<string, string> = {
   "calc.parts.defaultsTitle": "Default settings for all parts",
   "calc.parts.qty": "Quantity",
   "calc.parts.remove": "Remove part",
+  "calc.parts.size": "Size",
+  "calc.parts.sizeWrong": "Not the right size?",
   "calc.summary.setup": "Order setup (once)",
   "calc.summary.minAdjust": "Adjustment to the €10 minimum",
   "calc.summary.express": "Express surcharge",

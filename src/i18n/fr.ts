@@ -604,6 +604,8 @@ export const frTranslations: Record<string, string> = {
   "calc.parts.defaultsTitle": "Paramètres par défaut pour toutes les pièces",
   "calc.parts.qty": "Quantité",
   "calc.parts.remove": "Retirer la pièce",
+  "calc.parts.size": "Taille",
+  "calc.parts.sizeWrong": "Ce n'est pas la bonne taille ?",
   "calc.summary.setup": "Préparation de la commande (une fois)",
   "calc.summary.minAdjust": "Ajustement au minimum de 10 €",
   "calc.summary.express": "Supplément express",

@@ -781,6 +781,7 @@ export function OrderPanel({
                   onSettingsChange={s => onPartSettingsChange(f.id, s)}
                   onResetSettings={() => onResetPartSettings(f.id)}
                   onApplyToAll={() => onApplyToAll(f.id)}
+                  onFreeReview={onManualReview}
                 />
               );
             })}

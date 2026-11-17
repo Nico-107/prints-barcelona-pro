@@ -604,6 +604,8 @@ export const nlTranslations: Record<string, string> = {
   "calc.parts.defaultsTitle": "Standaardinstellingen voor alle onderdelen",
   "calc.parts.qty": "Aantal",
   "calc.parts.remove": "Onderdeel verwijderen",
+  "calc.parts.size": "Afmeting",
+  "calc.parts.sizeWrong": "Niet de juiste maat?",
   "calc.summary.setup": "Ordervoorbereiding (eenmalig)",
   "calc.summary.minAdjust": "Aanpassing naar het minimum van 10 €",
   "calc.summary.express": "Expresstoeslag",

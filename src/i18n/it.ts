@@ -604,6 +604,8 @@ export const itTranslations: Record<string, string> = {
   "calc.parts.defaultsTitle": "Impostazioni predefinite per tutti i pezzi",
   "calc.parts.qty": "Quantità",
   "calc.parts.remove": "Rimuovi pezzo",
+  "calc.parts.size": "Dimensione",
+  "calc.parts.sizeWrong": "Non è la dimensione giusta?",
   "calc.summary.setup": "Preparazione ordine (una volta)",
   "calc.summary.minAdjust": "Adeguamento al minimo di 10 €",
   "calc.summary.express": "Supplemento express",

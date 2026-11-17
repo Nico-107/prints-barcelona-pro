@@ -604,6 +604,8 @@ export const deTranslations: Record<string, string> = {
   "calc.parts.defaultsTitle": "Standardeinstellungen für alle Teile",
   "calc.parts.qty": "Menge",
   "calc.parts.remove": "Teil entfernen",
+  "calc.parts.size": "Größe",
+  "calc.parts.sizeWrong": "Nicht die richtige Größe?",
   "calc.summary.setup": "Auftragseinrichtung (einmalig)",
   "calc.summary.minAdjust": "Anpassung auf das Minimum von 10 €",
   "calc.summary.express": "Expressaufschlag",

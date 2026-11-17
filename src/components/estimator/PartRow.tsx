@@ -28,6 +28,7 @@ interface PartRowProps {
   onSettingsChange: (settings: PartSettings) => void;
   onResetSettings: () => void;
   onApplyToAll: () => void;
+  onFreeReview?: () => void;
 }
 
 function stripUploadPrefix(name: string): string {
@@ -56,6 +57,7 @@ export function PartRow({
   onSettingsChange,
   onResetSettings,
   onApplyToAll,
+  onFreeReview,
 }: PartRowProps) {
   const displayName = stripUploadPrefix(part.name);
 
@@ -100,7 +102,21 @@ export function PartRow({
                   )}
                 </div>
                 {dimsLine && (
-                  <p className="text-xs text-muted-foreground/70">{dimsLine}</p>
+                  <p className="text-xs text-muted-foreground/70">
+                    {t("calc.parts.size")}: {dimsLine}
+                    {onFreeReview && (
+                      <>
+                        {" · "}
+                        <button
+                          type="button"
+                          onClick={e => { e.stopPropagation(); onFreeReview(); }}
+                          className="underline underline-offset-2 hover:text-foreground transition-colors"
+                        >
+                          {t("calc.parts.sizeWrong")}
+                        </button>
+                      </>
+                    )}
+                  </p>
                 )}
               </div>
             )}
