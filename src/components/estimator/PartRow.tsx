@@ -131,7 +131,20 @@ export function PartRow({
               >
                 −
               </button>
-              <span className="w-8 text-center text-xs font-medium tabular-nums select-none">{part.qty}</span>
+              <input
+                type="number"
+                min={1}
+                max={999}
+                value={part.qty}
+                disabled={disabled}
+                onChange={e => {
+                  const v = Math.max(1, Math.min(999, parseInt(e.target.value, 10) || 1));
+                  onQtyChange(v);
+                  capture("part_settings_changed", { field: "qty", material: effectiveMaterial });
+                }}
+                className="w-10 text-center text-xs font-medium tabular-nums bg-transparent border-none outline-none focus:ring-0 disabled:opacity-40 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                aria-label={t("calc.parts.qty")}
+              />
               <button
                 type="button"
                 onClick={() => {
