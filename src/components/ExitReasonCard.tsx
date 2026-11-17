@@ -1,26 +1,23 @@
 /**
- * "What stopped you?" micro-survey.
+ * "What stopped you?" micro-survey — 4.6 redesign.
  *
- * Shown as a non-blocking bottom card after the estimate modal is closed
- * without a lead, when:
- *   - The modal was open for ≥5s (measured by the caller via `modalOpenMs`).
- *   - Not yet shown this visitor (localStorage flag, wrapped in try/catch).
- *   - No lead has been submitted in this session.
+ * Shown when the estimate modal closes without buying, once per visitor,
+ * only if the price was on screen for ≥5 s.
  *
- * Replaces the exit-intent popup when triggered (both can't show together).
+ * Chips fire exit_reason. After a chip tap, offer a 20 % personal code
+ * via issue-promo-code. No beforeunload. No shortcuts that set the shown
+ * flag without an event.
  */
 
 import { useState } from "react";
-import { X, MessageCircle } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
+import { supabase } from "@/integrations/supabase/client";
 
 const SHOWN_KEY = "dim3d-exit-survey-shown";
 const LEAD_KEY  = "dim3d-lead-submitted";
-
-const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 export function hasExitSurveyBeenShown(): boolean {
   try { return !!localStorage.getItem(SHOWN_KEY); } catch { return false; }
@@ -38,56 +35,88 @@ export function hasLeadBeenSubmitted(): boolean {
   try { return !!localStorage.getItem(LEAD_KEY); } catch { return false; }
 }
 
-const REASONS: Array<{ key: string; i18nKey: string }> = [
-  { key: "price",    i18nKey: "survey.exit.reason.price"    },
-  { key: "shipping", i18nKey: "survey.exit.reason.shipping" },
-  { key: "material", i18nKey: "survey.exit.reason.material" },
-  { key: "talk",     i18nKey: "survey.exit.reason.talk"     },
-  { key: "browsing", i18nKey: "survey.exit.reason.browsing" },
+/** All six chips in GOAL order. */
+const CHIPS: Array<{ key: string; i18nKey: string }> = [
+  { key: "price",    i18nKey: "survey.exit.reason.price"        },
+  { key: "shipping", i18nKey: "survey.exit.reason.shipping"     },
+  { key: "delivery", i18nKey: "survey.exit.reason.delivery"     },
+  { key: "unknown",  i18nKey: "survey.exit.reason.unknown"      },
+  { key: "browsing", i18nKey: "survey.exit.reason.browsing_new" },
 ];
 
 interface ExitReasonCardProps {
   priceBucket?: string;
+  /** Called when the visitor clicks "Volver al pedido" (reopens the modal). */
+  onReturnToOrder: () => void;
   onClose: () => void;
+  /** Current quote link — passed to issue-promo-code and save-quote. */
+  quoteLink?: string;
+  /** Current total — for save-quote. */
+  total?: number;
 }
 
-export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
+export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLink, total }: ExitReasonCardProps) {
   const { t, language } = useLanguage();
-  const [chosen, setChosen] = useState<string | null>(null);
+  const [phase, setPhase] = useState<"chips" | "other_text" | "code_offer" | "done">("chips");
+  const [otherText, setOtherText] = useState("");
+  const [email, setEmail] = useState("");
+  const [sending, setSending] = useState(false);
 
-  // Conv 1.6: reason event carries bucket + device + country so the
-  // "what stopped you?" dashboard tile can slice by all three.
   const device = typeof window !== "undefined" && window.innerWidth < 640 ? "mobile" : "desktop";
   const country = typeof navigator !== "undefined"
     ? (navigator.language?.split("-")[1]?.toUpperCase() ?? null)
     : null;
 
-  const handleReason = (key: string) => {
-    setChosen(key);
+  const fireReason = (key: string, text?: string) => {
     markExitSurveyShown();
     capture("exit_reason", {
       reason: key,
       price_eur_bucket: priceBucket,
       device,
       country,
+      ...(text ? { text } : {}),
     });
   };
 
-  const handleOther = () => {
-    setChosen("other");
+  const handleChip = (key: string) => {
+    fireReason(key);
+    setPhase("code_offer");
+  };
+
+  const handleOtherChip = () => {
     markExitSurveyShown();
-    capture("exit_reason", {
-      reason: "other",
-      price_eur_bucket: priceBucket,
-      device,
-      country,
-    });
+    setPhase("other_text");
   };
 
-  const whatsappMsg =
-    language === "ca" ? "Hola, m'agradaria parlar sobre un pressupost." :
-    language === "es" ? "Hola, me gustaría hablar con alguien sobre mi presupuesto." :
-    "Hi, I'd like to talk to someone about my quote.";
+  const handleOtherSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    fireReason("other", otherText.trim() || undefined);
+    setPhase("code_offer");
+  };
+
+  const handleCodeSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || sending) return;
+    setSending(true);
+    try {
+      capture("exit_code_requested", { email_domain: email.split("@")[1] });
+      await supabase.functions.invoke("issue-promo-code", {
+        body: { kind: "exit", email: email.trim(), language, quoteLink: quoteLink ?? "" },
+      });
+      // Also save the quote so the visitor can resume
+      if (quoteLink && total) {
+        supabase.functions.invoke("save-quote", {
+          body: { email: email.trim(), quoteLink, total, language },
+        }).catch(() => {});
+      }
+      setPhase("done");
+    } catch (err) {
+      console.warn("[ExitReasonCard] issue-promo-code failed:", err);
+      setPhase("done");
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <div
@@ -96,78 +125,90 @@ export function ExitReasonCard({ priceBucket, onClose }: ExitReasonCardProps) {
       className="fixed bottom-0 left-0 right-0 z-[55] bg-background border-t border-border shadow-xl animate-in slide-in-from-bottom-2 duration-300"
     >
       <div className="container max-w-lg px-4 py-4">
-        {chosen ? (
+        {phase === "done" ? (
           <div className="flex items-center justify-between gap-3">
-            <p className="text-sm font-medium text-foreground">{t("survey.exit.thanks")}</p>
-            {chosen === "talk" && (
-              <a
-                href={`${WHATSAPP_URL}?text=${encodeURIComponent(whatsappMsg)}`}
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-whatsapp font-medium hover:underline"
-                onClick={() => capture("whatsapp_from_modal", { source: "exit_survey" })}
-              >
-                <MessageCircle className="w-4 h-4" />
-                {t("survey.exit.whatsapp")}
-              </a>
-            )}
+            <p className="text-sm text-foreground">{t("survey.exit.offerCode.sent")}</p>
             <Button variant="ghost" size="icon" className="w-7 h-7 shrink-0" onClick={onClose}>
               <X className="w-4 h-4" />
             </Button>
           </div>
-        ) : (
+        ) : phase === "code_offer" ? (
           <>
-            {/* Conv 1.6: clear "nothing has been sent" line at the top. */}
-            <p className="text-xs text-muted-foreground mb-2" data-testid="exit-not-sent">{t("survey.exit.notSent")}</p>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-semibold text-foreground">{t("survey.exit.title")}</p>
-              <Button variant="ghost" size="icon" className="w-7 h-7" onClick={onClose}>
+              <p className="text-sm font-semibold text-foreground">{t("survey.exit.offerCode.title")}</p>
+              <Button variant="ghost" size="icon" className="w-7 h-7 shrink-0" onClick={onClose}>
                 <X className="w-4 h-4" />
               </Button>
             </div>
+            <form onSubmit={handleCodeSubmit} className="flex gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder={t("survey.exit.offerCode.email")}
+                data-ph-mask
+                className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+              <Button type="submit" variant="cta" size="sm" disabled={!email.trim() || sending}>
+                {t("survey.exit.offerCode.cta")}
+              </Button>
+            </form>
+          </>
+        ) : phase === "other_text" ? (
+          <>
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-semibold text-foreground">{t("survey.exit.offerCode.other")}</p>
+              <Button variant="ghost" size="icon" className="w-7 h-7 shrink-0" onClick={onClose}>
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            <form onSubmit={handleOtherSubmit} className="flex gap-2">
+              <input
+                type="text"
+                value={otherText}
+                onChange={e => setOtherText(e.target.value)}
+                placeholder="…"
+                className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+              <Button type="submit" size="sm" variant="outline">OK</Button>
+            </form>
+          </>
+        ) : (
+          <>
+            <p className="text-xs text-muted-foreground mb-2" data-testid="exit-not-sent">
+              {t("survey.exit.notSent")}
+            </p>
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-semibold text-foreground">{t("survey.exit.title")}</p>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => { onReturnToOrder(); onClose(); }}
+                  className="text-xs text-accent font-medium hover:underline mr-2 whitespace-nowrap"
+                >
+                  {t("survey.exit.returnToOrder")}
+                </button>
+                <Button variant="ghost" size="icon" className="w-7 h-7" onClick={onClose}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
             <div className="flex flex-wrap gap-2">
-              {REASONS.map(({ key, i18nKey }) => (
+              {CHIPS.map(({ key, i18nKey }) => (
                 <button
                   key={key}
-                  onClick={() => handleReason(key)}
+                  onClick={() => handleChip(key)}
                   className="text-xs px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-accent/10 hover:border-accent transition-colors"
                 >
                   {t(i18nKey)}
                 </button>
               ))}
               <button
-                onClick={handleOther}
+                onClick={handleOtherChip}
                 className="text-xs px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-accent/10 hover:border-accent transition-colors"
               >
                 {t("survey.exit.reason.other")}
               </button>
-            </div>
-            {/* Conv 1.6: three one-tap exits besides the reasons. */}
-            <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border/60" data-testid="exit-shortcuts">
-              <button
-                type="button"
-                onClick={() => { markExitSurveyShown(); capture("exit_shortcut", { action: "back_to_price" }); onClose(); }}
-                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-border hover:border-accent"
-              >
-                {t("survey.exit.shortcut.back")}
-              </button>
-              <button
-                type="button"
-                onClick={() => { markExitSurveyShown(); capture("quote_emailed", { source: "exit_shortcut" }); onClose(); }}
-                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-border hover:border-accent"
-              >
-                {t("survey.exit.shortcut.email")}
-              </button>
-              <a
-                href={`${WHATSAPP_URL}?text=${encodeURIComponent(whatsappMsg)}`}
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                onClick={() => { markExitSurveyShown(); capture("whatsapp_click", { location: "exit_shortcut", path: typeof window !== "undefined" ? window.location.pathname : "" }); }}
-                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-border hover:border-accent"
-              >
-                <MessageCircle className="w-3.5 h-3.5" />
-                {t("survey.exit.shortcut.whatsapp")}
-              </a>
             </div>
           </>
         )}

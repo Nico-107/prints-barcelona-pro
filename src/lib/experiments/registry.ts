@@ -102,6 +102,21 @@ export const REGISTRY: ExperimentDef[] = [
     enabled: true,
   },
   // home_v2 removed: merged into site_variant so one switch controls B.
+  {
+    // 5.4: Buy-button wording experiment.
+    // A (control): "Comprar · {price}"  B: "Imprimir mi pieza · {price}"
+    // No decision before 300 price viewers per arm. Primary metric: buy_clicked
+    // per visitor who saw a price. Secondary: order_paid_server.
+    id: 'buy_label_r1',
+    layer: 'checkout_modal',
+    variants: ['A', 'B'],
+    primaryMetric: 'buy_clicked',
+    guardrailMetrics: ['order_paid_server'],
+    startedOn: '2026-11-17',
+    minDays: 14,
+    maxDays: 60,
+    enabled: true,
+  },
 ];
 
 /** HTML attribute name for a given experiment ID. */

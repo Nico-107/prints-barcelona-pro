@@ -359,7 +359,13 @@ The control flow is unchanged — the user is not shown an error. This event mak
 
 ## New events — Phase B
 
-### `order_paid` · server
+### `order_paid` · server · **deprecated — use `order_paid_server`**
+Original event name. Retained as an alias in PostHog for historical queries.
+New dashboards should query `order_paid_server` instead.
+
+---
+
+### `order_paid_server` · server
 Fires from `stripe-webhook` on `checkout.session.completed`.
 Idempotent — PostHog `uuid` is set to the Stripe Session ID, so webhook retries do not
 double-count. Covers **instant Stripe checkouts only** (StlEstimator and PartPage).
@@ -373,8 +379,12 @@ Manual payments (Bizum/transfer) are reflected in `order_accepted` instead.
 | `value` | number | Total charged in EUR (amount_total / 100) |
 | `currency` | string | Always `"EUR"` for this store |
 | `fulfillment` | string | `"pickup"` \| `"shipping"` |
-| `product_type` | string | `"stl_estimator"` \| `"part_page"` |
-| `part_slug` | string? | Part slug (part_page orders only) |
+| `pricing_version` | number | `3` or `4` — which engine computed the price |
+| `promo_code` | string? | Code applied at checkout, if any |
+| `promo_kind` | string? | `"exit"` \| `"student"` \| `"manual"` |
+| `recovered` | boolean? | `true` when paid via abandoned-checkout recovery link |
+| `country` | string? | 2-letter country code from Stripe shipping address |
+| `ph_distinct_id` | string? | PostHog distinct_id threaded from browser |
 | `utm_source` | string? | First-touch UTM threaded from browser |
 | `utm_medium` | string? | — |
 | `utm_content` | string? | — (identifies Lemon NFC plaques) |
@@ -385,6 +395,24 @@ Manual payments (Bizum/transfer) are reflected in `order_accepted` instead.
 **distinct_id logic:** uses `ph_distinct_id` from Stripe metadata when available (links to the
 visitor's PostHog profile); falls back to `"anon_<session.id>"` with
 `$process_person_profile: false` (no ghost profile created).
+
+---
+
+### `checkout_expired_server` · server
+Fires from `stripe-webhook` on every `checkout.session.expired`. Tracks abandonment
+rate and recovery coverage. Idempotent via `"expired_<session.id>"` as PostHog uuid.  
+**Where:** `supabase/functions/stripe-webhook/index.ts`
+
+| Property | Type | Description |
+|---|---|---|
+| `stripe_session_id` | string | Stripe session that expired |
+| `recovery_sent` | boolean | Whether an abandoned-checkout recovery email was sent for this session |
+| `country` | string? | 2-letter country code from customer shipping address |
+| `pricing_version` | number? | `3` or `4` |
+| `ph_distinct_id` | string? | PostHog distinct_id threaded from browser |
+
+**distinct_id logic:** uses `ph_distinct_id` when available; falls back to
+`"anon_expired_<session.id>"` with `$process_person_profile: false`.
 
 ---
 
@@ -431,6 +459,155 @@ Fires in `send-print-request`. Properties: `is_urgent`
 
 ### `"maker application submitted"` · server
 Fires in `send-maker-application` (unchanged from pre-overhaul). Do not rename.
+
+---
+
+## New events — GOAL (Phase 5–6)
+
+### `pricing_version_resolved` · client
+Fires once per estimator session after the pricing engine version is determined.  
+**Where:** `src/components/StlEstimator.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `version` | 3 \| 4 | Pricing engine version used |
+| `source` | string | `"cache"` — read from localStorage; `"fetch"` — fetched from Edge Function |
+
+---
+
+### `promo_line_shown` · client
+Fires when the promo/discount line appears in the estimator (public codes only).  
+**Where:** `src/components/StlEstimator.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `has_public_code` | boolean | Whether a public (auto-applied) code triggered the line |
+| `code` | string? | The public code if applicable |
+
+---
+
+### `promo_applied` · client
+Fires when a valid promo code is successfully applied.  
+**Where:** `src/components/StlEstimator.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `code` | string | The applied code |
+| `pct` | number | Discount percentage (0–100) |
+| `source` | string | `"public"` \| `"manual"` \| `"url"` |
+
+---
+
+### `promo_invalid` · client
+Fires when the user enters a code that does not match any active promo.  
+**Where:** `src/components/StlEstimator.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `code` | string | The rejected code (uppercased) |
+
+---
+
+### `student_code_requested` · client
+Fires when the user submits the student-discount email form.  
+**Where:** `src/components/StlEstimator.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `email_domain` | string | Domain part of the submitted email |
+
+---
+
+### `saved_quote_bar_shown` · client
+Fires when the saved-quote recovery bar appears above the estimator.  
+**Where:** `src/components/SavedQuoteBar.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `total` | number | Saved quote total in EUR |
+| `file_name` | string? | Name of the first saved file |
+
+---
+
+### `saved_quote_bar_clicked` · client
+Fires when the user interacts with the saved-quote bar.  
+**Where:** `src/components/SavedQuoteBar.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `action` | string | `"resume"` or `"dismiss"` |
+
+---
+
+### `lower_price_opened` · client
+Fires when the user opens the "¿Podemos bajarlo?" panel.  
+**Where:** `src/components/StlEstimator.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `total` | number | Current total in EUR when the panel was opened |
+
+---
+
+### `lower_price_option_applied` · client
+Fires when the user taps one of the savings options in the LowerPricePanel.  
+**Where:** `src/components/estimator/LowerPricePanel.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `option` | string | `"infill_10"` \| `"fast_quality"` \| `"pickup"` \| `"standard_urgency"` |
+| `saving_eur` | number | EUR saved by this option |
+
+---
+
+### `budget_sent` · client
+Fires when the user submits the "Dime tu presupuesto" maximum-budget form.  
+**Where:** `src/components/estimator/LowerPricePanel.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `amount_eur` | number | Maximum budget entered |
+| `email_domain` | string? | Domain part of the submitted email |
+
+---
+
+### `exit_reason` · client
+Fires when the user selects a reason chip in the exit-reason card.  
+**Where:** `src/components/ExitReasonCard.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `reason` | string | `"price"` \| `"shipping"` \| `"delivery"` \| `"unknown"` \| `"browsing"` \| `"other"` |
+| `price_eur_bucket` | string? | Price bucket at time of exit |
+| `text` | string? | Free-text from "Otra cosa" chip (only on `reason:"other"`) |
+| `device` | string? | Device type |
+| `country` | string? | Country from PostHog geo |
+
+---
+
+### `exit_code_requested` · client
+Fires when the user submits their email to receive the 20% exit-intent promo code.  
+**Where:** `src/components/ExitReasonCard.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `email_domain` | string? | Domain part of the submitted email |
+
+---
+
+### `buy_clicked` · client · **primary metric for `buy_label_r1`**
+Fires when the Buy / instant-checkout button is tapped.  
+**Where:** `src/components/estimator/OrderPanel.tsx`
+
+| Property | Type | Description |
+|---|---|---|
+| `price_eur_bucket` | string? | Price bucket at click time |
+
+---
+
+### `buy_wait_shown` · client
+Fires when the loading spinner is shown between Buy click and Stripe redirect.  
+**Where:** `src/components/estimator/OrderPanel.tsx`
 
 ---
 

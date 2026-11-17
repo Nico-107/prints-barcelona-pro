@@ -37,11 +37,15 @@ import type { UseCase } from "@/lib/materialGuide";
 import { toast as sonnerToast } from "sonner";
 import { OrderPanel } from "./estimator/OrderPanel";
 import { formatShipDate, computeShipDate, shipDateLine } from "@/lib/shipDate";
-import { decodeQuoteHash } from "@/lib/quoteLink";
+import { decodeQuoteHash, buildQuoteLink } from "@/lib/quoteLink";
 import { DefaultSettings } from "./estimator/DefaultSettings";
 import { CheckoutDialog } from "./estimator/CheckoutDialog";
 import { CheckoutConfigurator } from "./estimator/CheckoutConfigurator";
 import { PartSummaryList } from "./estimator/PartSummaryList";
+import { SavedQuoteBar } from "./SavedQuoteBar";
+import { saveQuoteLocally, clearSavedQuote } from "@/lib/savedQuoteStore";
+import type { SavedQuoteEntry } from "@/lib/savedQuoteStore";
+import { LowerPricePanel } from "./estimator/LowerPricePanel";
 
 const StlViewer = lazy(() => import("./StlViewer"));
 
@@ -303,10 +307,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-  // Set data-estimator-open on body so CookieConsentBanner can hide itself
+  // Set data-estimator-open on body so CookieConsentBanner can hide itself.
+  // Also seed modalOpenTimeRef so the exit-survey 5s gate works for programmatic
+  // opens (setMobileModalOpen(true) from file upload) where Radix does not fire onOpenChange(true).
   useEffect(() => {
     if (mobileModalOpen) {
       document.body.setAttribute("data-estimator-open", "1");
+      if (!modalOpenTimeRef.current) modalOpenTimeRef.current = Date.now();
     } else {
       document.body.removeAttribute("data-estimator-open");
     }
@@ -349,6 +356,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const [exitPopupLinkValue, setExitPopupLinkValue] = useState("");
   const [exitPopupLinkSubmitting, setExitPopupLinkSubmitting] = useState(false);
   const [exitPopupLinkSubmitted, setExitPopupLinkSubmitted] = useState(false);
+  const [showLowerPrice, setShowLowerPrice] = useState(false);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [expandedPartId, setExpandedPartId] = useState<string | null>(null);
   const [scope, setScope] = useState<Scope>("all");
@@ -440,6 +448,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     capture("promo_line_shown", { has_public_code: !!publicCode, code: publicCode?.code });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!bundle, pricingVersion]);
+
+  // 4.3: Auto-save quote to IndexedDB whenever the bundle updates with valid files
+  useEffect(() => {
+    if (!bundle || !validFiles.length || adminMode) return;
+    const firstName = validFiles[0]?.name ?? null;
+    saveQuoteLocally({
+      material: materialKey,
+      colour: colorPref,
+      qty: bundle.totalUnits,
+      urgency,
+      fileId: validFiles[0]?.id ?? null,
+      fileName: firstName,
+      total: bundle.total,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bundle?.total, validFiles.length, materialKey, colorPref, urgency]);
 
   const processFiles = async (newFiles: File[], method: "drop" | "click" = "click") => {
     const remaining = MAX_FILES - parsedFiles.length;
@@ -1111,6 +1135,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         if (raw) { stash = JSON.parse(raw); sessionStorage.removeItem("dim3d-checkout-ctx"); }
       } catch {}
       setCheckoutResult("success");
+      clearSavedQuote();
       const orderNumberParam = params.get("order_number");
       const trackingTokenParam = params.get("tracking_token");
       const fulfillmentParam = params.get("fulfillment");
@@ -1441,12 +1466,31 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     const noteBody = (notesText ?? "").trim();
     const note = `[PRESUPUESTO GUARDADO — sin revisión pedida]${noteBody ? `\n\n${noteBody}` : ""}`;
     try {
-      // Fire-and-forget hash, so quote_saved doesn't expose the raw email in PostHog
       let emailHash = "";
       try {
         const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email.toLowerCase().trim()));
         emailHash = Array.from(new Uint8Array(buf)).slice(0, 8).map(b => b.toString(16).padStart(2, "0")).join("");
       } catch { /* hash-less event is still useful */ }
+
+      const quoteLink = typeof window !== "undefined"
+        ? buildQuoteLink(window.location.origin, window.location.pathname, { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency })
+        : "";
+
+      // 4.1: save to saved_quotes + send customer email via edge function
+      supabase.functions.invoke("save-quote", {
+        body: {
+          email: email.trim(),
+          quoteLink,
+          total: bundle.total,
+          language,
+          sourcePage: typeof window !== "undefined" ? window.location.pathname : undefined,
+          quotePayload: { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency },
+          files: validFiles.map(f => ({ name: f.name, material: effectivePartSettings(f, defaults).material, qty: f.qty })),
+          unsubscribeBase: typeof window !== "undefined" ? window.location.origin : undefined,
+        },
+      }).catch(e => console.warn("[save-quote edge fn]", e));
+
+      // Also keep existing quote_requests row for the leads admin view
       const insertPayload: TablesInsert<"quote_requests"> = {
         contact_email: email.trim(),
         color: colorPref || null,
@@ -1467,20 +1511,32 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         pieces: [{ note }] as Json,
       };
       await supabaseAnon.from("quote_requests").insert(insertPayload);
+
       capture("quote_saved", {
         email_hash: emailHash,
         total: bundle.total,
         material: materialKey,
       });
-      // Conv 4.4: lead counterpart for the save-quote path.
-      capture("quote_emailed", {
-        source: "save_quote",
-        email_domain: email.includes("@") ? email.split("@")[1]?.toLowerCase() : undefined,
-        path: typeof window !== "undefined" ? window.location.pathname : undefined,
-      });
     } catch (err) {
       console.warn("[StlEstimator] save-quote failed:", err);
     }
+  };
+
+  // 4.4: Apply a price-lowering option from the LowerPricePanel
+  const handleApplyLowerPrice = (patch: Partial<{ infillPct: number; quality: QualityKey; fulfillment: "pickup" | "shipping"; urgency: "standard" | "express" | "urgent" }>) => {
+    if (patch.infillPct !== undefined) setInfillPct(patch.infillPct);
+    if (patch.quality !== undefined) setQuality(patch.quality);
+    if (patch.fulfillment !== undefined) setFulfillment(patch.fulfillment);
+    if (patch.urgency !== undefined) setUrgency(patch.urgency);
+  };
+
+  // 4.3: Restore settings from a saved quote (IndexedDB) when the visitor clicks "Resume"
+  const handleResumeQuote = (entry: SavedQuoteEntry) => {
+    setMaterialKey(entry.material);
+    setColorPref(entry.colour);
+    setUrgency(entry.urgency as typeof urgency);
+    clearSavedQuote();
+    inputRef.current?.click();
   };
 
   const handleManualReview = () => {
@@ -2502,6 +2558,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             qty: validFiles.reduce((s, f) => s + f.qty, 0) || 1,
             urgency,
           },
+          canLowerPrice: !!(bundle && bundle.orderResult.chargedPrintCents > 1490),
+          onLowerPrice: () => { setShowLowerPrice(true); capture("lower_price_opened", { total: bundle ? bundle.total : 0 }); },
         } as const;
 
         const leftSlot = (
@@ -2520,7 +2578,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 <div className={`relative rounded-xl overflow-hidden transition-all bg-white ${
                   mobileViewerExpanded
                     ? "flex-1 min-h-[220px]"
-                    : "lg:flex-1 lg:min-h-[400px] max-lg:h-[40vh] max-lg:min-h-[220px] shrink-0"
+                    : "lg:h-[34vh] lg:max-h-[34vh] lg:shrink-0 max-lg:h-[130px] shrink-0"
                 }`}>
                   <Suspense fallback={<div className="w-full h-full bg-slate-50 animate-pulse" />}>
                     <StlViewer
@@ -2551,7 +2609,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                       className="lg:hidden absolute top-2 right-2 text-[11px] text-accent bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full whitespace-nowrap shadow-sm"
                       data-testid="viewer-expand-mobile"
                     >
-                      {mobileViewerExpanded ? "↑" : t("calc.viewer.expand")}
+                      {mobileViewerExpanded ? t("calc.viewer.collapse") : t("calc.viewer.expand")}
                     </button>
                   )}
                 </div>
@@ -2820,6 +2878,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               hideParts={true}
               section="form"
             />
+            {/* 4.4: Lower-price panel */}
+            {showLowerPrice && bundle && (
+              <LowerPricePanel
+                parsedFiles={parsedFiles}
+                defaults={defaults}
+                urgency={urgency}
+                fulfillment={fulfillment}
+                shippingOnly={!!shippingOnly}
+                pricingVersion={pricingVersion}
+                currentTotal={bundle.orderResult.chargedPrintCents / 100}
+                language={language as Language}
+                t={t}
+                onApply={handleApplyLowerPrice}
+                onClose={() => setShowLowerPrice(false)}
+              />
+            )}
             {/* Phase 4.4: on mobile the extras (cutoff, trust line, badges
                 and the secondary WhatsApp / review / save-quote row) live
                 in the scroll area so the fixed bottom panel is just total +
@@ -2874,6 +2948,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                 // Exit survey replaces exit-intent when modal was open ≥5s and no lead yet
                 if (!open && !isSubmittedQuote && !showManualReview && !isCheckingOut && checkoutResult !== "success"
                     && wasLongEnough && !hasExitSurveyBeenShown() && !hasLeadBeenSubmitted()) {
+                  setMobileModalOpen(false);
                   setShowExitSurvey(true);
                   // Store the price bucket for the survey
                   if (bundle) {
@@ -3121,6 +3196,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
             </p>
           </div>
         )}
+        <SavedQuoteBar
+          language={language as Language}
+          t={t}
+          onResume={handleResumeQuote}
+          hasFiles={parsedFiles.length > 0}
+        />
         {inner}
 
         {/* Exit-intent dialog — 3 variants: priced, quote, failed */}
@@ -3334,7 +3415,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         {showExitSurvey && (
           <ExitReasonCard
             priceBucket={exitSurveyPriceBucket.current}
+            onReturnToOrder={() => setMobileModalOpen(true)}
             onClose={() => setShowExitSurvey(false)}
+            quoteLink={bundle ? buildQuoteLink(window.location.origin, window.location.pathname, { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency }) : undefined}
+            total={bundle?.total}
           />
         )}
       </div>

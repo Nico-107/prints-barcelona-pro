@@ -436,6 +436,143 @@ ORDER BY pageviews DESC
 
 ---
 
+---
+
+## 13. Price-viewers → Buy click → paid funnel by week and country
+
+Measures the buy_label_r1 funnel and overall paid conversion weekly.
+`pricing_resolved` = session saw a price on screen (fired `price_viewed`).
+
+```sql
+SELECT
+    toStartOfWeek(timestamp)                             AS week,
+    coalesce(properties.country, properties.$geoip_country_code, '(unknown)') AS country,
+    countIf(event = 'price_viewed')                      AS price_viewers,
+    countIf(event = 'buy_clicked')                       AS buy_clicks,
+    countIf(event = 'order_paid_server')                 AS paid_orders,
+    round(100.0 * countIf(event = 'buy_clicked')
+          / nullIf(countIf(event = 'price_viewed'), 0), 2) AS click_rate_pct,
+    round(100.0 * countIf(event = 'order_paid_server')
+          / nullIf(countIf(event = 'buy_clicked'), 0), 2)  AS paid_rate_pct,
+    round(sum(if(event = 'order_paid_server', toFloat(properties.value), 0)), 2) AS revenue_eur
+FROM events
+WHERE event IN ('price_viewed', 'buy_clicked', 'order_paid_server')
+  AND (properties.is_internal = false OR properties.is_internal IS NULL)
+GROUP BY week, country
+ORDER BY week DESC, revenue_eur DESC
+```
+
+---
+
+## 14. Exit reasons by price bucket
+
+What stopped people, sliced by the price they saw. Run after 4+ weeks of data.
+
+```sql
+SELECT
+    properties.reason                                    AS reason,
+    coalesce(properties.price_eur_bucket, '(unknown)')  AS price_bucket,
+    count()                                              AS count,
+    round(100.0 * count() / sum(count()) OVER (PARTITION BY price_bucket), 1) AS pct_within_bucket
+FROM events
+WHERE event = 'exit_reason'
+  AND (properties.is_internal = false OR properties.is_internal IS NULL)
+GROUP BY reason, price_bucket
+ORDER BY price_bucket, count DESC
+```
+
+For the free-text "other" reasons only:
+
+```sql
+SELECT
+    properties.text                                      AS free_text,
+    coalesce(properties.price_eur_bucket, '(unknown)')  AS price_bucket,
+    timestamp
+FROM events
+WHERE event = 'exit_reason'
+  AND properties.reason = 'other'
+  AND isNotNull(properties.text)
+  AND (properties.is_internal = false OR properties.is_internal IS NULL)
+ORDER BY timestamp DESC
+LIMIT 200
+```
+
+---
+
+## 15. Promo code usage by kind and week
+
+Tracks volume and conversion impact of exit codes vs student codes vs public codes.
+
+```sql
+SELECT
+    toStartOfWeek(timestamp)                             AS week,
+    properties.source                                    AS kind,
+    properties.code                                      AS code,
+    count()                                              AS applications,
+    round(avg(toFloat(properties.pct)), 1)               AS avg_discount_pct
+FROM events
+WHERE event = 'promo_applied'
+  AND (properties.is_internal = false OR properties.is_internal IS NULL)
+GROUP BY week, kind, code
+ORDER BY week DESC, applications DESC
+```
+
+To measure whether promo code users convert to paid more than non-users:
+
+```sql
+-- Sessions with promo applied vs paid (requires distinct_id join)
+SELECT
+    countIf(event = 'promo_applied')                                       AS promo_sessions,
+    countIf(event = 'order_paid_server' AND properties.promo_code != '')   AS promo_paid,
+    countIf(event = 'order_paid_server' AND (properties.promo_code = '' OR properties.promo_code IS NULL)) AS no_promo_paid,
+    round(sum(if(event = 'order_paid_server', toFloat(properties.value), 0)), 2) AS total_revenue_eur
+FROM events
+WHERE event IN ('promo_applied', 'order_paid_server')
+  AND (properties.is_internal = false OR properties.is_internal IS NULL)
+```
+
+---
+
+## 16. Abandoned checkout recovery rate
+
+What share of expired sessions had a recovery email sent, and how many converted.
+
+```sql
+SELECT
+    toStartOfWeek(timestamp)                              AS week,
+    countIf(event = 'checkout_expired_server')            AS expired_sessions,
+    countIf(event = 'checkout_expired_server'
+            AND properties.recovery_sent = true)          AS recovery_sent,
+    round(100.0 *
+          countIf(event = 'checkout_expired_server' AND properties.recovery_sent = true)
+          / nullIf(countIf(event = 'checkout_expired_server'), 0), 1) AS recovery_coverage_pct
+FROM events
+WHERE event = 'checkout_expired_server'
+GROUP BY week
+ORDER BY week DESC
+```
+
+For cross-referencing recovered orders (use `order_paid_server.recovered = true`):
+
+```sql
+SELECT
+    toStartOfWeek(timestamp)                              AS week,
+    countIf(event = 'order_paid_server')                  AS total_paid,
+    countIf(event = 'order_paid_server'
+            AND properties.recovered = true)              AS recovered_paid,
+    round(100.0 *
+          countIf(event = 'order_paid_server' AND properties.recovered = true)
+          / nullIf(countIf(event = 'order_paid_server'), 0), 1) AS recovered_pct,
+    round(sum(if(event = 'order_paid_server' AND properties.recovered = true,
+                 toFloat(properties.value), 0)), 2)       AS recovered_revenue_eur
+FROM events
+WHERE event = 'order_paid_server'
+GROUP BY week
+ORDER BY week DESC
+```
+
+---
+
 ## Answerable / Not-fully-answerable summary
 
 | # | Question | Status | Gap (if any) |
@@ -447,8 +584,12 @@ ORDER BY pageviews DESC
 | 5 | Parts funnel | **Fully answerable** | Use Funnels UI for person-level rates |
 | 6 | Upload failures by reason | **Fully answerable** | — |
 | 7 | Quote-to-paid conversion + time | **Partially answerable** | Requires email to join; sessions without email are invisible |
-| 8 | Orders by material | **Partially answerable** | `order_paid` lacks material; use `instant_checkout_initiated` (includes abandoned) + `order_accepted` (manual) |
+| 8 | Orders by material | **Partially answerable** | `order_paid_server` lacks material; use `instant_checkout_initiated` (includes abandoned) + `order_accepted` (manual) |
 | 9 | Pages preceding conversion | **Fully answerable** | Use Paths for referrer chain; `page_path` on conversion event shows the page where they converted |
 | 10 | Repeat customers | **Partially answerable** | Only for customers who provided email at Stripe checkout |
 | 11 | Silent submit failures | **Fully answerable** | — |
 | 12 | Conversion by page_type + language | **Fully answerable** | — |
+| 13 | Price-viewers → Buy → paid by week/country | **Fully answerable** | Use `price_viewed` as denominator, not `$pageview` |
+| 14 | Exit reasons by price bucket | **Fully answerable** | — |
+| 15 | Promo code usage by kind | **Fully answerable** | Cross-session join requires distinct_id match |
+| 16 | Abandoned checkout recovery rate | **Fully answerable** | — |

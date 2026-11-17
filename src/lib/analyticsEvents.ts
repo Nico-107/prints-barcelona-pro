@@ -243,6 +243,8 @@ interface ExitReasonProps {
   /** Conv 1.6 — device + country sliced in the "what stopped you?" tile. */
   device?: string;
   country?: string | null;
+  /** Free-text from "Otra cosa" chip. */
+  text?: string;
 }
 
 interface ExitShortcutProps {
@@ -595,6 +597,38 @@ export interface EventMap {
   /** Fires when the mobile sticky bottom bar first appears on screen */
   sticky_bar_shown: {
     page_path?: string;
+  };
+
+  // ---- Section 4: reaching non-buyers ----
+  saved_quote_bar_shown: { total: number; file_name?: string };
+  saved_quote_bar_clicked: { action: 'resume' | 'dismiss' };
+  lower_price_opened: { total: number };
+  lower_price_option_applied: { option: string; saving_eur: number };
+  budget_sent: { amount_eur: number; email_domain?: string };
+  exit_code_requested: { email_domain?: string };
+
+  // ---- Section 6: measurement — server-side events fired by stripe-webhook ----
+  /** Fired by stripe-webhook on checkout.session.completed (paid). Idempotent via session.id. */
+  order_paid_server: {
+    order_id?: string;
+    order_number?: string | number;
+    value?: number;
+    currency?: string;
+    fulfillment?: string;
+    pricing_version?: number;
+    promo_code?: string;
+    promo_kind?: string;
+    recovered?: boolean;
+    country?: string;
+    ph_distinct_id?: string;
+  };
+  /** Fired by stripe-webhook on checkout.session.expired when recovery was sent. */
+  checkout_expired_server: {
+    stripe_session_id?: string;
+    recovery_sent?: boolean;
+    country?: string;
+    pricing_version?: number;
+    ph_distinct_id?: string;
   };
 }
 
