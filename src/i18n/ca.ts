@@ -811,6 +811,7 @@ export const caTranslations: Record<string, string> = {
   "calc.checkout.error.default": "No hem pogut obrir la pàgina de pagament. Envia'ns la comanda i t'enviarem un enllaç de pagament en 1 h.",
   "calc.checkout.error.sendOrder": "Enviar la meva comanda i rebre un enllaç de pagament",
   "calc.checkout.error.fileTooLarge": "Aquest fitxer és massa gran per a la compra instantània — el revisem gratis i t'enviem el pressupost en 1 h.",
+  "calc.checkout.error.uploadTimeout": "La pujada triga massa. Torna-ho a intentar o envia'm la comanda i t'envio un enllaç de pagament.",
   "calc.error.freeReview": "No hem pogut llegir aquest fitxer automàticament — el revisem gratis",
   "calc.error.freeReview.button": "Enviar-lo per a revisió gratuïta",
   "calc.image.steps.1": "Envia'ns la foto o el fitxer",

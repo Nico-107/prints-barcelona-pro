@@ -713,6 +713,7 @@ export const frTranslations: Record<string, string> = {
   "calc.checkout.error.default": "Nous n'avons pas pu ouvrir la page de paiement. Envoyez-nous la commande et nous vous enverrons un lien de paiement dans 1 h.",
   "calc.checkout.error.sendOrder": "Envoyer ma commande et recevoir un lien de paiement",
   "calc.checkout.error.fileTooLarge": "Ce fichier est trop volumineux pour l'achat instantané — nous le vérifions gratuitement et vous envoyons un devis sous 1 h.",
+  "calc.checkout.error.uploadTimeout": "L'envoi prend trop de temps. Réessayez ou envoyez-moi la commande et je vous envoie un lien de paiement.",
   "calc.error.freeReview": "Nous n'avons pas pu lire ce fichier automatiquement — nous le vérifions gratuitement",
   "calc.error.freeReview.button": "L'envoyer pour une vérification gratuite",
   "calc.image.steps.1": "Envoyez-nous la photo ou le fichier",

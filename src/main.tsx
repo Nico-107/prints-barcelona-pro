@@ -4,6 +4,7 @@ import posthog from "posthog-js";
 import { registerPostHog, processInternalFlag, enableHeatmapsAndReplay } from "./lib/analytics";
 import { captureFirstTouch } from "./lib/firstTouch";
 import App from "./App.tsx";
+import { ErrorBoundary } from "./components/ErrorBoundary.tsx";
 import "./index.css";
 
 // Set to true ONLY after enabling cookieless mode in the PostHog PROJECT settings.
@@ -59,9 +60,11 @@ if (typeof window.requestIdleCallback === "function") {
 
 const rootEl = document.getElementById("root")!;
 const app = (
-  <HelmetProvider>
-    <App />
-  </HelmetProvider>
+  <ErrorBoundary fullPage>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </ErrorBoundary>
 );
 
 // Use hydrateRoot only when this exact route was prerendered — avoids

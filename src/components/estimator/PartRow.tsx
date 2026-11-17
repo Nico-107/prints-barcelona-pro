@@ -28,6 +28,7 @@ interface PartRowProps {
   onSettingsChange: (settings: PartSettings) => void;
   onResetSettings: () => void;
   onApplyToAll: () => void;
+  onFreeReview?: () => void;
 }
 
 function stripUploadPrefix(name: string): string {
@@ -56,6 +57,7 @@ export function PartRow({
   onSettingsChange,
   onResetSettings,
   onApplyToAll,
+  onFreeReview,
 }: PartRowProps) {
   const displayName = stripUploadPrefix(part.name);
 
@@ -100,7 +102,21 @@ export function PartRow({
                   )}
                 </div>
                 {dimsLine && (
-                  <p className="text-xs text-muted-foreground/70">{dimsLine}</p>
+                  <p className="text-xs text-muted-foreground/70">
+                    {t("calc.parts.size")}: {dimsLine}
+                    {onFreeReview && (
+                      <>
+                        {" · "}
+                        <button
+                          type="button"
+                          onClick={e => { e.stopPropagation(); onFreeReview(); }}
+                          className="underline underline-offset-2 hover:text-foreground transition-colors"
+                        >
+                          {t("calc.parts.sizeWrong")}
+                        </button>
+                      </>
+                    )}
+                  </p>
                 )}
               </div>
             )}
@@ -131,7 +147,20 @@ export function PartRow({
               >
                 −
               </button>
-              <span className="w-8 text-center text-xs font-medium tabular-nums select-none">{part.qty}</span>
+              <input
+                type="number"
+                min={1}
+                max={999}
+                value={part.qty}
+                disabled={disabled}
+                onChange={e => {
+                  const v = Math.max(1, Math.min(999, parseInt(e.target.value, 10) || 1));
+                  onQtyChange(v);
+                  capture("part_settings_changed", { field: "qty", material: effectiveMaterial });
+                }}
+                className="w-10 text-center text-xs font-medium tabular-nums bg-transparent border-none outline-none focus:ring-0 disabled:opacity-40 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                aria-label={t("calc.parts.qty")}
+              />
               <button
                 type="button"
                 onClick={() => {
@@ -248,7 +277,7 @@ export function PartRow({
                   disabled={disabled}
                   className="w-full h-8 rounded-md border border-input bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-60"
                 >
-                  {[2,3,4,5,6,7,8].map(v => (
+                  {[2,3,4].map(v => (
                     <option key={v} value={v}>{t(`calc.walls.${v}`)}</option>
                   ))}
                 </select>

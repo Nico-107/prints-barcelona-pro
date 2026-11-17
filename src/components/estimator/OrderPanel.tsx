@@ -164,6 +164,8 @@ interface OrderPanelProps {
   instantBuyEligible: boolean;
   isCheckingOut: boolean;
   preUploadDone: boolean;
+  checkoutWaiting?: boolean;
+  checkoutTimedOut?: boolean;
   isSubmittingQuote: boolean;
   showManualReview: boolean;
   hasSubmitted: boolean;
@@ -251,6 +253,8 @@ export function OrderPanel({
   instantBuyEligible,
   isCheckingOut,
   preUploadDone,
+  checkoutWaiting = false,
+  checkoutTimedOut = false,
   isSubmittingQuote,
   showManualReview,
   hasSubmitted,
@@ -563,6 +567,7 @@ export function OrderPanel({
                 {/* Big Buy button · trust line · payment badges · text links */}
                 <div className="space-y-2">
                   {!_isExtras && (
+                  <>
                   <Button
                     variant="cta"
                     size="xl"
@@ -570,15 +575,19 @@ export function OrderPanel({
                     data-testid="buy-now-btn"
                     data-ph-name="buy-now"
                     onClick={onInstantBuy}
-                    disabled={isCheckingOut || !preUploadDone}
+                    disabled={isCheckingOut || checkoutWaiting}
                   >
                     {isCheckingOut
                       ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                      : !preUploadDone
+                      : checkoutWaiting
                         ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.instantBuy.uploading")}</>
                         : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                     }
                   </Button>
+                  {checkoutTimedOut && (
+                    <p data-testid="buy-timeout-msg" role="alert" className="text-xs text-center text-destructive">{t("calc.checkout.error.uploadTimeout")}</p>
+                  )}
+                  </>
                   )}
                   {/* fix-polish §1.3: one reassurance line under the Buy
                       button, first person singular. Previously we rendered
@@ -905,15 +914,18 @@ export function OrderPanel({
                   data-testid="buy-now-btn"
                   data-ph-name="buy-now"
                   onClick={onInstantBuy}
-                  disabled={isCheckingOut || !preUploadDone}
+                  disabled={isCheckingOut || checkoutWaiting}
                 >
                   {isCheckingOut
                     ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.contact.submitting")}</>
-                    : !preUploadDone
+                    : checkoutWaiting
                       ? <><Loader2 className="w-4 h-4 animate-spin" />{t("calc.instantBuy.uploading")}</>
                       : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                   }
                 </Button>
+                {checkoutTimedOut && (
+                  <p data-testid="buy-timeout-msg" role="alert" className="text-xs text-center text-destructive">{t("calc.checkout.error.uploadTimeout")}</p>
+                )}
                 <p className="text-[11px] text-center text-muted-foreground leading-tight">
                   {t("calc.trust.promise")}
                 </p>

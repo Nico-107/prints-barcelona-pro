@@ -396,6 +396,7 @@ export interface EventMap {
   fulfillment_chosen: FulfillmentChosenProps;
   contact_entered: ContactEnteredProps;
   buy_clicked: BuyClickedProps;
+  buy_wait_shown: Record<string, never>;
   review_clicked: ReviewClickedProps;
   whatsapp_from_modal: WhatsappFromModalProps;
   stripe_redirect: StripeRedirectProps;

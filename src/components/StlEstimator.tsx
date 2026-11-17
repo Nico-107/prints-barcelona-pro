@@ -335,6 +335,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const modalOpenTimeRef = useRef<number | null>(null);
   const [showExitSurvey, setShowExitSurvey] = useState(false);
   const exitSurveyPriceBucket = useRef<string | undefined>(undefined);
+  const [checkoutWaiting, setCheckoutWaiting] = useState(false);
+  const [checkoutTimedOut, setCheckoutTimedOut] = useState(false);
+  const buyPendingRef = useRef(false);
+  const checkoutTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (showExitIntent) {
@@ -416,6 +420,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     // Reset per-estimate refs — new files mean a fresh estimate and upload
     uploadedRef.current = null;
     setPreUploadDone(false);
+    buyPendingRef.current = false;
+    setCheckoutWaiting(false);
+    setCheckoutTimedOut(false);
+    if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
 
     setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
     setParsing(true);
@@ -864,6 +872,10 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setCheckoutError(null);
     setCheckoutResult(null);
     setShowManualReview(false);
+    buyPendingRef.current = false;
+    setCheckoutWaiting(false);
+    setCheckoutTimedOut(false);
+    if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
     setFulfillment(null);
     setFulfillmentAttempted(false);
     setScope("all");
@@ -1041,8 +1053,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   // null: the user picks pickup or shipping themselves, and `buy_blocked`
   // already enforces it via a scroll-to + focus on the fulfilment picker.
   useEffect(() => {
-    setFulfillment(refPickupAvailable ? "pickup" : null);
-  }, [language, refCity, refPickupAvailable]);
+    setFulfillment(shippingOnly ? "shipping" : refPickupAvailable ? "pickup" : null);
+  }, [language, refCity, refPickupAvailable, shippingOnly]);
 
   // Detect Stripe return URLs on page load
   useEffect(() => {
@@ -1104,10 +1116,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setContactTouched(true);
       return;
     }
-    if (!uploadedRef.current || instantTotalPrice === null) {
+    if (!preUploadDone || instantTotalPrice === null) {
       capture('buy_blocked', { reason: 'uploading' });
-      setCheckoutErrorCode("UPLOADING");
-      setCheckoutError(t("calc.checkout.error.fileNotFound"));
+      capture('buy_wait_shown', {});
+      buyPendingRef.current = true;
+      setCheckoutWaiting(true);
+      setCheckoutTimedOut(false);
+      if (checkoutTimeoutRef.current) clearTimeout(checkoutTimeoutRef.current);
+      const checkoutTimeoutMs: number =
+        typeof window !== "undefined" && (window as { __dim3d_checkout_timeout_ms?: number }).__dim3d_checkout_timeout_ms != null
+          ? (window as { __dim3d_checkout_timeout_ms?: number }).__dim3d_checkout_timeout_ms!
+          : 20_000;
+      checkoutTimeoutRef.current = setTimeout(() => {
+        if (buyPendingRef.current) {
+          setCheckoutTimedOut(true);
+          setCheckoutWaiting(false);
+          buyPendingRef.current = false;
+        }
+      }, checkoutTimeoutMs);
       return;
     }
     setIsCheckingOut(true);
@@ -1348,6 +1374,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
       setCheckoutError(t("calc.checkout.error.default"));
     }
   };
+
+  // When an upload finishes while Buy was already clicked (checkoutWaiting),
+  // auto-proceed to checkout without requiring another click.
+  useEffect(() => {
+    if (preUploadDone && buyPendingRef.current && instantTotalPrice !== null) {
+      buyPendingRef.current = false;
+      setCheckoutWaiting(false);
+      setCheckoutTimedOut(false);
+      if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
+      handleInstantBuy();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preUploadDone]);
 
   /** Save-quote (R10 / Prompt §10). Reuses the quote_requests table with a
    *  distinctive [PRESUPUESTO GUARDADO] prefix in the notes field so Nico
@@ -2383,6 +2422,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           instantBuyEligible,
           isCheckingOut,
           preUploadDone,
+          checkoutWaiting,
+          checkoutTimedOut,
           isSubmittingQuote,
           showManualReview,
           hasSubmitted,
