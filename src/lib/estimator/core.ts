@@ -143,9 +143,20 @@ export function analyzeTriangles(tri: Float32Array): MeshAnalysis {
   return { triangles: n, skipped, volumeMm3: V, insideOut: sgn < 0, boundsMm: [ext[0], ext[1], ext[2]], orientations };
 }
 
-export function tierCostEur(hours: number): number {
+/** v4 overlay: third tier 1.95 €/h (was 2.75), minimum 9,90 €. */
+export const EST_V4 = {
+  minimumEur: 9.9,
+  timeTiers: [ { upToH: 3, eurPerH: 4.95 }, { upToH: 8, eurPerH: 3.85 }, { upToH: Infinity, eurPerH: 1.95 } ] as readonly { upToH: number; eurPerH: number }[],
+};
+
+/** Round print total to nearest x,90 (v4). min 9,90. charm(521)=990 charm(1240)=1290 charm(8027)=7990. */
+export function charmCents(cents: number): number {
+  return Math.max(990, Math.floor((cents - 90) / 100 + 0.5) * 100 + 90);
+}
+
+export function tierCostEur(hours: number, tiers: readonly { upToH: number; eurPerH: number }[] = EST.timeTiers): number {
   let prev = 0, cost = 0;
-  for (const t of EST.timeTiers) { if (hours > prev) cost += (Math.min(hours, t.upToH) - prev) * t.eurPerH; prev = t.upToH; }
+  for (const t of tiers) { if (hours > prev) cost += (Math.min(hours, t.upToH) - prev) * t.eurPerH; prev = t.upToH; }
   return cost;
 }
 
@@ -202,20 +213,22 @@ const rnd = (x: number) => Math.floor(x + 0.5);
  * where `sum` is the raw total (pre-urgency, pre-minimum) and `units`
  * is the total quantity across all parts. Applied in cents.
  */
-function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number): number {
-  const stepFloorEur = EST.minimumEur + 1 * Math.max(0, totalUnits - 1);
+function applyUnitStepMinimum(rawTotalEur: number, totalUnits: number, minimumEur = EST.minimumEur): number {
+  const stepFloorEur = minimumEur + 1 * Math.max(0, totalUnits - 1);
   return Math.max(rawTotalEur, stepFloorEur);
 }
 
-/** Price an order (all parts) — no setup fee; EUR 10 minimum surfaces as a separate minAdjCents line, long-job time tiers on the ORDER's print hours, one line per part. */
+/** Price an order (all parts) — no setup fee; minimum surfaces as a separate minAdjCents line, long-job time tiers on the ORDER's print hours, one line per part. */
 export function priceOrder(
   parts: OrderPartInput[],
   urgency: string,
-  flags: { minOrderUnitStep?: boolean } = {},
+  flags: { minOrderUnitStep?: boolean; v4?: boolean } = {},
 ): OrderPrice {
   const reasons: string[] = [];
   const up = EST.urgency[urgency] ?? 1;
   const p = EST.plate;
+  const tiers = flags.v4 ? EST_V4.timeTiers : EST.timeTiers;
+  const minimumEur = flags.v4 ? EST_V4.minimumEur : EST.minimumEur;
   let footprint = 0, marg = 0;
   const margs = parts.map(x => Math.max(x.estimate.timeSec - x.estimate.fixedSec, 0) * x.quantity);
   parts.forEach((x, i) => { footprint += x.quantity * (x.estimate.sizeXMm + p.gapMm) * (x.estimate.sizeYMm + p.gapMm); marg += margs[i]; });
@@ -223,7 +236,7 @@ export function priceOrder(
   const fixed = parts.length ? parts[0].estimate.fixedSec : 0;
   const orderSec = plates * fixed + marg;
   const orderHours = orderSec / 3600;
-  const timeCost = tierCostEur(orderHours);
+  const timeCost = tierCostEur(orderHours, tiers);
   const nTypes = Math.max(parts.length, 1);
   const raw: number[] = parts.map((x, i) => {
     const m = EST.materials[x.material] ?? EST.materials.PLA;
@@ -233,20 +246,31 @@ export function priceOrder(
   const rawTotal = EST.setupEur + raw.reduce((a, b) => a + b, 0);
   const totalUnits = parts.reduce((s, x) => s + x.quantity, 0);
   const base = flags.minOrderUnitStep
-    ? Math.max(rawTotal, applyUnitStepMinimum(rawTotal, totalUnits))
-    : Math.max(rawTotal, EST.minimumEur);
+    ? Math.max(rawTotal, applyUnitStepMinimum(rawTotal, totalUnits, minimumEur))
+    : Math.max(rawTotal, minimumEur);
   const total = base * up;
-  const baseCents = rnd(base * 100), totalCents = rnd(total * 100);
   const setupCents = rnd(EST.setupEur * 100);
   const rawTotalCents = rnd(rawTotal * 100);
   const partCents = raw.map(r => rnd(r * 100));
-  // EUR 10 minimum (or unit-step floor when the flag is on) surfaces as
-  // an explicit Stripe line; parts stay at their raw values.
-  const minAdjCents = baseCents > rawTotalCents ? baseCents - rawTotalCents : 0;
-  if (partCents.length) {
-    const bi = partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0);
-    // Absorb only the per-cent rounding residual into the largest part.
-    partCents[bi] += rawTotalCents - setupCents - partCents.reduce((a, b) => a + b, 0);
+  const bi = partCents.length ? partCents.reduce((b, c, i) => (c > partCents[b] ? i : b), 0) : -1;
+  // Absorb per-cent rounding residual into the largest part.
+  if (bi >= 0) partCents[bi] += rawTotalCents - setupCents - partCents.reduce((a, b) => a + b, 0);
+
+  let baseCents: number, totalCents: number, minAdjCents: number;
+  if (flags.v4) {
+    const preBaseCents = rnd(base * 100);
+    const charmBase = charmCents(preBaseCents);
+    // Minimum below 9,90: minAdj covers it; charm leaves 990 unchanged.
+    minAdjCents = rawTotalCents < 990 ? 990 - rawTotalCents : 0;
+    // For orders above minimum: absorb charm delta (up or down) into largest part.
+    if (bi >= 0 && rawTotalCents >= 990) partCents[bi] += charmBase - rawTotalCents;
+    baseCents = charmBase;
+    totalCents = charmCents(rnd(total * 100));
+  } else {
+    baseCents = rnd(base * 100);
+    totalCents = rnd(total * 100);
+    // EUR minimum surfaces as an explicit Stripe line; parts stay at their raw values.
+    minAdjCents = baseCents > rawTotalCents ? baseCents - rawTotalCents : 0;
   }
   const expressCents = totalCents - baseCents;
   let instantEligible = totalCents <= EST.instantMaxCents;
