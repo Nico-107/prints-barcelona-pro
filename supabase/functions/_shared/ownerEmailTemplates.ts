@@ -406,33 +406,51 @@ export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: 
 }
 
 export function renderOwnerQuoteEmail(input: OwnerQuoteInput): { subject: string; html: string } {
-  const nextStep = "Responder con presupuesto";
-  const summary = renderSummaryBlock([
-    { label: "Cliente",    value: input.firstNameOrLocal },
-    { label: "Email",      value: input.customerEmail || null },
-    { label: "Teléfono",   value: input.customerPhone || null },
-    { label: "WhatsApp",   value: input.customerPhone ? whatsappLink(input.customerPhone) : null },
-    { label: "País",       value: input.countryCode ? `${flagEmoji(input.countryCode)} ${(input.countryCode ?? "").toUpperCase()}` : null },
-    { label: "Material",   value: input.materialSummary || null },
-    { label: "Unidades",   value: input.totalUnits ?? null },
+  const countryIso = (input.countryCode ?? "").toUpperCase() || null;
+
+  // ── Customer block ───────────────────────────────────────────────────────────
+  const waBtn = input.customerPhone
+    ? `<a href="${escapeHtml(whatsappLink(input.customerPhone))}" style="display:inline-block;padding:8px 16px;background:#25d366;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;margin-right:8px;">WhatsApp</a>`
+    : "";
+  const mailBtn = input.customerEmail
+    ? `<a href="mailto:${escapeHtml(input.customerEmail)}" style="display:inline-block;padding:8px 16px;background:#0369a1;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;">Email</a>`
+    : "";
+  const customerBlock = `
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px;margin:0 0 12px 0;">
+      <p style="margin:0 0 6px 0;font-size:15px;font-weight:600;color:#0f172a;">${escapeHtml(input.firstNameOrLocal)}</p>
+      ${input.customerEmail ? `<p style="margin:0 0 4px 0;font-size:13px;color:#334155;">${escapeHtml(input.customerEmail)}</p>` : ""}
+      ${input.customerPhone ? `<p style="margin:0 0 8px 0;font-size:13px;color:#334155;">${escapeHtml(input.customerPhone)}</p>` : ""}
+      ${countryIso ? `<p style="margin:0 0 8px 0;font-size:13px;color:#334155;">${flagEmoji(countryIso)} ${escapeHtml(countryIso)}</p>` : ""}
+      ${waBtn || mailBtn ? `<div style="margin-top:4px;">${waBtn}${mailBtn}</div>` : ""}
+    </div>`;
+
+  // ── Info block ───────────────────────────────────────────────────────────────
+  const infoRows: Array<{ label: string; value: string | number | null | undefined }> = [
+    { label: "Material",    value: input.materialSummary || null },
+    { label: "Unidades",    value: input.totalUnits ?? null },
     { label: "Calculadora", value: input.totalCents != null ? formatEUR(input.totalCents) : null },
-    { label: "Origen",     value: input.sourcePath ? `${input.sourcePath}${input.pageLanguage ? ` (${input.pageLanguage})` : ""}` : null },
-  ]);
+  ];
+  const pageFlag = input.pageLanguage ? flagEmoji(input.pageLanguage.slice(0, 2).toUpperCase()) : "";
+  const originLabel = input.sourcePath
+    ? `${pageFlag ? pageFlag + " " : ""}${input.sourcePath}${input.pageLanguage ? ` (${input.pageLanguage})` : ""}`
+    : null;
 
   const quote = input.customerMessage
     ? `
-      <div style="border-left:3px solid #94a3b8;background:#f8fafc;padding:10px 12px;margin:12px 0;font-size:14px;color:#334155;white-space:pre-wrap;">${escapeHtml(input.customerMessage)}</div>
-      ${input.customerMessageTranslation ? `<p style="margin:6px 0 12px 0;font-size:12px;color:#64748b;">Traducción al español (línea por línea):</p>
+      <div style="border-left:3px solid #f59e0b;background:#fffbeb;padding:10px 12px;margin:12px 0;font-size:14px;color:#334155;white-space:pre-wrap;">${escapeHtml(input.customerMessage)}</div>
+      ${input.customerMessageTranslation ? `<p style="margin:6px 0 4px 0;font-size:12px;color:#64748b;">Traducción al español:</p>
       <div style="border-left:3px solid #cbd5e1;background:#f8fafc;padding:10px 12px;margin:0 0 12px 0;font-size:13px;color:#475569;white-space:pre-wrap;">${escapeHtml(input.customerMessageTranslation)}</div>` : ""}
     ` : "";
 
   const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
   const bodyHtml = `
-    <p style="margin:0 0 12px 0;font-size:16px;font-weight:600;color:#0f172a;">${escapeHtml(nextStep)}</p>
+    <p style="margin:0 0 12px 0;font-size:16px;font-weight:700;color:#0f172a;">Responder con presupuesto</p>
+    ${customerBlock}
     ${quote}
-    ${summary}
-    ${input.pieces.length > 0 ? `<h2 style="margin:16px 0 4px 0;font-size:14px;color:#0f172a;">Piezas (${pieceCount})</h2>${renderPiecesBlock(input.pieces)}` : ""}
+    ${renderSummaryBlock(infoRows)}
+    ${input.pieces.length > 0 ? `<h2 style="margin:12px 0 4px 0;font-size:14px;font-weight:700;color:#0f172a;">Piezas (${pieceCount})</h2>${renderPiecesBlock(input.pieces)}` : ""}
     ${renderUploadedNotPurchased(input.uploadedNotPurchased ?? [])}
+    ${originLabel ? `<p style="margin:12px 0 0 0;font-size:12px;color:#94a3b8;">Origen: ${escapeHtml(originLabel)}</p>` : ""}
     ${renderTwoButtons(input.adminOrderUrl, input.zipDownloadUrl)}
   `;
 

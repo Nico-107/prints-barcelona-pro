@@ -176,6 +176,7 @@ const handler = async (req: Request): Promise<Response> => {
       urgency, sourceCity, pieces, ph_distinct_id, quote_id,
       sourcePath, sourceUrl, pageLanguage, browserLanguage, referrer, utm, fulfillment,
       requestType, description, dimensions, quantity, photosFailed,
+      notes,
     } = payload;
 
     if (!contactEmail?.trim() && !contactPhone?.trim()) {
@@ -260,6 +261,8 @@ const handler = async (req: Request): Promise<Response> => {
 
       console.log(`Processing design request (IP: ${clientIP})`);
 
+      // Design request uses the shared layout for consistent look
+      const designLangLabel = safeLang !== "es" ? ` (idioma del cliente: ${safeLang})` : "";
       const designEmailResponse = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -269,7 +272,7 @@ const handler = async (req: Request): Promise<Response> => {
         body: JSON.stringify({
           from: "Dimension3D <noreply@dimension3dprints.com>",
           to: recipients,
-          subject: `[DISEÑO] Nueva solicitud de diseño — ${safeEmail ?? safePhone ?? "sin contacto"}`,
+          subject: `[DISEÑO] Nueva solicitud de diseño${designLangLabel} — ${safeEmail ?? safePhone ?? "sin contacto"}`,
           html: `
             <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
               <h1 style="color:#0f172a;">Nueva solicitud de diseño a medida</h1>
