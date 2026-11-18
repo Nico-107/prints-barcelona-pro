@@ -25,6 +25,9 @@ interface ConfirmationPiece {
   supports?: boolean | null;
   orientation?: string | number | null;
   costCents?: number | null;
+  // v4 pieces store these at top level; v3 nested under est
+  gramsPerUnit?: number | null;
+  hoursPerUnit?: number | null;
   est?: { gramsPerUnit?: number; hours?: number } | null;
 }
 
@@ -376,8 +379,8 @@ serve(async (req: Request) => {
           quality: p.quality ?? null,
           supports: typeof p.supports === "boolean" ? p.supports : null,
           orientation: p.orientation ?? null,
-          grams: p.est?.gramsPerUnit ?? null,
-          hours: p.est?.hours ?? null,
+          grams: p.gramsPerUnit ?? p.est?.gramsPerUnit ?? null,
+          hours: p.hoursPerUnit ?? p.est?.hours ?? null,
         }))
       : [{ name: "Pieza", quantity: Number(quantity ?? 1), material: String(material ?? ""), color: resolvedColor }];
 

@@ -168,9 +168,31 @@ function renderUploadedNotPurchased(items: OwnerUploadedNotPurchased[]): string 
     </div>`;
 }
 
+function formatHours(h: number): string {
+  const totalMin = Math.round(h * 60);
+  const hrs = Math.floor(totalMin / 60);
+  const mins = totalMin % 60;
+  if (hrs === 0) return `${mins} min`;
+  if (mins === 0) return `${hrs} h`;
+  return `${hrs} h ${mins} min`;
+}
+
 function renderPiecesBlock(pieces: OwnerEmailPiece[]): string {
   const base = stackablePiecesTable(renderPiecesTable(pieces, { language: "es", showPrice: pieces.some((p) => p.priceCents != null) }));
-  const details = pieces.some((p) => p.infill != null || p.wallLoops != null || p.quality || p.supports !== null || p.grams != null)
+
+  const hasDetails = pieces.some((p) => p.infill != null || p.wallLoops != null || p.quality || p.supports !== null || p.grams != null);
+  const totalGrams = pieces.some((p) => p.grams != null)
+    ? pieces.reduce((s, p) => s + (p.grams ?? 0) * (p.quantity ?? 1), 0)
+    : null;
+  const totalHours = pieces.some((p) => p.hours != null)
+    ? pieces.reduce((s, p) => s + (p.hours ?? 0) * (p.quantity ?? 1), 0)
+    : null;
+
+  const totalLine = (totalGrams != null || totalHours != null)
+    ? `<p style="margin:6px 0 0 0;font-size:12px;color:#64748b;">Total: ${totalGrams != null ? `${totalGrams.toFixed(0)} g` : ""}${totalGrams != null && totalHours != null ? " · " : ""}${totalHours != null ? `${formatHours(totalHours)} de impresión` : ""}</p>`
+    : "";
+
+  const details = hasDetails
     ? `<details style="margin:4px 0 12px 0;">
          <summary style="cursor:pointer;color:#64748b;font-size:12px;">Ajustes por pieza</summary>
          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0;border-collapse:collapse;font-size:12px;color:#334155;">
@@ -190,14 +212,14 @@ function renderPiecesBlock(pieces: OwnerEmailPiece[]): string {
                <td style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:right;">${p.wallLoops != null ? escapeHtml(p.wallLoops) : "—"}</td>
                <td style="padding:6px;border-bottom:1px solid #e5e7eb;">${p.quality ? escapeHtml(p.quality) : "—"}</td>
                <td style="padding:6px;border-bottom:1px solid #e5e7eb;">${p.supports == null ? "—" : p.supports ? "sí" : "no"}</td>
-               <td style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:right;">${p.grams != null ? Number(p.grams).toFixed(1) : "—"}</td>
-               <td style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:right;">${p.hours != null ? Number(p.hours).toFixed(2) : "—"}</td>
+               <td style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:right;">${p.grams != null ? Number(p.grams * (p.quantity ?? 1)).toFixed(1) : "—"}</td>
+               <td style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:right;">${p.hours != null ? formatHours(Number(p.hours) * (p.quantity ?? 1)) : "—"}</td>
              </tr>`).join("")}
            </tbody>
          </table>
        </details>`
     : "";
-  return base + details;
+  return base + totalLine + details;
 }
 
 /** Render "Qué ha pagado el cliente" table. All rows must sum to totalPaidCents.
