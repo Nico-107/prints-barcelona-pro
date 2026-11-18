@@ -27,9 +27,9 @@ function parseSession(): PricingProbe | null {
   } catch { return null; }
 }
 
-/** Probe once per session; default v3 until the probe resolves. */
+/** Probe once per session; default v4 (v3 removed). */
 export function usePricingProbe(): PricingProbe {
-  const [probe, setProbe] = useState<PricingProbe>(() => parseSession() ?? { version: 3, publicCode: null });
+  const [probe, setProbe] = useState<PricingProbe>(() => parseSession() ?? { version: 4, publicCode: null });
 
   useEffect(() => {
     if (parseSession()) return; // already cached

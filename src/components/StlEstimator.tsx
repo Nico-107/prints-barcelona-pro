@@ -25,7 +25,6 @@ import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
 import { formatEUR } from "@/lib/formatPrice";
-import { AUTUMN_DISCOUNT } from "@/config/policies";
 import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
 import { CHECKOUT_MAX_BYTES, isBinaryStl } from "@/lib/stlPrepare";
 import { ContactFields } from "./estimator/ContactFields";
@@ -431,28 +430,24 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const ineligibleReasons = instantBuyStatus.reasons;
   const chargedPrice = bundle ? bundle.orderResult.chargedPrintCents / 100 : 0;
 
-  // Autumn discount (client display only — v3 only; v4 uses promo codes)
-  const autumnOfferActive = pricingVersion !== 4 && Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
-  const autumnDiscountCents = (autumnOfferActive && bundle && bundle.orderResult.chargedPrintCents >= AUTUMN_DISCOUNT.minCents)
-    ? Math.round(bundle.orderResult.chargedPrintCents * AUTUMN_DISCOUNT.pct / 100)
-    : 0;
-  // Promo discount (v4 only)
-  const promoDiscountCents = (pricingVersion === 4 && appliedPromo && bundle)
+  // Promo discount (v4)
+  const promoDiscountCents = (appliedPromo && bundle)
     ? Math.round(bundle.orderResult.chargedPrintCents * appliedPromo.pct / 100)
     : 0;
+  const autumnDiscountCents = 0; // removed in v4
 
   const freeShipThreshCents = freeShippingThresholdCents(pricingVersion);
   const shippingFeeForDisplay = fulfillment === "shipping" && bundle && bundle.order.totalCents < freeShipThreshCents ? EST.shippingCents / 100 : 0;
   const instantTotalPrice = instantBuyEligible
-    ? chargedPrice - autumnDiscountCents / 100 - promoDiscountCents / 100 + shippingFeeForDisplay
+    ? chargedPrice - promoDiscountCents / 100 + shippingFeeForDisplay
     : null;
 
-  // Fire promo_line_shown once per mount when v4 and bundle is present
+  // Fire promo_line_shown once per mount when bundle is present
   useEffect(() => {
-    if (!bundle || pricingVersion !== 4 || adminMode) return;
+    if (!bundle || adminMode) return;
     capture("promo_line_shown", { has_public_code: !!publicCode, code: publicCode?.code });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!bundle, pricingVersion]);
+  }, [!!bundle]);
 
   // 4.3: Auto-save quote to IndexedDB whenever the bundle updates with valid files
   useEffect(() => {
@@ -718,7 +713,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           price_high: Math.round(nextBundle.high),
           file_count: nextFiles.filter(f => !f.parseError).length,
           multicolour,
-          pricing_version: 3,
+          pricing_version: 4,
           estimated_hours: nextBundle.totalHours,
           instant_eligible: nextStatus.eligible,
           ineligible_reasons: nextStatus.reasons.join(","),
@@ -1409,7 +1404,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         total_units: bundle!.totalUnits,
         is_mixed: uniqueMats.length > 1,
         materials_count: uniqueMats.length,
-        pricing_version: 3,
+        pricing_version: 4,
         quality: uniformQuality,
       });
       capture('stripe_redirect', { price_eur: chargedPrice, fulfillment: fulfillment ?? undefined });
@@ -1968,14 +1963,13 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     onDrop: handleDrop,
   };
 
-  // Price display — multicolour shows "from €X", instant-buy shows exact, normal shows "€X" (exact v3 price)
   const lang = language as Language;
   const priceDisplay = bundle
     ? anyMulticolour
       ? `${t("calc.multicolour.from")} ${formatEUR(Math.floor(bundle.total), lang)}+`
       : instantBuyEligible && instantTotalPrice !== null
         ? formatEUR(instantTotalPrice, lang)
-        : formatEUR(bundle.total - autumnDiscountCents / 100, lang)
+        : formatEUR(bundle.total, lang)
     : "";
 
   const viewableFiles = validFiles.filter(f => !!f.file);
@@ -2442,7 +2436,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <span className="font-medium">€{filamentCost.toFixed(2)}</span>
                   <span className="text-muted-foreground">Price before min. fold</span>
                   <span className="font-medium">€{(bundle.orderResult.chargedPrintCents / 100).toFixed(2)}</span>
-                  <span className="text-muted-foreground">Min. applied (€10)</span>
+                  <span className="text-muted-foreground">Min. applied (€9.90)</span>
                   <span className={`font-medium ${minWasApplied ? "text-amber-600" : "text-muted-foreground"}`}>
                     {minWasApplied ? "Yes" : "No"}
                   </span>
