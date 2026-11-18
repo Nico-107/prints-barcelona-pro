@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { renderOwnerPurchaseEmail, type OwnerPurchaseEmailPiece } from "../_shared/ownerEmailTemplates.ts";
 import { renderOrderConfirmed, toLangKey, type CustomerLang } from "../_shared/customerEmailTemplates.ts";
+import { signOrderZipUrl } from "../_shared/signedUrl.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_RECIPIENT = "dimension3dprintsbcn@gmail.com";
@@ -387,7 +388,11 @@ serve(async (req: Request) => {
     const adminOrderUrl = orderId
       ? `${SITE_ORIGIN}/admin?order=${encodeURIComponent(orderId)}`
       : `${SITE_ORIGIN}/admin`;
-    const zipDownloadUrl = `${supabaseUrl}/functions/v1/order-files-zip?order_number=${encodeURIComponent(String(orderNumber))}`;
+    const { exp: zipExp, sig: zipSig } = await signOrderZipUrl({
+      orderNumber: Number(orderNumber),
+      serviceRoleKey: serviceRoleKey,
+    });
+    const zipDownloadUrl = `${supabaseUrl}/functions/v1/order-files-zip?order_number=${encodeURIComponent(String(orderNumber))}&exp=${zipExp}&sig=${zipSig}`;
 
     const ownerEmail = renderOwnerPurchaseEmail({
       orderNumber: Number(orderNumber),
