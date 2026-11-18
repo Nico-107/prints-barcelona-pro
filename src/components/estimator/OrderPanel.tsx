@@ -10,7 +10,7 @@ import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { useXpExposure } from "@/lib/experiments";
 import { getVariant } from "@/lib/experiments/engine";
-import { AUTUMN_DISCOUNT, PAYMENT_CAPTURE_MODE } from "@/config/policies";
+import { PAYMENT_CAPTURE_MODE } from "@/config/policies";
 import { computeShipDate, formatShipDate, cutoffLine, isBeforeCutoff } from "@/lib/shipDate";
 import { capture } from "@/lib/analytics";
 import { EST } from "@/lib/estimator/core";
@@ -364,10 +364,16 @@ export function OrderPanel({
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
   if (bundle) {
-    validFiles.forEach((f, i) => {
-      const costCents = bundle.orderResult.parts[i]?.costCents ?? 0;
-      costByFileId[f.id] = costCents;
-    });
+    const isMinimumHit = bundle.orderResult.minAdjCents > 0;
+    // Single part hitting minimum: show the order price (not the raw part cost)
+    // so the row never displays a number lower than the total.
+    if (isMinimumHit && validFiles.length === 1) {
+      costByFileId[validFiles[0].id] = bundle.orderResult.chargedPrintCents;
+    } else {
+      validFiles.forEach((f, i) => {
+        costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0;
+      });
+    }
   }
 
   const allFastPickup = validFiles.every(f => {
@@ -487,30 +493,15 @@ export function OrderPanel({
     // Never silent: always show a reason when quote-only (STEP 1.4)
     const showQuoteOnlyWhy = !adminMode && !instantBuyEligible && quoteOnlyReasonKey !== null;
 
-    const printCents = bundle.orderResult.chargedPrintCents;
-    const offerActive = !v4 && Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
-    const showAutumnDiscount = !v4 && autumnDiscountCents > 0 && offerActive;
-    const v4HeroBadge = v4 && publicCode && !appliedPromo && !_isSlim
-      ? (() => {
-          const d = new Date(publicCode.ends_at);
-          const dateStr = `${d.getUTCDate()}/${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
-          return t("calc.v4.heroBadge")
-            .replace("{pct}", String(publicCode.pct))
-            .replace("{code}", publicCode.code)
-            .replace("{date}", dateStr);
-        })()
-      : null;
-    const showAutumnNudge = !v4 && !showAutumnDiscount && offerActive &&
-      printCents >= 1000 && printCents < AUTUMN_DISCOUNT.minCents;
-    const nudgeAmountEur = showAutumnNudge ? (AUTUMN_DISCOUNT.minCents - printCents) / 100 : 0;
+    const showAutumnDiscount = !v4 && autumnDiscountCents > 0;
 
-    const originalPrice = instantBuyEligible && instantTotalPrice !== null
-      ? formatEUR(instantTotalPrice + autumnDiscountCents / 100, lang)
-      : formatEUR(bundle.total + autumnDiscountCents / 100, lang);
     // For v4 with promo, struck-through price is instantTotalPrice + promo discount
     const originalPriceV4 = instantBuyEligible && instantTotalPrice !== null
       ? formatEUR(instantTotalPrice + promoDiscountCents / 100, lang)
       : formatEUR(bundle.total, lang);
+    const originalPrice = instantBuyEligible && instantTotalPrice !== null
+      ? formatEUR(instantTotalPrice + autumnDiscountCents / 100, lang)
+      : formatEUR(bundle.total + autumnDiscountCents / 100, lang);
     const displayPrice = instantBuyEligible && instantTotalPrice !== null
       ? formatEUR(instantTotalPrice, lang)
       : v4
@@ -531,9 +522,6 @@ export function OrderPanel({
         <div>
           {v4 ? (
             <div className="space-y-1">
-              {v4HeroBadge && (
-                <p className="text-xs text-green-600 dark:text-green-400 font-medium">{v4HeroBadge}</p>
-              )}
               {appliedPromo ? (
                 <div className="space-y-0.5">
                   <div className="flex justify-between items-baseline">
@@ -587,15 +575,6 @@ export function OrderPanel({
               <span className="text-sm font-semibold">{t("calc.summary.total")}</span>
               <span className="text-xl font-bold">{displayPrice}</span>
             </div>
-          )}
-          {/* Phase 4.2: single delivery line. */}
-          {fulfillment === "pickup" && (
-            <p className="text-xs text-muted-foreground text-right">{t("calc.fulfillment.free")}</p>
-          )}
-          {showAutumnNudge && (
-            <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
-              {t("calc.autumn.nudge").replace("{amount}", formatEUR(nudgeAmountEur, lang))}
-            </p>
           )}
         </div>
         )}
@@ -921,7 +900,7 @@ export function OrderPanel({
 
       {/* Order summary moved to the pinned actions bar (conv-27 §bug 5).
           "Why this price?" stays as a collapsible — it's informational, not a duplicate. */}
-      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} language={lang} v4={v4} />}
+      {renderForm && bundle && <PriceBreakdown bundle={bundle} fulfillment={fulfillment} t={t} language={lang} v4={v4} partCount={validFiles.length} />}
 
       {/* Notes */}
       {renderForm && !instantEligibleMaterials && !effectiveAnyMulticolour && (

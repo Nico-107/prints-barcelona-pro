@@ -9,6 +9,8 @@ interface PriceBreakdownProps {
   t: (key: string) => string;
   language: Language;
   v4?: boolean;
+  /** Number of priced parts — used to decide how to display the minimum row. */
+  partCount?: number;
 }
 
 /**
@@ -26,27 +28,30 @@ interface PriceBreakdownProps {
  * chargedPrintCents = baseCents + expressCents and
  * baseCents = (baseCents − minAdjCents) + minAdjCents.
  */
-export function PriceBreakdown({ bundle, fulfillment, t, language, v4 }: PriceBreakdownProps) {
+export function PriceBreakdown({ bundle, fulfillment, t, language, v4, partCount = 1 }: PriceBreakdownProps) {
   const baseCents = bundle.order.baseCents;
   const minAdjCents = bundle.orderResult.minAdjCents;
   const expressCents = bundle.orderResult.expressCents;
   const setupCents = bundle.orderResult.setupCents;
   const shippingCents = fulfillment === "shipping" ? EST.shippingCents : 0;
 
-  // rawPartsCents is the honest parts cost pre-minimum. It CAN equal
-  // baseCents (no minimum applied) or be less (minimum applied and an
-  // explicit adjustment row appears to make the math visible).
   const rawPartsCents = baseCents - minAdjCents;
   const totalCents = bundle.orderResult.chargedPrintCents + shippingCents;
   const isMinimumHit = minAdjCents > 0;
+  // Single part at minimum: collapse to one row showing the order price
+  const singlePartAtMinimum = isMinimumHit && partCount === 1;
 
   return (
     <div className="border-t border-border pt-2 mt-2 text-sm space-y-1" data-price-breakdown>
       <div className="flex justify-between">
         <span>{t("calc.breakdown.pieces")}</span>
-        <span className="font-mono">{formatEUR(rawPartsCents / 100, language)}</span>
+        <span className="font-mono">
+          {singlePartAtMinimum
+            ? formatEUR(bundle.orderResult.chargedPrintCents / 100, language)
+            : formatEUR(rawPartsCents / 100, language)}
+        </span>
       </div>
-      {isMinimumHit && (
+      {isMinimumHit && !singlePartAtMinimum && (
         <div className="flex justify-between text-muted-foreground">
           <span>{t(v4 ? "calc.summary.minAdjust.v4" : "calc.summary.minAdjust")}</span>
           <span className="font-mono">+{formatEUR(minAdjCents / 100, language)}</span>
@@ -74,12 +79,6 @@ export function PriceBreakdown({ bundle, fulfillment, t, language, v4 }: PriceBr
         <span>{t("calc.summary.total")}</span>
         <span className="font-mono">{formatEUR(totalCents / 100, language)}</span>
       </div>
-      {isMinimumHit && rawPartsCents < 1000 && (
-        <p className="text-xs text-muted-foreground pt-1" data-min-helper>
-          {t("calc.breakdown.minHelperShort")
-            .replace("{parts}", formatEUR(rawPartsCents / 100, language))}
-        </p>
-      )}
     </div>
   );
 }

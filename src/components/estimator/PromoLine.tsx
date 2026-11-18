@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { PublicPromoCode } from "@/lib/usePricingVersion";
 import { formatEUR } from "@/lib/formatPrice";
@@ -39,7 +39,6 @@ export function PromoLine({
   language,
   disabled = false,
 }: PromoLineProps) {
-  const [open, setOpen] = useState(false);
   const [inputCode, setInputCode] = useState("");
   const [validating, setValidating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,10 +49,6 @@ export function PromoLine({
   const [studentDone, setStudentDone] = useState(false);
   const [studentNotRecognized, setStudentNotRecognized] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 50);
-  }, [open]);
 
   const discountCents = appliedPromo ? Math.round(printTotalCents * appliedPromo.pct / 100) : 0;
 
@@ -75,7 +70,6 @@ export function PromoLine({
         capture("promo_invalid", { code });
       } else {
         onApply({ code, pct: data.pct });
-        setOpen(false);
         setInputCode("");
         capture("promo_applied", { code, pct: data.pct, source: "manual" });
       }
@@ -135,76 +129,53 @@ export function PromoLine({
 
   return (
     <div className="text-xs space-y-1">
-      {!open && !studentOpen && (
-        <div className="flex items-center gap-2 flex-wrap">
-          {publicCode ? (
-            <button
-              className="text-green-600 dark:text-green-400 hover:underline"
-              onClick={handleApplyPublic}
-              disabled={disabled}
-            >
-              {t("calc.promo.line")
-                .replace("{pct}", String(publicCode.pct))
-                .replace("{code}", publicCode.code)}
-            </button>
-          ) : (
-            <button
-              className="text-muted-foreground hover:text-foreground hover:underline"
-              onClick={() => setOpen(true)}
-              disabled={disabled}
-            >
-              {t("calc.promo.noCode")}
-            </button>
-          )}
+      {!studentOpen && (
+        <>
+          {/* Public code offer */}
           {publicCode && (
-            <button
-              className="text-muted-foreground hover:underline"
-              onClick={() => setOpen(true)}
-              disabled={disabled}
-            >
-              {t("calc.promo.other")}
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                className="text-green-600 dark:text-green-400 hover:underline shrink-0"
+                onClick={handleApplyPublic}
+                disabled={disabled}
+              >
+                {t("calc.promo.line")
+                  .replace("{pct}", String(publicCode.pct))
+                  .replace("{code}", publicCode.code)}
+              </button>
+            </div>
           )}
-          {!studentDone && (
+          {/* Inline code field — always visible */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputCode}
+              onChange={e => { setInputCode(e.target.value.toUpperCase()); setError(null); }}
+              onKeyDown={e => { if (e.key === "Enter") handleValidate(); if (e.key === "Escape") { setInputCode(""); } }}
+              placeholder={t("calc.promo.placeholder")}
+              className="w-36 h-6 rounded-md border border-input bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring"
+              disabled={disabled || validating}
+              maxLength={32}
+            />
             <button
-              className="text-muted-foreground hover:underline"
-              onClick={() => setStudentOpen(true)}
-              disabled={disabled}
+              className="h-6 px-2 rounded-md border border-border text-xs hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+              onClick={handleValidate}
+              disabled={disabled || validating || !inputCode.trim()}
             >
-              {t("calc.promo.student")}
+              {validating ? "…" : t("calc.promo.apply")}
             </button>
-          )}
-        </div>
-      )}
-
-      {open && (
-        <div className="flex gap-1.5 items-center">
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputCode}
-            onChange={e => { setInputCode(e.target.value.toUpperCase()); setError(null); }}
-            onKeyDown={e => { if (e.key === "Enter") handleValidate(); if (e.key === "Escape") { setOpen(false); setInputCode(""); } }}
-            placeholder={t("calc.promo.placeholder")}
-            className="flex-1 h-7 rounded-md border border-input bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring"
-            disabled={disabled || validating}
-            maxLength={32}
-          />
-          <button
-            className="h-7 px-2 rounded-md border border-border text-xs hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
-            onClick={handleValidate}
-            disabled={disabled || validating || !inputCode.trim()}
-          >
-            {validating ? "…" : t("calc.promo.apply")}
-          </button>
-          <button
-            className="text-muted-foreground hover:text-foreground"
-            onClick={() => { setOpen(false); setInputCode(""); setError(null); }}
-            aria-label="Cerrar"
-          >
-            {t("calc.promo.remove")}
-          </button>
-        </div>
+            {!studentDone && (
+              <button
+                className="text-muted-foreground hover:underline"
+                onClick={() => setStudentOpen(true)}
+                disabled={disabled}
+              >
+                {t("calc.promo.student")}
+              </button>
+            )}
+          </div>
+        </>
       )}
 
       {studentOpen && !studentDone && (

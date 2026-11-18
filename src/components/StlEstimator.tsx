@@ -406,7 +406,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const costByFileId: Record<string, number> = {};
   const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency, { v4: pricingVersion === 4 });
   if (bundle) {
-    validFiles.forEach((f, i) => { costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0; });
+    const isMinimumHit = bundle.orderResult.minAdjCents > 0;
+    if (isMinimumHit && validFiles.length === 1) {
+      costByFileId[validFiles[0].id] = bundle.orderResult.chargedPrintCents;
+    } else {
+      validFiles.forEach((f, i) => { costByFileId[f.id] = bundle.orderResult.parts[i]?.costCents ?? 0; });
+    }
   }
   const oversizedFiles = parsedFiles.filter(f => !f.parseError && f.sizeBytes > MAX_BYTES);
 
@@ -1112,15 +1117,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setFulfillmentAttempted(false);
   }, [parsedFiles, materialKey, colorPref, multicolour, quality, supports, orientation, urgency, infillPct, wallLoops]);
 
-  // fix-polish §1.7 — owner decision: delivery is NOT auto-selected for a
-  // fresh visitor. Pickup-first referral pages (refPickupAvailable, e.g.
-  // the local Barcelona pickup landing) keep their pickup pre-select
-  // because the page topic itself promises pickup. Everyone else sees
-  // null: the user picks pickup or shipping themselves, and `buy_blocked`
-  // already enforces it via a scroll-to + focus on the fulfilment picker.
+  // Auto-select delivery so Buy always works on first click.
+  // Pickup is preselected on all pages where it is available (non-shippingOnly),
+  // shipping on ship-only pages (international hub/city pages).
   useEffect(() => {
-    setFulfillment(shippingOnly ? "shipping" : refPickupAvailable ? "pickup" : null);
-  }, [language, refCity, refPickupAvailable, shippingOnly]);
+    setFulfillment(shippingOnly ? "shipping" : "pickup");
+  }, [language, refCity, shippingOnly]);
 
   // Detect Stripe return URLs on page load
   useEffect(() => {
