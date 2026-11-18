@@ -592,6 +592,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      unsubscribe_saved_quote: {
+        Args: { p_token: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "user"

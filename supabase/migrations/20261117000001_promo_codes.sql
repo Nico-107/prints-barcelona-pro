@@ -15,12 +15,20 @@ CREATE TABLE IF NOT EXISTS public.promo_codes (
   created_at    timestamptz NOT NULL DEFAULT now()
 );
 
--- No public read — only service-role and the SECURITY DEFINER RPC can touch this table
+-- Service role can read/write directly (edge functions, webhooks)
+GRANT SELECT, INSERT, UPDATE ON TABLE public.promo_codes TO service_role;
+
 ALTER TABLE public.promo_codes ENABLE ROW LEVEL SECURITY;
 
--- RLS: no direct access from anon/authenticated; all access via SECURITY DEFINER RPC
-CREATE POLICY promo_codes_no_access ON public.promo_codes
-  FOR ALL USING (false);
+-- Admin policies: authenticated users with the 'admin' role can manage promo codes
+CREATE POLICY promo_codes_admin_select ON public.promo_codes
+  FOR SELECT USING (public.has_role(auth.uid(), 'admin'));
+
+CREATE POLICY promo_codes_admin_insert ON public.promo_codes
+  FOR INSERT WITH CHECK (public.has_role(auth.uid(), 'admin'));
+
+CREATE POLICY promo_codes_admin_update ON public.promo_codes
+  FOR UPDATE USING (public.has_role(auth.uid(), 'admin'));
 
 -- validate_promo: returns { valid, pct, ends_at, reason } without leaking other codes
 CREATE OR REPLACE FUNCTION public.validate_promo(
@@ -78,15 +86,7 @@ GRANT EXECUTE ON FUNCTION public.validate_promo(text, text) TO anon;
 GRANT EXECUTE ON FUNCTION public.validate_promo(text, text) TO authenticated;
 
 -- Seed: DIMENSION11 — 10 %, public, ends 30 Nov 2026 23:59 Europe/Madrid (= UTC 22:59)
-INSERT INTO public.promo_codes (code, pct, kind, starts_at, ends_at, max_uses, active, note)
-VALUES (
-  'DIMENSION11',
-  10,
-  'public',
-  '2026-11-01T00:00:00Z',
-  '2026-11-30T22:59:59Z',
-  NULL,
-  true,
-  'Launch discount November 2026'
-)
-ON CONFLICT (code) DO NOTHING;
+-- INSERT executed as data (not via migration) to avoid re-running on each deploy:
+-- INSERT INTO public.promo_codes (code, pct, kind, starts_at, ends_at, max_uses, active, note)
+-- VALUES ('DIMENSION11', 10, 'public', '2026-11-01T00:00:00Z', '2026-11-30T22:59:59Z', NULL, true, 'Launch discount November 2026')
+-- ON CONFLICT (code) DO NOTHING;

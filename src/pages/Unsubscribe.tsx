@@ -11,13 +11,9 @@ export default function Unsubscribe() {
 
   useEffect(() => {
     if (!token) { setStatus("error"); return; }
-    (supabase as any)
-      .from("saved_quotes")
-      .update({ unsubscribed: true })
-      .eq("token", token)
-      .then(({ error }: { error: any }) => {
-        setStatus(error ? "error" : "done");
-      });
+    supabase.rpc("unsubscribe_saved_quote", { p_token: token }).then(({ data, error }) => {
+      setStatus(!error && data === true ? "done" : "error");
+    });
   }, [token]);
 
   return (
@@ -35,6 +31,7 @@ export default function Unsubscribe() {
           <>
             <h1 className="text-2xl font-semibold mb-3">Enlace no válido</h1>
             <p className="text-muted-foreground">El enlace ha caducado o ya fue utilizado.</p>
+            <p className="text-muted-foreground mt-2">Para darte de baja, responde a este correo solicitándolo.</p>
           </>
         )}
       </main>
