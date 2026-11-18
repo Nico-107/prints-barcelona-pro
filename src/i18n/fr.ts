@@ -722,7 +722,7 @@ export const frTranslations: Record<string, string> = {
   "calc.validate.fulfillment": "Choisissez le retrait ou la livraison pour continuer.",
   "calc.checkout.title": "Votre pièce",
   "calc.checkout.close": "Fermer",
-  "calc.checkout.reopen": "Continuer vers le paiement",
+  "calc.checkout.reopen": "Continuer · {price}",
   "calc.checkout.parts": "Vos pièces",
   "calc.checkout.summary": "Récapitulatif de commande",
   "calc.checkout.largeFile": "Fichier volumineux : je confirme le prix.",

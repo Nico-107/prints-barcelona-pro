@@ -722,7 +722,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.validate.fulfillment": "Kies afhalen of bezorging om door te gaan.",
   "calc.checkout.title": "Jouw onderdeel",
   "calc.checkout.close": "Sluiten",
-  "calc.checkout.reopen": "Doorgaan naar betaling",
+  "calc.checkout.reopen": "Doorgaan · {price}",
   "calc.checkout.parts": "Jouw onderdelen",
   "calc.checkout.summary": "Besteloverzicht",
   "calc.checkout.largeFile": "Groot bestand: ik bevestig de prijs.",

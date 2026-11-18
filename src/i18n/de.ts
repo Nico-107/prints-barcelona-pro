@@ -722,7 +722,7 @@ export const deTranslations: Record<string, string> = {
   "calc.validate.fulfillment": "Wählen Sie Abholung oder Versand, um fortzufahren.",
   "calc.checkout.title": "Dein Teil",
   "calc.checkout.close": "Schließen",
-  "calc.checkout.reopen": "Weiter zur Kasse",
+  "calc.checkout.reopen": "Weiter · {price}",
   "calc.checkout.parts": "Deine Teile",
   "calc.checkout.summary": "Bestellübersicht",
   "calc.checkout.largeFile": "Große Datei: ich bestätige den Preis.",

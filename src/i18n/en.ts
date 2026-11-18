@@ -821,7 +821,7 @@ export const enTranslations: Record<string, string> = {
   "calc.validate.fulfillment": "Choose pickup or shipping to continue.",
   "calc.checkout.title": "Your part",
   "calc.checkout.close": "Close",
-  "calc.checkout.reopen": "Continue to checkout",
+  "calc.checkout.reopen": "Continue · {price}",
   "calc.checkout.parts": "Your parts",
   "calc.checkout.summary": "Order summary",
   "calc.checkout.largeFile": "Large file: I confirm the price.",

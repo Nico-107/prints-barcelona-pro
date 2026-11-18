@@ -819,7 +819,7 @@ export const esTranslations: Record<string, string> = {
   "calc.validate.fulfillment": "Elige recogida o envío para continuar.",
   "calc.checkout.title": "Tu pieza",
   "calc.checkout.close": "Cerrar",
-  "calc.checkout.reopen": "Continuar al pago",
+  "calc.checkout.reopen": "Continuar · {price}",
   "calc.checkout.parts": "Tus piezas",
   "calc.checkout.summary": "Resumen del pedido",
   "calc.checkout.largeFile": "Archivo grande: lo confirmo yo el precio.",

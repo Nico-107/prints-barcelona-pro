@@ -2293,7 +2293,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                     className="w-full"
                     onClick={() => { capture('checkout_reopened', {}); setMobileModalOpen(true); }}
                   >
-                    {t("calc.checkout.reopen")}
+                    {t("calc.checkout.reopen").replace("{price}", priceDisplay)}
                   </Button>
                 </div>
               )
