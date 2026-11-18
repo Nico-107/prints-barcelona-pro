@@ -312,7 +312,7 @@ serve(async (req: Request) => {
     try {
       const { data: row } = await admin
         .from("orders")
-        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language")
+        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language, urgency, ship_by_date")
         .eq("order_number", orderNumber)
         .maybeSingle();
       orderRow = row as Record<string, unknown> | null;
@@ -390,7 +390,8 @@ serve(async (req: Request) => {
       destinationCountry: destCountry,
       destinationCity: destCity,
       shippingAddress: flatAddr,
-      shipByIso: deliveryDate ?? null,
+      shipByIso: deliveryDate ?? (orderRow?.ship_by_date as string | null) ?? null,
+      urgency: (orderRow?.urgency as "standard" | "express" | "urgent" | null) ?? null,
       pieces: ownerPieces,
       uploadedNotPurchased: uploadedSigned,
       adminOrderUrl,

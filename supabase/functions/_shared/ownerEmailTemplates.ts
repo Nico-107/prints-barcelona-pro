@@ -49,12 +49,19 @@ export interface OwnerPurchaseInput {
   destinationCity?: string | null;
   shippingAddress?: Record<string, unknown> | null;
   shipByIso?: string | null;
+  urgency?: "standard" | "express" | "urgent" | null;
   pieces: OwnerPurchaseEmailPiece[];
   uploadedNotPurchased?: OwnerUploadedNotPurchased[];
   adminOrderUrl: string;
   zipDownloadUrl?: string | null;
   sourcePath?: string | null;
   pageLanguage?: string | null;
+  // A4: payment breakdown
+  minAdjCents?: number | null;
+  expressCents?: number | null;
+  promoCode?: string | null;
+  promoPct?: number | null;
+  promoDiscountCents?: number | null;
 }
 
 export type OwnerPurchaseEmailPiece = OwnerEmailPiece;
@@ -105,6 +112,29 @@ export function quoteSubject(input: OwnerQuoteInput): string {
 function whatsappLink(phone: string): string {
   const digits = phone.replace(/\D/g, "");
   return `https://wa.me/${digits}`;
+}
+
+function flagEmoji(iso2: string | null | undefined): string {
+  const c = (iso2 ?? "").trim().toUpperCase();
+  if (c.length !== 2 || !/^[A-Z]{2}$/.test(c)) return "";
+  const A = 0x1f1e6;
+  return String.fromCodePoint(A + c.charCodeAt(0) - 65) + String.fromCodePoint(A + c.charCodeAt(1) - 65);
+}
+
+const SHIP_BY_DAYS_ES = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+const SHIP_BY_MONTHS_ES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+
+function formatShipByEs(iso: string): string {
+  const d = new Date(iso + "T12:00:00Z");
+  return `${SHIP_BY_DAYS_ES[d.getUTCDay()]} ${d.getUTCDate()} ${SHIP_BY_MONTHS_ES[d.getUTCMonth()]}`;
+}
+
+function renderUrgencyStrip(urgency: string | null | undefined, shipByIso: string | null | undefined): string {
+  const level = urgency ?? "standard";
+  const bg = level === "urgent" ? "#dc2626" : level === "express" ? "#d97706" : "#64748b";
+  const label = level === "urgent" ? "URGENTE" : level === "express" ? "EXPRESS" : "Estándar";
+  const shipLine = shipByIso ? ` &mdash; Sale antes del ${escapeHtml(formatShipByEs(shipByIso))}` : "";
+  return `<div style="background:${bg};color:#fff;padding:12px 16px;text-align:center;font-weight:700;font-size:15px;border-radius:8px;margin:0 0 16px 0;">${label}${shipLine}</div>`;
 }
 
 function formatAddress(addr: Record<string, unknown> | null | undefined): string | null {
@@ -205,6 +235,7 @@ export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: 
 
   const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
   const bodyHtml = `
+    ${renderUrgencyStrip(input.urgency, input.shipByIso)}
     <p style="margin:0 0 12px 0;font-size:16px;font-weight:600;color:#0f172a;">
       ${escapeHtml(nextStep)}
     </p>
