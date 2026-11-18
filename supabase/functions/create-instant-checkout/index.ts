@@ -1132,6 +1132,11 @@ serve(async (req: Request) => {
         customer_email: (typeof body.contactEmail === "string" && body.contactEmail.trim()) || null,
         urgency: vBody4.urgency,
         ship_by_date: shipByDate(vBody4.urgency),
+        min_adj_cents: priced4.order.minAdjCents || null,
+        express_cents: priced4.order.expressCents || null,
+        promo_code: v4PromoCode || null,
+        promo_pct: v4PromoPct || null,
+        promo_discount_cents: v4PromoDiscountCents || null,
       };
       if (uploadedNotPurchased4.length > 0) orderInsertPayload4.uploaded_not_purchased = uploadedNotPurchased4;
 

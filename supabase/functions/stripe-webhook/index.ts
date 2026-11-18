@@ -300,6 +300,9 @@ serve(async (req: Request) => {
                   pieces: orderPieces,
                   sourcePath: session.metadata?.source_path ?? null,
                   pageLanguage: session.metadata?.page_language ?? null,
+                  promoCode: session.metadata?.promo_code ?? null,
+                  promoPct: session.metadata?.promo_pct ? Number(session.metadata.promo_pct) : null,
+                  promoDiscountCents: session.metadata?.promo_discount_cents ? Number(session.metadata.promo_discount_cents) : null,
                 },
               },
             );

@@ -200,6 +200,90 @@ function renderPiecesBlock(pieces: OwnerEmailPiece[]): string {
   return base + details;
 }
 
+/** Render "Qué ha pagado el cliente" table. All rows must sum to totalPaidCents.
+ *  Any unexplained remainder shows as "Otros ajustes". */
+export function renderPaymentBreakdown(input: {
+  pieces: OwnerEmailPiece[];
+  totalPaidCents: number;
+  paymentMethod?: string | null;
+  fulfillment?: "pickup" | "shipping";
+  urgency?: string | null;
+  minAdjCents?: number | null;
+  expressCents?: number | null;
+  promoCode?: string | null;
+  promoPct?: number | null;
+  promoDiscountCents?: number | null;
+}): string {
+  const r = (n: number) => escapeHtml(formatEUR(n));
+
+  type Row = { label: string; value: number; negative?: boolean };
+  const rows: Row[] = [];
+
+  // Per-piece rows
+  for (const p of input.pieces) {
+    if (p.priceCents != null && p.priceCents > 0) {
+      const col = p.color && p.color !== "Sin preferencia" ? ` · ${escapeHtml(p.color)}` : "";
+      rows.push({ label: `${escapeHtml(truncateMiddle(p.name, 32))} × ${p.quantity} ${escapeHtml(p.material)}${col}`, value: p.priceCents });
+    }
+  }
+
+  if ((input.minAdjCents ?? 0) > 0) {
+    rows.push({ label: "Ajuste a pedido mínimo (9,90 €)", value: input.minAdjCents! });
+  }
+
+  if ((input.expressCents ?? 0) > 0) {
+    const surchargeLabel = input.urgency === "urgent"
+      ? "Recargo URGENTE (+60 %)"
+      : "Recargo EXPRESS (+25 %)";
+    rows.push({ label: surchargeLabel, value: input.expressCents! });
+  }
+
+  if ((input.promoDiscountCents ?? 0) > 0 && input.promoCode) {
+    const pctLabel = input.promoPct ? ` (−${input.promoPct} %)` : "";
+    rows.push({ label: `Código ${escapeHtml(input.promoCode)}${pctLabel}`, value: -(input.promoDiscountCents!), negative: true });
+  }
+
+  if (input.fulfillment === "pickup") {
+    rows.push({ label: "Recogida en estudio", value: 0 });
+  } else {
+    const shippingCents = input.totalPaidCents - rows.reduce((s, row) => s + row.value, 0);
+    if (shippingCents !== 0) {
+      rows.push({ label: shippingCents > 0 ? "Envío" : "Ajuste de envío", value: shippingCents });
+    }
+  }
+
+  // Verify sum; absorb any cent-rounding remainder
+  const explained = rows.reduce((s, row) => s + row.value, 0);
+  const remainder = input.totalPaidCents - explained;
+  if (Math.abs(remainder) > 1) {
+    rows.push({ label: "Otros ajustes", value: remainder });
+  }
+
+  const payLabel = input.paymentMethod ? ` · ${escapeHtml(input.paymentMethod)}` : "";
+  const tableRows = rows.map((row) => {
+    const neg = row.value < 0 || row.negative;
+    const valStr = row.value === 0 ? "0,00 €" : r(Math.abs(row.value));
+    return `<tr>
+      <td style="padding:5px 8px 5px 0;font-size:13px;color:#334155;">${row.label}</td>
+      <td style="padding:5px 0;font-size:13px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:${neg ? "#dc2626" : "#0f172a"};">${neg ? "&minus;" : ""}${valStr}</td>
+    </tr>`;
+  }).join("");
+
+  return `
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;margin:0 0 16px 0;">
+      <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;">Qué ha pagado el cliente</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <tbody>${tableRows}</tbody>
+        <tfoot>
+          <tr style="border-top:2px solid #e2e8f0;">
+            <td style="padding:8px 8px 4px 0;font-size:14px;font-weight:700;color:#0f172a;">TOTAL PAGADO${payLabel}</td>
+            <td style="padding:8px 0 4px 0;font-size:14px;font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:#0f172a;">${r(input.totalPaidCents)}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>`;
+}
+
 function renderTwoButtons(adminUrl: string, zipUrl: string | null | undefined): string {
   const primary = renderButton(adminUrl, "Abrir en el panel");
   if (!zipUrl) return primary;
@@ -244,8 +328,22 @@ export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: 
   ]);
 
   const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
+  const breakdown = renderPaymentBreakdown({
+    pieces: input.pieces,
+    totalPaidCents: input.totalPaidCents,
+    paymentMethod: input.paymentMethod,
+    fulfillment: input.fulfillment,
+    urgency: input.urgency,
+    minAdjCents: input.minAdjCents,
+    expressCents: input.expressCents,
+    promoCode: input.promoCode,
+    promoPct: input.promoPct,
+    promoDiscountCents: input.promoDiscountCents,
+  });
+
   const bodyHtml = `
     ${renderUrgencyStrip(input.urgency, input.shipByIso)}
+    ${breakdown}
     <p style="margin:0 0 12px 0;font-size:16px;font-weight:600;color:#0f172a;">
       ${escapeHtml(nextStep)}
     </p>

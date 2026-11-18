@@ -52,6 +52,10 @@ interface ConfirmationPayload {
   pageLanguage?: string | null;
   /** Customer language — drives the customer email translation (item 1.4). */
   language?: string | null;
+  // A4: payment breakdown (passed by stripe-webhook from session metadata)
+  promoCode?: string | null;
+  promoPct?: number | null;
+  promoDiscountCents?: number | null;
 }
 
 const sanitize = (s: string): string =>
@@ -228,6 +232,9 @@ serve(async (req: Request) => {
       sourcePath,
       pageLanguage,
       language,
+      promoCode,
+      promoPct,
+      promoDiscountCents,
     } = payload;
 
     if (!orderNumber) {
@@ -312,7 +319,7 @@ serve(async (req: Request) => {
     try {
       const { data: row } = await admin
         .from("orders")
-        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language, urgency, ship_by_date")
+        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language, urgency, ship_by_date, min_adj_cents, express_cents, promo_code, promo_pct, promo_discount_cents")
         .eq("order_number", orderNumber)
         .maybeSingle();
       orderRow = row as Record<string, unknown> | null;
@@ -398,6 +405,11 @@ serve(async (req: Request) => {
       zipDownloadUrl,
       sourcePath: sourcePath ?? null,
       pageLanguage: pageLanguage ?? null,
+      minAdjCents: (orderRow?.min_adj_cents as number | null) ?? null,
+      expressCents: (orderRow?.express_cents as number | null) ?? null,
+      promoCode: (orderRow?.promo_code as string | null) ?? promoCode ?? null,
+      promoPct: (orderRow?.promo_pct as number | null) ?? promoPct ?? null,
+      promoDiscountCents: (orderRow?.promo_discount_cents as number | null) ?? promoDiscountCents ?? null,
     });
 
     const adminResult = await sendEmail(
