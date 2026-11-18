@@ -87,14 +87,17 @@ export interface OwnerQuoteInput {
 // ── Subject builders ──────────────────────────────────────────────────────────
 
 export function purchaseSubject(input: OwnerPurchaseInput): string {
+  const prefix = input.urgency === "urgent" ? "[URGENTE] " : input.urgency === "express" ? "[EXPRESS] " : "";
   const total = (input.totalPaidCents / 100).toLocaleString("es-ES", { minimumFractionDigits: 2 });
+  const flag = input.fulfillment === "pickup" ? "🇪🇸" : flagEmoji(input.destinationCountry);
   const dest = input.fulfillment === "pickup"
-    ? "recogida"
-    : `envío ${(input.destinationCountry ?? "").toUpperCase() || "ES"}`;
-  const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
+    ? `${flag} Recogida`
+    : `${flag} ${input.destinationCity || (input.destinationCountry ?? "").toUpperCase() || "envío"}`;
   const uniqueMats = Array.from(new Set(input.pieces.map((p) => p.material).filter(Boolean)));
   const matLabel = uniqueMats.length === 1 ? uniqueMats[0] : `MIX (${uniqueMats.join(",")})`;
-  return `[PEDIDO #${input.orderNumber}] ${total} € · ${dest} · ${pieceCount} pieza${pieceCount === 1 ? "" : "s"} · ${matLabel}`;
+  const firstName = input.customerName ? input.customerName.trim().split(/\s+/)[0] : null;
+  const namePart = firstName ? ` · ${firstName}` : "";
+  return `${prefix}Pedido #${input.orderNumber} · ${total} € · ${matLabel} · ${dest}${namePart}`;
 }
 
 export function quoteSubject(input: OwnerQuoteInput): string {
