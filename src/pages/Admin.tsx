@@ -361,10 +361,17 @@ const Admin = () => {
   const [password, setPassword] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
 
+  const searchParams = new URLSearchParams(location.search);
+  const targetOrderId = searchParams.get("order") ?? null;
+  const targetQuoteId = searchParams.get("quote") ?? null;
+
   const hashTab = location.hash.replace("#", "") as Tab;
   const validTabs: Tab[] = ["orders", "quotes", "makers", "calculator", "estimates", "links"];
   const [activeTab, setActiveTab] = useState<Tab>(
-    validTabs.includes(hashTab) ? hashTab : "orders"
+    // If a quote target is in the URL, open the quotes tab.
+    targetQuoteId ? "quotes"
+    : validTabs.includes(hashTab) ? hashTab
+    : "orders"
   );
 
   // ── Orders state ─────────────────────────────────────────────────────────────
@@ -395,6 +402,23 @@ const Admin = () => {
   const [estimates, setEstimates] = useState<PriceEstimate[]>([]);
   const [estimatesLoading, setEstimatesLoading] = useState(false);
   const [estimatesUnavailable, setEstimatesUnavailable] = useState(false);
+
+  // ── Deep-link scroll: ?order=<uuid> or ?quote=<uuid> ─────────────────────────
+  useEffect(() => {
+    if (!isAdmin) return;
+    const id = targetOrderId ?? targetQuoteId;
+    if (!id) return;
+    // Give the DOM a tick to render the list before scrolling.
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`card-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-2", "ring-amber-400");
+        setTimeout(() => el.classList.remove("ring-2", "ring-amber-400"), 3000);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [isAdmin, orders, quoteRequests, targetOrderId, targetQuoteId]);
 
   // ── Auth effect ──────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -1012,7 +1036,7 @@ const Admin = () => {
               <>
                 <div className="grid gap-3">
                   {realOrders.map((o) => (
-                    <div key={o.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-4 md:p-5">
+                    <div key={o.id} id={`card-${o.id}`} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-4 md:p-5">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div className="flex-1 min-w-[200px]">
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -1308,6 +1332,7 @@ const Admin = () => {
                 {quoteRequests.map((q) => (
                   <div
                     key={q.id}
+                    id={`card-${q.id}`}
                     className={`bg-white rounded-xl border shadow-sm p-5 transition-shadow hover:shadow-md ${
                       q.status === "uploaded" ? "border-blue-200" :
                       q.status === "pending" ? "border-amber-200" :
