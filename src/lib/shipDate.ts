@@ -114,7 +114,7 @@ export function shipDateLine(
 /**
  * Cutoff line shown above the buy button (R7):
  *   - Before 14:00: "Pide antes de las 14:00 · sale el {fecha}"
- *   - After 14:00:  "Imprimimos mañana · sale el {fecha}"  (no fake urgency)
+ *   - After 14:00:  "Imprimo mañana · sale el {fecha}"  (no fake urgency)
  *
  * We dropped "lo imprimimos hoy" (conv-27) — standard orders take 3 production
  * days, so "we print it today" misled users who read it as "you get it today".
@@ -126,15 +126,15 @@ export function cutoffLine(shipDateFormatted: string, language: string, beforeCu
     case "es":
       return beforeCutoff
         ? `Pide antes de las 14:00 · sale el ${shipDateFormatted}`
-        : `Imprimimos mañana · sale el ${shipDateFormatted}`;
+        : `Imprimo mañana · sale el ${shipDateFormatted}`;
     case "ca":
       return beforeCutoff
         ? `Demana abans de les 14:00 · surt el ${shipDateFormatted}`
-        : `Imprimim demà · surt el ${shipDateFormatted}`;
+        : `Imprimo demà · surt el ${shipDateFormatted}`;
     case "pt":
       return beforeCutoff
         ? `Peça antes das 14:00 · segue a ${shipDateFormatted}`
-        : `Imprimimos amanhã · segue a ${shipDateFormatted}`;
+        : `Imprimo amanhã · segue a ${shipDateFormatted}`;
     case "fr":
       return beforeCutoff
         ? `Commandez avant 14:00 · expédié le ${shipDateFormatted}`
