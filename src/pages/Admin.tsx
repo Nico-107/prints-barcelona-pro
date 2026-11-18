@@ -807,6 +807,29 @@ const Admin = () => {
     setOrders(prev => prev.map(o => o.id === order.id ? { ...o, pieces: newPieces } : o));
   };
 
+  const downloadFilesZip = async (params: { orderNumber: number } | { quoteId: string }) => {
+    const token = session?.access_token;
+    if (!token) { toast({ title: "Not signed in", variant: "destructive" }); return; }
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+    const qs = "orderNumber" in params
+      ? `order_number=${encodeURIComponent(params.orderNumber)}`
+      : `quote=${encodeURIComponent(params.quoteId)}`;
+    const url = `${supabaseUrl}/functions/v1/order-files-zip?${qs}`;
+    const filename = "orderNumber" in params ? `pedido_${params.orderNumber}.zip` : `solicitud_${params.quoteId.slice(0, 8)}.zip`;
+    try {
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { toast({ title: `Error ${res.status}`, description: await res.text(), variant: "destructive" }); return; }
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (e) {
+      toast({ title: "Descarga fallida", description: String(e), variant: "destructive" });
+    }
+  };
+
   const downloadCalibrationCsv = () => {
     const csv = buildCalibrationCsv(orders.map(o => ({
       order_number: o.order_number,
@@ -1069,6 +1092,16 @@ const Admin = () => {
                               })}
                             </div>
                           )}
+                          {o.file_paths && o.file_paths.length > 0 && (
+                            <button
+                              data-testid="zip-download-order"
+                              onClick={() => downloadFilesZip({ orderNumber: o.order_number })}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-2 rounded-lg bg-slate-800 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                              Descargar archivos (.zip)
+                            </button>
+                          )}
                           <OrderPiecesTable order={o} onSave={saveActualPiece} />
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
@@ -1164,6 +1197,16 @@ const Admin = () => {
                                       );
                                     })}
                                   </div>
+                                )}
+                                {o.file_paths && o.file_paths.length > 0 && (
+                                  <button
+                                    data-testid="zip-download-order"
+                                    onClick={() => downloadFilesZip({ orderNumber: o.order_number })}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-2 rounded-lg bg-slate-800 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                                  >
+                                    <Download className="w-3.5 h-3.5" />
+                                    Descargar archivos (.zip)
+                                  </button>
                                 )}
                                 {o.pieces?.length ? (
                                   hasPerPartSpecs(o.pieces) ? (
@@ -1370,7 +1413,8 @@ const Admin = () => {
 
                     {/* File download links */}
                     {q.file_paths.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <>
+                      <div className="flex flex-wrap gap-2 mb-2">
                         {q.file_paths.map((path) => {
                           const url = signedUrlMap[path];
                           const name = path.replace(/^\d+-/, "").replace(/_/g, " ");
@@ -1394,6 +1438,15 @@ const Admin = () => {
                           );
                         })}
                       </div>
+                      <button
+                        data-testid="zip-download-quote"
+                        onClick={() => downloadFilesZip({ quoteId: q.id })}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 mb-4 rounded-lg bg-slate-800 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        Descargar archivos (.zip)
+                      </button>
+                      </>
                     )}
 
                     {/* Actions — for pending and files-only (uploaded) */}
