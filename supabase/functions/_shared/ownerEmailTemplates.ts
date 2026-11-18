@@ -105,9 +105,11 @@ export function quoteSubject(input: OwnerQuoteInput): string {
     ? `${(input.totalCents / 100).toLocaleString("es-ES", { minimumFractionDigits: 2 })} €`
     : "sin precio";
   const material = input.materialSummary ?? "?";
-  const country = (input.countryCode ?? "").toUpperCase() || "??";
+  const countryIso = (input.countryCode ?? "").toUpperCase() || null;
+  const flag = countryIso ? flagEmoji(countryIso) : "";
+  const countryLabel = countryIso ? `${flag} ${countryIso}` : flag || "??";
   const units = input.totalUnits ?? input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
-  return `[REVISIÓN] ${total} · ${units} uds ${material} · ${country} · ${escapeHtml(input.firstNameOrLocal)}`;
+  return `[REVISIÓN] ${total} · ${units} uds ${material} · ${countryLabel} · ${escapeHtml(input.firstNameOrLocal)}`;
 }
 
 // ── Body helpers ──────────────────────────────────────────────────────────────
@@ -216,14 +218,19 @@ function renderTwoButtons(adminUrl: string, zipUrl: string | null | undefined): 
 export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: string; html: string } {
   const paid = (input.totalPaidCents / 100).toLocaleString("es-ES", { minimumFractionDigits: 2 }) + " €";
   const country = (input.destinationCountry ?? "").toUpperCase();
+  const flag = input.fulfillment === "pickup" ? "🇪🇸" : flagEmoji(input.destinationCountry);
   const deliveryLabel = input.fulfillment === "pickup"
-    ? "Recogida en estudio"
-    : [input.destinationCity, country].filter(Boolean).join(", ");
+    ? "🇪🇸 Recogida en estudio"
+    : [flag, input.destinationCity, country].filter(Boolean).join(" ");
   const nextStep = input.fulfillment === "pickup"
     ? "Imprimir y avisar al cliente para recoger"
-    : `Imprimir y enviar a ${deliveryLabel || "destino"}`;
+    : `Imprimir y enviar a ${[input.destinationCity, country].filter(Boolean).join(", ") || "destino"}`;
 
   const addressLine = input.fulfillment === "shipping" ? formatAddress(input.shippingAddress) : null;
+  const pageFlag = input.pageLanguage ? flagEmoji(input.pageLanguage.slice(0, 2).toUpperCase()) : "";
+  const originLabel = input.sourcePath
+    ? `${pageFlag ? pageFlag + " " : ""}${input.sourcePath}${input.pageLanguage ? ` (${input.pageLanguage})` : ""}`
+    : null;
   const summary = renderSummaryBlock([
     { label: "Pagado",     value: `${paid}${input.paymentMethod ? ` · ${input.paymentMethod}` : ""}` },
     { label: "Cliente",    value: input.customerName || null },
@@ -233,7 +240,7 @@ export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: 
     { label: "Entrega",    value: deliveryLabel || null },
     { label: "Dirección",  value: addressLine },
     { label: "Ship-by",    value: input.shipByIso || null },
-    { label: "Origen",     value: input.sourcePath ? `${input.sourcePath}${input.pageLanguage ? ` (${input.pageLanguage})` : ""}` : null },
+    { label: "Origen",     value: originLabel },
   ]);
 
   const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
@@ -266,7 +273,7 @@ export function renderOwnerQuoteEmail(input: OwnerQuoteInput): { subject: string
     { label: "Email",      value: input.customerEmail || null },
     { label: "Teléfono",   value: input.customerPhone || null },
     { label: "WhatsApp",   value: input.customerPhone ? whatsappLink(input.customerPhone) : null },
-    { label: "País",       value: (input.countryCode ?? "").toUpperCase() || null },
+    { label: "País",       value: input.countryCode ? `${flagEmoji(input.countryCode)} ${(input.countryCode ?? "").toUpperCase()}` : null },
     { label: "Material",   value: input.materialSummary || null },
     { label: "Unidades",   value: input.totalUnits ?? null },
     { label: "Calculadora", value: input.totalCents != null ? formatEUR(input.totalCents) : null },
