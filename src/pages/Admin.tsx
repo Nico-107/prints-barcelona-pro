@@ -90,6 +90,14 @@ interface Order {
   payment_status: string;
   file_paths?: string[] | null;
   pieces?: PieceInfo[] | null;
+  // A1/A4 fields (v4 orders)
+  urgency?: string | null;
+  ship_by_date?: string | null;
+  min_adj_cents?: number | null;
+  express_cents?: number | null;
+  promo_code?: string | null;
+  promo_pct?: number | null;
+  promo_discount_cents?: number | null;
 }
 
 interface MakerApplication {
@@ -224,6 +232,49 @@ function parseInstantNotes(notes: string): Record<string, string> | null {
 
 function hasPerPartSpecs(pieces: PieceInfo[] | null | undefined): boolean {
   return !!(pieces?.some(p => p.material));
+}
+
+function formatEUR(cents: number): string {
+  return (cents / 100).toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+}
+
+function UrgencyBadge({ urgency }: { urgency: string | null | undefined }) {
+  if (!urgency || urgency === "standard") return null;
+  const cfg = urgency === "urgent"
+    ? { label: "URGENTE", cls: "bg-red-100 text-red-700 border-red-200" }
+    : { label: "EXPRESS", cls: "bg-amber-100 text-amber-700 border-amber-200" };
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${cfg.cls}`}>
+      {cfg.label}
+    </span>
+  );
+}
+
+function PaymentBreakdown({ order }: { order: Order }) {
+  const pieces = order.pieces ?? [];
+  const piecesTotal = pieces.reduce((s, p) => s + (p.costCents ?? 0), 0);
+  if (!piecesTotal && !order.min_adj_cents && !order.express_cents && !order.promo_discount_cents) return null;
+  const rows: Array<{ label: string; cents: number }> = [];
+  if (piecesTotal) rows.push({ label: "Piezas", cents: piecesTotal });
+  if (order.min_adj_cents) rows.push({ label: "Ajuste mínimo", cents: order.min_adj_cents });
+  if (order.express_cents) rows.push({ label: order.urgency === "urgent" ? "Urgente" : "Express", cents: order.express_cents });
+  if (order.promo_discount_cents) rows.push({ label: order.promo_code ? `Código ${order.promo_code}` : "Descuento", cents: -order.promo_discount_cents });
+  const total = rows.reduce((s, r) => s + r.cents, 0);
+  return (
+    <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs">
+      <p className="font-semibold text-slate-600 mb-1.5">Qué ha pagado el cliente</p>
+      {rows.map((r) => (
+        <div key={r.label} className="flex justify-between gap-4">
+          <span className="text-slate-500">{r.label}</span>
+          <span className={`font-mono ${r.cents < 0 ? "text-green-600" : "text-slate-800"}`}>{formatEUR(r.cents)}</span>
+        </div>
+      ))}
+      <div className="flex justify-between gap-4 font-semibold border-t border-slate-200 mt-1 pt-1 text-slate-900">
+        <span>Total estimado</span>
+        <span className="font-mono">{formatEUR(total)}</span>
+      </div>
+    </div>
+  );
 }
 
 function OrderPiecesTable({
@@ -1042,6 +1093,7 @@ const Admin = () => {
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
                             <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
                             {orderStatusBadge(o.status)}
+                            <UrgencyBadge urgency={o.urgency} />
                             <span className="text-xs text-slate-400">{o.fulfillment}</span>
                             {o.payment_method && (
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
@@ -1127,6 +1179,7 @@ const Admin = () => {
                             </button>
                           )}
                           <OrderPiecesTable order={o} onSave={saveActualPiece} />
+                          <PaymentBreakdown order={o} />
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <button
