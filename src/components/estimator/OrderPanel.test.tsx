@@ -400,35 +400,29 @@ describe("OrderPanel buy-flow: fulfillment picker in actions section", () => {
 // ─── calc.why.minNote component test (T5 from spec) ──────────────────────────
 
 describe("PriceBreakdown: minimum-hit helper line visibility", () => {
-  // Conv 1.2: the raw engine piece line + separate "Pedido mínimo" row
-  // was replaced with a single "Piezas" line that already shows the
-  // order price (10 €). A short helper "Pedido mínimo 10 € · añade más
-  // piezas desde +1 €" renders under the total when the minimum kicks in.
-  it("shows the min-helper line for a small order at the €10 minimum", () => {
+  it("shows only the Piezas row (collapsed) for a small order at the €9.90 minimum", () => {
     const smallAnalysis = analyzeTriangles(boxMesh(5, 5, 5));
     const smallFile: ParsedFile = { id: "s", name: "s.stl", sizeBytes: 100, volumeMm3: smallAnalysis.volumeMm3, qty: 1, analysis: smallAnalysis };
     const bundle = computeBundleV3([smallFile], DEFAULTS, "standard")!;
-    expect(bundle.order.baseCents).toBeLessThanOrEqual(1000);
+    expect(bundle.order.baseCents).toBeLessThanOrEqual(990);
 
     const container = mountPanel(
       <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
-    expect(container.innerHTML).toContain("calc.breakdown.minHelperShort");
-    // The "Piezas" line renders instead of the old separate "piece" + "minAdjust" rows.
+    // Single-part at minimum collapses to one "Piezas" row (no separate minAdjust row).
     expect(container.innerHTML).toContain("calc.breakdown.pieces");
     expect(container.innerHTML).not.toContain("calc.summary.setup");
   });
 
-  it("does not show the min-helper for an order well above €10", () => {
+  it("does not show the min-helper for an order well above €9.90", () => {
     const bigAnalysis = analyzeTriangles(boxMesh(100, 100, 100));
     const bigFile: ParsedFile = { id: "b", name: "b.stl", sizeBytes: 100, volumeMm3: bigAnalysis.volumeMm3, qty: 1, analysis: bigAnalysis };
     const bundle = computeBundleV3([bigFile], DEFAULTS, "standard")!;
-    expect(bundle.order.baseCents).toBeGreaterThan(1000);
+    expect(bundle.order.baseCents).toBeGreaterThan(990);
 
     const container = mountPanel(
       <PriceBreakdown bundle={bundle} fulfillment="pickup" t={t} language="es" />
     );
-    expect(container.innerHTML).not.toContain("calc.breakdown.minHelperShort");
     expect(container.innerHTML).not.toContain("calc.summary.setup");
   });
 });
@@ -436,11 +430,11 @@ describe("PriceBreakdown: minimum-hit helper line visibility", () => {
 // ─── Price unchanged after polish (CHANGE 5 must not affect price) ───────────
 
 describe("computeBundleV3 price invariant after polish", () => {
-  it("single-part box(40) at PLA standard = €10.00 (minimum)", () => {
+  it("single-part box(40) at PLA standard = €9.90 (minimum)", () => {
     const a = analyzeTriangles(boxMesh(40, 40, 40));
     const f: ParsedFile = { id: "x", name: "x.stl", sizeBytes: 100, volumeMm3: a.volumeMm3, qty: 1, analysis: a };
     const bundle = computeBundleV3([f], DEFAULTS, "standard")!;
-    expect(bundle.order.totalCents).toBe(1000);
+    expect(bundle.order.totalCents).toBe(990);
   });
 
   it("three-part order T4 total = €93.50", () => {

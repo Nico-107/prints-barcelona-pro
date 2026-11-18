@@ -80,10 +80,10 @@ describe("v4 breakdown rows sum to totalCents", () => {
 });
 
 // ── 2.2 minimum is 9,90 in v4 ─────────────────────────────────────────────────
-it("v4 minimum is 9,90 not 10,00", () => {
+it("v3 and v4 minimum is 9,90 €", () => {
   const tiny = boxMesh(20, 20, 20); // well below minimum
   const { v3, v4 } = single(tiny);
-  expect(v3.totalCents).toBe(1000); // v3: 10 €
+  expect(v3.totalCents).toBe(990);  // v3: 9,90 €
   expect(v4.totalCents).toBe(990);  // v4: 9,90 €
   expect(v4.totalCents % 100).toBe(90);
 });

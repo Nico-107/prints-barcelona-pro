@@ -42,18 +42,18 @@ describe('V3/EST engine — pricing verification', () => {
     expect(EST.setupEur).toBe(0);
   });
 
-  it('minimum is 10 EUR', () => {
-    expect(EST.minimumEur).toBe(10);
+  it('minimum is 9.9 EUR', () => {
+    expect(EST.minimumEur).toBe(9.9);
   });
 
-  it('5 g PLA alone → 10 € (minimum as explicit minAdjCents, parts at raw value)', () => {
+  it('5 g PLA alone → 9,90 € (minimum as explicit minAdjCents, parts at raw value)', () => {
     const part = fakePart(5, EST.timeCoef[0] + 100);
     const order = priceOrder([part], 'standard');
     expect(order.setupCents).toBe(0);
-    expect(order.totalCents).toBe(1000); // €10
+    expect(order.totalCents).toBe(990); // €9.90
     expect(order.minAdjCents).toBeGreaterThan(0); // explicit minimum-adjustment line
     // parts stay at raw value (not inflated to fill the minimum)
-    expect(order.parts[0].costCents).toBeLessThan(1000);
+    expect(order.parts[0].costCents).toBeLessThan(990);
     expect(order.parts[0].costCents + order.minAdjCents + order.setupCents).toBe(order.baseCents);
   });
 
@@ -85,7 +85,7 @@ describe('V3/EST engine — pricing verification', () => {
     expect(order.totalCents).toBeLessThanOrEqual(6900);
   });
 
-  it('three tiny parts → 10 € total (minimum once per ORDER, not per part)', () => {
+  it('three tiny parts → 9,90 € total (minimum once per ORDER, not per part)', () => {
     const tinyPart = fakePart(1, EST.timeCoef[0] + 10);
     const parts: OrderPartInput[] = [
       { ...tinyPart, name: 'a' },
@@ -94,7 +94,7 @@ describe('V3/EST engine — pricing verification', () => {
     ];
     const order = priceOrder(parts, 'standard');
     expect(order.setupCents).toBe(0);
-    expect(order.totalCents).toBe(1000); // €10, NOT €30 (3×€10)
+    expect(order.totalCents).toBe(990); // €9.90, NOT €29.70 (3×€9.90)
     expect(order.minAdjCents).toBeGreaterThan(0); // explicit minimum-adjustment line
   });
 

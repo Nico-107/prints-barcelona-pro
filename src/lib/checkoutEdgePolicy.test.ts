@@ -110,11 +110,11 @@ describe("deployed checkout policies", () => {
     await h.invoke(v3Body(h.exports, BOX_MED));
     expect([...h.params()].filter(([key]) => key.startsWith("shipping_address_collection")).map(([, value]) => value)).toEqual(["ES", "PT", "FR", "DE", "IT", "NL", "BE", "LU", "AT", "IE", "PL", "DK", "SE", "FI"]);
   });
-  it("pickup collects phone but no shipping address or fee", async () => {
+  it("pickup: no phone, no shipping address, no fee", async () => {
     const h = checkoutHarness();
     await h.invoke(v3Body(h.exports, BOX_MED, { fulfillment: "pickup" }));
-    expect(h.params().get("phone_number_collection[enabled]")).toBe("true");
-    // no shipping_address_collection keys; last line item is not shipping
+    // checkout-policy §2.3 "Ask for less": pickup does not collect phone or address
+    expect(h.params().get("phone_number_collection[enabled]")).toBeNull();
     expect([...h.params().keys()].some(key => key.startsWith("shipping_address_collection"))).toBe(false);
     const lineAmounts = [...h.params()].filter(([k]) => k.endsWith("[unit_amount]")).map(([, v]) => Number(v));
     expect(lineAmounts).not.toContain(590);

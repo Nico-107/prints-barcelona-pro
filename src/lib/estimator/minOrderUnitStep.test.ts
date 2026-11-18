@@ -7,10 +7,10 @@ import type { OrderPartInput, PartEstimate } from "./core";
  *
  * The spec gives this canonical table for a 4,02 € part (both sides —
  * client engine and server — must return identical cents):
- *   1 unit  → 10,00 €
- *   2 units → 11,00 €
- *   3 units → 12,06 €   (3 × 4,02 = 12,06 > step-floor 12,00)
- *   4 units → 16,08 €   (4 × 4,02 = 16,08 > step-floor 13,00)
+ *   1 unit  → 9,90 €
+ *   2 units → 10,90 €
+ *   3 units → 12,06 €   (3 × 4,02 = 12,06 > step-floor 11,90)
+ *   4 units → 16,08 €   (4 × 4,02 = 16,08 > step-floor 12,90)
  *
  * The rule must never drop below today's price and must never exceed
  * the plain sum once the sum is above the step-floor.
@@ -42,23 +42,23 @@ function mkPart(grams: number): PartEstimate {
 const PART = mkPart(73.09);
 
 describe("MIN_ORDER_UNIT_STEP flag off (default) — unchanged behaviour", () => {
-  it("1 small part is still 10,00 €", () => {
+  it("1 small part is still 9,90 €", () => {
     const inp: OrderPartInput = { name: "p", quantity: 1, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard");
-    expect(res.baseCents).toBe(1000);
+    expect(res.baseCents).toBe(990);
   });
 
-  it("2 units of a small part are still 10,00 € (plain min)", () => {
+  it("2 units of a small part are still 9,90 € (plain min)", () => {
     const inp: OrderPartInput = { name: "p", quantity: 2, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard");
-    // 2 × 4,02 = 8,04 < 10 → still 10,00 under the plain minimum.
-    expect(res.baseCents).toBe(1000);
+    // 2 × 4,02 = 8,04 < 9,90 → still 9,90 under the plain minimum.
+    expect(res.baseCents).toBe(990);
   });
 
-  it("3 units lift the price above the 10 € floor via the raw sum", () => {
+  it("3 units lift the price above the 9,90 € floor via the raw sum", () => {
     const inp: OrderPartInput = { name: "p", quantity: 3, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard");
-    // 3 × 4,02 = 12,06 > 10 → engine returns the raw sum (1206 cents).
+    // 3 × 4,02 = 12,06 > 9,90 → engine returns the raw sum (1206 cents).
     expect(res.baseCents).toBe(1206);
   });
 });
@@ -66,30 +66,30 @@ describe("MIN_ORDER_UNIT_STEP flag off (default) — unchanged behaviour", () =>
 describe("MIN_ORDER_UNIT_STEP flag on — Conv 1.3 canonical table", () => {
   const F = { minOrderUnitStep: true } as const;
 
-  it("1 unit → 10,00 €", () => {
+  it("1 unit → 9,90 €", () => {
     const inp: OrderPartInput = { name: "p", quantity: 1, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard", F);
-    expect(res.baseCents).toBe(1000);
+    expect(res.baseCents).toBe(990);
   });
 
-  it("2 units → 11,00 €", () => {
+  it("2 units → 10,90 €", () => {
     const inp: OrderPartInput = { name: "p", quantity: 2, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard", F);
-    // sum = 2 × 4,02 = 8,04; step-floor = 10 + 1 × 1 = 11 → 11,00 €.
-    expect(res.baseCents).toBe(1100);
+    // sum = 2 × 4,02 = 8,04; step-floor = 9,90 + 1 × 1 = 10,90 → 10,90 €.
+    expect(res.baseCents).toBe(1090);
   });
 
   it("3 units → 12,06 € (sum beats the step-floor)", () => {
     const inp: OrderPartInput = { name: "p", quantity: 3, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard", F);
-    // sum = 12,06; step-floor = 10 + 2 × 1 = 12 → max is 12,06.
+    // sum = 12,06; step-floor = 9,90 + 2 × 1 = 11,90 → max is 12,06.
     expect(res.baseCents).toBe(1206);
   });
 
   it("4 units → 16,08 € (sum well above the step-floor)", () => {
     const inp: OrderPartInput = { name: "p", quantity: 4, material: "PLA", estimate: PART };
     const res = priceOrder([inp], "standard", F);
-    // sum = 16,08; step-floor = 10 + 3 × 1 = 13 → max is 16,08.
+    // sum = 16,08; step-floor = 9,90 + 3 × 1 = 12,90 → max is 16,08.
     expect(res.baseCents).toBe(1608);
   });
 

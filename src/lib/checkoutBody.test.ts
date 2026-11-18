@@ -108,9 +108,9 @@ describe("E2: 3 materials express + shipping (PLA+PETG+TPU)", () => {
 
 describe("E2: minimum price (tiny PLA)", () => {
   const { body, result } = buildAndEvaluate([file("s", "clip.stl", 1, analyzeTriangles(prismMesh(3, 5, 8)))]);
-  it("accepted with minimum price €10", () => {
+  it("accepted with minimum price €9.90", () => {
     expect(result.ok).toBe(true);
-    expect(result.value!.priced.order.totalCents).toBeGreaterThanOrEqual(1000);
+    expect(result.value!.priced.order.totalCents).toBeGreaterThanOrEqual(990);
   });
 });
 

@@ -117,7 +117,7 @@ export const EST = {
   overhangNz: 0.85, bedContactMm: 0.4,
   timeCoef: [790.4113, 71.3533, 284.6187, 699.0554, 2.5218] as readonly number[],
   // ---- pricing (EUR) ----
-  setupEur: 0, minimumEur: 10, plasticEurPerG: 0.055,
+  setupEur: 0, minimumEur: 9.9, plasticEurPerG: 0.055,
   timeTiers: [ { upToH: 3, eurPerH: 4.95 }, { upToH: 8, eurPerH: 3.85 }, { upToH: Infinity, eurPerH: 2.75 } ] as readonly { upToH: number; eurPerH: number }[],
   instantMaxCents: 20000, shippingCents: 590,
   // ---- printer ----

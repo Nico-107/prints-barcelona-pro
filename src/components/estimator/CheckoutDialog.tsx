@@ -83,7 +83,7 @@ export function CheckoutDialog({ open, onOpenChange, title, closeLabel, leftSlot
 
           {/* Right column: scrolling config + pinned summary */}
           <div className="flex-1 min-w-0 flex flex-col overflow-hidden bg-white">
-            <div className="flex-1 px-5 py-4 overflow-y-auto overscroll-contain min-h-0">
+            <div className="flex-1 px-5 pt-4 pb-8 overflow-y-auto overscroll-contain min-h-0 scroll-pb-8">
               {rightSlot}
             </div>
             {actionSlot && (

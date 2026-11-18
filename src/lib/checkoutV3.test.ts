@@ -63,10 +63,14 @@ describe("autumn discount", () => {
   });
 
   it("returns 10% at exactly 20 € (2000 cents)", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-11-15T00:00:00Z"));
     expect(computeAutumnDiscount(2000)).toBe(200);
   });
 
   it("returns 10% at 50 € (5000 cents)", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-11-15T00:00:00Z"));
     expect(computeAutumnDiscount(5000)).toBe(500);
   });
 

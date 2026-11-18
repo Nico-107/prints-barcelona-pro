@@ -10,7 +10,7 @@ describe('published price examples match the V3 engine', () => {
   // symbol. Published examples use the spaced form; engine output format
   // is the plain string.
   const cases: Array<[string, number, number, string]> = [
-    ['PLA', 5, 0.5, '10,00 €'], ['PLA', 25, 1.5, '10,00 €'], ['PLA', 40, 2, '12,10 €'], ['PLA', 90, 5, '27,50 €'],
+    ['PLA', 5, 0.5, '9,90 €'], ['PLA', 25, 1.5, '9,90 €'], ['PLA', 40, 2, '12,10 €'], ['PLA', 90, 5, '27,50 €'],
     ['PETG', 35, 1.5, '10,29 €'], ['PETG', 150, 7, '42,35 €'], ['PLA', 350, 16, '75,35 €'],
   ];
   for (const [m, g, h, shown] of cases) {
