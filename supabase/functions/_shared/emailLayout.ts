@@ -94,7 +94,7 @@ export function renderPiecesTable(
       const nameFull = escapeHtml(p.name);
       const qty = escapeHtml(p.quantity);
       const mat = escapeHtml(p.material);
-      const col = escapeHtml(p.color ?? "—");
+      const col = escapeHtml(p.color ?? "Sin preferencia");
       const price = showPrice ? escapeHtml(formatEUR(p.priceCents ?? 0)) : "";
 
       // Each row stacks at 360px via display: block on the hidden "stacked"

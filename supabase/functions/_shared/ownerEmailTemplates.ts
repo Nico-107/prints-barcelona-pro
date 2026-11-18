@@ -328,28 +328,47 @@ export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: 
   const deliveryLabel = input.fulfillment === "pickup"
     ? "🇪🇸 Recogida en estudio"
     : [flag, input.destinationCity, country].filter(Boolean).join(" ");
+
   const nextStep = input.fulfillment === "pickup"
     ? "Imprimir y avisar al cliente para recoger"
     : `Imprimir y enviar a ${[input.destinationCity, country].filter(Boolean).join(", ") || "destino"}`;
 
+  const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
+
+  // ── Customer block ───────────────────────────────────────────────────────────
+  const waBtn = input.customerPhone
+    ? `<a href="${escapeHtml(whatsappLink(input.customerPhone))}" style="display:inline-block;padding:8px 16px;background:#25d366;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;margin-right:8px;">WhatsApp</a>`
+    : "";
+  const mailBtn = input.customerEmail
+    ? `<a href="mailto:${escapeHtml(input.customerEmail)}" style="display:inline-block;padding:8px 16px;background:#0369a1;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;">Email</a>`
+    : "";
+  const customerName = input.customerName || null;
+  const customerBlock = `
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px;margin:0 0 12px 0;">
+      ${customerName ? `<p style="margin:0 0 6px 0;font-size:15px;font-weight:600;color:#0f172a;">${escapeHtml(customerName)}</p>` : ""}
+      ${input.customerEmail ? `<p style="margin:0 0 4px 0;font-size:13px;color:#334155;">${escapeHtml(input.customerEmail)}</p>` : ""}
+      ${input.customerPhone ? `<p style="margin:0 0 8px 0;font-size:13px;color:#334155;">${escapeHtml(input.customerPhone)}</p>` : ""}
+      ${waBtn || mailBtn ? `<div style="margin-top:4px;">${waBtn}${mailBtn}</div>` : ""}
+    </div>`;
+
+  // ── Delivery block ───────────────────────────────────────────────────────────
   const addressLine = input.fulfillment === "shipping" ? formatAddress(input.shippingAddress) : null;
+  const deliveryBlock = `
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;margin:0 0 12px 0;">
+      <p style="margin:0 0 4px 0;font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em;">Entrega</p>
+      <p style="margin:0;font-size:14px;color:#0f172a;font-weight:600;">${escapeHtml(deliveryLabel)}</p>
+      ${addressLine ? `<p style="margin:4px 0 0 0;font-size:13px;color:#334155;">${escapeHtml(addressLine)}</p>` : ""}
+    </div>`;
+
+  // ── Origin block ─────────────────────────────────────────────────────────────
   const pageFlag = input.pageLanguage ? flagEmoji(input.pageLanguage.slice(0, 2).toUpperCase()) : "";
   const originLabel = input.sourcePath
     ? `${pageFlag ? pageFlag + " " : ""}${input.sourcePath}${input.pageLanguage ? ` (${input.pageLanguage})` : ""}`
     : null;
-  const summary = renderSummaryBlock([
-    { label: "Pagado",     value: `${paid}${input.paymentMethod ? ` · ${input.paymentMethod}` : ""}` },
-    { label: "Cliente",    value: input.customerName || null },
-    { label: "Email",      value: input.customerEmail || null },
-    { label: "Teléfono",   value: input.customerPhone ? `${input.customerPhone}` : null },
-    { label: "WhatsApp",   value: input.customerPhone ? whatsappLink(input.customerPhone) : null },
-    { label: "Entrega",    value: deliveryLabel || null },
-    { label: "Dirección",  value: addressLine },
-    { label: "Ship-by",    value: input.shipByIso || null },
-    { label: "Origen",     value: originLabel },
-  ]);
+  const originBlock = originLabel
+    ? `<p style="margin:12px 0 0 0;font-size:12px;color:#94a3b8;">Origen: ${escapeHtml(originLabel)}</p>`
+    : "";
 
-  const pieceCount = input.pieces.reduce((s, p) => s + (p.quantity ?? 0), 0);
   const breakdown = renderPaymentBreakdown({
     pieces: input.pieces,
     totalPaidCents: input.totalPaidCents,
@@ -366,13 +385,13 @@ export function renderOwnerPurchaseEmail(input: OwnerPurchaseInput): { subject: 
   const bodyHtml = `
     ${renderUrgencyStrip(input.urgency, input.shipByIso)}
     ${breakdown}
-    <p style="margin:0 0 12px 0;font-size:16px;font-weight:600;color:#0f172a;">
-      ${escapeHtml(nextStep)}
-    </p>
-    ${summary}
-    <h2 style="margin:16px 0 4px 0;font-size:14px;color:#0f172a;">Piezas (${pieceCount})</h2>
+    <p style="margin:0 0 12px 0;font-size:16px;font-weight:700;color:#0f172a;">${escapeHtml(nextStep)}</p>
+    ${customerBlock}
+    ${deliveryBlock}
+    <h2 style="margin:12px 0 4px 0;font-size:14px;font-weight:700;color:#0f172a;">Piezas (${pieceCount})</h2>
     ${renderPiecesBlock(input.pieces)}
     ${renderUploadedNotPurchased(input.uploadedNotPurchased ?? [])}
+    ${originBlock}
     ${renderTwoButtons(input.adminOrderUrl, input.zipDownloadUrl)}
   `;
 
