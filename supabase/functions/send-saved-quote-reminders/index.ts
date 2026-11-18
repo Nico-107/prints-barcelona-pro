@@ -1,5 +1,5 @@
 // 4.2: Send one reminder email 24 h after a quote is saved, if not bought
-// or unsubscribed. Triggered by a daily Supabase cron schedule.
+// or unsubscribed. Triggered by an hourly Supabase cron schedule.
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
