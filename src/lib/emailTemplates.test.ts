@@ -103,7 +103,7 @@ describe("ownerEmailTemplates — subject matches the spec", () => {
       ],
       adminOrderUrl: "https://example.com/admin?order=1",
     });
-    expect(subject).toBe("[PEDIDO #264] 20,06 € · envío IT · 5 piezas · PETG");
+    expect(subject).toBe("Pedido #264 · 20,06 € · PETG · 🇮🇹 IT");
   });
 
   it("quote subject: [REVISIÓN] amount · units uds MATERIAL · COUNTRY · name", () => {
@@ -116,7 +116,7 @@ describe("ownerEmailTemplates — subject matches the spec", () => {
       pieces: [],
       adminOrderUrl: "https://example.com/admin?quote=1",
     });
-    expect(subject).toBe("[REVISIÓN] 121,01 € · 20 uds TPU · IT · Pietro");
+    expect(subject).toBe("[REVISIÓN] 121,01 € · 20 uds TPU · 🇮🇹 IT · Pietro");
   });
 });
 

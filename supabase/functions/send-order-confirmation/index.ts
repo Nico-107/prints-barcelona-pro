@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { renderOwnerPurchaseEmail, type OwnerPurchaseEmailPiece } from "../_shared/ownerEmailTemplates.ts";
 import { renderOrderConfirmed, toLangKey, type CustomerLang } from "../_shared/customerEmailTemplates.ts";
+import { signOrderZipUrl } from "../_shared/signedUrl.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const ADMIN_RECIPIENT = "dimension3dprintsbcn@gmail.com";
@@ -25,6 +26,9 @@ interface ConfirmationPiece {
   supports?: boolean | null;
   orientation?: string | number | null;
   costCents?: number | null;
+  // v4 pieces store these at top level; v3 nested under est
+  gramsPerUnit?: number | null;
+  hoursPerUnit?: number | null;
   est?: { gramsPerUnit?: number; hours?: number } | null;
 }
 
@@ -52,6 +56,10 @@ interface ConfirmationPayload {
   pageLanguage?: string | null;
   /** Customer language — drives the customer email translation (item 1.4). */
   language?: string | null;
+  // A4: payment breakdown (passed by stripe-webhook from session metadata)
+  promoCode?: string | null;
+  promoPct?: number | null;
+  promoDiscountCents?: number | null;
 }
 
 const sanitize = (s: string): string =>
@@ -228,6 +236,9 @@ serve(async (req: Request) => {
       sourcePath,
       pageLanguage,
       language,
+      promoCode,
+      promoPct,
+      promoDiscountCents,
     } = payload;
 
     if (!orderNumber) {
@@ -312,7 +323,7 @@ serve(async (req: Request) => {
     try {
       const { data: row } = await admin
         .from("orders")
-        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language")
+        .select("id, shipping_address, uploaded_not_purchased, total_paid_cents, tracking_token, language, urgency, ship_by_date, min_adj_cents, express_cents, promo_code, promo_pct, promo_discount_cents")
         .eq("order_number", orderNumber)
         .maybeSingle();
       orderRow = row as Record<string, unknown> | null;
@@ -369,15 +380,19 @@ serve(async (req: Request) => {
           quality: p.quality ?? null,
           supports: typeof p.supports === "boolean" ? p.supports : null,
           orientation: p.orientation ?? null,
-          grams: p.est?.gramsPerUnit ?? null,
-          hours: p.est?.hours ?? null,
+          grams: p.gramsPerUnit ?? p.est?.gramsPerUnit ?? null,
+          hours: p.hoursPerUnit ?? p.est?.hours ?? null,
         }))
       : [{ name: "Pieza", quantity: Number(quantity ?? 1), material: String(material ?? ""), color: resolvedColor }];
 
     const adminOrderUrl = orderId
       ? `${SITE_ORIGIN}/admin?order=${encodeURIComponent(orderId)}`
       : `${SITE_ORIGIN}/admin`;
-    const zipDownloadUrl = `${supabaseUrl}/functions/v1/order-files-zip?order_number=${encodeURIComponent(String(orderNumber))}`;
+    const { exp: zipExp, sig: zipSig } = await signOrderZipUrl({
+      orderNumber: Number(orderNumber),
+      serviceRoleKey: serviceRoleKey,
+    });
+    const zipDownloadUrl = `${supabaseUrl}/functions/v1/order-files-zip?order_number=${encodeURIComponent(String(orderNumber))}&exp=${zipExp}&sig=${zipSig}`;
 
     const ownerEmail = renderOwnerPurchaseEmail({
       orderNumber: Number(orderNumber),
@@ -390,13 +405,19 @@ serve(async (req: Request) => {
       destinationCountry: destCountry,
       destinationCity: destCity,
       shippingAddress: flatAddr,
-      shipByIso: deliveryDate ?? null,
+      shipByIso: deliveryDate ?? (orderRow?.ship_by_date as string | null) ?? null,
+      urgency: (orderRow?.urgency as "standard" | "express" | "urgent" | null) ?? null,
       pieces: ownerPieces,
       uploadedNotPurchased: uploadedSigned,
       adminOrderUrl,
       zipDownloadUrl,
       sourcePath: sourcePath ?? null,
       pageLanguage: pageLanguage ?? null,
+      minAdjCents: (orderRow?.min_adj_cents as number | null) ?? null,
+      expressCents: (orderRow?.express_cents as number | null) ?? null,
+      promoCode: (orderRow?.promo_code as string | null) ?? promoCode ?? null,
+      promoPct: (orderRow?.promo_pct as number | null) ?? promoPct ?? null,
+      promoDiscountCents: (orderRow?.promo_discount_cents as number | null) ?? promoDiscountCents ?? null,
     });
 
     const adminResult = await sendEmail(

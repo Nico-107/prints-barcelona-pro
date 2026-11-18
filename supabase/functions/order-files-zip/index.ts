@@ -15,6 +15,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { crc32 } from "https://deno.land/x/crc32@v0.2.0/mod.ts";
+import { verifyOrderZipSig, verifyQuoteZipSig } from "../_shared/signedUrl.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -159,6 +160,26 @@ async function buildZip(files: Array<{ name: string; bytes: Uint8Array }>): Prom
   return out;
 }
 
+// ── expired-link HTML page ────────────────────────────────────────────────────
+function expiredPage(adminHref: string): Response {
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Enlace caducado</title>
+  <style>body{font-family:system-ui,sans-serif;padding:2rem;color:#0f172a;}a{color:#2563eb;}</style>
+</head>
+<body>
+  <p>Este enlace ha caducado. <a href="${adminHref}">Abre el pedido en el panel</a>.</p>
+</body>
+</html>`;
+  return new Response(html, {
+    status: 410,
+    headers: { "Content-Type": "text/html;charset=utf-8" },
+  });
+}
+
 // ── handler ────────────────────────────────────────────────────────────────────
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
@@ -169,7 +190,11 @@ serve(async (req: Request) => {
     const url = new URL(req.url);
     const orderIdParam = url.searchParams.get("order_id");
     const orderNumberParam = url.searchParams.get("order_number");
-    if (!orderIdParam && !orderNumberParam) {
+    const quoteParam = url.searchParams.get("quote");   // quote UUID
+    const expParam = url.searchParams.get("exp");
+    const sigParam = url.searchParams.get("sig");
+
+    if (!orderIdParam && !orderNumberParam && !quoteParam) {
       return new Response(JSON.stringify({ error: "MISSING_ORDER" }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -180,69 +205,154 @@ serve(async (req: Request) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
 
-    // Authenticate the caller as an admin. We use the user's JWT to verify
-    // their role, then use the service role to read files.
-    const authHeader = req.headers.get("Authorization") ?? "";
-    const userClient = createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: authHeader } },
-      auth: { persistSession: false },
-    });
-    const { data: userData, error: userErr } = await userClient.auth.getUser();
-    if (userErr || !userData?.user) {
-      return new Response(JSON.stringify({ error: "UNAUTHORIZED" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-    const admin = createClient(supabaseUrl, supabaseServiceKey);
-    const { data: roleRow } = await admin
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userData.user.id)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (!roleRow) {
-      return new Response(JSON.stringify({ error: "FORBIDDEN" }), {
-        status: 403,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
+    // ── Auth: accept either a valid HMAC-SHA256 signed URL or an admin JWT ──
+    let sigAuthorized = false;
 
-    let query = admin.from("orders").select("id, order_number, file_paths, pieces");
-    query = orderIdParam ? query.eq("id", orderIdParam) : query.eq("order_number", Number(orderNumberParam));
-    const { data: order, error: orderErr } = await query.maybeSingle();
-    if (orderErr || !order) {
-      return new Response(JSON.stringify({ error: "ORDER_NOT_FOUND" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-
-    const pieces: Array<Record<string, unknown>> = Array.isArray(order.pieces) ? (order.pieces as unknown[] as Array<Record<string, unknown>>) : [];
-
-    // Map pieces → files: each piece.path (if present) is the storage key.
-    // If a piece has no path (older orders), fall back to file_paths[i].
-    const filePaths: string[] = Array.isArray(order.file_paths) ? (order.file_paths as string[]) : [];
-    const fetched: Array<{ name: string; bytes: Uint8Array }> = [];
-
-    for (let i = 0; i < pieces.length; i++) {
-      const p = pieces[i];
-      const path = (typeof p.path === "string" && p.path) || filePaths[i] || null;
-      if (!path) continue;
-      const { data: fileBlob, error: dlErr } = await admin.storage.from("print-requests").download(path);
-      if (dlErr || !fileBlob) {
-        console.warn(`order ${order.order_number}: download failed for ${path}: ${dlErr?.message}`);
-        continue;
+    if (expParam && sigParam) {
+      const exp = Number(expParam);
+      if (quoteParam) {
+        sigAuthorized = await verifyQuoteZipSig({
+          quoteId: quoteParam,
+          exp,
+          sig: sigParam,
+          serviceRoleKey: supabaseServiceKey,
+        });
+      } else {
+        const orderNum = orderNumberParam ? Number(orderNumberParam) : null;
+        if (orderNum !== null) {
+          sigAuthorized = await verifyOrderZipSig({
+            orderNumber: orderNum,
+            exp,
+            sig: sigParam,
+            serviceRoleKey: supabaseServiceKey,
+          });
+        }
       }
-      const bytes = new Uint8Array(await fileBlob.arrayBuffer());
-      const cleanName = cleanPieceName({
-        orderNumber: Number(order.order_number),
-        index: i,
-        pieceName: String(p.name ?? `piece_${i + 1}.stl`),
+      // Any sig attempt that fails (expired or invalid) → HTML error page.
+      if (!sigAuthorized) {
+        const adminHref = quoteParam
+          ? `/admin?quote=${encodeURIComponent(quoteParam)}`
+          : orderNumberParam
+          ? `/admin?order=${encodeURIComponent(orderNumberParam)}`
+          : "/admin";
+        return expiredPage(adminHref);
+      }
+    }
+
+    const admin = createClient(supabaseUrl, supabaseServiceKey);
+
+    if (!sigAuthorized) {
+      // Fall through to admin JWT check.
+      const authHeader = req.headers.get("Authorization") ?? "";
+      const userClient = createClient(supabaseUrl, supabaseAnonKey, {
+        global: { headers: { Authorization: authHeader } },
+        auth: { persistSession: false },
+      });
+      const { data: userData, error: userErr } = await userClient.auth.getUser();
+      if (userErr || !userData?.user) {
+        return new Response(JSON.stringify({ error: "UNAUTHORIZED" }), {
+          status: 401,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+      const { data: roleRow } = await admin
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userData.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      if (!roleRow) {
+        return new Response(JSON.stringify({ error: "FORBIDDEN" }), {
+          status: 403,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+    }
+
+    // ── Fetch the order or quote ──────────────────────────────────────────────
+    let filesToFetch: Array<{ path: string; name: string; material?: string | null; color?: string | null; qty: number }> = [];
+    let zipFilename = "archivos.zip";
+
+    if (quoteParam) {
+      const { data: qr, error: qrErr } = await admin
+        .from("quote_requests")
+        .select("id, file_paths, pieces")
+        .eq("id", quoteParam)
+        .maybeSingle();
+      if (qrErr || !qr) {
+        return new Response(JSON.stringify({ error: "QUOTE_NOT_FOUND" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+      const rawPaths: string[] = Array.isArray(qr.file_paths) ? (qr.file_paths as string[]) : [];
+      const rawPieces: Array<Record<string, unknown>> = Array.isArray(qr.pieces)
+        ? (qr.pieces as unknown[] as Array<Record<string, unknown>>)
+        : [];
+      filesToFetch = rawPaths.map((path, i) => {
+        const p = rawPieces[i] ?? {};
+        return {
+          path,
+          name: typeof p.name === "string" ? p.name : `archivo_${i + 1}.stl`,
+          material: typeof p.material === "string" ? p.material : null,
+          color: typeof p.color === "string" ? p.color : null,
+          qty: typeof p.quantity === "number" ? p.quantity : 1,
+        };
+      });
+      zipFilename = `solicitud_${quoteParam.slice(0, 8)}.zip`;
+    } else {
+      let query = admin.from("orders").select("id, order_number, file_paths, pieces");
+      query = orderIdParam
+        ? query.eq("id", orderIdParam)
+        : query.eq("order_number", Number(orderNumberParam));
+      const { data: order, error: orderErr } = await query.maybeSingle();
+      if (orderErr || !order) {
+        return new Response(JSON.stringify({ error: "ORDER_NOT_FOUND" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+      const pieces: Array<Record<string, unknown>> = Array.isArray(order.pieces)
+        ? (order.pieces as unknown[] as Array<Record<string, unknown>>)
+        : [];
+      const rawPaths: string[] = Array.isArray(order.file_paths) ? (order.file_paths as string[]) : [];
+      filesToFetch = pieces.map((p, i) => ({
+        path: (typeof p.path === "string" && p.path) || rawPaths[i] || "",
+        name: String(p.name ?? `piece_${i + 1}.stl`),
         material: typeof p.material === "string" ? p.material : null,
         color: typeof p.color === "string" ? p.color : null,
         qty: typeof p.quantity === "number" ? p.quantity : 1,
-      });
+        orderNumber: Number(order.order_number),
+        index: i,
+      })).filter((f) => f.path);
+      zipFilename = `pedido_${order.order_number}.zip`;
+    }
+
+    // ── Download and build zip ────────────────────────────────────────────────
+    const fetched: Array<{ name: string; bytes: Uint8Array }> = [];
+
+    for (let i = 0; i < filesToFetch.length; i++) {
+      const f = filesToFetch[i] as typeof filesToFetch[0] & { orderNumber?: number; index?: number };
+      if (!f.path) continue;
+      const { data: fileBlob, error: dlErr } = await admin.storage.from("print-requests").download(f.path);
+      if (dlErr || !fileBlob) {
+        console.warn(`download failed for ${f.path}: ${dlErr?.message}`);
+        continue;
+      }
+      const bytes = new Uint8Array(await fileBlob.arrayBuffer());
+      let cleanName: string;
+      if (f.orderNumber !== undefined) {
+        cleanName = cleanPieceName({
+          orderNumber: f.orderNumber,
+          index: f.index ?? i,
+          pieceName: f.name,
+          material: f.material,
+          color: f.color,
+          qty: f.qty,
+        });
+      } else {
+        cleanName = f.name;
+      }
       fetched.push({ name: cleanName, bytes });
     }
 
@@ -258,7 +368,7 @@ serve(async (req: Request) => {
       status: 200,
       headers: {
         "Content-Type": "application/zip",
-        "Content-Disposition": `attachment; filename="pedido_${order.order_number}.zip"`,
+        "Content-Disposition": `attachment; filename="${zipFilename}"`,
         "Content-Length": String(zip.byteLength),
         ...corsHeaders,
       },

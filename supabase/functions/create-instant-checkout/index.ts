@@ -676,6 +676,22 @@ async function uploadCheckoutPreview(client: ReturnType<typeof createClient>, pr
   return client.storage.from("order-photos").getPublicUrl(path).data.publicUrl;
 }
 
+function addBusinessDays(from: Date, days: number): Date {
+  const d = new Date(from);
+  let added = 0;
+  while (added < days) {
+    d.setDate(d.getDate() + 1);
+    const dow = d.getDay();
+    if (dow !== 0 && dow !== 6) added++;
+  }
+  return d;
+}
+
+function shipByDate(urgency: string): string {
+  const days = urgency === "urgent" ? 1 : urgency === "express" ? 2 : 5;
+  return addBusinessDays(new Date(), days).toISOString().slice(0, 10);
+}
+
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -1114,6 +1130,13 @@ serve(async (req: Request) => {
         pieces: v4Pieces,
         customer_phone: (typeof body.contactPhone === "string" && body.contactPhone.trim()) || "see notes",
         customer_email: (typeof body.contactEmail === "string" && body.contactEmail.trim()) || null,
+        urgency: vBody4.urgency,
+        ship_by_date: shipByDate(vBody4.urgency),
+        min_adj_cents: priced4.order.minAdjCents || null,
+        express_cents: priced4.order.expressCents || null,
+        promo_code: v4PromoCode || null,
+        promo_pct: v4PromoPct || null,
+        promo_discount_cents: v4PromoDiscountCents || null,
       };
       if (uploadedNotPurchased4.length > 0) orderInsertPayload4.uploaded_not_purchased = uploadedNotPurchased4;
 
@@ -1170,6 +1193,7 @@ serve(async (req: Request) => {
       v4Params.set("metadata[order_number]", String(v4OrderRow.order_number));
       v4Params.set("metadata[fulfillment]", vBody4.fulfillment);
       v4Params.set("metadata[pricing_version]", "4");
+      v4Params.set("metadata[urgency]", vBody4.urgency);
       v4Params.set("metadata[part_count]", String(v4Pieces.length));
       v4Params.set("metadata[materials]", v4UniqueMats.join(",").slice(0, 200));
       if (v4PromoCode) {

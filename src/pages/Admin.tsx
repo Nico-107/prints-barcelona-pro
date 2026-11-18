@@ -90,6 +90,14 @@ interface Order {
   payment_status: string;
   file_paths?: string[] | null;
   pieces?: PieceInfo[] | null;
+  // A1/A4 fields (v4 orders)
+  urgency?: string | null;
+  ship_by_date?: string | null;
+  min_adj_cents?: number | null;
+  express_cents?: number | null;
+  promo_code?: string | null;
+  promo_pct?: number | null;
+  promo_discount_cents?: number | null;
 }
 
 interface MakerApplication {
@@ -224,6 +232,49 @@ function parseInstantNotes(notes: string): Record<string, string> | null {
 
 function hasPerPartSpecs(pieces: PieceInfo[] | null | undefined): boolean {
   return !!(pieces?.some(p => p.material));
+}
+
+function formatEUR(cents: number): string {
+  return (cents / 100).toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+}
+
+function UrgencyBadge({ urgency }: { urgency: string | null | undefined }) {
+  if (!urgency || urgency === "standard") return null;
+  const cfg = urgency === "urgent"
+    ? { label: "URGENTE", cls: "bg-red-100 text-red-700 border-red-200" }
+    : { label: "EXPRESS", cls: "bg-amber-100 text-amber-700 border-amber-200" };
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${cfg.cls}`}>
+      {cfg.label}
+    </span>
+  );
+}
+
+function PaymentBreakdown({ order }: { order: Order }) {
+  const pieces = order.pieces ?? [];
+  const piecesTotal = pieces.reduce((s, p) => s + (p.costCents ?? 0), 0);
+  if (!piecesTotal && !order.min_adj_cents && !order.express_cents && !order.promo_discount_cents) return null;
+  const rows: Array<{ label: string; cents: number }> = [];
+  if (piecesTotal) rows.push({ label: "Piezas", cents: piecesTotal });
+  if (order.min_adj_cents) rows.push({ label: "Ajuste mínimo", cents: order.min_adj_cents });
+  if (order.express_cents) rows.push({ label: order.urgency === "urgent" ? "Urgente" : "Express", cents: order.express_cents });
+  if (order.promo_discount_cents) rows.push({ label: order.promo_code ? `Código ${order.promo_code}` : "Descuento", cents: -order.promo_discount_cents });
+  const total = rows.reduce((s, r) => s + r.cents, 0);
+  return (
+    <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs">
+      <p className="font-semibold text-slate-600 mb-1.5">Qué ha pagado el cliente</p>
+      {rows.map((r) => (
+        <div key={r.label} className="flex justify-between gap-4">
+          <span className="text-slate-500">{r.label}</span>
+          <span className={`font-mono ${r.cents < 0 ? "text-green-600" : "text-slate-800"}`}>{formatEUR(r.cents)}</span>
+        </div>
+      ))}
+      <div className="flex justify-between gap-4 font-semibold border-t border-slate-200 mt-1 pt-1 text-slate-900">
+        <span>Total estimado</span>
+        <span className="font-mono">{formatEUR(total)}</span>
+      </div>
+    </div>
+  );
 }
 
 function OrderPiecesTable({
@@ -361,10 +412,17 @@ const Admin = () => {
   const [password, setPassword] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
 
+  const searchParams = new URLSearchParams(location.search);
+  const targetOrderId = searchParams.get("order") ?? null;
+  const targetQuoteId = searchParams.get("quote") ?? null;
+
   const hashTab = location.hash.replace("#", "") as Tab;
   const validTabs: Tab[] = ["orders", "quotes", "makers", "calculator", "estimates", "links"];
   const [activeTab, setActiveTab] = useState<Tab>(
-    validTabs.includes(hashTab) ? hashTab : "orders"
+    // If a quote target is in the URL, open the quotes tab.
+    targetQuoteId ? "quotes"
+    : validTabs.includes(hashTab) ? hashTab
+    : "orders"
   );
 
   // ── Orders state ─────────────────────────────────────────────────────────────
@@ -395,6 +453,23 @@ const Admin = () => {
   const [estimates, setEstimates] = useState<PriceEstimate[]>([]);
   const [estimatesLoading, setEstimatesLoading] = useState(false);
   const [estimatesUnavailable, setEstimatesUnavailable] = useState(false);
+
+  // ── Deep-link scroll: ?order=<uuid> or ?quote=<uuid> ─────────────────────────
+  useEffect(() => {
+    if (!isAdmin) return;
+    const id = targetOrderId ?? targetQuoteId;
+    if (!id) return;
+    // Give the DOM a tick to render the list before scrolling.
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`card-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-2", "ring-amber-400");
+        setTimeout(() => el.classList.remove("ring-2", "ring-amber-400"), 3000);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [isAdmin, orders, quoteRequests, targetOrderId, targetQuoteId]);
 
   // ── Auth effect ──────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -807,6 +882,29 @@ const Admin = () => {
     setOrders(prev => prev.map(o => o.id === order.id ? { ...o, pieces: newPieces } : o));
   };
 
+  const downloadFilesZip = async (params: { orderNumber: number } | { quoteId: string }) => {
+    const token = session?.access_token;
+    if (!token) { toast({ title: "Not signed in", variant: "destructive" }); return; }
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+    const qs = "orderNumber" in params
+      ? `order_number=${encodeURIComponent(params.orderNumber)}`
+      : `quote=${encodeURIComponent(params.quoteId)}`;
+    const url = `${supabaseUrl}/functions/v1/order-files-zip?${qs}`;
+    const filename = "orderNumber" in params ? `pedido_${params.orderNumber}.zip` : `solicitud_${params.quoteId.slice(0, 8)}.zip`;
+    try {
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { toast({ title: `Error ${res.status}`, description: await res.text(), variant: "destructive" }); return; }
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (e) {
+      toast({ title: "Descarga fallida", description: String(e), variant: "destructive" });
+    }
+  };
+
   const downloadCalibrationCsv = () => {
     const csv = buildCalibrationCsv(orders.map(o => ({
       order_number: o.order_number,
@@ -989,12 +1087,13 @@ const Admin = () => {
               <>
                 <div className="grid gap-3">
                   {realOrders.map((o) => (
-                    <div key={o.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-4 md:p-5">
+                    <div key={o.id} id={`card-${o.id}`} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow p-4 md:p-5">
                       <div className="flex items-start justify-between gap-3 flex-wrap">
                         <div className="flex-1 min-w-[200px]">
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
                             <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
                             {orderStatusBadge(o.status)}
+                            <UrgencyBadge urgency={o.urgency} />
                             <span className="text-xs text-slate-400">{o.fulfillment}</span>
                             {o.payment_method && (
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
@@ -1069,7 +1168,18 @@ const Admin = () => {
                               })}
                             </div>
                           )}
+                          {o.file_paths && o.file_paths.length > 0 && (
+                            <button
+                              data-testid="zip-download-order"
+                              onClick={() => downloadFilesZip({ orderNumber: o.order_number })}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-2 rounded-lg bg-slate-800 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                              Descargar archivos (.zip)
+                            </button>
+                          )}
                           <OrderPiecesTable order={o} onSave={saveActualPiece} />
+                          <PaymentBreakdown order={o} />
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <button
@@ -1164,6 +1274,16 @@ const Admin = () => {
                                       );
                                     })}
                                   </div>
+                                )}
+                                {o.file_paths && o.file_paths.length > 0 && (
+                                  <button
+                                    data-testid="zip-download-order"
+                                    onClick={() => downloadFilesZip({ orderNumber: o.order_number })}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-2 rounded-lg bg-slate-800 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                                  >
+                                    <Download className="w-3.5 h-3.5" />
+                                    Descargar archivos (.zip)
+                                  </button>
                                 )}
                                 {o.pieces?.length ? (
                                   hasPerPartSpecs(o.pieces) ? (
@@ -1265,6 +1385,7 @@ const Admin = () => {
                 {quoteRequests.map((q) => (
                   <div
                     key={q.id}
+                    id={`card-${q.id}`}
                     className={`bg-white rounded-xl border shadow-sm p-5 transition-shadow hover:shadow-md ${
                       q.status === "uploaded" ? "border-blue-200" :
                       q.status === "pending" ? "border-amber-200" :
@@ -1370,7 +1491,8 @@ const Admin = () => {
 
                     {/* File download links */}
                     {q.file_paths.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <>
+                      <div className="flex flex-wrap gap-2 mb-2">
                         {q.file_paths.map((path) => {
                           const url = signedUrlMap[path];
                           const name = path.replace(/^\d+-/, "").replace(/_/g, " ");
@@ -1394,6 +1516,15 @@ const Admin = () => {
                           );
                         })}
                       </div>
+                      <button
+                        data-testid="zip-download-quote"
+                        onClick={() => downloadFilesZip({ quoteId: q.id })}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 mb-4 rounded-lg bg-slate-800 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        Descargar archivos (.zip)
+                      </button>
+                      </>
                     )}
 
                     {/* Actions — for pending and files-only (uploaded) */}

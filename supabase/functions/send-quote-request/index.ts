@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { renderOwnerQuoteEmail, type OwnerEmailPiece } from "../_shared/ownerEmailTemplates.ts";
+import { signQuoteZipUrl } from "../_shared/signedUrl.ts";
 
 const SITE_ORIGIN = "https://www.dimension3dprints.com";
 
@@ -176,6 +177,7 @@ const handler = async (req: Request): Promise<Response> => {
       urgency, sourceCity, pieces, ph_distinct_id, quote_id,
       sourcePath, sourceUrl, pageLanguage, browserLanguage, referrer, utm, fulfillment,
       requestType, description, dimensions, quantity, photosFailed,
+      notes,
     } = payload;
 
     if (!contactEmail?.trim() && !contactPhone?.trim()) {
@@ -260,6 +262,8 @@ const handler = async (req: Request): Promise<Response> => {
 
       console.log(`Processing design request (IP: ${clientIP})`);
 
+      // Design request uses the shared layout for consistent look
+      const designLangLabel = safeLang !== "es" ? ` (idioma del cliente: ${safeLang})` : "";
       const designEmailResponse = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -269,7 +273,7 @@ const handler = async (req: Request): Promise<Response> => {
         body: JSON.stringify({
           from: "Dimension3D <noreply@dimension3dprints.com>",
           to: recipients,
-          subject: `[DISEÑO] Nueva solicitud de diseño — ${safeEmail ?? safePhone ?? "sin contacto"}`,
+          subject: `[DISEÑO] Nueva solicitud de diseño${designLangLabel} — ${safeEmail ?? safePhone ?? "sin contacto"}`,
           html: `
             <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
               <h1 style="color:#0f172a;">Nueva solicitud de diseño a medida</h1>
@@ -430,7 +434,11 @@ const handler = async (req: Request): Promise<Response> => {
       adminOrderUrl: quote_id
         ? `${SITE_ORIGIN}/admin?quote=${encodeURIComponent(String(quote_id))}`
         : `${SITE_ORIGIN}/admin`,
-      zipDownloadUrl: null,
+      zipDownloadUrl: await (async () => {
+        if (!quote_id || !(filePaths?.length)) return null;
+        const { exp, sig } = await signQuoteZipUrl({ quoteId: String(quote_id), serviceRoleKey: supabaseServiceKey });
+        return `${supabaseUrl}/functions/v1/order-files-zip?quote=${encodeURIComponent(String(quote_id))}&exp=${exp}&sig=${sig}`;
+      })(),
       sourcePath: sourcePath ?? null,
       pageLanguage: pageLanguage ?? null,
     });

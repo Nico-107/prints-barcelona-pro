@@ -20,6 +20,12 @@ import {
   type EmailPiece,
 } from "../supabase/functions/_shared/emailLayout.ts";
 
+import {
+  renderOwnerPurchaseEmail,
+  renderOwnerQuoteEmail,
+  type OwnerPurchaseEmailPiece,
+} from "../supabase/functions/_shared/ownerEmailTemplates.ts";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "..");
 const outDir = join(repoRoot, "docs", "email-previews");
@@ -104,6 +110,124 @@ function shellProbe(language: EmailLanguage) {
 }
 
 for (const lang of LANGS) probes.push(shellProbe(lang));
+
+// ── Owner email fixtures (A8) ─────────────────────────────────────────────────
+
+const OWNER_PIECES: OwnerPurchaseEmailPiece[] = [
+  { name: "sensor_cover.stl", quantity: 2, material: "TPU", color: null, priceCents: 2250, grams: 18, hours: 1.1, infill: 15, wallLoops: 2, quality: "standard", supports: false },
+];
+const ADMIN_URL = "https://www.dimension3dprints.com/admin?order=demo";
+
+// A8-1: standard purchase, pickup
+probes.push({
+  slug: "owner-purchase-standard-pickup",
+  html: renderOwnerPurchaseEmail({
+    orderNumber: 268,
+    totalPaidCents: 2025,
+    paymentMethod: "stripe",
+    customerName: "David García",
+    customerEmail: "david@example.com",
+    customerPhone: "+34612345678",
+    fulfillment: "pickup",
+    urgency: "standard",
+    shipByIso: "2026-11-25",
+    pieces: OWNER_PIECES,
+    adminOrderUrl: ADMIN_URL,
+    zipDownloadUrl: "https://example.com/zip?order_number=268&exp=9999999999&sig=abc123",
+    sourcePath: "/es/impresion-3d-barcelona",
+    pageLanguage: "es",
+    promoCode: "DIMENSION11",
+    promoPct: 10,
+    promoDiscountCents: 225,
+  }).html,
+});
+
+// A8-2: express purchase, shipping to Italy
+probes.push({
+  slug: "owner-purchase-express-shipping-it",
+  html: renderOwnerPurchaseEmail({
+    orderNumber: 271,
+    totalPaidCents: 3615,
+    paymentMethod: "stripe",
+    customerName: "Pietro Rossi",
+    customerEmail: "pietro@example.it",
+    customerPhone: "+393451234567",
+    fulfillment: "shipping",
+    destinationCountry: "IT",
+    destinationCity: "Fiumicino",
+    shippingAddress: { address: { line1: "Via Roma 1", city: "Fiumicino", postal_code: "00054", country: "IT" }, name: "Pietro Rossi" },
+    urgency: "express",
+    shipByIso: "2026-11-21",
+    pieces: [{ name: "bracket.stl", quantity: 3, material: "PLA", color: "White", priceCents: 980, grams: 24, hours: 1.5, infill: 20, wallLoops: 3, quality: "standard", supports: false }],
+    adminOrderUrl: ADMIN_URL,
+    zipDownloadUrl: "https://example.com/zip?order_number=271&exp=9999999999&sig=abc",
+    sourcePath: "/it/stampa-3d-online",
+    pageLanguage: "it",
+    expressCents: 745,
+  }).html,
+});
+
+// A8-3: urgent purchase with code + min adj
+probes.push({
+  slug: "owner-purchase-urgent-code-minadj",
+  html: renderOwnerPurchaseEmail({
+    orderNumber: 273,
+    totalPaidCents: 1600,
+    paymentMethod: "stripe",
+    customerName: "Ana López",
+    customerEmail: "ana@example.com",
+    customerPhone: "+34698765432",
+    fulfillment: "pickup",
+    urgency: "urgent",
+    shipByIso: "2026-11-19",
+    pieces: [{ name: "small_part.stl", quantity: 1, material: "PETG", color: null, priceCents: 968, grams: 9, hours: 0.7, infill: 15, wallLoops: 2, quality: "fast", supports: false }],
+    adminOrderUrl: ADMIN_URL,
+    zipDownloadUrl: "https://example.com/zip?order_number=273&exp=9999999999&sig=abc",
+    sourcePath: "/ca/prototips-3d-barcelona",
+    pageLanguage: "ca",
+    minAdjCents: 32,
+    expressCents: 600,
+  }).html,
+});
+
+// A8-4: review/quote request
+probes.push({
+  slug: "owner-quote-review",
+  html: renderOwnerQuoteEmail({
+    firstNameOrLocal: "müller_designs",
+    customerMessage: "Ich brauche 50 Stück für ein Industrieprojekt — wann könnte das fertig sein?",
+    customerMessageTranslation: "Necesito 50 piezas para un proyecto industrial — ¿cuándo podría estar listo?",
+    customerEmail: "k.mueller@example.de",
+    customerPhone: "+4917612345678",
+    totalCents: 24500,
+    countryCode: "DE",
+    materialSummary: "PETG",
+    totalUnits: 50,
+    pieces: [
+      { name: "housing_v3.stl", quantity: 50, material: "PETG", color: "Black", grams: 45, infill: 20, wallLoops: 3, quality: "standard", supports: false },
+    ],
+    adminOrderUrl: "https://www.dimension3dprints.com/admin?quote=demo",
+    zipDownloadUrl: "https://example.com/zip?quote=demo",
+    sourcePath: "/de/3d-druck-barcelona",
+    pageLanguage: "de",
+  }).html,
+});
+
+// A8-5: design request (plain HTML from send-quote-request branch — reuse quote template for now)
+probes.push({
+  slug: "owner-design-request",
+  html: renderOwnerQuoteEmail({
+    firstNameOrLocal: "fabrizio_arch",
+    customerMessage: "Ho bisogno di un modello 3D di un vaso con texture esagonale, circa 20 cm di altezza.",
+    customerMessageTranslation: "Necesito un modelo 3D de un jarrón con textura hexagonal, unos 20 cm de altura.",
+    customerEmail: "fabrizio@example.it",
+    countryCode: "IT",
+    pieces: [],
+    adminOrderUrl: "https://www.dimension3dprints.com/admin",
+    sourcePath: "/it/stampa-3d-online",
+    pageLanguage: "it",
+  }).html,
+});
 
 // Auto-discover template modules (populated by items 1.3 and 1.4).
 const templatesDir = join(repoRoot, "supabase", "functions", "_shared", "emailTemplates");
