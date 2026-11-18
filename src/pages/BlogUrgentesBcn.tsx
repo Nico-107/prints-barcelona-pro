@@ -36,7 +36,7 @@ const FAQS = [
   },
   {
     q: "¿Cuál es el precio mínimo para un pedido urgente?",
-    a: "El precio mínimo es de 10 €, igual que para pedidos estándar. No cobramos recargo por urgencia en la mayoría de pedidos de tamaño normal. Para piezas muy grandes o complejas que requieran reorganizar la cola de producción, puede aplicarse una pequeña tarifa prioritaria que te comunicamos siempre antes de confirmar.",
+    a: "El precio mínimo es de 9,90 €, igual que para pedidos estándar. No cobramos recargo por urgencia en la mayoría de pedidos de tamaño normal. Para piezas muy grandes o complejas que requieran reorganizar la cola de producción, puede aplicarse una pequeña tarifa prioritaria que te comunicamos siempre antes de confirmar.",
   },
   {
     q: "¿Qué hago si no tengo el archivo STL de la pieza que necesito?",
@@ -142,7 +142,7 @@ const BlogUrgentesBcn = () => {
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona ofrece impresión 3D urgente con entrega en 24–48 horas desde 10 €. El servicio express no tiene recargo para piezas de hasta 300 gramos. Presupuesto en menos de 1 hora. Materiales disponibles con urgencia: PLA, PETG, ABS, ASA y TPU. Recogida en Barcelona o envío urgente a toda España.
+                Dimension3D Barcelona ofrece impresión 3D urgente con entrega en 24–48 horas desde 9,90 €. El servicio express no tiene recargo para piezas de hasta 300 gramos. Presupuesto en menos de 1 hora. Materiales disponibles con urgencia: PLA, PETG, ABS, ASA y TPU. Recogida en Barcelona o envío urgente a toda España.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -351,12 +351,12 @@ const BlogUrgentesBcn = () => {
               {/* SECTION CAPSULE */}
               <div className="bg-secondary/40 border border-border rounded-xl px-5 py-4 mb-5">
                 <p className="text-foreground/85 leading-relaxed">
-                  El servicio urgente de Dimension3D Barcelona no tiene recargo automático. El precio mínimo es 10 €, igual para urgente que para estándar. Para la mayoría de piezas de hasta 300 gramos, el precio urgente es exactamente el mismo. Solo hay tarifa prioritaria para piezas muy grandes (más de 400 g o más de 20 horas de impresión) o entregas el mismo día antes de las 14h.
+                  El servicio urgente de Dimension3D Barcelona no tiene recargo automático. El precio mínimo es 9,90 €, igual para urgente que para estándar. Para la mayoría de piezas de hasta 300 gramos, el precio urgente es exactamente el mismo. Solo hay tarifa prioritaria para piezas muy grandes (más de 400 g o más de 20 horas de impresión) o entregas el mismo día antes de las 14h.
                 </p>
               </div>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  Somos transparentes con los precios: <strong className="text-foreground">el servicio urgente no tiene recargo automático</strong>. Para la mayoría de pedidos de tamaño normal — piezas de hasta 200–300 gramos — el precio es exactamente el mismo que para un pedido estándar, desde 10 €.
+                  Somos transparentes con los precios: <strong className="text-foreground">el servicio urgente no tiene recargo automático</strong>. Para la mayoría de pedidos de tamaño normal — piezas de hasta 200–300 gramos — el precio es exactamente el mismo que para un pedido estándar, desde 9,90 €.
                 </p>
                 <p>
                   La razón es sencilla: si tenemos capacidad disponible y el pedido encaja en la cola de producción sin desplazar otros compromisos, no tiene sentido cobrarte más por ello. Nuestro objetivo es que vuelvas cuando necesites imprimir de nuevo, no exprimir cada pedido urgente.
@@ -409,7 +409,7 @@ const BlogUrgentesBcn = () => {
                   {
                     title: "Clip del lavavajillas roto",
                     meta: "PETG · ~15 g · entregado en menos de 8 horas",
-                    price: "10 €",
+                    price: "9,90 €",
                     story: "El cesto del lavavajillas dejó de cerrarse por un clip plástico roto. El cliente nos mandó una foto a las 9h. A las 10h tenía el presupuesto. A las 17h recogió la pieza en Barcelona. El lavavajillas funcionando esa misma noche.",
                   },
                   {
@@ -543,13 +543,13 @@ const BlogUrgentesBcn = () => {
 
         <div className="container px-4 pb-8 max-w-3xl mx-auto">
           <div className="rounded-xl border border-border bg-secondary/30 p-5 mb-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 10 €</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Pedido mínimo: 9,90 €</p>
             <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
               <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                ¿Solo necesitas una pieza? Desde 1 pieza · pedido mínimo 10 €
+                ¿Solo necesitas una pieza? Desde 1 pieza · pedido mínimo 9,90 €
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Imprime una sola pieza urgente. El pedido mínimo del estudio es 10 €.
+                Imprime una sola pieza urgente. El pedido mínimo del estudio es 9,90 €.
               </p>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                 Ver servicio <ArrowRight className="w-3 h-3" />

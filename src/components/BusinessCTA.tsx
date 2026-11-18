@@ -10,7 +10,7 @@ const COPY = {
   es: {
     badge: "Para empresas",
     title: "Piezas en 3D para tu empresa en Barcelona",
-    subtitle: "Factura, NDA y entrega rápida. Desde 10€ por pedido, sin tarifas de configuración. Respondo en menos de una hora.",
+    subtitle: "Factura, NDA y entrega rápida. Desde 9,90 € por pedido, sin tarifas de configuración. Respondo en menos de una hora.",
     free: "Prototipo gratis para proyectos nuevos",
     cta: "Ver servicio para empresas",
     orders: "pedidos/mes",
@@ -19,7 +19,7 @@ const COPY = {
   en: {
     badge: "For business",
     title: "3D-printed parts for your company in Barcelona",
-    subtitle: "Invoice, NDA, fast delivery. €10 minimum order, no setup fee. I respond in under an hour.",
+    subtitle: "Invoice, NDA, fast delivery. €9.90 minimum order, no setup fee. I respond in under an hour.",
     free: "Free prototype for new projects",
     cta: "See business service",
     orders: "orders/month",
@@ -28,7 +28,7 @@ const COPY = {
   ca: {
     badge: "Per a empreses",
     title: "Peces en 3D per a la teva empresa a Barcelona",
-    subtitle: "Factura, NDA i lliurament ràpid. Des de 10€ per comanda, sense tarifes de configuració. Respoc en menys d'una hora.",
+    subtitle: "Factura, NDA i lliurament ràpid. Des de 9,90 € per comanda, sense tarifes de configuració. Respoc en menys d'una hora.",
     free: "Prototip gratis per a projectes nous",
     cta: "Veure servei per a empreses",
     orders: "comandes/mes",

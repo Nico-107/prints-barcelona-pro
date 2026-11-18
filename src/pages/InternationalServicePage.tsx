@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: "Is there a minimum order?",
-    a: "The minimum order is 10 €. Most single small parts fall between 10 € and 40 €. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.",
+    a: "The minimum order is €9.90. Most single small parts fall between €9.90 and 40 €. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.",
   },
   {
     q: "Can you print in my specific material?",
@@ -53,7 +53,7 @@ const articleSchema = {
   inLanguage: "en",
   headline: "Professional 3D Printing Service — Ship Anywhere in Europe",
   description:
-    "Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From 10 €.",
+    "Professional FDM 3D printing service based in Barcelona, shipping across Europe and worldwide. Upload your STL, get an instant quote, delivery in 3-7 days. From €9.90.",
   url: PAGE_URL,
   author: AUTHOR_REF,
   publisher: PUBLISHER_REF,
@@ -92,10 +92,10 @@ const InternationalServicePage = () => {
   const helmet = (
     <Helmet>
       <html lang="en" />
-      <title>Online 3D Printing Service in Spain &amp; EU — From 10 €</title>
+      <title>Online 3D Printing Service in Spain &amp; EU — From €9.90</title>
       <meta
         name="description"
-        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain &amp; EU. 250+ orders, from 10 €, no setup fee."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain &amp; EU. 250+ orders, from €9.90, no setup fee."
       />
       <link rel="canonical" href={PAGE_URL} />
       <link rel="alternate" hrefLang="es" href={`${SITE_URL}/impresion-3d-online`} />
@@ -107,19 +107,19 @@ const InternationalServicePage = () => {
       <link rel="alternate" hrefLang="it" href={`${SITE_URL}/it/stampa-3d-online`} />
       <link rel="alternate" hrefLang="pt" href={`${SITE_URL}/pt/impressao-3d-online`} />
       <link rel="alternate" hrefLang="x-default" href={PAGE_URL} />
-      <meta property="og:title" content="Online 3D Printing Service in Spain & EU — From 10 €" />
+      <meta property="og:title" content="Online 3D Printing Service in Spain & EU — From €9.90" />
       <meta
         property="og:description"
-        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from 10 €, no setup fee."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from €9.90, no setup fee."
       />
       <meta property="og:url" content={PAGE_URL} />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:image" content={SOCIAL_IMAGE_URL} />
-      <meta name="twitter:title" content="Online 3D Printing Service in Spain & EU — From 10 €" />
+      <meta name="twitter:title" content="Online 3D Printing Service in Spain & EU — From €9.90" />
       <meta
         name="twitter:description"
-        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from 10 €, no setup fee."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from €9.90, no setup fee."
       />
       <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
@@ -159,7 +159,7 @@ const InternationalServicePage = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-primary-foreground/85 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery in 3–5 business days across Europe. From 10 € minimum order, from one piece.
+              Barcelona-based FDM studio. Upload your STL or STEP, get a quote within one hour, delivery in 3–5 business days across Europe. From €9.90 minimum order, from one piece.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
@@ -170,7 +170,7 @@ const InternationalServicePage = () => {
             </div>
 
             <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
-              {["From 10 €", "Quote in 1 hour", "Shipping 5,90 € tracked", "3–5 business days to Europe", "No setup fee"].map((label) => (
+              {["From €9.90", "Quote in 1 hour", "Shipping 5,90 € tracked", "3–5 business days to Europe", "No setup fee"].map((label) => (
                 <span key={label} className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
                   {label}
@@ -189,13 +189,13 @@ const InternationalServicePage = () => {
 
       {/* Quick stats */}
       {/* Phase 3.2: strip matches the checkout — shipping 5,90 € tracked,
-          minimum 10 €, delivery to Europe 3–5 business days. */}
+          minimum €9.90, delivery to Europe 3–5 business days. */}
       <FactsStrip
         items={[
           { value: "< 1 h", label: "QUOTE TURNAROUND" },
           { value: "3–5 days", label: "DELIVERY TO EUROPE" },
           { value: "5,90 €", label: "SHIPPING TRACKED" },
-          { value: "10 €", label: "MINIMUM ORDER" },
+          { value: "€9.90", label: "MINIMUM ORDER" },
         ]}
         variant="light"
       />
@@ -204,9 +204,9 @@ const InternationalServicePage = () => {
       <div id="calculator" style={{ background: '#F6F8FC' }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
           <UploadPanel
-            label="INSTANT PRICE — FROM 10 €"
+            label="INSTANT PRICE — FROM €9.90"
             heading="Upload your files and see the price now."
-            description="No account required. 10 € minimum order, no setup fee. Shipping 5,90 € tracked to anywhere in Europe."
+            description="No account required. €9.90 minimum order, no setup fee. Shipping 5,90 € tracked to anywhere in Europe."
           >
             <StlEstimator compact shippingOnly />
           </UploadPanel>
@@ -361,7 +361,7 @@ const InternationalServicePage = () => {
                     <strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing, no review queues. Most orders ship within 3–5 business days from confirmation.
                   </li>
                   <li>
-                    <strong className="text-foreground">No minimum quantity.</strong> Unlike many industrial services that require batch minimums of 5 or 10 units, we print single parts starting at 10 €.
+                    <strong className="text-foreground">No minimum quantity.</strong> Unlike many industrial services that require batch minimums of 5 or 10 units, we print single parts starting at €9.90.
                   </li>
                   <li>
                     <strong className="text-foreground">Honest file review.</strong> A real human checks every file before it goes to print. If your model has a wall that will fail, we tell you before we print it — not after, when the part arrives broken.

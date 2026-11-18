@@ -762,6 +762,16 @@ if (!args.has("--seo")) {
     { needle: "senza ordine minimo", why: "visible 2.1/2.2 (it)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
     { needle: "zonder minimumbestelling", why: "visible 2.1/2.2 (nl)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
     { needle: "sem encomenda mínima", why: "visible 2.1/2.2 (pt)", pathAllow: ["/impresion-3d-sin-pedido-minimo"] },
+    // C1 — stale 10 € minimum (now 9,90 €). Generic comparisons ("10 € o 200 €") are OK.
+    { needle: "Desde 10 €", why: "C1: stale 10 € minimum — use 9,90 €" },
+    { needle: "desde 10 €", why: "C1: stale 10 € minimum — use 9,90 €" },
+    { needle: "10 € minimum order", why: "C1: stale 10 € minimum — use €9.90" },
+    { needle: "minimum order 10 €", why: "C1: stale 10 € minimum — use 9,90 €" },
+    { needle: "minimum order: 10 €", why: "C1: stale 10 € minimum — use €9.90" },
+    { needle: "Mindestbestellwert 10 €", why: "C1: stale 10 € minimum (de) — use 9,90 €" },
+    { needle: "Mindestbestellwert von 10 €", why: "C1: stale 10 € minimum (de) — use 9,90 €" },
+    { needle: "Commande minimum 10 €", why: "C1: stale 10 € minimum (fr) — use 9,90 €" },
+    { needle: "commande minimum de 10 €", why: "C1: stale 10 € minimum (fr) — use 9,90 €" },
     // fix-polish 2.3 — "our team" family (plural first-person about D3D).
     { needle: "nuestro equipo", why: "2.3 plural-team" },
     { needle: "el nostre equip", why: "2.3 plural-team (ca)" },

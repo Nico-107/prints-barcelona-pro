@@ -16,8 +16,8 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
-const META_TITLE = "Recambios 3D Barcelona — Piezas Rotas desde 10 €";
-const META_DESC = "Impresión 3D de recambios en Barcelona desde foto o medidas: piezas rotas, descatalogadas o accesorios. Entrega en 24–48h desde 10 €. Presupuesto en 1 hora.";
+const META_TITLE = "Recambios 3D Barcelona — Piezas Rotas desde 9,90 €";
+const META_DESC = "Impresión 3D de recambios en Barcelona desde foto o medidas: piezas rotas, descatalogadas o accesorios. Entrega en 24–48h desde 9,90 €. Presupuesto en 1 hora.";
 const CANONICAL = `${SITE_URL}/blog/recambios-piezas-rotas-impresion-3d-barcelona`;
 
 const FAQS = [
@@ -31,7 +31,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto cuesta imprimir un recambio en 3D?",
-    a: "El precio mínimo es de 10 €. La mayoría de recambios pequeños (clips, tapas, bisagras) caen entre 10 € y 20 €. Piezas medianas funcionales suelen estar entre 20 € y 40 €. Si además necesitamos modelar la pieza desde cero (porque no tienes archivo y la pieza es compleja), cotizamos el modelado por separado antes de confirmar nada.",
+    a: "El precio mínimo es de 9,90 €. La mayoría de recambios pequeños (clips, tapas, bisagras) caen entre 10 € y 20 €. Piezas medianas funcionales suelen estar entre 20 € y 40 €. Si además necesitamos modelar la pieza desde cero (porque no tienes archivo y la pieza es compleja), cotizamos el modelado por separado antes de confirmar nada.",
   },
   {
     q: "¿Qué material usáis para los recambios?",
@@ -148,7 +148,7 @@ const BlogRecambiosBcn = () => {
               {[
                 "Desde foto o pieza rota",
                 "Sin STL necesario",
-                "Desde 10 €",
+                "Desde 9,90 €",
                 "Entrega 24-48h en Barcelona",
               ].map((tag) => (
                 <div key={tag} className="flex items-center gap-2 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-2 text-sm text-primary-foreground/80">
@@ -414,7 +414,7 @@ const BlogRecambiosBcn = () => {
               </h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  El precio mínimo por pedido es de <strong className="text-foreground">10 €</strong>. La mayoría de recambios pequeños — clips, tapas, bisagras, pomos — caen en el rango de <strong className="text-foreground">10 € a 25 €</strong>. Piezas medianas o con modelado incluido se sitúan habitualmente entre <strong className="text-foreground">25 € y 50 €</strong>.
+                  El precio mínimo por pedido es de <strong className="text-foreground">9,90 €</strong>. La mayoría de recambios pequeños — clips, tapas, bisagras, pomos — caen en el rango de <strong className="text-foreground">9,90 € a 25 €</strong>. Piezas medianas o con modelado incluido se sitúan habitualmente entre <strong className="text-foreground">25 € y 50 €</strong>.
                 </p>
                 <p>
                   Los factores que determinan el precio son los mismos de siempre: el peso de la pieza en gramos, el tiempo de impresión, el material elegido y si necesitamos modelar la pieza desde cero. Si tienes el archivo STL listo, el precio es simplemente el de la impresión. Si necesitamos modelar la pieza, cotizamos el modelado por separado antes de confirmar — y si no te convence, no hay compromiso.
@@ -451,7 +451,7 @@ const BlogRecambiosBcn = () => {
                   {
                     title: "Clip del cesto del lavavajillas Bosch",
                     meta: "PETG · ~12 g · modelado desde foto en 2h · impresión en 1h",
-                    price: "10 €",
+                    price: "9,90 €",
                     story: "El clip que sujeta el cesto inferior de un lavavajillas Bosch se rompió. El recambio oficial costaba 8 € más 6 € de envío con 10 días de espera. Encontramos el modelo en Printables, lo imprimimos en PETG y el cliente lo recogió al día siguiente. El lavavajillas lleva meses funcionando perfectamente.",
                   },
                   {
@@ -463,7 +463,7 @@ const BlogRecambiosBcn = () => {
                   {
                     title: "Pomo de cajón IKEA Metod",
                     meta: "PLA · ~18 g · modelo disponible online",
-                    price: "10 €",
+                    price: "9,90 €",
                     story: "Uno de los pomos de cocina IKEA se rompió en el punto de unión con el tornillo. IKEA ya no vendía ese modelo específico de manera independiente. Imprimimos el pomo en PLA en el color exacto del original. El cliente pidió cuatro unidades adicionales para reponer el juego completo.",
                   },
                   {
@@ -560,7 +560,7 @@ const BlogRecambiosBcn = () => {
                 Reproducimos repuestos descatalogados — piezas que ya no se fabrican
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Si el fabricante ya no produce la pieza o tarda semanas en servirla, la imprimimos en 3D desde foto o la pieza original. Desde 10 €.
+                Si el fabricante ya no produce la pieza o tarda semanas en servirla, la imprimimos en 3D desde foto o la pieza original. Desde 9,90 €.
               </p>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                 Ver servicio <ArrowRight className="w-3 h-3" />
@@ -572,7 +572,7 @@ const BlogRecambiosBcn = () => {
         {/* COMPACT CTA — bottom */}
         <div className="container px-4 pb-4 max-w-3xl mx-auto">
           <div className="rounded-xl border border-accent/30 bg-accent/5 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-            <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo? Calcula el precio del recambio en segundos — desde 10 €, entrega en 24–48 h.</p>
+            <p className="text-sm text-foreground/80 flex-1">¿Ya tienes el archivo? Calcula el precio del recambio en segundos — desde 9,90 €, entrega en 24–48 h.</p>
             <Button asChild size="sm" className="shrink-0 gap-1.5">
               <Link to="/#calculator">Subir archivo y ver precio <ArrowRight className="w-4 h-4" /></Link>
             </Button>

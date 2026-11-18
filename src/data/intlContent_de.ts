@@ -20,13 +20,13 @@ export const DE_HUB: IntlHubContent = {
 
   h1: "3D-Druck Service – online bestellen, nach Deutschland geliefert",
 
-  heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Mindestbestellwert 10 €, schon ab 1 Teil.",
+  heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Mindestbestellwert 9,90 €, schon ab 1 Teil.",
   ctaLabel: "Datei hochladen und Preis sehen",
   noRegistration: "Ohne Registrierung · Ohne Verpflichtung",
-  trustChips: ["Ab 10 €", "Angebot in 1 Stunde", "Versand 5,90 € verfolgt", "Kein Zoll in der EU"],
+  trustChips: ["Ab 9,90 €", "Angebot in 1 Stunde", "Versand 5,90 € verfolgt", "Kein Zoll in der EU"],
   orgAlternateNames: ["Dimension3D Deutschland", "Dimension 3D Prints Germany", "Dimension 3D Germany"],
 
-  promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 10 €.`,
+  promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 9,90 €.`,
 
   howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 200 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 5,90 €, egal wie viele Teile Sie bestellen.`,
 
@@ -51,7 +51,7 @@ export const DE_HUB: IntlHubContent = {
     },
     {
       q: "Gibt es eine Mindestbestellmenge oder Einrichtungsgebühr?",
-      a: "Der Mindestbestellwert liegt bei 10 €. Eine Einrichtungsgebühr gibt es nicht.",
+      a: "Der Mindestbestellwert liegt bei 9,90 €. Eine Einrichtungsgebühr gibt es nicht.",
     },
     {
       q: "Welche Dateiformate werden akzeptiert?",
@@ -106,7 +106,7 @@ export const DE_HUB: IntlHubContent = {
   answerBlock: {
     heading: "Auf einen Blick",
     facts: [
-      "Ab 10 € pro Teil; Mindestbestellwert 10 €, keine Einrichtungsgebühr.",
+      "Ab 9,90 € pro Teil; Mindestbestellwert 9,90 €, keine Einrichtungsgebühr.",
       "Versand nach Deutschland: pauschal 5,90 € mit Sendungsverfolgung.",
       "Typische Lieferzeit: 3–5 Werktage nach Freigabe.",
       "Akzeptierte Formate: STL, OBJ, STEP, 3MF.",
@@ -145,14 +145,14 @@ export const DE_CITIES: IntlCityContent[] = [
 
     metaTitle: "3D-Druck mit Lieferung nach Berlin",
     metaDescription:
-      "FDM 3D-Druck aus Barcelona, geliefert nach Berlin in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
+      "FDM 3D-Druck aus Barcelona, geliefert nach Berlin in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 9,90 €, kein Zoll.",
 
     h1: "3D-Druck aus Barcelona: Lieferung nach Berlin in 3–5 Werktagen",
     eyebrow: "3D-Druck Service · Lieferung nach Berlin in der Regel 3–5 Werktage",
 
     introText: `Berlin ist Deutschlands kreativste Metropole – und gleichzeitig einer der dynamischsten Standorte für Hardware-Entwicklung, Produktdesign und technologische Innovation in ganz Europa. Wer in Berlin 3D-drucken lassen möchte, findet zwar lokale Anbieter, doch die Nachfrage nach schnellen, qualitativ hochwertigen FDM-Teilen übersteigt regelmäßig das Angebot. Dimension3D aus Barcelona bietet eine zuverlässige Alternative: Dateien hochladen, Angebot in einer Stunde erhalten, Teile in der Regel innerhalb von 3–5 Werktagen im Briefkasten – ohne Zoll, da Spanien und Deutschland beide zur EU gehören.
 
-Berlins Startup-Ökosystem zählt zu den größten auf dem Kontinent. Im und um den Bezirk Mitte, Prenzlauer Berg, Kreuzberg und Friedrichshain haben sich hunderte Hardware-Startups angesiedelt, die von der Rapid-Prototyping-Welle profitieren. Gründerinnen und Gründer, die an smarten Geräten, Medizintechnik-Gadgets, Wearables oder IoT-Produkten arbeiten, benötigen regelmäßig Funktionsprototypen in kleinen Stückzahlen – oft genug für ein Pitch-Deck oder eine Investoren-Demo. Genau hier ist ein 3D-Druck Dienstleister wie Dimension3D wertvoll: Mindestbestellwert 10 €, keine Einrichtungsgebühr, schnelle Lieferung.
+Berlins Startup-Ökosystem zählt zu den größten auf dem Kontinent. Im und um den Bezirk Mitte, Prenzlauer Berg, Kreuzberg und Friedrichshain haben sich hunderte Hardware-Startups angesiedelt, die von der Rapid-Prototyping-Welle profitieren. Gründerinnen und Gründer, die an smarten Geräten, Medizintechnik-Gadgets, Wearables oder IoT-Produkten arbeiten, benötigen regelmäßig Funktionsprototypen in kleinen Stückzahlen – oft genug für ein Pitch-Deck oder eine Investoren-Demo. Genau hier ist ein 3D-Druck Dienstleister wie Dimension3D wertvoll: Mindestbestellwert 9,90 €, keine Einrichtungsgebühr, schnelle Lieferung.
 
 Die Technische Universität Berlin und die Beuth Hochschule (heute Berliner Hochschule für Technik) sind zwei der forschungsstärksten Ingenieurhochschulen Deutschlands. Studentinnen und Studenten aus Maschinenbau, Elektrotechnik, Produktdesign und Architektur greifen regelmäßig auf 3D-Druck zurück – für Semesterarbeiten, Abschlussarbeiten und Wettbewerbsprojekte. Wer keine Hochschullizenz für die campuseigenen Drucker hat oder größere Stückzahlen benötigt, kann unkompliziert bei uns bestellen.
 
@@ -180,7 +180,7 @@ Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher
       },
       {
         q: "Kann ich als Berliner Startup eine Kleinserie bestellen?",
-        a: "Ja. Wir fertigen Kleinserien ohne Mindestmenge (außer dem Mindestbestellwert von 10 €) und ohne Einrichtungsgebühr. Für größere Serien erstellen wir auf Anfrage ein individuelles Angebot.",
+        a: "Ja. Wir fertigen Kleinserien ohne Mindestmenge (außer dem Mindestbestellwert von 9,90 €) und ohne Einrichtungsgebühr. Für größere Serien erstellen wir auf Anfrage ein individuelles Angebot.",
       },
       {
         q: "Welches Material empfehlen Sie für Funktionsprototypen?",
@@ -219,7 +219,7 @@ Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher
 
     metaTitle: "3D-Druck mit Lieferung nach München",
     metaDescription:
-      "FDM 3D-Druck aus Barcelona, geliefert nach München in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
+      "FDM 3D-Druck aus Barcelona, geliefert nach München in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 9,90 €, kein Zoll.",
 
     h1: "3D-Druck mit Lieferung nach München",
     eyebrow: "3D-Druck Service · Lieferung nach München in der Regel 3–5 Werktage",
@@ -248,7 +248,7 @@ Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung f�
       },
       {
         q: "Gibt es eine Mindestmenge für Kleinserien?",
-        a: "Nein, eine Stückzahl-Mindestmenge gibt es nicht. Der Mindestbestellwert beträgt 10 €, Einrichtungsgebühren fallen keine an.",
+        a: "Nein, eine Stückzahl-Mindestmenge gibt es nicht. Der Mindestbestellwert beträgt 9,90 €, Einrichtungsgebühren fallen keine an.",
       },
       {
         q: "Fallen beim Versand von Barcelona nach München Zollgebühren an?",
@@ -292,7 +292,7 @@ Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung f�
 
     metaTitle: "3D-Druck mit Lieferung nach Hamburg",
     metaDescription:
-      "FDM 3D-Druck aus Barcelona, geliefert nach Hamburg in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 10 €, kein Zoll.",
+      "FDM 3D-Druck aus Barcelona, geliefert nach Hamburg in der Regel in 3–5 Werktagen. Angebot in 1 Stunde. PLA, PETG, ABS, ASA, TPU, Nylon. Ab 9,90 €, kein Zoll.",
 
     h1: "3D-Druck mit Lieferung nach Hamburg",
     eyebrow: "3D-Druck Service · Lieferung nach Hamburg in der Regel 3–5 Werktage",
@@ -329,7 +329,7 @@ Praktisch: Barcelona und Hamburg liegen beide in der EU. Für Sie als Hamburger 
       },
       {
         q: "Können Sie Kleinserien für einen Hamburger Startup liefern?",
-        a: "Ja. Wir haben keine Stückzahl-Mindestmenge, nur einen Mindestbestellwert von 10 €. Für größere Serien erstellen wir auf Anfrage individuelle Angebote.",
+        a: "Ja. Wir haben keine Stückzahl-Mindestmenge, nur einen Mindestbestellwert von 9,90 €. Für größere Serien erstellen wir auf Anfrage individuelle Angebote.",
       },
       {
         q: "Welches Format sollte ich für technische Zeichnungen verwenden?",
@@ -368,7 +368,7 @@ export const DE_GUIDES: IntlGuideContent[] = [
 
     metaTitle: "3D-Druck Kosten: Was kostet ein 3D-Druck?",
     metaDescription:
-      "3D-Druck Kosten erklärt: Material, Druckzeit, Nachbearbeitung. Drei Rechenbeispiele mit echten Zahlen. Angebot in 1 Stunde bei Dimension3D ab 10 €.",
+      "3D-Druck Kosten erklärt: Material, Druckzeit, Nachbearbeitung. Drei Rechenbeispiele mit echten Zahlen. Angebot in 1 Stunde bei Dimension3D ab 9,90 €.",
 
     h1: "3D-Druck Kosten: Was kostet ein 3D-Druck wirklich?",
 
@@ -384,7 +384,7 @@ export const DE_GUIDES: IntlGuideContent[] = [
 
 **Maschinenzeit** schlägt ebenfalls zu Buche. Kurze Druckjobs (unter 3 Stunden) werden mit einem höheren Stundensatz berechnet, da die Rüstzeit einen größeren Anteil ausmacht. Bei längeren Jobs sinkt der effektive Stundensatz. Bei uns gilt: 0–3 Stunden werden mit 4,95 €/h angesetzt, 3–8 Stunden mit 3,85 €/h.
 
-**Mindestbestellwert und Einrichtungsgebühr**: Der Mindestbestellwert liegt bei 10 €, eine Einrichtungsgebühr gibt es nicht. Das bedeutet, dass sehr kleine Teile (unter dem Mindestbetrag kalkuliert) auf 10 € angehoben werden.`,
+**Mindestbestellwert und Einrichtungsgebühr**: Der Mindestbestellwert liegt bei 9,90 €, eine Einrichtungsgebühr gibt es nicht. Das bedeutet, dass sehr kleine Teile (unter dem Mindestbetrag kalkuliert) auf 9,90 € angehoben werden.`,
       },
       {
         heading: "So berechnet sich Ihr Angebot",
@@ -392,7 +392,7 @@ export const DE_GUIDES: IntlGuideContent[] = [
 
 **Preis = (Material 0,055 €/g × Gewicht + Maschinenzeit (h) × Stundensatz) × Materialmultiplikator**
 
-Der Stundensatz beträgt 4,95 €/h für die ersten 3 Stunden und 3,85 €/h für Stunden darüber hinaus bis 8 Stunden. Ab 8 Stunden gilt 2,75 €/h. Der Multiplikator gilt für Material und Maschinenzeit. Das Ergebnis wird auf den Cent genau berechnet und niemals unter 10 € angesetzt.
+Der Stundensatz beträgt 4,95 €/h für die ersten 3 Stunden und 3,85 €/h für Stunden darüber hinaus bis 8 Stunden. Ab 8 Stunden gilt 2,75 €/h. Der Multiplikator gilt für Material und Maschinenzeit. Das Ergebnis wird auf den Cent genau berechnet und niemals unter 9,90 € angesetzt.
 
 Konkret bedeutet das: Je leichter und kompakter Ihr Teil ist, desto stärker bestimmt die Druckzeit den Preis. Bei großen, massiven Teilen dominiert das Materialgewicht. Durch die Wahl eines geringeren Infill-Anteils (z. B. 15 % statt 40 %) lässt sich bei Nicht-Funktionsteilen Material sparen, ohne die äußere Geometrie zu verändern.
 
@@ -445,7 +445,7 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
         material: "PLA",
         price: "10,00 €",
         description:
-          "(30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → Mindestbestellwert 10 €",
+          "(30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → Mindestbestellwert 9,90 €",
       },
       {
         name: "Funktionshalterung",
@@ -470,7 +470,7 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
     faqs: [
       {
         q: "Gibt es eine Einrichtungsgebühr oder Mindestmenge?",
-        a: "Es gibt keine Einrichtungsgebühr. Der Mindestbestellwert beträgt 10 €.",
+        a: "Es gibt keine Einrichtungsgebühr. Der Mindestbestellwert beträgt 9,90 €.",
       },
       {
         q: "Wie bekomme ich ein genaues Angebot?",

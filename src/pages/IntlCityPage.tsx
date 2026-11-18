@@ -200,9 +200,9 @@ const IntlCityPage = ({ content }: Props) => {
         <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
           <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
             <UploadPanel
-              label="INSTANT PRICE — FROM 10 €"
+              label="INSTANT PRICE — FROM €9.90"
               heading="Upload your files and see the price now."
-              description="No account required. 10 € minimum order, no setup fee. Shipping calculated at checkout."
+              description="No account required. €9.90 minimum order, no setup fee. Shipping calculated at checkout."
             >
               <StlEstimator compact shippingOnly />
             </UploadPanel>

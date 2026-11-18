@@ -12,18 +12,18 @@ export const EN_HUB: IntlHubContent = {
 
   metaTitle: "3D Printing Service Online · EU Shipping | Dimension3D",
   metaDescription:
-    "Online 3D printing service from Barcelona. Upload STL/STEP, get a price in 1 working hour, ships across the EU in 3–5 working days. From 10 €, no setup fee.",
+    "Online 3D printing service from Barcelona. Upload STL/STEP, get a price in 1 working hour, ships across the EU in 3–5 working days. From €9.90, no setup fee.",
 
   eyebrow: "🇪🇺 3D printing from Barcelona · Shipping across Europe",
 
   h1: "3D Printing Service Online — Shipping across Europe",
 
   heroSubtitle:
-    "Upload your file, get a price in one working hour, delivered across the EU in 3–5 working days. From 10 €, even for a single part.",
+    "Upload your file, get a price in one working hour, delivered across the EU in 3–5 working days. From €9.90, even for a single part.",
   ctaLabel: "Upload your file and see the price",
   noRegistration: "No account required · No commitment",
   trustChips: [
-    "From 10 €",
+    "From €9.90",
     "Quote in 1 working hour",
     "Shipping 5,90 € tracked",
     "No customs within the EU",
@@ -34,7 +34,7 @@ export const EN_HUB: IntlHubContent = {
 
 Our entire print fleet is based on Bambu Lab X2D printers with enclosed chambers and heated beds. That architecture provides the thermal stability needed to run technical materials such as PETG, ABS and Nylon cleanly, and keeps warping under control on the kind of parts where entry-level open printers struggle. The result is better interlayer adhesion, more consistent surfaces, and dimensions closer to nominal.
 
-Prices are calculated transparently from material weight and print time — no setup fees and no surprises. For orders up to 200 € the price shows immediately once the file is analysed. Above that threshold a technician reviews the geometry and gets back to you within one working hour. Minimum order 10 €. Shipping is a flat 5,90 € regardless of weight or destination within the EU shipping zone.`,
+Prices are calculated transparently from material weight and print time — no setup fees and no surprises. For orders up to 200 € the price shows immediately once the file is analysed. Above that threshold a technician reviews the geometry and gets back to you within one working hour. Minimum order €9.90. Shipping is a flat 5,90 € regardless of weight or destination within the EU shipping zone.`,
 
   howItWorks: `**How the online 3D printing service works**
 
@@ -71,7 +71,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
   faqs: [
     {
       q: "How much does it cost to 3D print a small part?",
-      a: "Pricing depends mainly on material weight and print time. As a quick reference: small parts (20–50 g, 1–2 hours) typically cost between 10 and 20 €; medium parts (100–200 g, 4–6 hours) between 25 and 45 €. Upload the file for an exact quote — for orders up to 200 € the price is immediate. Minimum order 10 €.",
+      a: "Pricing depends mainly on material weight and print time. As a quick reference: small parts (20–50 g, 1–2 hours) typically cost between €9.90 and 20 €; medium parts (100–200 g, 4–6 hours) between 25 and 45 €. Upload the file for an exact quote — for orders up to 200 € the price is immediate. Minimum order €9.90.",
     },
     {
       q: "How long does shipping take across the EU?",
@@ -87,7 +87,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
     },
     {
       q: "Is there a minimum order?",
-      a: "Yes, the minimum is 10 €. There is no setup fee.",
+      a: "Yes, the minimum is €9.90. There is no setup fee.",
     },
     {
       q: "Can I order multiple parts in the same order?",
@@ -128,7 +128,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
   answerBlock: {
     heading: "At a glance",
     facts: [
-      "From 10 € per part; minimum order 10 €, no setup fee.",
+      "From 10 € per part; minimum order €9.90, no setup fee.",
       "Shipping across the EU: flat 5,90 € with tracking.",
       "Typical lead time: 3–5 working days from approval.",
       "Accepted formats: STL, OBJ, STEP, 3MF.",

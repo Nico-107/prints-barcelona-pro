@@ -13,7 +13,7 @@ export const nlHub: IntlHubContent = {
   metaDescription: "3D printen laten maken vanuit Nederland? Dimension3D stuurt je print vanuit Barcelona. Offerte binnen 1 uur, verzending € 5,90 vlak, geen douane binnen de EU.",
   eyebrow: "🇳🇱 3D Printen vanuit Barcelona · Levering in Nederland",
   h1: "3D Printen Laten Maken — Bestel Online, Geleverd in Nederland",
-  heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf 10 €, minimumbestelling 10 €.",
+  heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf 9,90 €, minimumbestelling 9,90 €.",
   ctaLabel: "Upload je bestand en zie de prijs",
   noRegistration: "Geen registratie · Geen verplichtingen",
   trustChips: ["Vanaf € 10", "Offerte in 1 uur", "Verzending € 5,90 getrackt", "Geen douane in de EU"],
@@ -526,12 +526,12 @@ export const frHub: IntlHubContent = {
   metaDescription: "Faire imprimer en 3D depuis la France : devis en moins d'1 heure, livraison 9,90 € fixe, en général 2–4 jours ouvrables. Pas de droits de douane (UE).",
   eyebrow: "🇫🇷 Impression 3D de Barcelone · Livraison en France",
   h1: "Impression 3D en Ligne — Devis en 1 Heure, Livré en France",
-  heroSubtitle: "Importez le fichier, devis en 1 heure, livraison en France en 2–4 jours ouvrables. Dès 10 €, même pour une seule pièce.",
+  heroSubtitle: "Importez le fichier, devis en 1 heure, livraison en France en 2–4 jours ouvrables. Dès 9,90 €, même pour une seule pièce.",
   ctaLabel: "Importer le fichier et voir le prix",
   noRegistration: "Sans inscription · Sans engagement",
-  trustChips: ["Dès 10 €", "Devis en 1 heure", "Livraison 5,90 € suivie", "Sans douane dans l'UE"],
+  trustChips: ["Dès 9,90 €", "Devis en 1 heure", "Livraison 5,90 € suivie", "Sans douane dans l'UE"],
   orgAlternateNames: ["Dimension3D France", "Dimension 3D Prints France", "Dimension 3D France"],
-  promise: "Devis en moins d'1 heure les jours ouvrables (heure espagnole). Pas de frais de mise en route. Expédition 5,90 €. Commande minimum de 10 €.",
+  promise: "Devis en moins d'1 heure les jours ouvrables (heure espagnole). Pas de frais de mise en route. Expédition 5,90 €. Commande minimum de 9,90 €.",
   howItWorks: `Comment ça fonctionne ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou WhatsApp. Les jours ouvrables, nous répondons en général dans l'heure avec un prix exact. Pour les commandes jusqu'à 200 €, un tarif instantané est également disponible en ligne. Une fois le devis accepté, nous lançons la fabrication dans le studio à Barcelone. Votre colis est expédié le jour même ou le lendemain et arrive en France habituellement sous 2–4 jours ouvrables. L'ensemble du trajet reste dans l'Union européenne — aucune formalité douanière, aucune taxe supplémentaire.`,
   whatWePrint: `Que peut-on faire imprimer ? Les applications sont nombreuses : pièces de rechange pour appareils ou machines dont les composants ne sont plus disponibles, prototypes fonctionnels pour le développement de produits, boîtiers et adaptateurs pour l'électronique, supports et fixations sur mesure pour l'industrie ou le milieu amateur, maquettes et modèles architecturaux, et objets personnalisés ou décoratifs. L'impression FDM convient particulièrement aux pièces mécaniquement sollicitées, exposées à l'extérieur ou devant résister à la chaleur. Vous n'êtes pas sûr(e) que votre idée soit imprimable ? Envoyez une photo ou une description via WhatsApp — nous vous conseillons gratuitement.`,
   materialsText: `Nous imprimons en PLA, PETG, ABS, ASA, TPU (flexible), Nylon (PA12/PA6) et composites fibres de carbone. Le PLA est le choix le plus accessible : prix compétitif, beau rendu de surface, adapté à la plupart des applications d'intérieur. Le PETG offre résistance mécanique et imperméabilité — idéal pour les pièces fonctionnelles. L'ABS et l'ASA résistent à la chaleur jusqu'à environ 90–100 °C et aux UV ; parfaits pour les pièces automobiles ou les applications extérieures. Le Nylon est choisi lorsque la résistance maximale et la tenue à l'usure sont requises. Notre Bambu Lab X2D dispose d'une chambre fermée et chauffée — ce qui garantit des conditions d'impression stables pour tous les matériaux, y compris les plus exigeants techniquement.`,
@@ -539,7 +539,7 @@ export const frHub: IntlHubContent = {
   faqs: [
     {
       q: "Quelle est la commande minimum ?",
-      a: "La commande minimum est de 10 €. La plupart des petites pièces individuelles se situent entre 10 € et 40 €. Il n'y a pas de quantité minimale — nous imprimons volontiers une seule pièce.",
+      a: "La commande minimum est de 9,90 €. La plupart des petites pièces individuelles se situent entre 9,90 € et 40 €. Il n'y a pas de quantité minimale — nous imprimons volontiers une seule pièce.",
     },
     {
       q: "Dans quel délai recevrai-je mon devis ?",
@@ -583,7 +583,7 @@ export const frHub: IntlHubContent = {
     },
   ],
   whatsappMsg: "Bonjour, je souhaite faire imprimer une pièce en 3D via Dimension3D.",
-  priceTableCaption: "Les exemples de prix sont indicatifs et dépendent du matériau, du poids et du temps d'impression. Commande minimum de 10 €.",
+  priceTableCaption: "Les exemples de prix sont indicatifs et dépendent du matériau, du poids et du temps d'impression. Commande minimum de 9,90 €.",
   breadcrumbHub: "Impression 3D en Ligne",
   materialLabel: "Matériau",
   cityLinks: [
@@ -601,7 +601,7 @@ export const frHub: IntlHubContent = {
   answerBlock: {
     heading: "En bref",
     facts: [
-      "À partir de 10 € la pièce ; commande minimum 10 €, sans frais de mise en route.",
+      "À partir de 9,90 € la pièce ; commande minimum 9,90 €, sans frais de mise en route.",
       "Livraison en France : forfait 5,90 € avec suivi.",
       "Délais habituels : 3–5 jours ouvrés après validation.",
       "Formats acceptés : STL, OBJ, STEP, 3MF.",
@@ -634,7 +634,7 @@ export const frToulouse: IntlCityContent = {
   city: "Toulouse",
   noindex: true,
   metaTitle: "Impression 3D Toulouse",
-  metaDescription: "Service d'impression 3D pour Toulouse. Devis en moins d'1 heure, expédition 5,90 €, livraison habituellement 2–4 jours ouvrables. Commande minimum de 10 €.",
+  metaDescription: "Service d'impression 3D pour Toulouse. Devis en moins d'1 heure, expédition 5,90 €, livraison habituellement 2–4 jours ouvrables. Commande minimum de 9,90 €.",
   eyebrow: "Service d'impression 3D pour Toulouse",
   h1: "Impression 3D Toulouse — Devis en 1 Heure, Livré à Domicile",
   deliveryNote: "Habituellement 2–4 jours ouvrables depuis Barcelone vers Toulouse. Expédition fixe 5,90 €. Pas de douane (marché intérieur UE).",
@@ -644,11 +644,11 @@ Dans ce contexte, l'impression 3D FDM a trouvé un rôle bien défini : prototyp
 
 L'ISAE-SUPAERO, grande école d'ingénieurs aérospatiaux implantée sur le campus de Toulouse-Lespinet, contribue à cette culture de l'innovation rapide. Les étudiants et doctorants de l'école, tout comme ceux de l'Université Paul Sabatier avec sa forte composante scientifique, utilisent régulièrement l'impression 3D dans leurs projets de recherche ou de compétition (fusées étudiantes, drones, CubeSats). Un service d'impression à la demande accessible depuis Barcelone, avec un délai de réponse de moins d'une heure et une livraison en 2–4 jours ouvrables, s'intègre naturellement dans leurs cycles de travail.
 
-Toulouse a également développé une scène créative et design distincte, nourrie par le quartier du Capitole et les nombreux espaces de coworking et fablab qui ont émergé au cours des dernières années. Des designers indépendants, des artisans et des créateurs y utilisent l'impression 3D pour concevoir des objets uniques, tester des formes ou produire des accessoires personnalisés. Pour ces utilisateurs, la valeur d'un service comme Dimension3D réside dans la simplicité : pas de frais de mise en route, pas de commande minimum contraignante (commande minimum de 10 €), et la possibilité d'envoyer un fichier et de recevoir un devis dans l'heure.
+Toulouse a également développé une scène créative et design distincte, nourrie par le quartier du Capitole et les nombreux espaces de coworking et fablab qui ont émergé au cours des dernières années. Des designers indépendants, des artisans et des créateurs y utilisent l'impression 3D pour concevoir des objets uniques, tester des formes ou produire des accessoires personnalisés. Pour ces utilisateurs, la valeur d'un service comme Dimension3D réside dans la simplicité : pas de frais de mise en route, pas de commande minimum contraignante (commande minimum de 9,90 €), et la possibilité d'envoyer un fichier et de recevoir un devis dans l'heure.
 
 Pour les professionnels de la chaîne aéronautique, la précision matérielle est souvent un critère décisif. Nous imprimons avec le Bambu Lab X2D, une imprimante à enceinte fermée et chauffée qui garantit des conditions stables pour les matériaux techniques — ABS, ASA, Nylon et composites fibres de carbone. Ces matériaux sont adaptés aux applications où la tenue mécanique, la résistance thermique ou la stabilité dimensionnelle sont requises.
 
-Voici comment passer commande depuis Toulouse. Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou par WhatsApp. Les jours ouvrables, vous recevez habituellement un devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route. Commande minimum de 10 €. Expédition fixe de 5,90 € vers Toulouse. Aucune formalité douanière — la France et l'Espagne font partie du marché intérieur européen. Livraison habituellement en 2–4 jours ouvrables.`,
+Voici comment passer commande depuis Toulouse. Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou par WhatsApp. Les jours ouvrables, vous recevez habituellement un devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route. Commande minimum de 9,90 €. Expédition fixe de 5,90 € vers Toulouse. Aucune formalité douanière — la France et l'Espagne font partie du marché intérieur européen. Livraison habituellement en 2–4 jours ouvrables.`,
   faqs: [
     {
       q: "Quel est le délai de livraison depuis Barcelone vers Toulouse ?",
@@ -664,7 +664,7 @@ Voici comment passer commande depuis Toulouse. Vous envoyez votre fichier 3D —
     },
     {
       q: "Quelle est la commande minimum ?",
-      a: "Commande minimum de 10 €. Pas de quantité minimale.",
+      a: "Commande minimum de 9,90 €. Pas de quantité minimale.",
     },
     {
       q: "Comment puis-je obtenir un devis ?",
@@ -705,7 +705,7 @@ L'agglomération montpelliéraine s'est également positionnée comme un hub de 
 
 La scène des startups technologiques montpelliéraines s'est densifiée depuis l'ouverture de plusieurs espaces d'innovation et incubateurs dans le centre-ville et la zone Eureka. Les jeunes entreprises qui y sont hébergées couvrent des domaines variés — healthtech, fintech, agritech, logiciel — et ont souvent besoin ponctuellement de pièces physiques : un prototype de produit à présenter à un investisseur, un accessoire promotionnel pour un salon, une pièce fonctionnelle pour tester une intégration matérielle.
 
-Dimension3D propose un service entièrement en ligne, sans frais de mise en route et sans contrainte de quantité au-delà de la commande minimum de 10 €. Vous envoyez votre fichier — STL, OBJ, 3MF ou STEP — via le formulaire ou WhatsApp. Les jours ouvrables, vous recevez habituellement un devis en moins d'une heure. L'expédition depuis Barcelone vers Montpellier coûte 5,90 € et la livraison prend habituellement 2–4 jours ouvrables. Comme les deux villes se trouvent dans l'Union européenne, il n'y a aucune formalité douanière. Notre imprimante Bambu Lab X2D, à enceinte fermée et chauffée, assure des conditions d'impression stables pour tous nos matériaux, des plus courants (PLA, PETG) aux plus techniques (ABS, Nylon, composites fibres de carbone).`,
+Dimension3D propose un service entièrement en ligne, sans frais de mise en route et sans contrainte de quantité au-delà de la commande minimum de 9,90 €. Vous envoyez votre fichier — STL, OBJ, 3MF ou STEP — via le formulaire ou WhatsApp. Les jours ouvrables, vous recevez habituellement un devis en moins d'une heure. L'expédition depuis Barcelone vers Montpellier coûte 5,90 € et la livraison prend habituellement 2–4 jours ouvrables. Comme les deux villes se trouvent dans l'Union européenne, il n'y a aucune formalité douanière. Notre imprimante Bambu Lab X2D, à enceinte fermée et chauffée, assure des conditions d'impression stables pour tous nos matériaux, des plus courants (PLA, PETG) aux plus techniques (ABS, Nylon, composites fibres de carbone).`,
   faqs: [
     {
       q: "Quel est le délai de livraison de Barcelone vers Montpellier ?",
@@ -721,7 +721,7 @@ Dimension3D propose un service entièrement en ligne, sans frais de mise en rout
     },
     {
       q: "Quelle est la commande minimum ?",
-      a: "Commande minimum de 10 €. Pas de quantité minimale.",
+      a: "Commande minimum de 9,90 €. Pas de quantité minimale.",
     },
     {
       q: "Comment obtenir un devis ?",
@@ -749,7 +749,7 @@ export const frLyon: IntlCityContent = {
   countryCode: "FR",
   city: "Lyon",
   metaTitle: "Impression 3D Lyon — Devis en 1 Heure, Livraison 2–4 Jours",
-  metaDescription: "Impression 3D à Lyon et Métropole. Devis rapide, expédition 5,90 €, livraison habituellement 2–4 jours depuis Barcelone. Commande minimum de 10 €.",
+  metaDescription: "Impression 3D à Lyon et Métropole. Devis rapide, expédition 5,90 €, livraison habituellement 2–4 jours depuis Barcelone. Commande minimum de 9,90 €.",
   eyebrow: "Service d'impression 3D pour Lyon",
   h1: "Impression 3D Lyon — Devis Rapide, Livré à Domicile",
   deliveryNote: "Habituellement 2–4 jours ouvrables depuis Barcelone vers Lyon. Expédition fixe 5,90 €. Pas de douane (marché intérieur UE).",
@@ -757,11 +757,11 @@ export const frLyon: IntlCityContent = {
 
 L'École Centrale de Lyon, grande école d'ingénieurs généralistes implantée à Écully, est un vivier d'ingénieurs formés aux technologies de fabrication numérique. La culture de l'innovation rapide et du prototypage itératif, que la Centrale enseigne dans ses ateliers et projets, crée un tissu d'anciens élèves et de professionnels en activité qui recourent régulièrement à des services d'impression à la demande. Qu'il s'agisse d'un projet de fin d'études, d'un démonstrateur technique pour un client industriel ou d'un prototype de compétition (Formula Student, Eco-Marathon Shell), la demande de pièces imprimées rapidement et de manière fiable est permanente.
 
-Lyon entretient également un lien historique fort avec le textile et la soie, héritage de la ville des canuts qui a façonné sa culture matérielle et artisanale. Aujourd'hui, cette tradition se prolonge dans une approche inventive du design de produit et de la mode, notamment dans le quartier de la Croix-Rousse où designers et créateurs ont réinvesti les anciens ateliers de tissage. Pour cette communauté créative, l'impression 3D ouvre des possibilités inédites : pièces de bijouterie, accessoires de mode, modules de défilé, prototypes d'emballage. Des matériaux comme le PLA sont disponibles dans une palette de couleurs étendue, et notre service permet de commander une seule pièce sans minimum de quantité (commande minimum de 10 €).
+Lyon entretient également un lien historique fort avec le textile et la soie, héritage de la ville des canuts qui a façonné sa culture matérielle et artisanale. Aujourd'hui, cette tradition se prolonge dans une approche inventive du design de produit et de la mode, notamment dans le quartier de la Croix-Rousse où designers et créateurs ont réinvesti les anciens ateliers de tissage. Pour cette communauté créative, l'impression 3D ouvre des possibilités inédites : pièces de bijouterie, accessoires de mode, modules de défilé, prototypes d'emballage. Des matériaux comme le PLA sont disponibles dans une palette de couleurs étendue, et notre service permet de commander une seule pièce sans minimum de quantité (commande minimum de 9,90 €).
 
 Viva Technology Lyon, aux côtés de nombreux incubateurs et accélérateurs implantés dans la Part-Dieu et sur le campus Rockefeller, a renforcé l'écosystème startup de la métropole. Les jeunes pousses lyonnaises — dans la santé numérique, l'industrie 4.0 ou la robotique — ont ponctuellement besoin de pièces mécaniques ou de prototypes de produit pour préparer des démonstrations, participer à des concours ou tester une hypothèse de design. Pour ces besoins, un service en ligne avec une réponse en moins d'une heure et une livraison en quelques jours est un atout réel.
 
-Comment passer commande depuis Lyon ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire ou WhatsApp. Les jours ouvrables, vous recevez habituellement votre devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route, pas de frais de vérification. Commande minimum de 10 €. Expédition fixe 5,90 € depuis Barcelone. Livraison habituellement en 2–4 jours ouvrables. Aucune formalité douanière — France et Espagne, marché intérieur de l'UE.`,
+Comment passer commande depuis Lyon ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire ou WhatsApp. Les jours ouvrables, vous recevez habituellement votre devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route, pas de frais de vérification. Commande minimum de 9,90 €. Expédition fixe 5,90 € depuis Barcelone. Livraison habituellement en 2–4 jours ouvrables. Aucune formalité douanière — France et Espagne, marché intérieur de l'UE.`,
   faqs: [
     {
       q: "Quel est le délai de livraison de Barcelone vers Lyon ?",
@@ -773,7 +773,7 @@ Comment passer commande depuis Lyon ? Vous envoyez votre fichier 3D — STL, OBJ
     },
     {
       q: "Puis-je commander une seule pièce ?",
-      a: "Oui. Pas de quantité minimale. Commande minimum de 10 €.",
+      a: "Oui. Pas de quantité minimale. Commande minimum de 9,90 €.",
     },
     {
       q: "Quels matériaux proposez-vous pour les applications industrielles ou pharmaceutiques ?",
@@ -814,11 +814,11 @@ export const frParis: IntlCityContent = {
 
 Les grandes écoles parisiennes ont contribué à forger une culture d'ingénierie rigoureuse et innovante. Arts et Métiers ParisTech, dont l'ADN est profondément lié aux techniques de fabrication, forme des ingénieurs généralistes qui maîtrisent les procédés de mise en forme des matériaux — parmi lesquels l'impression 3D occupe désormais une place de premier plan. L'ENPC (École des Ponts ParisTech), Centrale Paris (aujourd'hui CentraleSupélec) et leurs communautés d'anciens élèves forment un réseau de professionnels qui, dans les bureaux d'études, les cabinets de conseil en ingénierie et les start-ups industrielles, ont régulièrement besoin de pièces prototypées rapidement.
 
-Paris héberge aussi l'un des écosystèmes de design de produit les plus vivants d'Europe. Le Marais, en particulier, est devenu un quartier de référence pour les agences de design, les studios de création industrielle et les ateliers d'artisanat de luxe qui utilisent la fabrication numérique comme outil de production et de prototypage. Des accessoires de mode aux packagings de lancement de produit, en passant par les sculptures décorative et les pièces d'ameublement sur mesure, la demande de services d'impression 3D réactifs et de qualité est constante dans ce milieu. La possibilité de commander une pièce unique — commande minimum de 10 €, sans quantité minimale — est un critère déterminant pour ces utilisateurs.
+Paris héberge aussi l'un des écosystèmes de design de produit les plus vivants d'Europe. Le Marais, en particulier, est devenu un quartier de référence pour les agences de design, les studios de création industrielle et les ateliers d'artisanat de luxe qui utilisent la fabrication numérique comme outil de production et de prototypage. Des accessoires de mode aux packagings de lancement de produit, en passant par les sculptures décorative et les pièces d'ameublement sur mesure, la demande de services d'impression 3D réactifs et de qualité est constante dans ce milieu. La possibilité de commander une pièce unique — commande minimum de 9,90 €, sans quantité minimale — est un critère déterminant pour ces utilisateurs.
 
 La scène des start-ups franciliennes, portée par Station F, la Halle Freyssinet et une dizaine d'incubateurs thématiques, ajoute une autre couche de demande. Des jeunes entreprises en deeptech, en robotique ou en IoT ont régulièrement besoin de pièces mécaniques pour leurs prototypes, démonstrateurs ou kits de démonstration investisseurs. Un service qui répond en moins d'une heure et livre en quelques jours — sans contrat, sans minimum engageant — leur offre la flexibilité dont elles ont besoin à chaque itération.
 
-Comment commander depuis Paris ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou WhatsApp. Les jours ouvrables, vous recevez habituellement votre devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route. Commande minimum de 10 €. Expédition fixe de 5,90 € depuis Barcelone vers Paris. Livraison habituellement sous 2–4 jours ouvrables. Aucune formalité douanière — France et Espagne, marché intérieur européen.
+Comment commander depuis Paris ? Vous envoyez votre fichier 3D — STL, OBJ, 3MF ou STEP — via le formulaire en ligne ou WhatsApp. Les jours ouvrables, vous recevez habituellement votre devis dans l'heure (heure de bureau espagnole). Pas de frais de mise en route. Commande minimum de 9,90 €. Expédition fixe de 5,90 € depuis Barcelone vers Paris. Livraison habituellement sous 2–4 jours ouvrables. Aucune formalité douanière — France et Espagne, marché intérieur européen.
 
 Mon studio à Barcelone est équipé du Bambu Lab X2D, une imprimante à enceinte fermée et chauffée qui garantit des conditions stables pour tous les matériaux : PLA, PETG, ABS, ASA, TPU, Nylon et composites fibres de carbone. Tu ne sais pas quel matériau choisir ? Décris l'usage de ta pièce — je te conseille gratuitement.`,
   faqs: [
@@ -836,7 +836,7 @@ Mon studio à Barcelone est équipé du Bambu Lab X2D, une imprimante à enceint
     },
     {
       q: "Quelle est la commande minimum ?",
-      a: "Commande minimum de 10 €. Pas de quantité minimale.",
+      a: "Commande minimum de 9,90 €. Pas de quantité minimale.",
     },
     {
       q: "Comment obtenir un devis ?",
@@ -865,9 +865,9 @@ export const frGuidePrice: IntlGuideContent = {
   locale: "fr-FR",
   topic: "price",
   metaTitle: "Prix Impression 3D — Combien Coûte Faire Imprimer en 3D ?",
-  metaDescription: "Comment est calculé le prix d'une impression 3D ? Exemples de tarifs pour PLA, PETG et ABS, conseils pour réduire le coût. Commande minimum de 10 €.",
+  metaDescription: "Comment est calculé le prix d'une impression 3D ? Exemples de tarifs pour PLA, PETG et ABS, conseils pour réduire le coût. Commande minimum de 9,90 €.",
   h1: "Prix Impression 3D — Comment est Calculé le Tarif ?",
-  intro: "Le prix d'une impression 3D dépend de deux paramètres : le poids de la pièce (quantité de filament consommée) et le temps d'impression (durée d'utilisation de la machine). Il n'y a pas de frais de mise en route ni de frais de vérification de fichier. La commande minimum est de 10 €. L'expédition coûte 5,90 € fixe vers la France.",
+  intro: "Le prix d'une impression 3D dépend de deux paramètres : le poids de la pièce (quantité de filament consommée) et le temps d'impression (durée d'utilisation de la machine). Il n'y a pas de frais de mise en route ni de frais de vérification de fichier. La commande minimum est de 9,90 €. L'expédition coûte 5,90 € fixe vers la France.",
   sections: [
     {
       heading: "Comment le prix est-il calculé ?",
@@ -883,7 +883,7 @@ export const frGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Frais d'expédition et commande minimum",
-      body: "L'expédition vers la France coûte toujours 5,90 €, quel que soit le poids de votre commande. Il n'y a pas de droits de douane — la France et l'Espagne sont toutes deux membres de l'UE. La commande minimum est de 10 € ; les petits objets dont le coût matière et machine est inférieur à ce seuil seront facturés au minimum.",
+      body: "L'expédition vers la France coûte toujours 5,90 €, quel que soit le poids de votre commande. Il n'y a pas de droits de douane — la France et l'Espagne sont toutes deux membres de l'UE. La commande minimum est de 9,90 € ; les petits objets dont le coût matière et machine est inférieur à ce seuil seront facturés au minimum.",
     },
     {
       heading: "Conseils pour réduire le coût",
@@ -896,8 +896,8 @@ export const frGuidePrice: IntlGuideContent = {
       grams: 30,
       hours: 0.5,
       material: "PLA",
-      price: "environ 10 €",
-      description: "30 g PLA, 0,5 h d'impression. Calcul : (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € — la commande minimum de 10 € s'applique.",
+      price: "environ 9,90 €",
+      description: "30 g PLA, 0,5 h d'impression. Calcul : (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € — la commande minimum de 9,90 € s'applique.",
     },
     {
       name: "Boîtier fonctionnel",
@@ -919,7 +919,7 @@ export const frGuidePrice: IntlGuideContent = {
   faqs: [
     {
       q: "Quelle est la commande minimum ?",
-      a: "La commande minimum est de 10 €. Les petits objets dont le coût calculé est inférieur à ce seuil sont facturés au minimum.",
+      a: "La commande minimum est de 9,90 €. Les petits objets dont le coût calculé est inférieur à ce seuil sont facturés au minimum.",
     },
     {
       q: "Y a-t-il des frais de mise en route ?",

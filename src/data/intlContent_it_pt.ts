@@ -19,16 +19,16 @@ export const itHub: IntlHubContent = {
     "Far stampare in 3D non è mai stato così semplice. Studio FDM a Barcellona, prezzi stampa 3D trasparenti, preventivo entro 1 ora nei giorni lavorativi.",
   eyebrow: "🇮🇹 Stampa 3D da Barcellona · Spedizione in Italia",
   h1: "Servizio di Stampa 3D Online con Spedizione in Italia",
-  heroSubtitle: "Carica il file, preventivo in 1 ora, spedizione in Italia in 3–5 giorni lavorativi. Da 10 €, anche per un solo pezzo.",
+  heroSubtitle: "Carica il file, preventivo in 1 ora, spedizione in Italia in 3–5 giorni lavorativi. Da 9,90 €, anche per un solo pezzo.",
   ctaLabel: "Carica il file e vedi il prezzo",
   noRegistration: "Senza registrazione · Senza impegno",
-  trustChips: ["Da 10 €", "Preventivo in 1 ora", "Spedizione 5,90 € tracciata", "Senza dogana nell'UE"],
+  trustChips: ["Da 9,90 €", "Preventivo in 1 ora", "Spedizione 5,90 € tracciata", "Senza dogana nell'UE"],
   orgAlternateNames: ["Dimension3D Italia", "Dimension 3D Prints Italy", "Dimension 3D Italy"],
   promise: `Dimension3D è uno studio FDM professionale situato a Barcellona, nel cuore del Mediterraneo. Grazie al mercato unico europeo, i tuoi pezzi viaggiano dall'Iberia all'Italia senza dogana, con la stessa semplicità di un acquisto domestico. Che tu voglia far stampare in 3D un prototipo per il tuo ufficio a Milano, un ricambio stampa 3D per una macchina industriale a Torino, o un modello architettonico per uno studio romano, il processo è identico: carichi il file, ricevi il preventivo entro un'ora nei giorni lavorativi, approvi e aspetti la consegna.
 
 Il nostro parco macchine è interamente basato su stampanti Bambu Lab X2D con camera chiusa e piatto riscaldato. Questa architettura garantisce la stabilità termica necessaria per stampare correttamente materiali tecnici come PETG, ABS e Nylon, riducendo al minimo i difetti da warping che affliggono le macchine aperte entry-level. Il risultato sono pezzi con migliore adesione tra gli strati, superfici più consistenti e dimensioni finali più vicine al nominale.
 
-I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più tempo macchina, senza costi di setup e senza sorprese. Per ordini fino a 200 € ottieni un prezzo istantaneo non appena carichi il file. Sopra tale soglia un tecnico revisiona la geometria e ti risponde entro un'ora lavorativa. L'ordine minimo è di 10 €. La spedizione è una tariffa piatta di 5,90 € indipendentemente dal peso o dalla destinazione in Italia.`,
+I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più tempo macchina, senza costi di setup e senza sorprese. Per ordini fino a 200 € ottieni un prezzo istantaneo non appena carichi il file. Sopra tale soglia un tecnico revisiona la geometria e ti risponde entro un'ora lavorativa. L'ordine minimo è di 9,90 €. La spedizione è una tariffa piatta di 5,90 € indipendentemente dal peso o dalla destinazione in Italia.`,
 
   howItWorks: `**Come funziona il servizio di stampa 3D online**
 
@@ -65,7 +65,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
   faqs: [
     {
       q: "Quanto costa far stampare in 3D un oggetto?",
-      a: "Il prezzo dipende principalmente dal peso del materiale e dal tempo di stampa. Come riferimento rapido: pezzi piccoli (20–50 g, 1–2 ore) costano di solito tra 10 e 20 €; pezzi medi (100–200 g, 4–6 ore) tra 25 e 45 €. Carica il file per un preventivo esatto — per ordini ≤ 200 € il prezzo è immediato. Ordine minimo 10 €.",
+      a: "Il prezzo dipende principalmente dal peso del materiale e dal tempo di stampa. Come riferimento rapido: pezzi piccoli (20–50 g, 1–2 ore) costano di solito tra 9,90 e 20 €; pezzi medi (100–200 g, 4–6 ore) tra 25 e 45 €. Carica il file per un preventivo esatto — per ordini ≤ 200 € il prezzo è immediato. Ordine minimo 9,90 €.",
     },
     {
       q: "Quanto ci vuole per ricevere il pacco in Italia?",
@@ -81,7 +81,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     },
     {
       q: "C'è un ordine minimo?",
-      a: "Sì, l'ordine minimo è di 10 €. Non addebitiamo costi di setup.",
+      a: "Sì, l'ordine minimo è di 9,90 €. Non addebitiamo costi di setup.",
     },
     {
       q: "Posso ordinare più pezzi nello stesso ordine?",
@@ -117,7 +117,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
   answerBlock: {
     heading: "In breve",
     facts: [
-      "Da 10 € a pezzo; ordine minimo 10 €, nessun costo di setup.",
+      "Da 10 € a pezzo; ordine minimo 9,90 €, nessun costo di setup.",
       "Spedizione tracciata in Italia a tariffa piatta 5,90 €.",
       "Tempi tipici: 3–5 giorni lavorativi dall'approvazione.",
       "Formati accettati: STL, OBJ, STEP, 3MF.",
@@ -149,9 +149,9 @@ export const itCityMilano: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Milano",
-  metaTitle: "Stampa 3D Online con Spedizione a Milano — Da 10 €",
+  metaTitle: "Stampa 3D Online con Spedizione a Milano — Da 9,90 €",
   metaDescription:
-    "Stampa 3D FDM da Barcellona, spedizione a Milano in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Milano in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 9,90 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Milano",
   eyebrow: "Spedizione a Milano · Solitamente 3–5 giorni lavorativi",
 
@@ -163,7 +163,7 @@ L'area metropolitana milanese è anche un nodo fondamentale della catena di forn
 
 Il Politecnico di Milano è una delle università di ingegneria e design più importanti d'Europa. I suoi dipartimenti di Ingegneria Meccanica, Design Industriale e Ingegneria Aerospaziale generano costantemente una domanda di prototipi fisici per tesi, ricerche e progetti in collaborazione con l'industria. Studenti e ricercatori che cercano un servizio di stampa 3D online affidabile, con prezzi trasparenti e tempi certi, trovano in Dimension3D un'alternativa valida ai laboratori interni, spesso saturi nei periodi di picco preesame.
 
-Il quartiere Isola, i nuovi hub creativi di NoLo e le aree produttive di Sesto San Giovanni ospitano inoltre una crescente comunità di maker, startup hardware e micro-imprese che lavorano su piccole serie di pezzi tecnici o oggetti personalizzati. Per questi utenti, la combinazione di ordine minimo contenuto (10 €), preventivo rapido e spedizione piatta a 5,90 € elimina le barriere d'ingresso che spesso scoraggiano gli ordini di prova.
+Il quartiere Isola, i nuovi hub creativi di NoLo e le aree produttive di Sesto San Giovanni ospitano inoltre una crescente comunità di maker, startup hardware e micro-imprese che lavorano su piccole serie di pezzi tecnici o oggetti personalizzati. Per questi utenti, la combinazione di ordine minimo contenuto (9,90 €), preventivo rapido e spedizione piatta a 5,90 € elimina le barriere d'ingresso che spesso scoraggiano gli ordini di prova.
 
 Grazie all'appartenenza di Spagna e Italia all'Unione Europea, la spedizione da Barcellona a Milano non comporta alcuna formalità doganale. Il pacco viene consegnato da un corriere espresso europeo e solitamente arriva in 3–5 giorni lavorativi dall'approvazione dell'ordine. Ricevi il numero di tracciatura in tempo reale. Non ci sono sorprese al momento della consegna: il prezzo che hai approvato è quello definitivo, IVA spagnola già inclusa.
 
@@ -187,7 +187,7 @@ Per iniziare, carica il tuo file STL, STEP o 3MF sul sito. Se hai un progetto co
     },
     {
       q: "Qual è l'ordine minimo?",
-      a: "L'ordine minimo è 10 €. Non addebitiamo costi di setup.",
+      a: "L'ordine minimo è 9,90 €. Non addebitiamo costi di setup.",
     },
   ],
 
@@ -216,9 +216,9 @@ export const itCityTorino: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Torino",
-  metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 10 €",
+  metaTitle: "Stampa 3D Online con Spedizione a Torino — Da 9,90 €",
   metaDescription:
-    "Stampa 3D FDM da Barcellona, spedizione a Torino in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Torino in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 9,90 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Torino",
   eyebrow: "Spedizione a Torino · Solitamente 3–5 giorni lavorativi",
 
@@ -226,7 +226,7 @@ export const itCityTorino: IntlCityContent = {
 
 L'ecosistema della catena di fornitura automotive torinese è tra i più strutturati d'Italia. Le PMI che gravitano intorno all'universo Stellantis e agli OEM di componentistica meccanica hanno esigenze concrete: dime di controllo dimensionale, fixture di saldatura, supporti personalizzati per attrezzature di linea, modelli funzionali per verificare l'accoppiamento tra parti prima di avviare la produzione. Per questi utilizzi il PETG e l'ABS stampati su camera chiusa sono materiali adeguati: offrono la rigidità e la stabilità termica necessarie senza il costo e i tempi di un'officina CNC per un singolo pezzo o una piccola serie.
 
-Il Politecnico di Torino è uno degli atenei tecnici più prestigiosi d'Europa, con dipartimenti di Ingegneria Meccanica, Aerospaziale e Biomedica attivamente coinvolti in ricerche che richiedono componenti fisici. I laboratori del Politecnico sono risorsa preziosa, ma nei periodi di picco — sessioni di tesi, scadenze di progetto, conferenze internazionali — un servizio esterno affidabile e veloce diventa una valida alternativa per studenti e ricercatori che hanno bisogno di un pezzo in pochi giorni. Ordine minimo 10 €, nessun costo di setup, preventivo entro un'ora: i parametri che contano quando si lavora su budget limitati.
+Il Politecnico di Torino è uno degli atenei tecnici più prestigiosi d'Europa, con dipartimenti di Ingegneria Meccanica, Aerospaziale e Biomedica attivamente coinvolti in ricerche che richiedono componenti fisici. I laboratori del Politecnico sono risorsa preziosa, ma nei periodi di picco — sessioni di tesi, scadenze di progetto, conferenze internazionali — un servizio esterno affidabile e veloce diventa una valida alternativa per studenti e ricercatori che hanno bisogno di un pezzo in pochi giorni. Ordine minimo 9,90 €, nessun costo di setup, preventivo entro un'ora: i parametri che contano quando si lavora su budget limitati.
 
 L'OGR — Officine Grandi Riparazioni — è diventato uno dei principali hub tecnologici e creativi del Nordovest italiano. Al suo interno convivono startup tecnologiche, acceleratori di impresa, laboratori di innovazione e studi di design. Questo mix produce una domanda eterogenea: dai prototipi di dispositivi IoT alle installazioni artistiche, dagli housing per elettronica ai pezzi decorativi per presentazioni e pitch. La stampa FDM copre bene tutto questo spettro, con materiali diversi per ogni esigenza.
 
@@ -250,7 +250,7 @@ Per iniziare basta caricare il file sul sito. Per ordini fino a 200 € il preve
     },
     {
       q: "Posso ordinare un singolo pezzo di ricambio?",
-      a: "Sì. L'ordine minimo è 10 €. Puoi ordinare anche un singolo pezzo senza costi di setup.",
+      a: "Sì. L'ordine minimo è 9,90 €. Puoi ordinare anche un singolo pezzo senza costi di setup.",
     },
     {
       q: "Come faccio a sapere se il mio design è stampabile in FDM?",
@@ -284,15 +284,15 @@ export const itCityRoma: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Roma",
-  metaTitle: "Stampa 3D Online con Spedizione a Roma — Da 10 €",
+  metaTitle: "Stampa 3D Online con Spedizione a Roma — Da 9,90 €",
   metaDescription:
-    "Stampa 3D FDM da Barcellona, spedizione a Roma in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Roma in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 9,90 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Roma",
   eyebrow: "Spedizione a Roma · Solitamente 3–5 giorni lavorativi",
 
   introText: `Roma è una città di stratificazioni: millenni di storia costruita, modificata, conservata e reinterpretata convivono con istituzioni universitarie di rango mondiale, enti pubblici con esigenze tecniche sofisticate e un tessuto di studi di ingegneria e architettura che lavora ogni giorno su progetti unici. In questo contesto la stampa 3D svolge ruoli molto diversi da quelli che assume in altri contesti industriali, e il servizio online di Dimension3D è strutturato per servire tutta questa varietà con la stessa semplicità operativa.
 
-La Sapienza Università di Roma è una delle università più grandi d'Europa per numero di studenti. I suoi dipartimenti di Ingegneria Civile e Industriale, Ingegneria dell'Informazione e Scienze Fisiche producono costantemente ricerche che richiedono componenti fisici: modelli strutturali in scala, supporti per strumentazione di laboratorio, fixture per esperimenti, housing per prototipi elettronici. L'Università di Roma Tor Vergata, con il suo polo tecnologico a Frascati e le collaborazioni con l'ESA, aggiunge una dimensione aerospaziale e scientifica. Ricercatori e dottorandi che lavorano su budget limitati e scadenze stringenti trovano nel nostro servizio — ordine minimo 10 €, preventivo entro un'ora, spedizione in solitamente 3–5 giorni lavorativi — un'alternativa concreta ai laboratori interni.
+La Sapienza Università di Roma è una delle università più grandi d'Europa per numero di studenti. I suoi dipartimenti di Ingegneria Civile e Industriale, Ingegneria dell'Informazione e Scienze Fisiche producono costantemente ricerche che richiedono componenti fisici: modelli strutturali in scala, supporti per strumentazione di laboratorio, fixture per esperimenti, housing per prototipi elettronici. L'Università di Roma Tor Vergata, con il suo polo tecnologico a Frascati e le collaborazioni con l'ESA, aggiunge una dimensione aerospaziale e scientifica. Ricercatori e dottorandi che lavorano su budget limitati e scadenze stringenti trovano nel nostro servizio — ordine minimo 9,90 €, preventivo entro un'ora, spedizione in solitamente 3–5 giorni lavorativi — un'alternativa concreta ai laboratori interni.
 
 Roma ospita anche una delle più importanti comunità di professionisti del patrimonio culturale e della conservazione architettonica. Restauratori, archeologi e storici dell'arte collaborano sempre più con ingegneri strutturali per produrre modelli fisici di siti, reperti o elementi architettonici. La stampa FDM in PLA è adatta a riprodurre geometrie complesse da scansioni 3D — rilievi fotogrammetrici di frammenti lapidei, modelli di capitelli o cornici — per usi documentativi, didattici o di studio pre-intervento. La possibilità di caricare direttamente file OBJ o STEP generati da software di rilievo rende il workflow fluido.
 
@@ -300,7 +300,7 @@ Le istituzioni governative e parastatali che hanno sede a Roma — ministeri, ag
 
 Gli studi di architettura e urbanistica romani, che lavorano su concorsi internazionali, piani regolatori e riqualificazioni urbane, utilizzano i modelli fisici in scala come strumento di comunicazione con committenti, amministrazioni e comunità. La stampa FDM permette di produrre maquette di edifici, interi isolati o elementi urbani in scala 1:200 o 1:500 in tempi e costi incomparabilmente inferiori a quelli del modellismo manuale tradizionale. Il PETG trasparente o naturale è spesso scelto per le superfici vetrate; il PLA bianco o grigio per le strutture.
 
-Dal punto di vista logistico, Roma è una destinazione ben servita dai corrieri europei. Grazie al mercato unico UE, la spedizione da Barcellona non comporta dogana né oneri aggiuntivi. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è piatta a 5,90 € indipendentemente dal numero di pezzi. Non ci sono costi di setup né ordini minimi oltre i 10 €.
+Dal punto di vista logistico, Roma è una destinazione ben servita dai corrieri europei. Grazie al mercato unico UE, la spedizione da Barcellona non comporta dogana né oneri aggiuntivi. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è piatta a 5,90 € indipendentemente dal numero di pezzi. Non ci sono costi di setup né ordini minimi oltre i 9,90 €.
 
 Per inviare il file e ricevere il preventivo — immediato per ordini ≤ 200 €, entro un'ora lavorativa per ordini più complessi — è sufficiente accedere al sito e caricare il file STL, OBJ, STEP o 3MF. Se preferisci un confronto preliminare, il team è raggiungibile su WhatsApp nelle ore lavorative.`,
 
@@ -322,7 +322,7 @@ Per inviare il file e ricevere il preventivo — immediato per ordini ≤ 200 �
     },
     {
       q: "Qual è l'ordine minimo?",
-      a: "L'ordine minimo è 10 €. Nessun costo di setup.",
+      a: "L'ordine minimo è 9,90 €. Nessun costo di setup.",
     },
   ],
 
@@ -351,13 +351,13 @@ export const itCityNapoli: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Napoli",
-  metaTitle: "Stampa 3D Online con Spedizione a Napoli — Da 10 €",
+  metaTitle: "Stampa 3D Online con Spedizione a Napoli — Da 9,90 €",
   metaDescription:
-    "Stampa 3D FDM da Barcellona, spedizione a Napoli in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Napoli in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 9,90 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Napoli",
   eyebrow: "Spedizione a Napoli · Solitamente 3–5 giorni lavorativi",
 
-  introText: `Napoli non è solo la terza città d'Italia per popolazione: è il baricentro di un'area metropolitana che unisce tradizione manifatturiera, ricerca universitaria e una delle scene creative più dinamiche del Mediterraneo. Il servizio di stampa 3D online di Dimension3D si rivolge a tutti questi mondi con le stesse regole semplici: ordine minimo 10 €, preventivo in un'ora nei giorni lavorativi, spedizione tracciata a 5,90 € indipendentemente dal peso.
+  introText: `Napoli non è solo la terza città d'Italia per popolazione: è il baricentro di un'area metropolitana che unisce tradizione manifatturiera, ricerca universitaria e una delle scene creative più dinamiche del Mediterraneo. Il servizio di stampa 3D online di Dimension3D si rivolge a tutti questi mondi con le stesse regole semplici: ordine minimo 9,90 €, preventivo in un'ora nei giorni lavorativi, spedizione tracciata a 5,90 € indipendentemente dal peso.
 
 L'Università Federico II, la Parthenope e la Vanvitelli alimentano una domanda continua di componenti stampati in 3D per laboratori di ingegneria, scienze della vita e beni culturali. Studenti, dottorandi e ricercatori cercano servizi che non richiedano preventivi lunghi o ordini minimi fuori scala: il nostro flusso — carica, prezzo immediato fino a 200 €, approvazione, pagamento online — risolve esattamente questo collo di bottiglia. La possibilità di accettare file STEP direttamente dai software CAD più diffusi (SolidWorks, Fusion 360, Rhino) riduce il tempo di preparazione e abbassa il rischio di errori di triangolazione nelle mesh STL.
 
@@ -377,7 +377,7 @@ Per iniziare, carica il file STL, OBJ, STEP o 3MF e scegli il materiale. Il prez
   faqs: [
     {
       q: "Quanto costa stampare un pezzo in 3D a Napoli?",
-      a: "Il prezzo parte da 10 € a pezzo (ordine minimo). Per pezzi piccoli (10–50 g) il totale consegnato a Napoli è tipicamente 15,90–20,90 € includendo i 5,90 € di spedizione.",
+      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Per pezzi piccoli (10–50 g) il totale consegnato a Napoli è tipicamente 15,90–20,90 € includendo i 5,90 € di spedizione.",
     },
     {
       q: "Quanto tempo ci vuole per ricevere il pacco a Napoli?",
@@ -389,7 +389,7 @@ Per iniziare, carica il file STL, OBJ, STEP o 3MF e scegli il materiale. Il prez
     },
     {
       q: "Qual è l'ordine minimo?",
-      a: "L'ordine minimo è 10 €. Nessun costo di setup, nessuna tariffa di preparazione.",
+      a: "L'ordine minimo è 9,90 €. Nessun costo di setup, nessuna tariffa di preparazione.",
     },
   ],
 
@@ -419,9 +419,9 @@ export const itCityBologna: IntlCityContent = {
   locale: "it-IT",
   countryCode: "IT",
   city: "Bologna",
-  metaTitle: "Stampa 3D Online con Spedizione a Bologna — Da 10 €",
+  metaTitle: "Stampa 3D Online con Spedizione a Bologna — Da 9,90 €",
   metaDescription:
-    "Stampa 3D FDM da Barcellona, spedizione a Bologna in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 10 €, preventivo in 1 ora, senza costi fissi.",
+    "Stampa 3D FDM da Barcellona, spedizione a Bologna in 3–5 giorni lavorativi. PLA, PETG, ABS, Nylon. Da 9,90 €, preventivo in 1 ora, senza costi fissi.",
   h1: "Stampa 3D Online con Spedizione a Bologna",
   eyebrow: "Spedizione a Bologna · Solitamente 3–5 giorni lavorativi",
 
@@ -445,7 +445,7 @@ Dal punto di vista logistico, Bologna è ben collegata ai principali corrieri es
   faqs: [
     {
       q: "Quanto costa stampare un pezzo in 3D a Bologna?",
-      a: "Il prezzo parte da 10 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,90 € (10 € di stampa + 5,90 € di spedizione).",
+      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,90 € (10 € di stampa + 5,90 € di spedizione).",
     },
     {
       q: "Quanto tempo ci vuole per ricevere il pacco a Bologna?",
@@ -457,7 +457,7 @@ Dal punto di vista logistico, Bologna è ben collegata ai principali corrieri es
     },
     {
       q: "Qual è l'ordine minimo?",
-      a: "L'ordine minimo è 10 €. Nessun costo di setup.",
+      a: "L'ordine minimo è 9,90 €. Nessun costo di setup.",
     },
   ],
 
@@ -490,7 +490,7 @@ export const itGuidePrice: IntlGuideContent = {
   metaDescription:
     "Come si calcolano i prezzi stampa 3D? Peso del materiale, tempo macchina, scelta del filamento: tutto spiegato con esempi reali.",
   h1: "Prezzi Stampa 3D Online: Come Funziona il Calcolo",
-  intro: `Capire come vengono calcolati i prezzi stampa 3D ti aiuta a progettare pezzi più efficienti e a confrontare preventivi in modo informato. La formula di Dimension3D si basa su due componenti: il costo del materiale (proporzionale al peso in grammi) e il costo del tempo macchina (proporzionale alle ore di stampa). Non ci sono costi di setup, né tariffe minime oltre i 10 €.`,
+  intro: `Capire come vengono calcolati i prezzi stampa 3D ti aiuta a progettare pezzi più efficienti e a confrontare preventivi in modo informato. La formula di Dimension3D si basa su due componenti: il costo del materiale (proporzionale al peso in grammi) e il costo del tempo macchina (proporzionale alle ore di stampa). Non ci sono costi di setup, né tariffe minime oltre i 9,90 €.`,
 
   sections: [
     {
@@ -503,7 +503,7 @@ export const itGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Ordine minimo e tariffa di spedizione",
-      body: `L'ordine minimo è 10 €. Se il calcolo peso + tempo macchina porta a un importo inferiore, il prezzo viene arrotondato al minimo. La spedizione è una tariffa piatta di 5,90 € per qualsiasi destinazione in Italia, indipendentemente dal numero di pezzi o dal peso totale. Non ci sono costi di setup o tariffe aggiuntive.`,
+      body: `L'ordine minimo è 9,90 €. Se il calcolo peso + tempo macchina porta a un importo inferiore, il prezzo viene arrotondato al minimo. La spedizione è una tariffa piatta di 5,90 € per qualsiasi destinazione in Italia, indipendentemente dal numero di pezzi o dal peso totale. Non ci sono costi di setup o tariffe aggiuntive.`,
     },
     {
       heading: "Come ottenere il preventivo",
@@ -521,9 +521,9 @@ export const itGuidePrice: IntlGuideContent = {
       grams: 30,
       hours: 0.5,
       material: "PLA",
-      price: "~10 €",
+      price: "~9,90 €",
       description:
-        "Supporto per cavo o piccolo bracket decorativo. Calcolo: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → arrotondato al minimo d'ordine di 10 €.",
+        "Supporto per cavo o piccolo bracket decorativo. Calcolo: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → arrotondato al minimo d'ordine di 9,90 €.",
     },
     {
       name: "Connettore funzionale in PETG",
@@ -723,16 +723,16 @@ export const ptHub: IntlHubContent = {
     "Imprimir em 3D de forma rápida e transparente. Estúdio FDM em Barcelona, preço impressão 3D imediato até 200 €, orçamento em 1 hora nos dias úteis.",
   eyebrow: "🇵🇹 Impressão 3D de Barcelona · Envio para Portugal",
   h1: "Serviço de Impressão 3D Online com Envio para Portugal",
-  heroSubtitle: "Carrega o ficheiro, orçamento em 1 hora, envio para Portugal em 2–4 dias úteis. A partir de 10 €, mesmo para uma peça.",
+  heroSubtitle: "Carrega o ficheiro, orçamento em 1 hora, envio para Portugal em 2–4 dias úteis. A partir de 9,90 €, mesmo para uma peça.",
   ctaLabel: "Carrega o ficheiro e vê o preço",
   noRegistration: "Sem registo · Sem compromisso",
-  trustChips: ["A partir de 10 €", "Orçamento em 1 hora", "Envio 5,90 € rastreado", "Sem alfândega na UE"],
+  trustChips: ["A partir de 9,90 €", "Orçamento em 1 hora", "Envio 5,90 € rastreado", "Sem alfândega na UE"],
   orgAlternateNames: ["Dimension3D Portugal", "Dimension 3D Prints Portugal", "Dimension 3D Portugal"],
   promise: `A Dimension3D é um estúdio FDM profissional sediado em Barcelona. Graças ao mercado único europeu, as peças viajam de Espanha para Portugal sem qualquer formalidade aduaneira, com a mesma simplicidade de uma encomenda nacional. Seja para obter peças de substituição impressão 3D para equipamentos industriais no Porto, um protótipo para um estúdio criativo em Lisboa, ou um modelo técnico para uma instituição académica, o processo é idêntico: carregue o ficheiro, receba o orçamento em até uma hora nos dias úteis, aprove e aguarde a entrega.
 
 O nosso parque de máquinas é integralmente composto por impressoras Bambu Lab X2D com câmara fechada e cama aquecida. Esta arquitectura assegura a estabilidade térmica necessária para imprimir correctamente materiais técnicos como PETG, ABS e Nylon, reduzindo ao mínimo os defeitos de warping comuns em máquinas abertas de entrada de gama. O resultado são peças com melhor adesão entre camadas, superfícies mais consistentes e dimensões finais mais próximas do nominal.
 
-O preço impressão 3D é calculado de forma transparente: peso do material mais tempo de máquina, sem custos de configuração e sem surpresas. Para encomendas até 200 € obtém um preço imediato assim que carrega o ficheiro. Acima desse limiar, um técnico revê a geometria e responde em até uma hora útil. A encomenda mínima é de 10 €. O envio tem uma tarifa fixa de 5,90 € independentemente do peso ou do destino em Portugal.`,
+O preço impressão 3D é calculado de forma transparente: peso do material mais tempo de máquina, sem custos de configuração e sem surpresas. Para encomendas até 200 € obtém um preço imediato assim que carrega o ficheiro. Acima desse limiar, um técnico revê a geometria e responde em até uma hora útil. A encomenda mínima é de 9,90 €. O envio tem uma tarifa fixa de 5,90 € independentemente do peso ou do destino em Portugal.`,
 
   howItWorks: `**Como funciona o serviço de impressão 3D online**
 
@@ -769,7 +769,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
   faqs: [
     {
       q: "Quanto custa imprimir em 3D um objecto?",
-      a: "O preço depende principalmente do peso do material e do tempo de impressão. Como referência rápida: peças pequenas (20–50 g, 1–2 horas) custam geralmente entre 10 e 20 €; peças médias (100–200 g, 4–6 horas) entre 25 e 45 €. Carregue o ficheiro para obter um orçamento exacto — para encomendas ≤ 200 € o preço é imediato. Encomenda mínima de 10 €.",
+      a: "O preço depende principalmente do peso do material e do tempo de impressão. Como referência rápida: peças pequenas (20–50 g, 1–2 horas) custam geralmente entre 9,90 e 20 €; peças médias (100–200 g, 4–6 horas) entre 25 e 45 €. Carregue o ficheiro para obter um orçamento exacto — para encomendas ≤ 200 € o preço é imediato. Encomenda mínima de 9,90 €.",
     },
     {
       q: "Quanto tempo demora a encomenda a chegar a Portugal?",
@@ -785,7 +785,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     },
     {
       q: "Existe encomenda mínima?",
-      a: "Sim, a encomenda mínima é de 10 €. Não cobramos custos de configuração.",
+      a: "Sim, a encomenda mínima é de 9,90 €. Não cobramos custos de configuração.",
     },
     {
       q: "Posso encomendar várias peças na mesma encomenda?",
@@ -817,7 +817,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
   answerBlock: {
     heading: "Em resumo",
     facts: [
-      "A partir de 10 € por peça; encomenda mínima 10 €, sem custo de configuração.",
+      "A partir de 10 € por peça; encomenda mínima 9,90 €, sem custo de configuração.",
       "Envio rastreado para Portugal a tarifa fixa de 5,90 €.",
       "Prazos típicos: 2–4 dias úteis após aprovação.",
       "Formatos aceites: STL, OBJ, STEP, 3MF.",
@@ -849,9 +849,9 @@ export const ptCityLisboa: IntlCityContent = {
   locale: "pt-PT",
   countryCode: "PT",
   city: "Lisboa",
-  metaTitle: "Impressão 3D com Envio para Lisboa — A partir de 10 €",
+  metaTitle: "Impressão 3D com Envio para Lisboa — A partir de 9,90 €",
   metaDescription:
-    "Impressão 3D FDM de Barcelona, envio para Lisboa em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.",
+    "Impressão 3D FDM de Barcelona, envio para Lisboa em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 9,90 €, orçamento em 1 hora, sem custos fixos.",
   h1: "Impressão 3D Online com Envio para Lisboa",
   eyebrow: "Envio para Lisboa · Habitualmente 2–4 dias úteis",
 
@@ -859,7 +859,7 @@ export const ptCityLisboa: IntlCityContent = {
 
 O Beato Tech City e os espaços de co-working adjacentes à Marvila e ao Braço de Prata albergam uma crescente comunidade de fundadores de hardware, engenheiros de produto e designers industriais. A impressão FDM serve aqui múltiplas funções: validação de forma e encaixe antes de avançar para injecção plástica, produção de peças de baixo volume para primeiros clientes, e fabricação de fixtures e gabaritos de montagem para pequenas séries. O serviço de impressão 3D online da Dimension3D elimina a necessidade de equipamento próprio ou de acordos com fornecedores locais: carregue o ficheiro, receba o orçamento, aprove.
 
-A LX Factory, no coração de Alcântara, é um espaço de manufactura criativa onde estúdios de design de produto, ateliers de moda e agências criativas trabalham lado a lado. A impressão 3D em PLA e PETG é amplamente utilizada para produzir modelos físicos de apresentação, peças de cenografia, acessórios e componentes únicos para instalações artísticas. A possibilidade de encomendar uma única peça sem mínimos de série elevados — a encomenda mínima da Dimension3D é de 10 € — torna o serviço acessível mesmo para projectos de orçamento limitado.
+A LX Factory, no coração de Alcântara, é um espaço de manufactura criativa onde estúdios de design de produto, ateliers de moda e agências criativas trabalham lado a lado. A impressão 3D em PLA e PETG é amplamente utilizada para produzir modelos físicos de apresentação, peças de cenografia, acessórios e componentes únicos para instalações artísticas. A possibilidade de encomendar uma única peça sem mínimos de série elevados — a encomenda mínima da Dimension3D é de 9,90 € — torna o serviço acessível mesmo para projectos de orçamento limitado.
 
 O ecossistema do Web Summit, que tem Lisboa como sede permanente, gerou nos últimos anos um fluxo constante de startups de hardware e deeptech que escolheram a cidade como base europeia. Muitas destas empresas trabalham em fases iniciais de desenvolvimento de produto onde a prototipagem física é frequente e os orçamentos de produção ainda não justificam investimento em ferramental. O serviço FDM com câmara fechada da Dimension3D — que permite imprimir ABS e Nylon com qualidade consistente — serve bem estas necessidades técnicas.
 
@@ -867,7 +867,7 @@ A transferência de tecnologia das universidades lisboetas para o sector privado
 
 A vantagem logística ibérica é relevante: Lisboa está entre as cidades europeias com melhor ligação de transporte à Península Ibérica. A proximidade geográfica com Barcelona — comparativamente a outras capitais europeias — contribui para que os tempos de envio sejam habitualmente de 2–4 dias úteis, mais rápidos do que para muitas outras origens europeias. Não há alfândega nem taxas adicionais: Espanha e Portugal partilham o mercado único da UE.
 
-O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para encomendas até 200 € o orçamento é imediato. Para projectos mais complexos ou encomendas de maior valor, um técnico responde em até uma hora nos dias úteis. A tarifa de envio é fixa em 5,90 € independentemente do número de peças. A encomenda mínima é de 10 €, sem custos de configuração.`,
+O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para encomendas até 200 € o orçamento é imediato. Para projectos mais complexos ou encomendas de maior valor, um técnico responde em até uma hora nos dias úteis. A tarifa de envio é fixa em 5,90 € independentemente do número de peças. A encomenda mínima é de 9,90 €, sem custos de configuração.`,
 
   deliveryNote:
     "Envio de Barcelona, habitualmente 2–4 dias úteis para Lisboa. Sem alfândega UE. Tarifa fixa 5,90 €.",
@@ -883,7 +883,7 @@ O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para e
     },
     {
       q: "Posso encomendar uma única peça?",
-      a: "Sim. A encomenda mínima é de 10 €. Pode encomendar uma única peça sem custos de configuração.",
+      a: "Sim. A encomenda mínima é de 9,90 €. Pode encomendar uma única peça sem custos de configuração.",
     },
     {
       q: "Qual é a vantagem de encomendar em Espanha em vez de Portugal?",
@@ -915,7 +915,7 @@ export const ptCityPorto: IntlCityContent = {
   city: "Porto",
   metaTitle: "Impressão 3D Online com Envio para o Porto",
   metaDescription:
-    "Impressão 3D FDM de Barcelona, envio para o Porto em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 10 €, orçamento em 1 hora, sem custos fixos.",
+    "Impressão 3D FDM de Barcelona, envio para o Porto em 2–4 dias úteis. PLA, PETG, ABS, Nylon. A partir de 9,90 €, orçamento em 1 hora, sem custos fixos.",
   h1: "Impressão 3D Online com Envio para o Porto",
   eyebrow: "Envio para o Porto · Habitualmente 2–4 dias úteis",
 
@@ -925,7 +925,7 @@ A Faculdade de Engenharia da Universidade do Porto (FEUP) é uma das escolas de 
 
 O ecossistema de fornecedores industriais do Norte de Portugal inclui empresas que trabalham em cadeia de valor com multinacionais do sector automóvel e agroalimentar. A Bosch Termotecnologia, sediada em Aveiro, e as unidades produtivas da Sogrape e de outros grandes grupos da região fazem parte de uma rede de empresas que frequentemente necessitam de peças de substituição para equipamentos descontinuados, gabaritos de controlo dimensional, ou protótipos funcionais para validação antes de ferramental definitivo. A impressão FDM em PETG ou ABS com câmara fechada cobre bem este tipo de aplicações.
 
-O WOW — World of Wine — no coração de Vila Nova de Gaia, é um exemplo de como o Porto tem atraído projectos culturais e criativos de grande escala que combinam arquitectura, design e tecnologia. Estúdios de design de interiores, ateliers de arquitectura e agências criativas da região utilizam a impressão 3D para produzir modelos em escala, peças de sinalética personalizada, componentes de exposição e acessórios únicos. A possibilidade de encomendar uma única peça ou uma pequena série sem custos de configuração — encomenda mínima de 10 € — torna o serviço acessível para projectos criativos de todas as dimensões.
+O WOW — World of Wine — no coração de Vila Nova de Gaia, é um exemplo de como o Porto tem atraído projectos culturais e criativos de grande escala que combinam arquitectura, design e tecnologia. Estúdios de design de interiores, ateliers de arquitectura e agências criativas da região utilizam a impressão 3D para produzir modelos em escala, peças de sinalética personalizada, componentes de exposição e acessórios únicos. A possibilidade de encomendar uma única peça ou uma pequena série sem custos de configuração — encomenda mínima de 9,90 € — torna o serviço acessível para projectos criativos de todas as dimensões.
 
 O corredor Porto–Braga–Guimarães concentra uma das maiores densidades europeias de PME industriais em sectores como moldes, ferramentas de corte e componentes de precisão. Muitas destas empresas têm departamentos de R&D que trabalham com prototipagem rápida para validar novos produtos antes de avançar para produção. A combinação de orçamento rápido (imediato até 200 €, orçamento manual em uma hora útil acima desse valor), câmara fechada para materiais técnicos e envio em 2–4 dias úteis cobre bem as necessidades de ciclos curtos de desenvolvimento.
 
@@ -947,7 +947,7 @@ O processo começa pelo carregamento do ficheiro no site. O sistema aceita STL, 
     },
     {
       q: "Posso encomendar uma única peça de substituição?",
-      a: "Sim. A encomenda mínima é de 10 €. Pode encomendar uma única peça sem custos de configuração.",
+      a: "Sim. A encomenda mínima é de 9,90 €. Pode encomendar uma única peça sem custos de configuração.",
     },
     {
       q: "O preço inclui IVA?",
@@ -980,7 +980,7 @@ export const ptGuidePrice: IntlGuideContent = {
   metaDescription:
     "Como se calcula o preço da impressão 3D? Peso do material, tempo de máquina, escolha do filamento: tudo explicado com exemplos reais.",
   h1: "Preço da Impressão 3D Online: Como Funciona o Cálculo",
-  intro: `Compreender como é calculado o preço da impressão 3D ajuda a conceber peças mais eficientes e a avaliar orçamentos de forma informada. A fórmula da Dimension3D baseia-se em duas componentes: o custo do material (proporcional ao peso em gramas) e o custo do tempo de máquina (proporcional às horas de impressão). Não existem custos de configuração, nem mínimos além dos 10 €.`,
+  intro: `Compreender como é calculado o preço da impressão 3D ajuda a conceber peças mais eficientes e a avaliar orçamentos de forma informada. A fórmula da Dimension3D baseia-se em duas componentes: o custo do material (proporcional ao peso em gramas) e o custo do tempo de máquina (proporcional às horas de impressão). Não existem custos de configuração, nem mínimos além dos 9,90 €.`,
 
   sections: [
     {
@@ -993,7 +993,7 @@ export const ptGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Encomenda mínima e tarifa de envio",
-      body: `A encomenda mínima é de 10 €. Se o cálculo peso + tempo de máquina resultar num valor inferior, o preço é arredondado para o mínimo. O envio tem uma tarifa fixa de 5,90 € para qualquer destino em Portugal, independentemente do número de peças ou do peso total. Não existem custos de configuração ou tarifas adicionais.`,
+      body: `A encomenda mínima é de 9,90 €. Se o cálculo peso + tempo de máquina resultar num valor inferior, o preço é arredondado para o mínimo. O envio tem uma tarifa fixa de 5,90 € para qualquer destino em Portugal, independentemente do número de peças ou do peso total. Não existem custos de configuração ou tarifas adicionais.`,
     },
     {
       heading: "Como obter o orçamento",
@@ -1011,9 +1011,9 @@ export const ptGuidePrice: IntlGuideContent = {
       grams: 30,
       hours: 0.5,
       material: "PLA",
-      price: "~10 €",
+      price: "~9,90 €",
       description:
-        "Suporte para cabo ou pequeno bracket decorativo. Cálculo: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → arredondado para o mínimo de encomenda de 10 €.",
+        "Suporte para cabo ou pequeno bracket decorativo. Cálculo: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → arredondado para o mínimo de encomenda de 9,90 €.",
     },
     {
       name: "Conector funcional em PETG",

@@ -328,7 +328,7 @@ const CatalogProduct = () => {
                   </li>
                   <li>
                     <strong>Precio:</strong> €{product.priceLow}–€{product.priceHigh} por unidad según la combinación de
-                    tamaño, color y acabado. El pedido mínimo es 10 €.
+                    tamaño, color y acabado. El pedido mínimo es 9,90 €.
                   </li>
                 </ul>
               </div>

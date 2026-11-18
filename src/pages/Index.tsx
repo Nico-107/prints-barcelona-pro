@@ -46,21 +46,21 @@ const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const HOME_META: Record<string, { title: string; description: string; locale: string }> = {
   es: {
-    title: `Impresión 3D en ${ACTIVE_CITY.cityName} — Desde 10 €, Presupuesto en 1h`,
+    title: `Impresión 3D en ${ACTIVE_CITY.cityName} — Desde 9,90 €, Presupuesto en 1h`,
     description:
-      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 10 €, desde 1 pieza. Recogida local o envío.`,
+      `Piezas a medida, prototipos y recambios en ${ACTIVE_CITY.cityName}. Presupuesto gratis en menos de 1 hora. Desde 9,90 €, desde 1 pieza. Recogida local o envío.`,
     locale: "es_ES",
   },
   en: {
-    title: `3D Printing ${ACTIVE_CITY.cityName} — From €10, Quote in Under 1 Hour`,
+    title: `3D Printing ${ACTIVE_CITY.cityName} — From €9.90, Quote in Under 1 Hour`,
     description:
-      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From €10 per order, from 1 piece. Local pickup or shipping.`,
+      `Custom parts, prototypes and replacements in ${ACTIVE_CITY.cityName}. Free quote in under 1 hour. From €9.90 per order, from 1 piece. Local pickup or shipping.`,
     locale: "en_US",
   },
   ca: {
-    title: `Impressió 3D a ${ACTIVE_CITY.cityName} — Des de 10 €, Pressupost en 1h`,
+    title: `Impressió 3D a ${ACTIVE_CITY.cityName} — Des de 9,90 €, Pressupost en 1h`,
     description:
-      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 10 €, des d'1 peça. Recollida local o enviament.`,
+      `Peces a mida, prototips i recanvis a ${ACTIVE_CITY.cityName}. Pressupost gratis en menys d'1 hora. Des de 9,90 €, des d'1 peça. Recollida local o enviament.`,
     locale: "ca_ES",
   },
 };
@@ -99,8 +99,8 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "¿Cuánto cuesta la impresión 3D en Barcelona?", desc: "Precios reales por tamaño y material, con ejemplos y tabla de tarifas." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
-      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Desde 10€, mismo servicio express." },
-      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Pedido mínimo 10 € — desde 1 pieza", desc: "Una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 10 €." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descuento para estudiantes", desc: "Impresión 3D con descuento universitario. Desde 9,90 €, mismo servicio express." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Pedido mínimo 9,90 € — desde 1 pieza", desc: "Una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 9,90 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Repuesto descatalogado — lo imprimimos en 3D", desc: "¿El fabricante ya no lo vende? Reproducimos desde foto o la pieza original." },
     ],
   },
@@ -110,8 +110,8 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "How much does 3D printing cost in Barcelona?", desc: "Real prices by size and material, with examples and a pricing table." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Urgent 3D printing — delivery in 24-48h", desc: "How the express service works and which materials are available." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Replacement parts & broken pieces in 3D", desc: "From photo or broken part to a printed replacement in Barcelona." },
-      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. From €10, same express service." },
-      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "10 € minimum order — from 1 part", desc: "Print a single part at the same per-unit price as a larger batch. Minimum order €10." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% student discount", desc: "3D printing with university discount. From €9.90, same express service." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "€9.90 minimum order — from 1 part", desc: "Print a single part at the same per-unit price as a larger batch. Minimum order €9.90." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Discontinued part — we reproduce it in 3D", desc: "Manufacturer no longer sells it? We reproduce it from a photo or the original piece." },
     ],
   },
@@ -121,8 +121,8 @@ const GUIDES_COPY: Record<string, {
       { slug: "/blog/precio-impresion-3d-barcelona", icon: BookOpen, title: "¿Cuánto cuesta la impresión 3D en Barcelona?", desc: "Precios reales por tamaño y material, con ejemplos y tabla de tarifas." },
       { slug: "/blog/impresion-3d-urgente-barcelona", icon: Zap, title: "Impresión 3D urgente — entrega en 24-48h", desc: "Cómo funciona el servicio express y qué materiales están disponibles." },
       { slug: "/blog/recambios-piezas-rotas-impresion-3d-barcelona", icon: Wrench, title: "Recambios y piezas rotas en 3D", desc: "De la foto o la pieza rota a un recambio impreso en 3D en Barcelona." },
-      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Des de 10€, mateix servei express." },
-      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Comanda mínima 10 € — des d'1 peça", desc: "Una sola peça al mateix preu per unitat que un lot. Comanda mínima 10 €." },
+      { slug: "/impresion-3d-estudiantes-barcelona", icon: GraduationCap, title: "20% de descompte per a estudiants", desc: "Impressió 3D amb descompte universitari. Des de 9,90 €, mateix servei express." },
+      { slug: "/impresion-3d-sin-pedido-minimo", icon: Package, title: "Comanda mínima 9,90 € — des d'1 peça", desc: "Una sola peça al mateix preu per unitat que un lot. Comanda mínima 9,90 €." },
       { slug: "/repuesto-descatalogado", icon: Wrench, title: "Recanvi descatalogat — ho imprimim en 3D", desc: "El fabricant ja no ven la peça? La reproduïm des d'una foto o la peça original." },
     ],
   },
@@ -394,7 +394,7 @@ const Index = () => {
       "@type": "Offer",
       priceCurrency: "EUR",
       price: "10",
-      description: "Impresión 3D desde 10€ con presupuesto en 1 hora",
+      description: "Impresión 3D desde 9,90 € con presupuesto en 1 hora",
     },
   };
 
@@ -436,14 +436,14 @@ const Index = () => {
 
   // Facts strip items — V1 hero (3 items for compact 3-col mobile layout per C3)
   const factsItems = [
-    { value: "Desde 10 €", label: t("home.facts.minOrder.label") },
+    { value: "Desde 9,90 €", label: t("home.facts.minOrder.label") },
     { value: "24–48 h", label: t("home.facts.delivery.label") },
     { value: "±0,2 mm", label: t("home.facts.tolerance.label") },
   ];
 
   // V2 facts strip (simpler, 4 items on navy)
   const v2FactsItems = [
-    { value: "Desde 10 €", label: t("home.facts.minOrder.label") },
+    { value: "Desde 9,90 €", label: t("home.facts.minOrder.label") },
     { value: "<1 h", label: t("home.v2.facts.turnaround") },
     { value: "24–48 h", label: t("home.facts.delivery.label") },
     { value: "4,8/5", label: t("home.v2.facts.reviews") },

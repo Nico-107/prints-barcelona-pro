@@ -167,10 +167,10 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     canonicalPath: "/impresion-3d-empresas-barcelona",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
     // SEO baseline — rule 0.2: meta description is byte-frozen on this page.
-    metaDesc: "Impresión 3D para empresas en Barcelona: piezas funcionales, prototipos, recambios y tiradas cortas. Desde €10, sin tarifa de configuración. Presupuesto en 1h.",
+    metaDesc: "Impresión 3D para empresas en Barcelona: piezas funcionales, prototipos y tiradas cortas. Desde 9,90 €, sin tarifa de configuración. Presupuesto en 1h.",
     h1: "Impresión 3D para Empresas en Barcelona",
     heroPromise: "Más de 250 pedidos completados. Piezas listas en 2–5 días, presupuesto en 1 hora.",
-    heroSub: "Sin tarifa de configuración. Pedido mínimo 10 €. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
+    heroSub: "Sin tarifa de configuración. Pedido mínimo 9,90 €. Factura para empresas. NDA disponible. Soporte en ES · CA · EN · DE · PL.",
     ctaPrimary: "Enviar mi proyecto",
     ctaWhatsApp: "Escribir por WhatsApp",
     ctaSubline: "Sin cuenta. Presupuesto en menos de 1 hora.",
@@ -230,7 +230,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { title: "Entrega en Barcelona o envío", body: "Recogida con cita previa en Barcelona. Envío a domicilio desde 5,90 € a España y la UE. La mayoría de pedidos listos en 2–5 días laborables; urgente en 24–48 h (con recargo)." },
     ],
     faqs: [
-      { q: "¿Cuál es el pedido mínimo para empresas?", a: "El pedido mínimo es de 10€. No hay tarifa de configuración. Desde una sola pieza, sin burocracia." },
+      { q: "¿Cuál es el pedido mínimo para empresas?", a: "El pedido mínimo es de 9,90 €. No hay tarifa de configuración. Desde una sola pieza, sin burocracia." },
       { q: "¿Cuánto cuesta el servicio urgente?", a: "El servicio express (24–48 h) tiene un recargo del 25% sobre el precio base. El servicio urgente (24 h) tiene un recargo del 60%. El precio estándar es sin recargo y cubre la mayoría de proyectos empresariales en 2–5 días laborables." },
       { q: "¿Firmáis NDA o acuerdo de confidencialidad?", a: "Sí. Firmamos NDA para cualquier proyecto que lo requiera. Tus archivos y diseños nunca se comparten con terceros." },
       { q: "¿Emitís factura para empresas?", a: "Sí. Emitimos factura para todos los pedidos de empresa. Facilítanos el nombre de tu empresa al hacer el pedido." },
@@ -264,10 +264,10 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     htmlLang: "en",
     canonicalPath: "/3d-printing-for-business-barcelona",
     metaTitle: "3D Printing for Business in Barcelona — Quote in 1 h",
-    metaDesc: "3D printing for companies in Barcelona: functional parts, prototypes, replacement parts and short runs. From €10, no setup fee. Quote in 1 hour.",
+    metaDesc: "3D printing for companies in Barcelona: functional parts, prototypes, replacement parts and short runs. From €9.90, no setup fee. Quote in 1 hour.",
     h1: "3D Printing for Business in Barcelona",
     heroPromise: "250+ orders completed. Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
-    heroSub: "No setup fee. €10 minimum order. Invoice for companies. NDA available. Support in ES · CA · EN · DE · PL.",
+    heroSub: "No setup fee. €9.90 minimum order. Invoice for companies. NDA available. Support in ES · CA · EN · DE · PL.",
     ctaPrimary: "Send my project",
     ctaWhatsApp: "Message on WhatsApp",
     ctaSubline: "No account needed. Quote within 1 hour.",
@@ -327,7 +327,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { title: "Delivery in Barcelona or shipping", body: "Local pickup by appointment in Barcelona. Shipping from €5.90 to Spain and the EU. Most orders ready in 2–5 business days; urgent in 24–48 h (surcharge applies)." },
     ],
     faqs: [
-      { q: "What is the minimum order for business customers?", a: "The minimum order is €10. No setup fee. From a single part, no overhead." },
+      { q: "What is the minimum order for business customers?", a: "The minimum order is €9.90. No setup fee. From a single part, no overhead." },
       { q: "How much does the urgent service cost?", a: "Express service (24–48 h) carries a 25% surcharge on the base price. Urgent service (24 h) carries a 60% surcharge. Standard price has no surcharge and covers most business projects in 2–5 business days." },
       { q: "Do you sign NDAs?", a: "Yes. We sign NDAs for any project that requires it. Your files and designs are never shared with third parties." },
       { q: "Do you issue invoices for companies?", a: "Yes. We issue invoices for all business orders. Provide your company name when placing the order." },
@@ -362,10 +362,10 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     canonicalPath: "/ca/impressio-3d-empreses-barcelona",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
     // SEO baseline — rule 0.2: meta description is byte-frozen on this page.
-    metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips, recanvis i tirades curtes. Des de €10, sense tarifa de configuració. Pressupost en 1 hora.",
+    metaDesc: "Impressió 3D per a empreses a Barcelona: peces funcionals, prototips i tirades curtes. Des de 9,90 €, sense tarifa de configuració. Pressupost en 1 hora.",
     h1: "Impressió 3D per a Empreses a Barcelona",
     heroPromise: "Més de 250 comandes completades. Peces llestes en 2–5 dies, pressupost en 1 hora.",
-    heroSub: "Sense tarifa de configuració. Comanda mínima 10 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
+    heroSub: "Sense tarifa de configuració. Comanda mínima 9,90 €. Factura per a empreses. NDA disponible. Suport en ES · CA · EN · DE · PL.",
     ctaPrimary: "Enviar el meu projecte",
     ctaWhatsApp: "Escriure per WhatsApp",
     ctaSubline: "Sense compte. Pressupost en menys d'1 hora.",
@@ -425,7 +425,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
       { title: "Lliurament a Barcelona o enviament", body: "Recollida amb cita prèvia a Barcelona (Les Corts). Enviament des de 5,90€ a Espanya i la UE. La majoria de comandes llestes en 2–5 dies laborables; urgent en 24–48 h (amb recàrrec)." },
     ],
     faqs: [
-      { q: "Quina és la comanda mínima per a empreses?", a: "La comanda mínima és de 10€. Sense tarifa de configuració. Des d'una sola peça, sense burocràcia." },
+      { q: "Quina és la comanda mínima per a empreses?", a: "La comanda mínima és de 9,90 €. Sense tarifa de configuració. Des d'una sola peça, sense burocràcia." },
       { q: "Quant costa el servei urgent?", a: "El servei express (24–48 h) té un recàrrec del 25% sobre el preu base. El servei urgent (24 h) té un recàrrec del 60%. El preu estàndard no té recàrrec i cobreix la majoria de projectes empresarials en 2–5 dies laborables." },
       { q: "Signeu NDA o acord de confidencialitat?", a: "Sí. Signem NDA per a qualsevol projecte que ho requereixi. Els teus arxius i dissenys mai es comparteixen amb tercers." },
       { q: "Emeteu factura per a empreses?", a: "Sí. Emetem factura per a totes les comandes d'empresa. Facilita'ns el nom de la teva empresa en fer la comanda." },
@@ -985,9 +985,9 @@ const B2BLanding = ({ lang, showLaunchBanner = false }: Props) => {
         <div id="calculator" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
           <div style={{ maxWidth: 1240, margin: '0 auto', padding: '84px 24px' }}>
             <UploadPanel
-              label={lang === "es" ? "PRECIO INSTANTÁNEO — DESDE 10 €" : lang === "ca" ? "PREU INSTANTANI — DES DE 10 €" : "INSTANT PRICE — FROM €10"}
+              label={lang === "es" ? "PRECIO INSTANTÁNEO — DESDE 9,90 €" : lang === "ca" ? "PREU INSTANTANI — DES DE 9,90 €" : "INSTANT PRICE — FROM €9.90"}
               heading={lang === "es" ? "Sube tu archivo y ve el precio ahora." : lang === "ca" ? "Puja l'arxiu i veu el preu ara." : "Upload your file and see your price now."}
-              description={lang === "es" ? "Sin cuenta. Pedido mínimo 10 €. Presupuesto en menos de 1 hora." : lang === "ca" ? "Sense compte. Comanda mínima 10 €. Pressupost en menys d'1 hora." : "No account needed. 10 € minimum. Quote within 1 hour."}
+              description={lang === "es" ? "Sin cuenta. Pedido mínimo 9,90 €. Presupuesto en menos de 1 hora." : lang === "ca" ? "Sense compte. Comanda mínima 9,90 €. Pressupost en menys d'1 hora." : "No account needed. 9,90 € minimum. Quote within 1 hour."}
             >
               <StlEstimator compact />
             </UploadPanel>

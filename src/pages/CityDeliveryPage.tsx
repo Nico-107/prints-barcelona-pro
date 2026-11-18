@@ -40,7 +40,7 @@ const EN_SHARED_FAQS = [
   },
   {
     q: "Is there a minimum order?",
-    a: "The minimum order is 10 €. Most single small parts fall between 10 € and 40 €. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.",
+    a: "The minimum order is €9.90. Most single small parts fall between €9.90 and 40 €. There is no minimum quantity — we print one-off pieces just as readily as batches of 50.",
   },
   {
     q: "Can you print in my specific material?",
@@ -59,7 +59,7 @@ const ES_SHARED_FAQS = [
   },
   {
     q: "¿Hay un pedido mínimo?",
-    a: "El pedido mínimo es de 10 €. La mayoría de piezas individuales pequeñas están entre 10 € y 40 €. No hay cantidad mínima — imprimimos piezas únicas con la misma rapidez que pedidos de 50 unidades.",
+    a: "El pedido mínimo es de 9,90 €. La mayoría de piezas individuales pequeñas están entre 9,90 € y 40 €. No hay cantidad mínima — imprimimos piezas únicas con la misma rapidez que pedidos de 50 unidades.",
   },
   {
     q: "¿Podéis imprimir en mi material específico?",
@@ -78,7 +78,7 @@ const FR_SHARED_FAQS = [
   },
   {
     q: "Y a-t-il un minimum de commande ?",
-    a: "Le minimum de commande est de 10 €. La plupart des petites pièces individuelles se situent entre 10 € et 40 €. Il n'y a pas de quantité minimale — nous imprimons des pièces uniques aussi facilement que des lots de 50.",
+    a: "Le minimum de commande est de 9,90 €. La plupart des petites pièces individuelles se situent entre 9,90 € et 40 €. Il n'y a pas de quantité minimale — nous imprimons des pièces uniques aussi facilement que des lots de 50.",
   },
   {
     q: "Pouvez-vous imprimer dans mon matériau spécifique ?",
@@ -337,10 +337,10 @@ const CityDeliveryPage = ({ config }: Props) => {
           }}
           reassuranceItems={
             isES
-              ? ["Desde 10 €", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 10 €", "Sin registro"]
+              ? ["Desde 10 €", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 9,90 €", "Sin registro"]
               : isFR
-              ? ["À partir de 10 €", "Devis en 1 heure", "Livraison suivie", "Min. 10 €", "Sans inscription"]
-              : ["From 10 €", "Quote in 1 hour", "Tracked delivery", "10 € min.", "No account needed"]
+              ? ["À partir de 9,90 €", "Devis en 1 heure", "Livraison suivie", "Min. 9,90 €", "Sans inscription"]
+              : ["From €9.90", "Quote in 1 hour", "Tracked delivery", "9,90 € min.", "No account needed"]
           }
         />
 
@@ -417,20 +417,20 @@ const CityDeliveryPage = ({ config }: Props) => {
                 { value: "< 1 h", label: "TIEMPO DE PRESUPUESTO" },
                 { value: config.deliveryDays, label: `ENTREGA A ${config.city.toUpperCase()}` },
                 { value: "30+", label: "PAÍSES DE ENVÍO" },
-                { value: "10 €", label: "PEDIDO MÍNIMO" },
+                { value: "9,90 €", label: "PEDIDO MÍNIMO" },
               ]
             : isFR
             ? [
                 { value: "< 1 h", label: "DÉLAI DE DEVIS" },
                 { value: config.deliveryDays, label: `LIVRAISON À ${config.city.toUpperCase()}` },
                 { value: "30+", label: "PAYS LIVRÉS" },
-                { value: "10 €", label: "COMMANDE MINIMUM" },
+                { value: "9,90 €", label: "COMMANDE MINIMUM" },
               ]
             : [
                 { value: "< 1 h", label: "QUOTE TURNAROUND" },
                 { value: config.deliveryDays, label: `DELIVERY TO ${config.city.toUpperCase()}` },
                 { value: "30+", label: "COUNTRIES SHIPPED" },
-                { value: "10 €", label: "MINIMUM ORDER" },
+                { value: "€9.90", label: "MINIMUM ORDER" },
               ]
           }
           variant="light"
@@ -440,9 +440,9 @@ const CityDeliveryPage = ({ config }: Props) => {
         <div id="calculator" style={{ background: '#F6F8FC' }}>
           <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
             <UploadPanel
-              label="INSTANT PRICE — FROM 10 €"
+              label="INSTANT PRICE — FROM €9.90"
               heading="Upload your files and see the price now."
-              description="No account required. 10 € minimum order, no setup fee. Shipping calculated at checkout."
+              description="No account required. €9.90 minimum order, no setup fee. Shipping calculated at checkout."
             >
             {(() => {
             const iso2 = COUNTRY_TO_ISO2[config.country];
@@ -742,7 +742,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       (horas de impresión). No hay tasas de configuración, ni cargos por revisión de archivos.
                     </p>
                     <p>
-                      El pedido mínimo es <strong className="text-foreground">10 €</strong>. La mayoría de piezas
+                      El pedido mínimo es <strong className="text-foreground">9,90 €</strong>. La mayoría de piezas
                       individuales pequeñas están en el rango de 10 €–40 €. El PLA es la opción más económica; los
                       materiales de ingeniería como Policarbonato y composites de fibra de carbono están en el extremo
                       superior, pero siguen siendo mucho más asequibles que piezas equivalentes en resina o SLS.
@@ -771,7 +771,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                           plateforme.
                         </p>
                         <p>
-                          La commande minimum est de <strong className="text-foreground">10 €</strong>. La plupart des
+                          La commande minimum est de <strong className="text-foreground">9,90 €</strong>. La plupart des
                           petites pièces individuelles se situent entre 10 € et 40 €. Le PLA est le choix le plus
                           économique ; les matériaux d'ingénierie comme le Polycarbonate et les composites carbone sont
                           plus chers, mais restent bien plus abordables que les pièces résine ou SLS équivalentes.
@@ -793,7 +793,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                           There are no set-up fees, no file review fees, and no platform charges.
                         </p>
                         <p>
-                          The minimum order is <strong className="text-foreground">10 €</strong>. Most single small parts
+                          The minimum order is <strong className="text-foreground">€9.90</strong>. Most single small parts
                           fall in the 10 €–40 € range. Material choice affects the per-gram cost: PLA is the most economical,
                           with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but
                           still far more affordable than equivalent resin or SLS parts from industrial bureaus.
@@ -858,7 +858,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         <>
                           <li><strong className="text-foreground">Communication directe.</strong> Vous échangez avec la personne qui imprime réellement votre pièce, pas avec un bot ou une file de tickets. Les questions reçoivent une réponse en minutes, pas en jours.</li>
                           <li><strong className="text-foreground">Délais plus courts pour les petites commandes.</strong> Pas d'intermédiaire de marketplace, pas de routage multi-étapes. La plupart des commandes sont expédiées sous 3–7 jours ouvrables.</li>
-                          <li><strong className="text-foreground">Sans minimum de quantité.</strong> Nous imprimons des pièces uniques à partir de 10 €. Contrairement à de nombreux services industriels qui exigent des minimums de 5 ou 10 pièces.</li>
+                          <li><strong className="text-foreground">Sans minimum de quantité.</strong> Nous imprimons des pièces uniques à partir de 9,90 €. Contrairement à de nombreux services industriels qui exigent des minimums de 5 ou 10 pièces.</li>
                           <li><strong className="text-foreground">Révision honnête du fichier.</strong> Un humain vérifie chaque fichier avant impression. Si votre modèle présente un problème, nous vous le signalons avant d'imprimer — pas après réception d'une pièce cassée.</li>
                           <li><strong className="text-foreground">Accès WhatsApp.</strong> Pour les projets urgents ou complexes, contactez-nous directement. Nous répondons dans l'heure pendant les heures de bureau.</li>
                         </>
@@ -866,7 +866,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         <>
                           <li><strong className="text-foreground">Direct communication.</strong> You message the person who actually prints your part, not a support bot or a ticket queue. Questions are answered in minutes, not days.</li>
                           <li><strong className="text-foreground">Faster turnaround for small orders.</strong> No marketplace overhead, no multi-step routing. Most orders ship within 3–7 business days from confirmation.</li>
-                          <li><strong className="text-foreground">No minimum quantity.</strong> We print single parts starting at 10 €. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
+                          <li><strong className="text-foreground">No minimum quantity.</strong> We print single parts starting at €9.90. Unlike many industrial services that require batch minimums of 5 or 10 units.</li>
                           <li><strong className="text-foreground">Honest file review.</strong> A real human checks every file before it goes to print. If your model has a wall that will fail, we tell you before we print it — not after, when the part arrives broken.</li>
                           <li><strong className="text-foreground">WhatsApp access.</strong> For urgent or complex projects, reach us directly — something no platform-based service can match. We aim to respond within the hour during business hours.</li>
                         </>

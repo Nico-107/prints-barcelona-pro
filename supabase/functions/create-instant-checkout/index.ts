@@ -469,20 +469,20 @@ export function stripeLinesV3(
   autumnDiscountCents = 0,
 ): { name: string; cents: number }[] {
   const L = language === 'es'
-    ? { fill: 'relleno', setup: 'Preparación del pedido', min: 'Ajuste al pedido mínimo (10 €)', exp: 'Suplemento express', disc: 'Descuento de otoño −10 %' }
+    ? { fill: 'relleno', setup: 'Preparación del pedido', min: 'Ajuste al pedido mínimo (9,90 €)', exp: 'Suplemento express', disc: 'Descuento de otoño −10 %' }
     : language === 'ca'
-    ? { fill: 'farciment', setup: 'Preparació de la comanda', min: 'Ajust a la comanda mínima (10 €)', exp: 'Suplement exprés', disc: 'Descompte de tardor −10 %' }
+    ? { fill: 'farciment', setup: 'Preparació de la comanda', min: 'Ajust a la comanda mínima (9,90 €)', exp: 'Suplement exprés', disc: 'Descompte de tardor −10 %' }
     : language === 'de'
-    ? { fill: 'Füllung', setup: 'Auftragseinrichtung', min: 'Anpassung auf Mindestbestellung (10 €)', exp: 'Expressaufschlag', disc: 'Herbstrabatt −10 %' }
+    ? { fill: 'Füllung', setup: 'Auftragseinrichtung', min: 'Anpassung auf Mindestbestellung (9,90 €)', exp: 'Expressaufschlag', disc: 'Herbstrabatt −10 %' }
     : language === 'fr'
-    ? { fill: 'remplissage', setup: 'Préparation de la commande', min: "Ajustement au minimum (10 €)", exp: 'Supplément express', disc: 'Remise automne −10 %' }
+    ? { fill: 'remplissage', setup: 'Préparation de la commande', min: "Ajustement au minimum (9,90 €)", exp: 'Supplément express', disc: 'Remise automne −10 %' }
     : language === 'nl'
-    ? { fill: 'vulling', setup: 'Ordervoorbereiding', min: 'Aanpassing aan minimumbestelling (10 €)', exp: 'Expresstoeslag', disc: 'Herfstkorting −10 %' }
+    ? { fill: 'vulling', setup: 'Ordervoorbereiding', min: 'Aanpassing aan minimumbestelling (9,90 €)', exp: 'Expresstoeslag', disc: 'Herfstkorting −10 %' }
     : language === 'it'
-    ? { fill: 'riempimento', setup: 'Preparazione ordine', min: "Adeguamento al minimo d'ordine (10 €)", exp: 'Supplemento express', disc: 'Sconto autunnale −10 %' }
+    ? { fill: 'riempimento', setup: 'Preparazione ordine', min: "Adeguamento al minimo d'ordine (9,90 €)", exp: 'Supplemento express', disc: 'Sconto autunnale −10 %' }
     : language === 'pt'
-    ? { fill: 'preenchimento', setup: 'Preparação do pedido', min: "Ajuste ao mínimo do pedido (10 €)", exp: 'Suplemento expresso', disc: 'Desconto de outono −10 %' }
-    : { fill: 'infill', setup: 'Order setup', min: 'Adjustment to the €10 minimum', exp: 'Express surcharge', disc: 'Autumn discount −10 %' };
+    ? { fill: 'preenchimento', setup: 'Preparação do pedido', min: "Ajuste ao mínimo do pedido (9,90 €)", exp: 'Suplemento expresso', disc: 'Desconto de outono −10 %' }
+    : { fill: 'infill', setup: 'Order setup', min: 'Adjustment to the €9.90 minimum', exp: 'Express surcharge', disc: 'Autumn discount −10 %' };
 
   // Collect print lines (part cost rows only, not setup/express)
   const printLines: { name: string; cents: number }[] = [];

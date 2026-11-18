@@ -24,7 +24,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Piezas únicas y pequeñas tiradas",
-        body: "El pedido mínimo es de 10 € (sin mínimo por pieza). Tan contentos imprimimos un solo soporte de recambio como una pequeña serie de piezas idénticas para un taller, una clínica dental, un estudio de arquitectura o una tienda local. Para clientes habituales guardamos el archivo, así los reencargos son inmediatos."
+        body: "El pedido mínimo es de 9,90 € (sin mínimo por pieza). Tan contentos imprimimos un solo soporte de recambio como una pequeña serie de piezas idénticas para un taller, una clínica dental, un estudio de arquitectura o una tienda local. Para clientes habituales guardamos el archivo, así los reencargos son inmediatos."
       },
       {
         heading: "Pensadas para durar de verdad",
@@ -34,7 +34,7 @@ export const PAGES_ES: LandingContent[] = [
     faqs: [
       { q: "¿Podéis copiar una pieza rota a partir de una foto?", a: "En muchos casos sí — sobre todo piezas simétricas o con geometría sencilla. Envía una foto clara con regla o moneda como referencia y te lo confirmamos enseguida." },
       { q: "¿Qué material recomendáis para piezas a medida?", a: "PLA para piezas decorativas o sin esfuerzo, PETG para exteriores o carga moderada, ABS/ASA para resistencia al calor y TPU para piezas flexibles como mangos o juntas." },
-      { q: "¿Hay pedido mínimo?", a: "El pedido mínimo es de 10 € por pedido — desde 1 pieza. Imprimimos piezas únicas constantemente, y solo pagas por lo que pides." },
+      { q: "¿Hay pedido mínimo?", a: "El pedido mínimo es de 9,90 € por pedido — desde 1 pieza. Imprimimos piezas únicas constantemente, y solo pagas por lo que pides." },
       { q: "¿Qué precisión tienen las piezas a medida?", a: "La precisión típica en FDM es de unos ±0,2 mm. Para tolerancias más ajustadas afinamos parámetros y postprocesamos las superficies críticas." },
       { q: "¿Podéis recrear una pieza solo a partir de medidas, sin el original?", a: "Sí. Si puedes aportar medidas detalladas, fotos desde varios ángulos o un croquis técnico, podemos modelar e imprimir la pieza. Para geometrías complejas, una breve consulta ayuda a aclarar los requisitos de ajuste." },
       { q: "¿Qué pasa si la pieza impresa no encaja a la primera?", a: "La FDM mantiene una precisión típica de ±0,2 mm. Si un primer intento está ligeramente fuera para un ajuste de tolerancia ajustada, aplicamos una pequeña corrección dimensional (normalmente 0,1–0,2 mm) y reimprimimos a coste reducido." }
@@ -150,8 +150,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-price-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Precios Impresión 3D Barcelona — Desde 10€, Gratis en 1h",
-    metaDescription: "¿Cuánto cuesta la impresión 3D en Barcelona? Piezas desde 10€. Precios transparentes por tamaño y material. Presupuesto gratis en 1h, sin compromiso.",
+    metaTitle: "Precios Impresión 3D Barcelona — Desde 9,90 €, Gratis en 1h",
+    metaDescription: "¿Cuánto cuesta la impresión 3D en Barcelona? Piezas desde 9,90 €. Precios transparentes por tamaño y material. Presupuesto gratis en 1h, sin compromiso.",
     h1: "Precio de Impresión 3D en Barcelona",
     intro: "Una de las primeras preguntas de cualquier cliente es: ¿cuánto va a costar mi impresión 3D? En esta página explicamos exactamente qué determina el precio de una impresión 3D en Barcelona, con ejemplos realistas, para que puedas planificar tu proyecto sin sorpresas.",
     sections: [
@@ -161,7 +161,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Rangos de precio típicos",
-        body: "Estas referencias son realistas para impresiones FDM en Barcelona:\n\n• Piezas pequeñas (clip, pomo, gancho, figura pequeña): desde 10 €.\n• Piezas medianas (soporte, organizador, decoración, figura mediana): normalmente 20–60 €.\n• Piezas grandes (cascos, jarrones, carcasas grandes, figuras altas): normalmente 60–250 €.\n• Pequeñas tiradas: pide precio por unidad — las piezas repetidas salen más baratas.\n\nSon referencias de partida. El presupuesto exacto depende de tu archivo, material y plazo."
+        body: "Estas referencias son realistas para impresiones FDM en Barcelona:\n\n• Piezas pequeñas (clip, pomo, gancho, figura pequeña): desde 9,90 €.\n• Piezas medianas (soporte, organizador, decoración, figura mediana): normalmente 20–60 €.\n• Piezas grandes (cascos, jarrones, carcasas grandes, figuras altas): normalmente 60–250 €.\n• Pequeñas tiradas: pide precio por unidad — las piezas repetidas salen más baratas.\n\nSon referencias de partida. El presupuesto exacto depende de tu archivo, material y plazo."
       },
       {
         heading: "Descuentos por cantidad",
@@ -173,7 +173,7 @@ export const PAGES_ES: LandingContent[] = [
       }
     ],
     faqs: [
-      { q: "¿Cuál es la impresión 3D más barata?", a: "Piezas pequeñas y simples en PLA desde unos 10 €. Materiales más resistentes o tamaños mayores cuestan más." },
+      { q: "¿Cuál es la impresión 3D más barata?", a: "Piezas pequeñas y simples en PLA desde unos 9,90 €. Materiales más resistentes o tamaños mayores cuestan más." },
       { q: "¿Cobráis por el presupuesto?", a: "No. Los presupuestos son siempre gratis y solo pagas si confirmas el pedido." },
       { q: "¿Por qué la misma pieza cuesta más en PETG o Nylon?", a: "Esos filamentos son más caros e imprimen más despacio con parámetros más exigentes, pero duran mucho más en aplicaciones con esfuerzo o exteriores." },
       { q: "¿Las cantidades grandes salen más baratas por pieza?", a: "Sí. Indícanos la cantidad y te enviamos un precio escalado." },
@@ -263,7 +263,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Buena relación calidad-precio y entregas rápidas",
-        body: "Como el PLA imprime rápido y de forma fiable, también es uno de los materiales más asequibles. Las piezas pequeñas en PLA empiezan desde 10 € y la mayoría de pedidos en PLA salen en 2–5 días laborables. Hay servicio Express para urgencias."
+        body: "Como el PLA imprime rápido y de forma fiable, también es uno de los materiales más asequibles. Las piezas pequeñas en PLA empiezan desde 9,90 € y la mayoría de pedidos en PLA salen en 2–5 días laborables. Hay servicio Express para urgencias."
       }
     ],
     faqs: [
@@ -292,7 +292,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "material",
     metaTitle: "Impresión PETG Barcelona — Piezas Funcionales y Exteriores",
-    metaDescription: "Impresión 3D en PETG en Barcelona. Más resistente que el PLA, soporta agua y UV. Piezas funcionales y exteriores. Presupuesto en 1 h desde 10€.",
+    metaDescription: "Impresión 3D en PETG en Barcelona. Más resistente que el PLA, soporta agua y UV. Piezas funcionales y exteriores. Presupuesto en 1 h desde 9,90 €.",
     h1: "Impresión 3D en PETG en Barcelona",
     intro: "Cuando una pieza necesita ser más dura que el PLA, sobrevivir al exterior o estar en contacto con agua, el PETG suele ser la respuesta. Dimension3D ofrece impresión profesional en PETG en Barcelona para aplicaciones funcionales, mecánicas y de exterior.",
     sections: [
@@ -339,7 +339,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "material",
     metaTitle: "Impresión TPU Flexible Barcelona",
-    metaDescription: "Impresión 3D en TPU flexible en Barcelona. Piezas tipo goma: soportes de móvil, juntas, mangos y wearables. Presupuesto en 1 h, desde 10€.",
+    metaDescription: "Impresión 3D en TPU flexible en Barcelona. Piezas tipo goma: soportes de móvil, juntas, mangos y wearables. Presupuesto en 1 h, desde 9,90 €.",
     h1: "Impresión 3D Flexible en TPU en Barcelona",
     intro: "El TPU es el material que hace flexible la impresión 3D. Si una pieza necesita doblarse, agarrar, amortiguar o sellar, este es el que usamos. Dimension3D fabrica impresiones 3D a medida en TPU en Barcelona para todo, desde soportes de móvil hasta juntas industriales.",
     sections: [
@@ -435,8 +435,8 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
-    metaDescription: "Impresión 3D para empresas e ingenieros en Barcelona. 250+ pedidos, desde 10€, sin tarifa de configuración. Factura con IVA. Presupuesto en 1 hora.",
-    h1: "Impresión 3D para Empresas en Barcelona — Factura, NDA y Desde 10 €",
+    metaDescription: "Impresión 3D para empresas e ingenieros en Barcelona. 250+ pedidos, desde 9,90 €, sin tarifa de configuración. Factura con IVA. Presupuesto en 1 hora.",
+    h1: "Impresión 3D para Empresas en Barcelona — Factura, NDA y Desde 9,90 €",
     intro: "Dimension3D trabaja con equipos de ingeniería, departamentos de I+D, talleres y pequeños fabricantes en Barcelona que necesitan piezas 3D funcionales sin los tiempos y la burocracia de un proveedor industrial. Envía tu archivo — STL, STEP o IGES — y recibe presupuesto profesional en menos de una hora. Sin cuenta, sin concurso, sin volumen mínimo.",
     sections: [
       {
@@ -483,8 +483,8 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/rapid-prototyping-barcelona",
     lang: "es",
     category: "use-case",
-    metaTitle: "Prototipado Rápido Barcelona — Entrega 24–72h, Desde 10€",
-    metaDescription: "Prototipado rápido en Barcelona para ingenieros y startups. STL o STEP — prototipo funcional en 24–72h. Desde 10€, sin tarifa de configuración. PETG, Nylon.",
+    metaTitle: "Prototipado Rápido Barcelona — Entrega 24–72h, Desde 9,90 €",
+    metaDescription: "Prototipado rápido en Barcelona para ingenieros y startups. STL o STEP — prototipo funcional en 24–72h. Desde 9,90 €, sin tarifa de configuración. PETG, Nylon.",
     h1: "Prototipado Rápido en Barcelona — Entrega en 24–72h",
     intro: "La iteración rápida es la base del desarrollo de hardware. Dimension3D ofrece prototipado rápido en Barcelona con un plazo típico de 24–72 horas desde archivo hasta pieza en mano — para que tu próxima revisión de diseño llegue antes de que la competencia termine su primera solicitud de presupuesto.",
     sections: [
@@ -498,7 +498,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Iteraciones sin fricción",
-        body: "Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Sin suscripción, pedido mínimo de 10 € por iteración, sin burocracia — subes, revisamos, presupuestamos, apruebas, imprimimos. Para clientes que iteran con frecuencia conservamos tu proyecto en archivo y podemos recibir revisiones por WhatsApp directamente."
+        body: "Cada archivo revisado pasa por el mismo ciclo de revisión en el día y producción en 24–72h. Sin suscripción, pedido mínimo de 9,90 € por iteración, sin burocracia — subes, revisamos, presupuestamos, apruebas, imprimimos. Para clientes que iteran con frecuencia conservamos tu proyecto en archivo y podemos recibir revisiones por WhatsApp directamente."
       },
       {
         heading: "Del prototipo a la tirada corta de producción",
@@ -533,7 +533,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Piezas Funcionales 3D Barcelona",
-    metaDescription: "Piezas funcionales 3D en Barcelona: PETG, ABS, Nylon y TPU. Componentes estructurales, utillaje y piezas de uso final. Presupuesto en 1 h, desde 10€.",
+    metaDescription: "Piezas funcionales 3D en Barcelona: PETG, ABS, Nylon y TPU. Componentes estructurales, utillaje y piezas de uso final. Presupuesto en 1 h, desde 9,90 €.",
     h1: "Piezas Funcionales 3D en Barcelona — Bajo Demanda",
     intro: "No toda impresión 3D es decorativa. Dimension3D está especializado en piezas funcionales impresas en 3D en Barcelona — componentes que cargan, flexionan, sellan, montan, protegen o sustituyen algo en el mundo real. Seleccionamos el material, el espesor de pared y el relleno correctos para lo que la pieza tiene que hacer.",
     sections: [
@@ -551,7 +551,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "De una pieza a una tirada corta",
-        body: "Pedido mínimo de 10 €, sin tarifa de configuración. Imprimimos piezas funcionales individuales con la misma facilidad que un lote de 50. Para pedidos repetidos, conservamos el archivo y los parámetros para que los reencargos se gestionen en minutos. Pide precio por tramos para cualquier cantidad — el coste unitario baja con el volumen."
+        body: "Pedido mínimo de 9,90 €, sin tarifa de configuración. Imprimimos piezas funcionales individuales con la misma facilidad que un lote de 50. Para pedidos repetidos, conservamos el archivo y los parámetros para que los reencargos se gestionen en minutos. Pide precio por tramos para cualquier cantidad — el coste unitario baja con el volumen."
       }
     ],
     faqs: [
@@ -596,7 +596,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Tres modelos de servicio — comparativa objetiva",
-        body: "Hay tres formas habituales de encargar una impresión 3D en Barcelona, y se diferencian en aspectos estructurales que importan más que el marketing de cualquier empresa concreta:\n\n| Característica | Taller local en Barcelona | Plataforma online internacional | Marketplace de makers |\n|---|---|---|---|\n| Plazo típico (presupuesto aprobado → pieza en mano) | 2–5 días laborables en pedidos estándar; express 24–48h posible | 7–14 días laborables incluyendo envío internacional | Variable según el maker; habitualmente 5–15 días laborables |\n| Pedido mínimo | Fijado por el taller; frecuentemente 10–50 € o inexistente | Sin mínimo por pieza habitualmente; mínimos por pedido comunes | Fijado por cada maker de forma independiente |\n| Revisión humana del archivo antes de presupuestar | Práctica habitual en la mayoría de talleres locales | Presupuesto algorítmico por defecto; revisión humana bajo petición o en tramos superiores | Depende íntegramente del maker |\n| Idioma de atención | Español, catalán e inglés disponibles a nivel local | Habitualmente inglés únicamente, o portal por idioma | Depende de los idiomas del maker |\n| Recogida presencial | Disponible con cita en la mayoría de talleres locales | No ofrecida — solo envío internacional | En ocasiones, si el maker es local y está dispuesto |\n| Personalización y ayuda de diseño | Diálogo directo con la persona que produce la pieza | Especificaciones estándar; personalización vía ticket o tramo premium | Directa con el maker, calidad variable |\n\nEn el caso de Dimension3D concretamente: somos un taller local en Barcelona, presupuestamos en menos de una hora en horario laboral, el pedido mínimo es de 10 € sin mínimo por pieza, revisamos cada archivo manualmente antes de dar el precio, atendemos en español, catalán e inglés, y la recogida en Barcelona está disponible con cita previa.\n\nLa opción adecuada depende de tu proyecto. Si necesitas una pieza funcional para la próxima semana con una recomendación de material concreta, un taller local está estructuralmente preparado para eso. Si necesitas 500 piezas idénticas con calidad de inyección al menor coste unitario posible y puedes esperar, la economía de una plataforma internacional puede encajar mejor. Elige el modelo que se ajuste al trabajo."
+        body: "Hay tres formas habituales de encargar una impresión 3D en Barcelona, y se diferencian en aspectos estructurales que importan más que el marketing de cualquier empresa concreta:\n\n| Característica | Taller local en Barcelona | Plataforma online internacional | Marketplace de makers |\n|---|---|---|---|\n| Plazo típico (presupuesto aprobado → pieza en mano) | 2–5 días laborables en pedidos estándar; express 24–48h posible | 7–14 días laborables incluyendo envío internacional | Variable según el maker; habitualmente 5–15 días laborables |\n| Pedido mínimo | Fijado por el taller; frecuentemente 10–50 € o inexistente | Sin mínimo por pieza habitualmente; mínimos por pedido comunes | Fijado por cada maker de forma independiente |\n| Revisión humana del archivo antes de presupuestar | Práctica habitual en la mayoría de talleres locales | Presupuesto algorítmico por defecto; revisión humana bajo petición o en tramos superiores | Depende íntegramente del maker |\n| Idioma de atención | Español, catalán e inglés disponibles a nivel local | Habitualmente inglés únicamente, o portal por idioma | Depende de los idiomas del maker |\n| Recogida presencial | Disponible con cita en la mayoría de talleres locales | No ofrecida — solo envío internacional | En ocasiones, si el maker es local y está dispuesto |\n| Personalización y ayuda de diseño | Diálogo directo con la persona que produce la pieza | Especificaciones estándar; personalización vía ticket o tramo premium | Directa con el maker, calidad variable |\n\nEn el caso de Dimension3D concretamente: somos un taller local en Barcelona, presupuestamos en menos de una hora en horario laboral, el pedido mínimo es de 9,90 € sin mínimo por pieza, revisamos cada archivo manualmente antes de dar el precio, atendemos en español, catalán e inglés, y la recogida en Barcelona está disponible con cita previa.\n\nLa opción adecuada depende de tu proyecto. Si necesitas una pieza funcional para la próxima semana con una recomendación de material concreta, un taller local está estructuralmente preparado para eso. Si necesitas 500 piezas idénticas con calidad de inyección al menor coste unitario posible y puedes esperar, la economía de una plataforma internacional puede encajar mejor. Elige el modelo que se ajuste al trabajo."
       },
       {
         heading: "Preguntas específicas según el tipo de proyecto",
@@ -604,13 +604,13 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Cómo respondemos nosotros a cada punto — en corto",
-        body: "Para referencia directa, así responde nuestra operación a la lista:\n\n• Materiales en rotación diaria: PLA, PETG, ABS, ASA, TPU, Nylon (PA12) y variantes reforzadas con fibra de carbono (PLA-CF, PETG-CF, Nylon-CF).\n• Rango de altura de capa: 0,12–0,28 mm según la función de la pieza; se especifica por presupuesto.\n• Tolerancia típica: ±0,2 mm en la mayoría de dimensiones FDM; características de mayor precisión se presupuestan individualmente.\n• Revisión de archivo: cada archivo se abre manualmente antes de enviar el presupuesto; las cuestiones de espesor de pared, soportes y orientación se plantean en ese momento.\n• Pedido mínimo: 10 €. Sin mínimo por pieza — un solo clip pequeño es un encargo válido.\n• Plazo: estándar de 2–5 días laborables desde presupuesto aprobado; express en 24–48h disponible; entregas el mismo día posibles cuando la cola lo permite.\n• Idioma de atención: español, catalán e inglés, por WhatsApp o email.\n• Recogida: disponible en el taller de Barcelona con cita previa; envío a la España peninsular con seguimiento.\n\nUsa esta guía con cualquier taller que estés valorando. El objetivo no es dirigirte a nosotros — es darte la forma de una buena conversación con cualquier proveedor de impresión 3D."
+        body: "Para referencia directa, así responde nuestra operación a la lista:\n\n• Materiales en rotación diaria: PLA, PETG, ABS, ASA, TPU, Nylon (PA12) y variantes reforzadas con fibra de carbono (PLA-CF, PETG-CF, Nylon-CF).\n• Rango de altura de capa: 0,12–0,28 mm según la función de la pieza; se especifica por presupuesto.\n• Tolerancia típica: ±0,2 mm en la mayoría de dimensiones FDM; características de mayor precisión se presupuestan individualmente.\n• Revisión de archivo: cada archivo se abre manualmente antes de enviar el presupuesto; las cuestiones de espesor de pared, soportes y orientación se plantean en ese momento.\n• Pedido mínimo: 9,90 €. Sin mínimo por pieza — un solo clip pequeño es un encargo válido.\n• Plazo: estándar de 2–5 días laborables desde presupuesto aprobado; express en 24–48h disponible; entregas el mismo día posibles cuando la cola lo permite.\n• Idioma de atención: español, catalán e inglés, por WhatsApp o email.\n• Recogida: disponible en el taller de Barcelona con cita previa; envío a la España peninsular con seguimiento.\n\nUsa esta guía con cualquier taller que estés valorando. El objetivo no es dirigirte a nosotros — es darte la forma de una buena conversación con cualquier proveedor de impresión 3D."
       }
     ],
     faqs: [
       { q: "¿Es mala señal que un servicio dé precio online al instante?", a: "No necesariamente — un estimador instantáneo es genuinamente útil para una primera cifra orientativa. Lo que importa es si una persona revisa el archivo antes de confirmar el presupuesto. Precio instantáneo seguido de revisión humana está bien. Precio instantáneo que va directo a imprimir sin que nadie mire la geometría es donde aparecen los problemas." },
       { q: "¿Cómo sé si un taller puede mantener la tolerancia que necesito?", a: "Pregunta qué características te importan (agujeros, superficies de acoplamiento, insertos roscados) y qué tolerancia pueden mantener en esas concretamente. Un taller que responde con una cifra real y una explicación de cómo lo conseguiría — orientación, número de perímetros, post-procesado — sabe lo que hace. Un taller que solo dice \"sí, alta tolerancia\" no ha respondido a la pregunta." },
-      { q: "¿Debería preocuparme que un taller no tenga pedido mínimo?", a: "No — al contrario. Un mínimo declarado de 10 € o similar sin mínimo por pieza es un taller preparado para imprimir un solo clip sin problema. Un taller que solo presupuesta a partir de 200 € por pedido está optimizado para un tipo de cliente distinto, y eso también está bien — simplemente asegúrate de que encaja con tu proyecto." },
+      { q: "¿Debería preocuparme que un taller no tenga pedido mínimo?", a: "No — al contrario. Un mínimo declarado de 9,90 € o similar sin mínimo por pieza es un taller preparado para imprimir un solo clip sin problema. Un taller que solo presupuesta a partir de 200 € por pedido está optimizado para un tipo de cliente distinto, y eso también está bien — simplemente asegúrate de que encaja con tu proyecto." },
       { q: "¿Cuál es un plazo razonable para una pieza funcional pequeña en Barcelona?", a: "Para una pieza pequeña en PLA o PETG sin geometría compleja, desde presupuesto aprobado hasta lista para recoger son habitualmente 2–5 días laborables en un taller local. El servicio express en 24–48 horas es una opción común encima de eso. Si alguien te presupuesta 3 semanas para una pieza estándar pequeña sin justificación concreta, pregunta el motivo." },
       { q: "¿Merece la pena pagar más por un taller local en lugar de un servicio online internacional?", a: "Depende del proyecto. Un taller local está estructuralmente preparado para diálogo directo, plazos más cortos, recogida presencial y revisión del archivo por una persona. Una plataforma internacional está estructuralmente preparada para producción estandarizada de gran volumen. Si tu proyecto encaja con el segundo perfil — cientos de piezas idénticas, sin prisa, sin materiales inusuales — la economía de la plataforma puede compensar. Si encaja con el primero, la diferencia de precio del taller local es normalmente menor de lo que la gente espera, y la reducción de fricción es real." },
       { q: "¿Cómo sé que un taller cumplirá lo que ha presupuestado?", a: "Dos pruebas prácticas. Primero, pide ver fotografías de una pieza similar que hayan impreso recientemente — un taller serio tiene portfolio. Segundo, fíjate en cómo responden a tus preguntas previas al presupuesto: respuestas precisas, directas y con los compromisos reconocidos correlan fuertemente con el mismo comportamiento en el trabajo real." }
@@ -780,7 +780,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Mejor para piezas únicas y personalizadas",
-        body: "Para una pieza única a medida — un soporte de repuesto, un utillaje, un proyecto personal, un clip roto que nadie vende ya — las prioridades son distintas:\n\n• Un pedido mínimo lo suficientemente bajo como para que una sola pieza pequeña sea un encargo válido.\n• Una persona dispuesta a mirar la geometría (o una fotografía, o un boceto rápido) y asesorar sobre si es imprimible y en qué material.\n• Sin obligación de que diseñes tú en CAD — o bien aceptando fotos con medidas de referencia, o bien ofreciendo modelado como línea aparte del presupuesto.\n• Disposición a explicar la elección de material y parámetros de impresión para que entiendas lo que estás pagando.\n\nEn el caso de Dimension3D concretamente: el pedido mínimo es de 10 €, no hay mínimo por pieza, cada archivo (o fotografía de referencia) se revisa manualmente antes de presupuestar, y aceptamos presupuestos a partir de foto más medidas cuando no existe archivo CAD. El material y los ajustes se explican siempre en el presupuesto para que sepas qué estás aprobando."
+        body: "Para una pieza única a medida — un soporte de repuesto, un utillaje, un proyecto personal, un clip roto que nadie vende ya — las prioridades son distintas:\n\n• Un pedido mínimo lo suficientemente bajo como para que una sola pieza pequeña sea un encargo válido.\n• Una persona dispuesta a mirar la geometría (o una fotografía, o un boceto rápido) y asesorar sobre si es imprimible y en qué material.\n• Sin obligación de que diseñes tú en CAD — o bien aceptando fotos con medidas de referencia, o bien ofreciendo modelado como línea aparte del presupuesto.\n• Disposición a explicar la elección de material y parámetros de impresión para que entiendas lo que estás pagando.\n\nEn el caso de Dimension3D concretamente: el pedido mínimo es de 9,90 €, no hay mínimo por pieza, cada archivo (o fotografía de referencia) se revisa manualmente antes de presupuestar, y aceptamos presupuestos a partir de foto más medidas cuando no existe archivo CAD. El material y los ajustes se explican siempre en el presupuesto para que sepas qué estás aprobando."
       },
       {
         heading: "Mejor para empresas y prototipos funcionales",
@@ -803,7 +803,7 @@ export const PAGES_ES: LandingContent[] = [
       { q: "¿Cuál es el mejor servicio de impresión 3D en Barcelona?", a: "No hay una única respuesta — depende del caso de uso. Para piezas funcionales urgentes, un taller local con capacidad express y revisión humana del archivo. Para piezas únicas a medida, un taller con mínimo de pedido bajo. Para trabajo de empresa y prototipos, un taller con criterio de materiales y compromisos de tolerancia. Para decoración y regalos, un taller con portfolio y opciones de acabado. Las secciones anteriores explican cómo decidir por necesidad." },
       { q: "¿Cómo comparo servicios de impresión 3D de forma objetiva?", a: "Fíjate en aspectos estructurales antes que en marketing: pedido mínimo declarado en cifras, plazo indicado en días laborables desde presupuesto aprobado, si una persona revisa el archivo antes de imprimir, idioma de atención, disponibilidad de recogida presencial, y si el taller puede presupuestar a partir de fotografías cuando no hay CAD. Nuestra guía del comprador complementaria entra en más detalle." },
       { q: "¿Cuál es el servicio de impresión 3D más rápido en Barcelona?", a: "Para urgencia real, busca un taller con servicio express declarado (24–48 horas) en lugar de un vago \"rápido\", y con un canal de soporte que responda en menos de una hora. Nosotros ofrecemos express en 24–48 horas y producción el mismo día cuando la cola lo permite." },
-      { q: "¿Qué servicio es mejor para una pieza única a medida?", a: "Un taller local con mínimo por pieza bajo o inexistente, dispuesto a aceptar una fotografía o un boceto cuando no hay archivo CAD, y dispuesto a revisar la geometría manualmente. Mínimos de pedido en el rango 10–50 € son habituales en talleres locales. El nuestro es de 10 € sin mínimo por pieza." },
+      { q: "¿Qué servicio es mejor para una pieza única a medida?", a: "Un taller local con mínimo por pieza bajo o inexistente, dispuesto a aceptar una fotografía o un boceto cuando no hay archivo CAD, y dispuesto a revisar la geometría manualmente. Mínimos de pedido en el rango 10–50 € son habituales en talleres locales. El nuestro es de 9,90 € sin mínimo por pieza." },
       { q: "¿Es Dimension3D siempre la opción más barata?", a: "No. El precio unitario más bajo para producciones grandes suele ser de un proveedor de inyección de plástico o de una granja FDM grande. Para cantidades pequeñas, piezas únicas y prototipos funcionales, la diferencia de precio entre talleres locales suele ser pequeña — la diferencia relevante es la velocidad de respuesta, la revisión humana del archivo y la calidad de la comunicación. Si el precio es lo que más pesa en tu proyecto, compara siempre presupuestos." },
       { q: "¿Cuándo no debería usar impresión 3D FDM en absoluto?", a: "Para piezas que requieren detalle superficial por debajo de la resolución de las líneas de capa (unos 0,08 mm en una impresora FDM bien calibrada) — joyería fina, trabajo dental, figuras ultra-detalladas — la impresión en resina SLA o DLP es el proceso fundamentalmente adecuado. Para piezas metálicas estructurales con certificaciones específicas, la fabricación aditiva metálica (SLM, DMLS) es el proceso adecuado. El FDM es la herramienta correcta para una amplia gama de aplicaciones, pero no para todas." }
     ],
@@ -1235,9 +1235,9 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Tiradas Cortas de Impresión 3D en Barcelona",
-    metaDescription: "Tiradas cortas de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas. Desde 1 pieza. Presupuesto en 1 h, desde 10€.",
+    metaDescription: "Tiradas cortas de piezas 3D en Barcelona: desde 1 hasta varios cientos de unidades idénticas. Desde 1 pieza. Presupuesto en 1 h, desde 9,90 €.",
     h1: "Tiradas Cortas de Impresión 3D en Barcelona — Producción en Lote Sin Configuración",
-    intro: "La producción en tirada corta se sitúa entre un prototipo único y una fabricación en serie: necesitas más de una pieza, pero no miles. En Dimension3D gestionamos lotes desde una sola unidad hasta varios cientos de piezas idénticas con el mismo plazo y calidad de material que un pedido de prototipo. Pedido mínimo de 10 €, sin tarifa de configuración, factura incluida para pedidos de empresa.",
+    intro: "La producción en tirada corta se sitúa entre un prototipo único y una fabricación en serie: necesitas más de una pieza, pero no miles. En Dimension3D gestionamos lotes desde una sola unidad hasta varios cientos de piezas idénticas con el mismo plazo y calidad de material que un pedido de prototipo. Pedido mínimo de 9,90 €, sin tarifa de configuración, factura incluida para pedidos de empresa.",
     sections: [
       {
         heading: "Por qué el FDM es práctico para tiradas cortas",
@@ -1253,7 +1253,7 @@ export const PAGES_ES: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "¿Cuál es el pedido mínimo para una tirada?", a: "10 € por pedido, sin tarifa de configuración. No hay un número mínimo de piezas: si una pieza cuesta 10 €, ese es un pedido válido. Si necesitas 100 piezas de 0,50 € cada una, el mínimo de 10 € se aplica una sola vez por pedido." },
+      { q: "¿Cuál es el pedido mínimo para una tirada?", a: "9,90 € por pedido, sin tarifa de configuración. No hay un número mínimo de piezas: si una pieza cuesta 9,90 €, ese es un pedido válido. Si necesitas 100 piezas de 0,50 € cada una, el mínimo de 9,90 € se aplica una sola vez por pedido." },
       { q: "¿Cuánto tarda una tirada corta?", a: "Depende del volumen total. Una tirada de 10–20 piezas pequeñas generalmente se completa en el plazo estándar (2–5 días laborables). Tiradas más grandes de 50–200 piezas se programan en múltiples sesiones y tardan 3–7 días laborables según la cola. Los niveles express y urgente están disponibles para tiradas pequeñas." },
       { q: "¿Podéis dividir una tirada en diferentes colores o materiales?", a: "Sí. Cada cambio de material o color requiere un pequeño paso de configuración, que se refleja en un pequeño coste adicional. Para tiradas mixtas, solicita un presupuesto con la división especificada y confirmaremos viabilidad y coste antes de comprometernos." },
       { q: "¿Proporcionáis facturas para pedidos de empresa?", a: "Sí. Cada pedido recibe factura. Para pedidos B2B con requisitos de facturación específicos (referencia de proyecto, centro de coste, número de pedido), indícalo al pedir y lo gestionamos." },
@@ -1282,10 +1282,10 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/precio-impresion-3d-barcelona",
     lang: "es",
     category: "service",
-    metaTitle: "Precio Impresión 3D — Calcula tu Pieza desde 10€",
-    metaDescription: "¿Cuánto cuesta imprimir en 3D? Tabla de precios reales por material y tamaño, calculadora instantánea. Desde 10€, envío a España por 5,90€.",
+    metaTitle: "Precio Impresión 3D — Calcula tu Pieza desde 9,90 €",
+    metaDescription: "¿Cuánto cuesta imprimir en 3D? Tabla de precios reales por material y tamaño, calculadora instantánea. Desde 9,90 €, envío a España por 5,90€.",
     h1: "¿Cuánto cuesta imprimir en 3D? Precios reales y calculadora",
-    intro: "Dimension3D cobra desde 10 € por pedido, el presupuesto llega en menos de 1 hora y el envío a cualquier punto de España cuesta 5,90 €. El precio final depende del material elegido, el tamaño de la pieza y el plazo. Esta página explica exactamente cómo se calcula, con ejemplos reales y una tabla de precios por material.",
+    intro: "Dimension3D cobra desde 9,90 € por pedido, el presupuesto llega en menos de 1 hora y el envío a cualquier punto de España cuesta 5,90 €. El precio final depende del material elegido, el tamaño de la pieza y el plazo. Esta página explica exactamente cómo se calcula, con ejemplos reales y una tabla de precios por material.",
     sections: [
       {
         heading: "¿Qué determina el precio de una impresión 3D?",
@@ -1293,11 +1293,11 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Cómo se calcula: material + tiempo de máquina",
-        body: "El precio en Dimension3D se calcula como: (material 0,055 €/g × gramos + tiempo de máquina 4,95 €/h las primeras 3 h, 3,85 €/h hasta 8 h, 2,75 €/h a partir de ahí) × multiplicador del material. El multiplicador se aplica tanto al material como al tiempo de máquina. Sin setup fee ni cargo por preparación. El mínimo de 10 € se aplica una sola vez al pedido completo, no por pieza.\n\n• **PLA** — multiplicador ×1,0. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — multiplicador ×1,1. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — multiplicador ×1,3. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — multiplicador ×1,3. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — multiplicador ×1,4. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña de 30 g en PLA con 30 min de máquina sale a 1,65 € de material + 2,48 € de tiempo = 4,13 €; como es menos de 10 €, el pedido sale a 10 €. Usa la calculadora de arriba para ver el precio exacto de tu pieza."
+        body: "El precio en Dimension3D se calcula como: (material 0,055 €/g × gramos + tiempo de máquina 4,95 €/h las primeras 3 h, 3,85 €/h hasta 8 h, 2,75 €/h a partir de ahí) × multiplicador del material. El multiplicador se aplica tanto al material como al tiempo de máquina. Sin setup fee ni cargo por preparación. El mínimo de 9,90 € se aplica una sola vez al pedido completo, no por pieza.\n\n• **PLA** — multiplicador ×1,0. El favorito para decoración, figuras, prototipos de forma y piezas sin carga mecánica.\n• **PETG** — multiplicador ×1,1. Resistente a la humedad y al exterior. Ideal para soportes, piezas de coche, exteriores.\n• **ABS / ASA** — multiplicador ×1,3. Resistente al calor (hasta ~90°C). ASA aguanta UV y exterior mejor que ABS.\n• **TPU** — multiplicador ×1,3. Flexible y resistente al impacto. Perfecto para juntas, fundas y piezas que absorben golpes.\n• **Nylon** — multiplicador ×1,4. Alta resistencia mecánica y al desgaste. Para piezas funcionales de ingeniería.\n\nUna pieza pequeña de 30 g en PLA con 30 min de máquina sale a 1,65 € de material + 2,48 € de tiempo = 4,13 €; como es menos de 9,90 €, el pedido sale a 9,90 €. Usa la calculadora de arriba para ver el precio exacto de tu pieza."
       },
       {
         heading: "Tabla de ejemplos reales de precio",
-        body: "Estos precios salen directamente de nuestro motor de precios con los gramos y horas indicados (PLA salvo indicación, calidad estándar, sin urgencia, sin envío):\n\n• **Clip de cajón roto** (5 g, 0,5 h): 10,00 € (mínimo).\n• **Soporte para estantería** (25 g, 1,5 h): 10,00 € (mínimo).\n• **Adaptador VESA de monitor** (40 g, 2 h): 12,10 €.\n• **Figura decorativa mediana** (90 g, 5 h): 27,50 €.\n• **Pieza de recambio lavaplatos** (35 g PETG, 1,5 h): 10,29 €.\n• **Prototipo funcional mediano** (150 g PETG, 7 h): 42,35 €.\n• **Figura grande / casco decorativo** (350 g, 16 h): 75,35 €.\n\nPara piezas con geometría compleja, muchos soportes o materiales especiales, el presupuesto puede salir más alto. Súbe tu archivo para ver el precio exacto."
+        body: "Estos precios salen directamente de nuestro motor de precios con los gramos y horas indicados (PLA salvo indicación, calidad estándar, sin urgencia, sin envío):\n\n• **Clip de cajón roto** (5 g, 0,5 h): 9,90 € (mínimo).\n• **Soporte para estantería** (25 g, 1,5 h): 9,90 € (mínimo).\n• **Adaptador VESA de monitor** (40 g, 2 h): 12,10 €.\n• **Figura decorativa mediana** (90 g, 5 h): 27,50 €.\n• **Pieza de recambio lavaplatos** (35 g PETG, 1,5 h): 10,29 €.\n• **Prototipo funcional mediano** (150 g PETG, 7 h): 42,35 €.\n• **Figura grande / casco decorativo** (350 g, 16 h): 75,35 €.\n\nPara piezas con geometría compleja, muchos soportes o materiales especiales, el presupuesto puede salir más alto. Súbe tu archivo para ver el precio exacto."
       },
       {
         heading: "Envío a España y recogida en Barcelona",
@@ -1313,9 +1313,9 @@ export const PAGES_ES: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "¿Cuánto cuesta imprimir en 3D en España?", a: "En Dimension3D el mínimo es 10 € por pedido. Piezas pequeñas estándar (5–30 g en PLA) suelen salir entre 10 y 18 €. Piezas medianas (50–150 g) entre 20 y 50 €. El envío a España cuesta 5,90 €." },
+      { q: "¿Cuánto cuesta imprimir en 3D en España?", a: "En Dimension3D el mínimo es 9,90 € por pedido. Piezas pequeñas estándar (5–30 g en PLA) suelen salir entre 9,90 y 18 €. Piezas medianas (50–150 g) entre 20 y 50 €. El envío a España cuesta 5,90 €." },
       { q: "¿Cuánto cuesta imprimir en 3D por gramo?", a: "El precio final depende del material, el tamaño y el plazo. Sube tu archivo a la calculadora de esta página para ver el precio exacto en segundos." },
-      { q: "¿Hay tarifa de setup o pedido mínimo?", a: "No hay tarifa de setup. El pedido mínimo es 10 € por pedido. Puedes pedir una sola pieza sin coste extra." },
+      { q: "¿Hay tarifa de setup o pedido mínimo?", a: "No hay tarifa de setup. El pedido mínimo es 9,90 € por pedido. Puedes pedir una sola pieza sin coste extra." },
       { q: "¿Cuánto tarda el servicio Express?", a: "El servicio Express sale en 24–48h desde la confirmación del pedido y lleva un recargo del 25%. El servicio Urgente (mismo día o siguiente) lleva un recargo del 60% y no está disponible para todos los materiales." },
       { q: "¿Cómo obtengo un presupuesto exacto?", a: "Sube tu archivo STL, 3MF, OBJ o STEP en la calculadora de esta página. El precio aparece en segundos. Para piezas sin archivo, envíanos una foto por WhatsApp y te respondemos en menos de 1 hora en horario laboral." },
       { q: "¿El precio incluye el IVA?", a: "Los precios mostrados en la calculadora son sin IVA. El IVA (21% para particulares en España) se añade en el checkout." },
@@ -1334,7 +1334,7 @@ export const PAGES_ES: LandingContent[] = [
     datePublished: "2026-11-11",
     dateModified: "2026-11-11",
     comparisonTable: {
-      caption: "Material + tiempo de máquina según material (tarifa de las primeras 3 h; baja a partir de 3 h y 8 h). Mínimo 10 € por pedido. (Dimension3D, Nov 2026)",
+      caption: "Material + tiempo de máquina según material (tarifa de las primeras 3 h; baja a partir de 3 h y 8 h). Mínimo 9,90 € por pedido. (Dimension3D, Nov 2026)",
       headers: ["Material", "Material + máquina", "Temperatura máx.", "Exterior", "Flexible", "Uso típico"],
       rows: [
         ["PLA",     "0,055 €/g + 4,95 €/h", "55°C",   "No",  "No",  "Prototipos, decoración, figuras"],
@@ -1353,10 +1353,10 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-service",
     lang: "es",
     category: "service",
-    metaTitle: "Impresión 3D Online — Envío a Toda España desde 10€",
-    metaDescription: "Servicio de impresión 3D online desde 1 pieza. Sube STL, 3MF, OBJ o STEP, recibe precio en 1h, envío a toda España por 5,90€. Pedido mínimo 10€.",
+    metaTitle: "Impresión 3D Online — Envío a Toda España desde 9,90 €",
+    metaDescription: "Servicio de impresión 3D online desde 1 pieza. Sube STL, 3MF, OBJ o STEP, recibe precio en 1h, envío a toda España por 5,90€. Pedido mínimo 9,90 €.",
     h1: "Impresión 3D online, desde 1 pieza y con envío a casa",
-    intro: "Dimension3D es un servicio de impresión 3D online desde Barcelona. Sube tu archivo, recibe un precio en menos de 1 hora, y recibe la pieza en casa en 2–5 días laborables en cualquier punto de España. Pedido mínimo 10 €, sin setup fee, y un humano revisa cada pedido antes de imprimir.",
+    intro: "Dimension3D es un servicio de impresión 3D online desde Barcelona. Sube tu archivo, recibe un precio en menos de 1 hora, y recibe la pieza en casa en 2–5 días laborables en cualquier punto de España. Pedido mínimo 9,90 €, sin setup fee, y un humano revisa cada pedido antes de imprimir.",
     sections: [
       {
         heading: "¿Cómo funciona el pedido online?",
@@ -1384,7 +1384,7 @@ export const PAGES_ES: LandingContent[] = [
       },
     ],
     faqs: [
-      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. El pedido mínimo es de 10 € por pedido, sin mínimo por unidad. Imprimimos piezas únicas constantemente." },
+      { q: "¿Puedo pedir una sola pieza online?", a: "Sí. El pedido mínimo es de 9,90 € por pedido, sin mínimo por unidad. Imprimimos piezas únicas constantemente." },
       { q: "¿Qué pasa si mi archivo tiene problemas?", a: "Revisamos el archivo antes de imprimir. Si hay problemas de grosor de pared, voladizos problemáticos u otros errores, te lo comunicamos antes de cobrar y sugerimos soluciones." },
       { q: "¿Podéis imprimir un modelo descargado de Makerworld, Printables o Cults3D?", a: "Sí. Si has descargado un modelo gratuito de cualquier plataforma y quieres que lo imprimamos, súbe el archivo STL directamente. Verificamos que sea imprimible y te damos precio." },
       { q: "¿Cuánto cuesta el envío a España?", a: "5,90 € por pedido a cualquier punto de Península, Baleares o Canarias. Los pedidos que superen cierto importe tienen envío gratuito (ver calculadora)." },
@@ -1472,10 +1472,10 @@ export const PAGES_ES: LandingContent[] = [
     altSlug: "/3d-printing-service",
     lang: "es",
     category: "service",
-    metaTitle: "Impresión 3D FDM — Servicio Online desde 10€, Envío España",
-    metaDescription: "Qué es la impresión 3D FDM, materiales disponibles, precios reales y cómo pedir online. Envío a toda España. Desde 10€, presupuesto en 1h.",
+    metaTitle: "Impresión 3D FDM — Online desde 9,90 €, Envío España",
+    metaDescription: "Qué es la impresión 3D FDM, materiales disponibles, precios reales y cómo pedir online. Envío a toda España. Desde 9,90 €, presupuesto en 1h.",
     h1: "Impresión 3D: todo lo que necesitas saber para imprimir tu pieza",
-    intro: "Dimension3D es un servicio de impresión 3D en Barcelona con envío a toda España y Europa. Fabricamos piezas a medida, prototipos, recambios y objetos decorativos usando tecnología FDM en materiales como PLA, PETG, TPU, ABS/ASA y Nylon. El pedido mínimo es 10 €, el presupuesto llega en menos de 1 hora y el envío cuesta 5,90 €.",
+    intro: "Dimension3D es un servicio de impresión 3D en Barcelona con envío a toda España y Europa. Fabricamos piezas a medida, prototipos, recambios y objetos decorativos usando tecnología FDM en materiales como PLA, PETG, TPU, ABS/ASA y Nylon. El pedido mínimo es 9,90 €, el presupuesto llega en menos de 1 hora y el envío cuesta 5,90 €.",
     sections: [
       {
         heading: "¿Qué es la impresión 3D y cómo funciona?",
@@ -1499,7 +1499,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "¿Cuánto cuesta imprimir en 3D?",
-        body: "El mínimo es 10 € por pedido (sin setup fee ni cobro por número de piezas). Los precios varían según material, tamaño y plazo:\n\n• Piezas pequeñas (5–30 g): desde 10 €.\n• Piezas medianas (50–150 g): 20–50 €.\n• Piezas grandes (200–500 g): 60–150 €.\n\nEl envío a España cuesta 5,90 €. Para piezas especiales, multicolor o con diseño, el precio puede ser mayor. Consulta la calculadora o la página de precios para más detalle."
+        body: "El mínimo es 9,90 € por pedido (sin setup fee ni cobro por número de piezas). Los precios varían según material, tamaño y plazo:\n\n• Piezas pequeñas (5–30 g): desde 9,90 €.\n• Piezas medianas (50–150 g): 20–50 €.\n• Piezas grandes (200–500 g): 60–150 €.\n\nEl envío a España cuesta 5,90 €. Para piezas especiales, multicolor o con diseño, el precio puede ser mayor. Consulta la calculadora o la página de precios para más detalle."
       },
     ],
     faqs: [
@@ -1541,7 +1541,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Impresión 3D Cerca de Mí en Barcelona — Recoge o Envío",
     metaDescription: "Impresión 3D cerca de ti en Barcelona. Recoge en Les Corts (Rambla de Brasil 53) o envío a casa. Barrios: Eixample, Gràcia, Sarrià, Sants y más.",
     h1: "Impresión 3D cerca de ti en Barcelona — recogida en Les Corts o envío a tu puerta",
-    intro: "Si buscas impresión 3D cerca de ti en Barcelona, Dimension3D está en el barrio de Les Corts, Rambla de Brasil 53. Podemos imprimir tu pieza y tenerla lista para recoger en el mismo día o enviarla a cualquier dirección de Barcelona y del resto de España. Pedido mínimo 10 € por pedido, sin mínimo por pieza ni por zona.",
+    intro: "Si buscas impresión 3D cerca de ti en Barcelona, Dimension3D está en el barrio de Les Corts, Rambla de Brasil 53. Podemos imprimir tu pieza y tenerla lista para recoger en el mismo día o enviarla a cualquier dirección de Barcelona y del resto de España. Pedido mínimo 9,90 € por pedido, sin mínimo por pieza ni por zona.",
     sections: [
       {
         heading: "Punto de recogida: Les Corts, Rambla de Brasil",
@@ -1731,7 +1731,7 @@ export const PAGES_ES: LandingContent[] = [
     sections: [
       {
         heading: "Opción 1: servicio de impresión 3D online",
-        body: "La forma más práctica para la mayoría de personas. Subes el archivo a un servicio como Dimension3D, recibes el precio, pagas y te llega la pieza a casa.\n\nVentajas:\n• Sin desplazamientos, sin esperas, sin aprendizaje técnico.\n• Materiales de calidad profesional (PETG, Nylon, TPU) que las impresoras de entrada no siempre pueden usar bien.\n• Alguien revisa tu archivo antes de imprimir — si hay problemas, te avisan.\n• Envío a toda España en 2–5 días por 5,90 €.\n\nDesventajas:\n• No es gratis. El mínimo es 10 € por pieza + 5,90 € de envío.\n• Si necesitas la pieza en 30 minutos, un servicio online no es la opción."
+        body: "La forma más práctica para la mayoría de personas. Subes el archivo a un servicio como Dimension3D, recibes el precio, pagas y te llega la pieza a casa.\n\nVentajas:\n• Sin desplazamientos, sin esperas, sin aprendizaje técnico.\n• Materiales de calidad profesional (PETG, Nylon, TPU) que las impresoras de entrada no siempre pueden usar bien.\n• Alguien revisa tu archivo antes de imprimir — si hay problemas, te avisan.\n• Envío a toda España en 2–5 días por 5,90 €.\n\nDesventajas:\n• No es gratis. El mínimo es 9,90 € por pieza + 5,90 € de envío.\n• Si necesitas la pieza en 30 minutos, un servicio online no es la opción."
       },
       {
         heading: "¿Cómo enviar tu archivo a un servicio de impresión?",
@@ -1752,7 +1752,7 @@ export const PAGES_ES: LandingContent[] = [
     ],
     faqs: [
       { q: "¿Puedo imprimir un archivo STL descargado de internet?", a: "Sí. Si has descargado un modelo de Makerworld, Printables, Cults3D u otra plataforma, puedes enviarlo a Dimension3D y lo imprimimos. Verificamos que el archivo sea correcto antes de imprimir." },
-      { q: "¿Cuánto cuesta imprimir un modelo descargado?", a: "Desde 10 € (mínimo) + 5,90 € de envío. El precio depende del tamaño y el material. Sube el archivo a nuestra calculadora para ver el precio exacto." },
+      { q: "¿Cuánto cuesta imprimir un modelo descargado?", a: "Desde 9,90 € (mínimo) + 5,90 € de envío. El precio depende del tamaño y el material. Sube el archivo a nuestra calculadora para ver el precio exacto." },
       { q: "¿Puedo imprimir en 3D en la biblioteca?", a: "En Barcelona, algunas bibliotecas y centros cívicos tienen impresoras 3D disponibles. El acceso suele ser gratuito o muy económico, pero hay que aprender el proceso y los tiempos de espera pueden ser largos." },
       { q: "¿Es legal imprimir modelos descargados de internet?", a: "Depende de la licencia del modelo. Los modelos en Makerworld, Printables y la mayoría de plataformas tienen licencias Creative Commons para uso personal no comercial. Para uso comercial, revisa siempre la licencia del modelo específico." },
       { q: "¿Qué formato de archivo necesito para imprimir en 3D?", a: "STL es el formato más universal. También aceptamos 3MF, OBJ y STEP. Los archivos exportados desde Tinkercad, Fusion 360, FreeCAD o cualquier software CAD estándar funcionan directamente." },
@@ -1779,7 +1779,7 @@ export const PAGES_ES: LandingContent[] = [
     metaTitle: "Imprimir Modelos de Makerworld, Printables y Cults3D — Guía",
     metaDescription: "Descargaste un modelo 3D de Makerworld, Printables o Cults3D y quieres imprimirlo. Guía paso a paso: formato, licencias, cómo pedirlo en Dimension3D.",
     h1: "Cómo imprimir modelos descargados de Makerworld, Printables o Cults3D",
-    intro: "Makerworld, Printables y Cults3D son las principales plataformas para descargar modelos 3D gratuitos o de pago. Si has encontrado la pieza perfecta pero no tienes impresora, Dimension3D la imprime por ti desde 10 €. Esta guía explica cómo funciona: formatos, licencias y cómo enviarnos el archivo.",
+    intro: "Makerworld, Printables y Cults3D son las principales plataformas para descargar modelos 3D gratuitos o de pago. Si has encontrado la pieza perfecta pero no tienes impresora, Dimension3D la imprime por ti desde 9,90 €. Esta guía explica cómo funciona: formatos, licencias y cómo enviarnos el archivo.",
     sections: [
       {
         heading: "Las principales plataformas de modelos 3D",
@@ -2007,7 +2007,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Rueda de cesta de lavavajillas Bosch",
-        body: "Las ruedas de las cestas del lavavajillas son una de las piezas que más se rompen y que el fabricante ya no vende (o cobra 15–20 € por dos pequeños rollos de plástico). La impresión en PETG reproduce exactamente la geometría original.\n\nMaterial: PETG (resistente al agua caliente y detergentes). Precio: desde 10 € para un juego de 4 ruedas. Disponible en nuestro catálogo para los modelos Bosch más comunes."
+        body: "Las ruedas de las cestas del lavavajillas son una de las piezas que más se rompen y que el fabricante ya no vende (o cobra 15–20 € por dos pequeños rollos de plástico). La impresión en PETG reproduce exactamente la geometría original.\n\nMaterial: PETG (resistente al agua caliente y detergentes). Precio: desde 9,90 € para un juego de 4 ruedas. Disponible en nuestro catálogo para los modelos Bosch más comunes."
       },
       {
         heading: "Adaptador de manguera Gardena 3/4\"",

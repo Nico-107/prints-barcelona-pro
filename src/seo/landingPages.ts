@@ -128,8 +128,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/",
     lang: "en",
     category: "service",
-    metaTitle: "3D Printing Service Barcelona — Quote in 1h, From 10€",
-    metaDescription: "Professional 3D printing service in Barcelona. Custom parts, prototypes and replacements. Free quote in under 1 hour. From 10€. Local pickup available.",
+    metaTitle: "3D Printing Service Barcelona — Quote in 1h, From €9.90",
+    metaDescription: "Professional 3D printing service in Barcelona. Custom parts, prototypes and replacements. Free quote in under 1 hour. From €9.90. Local pickup available.",
     h1: "3D Printing in Barcelona — Fast Quote, Professional Results",
     intro: "Dimension3D is a Barcelona-based 3D printing studio helping individuals, makers, engineers and small businesses bring physical parts to life — fast, clean and at a fair price. From a single replacement clip to a small batch of functional prototypes, we handle the full process locally in the city.",
     sections: [
@@ -147,14 +147,14 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "How the process works",
-        body: "1. Send us your file or describe what you need on the quote form or via WhatsApp.\n2. We reply with a transparent price, recommended material and timing.\n3. You approve, we print, we test, you receive.\n\nNo subscription, 10 € minimum, no setup fee. You only pay for the part you approved."
+        body: "1. Send us your file or describe what you need on the quote form or via WhatsApp.\n2. We reply with a transparent price, recommended material and timing.\n3. You approve, we print, we test, you receive.\n\nNo subscription, €9.90 minimum, no setup fee. You only pay for the part you approved."
       }
     ],
     faqs: [
       { q: "How fast can I get a 3D print in Barcelona?", a: "Standard turnaround is 2–5 business days. Express service is 24–48 hours, and same-day is sometimes possible depending on the queue and part size." },
       { q: "Do I need a 3D file to order?", a: "No. If you only have a photo, a sketch or the broken original part, we can help you get to a printable file. We also offer custom design quotes." },
       { q: "Can I pick up my order in Barcelona?", a: "Yes. Local pickup in Barcelona is available by appointment. We also ship to all of mainland Spain with tracking." },
-      { q: "What does a 3D print cost?", a: "Most small parts start around 10 €. Final price depends on size, material, print time and quantity. You always get a transparent quote before paying anything." },
+      { q: "What does a 3D print cost?", a: "Most small parts start around €9.90. Final price depends on size, material, print time and quantity. You always get a transparent quote before paying anything." },
       { q: "Do you offer resin printing or FDM only?", a: "We work with FDM technology, which covers the vast majority of practical applications — functional parts, prototypes, gifts and replacements. If a project genuinely requires resin-level surface detail, we'll tell you upfront." },
       { q: "What is the maximum size you can print in one piece?", a: "Our print volume is approximately 250×250×300 mm. Objects larger than that can be printed in sections and cleanly assembled, with joints planned to minimise visibility." }
     ],
@@ -190,7 +190,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "One-off parts and small batches",
-        body: "The minimum order is 10 €, with no setup fee. We're equally happy printing a single replacement bracket as we are running a small batch of identical pieces for a workshop, a dental clinic, an architecture studio or a local store. For repeat customers we keep the file on record so reorders are instant."
+        body: "The minimum order is €9.90, with no setup fee. We're equally happy printing a single replacement bracket as we are running a small batch of identical pieces for a workshop, a dental clinic, an architecture studio or a local store. For repeat customers we keep the file on record so reorders are instant."
       },
       {
         heading: "Built to actually last",
@@ -316,8 +316,8 @@ export const PAGES_EN: LandingContent[] = [
     altSlug: "/precio-impresion-3d-barcelona",
     lang: "en",
     category: "service",
-    metaTitle: "3D Printing Prices Barcelona — From 10€, Free Quote in 1h",
-    metaDescription: "How much does 3D printing cost in Barcelona? Small parts from 10€. Transparent pricing by size and material. Free quote in 1h, no commitment.",
+    metaTitle: "3D Printing Prices Barcelona — From €9.90, Free Quote in 1h",
+    metaDescription: "How much does 3D printing cost in Barcelona? Small parts from €9.90. Transparent pricing by size and material. Free quote in 1h, no commitment.",
     h1: "3D Printing Prices in Barcelona",
     intro: "One of the first questions every customer asks is: how much will my 3D print cost? On this page we explain exactly what drives the price of a 3D print in Barcelona, with realistic examples, so you can plan your project with no surprises.",
     sections: [
@@ -327,7 +327,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Typical price ranges",
-        body: "These ranges are realistic for FDM prints in Barcelona:\n\n• Small parts (replacement clip, knob, hook, small figure): from 10 €.\n• Medium parts (mounting bracket, organizer, decorative piece, mid-size figure): typically 20–60 €.\n• Large parts (helmets, vases, big enclosures, tall figures): typically 60–250 €.\n• Small batches: ask for a per-unit price — repeated parts get cheaper per unit.\n\nThese are starting references. The exact quote depends on your file, the chosen material and the deadline."
+        body: "These ranges are realistic for FDM prints in Barcelona:\n\n• Small parts (replacement clip, knob, hook, small figure): from €9.90.\n• Medium parts (mounting bracket, organizer, decorative piece, mid-size figure): typically 20–60 €.\n• Large parts (helmets, vases, big enclosures, tall figures): typically 60–250 €.\n• Small batches: ask for a per-unit price — repeated parts get cheaper per unit.\n\nThese are starting references. The exact quote depends on your file, the chosen material and the deadline."
       },
       {
         heading: "Quantity discounts",
@@ -339,7 +339,7 @@ export const PAGES_EN: LandingContent[] = [
       }
     ],
     faqs: [
-      { q: "What's the cheapest 3D print you do?", a: "Small simple parts in PLA start around 10 €. Bigger or stronger materials cost more." },
+      { q: "What's the cheapest 3D print you do?", a: "Small simple parts in PLA start around €9.90. Bigger or stronger materials cost more." },
       { q: "Do you charge for the quote?", a: "No. Quotes are always free and you only pay if you confirm the order." },
       { q: "Why does the same part cost more in PETG or Nylon?", a: "Those filaments are more expensive and print slower with tighter parameters, but they last longer in stressed or outdoor applications." },
       { q: "Do bigger orders get cheaper per piece?", a: "Yes. Tell us the quantity and we'll send you a tiered price." },
@@ -429,7 +429,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Great value, fast turnaround",
-        body: "Because PLA prints fast and reliably, it's also one of the most affordable materials we offer. Small PLA parts start around 10 €, and most PLA orders ship within 2–5 business days. Express turnaround is available for urgent jobs."
+        body: "Because PLA prints fast and reliably, it's also one of the most affordable materials we offer. Small PLA parts start around €9.90, and most PLA orders ship within 2–5 business days. Express turnaround is available for urgent jobs."
       }
     ],
     faqs: [
@@ -601,9 +601,9 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     metaTitle: "3D Printing for Business in Barcelona",
-    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. 250+ orders, from €10, VAT invoicing. Send your STL/STEP — quote in 1 hour.",
+    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. 250+ orders, from €9.90, VAT invoicing. Send your STL/STEP — quote in 1 hour.",
     h1: "3D Printing for Business in Barcelona",
-    intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. 10 € minimum order, no setup fee.",
+    intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. €9.90 minimum order, no setup fee.",
     sections: [
       {
         heading: "What we produce for business customers",
@@ -664,7 +664,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Iterations without friction",
-        body: "Each revised file goes through the same same-day review and 24–72h production cycle. There's no subscription, no per-iteration minimum (the 10 € order minimum applies once per order), and no administrative back-and-forth — you upload, we review, we quote, you approve, we print. For clients who iterate frequently, we keep your project on file and can accept revision uploads via WhatsApp directly."
+        body: "Each revised file goes through the same same-day review and 24–72h production cycle. There's no subscription, no per-iteration minimum (the €9.90 order minimum applies once per order), and no administrative back-and-forth — you upload, we review, we quote, you approve, we print. For clients who iterate frequently, we keep your project on file and can accept revision uploads via WhatsApp directly."
       },
       {
         heading: "From prototype to small production run",
@@ -717,7 +717,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "From one part to a short run",
-        body: "The minimum order is 10 €, with no setup fee. We print single functional parts as readily as a batch of 50. For repeat orders, we keep the file and parameters on record so reorders take minutes to set up. Ask for a tiered price — per-unit cost drops as volume grows."
+        body: "The minimum order is €9.90, with no setup fee. We print single functional parts as readily as a batch of 50. For repeat orders, we keep the file and parameters on record so reorders take minutes to set up. Ask for a tiered price — per-unit cost drops as volume grows."
       }
     ],
     faqs: [
@@ -762,7 +762,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Three service models — an objective comparison",
-        body: "There are three common ways to source a 3D print in Barcelona, and they differ in structural ways that matter more than any individual company's marketing:\n\n| Feature | Local Barcelona workshop | International online platform | Maker marketplace |\n|---|---|---|---|\n| Typical lead time (approved quote → part in hand) | 2–5 business days for standard orders; express 24–48h possible | 7–14 business days including international shipping | Varies by individual maker; commonly 5–15 business days |\n| Minimum order | Set by the workshop; often 10 €–50 € or none | Usually no per-part minimum; per-order minimums common | Set by each maker independently |\n| Human file review before quote | Standard practice at most local workshops | Algorithmic quote by default; human review on request or by tier | Depends entirely on the individual maker |\n| Language of support | Spanish, Catalan and English available locally | Usually English-only, or a language-specific portal | Depends on the maker's own languages |\n| In-person pickup option | Available by appointment at most local workshops | Not offered — international shipping only | Sometimes, if the maker is local and willing |\n| Customisation and design help | Direct dialogue with the person producing the part | Standard specs only; customisation via ticket or premium tier | Direct with the maker, quality varies |\n\nFor Dimension3D specifically: we're a local Barcelona workshop, we quote within one hour during business hours, minimum order is 10 € with no per-part minimum, every file is reviewed manually before we send the quote, we handle enquiries in Spanish, Catalan and English, and pickup in Barcelona is available by appointment.\n\nThe right choice depends on your project. If you need a single functional part next week with a specific material recommendation, a local workshop is structurally set up for that. If you need 500 identical injection-quality parts at the lowest possible unit price and can wait, an international platform's economics may fit better. Pick the model that matches the job."
+        body: "There are three common ways to source a 3D print in Barcelona, and they differ in structural ways that matter more than any individual company's marketing:\n\n| Feature | Local Barcelona workshop | International online platform | Maker marketplace |\n|---|---|---|---|\n| Typical lead time (approved quote → part in hand) | 2–5 business days for standard orders; express 24–48h possible | 7–14 business days including international shipping | Varies by individual maker; commonly 5–15 business days |\n| Minimum order | Set by the workshop; often 10 €–50 € or none | Usually no per-part minimum; per-order minimums common | Set by each maker independently |\n| Human file review before quote | Standard practice at most local workshops | Algorithmic quote by default; human review on request or by tier | Depends entirely on the individual maker |\n| Language of support | Spanish, Catalan and English available locally | Usually English-only, or a language-specific portal | Depends on the maker's own languages |\n| In-person pickup option | Available by appointment at most local workshops | Not offered — international shipping only | Sometimes, if the maker is local and willing |\n| Customisation and design help | Direct dialogue with the person producing the part | Standard specs only; customisation via ticket or premium tier | Direct with the maker, quality varies |\n\nFor Dimension3D specifically: we're a local Barcelona workshop, we quote within one hour during business hours, minimum order is €9.90 with no per-part minimum, every file is reviewed manually before we send the quote, we handle enquiries in Spanish, Catalan and English, and pickup in Barcelona is available by appointment.\n\nThe right choice depends on your project. If you need a single functional part next week with a specific material recommendation, a local workshop is structurally set up for that. If you need 500 identical injection-quality parts at the lowest possible unit price and can wait, an international platform's economics may fit better. Pick the model that matches the job."
       },
       {
         heading: "Questions specific to your project type",
@@ -770,7 +770,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "How Dimension3D answers each of these — in short",
-        body: "For direct reference, here's how the checklist maps to our operation:\n\n• Materials in day-to-day rotation: PLA, PETG, ABS, ASA, TPU, Nylon (PA12), and carbon-fibre reinforced variants (PLA-CF, PETG-CF, Nylon-CF).\n• Layer height range: 0.12–0.28 mm depending on part function; specified per quote.\n• Typical tolerance: ±0.2 mm across most FDM dimensions; tighter features quoted individually.\n• File review: every file is opened manually before we send the quote; wall thickness, support and orientation questions get raised at that stage.\n• Minimum order: 10 €. No per-part minimum — a single small clip is a valid order.\n• Turnaround: standard 2–5 business days from approved quote; express 24–48h available; same-day sometimes possible when the queue allows.\n• Support language: Spanish, Catalan and English, via WhatsApp or email.\n• Pickup: available at our Barcelona workshop by appointment; shipping to mainland Spain with tracking.\n\nUse this guide with any shop you're considering. The point isn't to steer you to us — it's to give you the shape of a good conversation with any 3D printing supplier."
+        body: "For direct reference, here's how the checklist maps to our operation:\n\n• Materials in day-to-day rotation: PLA, PETG, ABS, ASA, TPU, Nylon (PA12), and carbon-fibre reinforced variants (PLA-CF, PETG-CF, Nylon-CF).\n• Layer height range: 0.12–0.28 mm depending on part function; specified per quote.\n• Typical tolerance: ±0.2 mm across most FDM dimensions; tighter features quoted individually.\n• File review: every file is opened manually before we send the quote; wall thickness, support and orientation questions get raised at that stage.\n• Minimum order: €9.90. No per-part minimum — a single small clip is a valid order.\n• Turnaround: standard 2–5 business days from approved quote; express 24–48h available; same-day sometimes possible when the queue allows.\n• Support language: Spanish, Catalan and English, via WhatsApp or email.\n• Pickup: available at our Barcelona workshop by appointment; shipping to mainland Spain with tracking.\n\nUse this guide with any shop you're considering. The point isn't to steer you to us — it's to give you the shape of a good conversation with any 3D printing supplier."
       }
     ],
     faqs: [
@@ -946,7 +946,7 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Best for one-off and custom parts",
-        body: "For a single custom piece — a replacement bracket, a fixture, a personal project, a broken clip nobody sells anymore — the priorities are different:\n\n• A minimum order low enough that a single small part is a valid job.\n• A person willing to look at the geometry (or a photograph, or a rough sketch) and advise on whether it's printable and in what material.\n• No obligation to design in CAD yourself — either accepting reference images and measurements, or offering paid modelling as a separate line item.\n• Willingness to explain material choice and print settings so you understand what you're paying for.\n\nFor Dimension3D specifically: minimum order is 10 €, there is no per-part minimum, every file (or reference photograph) is reviewed manually before we quote, and we accept quotes based on photographs plus measurements when no CAD file exists. Material and settings are always explained on the quote so you know what you're approving."
+        body: "For a single custom piece — a replacement bracket, a fixture, a personal project, a broken clip nobody sells anymore — the priorities are different:\n\n• A minimum order low enough that a single small part is a valid job.\n• A person willing to look at the geometry (or a photograph, or a rough sketch) and advise on whether it's printable and in what material.\n• No obligation to design in CAD yourself — either accepting reference images and measurements, or offering paid modelling as a separate line item.\n• Willingness to explain material choice and print settings so you understand what you're paying for.\n\nFor Dimension3D specifically: minimum order is €9.90, there is no per-part minimum, every file (or reference photograph) is reviewed manually before we quote, and we accept quotes based on photographs plus measurements when no CAD file exists. Material and settings are always explained on the quote so you know what you're approving."
       },
       {
         heading: "Best for business and functional prototypes",
@@ -969,7 +969,7 @@ export const PAGES_EN: LandingContent[] = [
       { q: "What is the best 3D printing service in Barcelona?", a: "There is no single answer — it depends on the use case. For urgent functional parts, an express-capable local workshop with human file review. For one-off custom parts, a workshop with a low minimum order. For business and prototype work, a workshop with material expertise and tolerance commitments. For decoration and gifts, a workshop with a portfolio and finish options. The sections above walk through how to decide by need." },
       { q: "How do I compare 3D printing services objectively?", a: "Look at structural features rather than marketing: minimum order stated in numbers, turnaround expressed in business days from approved quote, whether a human reviews the file before printing, language of support, in-person pickup availability, and whether the shop can quote based on photographs when no CAD exists. Our companion buyer's guide covers this in more detail." },
       { q: "What's the fastest 3D printing service in Barcelona?", a: "For genuine urgency, look for a shop with a stated express service (24–48 hours) rather than vague \"fast\" language, and with a support channel that answers within the hour. We offer express in 24–48 hours and same-day production when the queue allows." },
-      { q: "Which service is best for a single custom part?", a: "A local workshop with a low or zero per-part minimum, willing to accept a photograph or sketch when no CAD file exists, and willing to review the geometry manually. Minimum orders in the 10 €–50 € range are common at local workshops. Ours is 10 € with no per-part minimum." },
+      { q: "Which service is best for a single custom part?", a: "A local workshop with a low or zero per-part minimum, willing to accept a photograph or sketch when no CAD file exists, and willing to review the geometry manually. Minimum orders in the 10 €–50 € range are common at local workshops. Ours is €9.90 with no per-part minimum." },
       { q: "Is Dimension3D always the cheapest option?", a: "No. Cheapest per-unit for large production runs is usually an injection-moulding supplier or a large-scale FDM farm. For small quantities, one-off parts and functional prototypes, the price gap between local workshops is usually small — the meaningful difference is response speed, human file review and communication quality. If the price for your project matters more than any other factor, always compare quotes." },
       { q: "When should I not use FDM 3D printing at all?", a: "For pieces requiring surface detail below the layer-line resolution (roughly 0.08 mm on a well-tuned FDM printer) — fine jewellery, dental work, ultra-detailed figurines — SLA or DLP resin printing is fundamentally the right process. For structural metal parts requiring specific certifications, metal AM (SLM, DMLS) is the right process. FDM is the right tool for a wide range of applications, but not every one." }
     ],
@@ -1377,7 +1377,7 @@ export const PAGES_EN: LandingContent[] = [
       { q: "What is the layer line visibility like on FDM parts?", a: "Layer lines are visible on bare FDM parts — this is an inherent property of the process, not a quality issue. At a standard 0.2 mm layer height, lines are noticeable at close inspection. At 0.1 mm (fine mode), they are much subtler. Post-processing (sanding with progressively finer grit, then priming) can produce a nearly smooth surface. If the part is functional rather than display-facing, layer lines are irrelevant to performance." },
       { q: "Is FDM printing strong enough for functional, load-bearing parts?", a: "Yes, for the large majority of functional applications. At standard infill (20–25%), FDM parts handle everyday loads reliably. For higher-demand applications, infill can be increased, wall count raised, or a higher-performance material selected (PETG, ABS, Nylon, or CF variants). The one structural caveat is Z-axis anisotropy — parts are somewhat weaker in the vertical print direction than in XY. For most parts this is manageable with orientation; for parts that must be isotropic in all directions, SLS/MJF is the better technology." },
       { q: "Why do you not offer resin or SLS printing?", a: "We focus on FDM because it covers the wide majority of practical 3D printing applications better than any single alternative — at lower cost, with a broader material range, and at larger build volumes. Offering SLA and SLS would require separate equipment, expertise, and supply chains, and would dilute focus rather than improve the result for most customers. We prefer to do one technology well and be honest when another is the right answer." },
-      { q: "Which technology is most cost-effective for small production runs?", a: "FDM is almost always the most cost-effective for small-to-medium runs of functional parts. The per-part cost is low, the minimum order is 10 € with no setup fee, and iterating on design between prints costs only material and machine time. SLS/MJF becomes competitive at higher volumes where the per-part cost drops due to full-bed utilisation. SLA is relatively expensive per part and is mainly justified by surface quality requirements, not volume economics." },
+      { q: "Which technology is most cost-effective for small production runs?", a: "FDM is almost always the most cost-effective for small-to-medium runs of functional parts. The per-part cost is low, the minimum order is €9.90 with no setup fee, and iterating on design between prints costs only material and machine time. SLS/MJF becomes competitive at higher volumes where the per-part cost drops due to full-bed utilisation. SLA is relatively expensive per part and is mainly justified by surface quality requirements, not volume economics." },
     ],
     galleryImages: pick("purple-detail.jpg", "purple-figures.jpg", "intake-manifold.jpg", "curved-parts.jpg", "lion-king-figures.jpg", "stranger-things-diorama.jpg"),
     related: [
@@ -1401,9 +1401,9 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     metaTitle: "Short-Run 3D Printing Barcelona",
-    metaDescription: "Short-run 3D printing in Barcelona from 1 to several hundred identical parts. €10 minimum, no setup fee, invoice provided.",
+    metaDescription: "Short-run 3D printing in Barcelona from 1 to several hundred identical parts. €9.90 minimum, no setup fee, invoice provided.",
     h1: "Short-Run 3D Printing Barcelona — Batch Production Without a Minimum",
-    intro: "Short-run production sits between a one-off prototype and a full manufacturing run: you need more than one part, but not thousands. At Dimension3D we handle batches from a single unit to several hundred identical parts with the same lead time and material quality as a prototype order. 10 € minimum order, no setup fee, invoice provided for business orders.",
+    intro: "Short-run production sits between a one-off prototype and a full manufacturing run: you need more than one part, but not thousands. At Dimension3D we handle batches from a single unit to several hundred identical parts with the same lead time and material quality as a prototype order. €9.90 minimum order, no setup fee, invoice provided for business orders.",
     sections: [
       {
         heading: "What makes short-run FDM practical",
@@ -1419,11 +1419,11 @@ export const PAGES_EN: LandingContent[] = [
       },
       {
         heading: "Batch pricing: how it works",
-        body: "Short-run pricing is calculated part-by-part from material weight and machine time. We do not charge a setup fee or a per-order admin fee — the 10 € minimum applies once per order regardless of quantity. For batches above roughly 20 units of the same part, unit economics typically improve because packing density increases and machine time per part decreases. We always provide a tiered quote showing per-unit cost at 1, 10, 50, and 100 units so you can make an informed decision about batch size."
+        body: "Short-run pricing is calculated part-by-part from material weight and machine time. We do not charge a setup fee or a per-order admin fee — the €9.90 minimum applies once per order regardless of quantity. For batches above roughly 20 units of the same part, unit economics typically improve because packing density increases and machine time per part decreases. We always provide a tiered quote showing per-unit cost at 1, 10, 50, and 100 units so you can make an informed decision about batch size."
       },
     ],
     faqs: [
-      { q: "What is your minimum order for a batch run?", a: "10 € per order, with no setup fee. There is no minimum number of parts — if one part costs 10 €, that is a valid order. If you need 100 parts that each cost 0.50 €, the 10 € minimum still applies once per order." },
+      { q: "What is your minimum order for a batch run?", a: "€9.90 per order, with no setup fee. There is no minimum number of parts — if one part costs €9.90, that is a valid order. If you need 100 parts that each cost 0.50 €, the €9.90 minimum still applies once per order." },
       { q: "How long does a short-run batch take?", a: "Depends on total volume. A batch of 10–20 small parts typically completes within standard lead time (2–5 business days). Larger batches of 50–200 parts are scheduled over multiple sessions and take 3–7 business days depending on queue. Express and urgent tiers are available for smaller batches." },
       { q: "Can you split a batch across different colours or materials?", a: "Yes. Each material or colour change requires a brief setup step, which is reflected in a small per-change cost. For mixed-material batches, request a quote with the split specified — we will confirm feasibility and cost before committing." },
       { q: "Do you provide invoices for business orders?", a: "Yes. Every order receives an invoice. For B2B batch orders with specific invoicing requirements (project reference, cost centre, purchase order number), mention this when ordering and we will accommodate it." },

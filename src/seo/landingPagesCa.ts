@@ -151,7 +151,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "service",
     metaTitle: "Preu Impressió 3D Barcelona",
-    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 10€, des d'1 peça. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
+    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 9,90 €, des d'1 peça. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
     h1: "Preu d'Impressió 3D a Barcelona",
     intro: "Una de les primeres preguntes de qualsevol client és: quant costarà la meva impressió 3D? En aquesta pàgina expliquem exactament què determina el preu d'una impressió 3D a Barcelona, amb exemples realistes, perquè puguis planificar el teu projecte sense sorpreses.",
     sections: [
@@ -161,7 +161,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Rangs de preu típics",
-        body: "Aquestes referències són realistes per a impressions FDM a Barcelona:\n\n• Peces petites (clip, pom, ganxo, figura petita): des de 10 €.\n• Peces mitjanes (suport, organitzador, decoració, figura mitjana): normalment 20–60 €.\n• Peces grans (cascos, gerros, carcasses grans, figures altes): normalment 60–250 €.\n• Petites tirades: demana preu per unitat — les peces repetides surten més barates.\n\nSón referències de partida. El pressupost exacte depèn del teu arxiu, material i termini."
+        body: "Aquestes referències són realistes per a impressions FDM a Barcelona:\n\n• Peces petites (clip, pom, ganxo, figura petita): des de 9,90 €.\n• Peces mitjanes (suport, organitzador, decoració, figura mitjana): normalment 20–60 €.\n• Peces grans (cascos, gerros, carcasses grans, figures altes): normalment 60–250 €.\n• Petites tirades: demana preu per unitat — les peces repetides surten més barates.\n\nSón referències de partida. El pressupost exacte depèn del teu arxiu, material i termini."
       },
       {
         heading: "Descomptes per quantitat",
@@ -173,7 +173,7 @@ export const PAGES_CA: LandingContent[] = [
       }
     ],
     faqs: [
-      { q: "Quina és la impressió 3D més barata?", a: "Peces petites i simples en PLA des d'uns 10 €. Materials més resistents o mides majors costen més." },
+      { q: "Quina és la impressió 3D més barata?", a: "Peces petites i simples en PLA des d'uns 9,90 €. Materials més resistents o mides majors costen més." },
       { q: "Cobreu pel pressupost?", a: "No. Els pressupostos són sempre gratis i només pagues si confirmes la comanda." },
       { q: "Per què la mateixa peça costa més en PETG o Nylon?", a: "Aquests filaments són més cars i imprimeixen més lentament amb paràmetres més exigents, però duren molt més en aplicacions amb esforç o exteriors." },
       { q: "Les quantitats grans surten més barates per peça?", a: "Sí. Indica'ns la quantitat i t'enviem un preu escalat." },
@@ -263,7 +263,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Bona relació qualitat-preu i lliuraments ràpids",
-        body: "Com que el PLA imprimeix ràpid i de manera fiable, també és un dels materials més assequibles. Les peces petites en PLA comencen des de 10 € i la majoria de comandes en PLA surten en 2–5 dies laborables. Hi ha servei Express per a urgències."
+        body: "Com que el PLA imprimeix ràpid i de manera fiable, també és un dels materials més assequibles. Les peces petites en PLA comencen des de 9,90 € i la majoria de comandes en PLA surten en 2–5 dies laborables. Hi ha servei Express per a urgències."
       }
     ],
     faqs: [
@@ -339,7 +339,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "material",
     metaTitle: "Impressió TPU Flexible Barcelona",
-    metaDescription: "Impressió 3D en TPU flexible a Barcelona. Peces tipus goma: suports de mòbil, juntes, mànecs i wearables. Pressupost en 1 h, des de 10€.",
+    metaDescription: "Impressió 3D en TPU flexible a Barcelona. Peces tipus goma: suports de mòbil, juntes, mànecs i wearables. Pressupost en 1 h, des de 9,90 €.",
     h1: "Impressió 3D Flexible en TPU a Barcelona",
     intro: "El TPU és el material que fa flexible la impressió 3D. Si una peça necessita doblegar-se, agafar, esmorteir o segellar, aquest és el que fem servir. Dimension3D fabrica impressions 3D a mida en TPU a Barcelona per a tot, des de suports de mòbil fins a juntes industrials.",
     sections: [
@@ -435,7 +435,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "use-case",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
-    metaDescription: "Impressió 3D per a empreses i enginyers a Barcelona. 250+ comandes, des de 10€, factura amb IVA. Envia el teu STL/STEP — pressupost en 1 hora.",
+    metaDescription: "Impressió 3D per a empreses i enginyers a Barcelona. 250+ comandes, des de 9,90 €, factura amb IVA. Envia el teu STL/STEP — pressupost en 1 hora.",
     h1: "Impressió 3D per a Empreses a Barcelona — Factura, NDA i Prototip Gratuït",
     intro: "Dimension3D treballa amb equips d'enginyeria, departaments de R+D, tallers i petits fabricants a Barcelona que necessiten peces 3D funcionals sense els temps i la burocràcia d'un proveïdor industrial. Envia el teu arxiu — STL, STEP o IGES — i rep pressupost professional en menys d'una hora. Sense compte, sense concurs, sense volum mínim.",
     sections: [
@@ -498,7 +498,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "Iteracions sense fricció",
-        body: "Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Sense subscripció, comanda mínima de 10 € per iteració, sense burocràcia — puges, revisem, pressupostem, aproves, imprimim. Per a clients que iteraren amb freqüència conservem el teu projecte en arxiu i podem rebre revisions per WhatsApp directament."
+        body: "Cada arxiu revisat passa pel mateix cicle de revisió al dia i producció en 24–72h. Sense subscripció, comanda mínima de 9,90 € per iteració, sense burocràcia — puges, revisem, pressupostem, aproves, imprimim. Per a clients que iteraren amb freqüència conservem el teu projecte en arxiu i podem rebre revisions per WhatsApp directament."
       },
       {
         heading: "Del prototip a la tirada curta de producció",
@@ -551,7 +551,7 @@ export const PAGES_CA: LandingContent[] = [
       },
       {
         heading: "D'una peça a una tirada curta",
-        body: "Comanda mínima de 10 €, sense tarifa de configuració. Imprimim peces funcionals individuals amb la mateixa facilitat que un lot de 50. Per a comandes repetides, conservem l'arxiu i els paràmetres per tal que les recomandes es gestionen en minuts. Demana preu per trams — el cost unitari baixa amb el volum."
+        body: "Comanda mínima de 9,90 €, sense tarifa de configuració. Imprimim peces funcionals individuals amb la mateixa facilitat que un lot de 50. Per a comandes repetides, conservem l'arxiu i els paràmetres per tal que les recomandes es gestionen en minuts. Demana preu per trams — el cost unitari baixa amb el volum."
       }
     ],
     faqs: [

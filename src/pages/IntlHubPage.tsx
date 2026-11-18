@@ -354,7 +354,7 @@ const IntlHubPage = ({ content }: Props) => {
             { value: "< 1 h", label: content.trustChips[1] },
             { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
             { value: "5,90 €", label: content.trustChips[2] },
-            { value: "10 €", label: content.trustChips[0] },
+            { value: "9,90 €", label: content.trustChips[0] },
           ];
           return (
             <>
@@ -382,9 +382,9 @@ const IntlHubPage = ({ content }: Props) => {
         <div id="calculator" data-testid="hub-upload-card" style={{ background: '#F6F8FC', scrollMarginTop: 80 }}>
           <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
             <UploadPanel
-              label={content.lang === "de" ? "SOFORTPREIS — AB 10 €" : content.lang === "fr" ? "PRIX INSTANTANÉ — DÈS 10 €" : content.lang === "nl" ? "DIRECTE PRIJS — VANAF 10 €" : content.lang === "it" ? "PREZZO ISTANTANEO — DA 10 €" : content.lang === "pt" ? "PREÇO INSTANTÂNEO — A PARTIR DE 10 €" : "INSTANT PRICE — FROM 10 €"}
+              label={content.lang === "de" ? "SOFORTPREIS — AB 9,90 €" : content.lang === "fr" ? "PRIX INSTANTANÉ — DÈS 10 €" : content.lang === "nl" ? "DIRECTE PRIJS — VANAF 9,90 €" : content.lang === "it" ? "PREZZO ISTANTANEO — DA 9,90 €" : content.lang === "pt" ? "PREÇO INSTANTÂNEO — A PARTIR DE 10 €" : "INSTANT PRICE — FROM 10 €"}
               heading={content.lang === "de" ? "Lade deine Dateien hoch und sieh den Preis sofort." : content.lang === "fr" ? "Télécharge tes fichiers et vois le prix maintenant." : content.lang === "nl" ? "Upload je bestanden en zie de prijs direct." : content.lang === "it" ? "Carica i tuoi file e vedi il prezzo subito." : content.lang === "pt" ? "Carrega os teus ficheiros e vê o preço agora." : "Upload your files and see the price now."}
-              description={content.lang === "de" ? "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr." : content.lang === "fr" ? "Sans compte. Commande minimum 10 €, sans frais de mise en place." : content.lang === "nl" ? "Geen account nodig. Minimumbestelling 10 €, geen installatiekosten." : content.lang === "it" ? "Nessun account richiesto. Ordine minimo 10 €, nessuna tariffa di configurazione." : content.lang === "pt" ? "Sem conta. Encomenda mínima 10 €, sem taxa de configuração." : "No account required. 10 € minimum order, no setup fee."}
+              description={content.lang === "de" ? "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr." : content.lang === "fr" ? "Sans compte. Commande minimum 10 €, sans frais de mise en place." : content.lang === "nl" ? "Geen account nodig. Minimumbestelling 10 €, geen installatiekosten." : content.lang === "it" ? "Nessun account richiesto. Ordine minimo 10 €, nessuna tariffa di configurazione." : content.lang === "pt" ? "Sem conta. Encomenda mínima 9,90 €, sem taxa de configuração." : "No account required. 10 € minimum order, no setup fee."}
             >
               <StlEstimator compact shippingOnly />
             </UploadPanel>

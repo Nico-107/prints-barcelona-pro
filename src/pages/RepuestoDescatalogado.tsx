@@ -18,7 +18,7 @@ const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 
 const META_TITLE = "Repuesto Descatalogado Barcelona — Reproducción 3D";
-const META_DESC = "Repuestos descatalogados reproducidos en 3D en Barcelona desde foto o la pieza original. Desde 10 €. Presupuesto en 1 hora.";
+const META_DESC = "Repuestos descatalogados reproducidos en 3D en Barcelona desde foto o la pieza original. Desde 9,90 €. Presupuesto en 1 hora.";
 const CANONICAL = `${SITE_URL}/repuesto-descatalogado`;
 
 const FAQS = [
@@ -32,7 +32,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto tarda y cuánto cuesta reproducir un repuesto?",
-    a: "La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 10 €. Clips, tapas y bisagras suelen quedar entre 10 € y 20 €. Piezas más grandes o con modelado desde cero desde 25 €. Presupuesto siempre gratis y sin compromiso antes de confirmar.",
+    a: "La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 9,90 €. Clips, tapas y bisagras suelen quedar entre 10 € y 20 €. Piezas más grandes o con modelado desde cero desde 25 €. Presupuesto siempre gratis y sin compromiso antes de confirmar.",
   },
   {
     q: "¿Tengo que tener el archivo STL del repuesto?",
@@ -134,14 +134,14 @@ const RepuestoDescatalogado = () => {
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-5">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona reproduce repuestos descatalogados en impresión 3D desde 10 €. Si el fabricante ya no vende la pieza o la sirve en semanas, la reproducimos desde la pieza original, unas fotos o el número de referencia. Entrega en 24–48 horas. Presupuesto gratis en menos de 1 hora por WhatsApp.
+                Dimension3D Barcelona reproduce repuestos descatalogados en impresión 3D desde 9,90 €. Si el fabricante ya no vende la pieza o la sirve en semanas, la reproducimos desde la pieza original, unas fotos o el número de referencia. Entrega en 24–48 horas. Presupuesto gratis en menos de 1 hora por WhatsApp.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
               {[
                 "Sin STL necesario",
                 "Desde foto o pieza rota",
-                "Desde 10 €",
+                "Desde 9,90 €",
                 "Listo en 24–48h",
               ].map((tag) => (
                 <div key={tag} className="flex items-center gap-2 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-2 text-sm text-primary-foreground/80">
@@ -370,10 +370,10 @@ const RepuestoDescatalogado = () => {
                 <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-2">Servicio relacionado</p>
                 <Link to="/impresion-3d-sin-pedido-minimo" className="group block">
                   <p className="font-semibold text-foreground text-sm leading-snug mb-1 group-hover:text-accent transition-colors">
-                    Desde 1 pieza — pedido mínimo 10 €
+                    Desde 1 pieza — pedido mínimo 9,90 €
                   </p>
                   <p className="text-xs text-foreground/55 leading-relaxed">
-                    Imprime una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 10 €.
+                    Imprime una sola pieza al mismo precio por unidad que un lote. Pedido mínimo 9,90 €.
                   </p>
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent mt-3">
                     Ver servicio <ArrowRight className="w-3 h-3" />
