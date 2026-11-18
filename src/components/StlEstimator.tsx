@@ -1477,7 +1477,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         : "";
 
       // 4.1: save to saved_quotes + send customer email via edge function
-      supabase.functions.invoke("save-quote", {
+      const { error: saveQuoteErr } = await supabase.functions.invoke("save-quote", {
         body: {
           email: email.trim(),
           quoteLink,
@@ -1488,7 +1488,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           files: validFiles.map(f => ({ name: f.name, material: effectivePartSettings(f, defaults).material, qty: f.qty })),
           unsubscribeBase: typeof window !== "undefined" ? window.location.origin : undefined,
         },
-      }).catch(e => console.warn("[save-quote edge fn]", e));
+      });
+      if (saveQuoteErr) throw new Error(`save-quote: ${saveQuoteErr.message}`);
 
       // Also keep existing quote_requests row for the leads admin view
       const insertPayload: TablesInsert<"quote_requests"> = {
@@ -3415,6 +3416,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         {showExitSurvey && (
           <ExitReasonCard
             priceBucket={exitSurveyPriceBucket.current}
+            pricingVersion={pricingVersion}
             onReturnToOrder={() => setMobileModalOpen(true)}
             onClose={() => setShowExitSurvey(false)}
             quoteLink={bundle ? buildQuoteLink(window.location.origin, window.location.pathname, { material: materialKey, colour: colorPref, qty: bundle.totalUnits, urgency }) : undefined}

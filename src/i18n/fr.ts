@@ -441,6 +441,7 @@ export const frTranslations: Record<string, string> = {
   "calc.saveQuote.placeholder": "vous@email.com",
   "calc.saveQuote.send": "Envoyer",
   "calc.saveQuote.success": "C'est fait, nous vous l'envoyons. Prix valable 7 jours.",
+  "calc.saveQuote.error": "Impossible de sauvegarder le devis. Réessaie.",
   "calc.saveQuote.copyLink": "Copier le lien",
   "calc.saveQuote.copied": "Lien copié",
   "calc.lowerPrice.cta": "Baisser le prix",
@@ -936,6 +937,7 @@ export const frTranslations: Record<string, string> = {
   "survey.exit.offerCode.email": "ton@email.fr",
   "survey.exit.offerCode.cta": "M'envoyer le code",
   "survey.exit.offerCode.sent": "Code envoyé ! Vérifie ton email.",
+  "survey.exit.offerCode.error": "Impossible d'envoyer le code. Réessaie.",
   "survey.exit.offerCode.other": "Quelque chose à ajouter ?",
 
   // Item 2 — new file types

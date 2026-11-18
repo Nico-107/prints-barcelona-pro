@@ -4,9 +4,9 @@
  * Shown when the estimate modal closes without buying, once per visitor,
  * only if the price was on screen for ≥5 s.
  *
- * Chips fire exit_reason. After a chip tap, offer a 20 % personal code
- * via issue-promo-code. No beforeunload. No shortcuts that set the shown
- * flag without an event.
+ * Chips fire exit_reason. In v4, after a chip tap offer a 20 % personal
+ * code via issue-promo-code. In v3, end after chip with a thank-you.
+ * No beforeunload. No shortcuts that set the shown flag without an event.
  */
 
 import { useState } from "react";
@@ -46,6 +46,8 @@ const CHIPS: Array<{ key: string; i18nKey: string }> = [
 
 interface ExitReasonCardProps {
   priceBucket?: string;
+  /** 3 or 4 — controls whether to offer a promo code after the chip. */
+  pricingVersion: number;
   /** Called when the visitor clicks "Volver al pedido" (reopens the modal). */
   onReturnToOrder: () => void;
   onClose: () => void;
@@ -55,9 +57,10 @@ interface ExitReasonCardProps {
   total?: number;
 }
 
-export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLink, total }: ExitReasonCardProps) {
+export function ExitReasonCard({ priceBucket, pricingVersion, onReturnToOrder, onClose, quoteLink, total }: ExitReasonCardProps) {
   const { t, language } = useLanguage();
   const [phase, setPhase] = useState<"chips" | "other_text" | "code_offer" | "done">("chips");
+  const [sendFailed, setSendFailed] = useState(false);
   const [otherText, setOtherText] = useState("");
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
@@ -80,7 +83,7 @@ export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLin
 
   const handleChip = (key: string) => {
     fireReason(key);
-    setPhase("code_offer");
+    setPhase(pricingVersion >= 4 ? "code_offer" : "done");
   };
 
   const handleOtherChip = () => {
@@ -91,19 +94,25 @@ export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLin
   const handleOtherSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fireReason("other", otherText.trim() || undefined);
-    setPhase("code_offer");
+    setPhase(pricingVersion >= 4 ? "code_offer" : "done");
   };
 
   const handleCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || sending) return;
     setSending(true);
+    setSendFailed(false);
     try {
       capture("exit_code_requested", { email_domain: email.split("@")[1] });
-      await supabase.functions.invoke("issue-promo-code", {
+      const { error: invokeErr } = await supabase.functions.invoke("issue-promo-code", {
         body: { kind: "exit", email: email.trim(), language, quoteLink: quoteLink ?? "" },
       });
-      // Also save the quote so the visitor can resume
+      if (invokeErr) {
+        console.warn("[ExitReasonCard] issue-promo-code error:", invokeErr);
+        setSendFailed(true);
+        return;
+      }
+      // Fire-and-forget: also save the quote so the visitor can resume
       if (quoteLink && total) {
         supabase.functions.invoke("save-quote", {
           body: { email: email.trim(), quoteLink, total, language },
@@ -111,8 +120,8 @@ export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLin
       }
       setPhase("done");
     } catch (err) {
-      console.warn("[ExitReasonCard] issue-promo-code failed:", err);
-      setPhase("done");
+      console.warn("[ExitReasonCard] issue-promo-code network error:", err);
+      setSendFailed(true);
     } finally {
       setSending(false);
     }
@@ -144,7 +153,7 @@ export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLin
               <input
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => { setEmail(e.target.value); setSendFailed(false); }}
                 placeholder={t("survey.exit.offerCode.email")}
                 data-ph-mask
                 className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
@@ -153,6 +162,9 @@ export function ExitReasonCard({ priceBucket, onReturnToOrder, onClose, quoteLin
                 {t("survey.exit.offerCode.cta")}
               </Button>
             </form>
+            {sendFailed && (
+              <p className="text-xs text-destructive mt-1">{t("survey.exit.offerCode.error")}</p>
+            )}
           </>
         ) : phase === "other_text" ? (
           <>

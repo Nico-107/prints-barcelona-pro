@@ -469,6 +469,7 @@ export const esTranslations: Record<string, string> = {
   "calc.saveQuote.placeholder": "tu@email.com",
   "calc.saveQuote.send": "Enviar",
   "calc.saveQuote.success": "Listo, te lo enviamos. El precio se mantiene 7 días.",
+  "calc.saveQuote.error": "No he podido guardar el presupuesto. Inténtalo de nuevo.",
   "calc.saveQuote.copyLink": "Copiar enlace",
   "calc.saveQuote.copied": "Enlace copiado",
   "calc.lowerPrice.cta": "Bajar el precio",
@@ -934,6 +935,7 @@ export const esTranslations: Record<string, string> = {
   "survey.exit.offerCode.email": "tu@email.com",
   "survey.exit.offerCode.cta": "Quiero el código",
   "survey.exit.offerCode.sent": "¡Código enviado! Revisa tu email.",
+  "survey.exit.offerCode.error": "No he podido enviar el código. Inténtalo de nuevo.",
   "survey.exit.offerCode.other": "¿Algo más que añadir?",
 
   "calc.upload.format": "STL, OBJ, 3MF, GLB — o una foto de lo que necesitas",

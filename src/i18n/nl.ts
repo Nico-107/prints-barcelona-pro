@@ -441,6 +441,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.saveQuote.placeholder": "jij@email.com",
   "calc.saveQuote.send": "Verzenden",
   "calc.saveQuote.success": "Klaar, we sturen hem naar je op. Prijs 7 dagen geldig.",
+  "calc.saveQuote.error": "Kon de offerte niet opslaan. Probeer het opnieuw.",
   "calc.saveQuote.copyLink": "Link kopiëren",
   "calc.saveQuote.copied": "Link gekopieerd",
   "calc.lowerPrice.cta": "Prijs verlagen",
@@ -936,6 +937,7 @@ export const nlTranslations: Record<string, string> = {
   "survey.exit.offerCode.email": "jou@email.nl",
   "survey.exit.offerCode.cta": "Stuur me de code",
   "survey.exit.offerCode.sent": "Code verstuurd! Controleer je email.",
+  "survey.exit.offerCode.error": "Kon de code niet sturen. Probeer het opnieuw.",
   "survey.exit.offerCode.other": "Nog iets toe te voegen?",
 
   // Item 2 — new file types

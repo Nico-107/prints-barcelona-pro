@@ -441,6 +441,7 @@ export const deTranslations: Record<string, string> = {
   "calc.saveQuote.placeholder": "du@email.com",
   "calc.saveQuote.send": "Senden",
   "calc.saveQuote.success": "Erledigt, wir schicken es dir. Preis 7 Tage gültig.",
+  "calc.saveQuote.error": "Angebot konnte nicht gespeichert werden. Bitte versuche es erneut.",
   "calc.saveQuote.copyLink": "Link kopieren",
   "calc.saveQuote.copied": "Link kopiert",
   "calc.lowerPrice.cta": "Preis senken",
@@ -936,6 +937,7 @@ export const deTranslations: Record<string, string> = {
   "survey.exit.offerCode.email": "deine@email.de",
   "survey.exit.offerCode.cta": "Code schicken",
   "survey.exit.offerCode.sent": "Code gesendet! Prüfe deine E-Mail.",
+  "survey.exit.offerCode.error": "Code konnte nicht gesendet werden. Bitte versuche es erneut.",
   "survey.exit.offerCode.other": "Noch etwas hinzufügen?",
 
   "calc.upload.format": "STL, OBJ, 3MF, GLB — oder ein Foto, was du brauchst",

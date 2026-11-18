@@ -95,16 +95,16 @@ export function PromoLine({
     }
     setStudentSubmitting(true);
     try {
-      const { data } = await supabase.functions.invoke("issue-promo-code", {
+      const { data, error: invokeErr } = await supabase.functions.invoke("issue-promo-code", {
         body: { kind: "student", email, language },
       });
-      if (data?.code) {
+      if (invokeErr || !data?.code) {
+        setStudentNotRecognized(true);
+      } else {
         onApply({ code: data.code, pct: 20 });
         capture("student_code_requested", { email_domain: email.split("@")[1] ?? "unknown" });
         setStudentDone(true);
         setStudentOpen(false);
-      } else {
-        setStudentNotRecognized(true);
       }
     } catch {
       setStudentNotRecognized(true);

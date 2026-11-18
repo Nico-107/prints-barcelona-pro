@@ -62,6 +62,8 @@ function SaveQuoteButton({
       sonnerToast(t("calc.saveQuote.success"));
       setOpen(false);
       setEmail("");
+    } catch {
+      sonnerToast(t("calc.saveQuote.error"));
     } finally {
       setSubmitting(false);
     }

@@ -469,6 +469,7 @@ export const caTranslations: Record<string, string> = {
   "calc.saveQuote.placeholder": "el_teu@email.com",
   "calc.saveQuote.send": "Enviar",
   "calc.saveQuote.success": "Llest, t'ho enviem. El preu es manté 7 dies.",
+  "calc.saveQuote.error": "No he pogut desar el pressupost. Torna-ho a intentar.",
   "calc.saveQuote.copyLink": "Copiar enllaç",
   "calc.saveQuote.copied": "Enllaç copiat",
   "calc.lowerPrice.cta": "Baixar el preu",
@@ -935,6 +936,7 @@ export const caTranslations: Record<string, string> = {
   "survey.exit.offerCode.email": "tu@correu.com",
   "survey.exit.offerCode.cta": "Envia'm el codi",
   "survey.exit.offerCode.sent": "Codi enviat! Comprova el teu email.",
+  "survey.exit.offerCode.error": "No he pogut enviar el codi. Torna-ho a intentar.",
   "survey.exit.offerCode.other": "Alguna cosa més?",
 
   "calc.upload.format": "STL, OBJ, 3MF, GLB — o una foto del que necessites",

@@ -469,6 +469,7 @@ export const enTranslations: Record<string, string> = {
   "calc.saveQuote.placeholder": "you@email.com",
   "calc.saveQuote.send": "Send",
   "calc.saveQuote.success": "Done, we'll email it to you. The price is held for 7 days.",
+  "calc.saveQuote.error": "Couldn't save the quote. Please try again.",
   "calc.saveQuote.copyLink": "Copy link",
   "calc.saveQuote.copied": "Link copied",
   "calc.lowerPrice.cta": "Lower the price",
@@ -936,6 +937,7 @@ export const enTranslations: Record<string, string> = {
   "survey.exit.offerCode.email": "your@email.com",
   "survey.exit.offerCode.cta": "Send me the code",
   "survey.exit.offerCode.sent": "Code sent! Check your email.",
+  "survey.exit.offerCode.error": "Couldn't send the code. Please try again.",
   "survey.exit.offerCode.other": "Anything else to add?",
 
   // Item 2: new file formats + image flow
