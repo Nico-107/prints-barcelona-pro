@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      checkout_recoveries: {
+        Row: {
+          created_at: string
+          customer_email: string
+          id: string
+          language: string | null
+          recovered: boolean
+          recovered_session_id: string | null
+          recovery_url: string | null
+          sent_at: string
+          stripe_session_id: string
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          id?: string
+          language?: string | null
+          recovered?: boolean
+          recovered_session_id?: string | null
+          recovery_url?: string | null
+          sent_at?: string
+          stripe_session_id: string
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          id?: string
+          language?: string | null
+          recovered?: boolean
+          recovered_session_id?: string | null
+          recovery_url?: string | null
+          sent_at?: string
+          stripe_session_id?: string
+        }
+        Relationships: []
+      }
       maker_applications: {
         Row: {
           city: string
@@ -271,6 +307,48 @@ export type Database = {
         }
         Relationships: []
       }
+      promo_codes: {
+        Row: {
+          active: boolean
+          bound_email: string | null
+          code: string
+          created_at: string
+          ends_at: string
+          kind: string
+          max_uses: number | null
+          note: string | null
+          pct: number
+          starts_at: string
+          uses: number
+        }
+        Insert: {
+          active?: boolean
+          bound_email?: string | null
+          code: string
+          created_at?: string
+          ends_at: string
+          kind: string
+          max_uses?: number | null
+          note?: string | null
+          pct: number
+          starts_at?: string
+          uses?: number
+        }
+        Update: {
+          active?: boolean
+          bound_email?: string | null
+          code?: string
+          created_at?: string
+          ends_at?: string
+          kind?: string
+          max_uses?: number | null
+          note?: string | null
+          pct?: number
+          starts_at?: string
+          uses?: number
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           browser_language: string | null
@@ -456,6 +534,48 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_quotes: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          language: string | null
+          purchased: boolean
+          quote_payload: Json | null
+          reminded_at: string | null
+          source_page: string | null
+          token: string
+          total: number | null
+          unsubscribed: boolean
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          language?: string | null
+          purchased?: boolean
+          quote_payload?: Json | null
+          reminded_at?: string | null
+          source_page?: string | null
+          token?: string
+          total?: number | null
+          unsubscribed?: boolean
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          language?: string | null
+          purchased?: boolean
+          quote_payload?: Json | null
+          reminded_at?: string | null
+          source_page?: string | null
+          token?: string
+          total?: number | null
+          unsubscribed?: boolean
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -591,6 +711,12 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      increment_promo_uses: { Args: { p_code: string }; Returns: undefined }
+      unsubscribe_saved_quote: { Args: { p_token: string }; Returns: boolean }
+      validate_promo: {
+        Args: { p_code: string; p_email?: string }
+        Returns: Json
       }
     }
     Enums: {
