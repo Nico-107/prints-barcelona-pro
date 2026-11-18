@@ -65,9 +65,9 @@ test("v3 backend: shown total equals checkout amount", async ({ page }) => {
   let capturedCheckoutAmountCents: number | null = null;
 
   // Mock the create-instant-checkout edge function
-  await page.route("**/functions/v1/create-instant-checkout**", async (route) => {
-    const req = route.request();
-    const body = await req.postDataJSON().catch(() => null);
+  await page.route("**/functions/v1/create-instant-checkout**", (route) => {
+    let body: Record<string, unknown> | null = null;
+    try { body = route.request().postDataJSON() as Record<string, unknown>; } catch { }
 
     if (body?.probe) {
       // Probe → v3 (no public code)
@@ -118,8 +118,9 @@ test("v4 backend + DIMENSION11: shown total equals checkout amount", async ({ pa
   let capturedCheckoutAmountCents: number | null = null;
 
   // Mock create-instant-checkout (probe + checkout)
-  await page.route("**/functions/v1/create-instant-checkout**", async (route) => {
-    const body = await route.request().postDataJSON().catch(() => null);
+  await page.route("**/functions/v1/create-instant-checkout**", (route) => {
+    let body: Record<string, unknown> | null = null;
+    try { body = route.request().postDataJSON() as Record<string, unknown>; } catch { }
     if (body?.probe) {
       return route.fulfill({
         status: 200,

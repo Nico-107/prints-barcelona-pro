@@ -11,6 +11,9 @@
  * Output: docs/pricing-v4-screens/
  */
 import { test } from "@playwright/test";
+
+// Screenshot tests need extra time for STL processing and page hydration
+test.setTimeout(240_000);
 import path from "path";
 import { mkdirSync } from "fs";
 import { fileURLToPath } from "url";
@@ -25,7 +28,7 @@ const CUBE_STL = path.resolve(__dirname, "../qa/fixtures/small-cube.stl");
 
 const LOCALES = [
   { lang: "es", path: "/" },
-  { lang: "it", path: "/it" },
+  { lang: "ca", path: "/ca" },
 ];
 
 const VIEWPORTS = [
@@ -51,8 +54,9 @@ for (const locale of LOCALES) {
       await page.addInitScript(initScript);
 
       // Force v4 probe with DIMENSION11 public code
-      await page.route("**/functions/v1/create-instant-checkout**", async (route) => {
-        const body = await route.request().postDataJSON().catch(() => null);
+      await page.route("**/functions/v1/create-instant-checkout**", (route) => {
+        let body: Record<string, unknown> | null = null;
+        try { body = route.request().postDataJSON() as Record<string, unknown>; } catch { }
         if (body?.probe) {
           return route.fulfill({
             status: 200,
@@ -76,8 +80,11 @@ for (const locale of LOCALES) {
       const fileInput = page.locator('input[type="file"]').first();
       await fileInput.setInputFiles(CUBE_STL);
 
-      // Wait for price to resolve
-      await page.locator('[data-testid="buy-now-btn"]').last().waitFor({ state: "visible", timeout: 30000 });
+      // Wait for price to resolve (clientHeight > 0 to handle panels not in viewport)
+      await page.waitForFunction(() => {
+        const btns = Array.from(document.querySelectorAll('[data-testid="buy-now-btn"]')) as HTMLButtonElement[];
+        return btns.some((b) => b.clientHeight > 0 && /[0-9]+[,.][0-9]{2}/.test(b.textContent ?? ""));
+      }, null, { timeout: 30000 });
 
       // On mobile, the modal opens — wait for it
       if (vp.width < 1024) {
@@ -94,8 +101,9 @@ for (const locale of LOCALES) {
       await page.addInitScript(initScript);
 
       // Force v4 probe
-      await page.route("**/functions/v1/create-instant-checkout**", async (route) => {
-        const body = await route.request().postDataJSON().catch(() => null);
+      await page.route("**/functions/v1/create-instant-checkout**", (route) => {
+        let body: Record<string, unknown> | null = null;
+        try { body = route.request().postDataJSON() as Record<string, unknown>; } catch { }
         if (body?.probe) {
           return route.fulfill({
             status: 200,
@@ -128,19 +136,24 @@ for (const locale of LOCALES) {
       const fileInput = page.locator('input[type="file"]').first();
       await fileInput.setInputFiles(CUBE_STL);
 
-      // Wait for buy button
-      await page.locator('[data-testid="buy-now-btn"]').last().waitFor({ state: "visible", timeout: 30000 });
+      // Wait for buy button (clientHeight > 0 to handle panels not in viewport)
+      await page.waitForFunction(() => {
+        const btns = Array.from(document.querySelectorAll('[data-testid="buy-now-btn"]')) as HTMLButtonElement[];
+        return btns.some((b) => b.clientHeight > 0 && /[0-9]+[,.][0-9]{2}/.test(b.textContent ?? ""));
+      }, null, { timeout: 30000 });
 
       if (vp.width < 1024) {
         await page.locator('[role="dialog"]').first().waitFor({ state: "visible", timeout: 5000 }).catch(() => {});
       }
 
-      // Apply DIMENSION11 via the public code link (one click)
-      const promoLink = page.locator("button", { hasText: /DIMENSION11/i }).first();
-      if (await promoLink.count() > 0) {
-        await promoLink.click();
-        await page.waitForTimeout(400);
-      }
+      // Apply DIMENSION11 via the public code link (evaluate to bypass visibility)
+      const clicked = await page.evaluate(() => {
+        const btns = Array.from(document.querySelectorAll("button")) as HTMLButtonElement[];
+        const btn = btns.find((b) => /DIMENSION11/i.test(b.textContent ?? ""));
+        if (btn) { btn.click(); return true; }
+        return false;
+      });
+      if (clicked) await page.waitForTimeout(400);
 
       await page.screenshot({
         path: path.join(OUT, `${locale.lang}_${vp.name}_code-applied.png`),
