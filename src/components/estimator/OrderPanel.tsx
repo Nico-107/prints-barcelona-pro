@@ -490,6 +490,16 @@ export function OrderPanel({
     const printCents = bundle.orderResult.chargedPrintCents;
     const offerActive = !v4 && Date.now() < new Date(AUTUMN_DISCOUNT.endsAt).getTime();
     const showAutumnDiscount = !v4 && autumnDiscountCents > 0 && offerActive;
+    const v4HeroBadge = v4 && publicCode && !appliedPromo && !_isSlim
+      ? (() => {
+          const d = new Date(publicCode.ends_at);
+          const dateStr = `${d.getUTCDate()}/${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+          return t("calc.v4.heroBadge")
+            .replace("{pct}", String(publicCode.pct))
+            .replace("{code}", publicCode.code)
+            .replace("{date}", dateStr);
+        })()
+      : null;
     const showAutumnNudge = !v4 && !showAutumnDiscount && offerActive &&
       printCents >= 1000 && printCents < AUTUMN_DISCOUNT.minCents;
     const nudgeAmountEur = showAutumnNudge ? (AUTUMN_DISCOUNT.minCents - printCents) / 100 : 0;
@@ -521,6 +531,9 @@ export function OrderPanel({
         <div>
           {v4 ? (
             <div className="space-y-1">
+              {v4HeroBadge && (
+                <p className="text-xs text-green-600 dark:text-green-400 font-medium">{v4HeroBadge}</p>
+              )}
               {appliedPromo ? (
                 <div className="space-y-0.5">
                   <div className="flex justify-between items-baseline">
