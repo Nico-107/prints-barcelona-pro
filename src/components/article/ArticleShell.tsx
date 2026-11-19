@@ -44,14 +44,14 @@ export default function ArticleShell({ lang, children }: { lang: CtaLang; childr
     "On this page";
 
   const midCta =
-    lang === "es" ? "Sube un archivo y ve el precio al instante — desde 10 €." :
-    lang === "ca" ? "Puja un arxiu i veu el preu al moment — des de 10 €." :
-    lang === "de" ? "Datei hochladen und Sofortpreis sehen — ab 10 €." :
-    lang === "fr" ? "Chargez un fichier et obtenez un prix instantané — à partir de 10 €." :
-    lang === "it" ? "Carica un file e vedi il prezzo istantaneo — da 10 €." :
-    lang === "nl" ? "Upload een bestand voor een directe prijs — vanaf 10 €." :
-    lang === "pt" ? "Carregue um ficheiro e veja o preço imediato — desde 10 €." :
-    "Upload a file and see the price — from €10.";
+    lang === "es" ? "Sube un archivo y ve el precio al instante — desde 9,90 €." :
+    lang === "ca" ? "Puja un arxiu i veu el preu al moment — des de 9,90 €." :
+    lang === "de" ? "Datei hochladen und Sofortpreis sehen — ab 9,90 €." :
+    lang === "fr" ? "Chargez un fichier et obtenez un prix instantané — à partir de 9,90 €." :
+    lang === "it" ? "Carica un file e vedi il prezzo istantaneo — da 9,90 €." :
+    lang === "nl" ? "Upload een bestand voor een directe prijs — vanaf 9,90 €." :
+    lang === "pt" ? "Carregue um ficheiro e veja o preço imediato — desde 9,90 €." :
+    "Upload a file and see the price — from €9.90.";
 
   const endCta =
     lang === "es" ? "¿Listo para empezar?" :

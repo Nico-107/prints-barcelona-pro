@@ -232,7 +232,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
     { icon: MapPin, label: t(`Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
     { icon: Zap, label: t("250+ orders", "250+ pedidos", "250+ Bestellungen", "250+ comandes"), iconClass: "text-accent" },
     { icon: Award, label: t("4.8/5 · customer reviews", "4,8/5 · reseñas de clientes", "4,8/5 · Kundenbewertungen", "4,8/5 · ressenyes de clients"), iconClass: "text-accent" },
-    { icon: Settings2, label: t("From 1 piece · 10 € min.", "Desde 1 pieza · pedido mínimo 10 €", "Ab 1 Stück · 10 € min.", "Des de 1 peça · comanda mínima 10 €"), iconClass: "text-accent" },
+    { icon: Settings2, label: t("From 1 piece · 10 € min.", "Desde 1 pieza · pedido mínimo 9,90 €", "Ab 1 Stück · 10 € min.", "Des de 1 peça · comanda mínima 9,90 €"), iconClass: "text-accent" },
   ];
 
   // Category label per page.category, translated with the same t() helper.
@@ -581,7 +581,7 @@ const LandingPage = ({ page: pageProp }: Props) => {
         {!isMaker && !GUIDE_TOPICS.has(page.topic) && (
           <FactsStrip
             items={[
-              { value: "Desde 10 €", label: t("Min. 10 €, no fees", "Pedido mínimo 10 €, sin tarifas", "Mind. 10 €, keine Gebühren", "Comanda mín. 10 €, sense tarifes") },
+              { value: "Desde 10 €", label: t("Min. 10 €, no fees", "Pedido mínimo 9,90 €, sin tarifas", "Mind. 10 €, keine Gebühren", "Comanda mín. 10 €, sense tarifes") },
               { value: "< 1 h", label: t("Free quote", "Presupuesto gratis", "Kostenloses Angebot", "Pressupost gratuït") },
               { value: "24–48 h", label: t("Express delivery", "Entrega express", "Expresszustellung", "Lliurament exprés") },
               { value: "±0,2 mm", label: t("Precision", "Precisión", "Präzision", "Precisió") },
@@ -715,9 +715,9 @@ const LandingPage = ({ page: pageProp }: Props) => {
           <div style={{ background: '#F6F8FC' }}>
             <div style={{ maxWidth: 1240, margin: "0 auto", padding: "84px 24px" }}>
               <UploadPanel
-                label={t("INSTANT PRICE — FROM 10 €", "PRECIO AL INSTANTE — DESDE 10 €", "SOFORTPREIS — AB 10 €", "PREU AL INSTANT — DES DE 10 €")}
+                label={t("INSTANT PRICE — FROM 10 €", "PRECIO AL INSTANTE — DESDE 9,90 €", "SOFORTPREIS — AB 9,90 €", "PREU AL INSTANT — DES DE 9,90 €")}
                 heading={t("Upload your files and see the price now.", "Sube tus archivos y ve el precio ahora.", "Lade deine Dateien hoch und sieh den Preis sofort.", "Puja els teus arxius i veu el preu ara.")}
-                description={t("No account required. 10 € minimum order, no setup fee.", "Sin cuenta y sin compromiso. Pedido mínimo 10 € por pedido, sin tarifa de preparación.", "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr.", "Sense compte i sense compromís. Comanda mínima 10 € per comanda, sense tarifa de preparació.")}
+                description={t("No account required. 10 € minimum order, no setup fee.", "Sin cuenta y sin compromiso. Pedido mínimo 9,90 € por pedido, sin tarifa de preparación.", "Kein Konto erforderlich. Mindestbestellung 10 €, keine Einrichtungsgebühr.", "Sense compte i sense compromís. Comanda mínima 9,90 € per comanda, sense tarifa de preparació.")}
               >
                 <StlEstimator compact highlighted={calcHighlight} />
               </UploadPanel>
