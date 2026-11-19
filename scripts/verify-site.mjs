@@ -798,6 +798,9 @@ if (!args.has("--seo")) {
     { needle: "encomenda mínima é 10 €", why: "C1: stale 10 € minimum (pt) — use 9,90 €" },
     { needle: "encomenda mínima 10 €", why: "C1: stale 10 € minimum (pt) — use 9,90 €" },
     { needle: "Minimum order €10,", why: "C1: stale €10 minimum (en) — use €9.90" },
+    // C1b: "10,00 €" / "€10.00" spellings used in price tables and examples.
+    { needle: "10,00 €", why: "C1b: stale 10,00 € minimum or small-part price — use 9,90 €" },
+    { needle: "€10.00", why: "C1b: stale €10.00 minimum or small-part price — use €9.90" },
     // fix-polish 2.3 — "our team" family (plural first-person about D3D).
     { needle: "nuestro equipo", why: "2.3 plural-team" },
     { needle: "el nostre equip", why: "2.3 plural-team (ca)" },

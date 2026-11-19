@@ -129,7 +129,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     caption: "Esempi di costo consegnato in Italia (PLA, ×1 pezzo, IVA inclusa).",
     headers: { part: "Pezzo", shipping: "Spedizione", total: "Totale" },
     rows: [
-      { label: "Piccolo (≈ 10 g)",  partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Piccolo (≈ 10 g)",  partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
       { label: "Medio (≈ 50 g)",    partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
       { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
     ],
@@ -829,7 +829,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     caption: "Exemplos de custo entregue em Portugal (PLA, ×1 peça, IVA incluído).",
     headers: { part: "Peça", shipping: "Envio", total: "Total" },
     rows: [
-      { label: "Pequena (≈ 10 g)", partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Pequena (≈ 10 g)", partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
       { label: "Média (≈ 50 g)",   partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
       { label: "Grande (≈ 200 g)", partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
     ],

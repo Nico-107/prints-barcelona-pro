@@ -613,7 +613,7 @@ export const frHub: IntlHubContent = {
     caption: "Exemples de coût livré en France (PLA, ×1 pièce, TVA incluse).",
     headers: { part: "Pièce", shipping: "Expédition", total: "Total" },
     rows: [
-      { label: "Petite (≈ 10 g)",   partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Petite (≈ 10 g)",   partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
       { label: "Moyenne (≈ 50 g)",  partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
       { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
     ],

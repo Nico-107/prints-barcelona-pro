@@ -731,7 +731,7 @@ const Index = () => {
             </div>
             <div style={{ flex: "1 1 520px", minWidth: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12 }}>
               {[
-                { price: "10,00 €", label: "Clip de cajón", spec: "PLA · 5 g" },
+                { price: "9,90 €", label: "Clip de cajón", spec: "PLA · 5 g" },
                 { price: "12,10 €", label: "Adaptador VESA", spec: "PLA · 40 g" },
                 { price: "27,50 €", label: "Figura mediana", spec: "PLA · 90 g" },
                 { price: "42,35 €", label: "Prototipo funcional", spec: "PETG · 150 g" },

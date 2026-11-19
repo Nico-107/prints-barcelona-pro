@@ -68,7 +68,7 @@ Ejemplos reales de precios:
 | Pieza                    | Material | Peso  | Tiempo | Precio total |
 |--------------------------|----------|-------|--------|--------------|
 | Soporte de teléfono      | PLA      | 40 g  | 2,5 h  | 14,58 €      |
-| Rueda de lavavajillas    | PETG     | 25 g  | 1,5 h  | 10,00 € (mín) |
+| Rueda de lavavajillas    | PETG     | 25 g  | 1,5 h  | 9,90 € (mín)  |
 | Prototipo industrial     | PETG     | 120 g | 6 h    | 36,30 €      |
 | Figura decorativa        | PLA      | 200 g | 12 h   | 56,10 €      |
 | Adaptador mecánico       | Nylon    | 60 g  | 4 h    | 30,80 €      |

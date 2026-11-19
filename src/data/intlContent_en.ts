@@ -140,7 +140,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
     caption: "Example delivered costs within the EU (PLA, ×1 part, VAT included).",
     headers: { part: "Part", shipping: "Shipping", total: "Total" },
     rows: [
-      { label: "Small (≈ 10 g)",  partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Small (≈ 10 g)",  partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
       { label: "Medium (≈ 50 g)", partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
       { label: "Large (≈ 200 g)", partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
     ],

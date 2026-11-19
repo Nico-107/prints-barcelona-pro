@@ -118,7 +118,7 @@ export const DE_HUB: IntlHubContent = {
     caption: "Beispiele für Gesamtkosten geliefert nach Deutschland (PLA, ×1 Teil, MwSt. enthalten).",
     headers: { part: "Teil", shipping: "Versand", total: "Gesamt" },
     rows: [
-      { label: "Klein (≈ 10 g)",   partEur: "10,00 €", shippingEur: "5,90 €", totalEur: "15,90 €" },
+      { label: "Klein (≈ 10 g)",   partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
       { label: "Mittel (≈ 50 g)",  partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
       { label: "Groß (≈ 200 g)",   partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
     ],
@@ -403,7 +403,7 @@ Für Bestellungen bis 200 € erhalten Sie im Kalkulator auf unserer Website ein
         body: `**Beispiel 1 – Kleines Dekorationsobjekt in PLA (30 g, 0,5 h)**
 Material: 30 g × 0,055 €/g = 1,65 €
 Maschinenzeit: 0,5 h × 4,95 €/h = 2,48 €
-(1,65 + 2,48) × 1,0 = 4,13 € → Mindestbestellwert greift → **10,00 €**
+(1,65 + 2,48) × 1,0 = 4,13 € → Mindestbestellwert greift → **9,90 €**
 
 **Beispiel 2 – Funktionshalterung in PETG (80 g, 2 h)**
 Material: 80 g × 0,055 €/g = 4,40 €
@@ -443,7 +443,7 @@ Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstel
         grams: 30,
         hours: 0.5,
         material: "PLA",
-        price: "10,00 €",
+        price: "9,90 €",
         description:
           "(30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € → Mindestbestellwert 9,90 €",
       },
