@@ -51,6 +51,10 @@ import { ORDER_STATUSES, type OrderStatus } from "@/lib/orderStatus";
 import type { Session } from "@supabase/supabase-js";
 import type { TablesUpdate, Json } from "@/integrations/supabase/types";
 import { buildCalibrationCsv } from "@/lib/calibrationCsv";
+import {
+  computePaymentRows,
+  parseNotesUrgency,
+} from "@/lib/adminPaymentBreakdown";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -90,6 +94,7 @@ interface Order {
   payment_status: string;
   file_paths?: string[] | null;
   pieces?: PieceInfo[] | null;
+  total_paid_cents?: number | null;
   // A1/A4 fields (v4 orders)
   urgency?: string | null;
   ship_by_date?: string | null;
@@ -251,15 +256,19 @@ function UrgencyBadge({ urgency }: { urgency: string | null | undefined }) {
 }
 
 function PaymentBreakdown({ order }: { order: Order }) {
-  const pieces = order.pieces ?? [];
-  const piecesTotal = pieces.reduce((s, p) => s + (p.costCents ?? 0), 0);
-  if (!piecesTotal && !order.min_adj_cents && !order.express_cents && !order.promo_discount_cents) return null;
-  const rows: Array<{ label: string; cents: number }> = [];
-  if (piecesTotal) rows.push({ label: "Piezas", cents: piecesTotal });
-  if (order.min_adj_cents) rows.push({ label: "Ajuste mínimo", cents: order.min_adj_cents });
-  if (order.express_cents) rows.push({ label: order.urgency === "urgent" ? "Urgente" : "Express", cents: order.express_cents });
-  if (order.promo_discount_cents) rows.push({ label: order.promo_code ? `Código ${order.promo_code}` : "Descuento", cents: -order.promo_discount_cents });
-  const total = rows.reduce((s, r) => s + r.cents, 0);
+  if (order.total_paid_cents == null) return null;
+  const piecesTotal = (order.pieces ?? []).reduce((s, p) => s + (p.costCents ?? 0), 0);
+  const rows = computePaymentRows({
+    totalPaidCents: order.total_paid_cents,
+    piecesTotalCents: piecesTotal,
+    fulfillment: order.fulfillment,
+    urgency: order.urgency,
+    notes: order.notes,
+    expressCents: order.express_cents,
+    minAdjCents: order.min_adj_cents,
+    promoDiscountCents: order.promo_discount_cents,
+    promoCode: order.promo_code,
+  });
   return (
     <div className="mt-3 rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs">
       <p className="font-semibold text-slate-600 mb-1.5">Qué ha pagado el cliente</p>
@@ -270,8 +279,8 @@ function PaymentBreakdown({ order }: { order: Order }) {
         </div>
       ))}
       <div className="flex justify-between gap-4 font-semibold border-t border-slate-200 mt-1 pt-1 text-slate-900">
-        <span>Total estimado</span>
-        <span className="font-mono">{formatEUR(total)}</span>
+        <span>TOTAL PAGADO</span>
+        <span className="font-mono">{formatEUR(order.total_paid_cents)}</span>
       </div>
     </div>
   );
@@ -1093,7 +1102,7 @@ const Admin = () => {
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
                             <span className="font-bold text-slate-900 text-lg">#{o.order_number}</span>
                             {orderStatusBadge(o.status)}
-                            <UrgencyBadge urgency={o.urgency} />
+                            <UrgencyBadge urgency={o.urgency ?? parseNotesUrgency(o.notes)} />
                             <span className="text-xs text-slate-400">{o.fulfillment}</span>
                             {o.payment_method && (
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
