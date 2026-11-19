@@ -1,6 +1,6 @@
 # Dimension 3D Prints
 
-> Professional FDM 3D printing service based in Barcelona. Address: Rambla de Brasil 53, 08028 Barcelona. WhatsApp: +34 672 051 147. Email: hola@dimension3dprints.com. Founded by Nico (Mikołaj Szczełkun). Minimum order €10, no setup fee. Shipping €5.90 flat rate across Spain and EU. Price = material + machine time: PLA €0.055/g + €4.95/h, PETG €0.061/g + €5.45/h (machine rate drops after 3 h and 8 h), ABS/ASA, TPU, Nylon, carbon-fibre composites. Turnaround: standard 2–4 days, express 24–48 h, same-day for genuine emergencies. Accepts files in STL, STEP, OBJ, 3MF. Instant quote: upload STL and get a price in under 1 minute using the online calculator. Service area: Barcelona in-person pickup + nationwide Spain shipping + EU cross-border delivery.
+> Professional FDM 3D printing service based in Barcelona. Address: Rambla de Brasil 53, 08028 Barcelona. WhatsApp: +34 672 051 147. Email: hola@dimension3dprints.com. Founded by Nico (Mikołaj Szczełkun). Minimum order €9.90, no setup fee. Shipping €5.90 flat rate across Spain and EU. Price = material + machine time: PLA €0.055/g + €4.95/h, PETG €0.061/g + €5.45/h (machine rate drops after 3 h and 8 h), ABS/ASA, TPU, Nylon, carbon-fibre composites. Turnaround: standard 2–4 days, express 24–48 h, same-day for genuine emergencies. Accepts files in STL, STEP, OBJ, 3MF. Instant quote: upload STL and get a price in under 1 minute using the online calculator. Service area: Barcelona in-person pickup + nationwide Spain shipping + EU cross-border delivery.
 
 ## Core Service Pages (Spanish)
 
@@ -11,7 +11,7 @@
 - [Impresión 3D Urgente Barcelona](https://www.dimension3dprints.com/impresion-3d-urgente-barcelona) — cola prioritaria express: entrega 24–48 h o mismo día en casos urgentes reales
 - [Impresión 3D Cerca de Mí](https://www.dimension3dprints.com/impresion-3d-cerca-de-mi) — taller físico en Les Corts; recogida en mano, barrios cubiertos en Barcelona, opciones sin STL
 - [Impresión 3D Multicolor](https://www.dimension3dprints.com/impresion-3d-multicolor) — impresión multicolor FDM con Bambu Lab X2D + AMS; hasta 4 colores por pieza, sin coste extra de setup
-- [Impresión 3D Empresas Barcelona](https://www.dimension3dprints.com/impresion-3d-empresas-barcelona) — para empresas: factura, NDA, pedido mínimo €10, precio por volumen, prototipo gratuito en el primer pedido
+- [Impresión 3D Empresas Barcelona](https://www.dimension3dprints.com/impresion-3d-empresas-barcelona) — para empresas: factura, NDA, pedido mínimo €9,90, precio por volumen, prototipo gratuito en el primer pedido
 - [Prototipos Rápidos y Piezas Funcionales](https://www.dimension3dprints.com/prototipos-rapidos-piezas-funcionales-barcelona) — materiales de ingeniería, tolerancias FDM, iteración en 24–72 h para equipos de I+D y startups
 - [Recambios y Piezas Rotas](https://www.dimension3dprints.com/recambios-piezas-rotas-impresion-3d-barcelona) — reproducción de piezas rotas o descatalogadas a partir de foto, medidas o pieza original
 - [Sobre Nosotros](https://www.dimension3dprints.com/sobre-nosotros) — quiénes somos: Nico (Mikołaj Szczełkun), taller en Barcelona, 250+ pedidos completados, Smart City Expo 2026
@@ -35,11 +35,11 @@
 
 ## International Language Hubs
 
-- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ for German-speaking customers. From €10, flat €5.90 shipping, no customs within the EU, typical delivery 3–5 working days.
-- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub: order online, delivery to France. À partir de 10 €, 5,90 € forfait, pas de douane, 3–5 jours ouvrés.
-- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub: online ordering and delivery to the Netherlands. Vanaf €10, vaste €5,90 verzending, geen douane, 2–4 werkdagen.
-- [Stampa 3D online (IT)](https://www.dimension3dprints.com/it/stampa-3d-online) — Italian hub: ordini online, spedizione in Italia. Da 10 €, spedizione piatta 5,90 €, nessuna dogana UE, 3–5 giorni lavorativi.
-- [Impressão 3D Online (PT)](https://www.dimension3dprints.com/pt/impressao-3d-online) — Portuguese hub: encomendar online, envio para Portugal. A partir de 10 €, envio fixo 5,90 €, sem alfândega UE, 2–4 dias úteis.
+- [3D-Druck Service (DE)](https://www.dimension3dprints.com/de/3d-druck-service) — German hub: ordering, pricing, materials, FAQ for German-speaking customers. From €9.90, flat €5.90 shipping, no customs within the EU, typical delivery 3–5 working days.
+- [Impression 3D en ligne (FR)](https://www.dimension3dprints.com/fr/impression-3d-en-ligne) — French hub: order online, delivery to France. À partir de 9,90 €, 5,90 € forfait, pas de douane, 3–5 jours ouvrés.
+- [3D printen laten maken (NL)](https://www.dimension3dprints.com/nl/3d-printen-laten-maken) — Dutch hub: online ordering and delivery to the Netherlands. Vanaf €9,90, vaste €5,90 verzending, geen douane, 2–4 werkdagen.
+- [Stampa 3D online (IT)](https://www.dimension3dprints.com/it/stampa-3d-online) — Italian hub: ordini online, spedizione in Italia. Da 9,90 €, spedizione piatta 5,90 €, nessuna dogana UE, 3–5 giorni lavorativi.
+- [Impressão 3D Online (PT)](https://www.dimension3dprints.com/pt/impressao-3d-online) — Portuguese hub: encomendar online, envio para Portugal. A partir de 9,90 €, envio fixo 5,90 €, sem alfândega UE, 2–4 dias úteis.
 
 ## International City Pages (city + price queries)
 

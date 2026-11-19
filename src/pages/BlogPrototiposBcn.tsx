@@ -35,7 +35,7 @@ const FAQS = [
   },
   {
     q: "¿Hay pedido mínimo para prototipos? ¿Y para tiradas cortas?",
-    a: "No hay pedido mínimo en número de unidades — imprimimos desde una sola pieza. El precio mínimo por pedido es de 10 €. Para tiradas cortas, aplicamos descuentos por cantidad: 5% de descuento a partir de 10 unidades, 10% a partir de 25 y 15% a partir de 50. Esto lo hace especialmente interesante para series de pre-producción antes de comprometerse con una inversión en moldes o fabricación en masa. Para pedidos de más de 50 unidades, contacta con nosotros para un presupuesto personalizado.",
+    a: "No hay pedido mínimo en número de unidades — imprimimos desde una sola pieza. El precio mínimo por pedido es de 9,90 €. Para tiradas cortas, aplicamos descuentos por cantidad: 5% de descuento a partir de 10 unidades, 10% a partir de 25 y 15% a partir de 50. Esto lo hace especialmente interesante para series de pre-producción antes de comprometerse con una inversión en moldes o fabricación en masa. Para pedidos de más de 50 unidades, contacta con nosotros para un presupuesto personalizado.",
   },
   {
     q: "¿Qué formatos de archivo aceptáis para prototipos y piezas técnicas?",

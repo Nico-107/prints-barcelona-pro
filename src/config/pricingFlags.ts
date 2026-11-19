@@ -9,12 +9,12 @@
 export const PRICING_FLAGS = {
   /**
    * Conv 1.3: order subtotal (pre-shipping) is
-   *   subtotal = max(sum, 10 € + 1 € × (units − 1))
+   *   subtotal = max(sum, 9.90 € + 1 € × (units − 1))
    * where `sum` is the engine's current raw total and `units` is the
    * sum of all part quantities. Never drops below today's price;
    * never exceeds the plain sum once the sum is above the floor.
    *
-   * When OFF, priceOrder() behaves exactly as before (plain 10 €
+   * When OFF, priceOrder() behaves exactly as before (plain 9,90 €
    * minimum).
    */
   MIN_ORDER_UNIT_STEP: false,

@@ -117,7 +117,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
   answerBlock: {
     heading: "In breve",
     facts: [
-      "Da 10 € a pezzo; ordine minimo 9,90 €, nessun costo di setup.",
+      "Da 9,90 € a pezzo; ordine minimo 9,90 €, nessun costo di setup.",
       "Spedizione tracciata in Italia a tariffa piatta 5,90 €.",
       "Tempi tipici: 3–5 giorni lavorativi dall'approvazione.",
       "Formati accettati: STL, OBJ, STEP, 3MF.",
@@ -445,7 +445,7 @@ Dal punto di vista logistico, Bologna è ben collegata ai principali corrieri es
   faqs: [
     {
       q: "Quanto costa stampare un pezzo in 3D a Bologna?",
-      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,90 € (10 € di stampa + 5,90 € di spedizione).",
+      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,80 € (9,90 € di stampa + 5,90 € di spedizione).",
     },
     {
       q: "Quanto tempo ci vuole per ricevere il pacco a Bologna?",
@@ -817,7 +817,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
   answerBlock: {
     heading: "Em resumo",
     facts: [
-      "A partir de 10 € por peça; encomenda mínima 9,90 €, sem custo de configuração.",
+      "A partir de 9,90 € por peça; encomenda mínima 9,90 €, sem custo de configuração.",
       "Envio rastreado para Portugal a tarifa fixa de 5,90 €.",
       "Prazos típicos: 2–4 dias úteis após aprovação.",
       "Formatos aceites: STL, OBJ, STEP, 3MF.",

@@ -1380,7 +1380,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "Comparación con las grandes plataformas online",
-        body: "Las grandes plataformas de impresión 3D online automatizadas tienen ventajas claras: capacidad infinita, algoritmos de precio instantáneo y varias tecnologías (SLS, MJF, resina). Pero tienen limitaciones:\n\n• No hay nadie que revise si tu archivo tiene problemas antes de imprimir.\n• No ofrecen ayuda con el diseño si no tienes archivo.\n• El precio mínimo suele ser mucho más alto que 10 €.\n• El soporte es por ticket, no por WhatsApp con una respuesta en minutos.\n\nDimension3D es un estudio pequeño y experto. Revisamos cada pedido manualmente, damos soporte por WhatsApp en castellano, catalán, inglés y polaco, y el mínimo es 10 € sin setup fee."
+        body: "Las grandes plataformas de impresión 3D online automatizadas tienen ventajas claras: capacidad infinita, algoritmos de precio instantáneo y varias tecnologías (SLS, MJF, resina). Pero tienen limitaciones:\n\n• No hay nadie que revise si tu archivo tiene problemas antes de imprimir.\n• No ofrecen ayuda con el diseño si no tienes archivo.\n• El precio mínimo suele ser mucho más alto que 9,90 €.\n• El soporte es por ticket, no por WhatsApp con una respuesta en minutos.\n\nDimension3D es un estudio pequeño y experto. Revisamos cada pedido manualmente, damos soporte por WhatsApp en castellano, catalán, inglés y polaco, y el mínimo es 9,90 € sin setup fee."
       },
     ],
     faqs: [

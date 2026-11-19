@@ -32,7 +32,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto tarda y cuánto cuesta reproducir un repuesto?",
-    a: "La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 9,90 €. Clips, tapas y bisagras suelen quedar entre 10 € y 20 €. Piezas más grandes o con modelado desde cero desde 25 €. Presupuesto siempre gratis y sin compromiso antes de confirmar.",
+    a: "La mayoría de piezas pequeñas y medianas están listas en 24–48 horas. El precio mínimo es 9,90 €. Clips, tapas y bisagras suelen quedar entre 9,90 € y 20 €. Piezas más grandes o con modelado desde cero desde 25 €. Presupuesto siempre gratis y sin compromiso antes de confirmar.",
   },
   {
     q: "¿Tengo que tener el archivo STL del repuesto?",

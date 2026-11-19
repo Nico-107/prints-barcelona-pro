@@ -34,7 +34,7 @@ Comparativa con otras tecnologías:
 
 Dimensiones máximas de impresión: 256 × 256 × 256 mm por pieza. Piezas más grandes se dividen y unen.
 
-Pedido mínimo: 10 €. Sin tarifa de configuración. Envío por correo express: 5,90 €.
+Pedido mínimo: 9,90 €. Sin tarifa de configuración. Envío por correo express: 5,90 €.
 
 ---
 
@@ -46,7 +46,7 @@ El coste de una impresión 3D depende de tres factores: peso de la pieza (gramos
 
 Fórmula de precio:
 Precio = (peso en g × 0,055 €/g + horas de impresión × tarifa horaria €/h) × multiplicador del material
-Multiplicadores: PLA 1,0 · PETG 1,1 · ABS/ASA/TPU 1,3 · Nylon 1,4 · CF 1,6 (se aplica a material y tiempo). Mínimo 10 € por pedido.
+Multiplicadores: PLA 1,0 · PETG 1,1 · ABS/ASA/TPU 1,3 · Nylon 1,4 · CF 1,6 (se aplica a material y tiempo). Mínimo 9,90 € por pedido.
 
 Tarifa horaria escalonada:
 - 0 a 3 horas: 4,95 €/h
@@ -180,7 +180,7 @@ Qué nos diferencia:
 ## URL: https://www.dimension3dprints.com/3d-printing-service
 ## Title: 3D Printing Service Online — Ship to Spain & Europe
 
-Professional FDM 3D printing service based in Barcelona, Spain. We ship across Spain and to most EU countries. Minimum order €10, no setup fee. Flat shipping rate €5.90 within Spain.
+Professional FDM 3D printing service based in Barcelona, Spain. We ship across Spain and to most EU countries. Minimum order €9.90, no setup fee. Flat shipping rate €5.90 within Spain.
 
 Price = material + machine time (first 3 h rate): PLA €0.055/g + €4.95/h, PETG €0.061/g + €5.45/h, ABS/ASA €0.072/g + €6.44/h, TPU €0.072/g + €6.44/h, Nylon PA12 €0.077/g + €6.93/h, Carbon-Fibre Nylon €0.088/g + €7.92/h. Machine rate drops after 3 h and 8 h.
 

@@ -32,7 +32,7 @@ export interface IntlHubContent {
   // Section 6.4 additions — plain facts an assistant can quote.
   answerBlock?: {
     heading: string;
-    facts: string[]; // 5–8 plain sentences; number-first ("From 10 €, …")
+    facts: string[]; // 5–8 plain sentences; number-first ("From 9,90 €, …")
   };
   costTable?: {
     caption: string;

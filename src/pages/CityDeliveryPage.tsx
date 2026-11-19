@@ -337,7 +337,7 @@ const CityDeliveryPage = ({ config }: Props) => {
           }}
           reassuranceItems={
             isES
-              ? ["Desde 10 €", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 9,90 €", "Sin registro"]
+              ? ["Desde 9,90 €", "Presupuesto en 1 hora", "Seguimiento incluido", "Mínimo 9,90 €", "Sin registro"]
               : isFR
               ? ["À partir de 9,90 €", "Devis en 1 heure", "Livraison suivie", "Min. 9,90 €", "Sans inscription"]
               : ["From €9.90", "Quote in 1 hour", "Tracked delivery", "9,90 € min.", "No account needed"]
@@ -743,7 +743,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                     </p>
                     <p>
                       El pedido mínimo es <strong className="text-foreground">9,90 €</strong>. La mayoría de piezas
-                      individuales pequeñas están en el rango de 10 €–40 €. El PLA es la opción más económica; los
+                      individuales pequeñas están en el rango de 9,90 €–40 €. El PLA es la opción más económica; los
                       materiales de ingeniería como Policarbonato y composites de fibra de carbono están en el extremo
                       superior, pero siguen siendo mucho más asequibles que piezas equivalentes en resina o SLS.
                     </p>
@@ -772,7 +772,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         </p>
                         <p>
                           La commande minimum est de <strong className="text-foreground">9,90 €</strong>. La plupart des
-                          petites pièces individuelles se situent entre 10 € et 40 €. Le PLA est le choix le plus
+                          petites pièces individuelles se situent entre 9,90 € et 40 €. Le PLA est le choix le plus
                           économique ; les matériaux d'ingénierie comme le Polycarbonate et les composites carbone sont
                           plus chers, mais restent bien plus abordables que les pièces résine ou SLS équivalentes.
                         </p>
@@ -794,7 +794,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                         </p>
                         <p>
                           The minimum order is <strong className="text-foreground">€9.90</strong>. Most single small parts
-                          fall in the 10 €–40 € range. Material choice affects the per-gram cost: PLA is the most economical,
+                          fall in the 9,90 €–40 € range. Material choice affects the per-gram cost: PLA is the most economical,
                           with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but
                           still far more affordable than equivalent resin or SLS parts from industrial bureaus.
                         </p>
@@ -831,7 +831,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                       </li>
                       <li>
                         <strong className="text-foreground">Sin mínimo de cantidad.</strong> Imprimimos desde una sola pieza
-                        a partir de 10 €. Los servicios industriales suelen exigir lotes mínimos de 5 o 10 unidades.
+                        a partir de 9,90 €. Los servicios industriales suelen exigir lotes mínimos de 5 o 10 unidades.
                       </li>
                       <li>
                         <strong className="text-foreground">Revisión honesta del archivo.</strong> Un humano real

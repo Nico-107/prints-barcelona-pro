@@ -16,9 +16,9 @@ export const nlHub: IntlHubContent = {
   heroSubtitle: "Upload het bestand, offerte in 1 uur, levering in Nederland in 3–5 werkdagen. Vanaf 9,90 €, minimumbestelling 9,90 €.",
   ctaLabel: "Upload je bestand en zie de prijs",
   noRegistration: "Geen registratie · Geen verplichtingen",
-  trustChips: ["Vanaf € 10", "Offerte in 1 uur", "Verzending € 5,90 getrackt", "Geen douane in de EU"],
+  trustChips: ["Vanaf € 9,90", "Offerte in 1 uur", "Verzending € 5,90 getrackt", "Geen douane in de EU"],
   orgAlternateNames: ["Dimension3D Nederland", "Dimension 3D Prints Netherlands", "Dimension 3D Netherlands"],
-  promise: "Offerte binnen 1 uur op werkdagen (Spaanse tijd). Geen opstartkosten. Verzending € 5,90. Minimumbestelling € 10.",
+  promise: "Offerte binnen 1 uur op werkdagen (Spaanse tijd). Geen opstartkosten. Verzending € 5,90. Minimumbestelling € 9,90.",
   howItWorks: `Hoe werkt het? Je stuurt je 3D-bestand op — STL, OBJ, 3MF of STEP — via het formulier of WhatsApp. Op werkdagen reageren we in de regel binnen 1 uur met een exacte prijs. Bij bestellingen tot € 100 kun je ook meteen een automatische prijsindicatie krijgen. Keur je de offerte goed, dan gaan we aan de slag in ons atelier in Barcelona. Je pakket gaat dezelfde dag of de volgende werkdag op de bus en komt in de regel binnen 3–5 werkdagen in Nederland aan. Alles speelt zich af binnen de EU — geen douaneformaliteiten, geen extra heffingen.`,
   whatWePrint: `Wat kun je laten printen? De toepassingen zijn breed: reserveonderdelen voor apparaten of machines die niet meer leverbaar zijn, functionele prototypes voor productontwikkeling, behuizingen en adapters voor elektronica, technische brackets voor industrie of hobbyprojecten, maquettes en schaalmodellen, en decoratieve of persoonlijke objecten. FDM-printen is bijzonder geschikt voor onderdelen die mechanisch belast worden, buiten gebruikt worden of warmtebestendig moeten zijn.
 
@@ -30,7 +30,7 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
   faqs: [
     {
       q: "Wat is de minimumbestelling?",
-      a: "De minimumbestelling is € 10. De meeste kleine losse onderdelen kosten tussen € 10 en € 40. Er is geen minimale afnamehoeveelheid — we printen net zo graag één stuk als een serie van vijftig.",
+      a: "De minimumbestelling is € 9,90. De meeste kleine losse onderdelen kosten tussen € 9,90 en € 40. Er is geen minimale afnamehoeveelheid — we printen net zo graag één stuk als een serie van vijftig.",
     },
     {
       q: "Hoe snel krijg ik mijn offerte?",
@@ -74,7 +74,7 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
     },
   ],
   whatsappMsg: "Hallo, ik wil graag een 3D-print laten maken via Dimension3D.",
-  priceTableCaption: "Voorbeeldprijzen zijn indicatief en afhankelijk van materiaal, gewicht en printtijd. Minimumbestelling € 10.",
+  priceTableCaption: "Voorbeeldprijzen zijn indicatief en afhankelijk van materiaal, gewicht en printtijd. Minimumbestelling € 9,90.",
   breadcrumbHub: "3D Printen Laten Maken",
   materialLabel: "Materiaal",
   cityLinks: [
@@ -92,7 +92,7 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
   answerBlock: {
     heading: "Kort samengevat",
     facts: [
-      "Vanaf € 10 per stuk; minimumbestelling € 10, geen installatiekosten.",
+      "Vanaf € 9,90 per stuk; minimumbestelling € 9,90, geen installatiekosten.",
       "Verzending naar Nederland: vaste € 5,90, met track & trace.",
       "Typische levertijd: 2–4 werkdagen na goedkeuring.",
       "Geaccepteerde formaten: STL, OBJ, STEP, 3MF.",
@@ -104,7 +104,7 @@ Geen CAD-bestand? Geen probleem. Stuur een foto of beschrijving via WhatsApp —
     caption: "Voorbeelden van geleverde kosten in Nederland (PLA, ×1 stuk, btw inclusief).",
     headers: { part: "Stuk", shipping: "Verzending", total: "Totaal" },
     rows: [
-      { label: "Klein (≈ 10 g)",   partEur: "€ 10,00", shippingEur: "€ 5,90", totalEur: "€ 15,90" },
+      { label: "Klein (≈ 10 g)",   partEur: "€ 9,90",  shippingEur: "€ 5,90", totalEur: "€ 15,80" },
       { label: "Middel (≈ 50 g)",  partEur: "€ 15,00", shippingEur: "€ 5,90", totalEur: "€ 20,90" },
       { label: "Groot (≈ 200 g)",  partEur: "€ 40,00", shippingEur: "€ 5,90", totalEur: "€ 45,90" },
     ],
@@ -137,7 +137,7 @@ Amsterdam heeft ook een sterke band met de bredere kennisinfrastructuur van Nede
 
 Het NEMO Science Museum aan het IJ heeft bovendien al jaren een actieve makercultuur: jaarlijkse makerfestivals, educatieve workshops over digitale fabricage en een breed publiek dat vertrouwd is geraakt met 3D-printen als toegankelijke technologie. Die cultuur verspreidt zich: van hobbyprogrammeurs in de Jordan tot engineers in de startupkantoren rondom het Centraal Station.
 
-Voor Amsterdammers die iets willen laten 3D-printen biedt Dimension3D een eenvoudige route. Je stuurt je bestand — STL, OBJ, 3MF of STEP — via het online formulier of WhatsApp. Op werkdagen ontvang je in de regel binnen 1 uur een exacte offerte (Spaanse kantoortijd). Er zijn geen opstartkosten en geen kosten voor de bestandscontrole. De minimumbestelling is € 10. Verzending van Barcelona naar Amsterdam kost € 5,90 en is altijd inclusief tracking. Omdat zowel Spanje als Nederland deel uitmaken van de EU interne markt, zijn er geen douaneformaliteiten of extra invoerheffingen — je bestelling wordt behandeld alsof het een binnenlandse zending is.
+Voor Amsterdammers die iets willen laten 3D-printen biedt Dimension3D een eenvoudige route. Je stuurt je bestand — STL, OBJ, 3MF of STEP — via het online formulier of WhatsApp. Op werkdagen ontvang je in de regel binnen 1 uur een exacte offerte (Spaanse kantoortijd). Er zijn geen opstartkosten en geen kosten voor de bestandscontrole. De minimumbestelling is € 9,90. Verzending van Barcelona naar Amsterdam kost € 5,90 en is altijd inclusief tracking. Omdat zowel Spanje als Nederland deel uitmaken van de EU interne markt, zijn er geen douaneformaliteiten of extra invoerheffingen — je bestelling wordt behandeld alsof het een binnenlandse zending is.
 
 De levering duurt in de regel 3–5 werkdagen. Is het dringend? Vraag bij je bestelling om expresslevering — we bespreken dan wat haalbaar is. We printen in PLA, PETG, ABS, ASA, TPU, Nylon en koolstofvezel-composieten, op een Bambu Lab X2D met gesloten, verwarmde kamer voor stabiele printomstandigheden.
 
@@ -153,7 +153,7 @@ Of je nu een prototype maakt voor een Amsterdamse hardwarestartup, een onderdeel
     },
     {
       q: "Kan ik een enkelstuks laten printen?",
-      a: "Ja. Er is geen minimale hoeveelheid. Je kunt één onderdeel bestellen. Minimumbestelling is € 10.",
+      a: "Ja. Er is geen minimale hoeveelheid. Je kunt één onderdeel bestellen. Minimumbestelling is € 9,90.",
     },
     {
       q: "Welke materialen zijn beschikbaar?",
@@ -185,7 +185,7 @@ export const nlRotterdam: IntlCityContent = {
   countryCode: "NL",
   city: "Rotterdam",
   metaTitle: "3D Printen Rotterdam — Bestel Online, Levering 3–5 Werkdagen",
-  metaDescription: "3D printservice voor Rotterdam. Offerte binnen 1 uur, vaste verzending € 5,90, in de regel 3–5 werkdagen levering. Geen douane (EU). Minimumbestelling € 10.",
+  metaDescription: "3D printservice voor Rotterdam. Offerte binnen 1 uur, vaste verzending € 5,90, in de regel 3–5 werkdagen levering. Geen douane (EU). Minimumbestelling € 9,90.",
   eyebrow: "3D printservice voor Rotterdam",
   h1: "3D Printen Rotterdam — Bestel Online, Geleverd aan Huis",
   deliveryNote: "In de regel 3–5 werkdagen vanuit Barcelona naar Rotterdam. Vaste verzending € 5,90. Geen douane (EU interne markt).",
@@ -199,7 +199,7 @@ Rotterdam Make, de makerspace in de stad, vertegenwoordigt een ander type gebrui
 
 De maritieme toeleveringsketen rond Rotterdam kent ook een cultuur van op maat gemaakte small-batch productie. Veel bedrijven die schepen, offshore platforms of industriële installaties onderhouden, werken met oudere apparatuur waarvoor originele onderdelen niet meer beschikbaar zijn of onacceptabel lang op zich laten wachten. FDM-printen in materialen als PETG, ABS of Nylon kan dan een interim-oplossing bieden die functioneel volwaardig is voor een tijdelijke fix of een vervanging die lang genoeg moet meegaan totdat het origineel gearriveerd is.
 
-Voor Rotterdammers die iets willen laten printen werkt het als volgt. Je stuurt je bestand op via het online formulier of WhatsApp — STL, OBJ, 3MF of STEP. Op werkdagen reageren we in de regel binnen 1 uur met een offerte (Spaanse kantoortijd). Er zijn geen opstartkosten. De minimumbestelling is € 10. Vaste verzending van € 5,90 naar Rotterdam. Omdat beide landen deel uitmaken van de EU interne markt, zijn er geen douane­formaliteiten. Levering in de regel binnen 3–5 werkdagen.
+Voor Rotterdammers die iets willen laten printen werkt het als volgt. Je stuurt je bestand op via het online formulier of WhatsApp — STL, OBJ, 3MF of STEP. Op werkdagen reageren we in de regel binnen 1 uur met een offerte (Spaanse kantoortijd). Er zijn geen opstartkosten. De minimumbestelling is € 9,90. Vaste verzending van € 5,90 naar Rotterdam. Omdat beide landen deel uitmaken van de EU interne markt, zijn er geen douane­formaliteiten. Levering in de regel binnen 3–5 werkdagen.
 
 We printen op een Bambu Lab X2D, een gesloten printer met verwarmde kamer. Dat geeft ons stabiele printcondities voor alle materialen, van gewoon PLA tot technisch veeleisend Nylon en koolstofvezel-composieten.`,
   faqs: [
@@ -217,7 +217,7 @@ We printen op een Bambu Lab X2D, een gesloten printer met verwarmde kamer. Dat g
     },
     {
       q: "Wat is de minimumbestelling?",
-      a: "Minimumbestelling € 10. Geen minimale afnamehoeveelheid.",
+      a: "Minimumbestelling € 9,90. Geen minimale afnamehoeveelheid.",
     },
     {
       q: "Hoe snel krijg ik een offerte?",
@@ -246,7 +246,7 @@ export const nlEindhoven: IntlCityContent = {
   city: "Eindhoven",
   noindex: true,
   metaTitle: "3D Printen Eindhoven",
-  metaDescription: "3D printservice voor Eindhoven en Brainport-regio. Offerte binnen 1 uur, vaste verzending € 5,90, in de regel 3–5 werkdagen. Minimumbestelling € 10.",
+  metaDescription: "3D printservice voor Eindhoven en Brainport-regio. Offerte binnen 1 uur, vaste verzending € 5,90, in de regel 3–5 werkdagen. Minimumbestelling € 9,90.",
   eyebrow: "3D printservice voor Eindhoven & Brainport",
   h1: "3D Printen Eindhoven — Bestel Online, Geleverd aan Huis",
   deliveryNote: "In de regel 3–5 werkdagen vanuit Barcelona naar Eindhoven. Vaste verzending € 5,90. Geen douane (EU interne markt).",
@@ -260,7 +260,7 @@ DAF Trucks, ook in Eindhoven gevestigd, vertegenwoordigt de zware industrie. In 
 
 Brainport Eindhoven als geheel — de samenwerking tussen bedrijfsleven, overheid en kennisinstellingen rondom de Eindhovense technologieclusters — stimuleert ook een brede ondernemerschapscultuur. Technische startups en spin-offs die met een minimale investering een eerste werkend product willen bouwen, zijn een natuurlijke doelgroep voor on-demand printdiensten. Dimension3D biedt die laagdrempeligheid: geen lange contracten, geen minimale afnames, gewoon een bestand opsturen en een eerlijke prijs ontvangen.
 
-Hoe werkt het vanuit Eindhoven? Je stuurt je bestand — STL, OBJ, 3MF of STEP — via het formulier of WhatsApp. Op werkdagen ontvang je in de regel binnen 1 uur een offerte. Er zijn geen opstartkosten en geen bestandscontrolekosten. De minimumbestelling is € 10 — al vanaf 1 onderdeel. Verzending van Barcelona naar Eindhoven kost € 5,90 vast. Binnen de EU zijn er geen douaneformaliteiten. Levering in de regel in 3–5 werkdagen.
+Hoe werkt het vanuit Eindhoven? Je stuurt je bestand — STL, OBJ, 3MF of STEP — via het formulier of WhatsApp. Op werkdagen ontvang je in de regel binnen 1 uur een offerte. Er zijn geen opstartkosten en geen bestandscontrolekosten. De minimumbestelling is € 9,90 — al vanaf 1 onderdeel. Verzending van Barcelona naar Eindhoven kost € 5,90 vast. Binnen de EU zijn er geen douaneformaliteiten. Levering in de regel in 3–5 werkdagen.
 
 We drukken op een Bambu Lab X2D met gesloten, verwarmde kamer — dat borgt stabiele printcondities voor technische materialen. We bieden PLA, PETG, ABS, ASA, TPU, Nylon en koolstofvezel-composieten. Heb je twijfels over het beste materiaal voor jouw toepassing? Beschrijf het gebruik en we adviseren je gratis.`,
   faqs: [
@@ -282,7 +282,7 @@ We drukken op een Bambu Lab X2D met gesloten, verwarmde kamer — dat borgt stab
     },
     {
       q: "Wat is de minimumbestelling?",
-      a: "Minimumbestelling € 10. Geen minimale afnamehoeveelheid.",
+      a: "Minimumbestelling € 9,90. Geen minimale afnamehoeveelheid.",
     },
   ],
   whatsappMsg: "Hallo, ik wil graag iets laten 3D-printen met levering in Eindhoven.",
@@ -309,7 +309,7 @@ export const nlGuidePrice: IntlGuideContent = {
   metaTitle: "3D Printen Kosten — Wat Kost het Laten Printen in 2026?",
   metaDescription: "Hoeveel kost 3D printen laten maken? Uitleg over hoe de prijs wordt berekend, voorbeeldprijzen voor PLA, PETG en ABS, en tips om kosten te besparen.",
   h1: "3D Printen Kosten — Wat Betaal Je en Hoe Wordt de Prijs Berekend?",
-  intro: "De prijs van een 3D-print hangt af van twee factoren: het gewicht van het onderdeel (hoeveel filament er verbruikt wordt) en de printtijd (hoe lang de printer bezig is). Er zijn geen opstartkosten en geen kosten voor het controleren van je bestand. De minimumbestelling is € 10. Verzending kost € 5,90 vast naar Nederland.",
+  intro: "De prijs van een 3D-print hangt af van twee factoren: het gewicht van het onderdeel (hoeveel filament er verbruikt wordt) en de printtijd (hoe lang de printer bezig is). Er zijn geen opstartkosten en geen kosten voor het controleren van je bestand. De minimumbestelling is € 9,90. Verzending kost € 5,90 vast naar Nederland.",
   sections: [
     {
       heading: "Hoe wordt de prijs berekend?",
@@ -325,7 +325,7 @@ export const nlGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Verzendkosten en minimumbestelling",
-      body: "Verzending naar Nederland kost altijd € 5,90, ongeacht het gewicht van je bestelling. Er zijn geen douanekosten of invoerheffingen — Nederland en Spanje zijn beide EU-lidstaten. De minimumbestelling is € 10; kleine objecten of onderdelen die minder waard zijn, worden afgerond naar dat minimum.",
+      body: "Verzending naar Nederland kost altijd € 5,90, ongeacht het gewicht van je bestelling. Er zijn geen douanekosten of invoerheffingen — Nederland en Spanje zijn beide EU-lidstaten. De minimumbestelling is € 9,90; kleine objecten of onderdelen die minder waard zijn, worden afgerond naar dat minimum.",
     },
     {
       heading: "Tips om de prijs te verlagen",
@@ -338,8 +338,8 @@ export const nlGuidePrice: IntlGuideContent = {
       grams: 30,
       hours: 0.5,
       material: "PLA",
-      price: "circa € 10",
-      description: "30 g PLA, 0,5 uur printtijd. Berekend: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € — minimumbestelling € 10 is van toepassing.",
+      price: "circa € 9,90",
+      description: "30 g PLA, 0,5 uur printtijd. Berekend: (30 g × 0,055 €/g + 0,5 h × 4,95 €/h) × 1,0 = 4,13 € — minimumbestelling € 9,90 is van toepassing.",
     },
     {
       name: "Functionele behuizing",
@@ -361,7 +361,7 @@ export const nlGuidePrice: IntlGuideContent = {
   faqs: [
     {
       q: "Wat is de minimumbestelling?",
-      a: "De minimumbestelling is € 10. Kleine objecten waarvan de materiaal- en tijdskosten lager uitkomen, worden afgerond naar dat minimum.",
+      a: "De minimumbestelling is € 9,90. Kleine objecten waarvan de materiaal- en tijdskosten lager uitkomen, worden afgerond naar dat minimum.",
     },
     {
       q: "Zijn er opstartkosten?",

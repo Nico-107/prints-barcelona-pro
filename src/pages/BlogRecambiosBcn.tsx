@@ -31,7 +31,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto cuesta imprimir un recambio en 3D?",
-    a: "El precio mínimo es de 9,90 €. La mayoría de recambios pequeños (clips, tapas, bisagras) caen entre 10 € y 20 €. Piezas medianas funcionales suelen estar entre 20 € y 40 €. Si además necesitamos modelar la pieza desde cero (porque no tienes archivo y la pieza es compleja), cotizamos el modelado por separado antes de confirmar nada.",
+    a: "El precio mínimo es de 9,90 €. La mayoría de recambios pequeños (clips, tapas, bisagras) caen entre 9,90 € y 20 €. Piezas medianas funcionales suelen estar entre 20 € y 40 €. Si además necesitamos modelar la pieza desde cero (porque no tienes archivo y la pieza es compleja), cotizamos el modelado por separado antes de confirmar nada.",
   },
   {
     q: "¿Qué material usáis para los recambios?",

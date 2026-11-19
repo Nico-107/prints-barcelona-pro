@@ -30,7 +30,7 @@ const FAQS = [
   },
   {
     q: "¿El descuento del 20% aplica a todo el pedido?",
-    a: "Sí, el 20% se aplica sobre el precio final de la impresión (incluyendo cualquier descuento por cantidad si aplica). El único límite es el precio mínimo de 9,90 € por pedido — si tu pieza ya sale a 10 € (el mínimo del servicio), ese precio no se reduce más. Para pedidos de múltiples piezas o tiradas más grandes, el 20% siempre va sobre el total calculado.",
+    a: "Sí, el 20% se aplica sobre el precio final de la impresión (incluyendo cualquier descuento por cantidad si aplica). El único límite es el precio mínimo de 9,90 € por pedido — si tu pieza ya sale a 9,90 € (el mínimo del servicio), ese precio no se reduce más. Para pedidos de múltiples piezas o tiradas más grandes, el 20% siempre va sobre el total calculado.",
   },
   {
     q: "¿Hay un pedido mínimo para el descuento de estudiante?",

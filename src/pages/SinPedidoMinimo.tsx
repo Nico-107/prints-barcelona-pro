@@ -136,7 +136,7 @@ const SinPedidoMinimo = () => {
             {/* ANSWER CAPSULE — opening */}
             <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-5 py-4 mb-6">
               <p className="text-primary-foreground/90 leading-relaxed">
-                Dimension3D Barcelona imprime piezas únicas desde 9,90 €. Puedes encargar un solo clip de 3 gramos, un adaptador de 50 gramos o un soporte de 200 gramos — el pedido mínimo es 10 € por encargo, sin mínimo de cantidad. Presupuesto gratis en menos de 1 hora. Entrega en 24–48 horas en Barcelona o envío a toda España por 5,90 €.
+                Dimension3D Barcelona imprime piezas únicas desde 9,90 €. Puedes encargar un solo clip de 3 gramos, un adaptador de 50 gramos o un soporte de 200 gramos — el pedido mínimo es 9,90 € por encargo, sin mínimo de cantidad. Presupuesto gratis en menos de 1 hora. Entrega en 24–48 horas en Barcelona o envío a toda España por 5,90 €.
               </p>
             </div>
 
@@ -188,7 +188,7 @@ const SinPedidoMinimo = () => {
                   Muchos servicios de impresión 3D — tanto online como presenciales — imponen un pedido mínimo de entre 25 € y 60 €. La razón comercial es que preparar una impresión tiene un tiempo de configuración fijo: abrir el archivo, revisar la geometría, colocar la pieza en la cama, ajustar los parámetros. Para que ese tiempo resulte rentable, muchos operadores exigen un mínimo.
                 </p>
                 <p>
-                  En Dimension3D no funcionamos así. El precio desde 9,90 € ya cubre ese tiempo de configuración para piezas sencillas. Si necesitas un solo clip de repuesto de 3 gramos de PETG, el precio es 10 €, no 40 € para «compensar» el tiempo de preparación.
+                  En Dimension3D no funcionamos así. El precio desde 9,90 € ya cubre ese tiempo de configuración para piezas sencillas. Si necesitas un solo clip de repuesto de 3 gramos de PETG, el precio es 9,90 €, no 40 € para «compensar» el tiempo de preparación.
                 </p>
                 <p>
                   La única excepción son las piezas que requieren modelado CAD desde cero (sin archivo digital y con geometría compleja) — en ese caso, el coste del modelado se cotiza por separado antes de confirmar nada.

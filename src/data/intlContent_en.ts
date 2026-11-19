@@ -128,7 +128,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
   answerBlock: {
     heading: "At a glance",
     facts: [
-      "From 10 € per part; minimum order €9.90, no setup fee.",
+      "From 9,90 € per part; minimum order €9.90, no setup fee.",
       "Shipping across the EU: flat 5,90 € with tracking.",
       "Typical lead time: 3–5 working days from approval.",
       "Accepted formats: STL, OBJ, STEP, 3MF.",

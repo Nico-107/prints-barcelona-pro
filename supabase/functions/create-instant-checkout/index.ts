@@ -312,7 +312,7 @@ const rnd = (x: number) => Math.floor(x + 0.5);
 
 /**
  * Conv 1.3 quantity-step minimum.
- *   subtotal = max(sum, 10 € + 1 € × (units − 1))
+ *   subtotal = max(sum, 9.90 € + 1 € × (units − 1))
  * where `sum` is the raw total (pre-urgency, pre-minimum) and `units`
  * is the total quantity across all parts. Applied in cents.
  */

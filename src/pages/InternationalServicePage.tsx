@@ -331,7 +331,7 @@ const InternationalServicePage = () => {
                   Our pricing is formula-based and fully transparent. The final price depends on two factors: the weight of the printed part (grams of filament consumed) and the machine time (hours of print). There are no set-up fees, no file review fees, and no platform charges. You pay for the print, nothing else.
                 </p>
                 <p>
-                  The minimum order is <strong className="text-foreground">10 €</strong>. Most single small parts fall in the 10 €–40 € range. Larger or multi-part orders scale proportionally. Material choice affects the per-gram cost: PLA is the most economical, with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but still far more affordable than equivalent resin or SLS parts from industrial bureaus.
+                  The minimum order is <strong className="text-foreground">9,90 €</strong>. Most single small parts fall in the 9,90 €–40 € range. Larger or multi-part orders scale proportionally. Material choice affects the per-gram cost: PLA is the most economical, with engineering materials like Polycarbonate and carbon-fibre composites at the top end — but still far more affordable than equivalent resin or SLS parts from industrial bureaus.
                 </p>
                 <p>
                   Shipping costs are calculated at the quote stage based on your country and estimated parcel weight. They're shown clearly before you confirm — no surprises at checkout. For regular customers or volume runs, we offer tiered pricing: ask us about per-unit discounts for orders above 10 identical parts.

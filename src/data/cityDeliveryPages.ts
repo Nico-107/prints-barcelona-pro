@@ -220,7 +220,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Wie viel kostet ein 3D-gedrucktes Teil mit Lieferung nach Berlin?",
-        a: "Der Mindestbestellwert liegt bei 10 €. Ein kleines Teil (10–50 g) kostet typischerweise 16–23 € inklusive der 5,90 € Versandkosten aus Barcelona. Für größere technische Teile oder Serien sinkt der Stückpreis, weil Rüst- und Druckzeiten auf mehrere Teile verteilt werden; der Preisrechner auf dieser Seite gibt dir das exakte Live-Angebot.",
+        a: "Der Mindestbestellwert liegt bei 9,90 €. Ein kleines Teil (10–50 g) kostet typischerweise 16–23 € inklusive der 5,90 € Versandkosten aus Barcelona. Für größere technische Teile oder Serien sinkt der Stückpreis, weil Rüst- und Druckzeiten auf mehrere Teile verteilt werden; der Preisrechner auf dieser Seite gibt dir das exakte Live-Angebot.",
       },
       {
         q: "Arbeitet ihr mit deutschen Startups und dem Mittelstand zusammen?",
@@ -265,7 +265,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Quanto costa un pezzo stampato in 3D consegnato a Milano?",
-        a: "L'ordine minimo è 10 €. Per un pezzo piccolo (10–50 g) il totale consegnato a Milano è tipicamente 16–23 € inclusa la spedizione fissa di 5,90 € da Barcellona. Per pezzi più grandi o piccole serie il costo unitario scende perché i tempi di preparazione vengono distribuiti su più pezzi; il preventivatore in alto dà il prezzo esatto in tempo reale.",
+        a: "L'ordine minimo è 9,90 €. Per un pezzo piccolo (10–50 g) il totale consegnato a Milano è tipicamente 15,80–22,80 € inclusa la spedizione fissa di 5,90 € da Barcellona. Per pezzi più grandi o piccole serie il costo unitario scende perché i tempi di preparazione vengono distribuiti su più pezzi; il preventivatore in alto dà il prezzo esatto in tempo reale.",
       },
       {
         q: "Lavorate con l'industria automotive e il design milanese?",
@@ -311,7 +311,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Quanto costa un pezzo in 3D consegnato a Roma?",
-        a: "L'ordine minimo è 10 €. Per pezzi piccoli (10–50 g) il totale consegnato a Roma è tipicamente 16–23 € inclusa la spedizione fissa di 5,90 € da Barcellona. Il preventivo è in tempo reale fino a 200 €; oltre, un tecnico risponde entro un'ora lavorativa.",
+        a: "L'ordine minimo è 9,90 €. Per pezzi piccoli (10–50 g) il totale consegnato a Roma è tipicamente 15,80–22,80 € inclusa la spedizione fissa di 5,90 € da Barcellona. Il preventivo è in tempo reale fino a 200 €; oltre, un tecnico risponde entro un'ora lavorativa.",
       },
       {
         q: "Lavorate con studi di architettura e laboratori di conservazione a Roma?",
@@ -343,7 +343,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     nativeSection: {
       lang: "pt",
       headline: "Serviço de impressão 3D com entrega em Lisboa",
-      body: "Estúdio FDM profissional em Barcelona. Orçamento em 1 hora, entrega em Lisboa em 2–4 dias úteis. A partir de 10 €, encomenda mínima 9,90 €.",
+      body: "Estúdio FDM profissional em Barcelona. Orçamento em 1 hora, entrega em Lisboa em 2–4 dias úteis. A partir de 9,90 €, encomenda mínima 9,90 €.",
       ctaLabel: "Pedir orçamento — entrega em Lisboa",
       nativeUrl: "/pt/impressao-3d-lisboa",
     },
@@ -351,7 +351,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Quanto custa uma peça impressa em 3D entregue em Lisboa?",
-        a: "A encomenda mínima é 10 €. Para uma peça pequena (10–50 g) o total entregue em Lisboa é tipicamente 16–22 € incluindo os 5,90 € de portes a partir de Barcelona. Encomendas acima de 200 € recebem orçamento manual num prazo de 1 hora em dias úteis.",
+        a: "A encomenda mínima é 9,90 €. Para uma peça pequena (10–50 g) o total entregue em Lisboa é tipicamente 15,80–21,80 € incluindo os 5,90 € de portes a partir de Barcelona. Encomendas acima de 200 € recebem orçamento manual num prazo de 1 hora em dias úteis.",
       },
       {
         q: "Trabalham com empresas e ateliês de design portugueses?",

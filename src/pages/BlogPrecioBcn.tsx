@@ -180,7 +180,7 @@ const BlogPrecioBcn = () => {
               </h2>
               <div className="space-y-4 text-foreground/80 leading-relaxed">
                 <p>
-                  El peso de la pieza en gramos es el indicador más práctico del coste, porque determina directamente la cantidad de material consumido y da una idea bastante buena del tiempo de impresión. Usamos una fórmula base sencilla: <strong className="text-foreground">gramos × 0,10 € + horas de impresión × 0,50 €</strong>, con un mínimo de 10 € por pedido.
+                  El peso de la pieza en gramos es el indicador más práctico del coste, porque determina directamente la cantidad de material consumido y da una idea bastante buena del tiempo de impresión. Usamos una fórmula base sencilla: <strong className="text-foreground">gramos × 0,10 € + horas de impresión × 0,50 €</strong>, con un mínimo de 9,90 € por pedido.
                 </p>
                 <p>
                   A continuación, los rangos de precio más habituales en PLA (el material estándar):
