@@ -108,7 +108,7 @@ export const deTranslations: Record<string, string> = {
   "how.step3.title": "Wir drucken es",
   "how.step3.desc": "Eine Person prüft dein Teil vorher. Produktion in Barcelona.",
   "how.step4.title": "Abholen oder erhalten",
-  "how.step4.desc": "Mit Termin in Les Corts oder Versand für 5,90 €.",
+  "how.step4.desc": "Mit Termin in Les Corts oder Versand für 4,90 €.",
 
   // Services
   "services.title": "Unsere Leistungen",
@@ -713,7 +713,7 @@ export const deTranslations: Record<string, string> = {
   "calc.why.plastic": "Kunststoff: {grams} g",
   "calc.why.time": "Druckzeit: {hours} h",
   "calc.why.supports": "davon Stützen: {grams} g",
-  "calc.why.note": "Keine versteckten Kosten. Das ist der Endpreis; Versand pauschal 5,90 €.",
+  "calc.why.note": "Keine versteckten Kosten. Das ist der Endpreis; Versand pauschal 4,90 €.",
   "calc.why.minNote": "Diese Bestellung ist klein — es gilt das Mindestbestellwert von 9,90 €.",
   "calc.validate.contactTitle": "E-Mail oder Telefon angeben",
   "calc.validate.contact": "Geben Sie eine E-Mail oder Telefonnummer an, damit wir antworten können.",
@@ -1128,4 +1128,12 @@ export const deTranslations: Record<string, string> = {
   "piece.purpose.thanks": "Danke!",
   // Prompt 2 — neutrale Zeile unter dem Preis für reparierte / begrenzte Dateien.
   "pricing.reviewNote": "Nico prüft deine Datei vor dem Druck",
+  // Prompt 3 — Marketing für Nicht-Lokal-Seiten + Variante B.
+  "shipping.fromDelivered": "Ab 14,90 €, Versand inklusive",
+  "shipping.freeFrom": "Versand gratis ab 30 €",
+  "shipping.included": "Versand inklusive",
+  "shipping.free": "Versand gratis",
+  "shipping.upfrontNote": "+ 4,90 € Versand · gratis ab 30 € · oder kostenlose Abholung in Les Corts",
+  "shipping.option.delivery": "Versand",
+  "shipping.option.pickup": "Kostenlose Abholung in Les Corts",
 };

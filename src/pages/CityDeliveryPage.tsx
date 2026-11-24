@@ -12,6 +12,7 @@ import { capture } from "@/lib/analytics";
 import type { CityPageConfig } from "@/data/cityDeliveryPages";
 import { SHIP_COUNTRIES } from "@/lib/instantBuy";
 import { StlEstimator } from "@/components/StlEstimator";
+import { isLocalPage } from "@/config/shipping";
 import { FactsStrip, LinkCardGrid, UploadPanel, Hero as DsHero } from "@/components/ds";
 import DeliveryTimeline from "@/components/city/DeliveryTimeline";
 import EnginePriceTable from "@/components/city/EnginePriceTable";
@@ -406,7 +407,7 @@ const CityDeliveryPage = ({ config }: Props) => {
         <DeliveryTimeline
           lang={config.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"}
           transitDays={(config.deliveryDays ?? "3–5").replace(/\s+(business days|días hábiles|días laborables|jours ouvrés|jours ouvrables|Werktage|werkdagen|giorni lavorativi|dias úteis)\s*$/i, "")}
-          shippingPrice="5,90 €"
+          shippingPrice="4,90 €"
         />
         <EnginePriceTable lang={config.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} testId="city-price-table" />
 
@@ -455,6 +456,10 @@ const CityDeliveryPage = ({ config }: Props) => {
                   refDays={config.deliveryDays}
                   refPickupAvailable={!!config.localPickup}
                   forceQuoteOnly={!inShipCountries}
+                  // Prompt 3 — non-local pages (Madrid, Valencia, non-BCN
+                  // Spanish cities) must NOT offer pickup. Sevilla keeps it
+                  // via localPickup. Barcelona slugs resolve to isLocalPage.
+                  shippingOnly={!isLocalPage(config.slug) && !config.localPickup}
                 />
                 {!inShipCountries && (
                   <p className="mt-4 text-sm text-muted-foreground text-center border border-border/50 rounded-lg px-4 py-3 bg-muted/20">

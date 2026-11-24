@@ -85,7 +85,7 @@ describe("v4: DIMENSION11 (10 %) discount — pickup", () => {
 });
 
 // ─── v4 shipping — discount does NOT touch shipping ───────────────────────────
-describe("v4: DIMENSION11 — shipping stays at 5,90 € and is NOT discounted", () => {
+describe("v4: DIMENSION11 — legacy server shipping line is NOT discounted", () => {
   const files = [makeFile("a", "box.stl", 1)];
   const bundle = computeBundleV3(files, defaults, "standard", { v4: true })!;
   const uploaded = mockUploaded(["a"], ["box.stl"]);
@@ -104,7 +104,7 @@ describe("v4: DIMENSION11 — shipping stays at 5,90 € and is NOT discounted",
 
   it("evaluateV4 accepts the body", () => expect(result.ok).toBe(true));
 
-  it("shipping is 5,90 € and is not discounted", () => {
+  it("legacy server shipping line is not discounted", () => {
     if (!result.ok) return;
     expect(result.value.shippingCents).toBe(590);
   });

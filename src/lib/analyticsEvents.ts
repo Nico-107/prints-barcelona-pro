@@ -207,6 +207,13 @@ interface ConfigChangedProps {
 
 interface FulfillmentChosenProps {
   type?: "pickup" | "shipping";
+  // Prompt 3 — the chosen option label (as shown in the UI) and the total
+  // in EUR at the moment of selection; xp_shipping_r1 is already attached
+  // by the super-property enrichment but we also pass it explicitly here
+  // so the event matches the one the prompt specifies.
+  option?: "pickup" | "shipping";
+  total_eur?: number;
+  xp_shipping_r1?: string;
 }
 
 interface ContactEnteredProps {

@@ -58,7 +58,10 @@ export function usePricingVersion(): PricingVersion {
   return usePricingProbe().version;
 }
 
-/** Compute free-shipping threshold in cents for the given pricing version. */
-export function freeShippingThresholdCents(version: PricingVersion): number {
-  return version === 4 ? 9990 : 10000;
+import { FREE_SHIPPING_FROM_CENTS } from "@/config/shipping";
+
+/** Prompt 3 — free-shipping threshold (same for v3 and v4) lives in the
+ *  shipping config so there's a single source of truth. */
+export function freeShippingThresholdCents(_version: PricingVersion): number {
+  return FREE_SHIPPING_FROM_CENTS;
 }

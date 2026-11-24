@@ -5,7 +5,7 @@ export function parseNotesUrgency(notes: string): string | null {
   return m ? m[1] : null;
 }
 
-// v3 notes contain "Shipping: EUR 5.90" explicitly.
+// v3 notes contain legacy "Shipping: EUR x.xx" strings explicitly.
 export function parseNotesShippingCents(notes: string): number | null {
   const m = notes.match(/Shipping:\s*EUR\s*([\d.]+)/);
   return m ? Math.round(parseFloat(m[1]) * 100) : null;

@@ -145,7 +145,7 @@ const StudentsBcn = () => {
               {[
                 { n: "1", title: "Verifica", body: "Envía tu carnet o email .edu junto al archivo o foto." },
                 { n: "2", title: "Recibes el presupuesto", body: "Con el 20% ya aplicado — en menos de 1 hora laborable." },
-                { n: "3", title: "Apruebas e imprimimos", body: "Recoges en Les Corts o lo enviamos a casa (5,90 € envío)." },
+                { n: "3", title: "Apruebas e imprimimos", body: "Recoges en Les Corts o lo enviamos a casa (4,90 € envío)." },
               ].map((s) => (
                 <li key={s.n} className="rounded-lg border border-primary-foreground/15 bg-primary-foreground/5 p-4">
                   <div className="font-mono text-xs text-amber-300 mb-1">PASO {s.n}</div>

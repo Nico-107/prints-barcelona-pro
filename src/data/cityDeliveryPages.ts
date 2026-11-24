@@ -92,7 +92,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Combien coûte une pièce imprimée en 3D livrée à Paris ?",
-        a: "La commande minimum est de 9,90 €. Pour une pièce petite (10–50 g), le total livré à Paris est typiquement de 15,90 € à 22,90 €, livraison 5,90 € incluse. Le prix exact dépend du volume de la pièce, du matériau et de la finition. Utilisez la calculatrice en haut de page pour un devis instantané.",
+        a: "La commande minimum est de 9,90 €. Pour une pièce petite (10–50 g), le total livré à Paris est typiquement de 14,90 € à 22,90 €, livraison 4,90 € incluse. Le prix exact dépend du volume de la pièce, du matériau et de la finition. Utilisez la calculatrice en haut de page pour un devis instantané.",
       },
       {
         q: "Travaillez-vous avec des entreprises et des ingénieurs d'Île-de-France ?",
@@ -130,7 +130,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "How much do I pay in total for a small 3D-printed part delivered to London?",
-        a: "The minimum order is €9.90. For a small part (10–50 g) the total delivered to London is typically €18–28 all-in, covering the part, the €5.90 shipping fee from Barcelona, and routine UK import handling. For orders for personal use under £135, UK import VAT does not apply; commercial orders over that threshold incur UK VAT at 20%, which the courier collects at delivery.",
+        a: "The minimum order is €9.90. For a small part (10–50 g) the total delivered to London is typically €17–27 all-in, covering the part, the €4.90 shipping fee from Barcelona, and routine UK import handling. For orders for personal use under £135, UK import VAT does not apply; commercial orders over that threshold incur UK VAT at 20%, which the courier collects at delivery.",
       },
       {
         q: "Do you work with UK engineering and design studios?",
@@ -175,7 +175,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "How much does a 3D print delivered to Amsterdam cost?",
-        a: "The minimum order is €9.90. A small part (10–50 g) typically totals €16–22 all-in including the €5.90 shipping fee from Barcelona. For larger engineering parts or batches, the per-unit price falls as print time is shared across pieces; the calculator on this page gives a live price for your exact file.",
+        a: "The minimum order is €9.90. A small part (10–50 g) typically totals €15–21 all-in including the €4.90 shipping fee from Barcelona. For larger engineering parts or batches, the per-unit price falls as print time is shared across pieces; the calculator on this page gives a live price for your exact file.",
       },
       {
         q: "Do you work with the Dutch hardware and robotics ecosystem?",
@@ -220,7 +220,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Wie viel kostet ein 3D-gedrucktes Teil mit Lieferung nach Berlin?",
-        a: "Der Mindestbestellwert liegt bei 9,90 €. Ein kleines Teil (10–50 g) kostet typischerweise 16–23 € inklusive der 5,90 € Versandkosten aus Barcelona. Für größere technische Teile oder Serien sinkt der Stückpreis, weil Rüst- und Druckzeiten auf mehrere Teile verteilt werden; der Preisrechner auf dieser Seite gibt dir das exakte Live-Angebot.",
+        a: "Der Mindestbestellwert liegt bei 9,90 €. Ein kleines Teil (10–50 g) kostet typischerweise 15–22 € inklusive der 4,90 € Versandkosten aus Barcelona. Für größere technische Teile oder Serien sinkt der Stückpreis, weil Rüst- und Druckzeiten auf mehrere Teile verteilt werden; der Preisrechner auf dieser Seite gibt dir das exakte Live-Angebot.",
       },
       {
         q: "Arbeitet ihr mit deutschen Startups und dem Mittelstand zusammen?",
@@ -265,7 +265,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Quanto costa un pezzo stampato in 3D consegnato a Milano?",
-        a: "L'ordine minimo è 9,90 €. Per un pezzo piccolo (10–50 g) il totale consegnato a Milano è tipicamente 15,80–22,80 € inclusa la spedizione fissa di 5,90 € da Barcellona. Per pezzi più grandi o piccole serie il costo unitario scende perché i tempi di preparazione vengono distribuiti su più pezzi; il preventivatore in alto dà il prezzo esatto in tempo reale.",
+        a: "L'ordine minimo è 9,90 €. Per un pezzo piccolo (10–50 g) il totale consegnato a Milano è tipicamente 14,80–21,80 € inclusa la spedizione fissa di 4,90 € da Barcellona. Per pezzi più grandi o piccole serie il costo unitario scende perché i tempi di preparazione vengono distribuiti su più pezzi; il preventivatore in alto dà il prezzo esatto in tempo reale.",
       },
       {
         q: "Lavorate con l'industria automotive e il design milanese?",
@@ -311,7 +311,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Quanto costa un pezzo in 3D consegnato a Roma?",
-        a: "L'ordine minimo è 9,90 €. Per pezzi piccoli (10–50 g) il totale consegnato a Roma è tipicamente 15,80–22,80 € inclusa la spedizione fissa di 5,90 € da Barcellona. Il preventivo è in tempo reale fino a 200 €; oltre, un tecnico risponde entro un'ora lavorativa.",
+        a: "L'ordine minimo è 9,90 €. Per pezzi piccoli (10–50 g) il totale consegnato a Roma è tipicamente 14,80–21,80 € inclusa la spedizione fissa di 4,90 € da Barcellona. Il preventivo è in tempo reale fino a 200 €; oltre, un tecnico risponde entro un'ora lavorativa.",
       },
       {
         q: "Lavorate con studi di architettura e laboratori di conservazione a Roma?",
@@ -351,7 +351,7 @@ export const CITY_PAGES: CityPageConfig[] = [
     extraFaqs: [
       {
         q: "Quanto custa uma peça impressa em 3D entregue em Lisboa?",
-        a: "A encomenda mínima é 9,90 €. Para uma peça pequena (10–50 g) o total entregue em Lisboa é tipicamente 15,80–21,80 € incluindo os 5,90 € de portes a partir de Barcelona. Encomendas acima de 200 € recebem orçamento manual num prazo de 1 hora em dias úteis.",
+        a: "A encomenda mínima é 9,90 €. Para uma peça pequena (10–50 g) o total entregue em Lisboa é tipicamente 14,80–20,80 € incluindo os 4,90 € de portes a partir de Barcelona. Encomendas acima de 200 € recebem orçamento manual num prazo de 1 hora em dias úteis.",
       },
       {
         q: "Trabalham com empresas e ateliês de design portugueses?",

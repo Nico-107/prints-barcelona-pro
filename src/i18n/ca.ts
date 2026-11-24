@@ -135,7 +135,7 @@ export const caTranslations: Record<string, string> = {
   "how.step3.title": "La imprimim",
   "how.step3.desc": "Una persona revisa la teva peça abans. Producció a Barcelona.",
   "how.step4.title": "Recull o rep",
-  "how.step4.desc": "Recollida amb cita a Les Corts o enviament per 5,90 €.",
+  "how.step4.desc": "Recollida amb cita a Les Corts o enviament per 4,90 €.",
 
   // Services
   "services.title": "Els nostres serveis",
@@ -811,7 +811,7 @@ export const caTranslations: Record<string, string> = {
   "calc.why.plastic": "Plàstic: {grams} g",
   "calc.why.time": "Temps d'impressió: {hours} h",
   "calc.why.supports": "dels quals suports: {grams} g",
-  "calc.why.note": "Sense costos ocults. Aquest és el preu final; l'enviament és una tarifa fixa de 5,90 €.",
+  "calc.why.note": "Sense costos ocults. Aquest és el preu final; l'enviament és una tarifa fixa de 4,90 €.",
   "calc.why.minNote": "Aquesta comanda és petita — s'aplica el mínim de 9,90 €.",
   "calc.validate.contactTitle": "Afegeix un email o telèfon",
   "calc.validate.contact": "Afegeix un email o un telèfon per poder respondre't.",
@@ -1127,4 +1127,12 @@ export const caTranslations: Record<string, string> = {
   "piece.purpose.thanks": "Gràcies!",
   // Prompt 2 — nota neutral sota el preu per a fitxers reparats / limitats.
   "pricing.reviewNote": "En Nico revisarà el teu fitxer abans d'imprimir",
+  // Prompt 3 — marketing no-local + línia upfront variant B.
+  "shipping.fromDelivered": "Des de 14,90 €, enviament inclòs",
+  "shipping.freeFrom": "Enviament gratis des de 30 €",
+  "shipping.included": "Enviament inclòs",
+  "shipping.free": "Enviament gratis",
+  "shipping.upfrontNote": "+ 4,90 € enviament · gratis des de 30 € · o recollida gratis a Les Corts",
+  "shipping.option.delivery": "Enviament a domicili",
+  "shipping.option.pickup": "Recollida gratis a Les Corts",
 };

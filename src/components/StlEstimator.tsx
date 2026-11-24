@@ -27,10 +27,19 @@ import type { AppliedPromo } from "@/components/estimator/PromoLine";
 import { EST, stlToTriangles } from "@/lib/estimator/core";
 import { analyseMeshViaWorker } from "@/lib/callMeshAnalysisWorker";
 import { computeBundleWithCap, aggregateMeshStats } from "@/lib/pricingWithCap";
+import {
+  isLocalPage,
+  finalTotalCents,
+  shippingLineCents,
+  type PageGroup as PageGroupT,
+  type ShippingMode as ShippingModeT,
+} from "@/config/shipping";
+
+type SiteExpVariant = 'A' | 'B' | 'C' | 'D';
 import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
-import { snapshotXpVariants } from "@/lib/experiments/engine";
+import { snapshotXpVariants, getVariant } from "@/lib/experiments/engine";
 import { formatEUR } from "@/lib/formatPrice";
 import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
 import { CHECKOUT_MAX_BYTES, isBinaryStl } from "@/lib/stlPrepare";
@@ -448,9 +457,37 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const autumnDiscountCents = 0; // removed in v4
 
   const freeShipThreshCents = freeShippingThresholdCents(pricingVersion);
-  const shippingFeeForDisplay = fulfillment === "shipping" && bundle && bundle.order.totalCents < freeShipThreshCents ? EST.shippingCents / 100 : 0;
-  const instantTotalPrice = instantBuyEligible
-    ? chargedPrice - promoDiscountCents / 100 + shippingFeeForDisplay
+  // Prompt 3 — the number next to Buy IS the number Stripe charges. Compute
+  // it through the shared shipping config so UI, test and (eventually)
+  // edge function all agree. shippingFeeForDisplay is kept for the
+  // breakdown row only; the Buy total comes from finalTotalCents.
+  const pageGroup: PageGroupT = isLocalPage(typeof window !== 'undefined' ? window.location.pathname : '/')
+    ? 'local'
+    : 'non_local';
+  // Shipping mode: non-local pages always deliver; local pages run the
+  // shipping_r1 A/B test (variant B = upfront, variant A = delivered).
+  const shippingVariant = getVariant('shipping_r1') as SiteExpVariant;
+  const shippingMode: ShippingModeT = pageGroup === 'non_local'
+    ? 'delivered'
+    : (shippingVariant === 'B' ? 'upfront' : 'delivered');
+  const partsAfterPromoCents = bundle
+    ? Math.max(bundle.orderResult.chargedPrintCents - promoDiscountCents, 0)
+    : 0;
+  const shippingFeeForDisplay = (bundle && fulfillment === "shipping")
+    ? shippingLineCents({
+        partsSubtotalCents: partsAfterPromoCents,
+        pageGroup,
+        shippingMode,
+        fulfillment: "shipping",
+      }) / 100
+    : 0;
+  const instantTotalPrice = instantBuyEligible && bundle
+    ? finalTotalCents({
+        partsSubtotalCents: partsAfterPromoCents,
+        pageGroup,
+        shippingMode,
+        fulfillment: fulfillment ?? 'shipping',
+      }) / 100
     : null;
 
   // Fire promo_line_shown once per mount when bundle is present
@@ -2298,7 +2335,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
               "",
               parts,
               "",
-              `Total: €${bundle.total.toFixed(2)} (+ €5,90 envío si aplica)`,
+              `Total: €${bundle.total.toFixed(2)} (+ €4,90 envío si aplica)`,
               `Entrega estimada: ${deliveryDays}`,
               "",
               "Este precio se confirma antes de cualquier cobro.",
@@ -2414,7 +2451,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   <span className="text-muted-foreground">Urgency mult.</span>
                   <span className="font-medium">{urgency === "standard" ? "1×" : urgency === "express" ? "1.25×" : "1.5×"} ({urgency})</span>
                   <span className="text-muted-foreground">Shipping</span>
-                  <span className="font-medium text-muted-foreground">not included (€5.90 if shipped)</span>
+                  <span className="font-medium text-muted-foreground">not included (€4.90 if shipped)</span>
                   <span className="text-muted-foreground">{t("calc.admin.profit")}</span>
                   <span className={`font-semibold ${profit >= 0 ? "text-green-600" : "text-destructive"}`}>
                     €{profit.toFixed(2)}

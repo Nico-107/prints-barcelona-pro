@@ -108,7 +108,7 @@ export const itTranslations: Record<string, string> = {
   "how.step3.title": "Lo stampiamo",
   "how.step3.desc": "Una persona controlla il tuo pezzo prima. Produzione a Barcellona.",
   "how.step4.title": "Ritira o ricevi",
-  "how.step4.desc": "Su appuntamento a Les Corts o spedizione per 5,90 €.",
+  "how.step4.desc": "Su appuntamento a Les Corts o spedizione per 4,90 €.",
 
   // Services
   "services.title": "I nostri servizi",
@@ -713,7 +713,7 @@ export const itTranslations: Record<string, string> = {
   "calc.why.plastic": "Plastica: {grams} g",
   "calc.why.time": "Tempo di stampa: {hours} h",
   "calc.why.supports": "di cui supporti: {grams} g",
-  "calc.why.note": "Nessun costo nascosto. Questo è il prezzo finale; spedizione forfettaria di 5,90 €.",
+  "calc.why.note": "Nessun costo nascosto. Questo è il prezzo finale; spedizione forfettaria di 4,90 €.",
   "calc.why.minNote": "Questo ordine è piccolo — si applica il minimo di 9,90 €.",
   "calc.validate.contactTitle": "Aggiungi un'e-mail o un telefono",
   "calc.validate.contact": "Aggiungi un'e-mail o un numero di telefono per poter risponderti.",
@@ -1133,4 +1133,12 @@ export const itTranslations: Record<string, string> = {
   "piece.purpose.thanks": "Grazie!",
   // Prompt 2 — nota neutra sotto il prezzo per i file riparati / con cap.
   "pricing.reviewNote": "Nico controllerà il tuo file prima di stampare",
+  // Prompt 3 — marketing non-locale + linea upfront variante B.
+  "shipping.fromDelivered": "Da 14,90 €, spedizione inclusa",
+  "shipping.freeFrom": "Spedizione gratis da 30 €",
+  "shipping.included": "Spedizione inclusa",
+  "shipping.free": "Spedizione gratis",
+  "shipping.upfrontNote": "+ 4,90 € spedizione · gratis da 30 € · o ritiro gratuito a Les Corts",
+  "shipping.option.delivery": "Spedizione a domicilio",
+  "shipping.option.pickup": "Ritiro gratuito a Les Corts",
 };

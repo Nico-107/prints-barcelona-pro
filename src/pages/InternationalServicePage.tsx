@@ -148,7 +148,7 @@ const InternationalServicePage = () => {
         <div className="container relative z-10 px-4 py-16">
           <div className="max-w-3xl mx-auto text-center">
             {/* Phase 2.6: flag emoji removed. Phase 3.2: single delivery
-                line matching checkout (3–5 business days to Europe + 5,90 €
+                line matching checkout (3–5 business days to Europe + 4,90 €
                 tracked). */}
             <div className="inline-flex items-center gap-2 bg-accent/15 border border-accent/30 text-accent rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
               3D Printing from Barcelona · Ships across Europe
@@ -170,7 +170,7 @@ const InternationalServicePage = () => {
             </div>
 
             <div className="flex flex-wrap justify-center gap-3 text-primary-foreground/75 text-sm">
-              {["From €9.90", "Quote in 1 hour", "Shipping 5,90 € tracked", "3–5 business days to Europe", "No setup fee"].map((label) => (
+              {["From €9.90", "Quote in 1 hour", "Shipping 4,90 € tracked", "3–5 business days to Europe", "No setup fee"].map((label) => (
                 <span key={label} className="inline-flex items-center gap-1.5 bg-primary-foreground/10 border border-primary-foreground/15 rounded-full px-4 py-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-cta flex-shrink-0" />
                   {label}
@@ -188,13 +188,13 @@ const InternationalServicePage = () => {
       </section>
 
       {/* Quick stats */}
-      {/* Phase 3.2: strip matches the checkout — shipping 5,90 € tracked,
+      {/* Phase 3.2: strip matches the checkout — shipping 4,90 € tracked,
           minimum €9.90, delivery to Europe 3–5 business days. */}
       <FactsStrip
         items={[
           { value: "< 1 h", label: "QUOTE TURNAROUND" },
           { value: "3–5 days", label: "DELIVERY TO EUROPE" },
-          { value: "5,90 €", label: "SHIPPING TRACKED" },
+          { value: "4,90 €", label: "SHIPPING TRACKED" },
           { value: "€9.90", label: "MINIMUM ORDER" },
         ]}
         variant="light"
@@ -206,7 +206,7 @@ const InternationalServicePage = () => {
           <UploadPanel
             label="INSTANT PRICE — FROM €9.90"
             heading="Upload your files and see the price now."
-            description="No account required. €9.90 minimum order, no setup fee. Shipping 5,90 € tracked to anywhere in Europe."
+            description="No account required. €9.90 minimum order, no setup fee. Shipping 4,90 € tracked to anywhere in Europe."
           >
             <StlEstimator compact shippingOnly />
           </UploadPanel>

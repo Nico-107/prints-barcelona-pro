@@ -23,12 +23,12 @@ export const DE_HUB: IntlHubContent = {
   heroSubtitle: "Datei hochladen, Angebot in 1 Stunde, Lieferung nach Deutschland in 3–5 Werktagen. Mindestbestellwert 9,90 €, schon ab 1 Teil.",
   ctaLabel: "Datei hochladen und Preis sehen",
   noRegistration: "Ohne Registrierung · Ohne Verpflichtung",
-  trustChips: ["Ab 9,90 €", "Angebot in 1 Stunde", "Versand 5,90 € verfolgt", "Kein Zoll in der EU"],
+  trustChips: ["Ab 9,90 €", "Angebot in 1 Stunde", "Versand 4,90 € verfolgt", "Kein Zoll in der EU"],
   orgAlternateNames: ["Dimension3D Deutschland", "Dimension 3D Prints Germany", "Dimension 3D Germany"],
 
   promise: `Dimension3D ist ein FDM-Druckstudio in Barcelona mit einem Bambu Lab X2D – einem geschlossenen Drucker mit beheizter Kammer, der technisch anspruchsvolle Materialien wie ABS, ASA, Nylon und Polycarbonat zuverlässig verarbeitet. Sie laden Ihre Datei hoch, erhalten innerhalb einer Stunde (an Werktagen, Barceloner Zeit) ein Angebot und bekommen Ihr Teil in der Regel innerhalb von 3–5 Werktagen nach Deutschland geliefert. Kein Zoll, keine Einrichtungsgebühr, Mindestbestellwert 9,90 €.`,
 
-  howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 200 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 5,90 €, egal wie viele Teile Sie bestellen.`,
+  howItWorks: `Der Ablauf ist denkbar einfach: Sie laden Ihre STL-, STEP-, OBJ- oder 3MF-Datei über den Kalkulator hoch. Bei Bestellungen bis 200 € erhalten Sie sofort einen Richtpreis; darüber hinaus erstellen wir ein manuelles Angebot und melden uns innerhalb einer Stunde (an Werktagen). Nach Ihrer Freigabe gehen Ihre Teile direkt in die Produktion. Der Versand nach Deutschland erfolgt per Standardpaket – als EU-Binnenlieferung fällt kein Zoll an. Die Versandpauschale beträgt 4,90 €, egal wie viele Teile Sie bestellen.`,
 
   whatWePrint: `Als 3D-Druck Dienstleister drucken wir für ein breites Spektrum an Anwendungen: Funktionsprototypen und Iterationsmodelle für Produktentwickler und Ingenieure, Ersatzteile für Maschinen, Haushaltsgeräte oder Oldtimer – gerade wenn Originalteile nicht mehr lieferbar sind. Wir fertigen Gehäuse und Halterungen für Elektronikprojekte, Steuergeräte und Embedded-Systeme, Kleinserien für Messen und Produktlaunches sowie maßgefertigte Einsätze für industrielle Vorrichtungen und Haltevorrichtungen im Automotive-Umfeld. Auch im Maker- und Hobbybereich sind wir gefragt: Brettspiel-Erweiterungen, Cosplay-Requisiten, Modellbau-Zubehör und personalisierte Geschenke werden regelmäßig bei uns gedruckt. Kurz gesagt: Wenn Sie eine Datei haben – oder auch nur ein Foto oder eine Skizze –, finden wir einen Weg, Ihr Teil umzusetzen.`,
 
@@ -47,7 +47,7 @@ export const DE_HUB: IntlHubContent = {
     },
     {
       q: "Was kostet der Versand?",
-      a: "Die Versandpauschale beträgt 5,90 € – unabhängig von der Anzahl der Teile oder dem Gesamtgewicht Ihrer Bestellung.",
+      a: "Die Versandpauschale beträgt 4,90 € – unabhängig von der Anzahl der Teile oder dem Gesamtgewicht Ihrer Bestellung.",
     },
     {
       q: "Gibt es eine Mindestbestellmenge oder Einrichtungsgebühr?",
@@ -63,7 +63,7 @@ export const DE_HUB: IntlHubContent = {
     },
     {
       q: "Kann ich mehrere Materialien in einer Bestellung kombinieren?",
-      a: "Ja. Sie können verschiedene Teile in unterschiedlichen Materialien in einer Bestellung zusammenfassen. Der Versand wird trotzdem nur einmal mit 5,90 € berechnet.",
+      a: "Ja. Sie können verschiedene Teile in unterschiedlichen Materialien in einer Bestellung zusammenfassen. Der Versand wird trotzdem nur einmal mit 4,90 € berechnet.",
     },
     {
       q: "Was ist der Unterschied zwischen PLA und PETG für technische Teile?",
@@ -107,7 +107,7 @@ export const DE_HUB: IntlHubContent = {
     heading: "Auf einen Blick",
     facts: [
       "Ab 9,90 € pro Teil; Mindestbestellwert 9,90 €, keine Einrichtungsgebühr.",
-      "Versand nach Deutschland: pauschal 5,90 € mit Sendungsverfolgung.",
+      "Versand nach Deutschland: pauschal 4,90 € mit Sendungsverfolgung.",
       "Typische Lieferzeit: 3–5 Werktage nach Freigabe.",
       "Akzeptierte Formate: STL, OBJ, STEP, 3MF.",
       "Zahlung per Karte, Apple Pay oder Google Pay.",
@@ -118,13 +118,13 @@ export const DE_HUB: IntlHubContent = {
     caption: "Beispiele für Gesamtkosten geliefert nach Deutschland (PLA, ×1 Teil, MwSt. enthalten).",
     headers: { part: "Teil", shipping: "Versand", total: "Gesamt" },
     rows: [
-      { label: "Klein (≈ 10 g)",   partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
-      { label: "Mittel (≈ 50 g)",  partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
-      { label: "Groß (≈ 200 g)",   partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+      { label: "Klein (≈ 10 g)",   partEur: "9,90 €",  shippingEur: "4,90 €", totalEur: "14,80 €" },
+      { label: "Mittel (≈ 50 g)",  partEur: "15,00 €", shippingEur: "4,90 €", totalEur: "19,90 €" },
+      { label: "Groß (≈ 200 g)",   partEur: "40,00 €", shippingEur: "4,90 €", totalEur: "44,90 €" },
     ],
   },
   shippingHeading: "Versand und Zoll",
-  shippingText: `Das Paket startet in Barcelona mit einem europäischen Expressdienstleister und trifft in der Regel in 3–5 Werktagen in Deutschland ein. Der Preis ist eine Pauschale von 5,90 € – unabhängig vom Gewicht.
+  shippingText: `Das Paket startet in Barcelona mit einem europäischen Expressdienstleister und trifft in der Regel in 3–5 Werktagen in Deutschland ein. Der Preis ist eine Pauschale von 4,90 € – unabhängig vom Gewicht.
 
 Es fallen keine Zollformalitäten oder Einfuhrabgaben an: Spanien und Deutschland sind beide EU-Mitglieder. Die spanische Mehrwertsteuer ist im Preis an der Kasse bereits enthalten. Sie erhalten die Sendungsnummer, sobald der Kurier das Paket abholt.`,
 };
@@ -162,7 +162,7 @@ Der Berliner Mittelstand darf dabei nicht vergessen werden. Berlin ist nicht nur
 
 Die Kreativwirtschaft Berlins – von Spieleentwicklern über Filmproduktionen bis hin zu Requisitenwerkstätten – nutzt FDM-Druck ebenfalls intensiv. Filmrequisiten, Cosplay-Ausrüstung für die vielen Comic-Cons und Conventions der Stadt, individualisierte Brettspiel-Erweiterungen oder Dekorationsobjekte für Pop-up-Stores sind typische Aufträge. Mit TPU lassen sich weiche, flexible Teile drucken; PLA und PETG decken den Großteil der starren Anwendungen ab.
 
-Von Barcelona nach Berlin: Die logistische Verbindung ist gut. Als EU-Binnenlieferung fällt kein Zoll an, und der Carrier benötigt in der Regel 3–5 Werktage für die Zustellung. Die Versandpauschale von 5,90 € gilt unabhängig vom Gewicht oder der Stückzahl Ihrer Bestellung – so lohnt es sich, mehrere Teile in einer Bestellung zu bündeln.
+Von Barcelona nach Berlin: Die logistische Verbindung ist gut. Als EU-Binnenlieferung fällt kein Zoll an, und der Carrier benötigt in der Regel 3–5 Werktage für die Zustellung. Die Versandpauschale von 4,90 € gilt unabhängig vom Gewicht oder der Stückzahl Ihrer Bestellung – so lohnt es sich, mehrere Teile in einer Bestellung zu bündeln.
 
 Wenn Sie Fragen zu Ihrer Konstruktion haben oder sich beim Material nicht sicher sind, schreiben Sie uns einfach per WhatsApp. Wir antworten auf Deutsch und beraten Sie ehrlich – auch wenn das bedeutet, dass wir Ihnen von einer bestimmten Lösung abraten.`,
 
@@ -236,7 +236,7 @@ München hat auch eine lebendige Handwerks- und Designszene. Handwerksbetriebe, 
 
 Die Münchener Maker- und Tech-Community wächst ebenfalls: Spaces wie das MakerSpace München im Deutschen Museum oder die verschiedenen FabLabs im Stadtgebiet sind Anlaufstellen für Hobbyisten, Selbstständige und kleine Teams, die Prototypen entwickeln. Wer über die eigenen Druckmöglichkeiten hinausgehen muss – sei es wegen der Materialanforderungen, der Druckqualität oder einfach der Kapazität – findet in Dimension3D einen kompetenten Dienstleister mit direktem Draht per WhatsApp.
 
-Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung fällt kein Zoll an, und die Lieferzeit beträgt in der Regel 3–5 Werktage ab Versand. Die Versandpauschale von 5,90 € macht es wirtschaftlich, mehrere Teile zu bündeln. Für größere Serien oder regelmäßige Bedarfe sprechen Sie uns gerne an – wir finden gemeinsam eine Lösung.`,
+Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung fällt kein Zoll an, und die Lieferzeit beträgt in der Regel 3–5 Werktage ab Versand. Die Versandpauschale von 4,90 € macht es wirtschaftlich, mehrere Teile zu bündeln. Für größere Serien oder regelmäßige Bedarfe sprechen Sie uns gerne an – wir finden gemeinsam eine Lösung.`,
 
     deliveryNote:
       "Lieferung nach München in der Regel 3–5 Werktage ab Versand aus Barcelona.",
@@ -297,7 +297,7 @@ Die Verbindung Barcelona–München ist gut etabliert. Als EU-Binnenlieferung f�
     h1: "3D-Druck mit Lieferung nach Hamburg",
     eyebrow: "3D-Druck Service · Lieferung nach Hamburg in der Regel 3–5 Werktage",
 
-    introText: `Hamburg ist Deutschlands Tor zur Welt – und mit seiner starken Industrie in Luft- und Raumfahrt, maritimer Technik und Logistik einer der anspruchsvollsten Märkte für technischen 3D-Druck. Dimension3D aus Barcelona beliefert Hamburg per EU-Standardversand: kein Zoll, Versandpauschale 5,90 €, Lieferung in der Regel 3–5 Werktage ab Versand. Angebot in einer Stunde an Werktagen.
+    introText: `Hamburg ist Deutschlands Tor zur Welt – und mit seiner starken Industrie in Luft- und Raumfahrt, maritimer Technik und Logistik einer der anspruchsvollsten Märkte für technischen 3D-Druck. Dimension3D aus Barcelona beliefert Hamburg per EU-Standardversand: kein Zoll, Versandpauschale 4,90 €, Lieferung in der Regel 3–5 Werktage ab Versand. Angebot in einer Stunde an Werktagen.
 
 Der Hamburger Hafen ist der drittgrößte in Europa und ein Knotenpunkt für die maritime Industrie. Schiffbau, Hafentechnik und die dazugehörigen Zulieferbetriebe haben einen kontinuierlichen Bedarf an Sonderteilen, Halterungen und Montagevorrichtungen. Wenn ein Originalteil nicht mehr beschaffbar ist oder eine Sonderanfertigung in kleiner Stückzahl benötigt wird, ist FDM-Druck in chemisch- und feuchtigkeitsbeständigen Materialien wie PETG oder ASA eine wirtschaftliche Option. Die Möglichkeit, ein Teil in wenigen Tagen zu erhalten, ohne Werkzeugkosten oder Mindestmengen zu zahlen, ist für viele maritime Betriebe attraktiv.
 
@@ -309,7 +309,7 @@ Die Hamburger Hochschullandschaft ist breit aufgestellt. Die Technische Universi
 
 Hamburg hat eine ausgeprägte Handwerks- und Designtradition. Die Designbranche – von Interaktionsdesign über Produktdesign bis hin zu Ausstellungsgestaltung – nutzt FDM-Modelle als Kommunikationsmittel in Kundenpräsentationen und als Testträger für Ergonomiestudien. In der Musikbranche, einem weiteren Hamburger Markenzeichen (Reeperbahn-Festival, Elbphilharmonie-Umfeld), werden gelegentlich individuelle Halterungen, Gehäuse für Klanginstallationen oder Bühnenrequisiten gedruckt.
 
-Praktisch: Barcelona und Hamburg liegen beide in der EU. Für Sie als Hamburger Besteller bedeutet das, dass keine Zolldokumente notwendig sind, keine unerwarteten Importgebühren anfallen und der Versand mit denselben Standardträgern abgewickelt wird wie eine nationale Lieferung – in der Regel 3–5 Werktage. Die Versandpauschale von 5,90 € macht Einzelbestellungen wie auch größere Sammelbestellungen gleichermaßen attraktiv. Bei Fragen schreiben Sie uns per WhatsApp auf Deutsch.`,
+Praktisch: Barcelona und Hamburg liegen beide in der EU. Für Sie als Hamburger Besteller bedeutet das, dass keine Zolldokumente notwendig sind, keine unerwarteten Importgebühren anfallen und der Versand mit denselben Standardträgern abgewickelt wird wie eine nationale Lieferung – in der Regel 3–5 Werktage. Die Versandpauschale von 4,90 € macht Einzelbestellungen wie auch größere Sammelbestellungen gleichermaßen attraktiv. Bei Fragen schreiben Sie uns per WhatsApp auf Deutsch.`,
 
     deliveryNote:
       "Lieferung nach Hamburg in der Regel 3–5 Werktage ab Versand aus Barcelona.",
@@ -423,7 +423,7 @@ Diese Beispiele verdeutlichen die Skalierung: Ein kleines Teil kommt kaum unter 
 
 **Material dem Zweck anpassen**: Für einen einfachen Prototypen brauchen Sie kein ABS. PLA kostet weniger, ist aber für Passformtests und Sichtmodelle in der Mehrzahl der Fälle ausreichend.
 
-**Teile bündeln**: Die Versandpauschale von 5,90 € fällt einmal pro Bestellung an. Wenn Sie mehrere Teile gleichzeitig bestellen, teilt sich die Pauschale effektiv auf alle Teile auf.
+**Teile bündeln**: Die Versandpauschale von 4,90 € fällt einmal pro Bestellung an. Wenn Sie mehrere Teile gleichzeitig bestellen, teilt sich die Pauschale effektiv auf alle Teile auf.
 
 **Wandstärke optimieren**: Dünnere Wände sparen Filament, aber unterschreiten Sie nicht 1,2 mm (zwei Perimeter) – darunter leidet die Stabilität. Details zu Wandstärken und Konstruktionsregeln finden Sie in unserem Leitfaden zur Dateivorbereitung.
 
@@ -431,7 +431,7 @@ Diese Beispiele verdeutlichen die Skalierung: Ein kleines Teil kommt kaum unter 
       },
       {
         heading: "Versand und Gesamtkosten nach Deutschland",
-        body: `Zum Artikelpreis kommt die Versandpauschale von 5,90 €. Da Spanien und Deutschland beide dem EU-Binnenmarkt angehören, fallen keine Zollgebühren und keine Importabgaben an. Die Mehrwertsteuer wird nach den geltenden EU-Regeln ausgewiesen.
+        body: `Zum Artikelpreis kommt die Versandpauschale von 4,90 €. Da Spanien und Deutschland beide dem EU-Binnenmarkt angehören, fallen keine Zollgebühren und keine Importabgaben an. Die Mehrwertsteuer wird nach den geltenden EU-Regeln ausgewiesen.
 
 Wenn Sie eine grobe Kostenschätzung benötigen, bevor Sie eine CAD-Datei erstellen, können Sie uns auch einfach eine Beschreibung oder eine Skizze schicken – wir geben Ihnen eine unverbindliche Einschätzung per WhatsApp. Für verbindliche Angebote nutzen Sie bitte den Kalkulator auf unserer Website.`,
       },

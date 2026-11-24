@@ -108,7 +108,7 @@ export const nlTranslations: Record<string, string> = {
   "how.step3.title": "Wij printen het",
   "how.step3.desc": "Een persoon controleert je onderdeel eerst. Productie in Barcelona.",
   "how.step4.title": "Ophalen of ontvangen",
-  "how.step4.desc": "Op afspraak in Les Corts of verzending voor 5,90 €.",
+  "how.step4.desc": "Op afspraak in Les Corts of verzending voor 4,90 €.",
 
   // Services
   "services.title": "Onze diensten",
@@ -713,7 +713,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.why.plastic": "Plastic: {grams} g",
   "calc.why.time": "Printtijd: {hours} h",
   "calc.why.supports": "waarvan supports: {grams} g",
-  "calc.why.note": "Geen verborgen kosten. Dit is de definitieve prijs; verzending vlaktarief 5,90 €.",
+  "calc.why.note": "Geen verborgen kosten. Dit is de definitieve prijs; verzending vlaktarief 4,90 €.",
   "calc.why.minNote": "Deze bestelling is klein — het minimum van 9,90 € is van toepassing.",
   "calc.validate.contactTitle": "Voeg een e-mail of telefoonnummer toe",
   "calc.validate.contact": "Voeg een e-mail of telefoonnummer toe zodat we kunnen antwoorden.",
@@ -1133,4 +1133,12 @@ export const nlTranslations: Record<string, string> = {
   "piece.purpose.thanks": "Bedankt!",
   // Prompt 2 — neutrale regel onder de prijs voor gerepareerde / afgetopte bestanden.
   "pricing.reviewNote": "Nico controleert je bestand voor het printen",
+  // Prompt 3 — marketing niet-lokaal + upfront-regel variant B.
+  "shipping.fromDelivered": "Vanaf € 14,90, verzending inbegrepen",
+  "shipping.freeFrom": "Gratis verzending vanaf € 30",
+  "shipping.included": "Verzending inbegrepen",
+  "shipping.free": "Gratis verzending",
+  "shipping.upfrontNote": "+ € 4,90 verzending · gratis vanaf € 30 · of gratis afhalen in Les Corts",
+  "shipping.option.delivery": "Thuisbezorging",
+  "shipping.option.pickup": "Gratis afhalen in Les Corts",
 };

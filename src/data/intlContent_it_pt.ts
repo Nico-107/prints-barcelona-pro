@@ -22,13 +22,13 @@ export const itHub: IntlHubContent = {
   heroSubtitle: "Carica il file, preventivo in 1 ora, spedizione in Italia in 3–5 giorni lavorativi. Da 9,90 €, anche per un solo pezzo.",
   ctaLabel: "Carica il file e vedi il prezzo",
   noRegistration: "Senza registrazione · Senza impegno",
-  trustChips: ["Da 9,90 €", "Preventivo in 1 ora", "Spedizione 5,90 € tracciata", "Senza dogana nell'UE"],
+  trustChips: ["Da 9,90 €", "Preventivo in 1 ora", "Spedizione 4,90 € tracciata", "Senza dogana nell'UE"],
   orgAlternateNames: ["Dimension3D Italia", "Dimension 3D Prints Italy", "Dimension 3D Italy"],
   promise: `Dimension3D è uno studio FDM professionale situato a Barcellona, nel cuore del Mediterraneo. Grazie al mercato unico europeo, i tuoi pezzi viaggiano dall'Iberia all'Italia senza dogana, con la stessa semplicità di un acquisto domestico. Che tu voglia far stampare in 3D un prototipo per il tuo ufficio a Milano, un ricambio stampa 3D per una macchina industriale a Torino, o un modello architettonico per uno studio romano, il processo è identico: carichi il file, ricevi il preventivo entro un'ora nei giorni lavorativi, approvi e aspetti la consegna.
 
 Il nostro parco macchine è interamente basato su stampanti Bambu Lab X2D con camera chiusa e piatto riscaldato. Questa architettura garantisce la stabilità termica necessaria per stampare correttamente materiali tecnici come PETG, ABS e Nylon, riducendo al minimo i difetti da warping che affliggono le macchine aperte entry-level. Il risultato sono pezzi con migliore adesione tra gli strati, superfici più consistenti e dimensioni finali più vicine al nominale.
 
-I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più tempo macchina, senza costi di setup e senza sorprese. Per ordini fino a 200 € ottieni un prezzo istantaneo non appena carichi il file. Sopra tale soglia un tecnico revisiona la geometria e ti risponde entro un'ora lavorativa. L'ordine minimo è di 9,90 €. La spedizione è una tariffa piatta di 5,90 € indipendentemente dal peso o dalla destinazione in Italia.`,
+I prezzi stampa 3D sono calcolati in modo trasparente: peso del materiale più tempo macchina, senza costi di setup e senza sorprese. Per ordini fino a 200 € ottieni un prezzo istantaneo non appena carichi il file. Sopra tale soglia un tecnico revisiona la geometria e ti risponde entro un'ora lavorativa. L'ordine minimo è di 9,90 €. La spedizione è una tariffa piatta di 4,90 € indipendentemente dal peso o dalla destinazione in Italia.`,
 
   howItWorks: `**Come funziona il servizio di stampa 3D online**
 
@@ -85,7 +85,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     },
     {
       q: "Posso ordinare più pezzi nello stesso ordine?",
-      a: "Sì, puoi caricare più file nella stessa sessione. Il sistema calcola il preventivo per ciascun pezzo e li consolida in una spedizione unica a tariffa piatta di 5,90 €.",
+      a: "Sì, puoi caricare più file nella stessa sessione. Il sistema calcola il preventivo per ciascun pezzo e li consolida in una spedizione unica a tariffa piatta di 4,90 €.",
     },
     {
       q: "Fate stampe in colori diversi?",
@@ -96,7 +96,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
   whatsappMsg:
     "Ciao Dimension3D! Vorrei un preventivo per la stampa 3D di un pezzo. Posso inviarvi il file?",
   priceTableCaption:
-    "Prezzi indicativi stampa 3D FDM — IVA spagnola inclusa, spedizione 5,90 € separata",
+    "Prezzi indicativi stampa 3D FDM — IVA spagnola inclusa, spedizione 4,90 € separata",
   breadcrumbHub: "Stampa 3D Online",
   materialLabel: "Materiale",
 
@@ -118,7 +118,7 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     heading: "In breve",
     facts: [
       "Da 9,90 € a pezzo; ordine minimo 9,90 €, nessun costo di setup.",
-      "Spedizione tracciata in Italia a tariffa piatta 5,90 €.",
+      "Spedizione tracciata in Italia a tariffa piatta 4,90 €.",
       "Tempi tipici: 3–5 giorni lavorativi dall'approvazione.",
       "Formati accettati: STL, OBJ, STEP, 3MF.",
       "Pagamento con carta, Apple Pay o Google Pay.",
@@ -129,13 +129,13 @@ Per materiali speciali (fibra di carbonio, TPU, PETG-CF) contattaci prima di car
     caption: "Esempi di costo consegnato in Italia (PLA, ×1 pezzo, IVA inclusa).",
     headers: { part: "Pezzo", shipping: "Spedizione", total: "Totale" },
     rows: [
-      { label: "Piccolo (≈ 10 g)",  partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
-      { label: "Medio (≈ 50 g)",    partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
-      { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+      { label: "Piccolo (≈ 10 g)",  partEur: "9,90 €",  shippingEur: "4,90 €", totalEur: "14,80 €" },
+      { label: "Medio (≈ 50 g)",    partEur: "15,00 €", shippingEur: "4,90 €", totalEur: "19,90 €" },
+      { label: "Grande (≈ 200 g)",  partEur: "40,00 €", shippingEur: "4,90 €", totalEur: "44,90 €" },
     ],
   },
   shippingHeading: "Spedizione e dogana",
-  shippingText: `Il pacco parte da Barcellona con un corriere espresso europeo e arriva solitamente in 3–5 giorni lavorativi in Italia. Il costo è una tariffa piatta di 5,90 € indipendentemente dal peso.
+  shippingText: `Il pacco parte da Barcellona con un corriere espresso europeo e arriva solitamente in 3–5 giorni lavorativi in Italia. Il costo è una tariffa piatta di 4,90 € indipendentemente dal peso.
 
 Non ci sono procedure doganali né dazi aggiuntivi: Spagna e Italia sono entrambe nell'Unione Europea. L'IVA spagnola è già inclusa nel prezzo che vedi a checkout. Ricevi il numero di tracciatura non appena il corriere ritira il pacco.`,
 };
@@ -163,14 +163,14 @@ L'area metropolitana milanese è anche un nodo fondamentale della catena di forn
 
 Il Politecnico di Milano è una delle università di ingegneria e design più importanti d'Europa. I suoi dipartimenti di Ingegneria Meccanica, Design Industriale e Ingegneria Aerospaziale generano costantemente una domanda di prototipi fisici per tesi, ricerche e progetti in collaborazione con l'industria. Studenti e ricercatori che cercano un servizio di stampa 3D online affidabile, con prezzi trasparenti e tempi certi, trovano in Dimension3D un'alternativa valida ai laboratori interni, spesso saturi nei periodi di picco preesame.
 
-Il quartiere Isola, i nuovi hub creativi di NoLo e le aree produttive di Sesto San Giovanni ospitano inoltre una crescente comunità di maker, startup hardware e micro-imprese che lavorano su piccole serie di pezzi tecnici o oggetti personalizzati. Per questi utenti, la combinazione di ordine minimo contenuto (9,90 €), preventivo rapido e spedizione piatta a 5,90 € elimina le barriere d'ingresso che spesso scoraggiano gli ordini di prova.
+Il quartiere Isola, i nuovi hub creativi di NoLo e le aree produttive di Sesto San Giovanni ospitano inoltre una crescente comunità di maker, startup hardware e micro-imprese che lavorano su piccole serie di pezzi tecnici o oggetti personalizzati. Per questi utenti, la combinazione di ordine minimo contenuto (9,90 €), preventivo rapido e spedizione piatta a 4,90 € elimina le barriere d'ingresso che spesso scoraggiano gli ordini di prova.
 
 Grazie all'appartenenza di Spagna e Italia all'Unione Europea, la spedizione da Barcellona a Milano non comporta alcuna formalità doganale. Il pacco viene consegnato da un corriere espresso europeo e solitamente arriva in 3–5 giorni lavorativi dall'approvazione dell'ordine. Ricevi il numero di tracciatura in tempo reale. Non ci sono sorprese al momento della consegna: il prezzo che hai approvato è quello definitivo, IVA spagnola già inclusa.
 
 Per iniziare, carica il tuo file STL, STEP o 3MF sul sito. Se hai un progetto complesso, più pezzi da ottimizzare insieme, o vuoi un consiglio sul materiale prima di procedere, contattaci su WhatsApp: il team risponde nelle ore lavorative spagnole (CET/CEST, orario identico a quello italiano).`,
 
   deliveryNote:
-    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Milano. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Milano. Nessuna dogana UE. Tariffa piatta 4,90 €.",
 
   faqs: [
     {
@@ -232,12 +232,12 @@ L'OGR — Officine Grandi Riparazioni — è diventato uno dei principali hub te
 
 Torino è anche un polo aerospaziale rilevante: l'ecosistema di fornitori e spin-off legati all'aerospazio regionale produce componenti e strutture di supporto che spesso richiedono pezzi in Nylon o PETG con buona resistenza meccanica. Il Nylon PA che stampiamo sul X2D — dopo adeguata essicazione del filamento — offre resistenza agli urti e bassa frizione, caratteristiche utili per ingranaggi, guide e boccole in ambienti a bassa-media sollecitazione.
 
-La logistica è semplice: la Spagna è nell'Unione Europea come l'Italia, quindi non ci sono dazi né pratiche doganali. Il pacco parte da Barcellona e arriva solitamente in 3–5 giorni lavorativi a Torino. La tariffa di spedizione è piatta a 5,90 € indipendentemente dal numero di pezzi o dal peso. Ricevi tracciatura in tempo reale.
+La logistica è semplice: la Spagna è nell'Unione Europea come l'Italia, quindi non ci sono dazi né pratiche doganali. Il pacco parte da Barcellona e arriva solitamente in 3–5 giorni lavorativi a Torino. La tariffa di spedizione è piatta a 4,90 € indipendentemente dal numero di pezzi o dal peso. Ricevi tracciatura in tempo reale.
 
 Per iniziare basta caricare il file sul sito. Per ordini fino a 200 € il preventivo è immediato. Se hai bisogno di un consiglio prima di procedere — sul materiale, sulla geometria, sulla fattibilità FDM del tuo progetto — puoi scriverci su WhatsApp. Rispondiamo nelle ore lavorative spagnole, che coincidono con quelle italiane.`,
 
   deliveryNote:
-    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Torino. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Torino. Nessuna dogana UE. Tariffa piatta 4,90 €.",
 
   faqs: [
     {
@@ -300,12 +300,12 @@ Le istituzioni governative e parastatali che hanno sede a Roma — ministeri, ag
 
 Gli studi di architettura e urbanistica romani, che lavorano su concorsi internazionali, piani regolatori e riqualificazioni urbane, utilizzano i modelli fisici in scala come strumento di comunicazione con committenti, amministrazioni e comunità. La stampa FDM permette di produrre maquette di edifici, interi isolati o elementi urbani in scala 1:200 o 1:500 in tempi e costi incomparabilmente inferiori a quelli del modellismo manuale tradizionale. Il PETG trasparente o naturale è spesso scelto per le superfici vetrate; il PLA bianco o grigio per le strutture.
 
-Dal punto di vista logistico, Roma è una destinazione ben servita dai corrieri europei. Grazie al mercato unico UE, la spedizione da Barcellona non comporta dogana né oneri aggiuntivi. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è piatta a 5,90 € indipendentemente dal numero di pezzi. Non ci sono costi di setup né ordini minimi oltre i 9,90 €.
+Dal punto di vista logistico, Roma è una destinazione ben servita dai corrieri europei. Grazie al mercato unico UE, la spedizione da Barcellona non comporta dogana né oneri aggiuntivi. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è piatta a 4,90 € indipendentemente dal numero di pezzi. Non ci sono costi di setup né ordini minimi oltre i 9,90 €.
 
 Per inviare il file e ricevere il preventivo — immediato per ordini ≤ 200 €, entro un'ora lavorativa per ordini più complessi — è sufficiente accedere al sito e caricare il file STL, OBJ, STEP o 3MF. Se preferisci un confronto preliminare, il team è raggiungibile su WhatsApp nelle ore lavorative.`,
 
   deliveryNote:
-    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Roma. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Roma. Nessuna dogana UE. Tariffa piatta 4,90 €.",
 
   faqs: [
     {
@@ -357,7 +357,7 @@ export const itCityNapoli: IntlCityContent = {
   h1: "Stampa 3D Online con Spedizione a Napoli",
   eyebrow: "Spedizione a Napoli · Solitamente 3–5 giorni lavorativi",
 
-  introText: `Napoli non è solo la terza città d'Italia per popolazione: è il baricentro di un'area metropolitana che unisce tradizione manifatturiera, ricerca universitaria e una delle scene creative più dinamiche del Mediterraneo. Il servizio di stampa 3D online di Dimension3D si rivolge a tutti questi mondi con le stesse regole semplici: ordine minimo 9,90 €, preventivo in un'ora nei giorni lavorativi, spedizione tracciata a 5,90 € indipendentemente dal peso.
+  introText: `Napoli non è solo la terza città d'Italia per popolazione: è il baricentro di un'area metropolitana che unisce tradizione manifatturiera, ricerca universitaria e una delle scene creative più dinamiche del Mediterraneo. Il servizio di stampa 3D online di Dimension3D si rivolge a tutti questi mondi con le stesse regole semplici: ordine minimo 9,90 €, preventivo in un'ora nei giorni lavorativi, spedizione tracciata a 4,90 € indipendentemente dal peso.
 
 L'Università Federico II, la Parthenope e la Vanvitelli alimentano una domanda continua di componenti stampati in 3D per laboratori di ingegneria, scienze della vita e beni culturali. Studenti, dottorandi e ricercatori cercano servizi che non richiedano preventivi lunghi o ordini minimi fuori scala: il nostro flusso — carica, prezzo immediato fino a 200 €, approvazione, pagamento online — risolve esattamente questo collo di bottiglia. La possibilità di accettare file STEP direttamente dai software CAD più diffusi (SolidWorks, Fusion 360, Rhino) riduce il tempo di preparazione e abbassa il rischio di errori di triangolazione nelle mesh STL.
 
@@ -367,17 +367,17 @@ Il polo tecnologico di San Giovanni a Teduccio ospita Apple Academy e un numero 
 
 La scena creativa napoletana — designer, scenografi, cosplayer, modellisti — trova nella stampa 3D online una risorsa per produrre pezzi unici o piccole serie di oggetti personalizzati: miniature, prop, gioielli tecnici, accessori per eventi e installazioni. Il PLA copre la maggior parte dei casi d'uso estetici; il PETG colorato o trasparente apre possibilità aggiuntive per superfici tecniche e diffusori ottici. L'ampia gamma di colori e materiali disponibili consente di scegliere la combinazione più adatta già in fase di preventivo.
 
-Dal punto di vista logistico, Napoli è ben servita dalla rete europea dei corrieri espressi. La spedizione da Barcellona non comporta formalità doganali: Spagna e Italia fanno entrambe parte del mercato unico UE. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è una tariffa piatta di 5,90 €, utile quando si consolidano più pezzi in un unico ordine per ottimizzare il costo logistico unitario.
+Dal punto di vista logistico, Napoli è ben servita dalla rete europea dei corrieri espressi. La spedizione da Barcellona non comporta formalità doganali: Spagna e Italia fanno entrambe parte del mercato unico UE. I pacchi arrivano solitamente in 3–5 giorni lavorativi dall'approvazione dell'ordine. La tariffa di spedizione è una tariffa piatta di 4,90 €, utile quando si consolidano più pezzi in un unico ordine per ottimizzare il costo logistico unitario.
 
 Per iniziare, carica il file STL, OBJ, STEP o 3MF e scegli il materiale. Il prezzo appare immediatamente per ordini fino a 200 €; oltre soglia, un tecnico risponde entro un'ora lavorativa con preventivo su misura. Per domande preliminari il team è raggiungibile su WhatsApp negli orari lavorativi spagnoli (CET/CEST, identici a quelli italiani).`,
 
   deliveryNote:
-    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Napoli. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Napoli. Nessuna dogana UE. Tariffa piatta 4,90 €.",
 
   faqs: [
     {
       q: "Quanto costa stampare un pezzo in 3D a Napoli?",
-      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Per pezzi piccoli (10–50 g) il totale consegnato a Napoli è tipicamente 15,90–20,90 € includendo i 5,90 € di spedizione.",
+      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Per pezzi piccoli (10–50 g) il totale consegnato a Napoli è tipicamente 14,90–19,90 € includendo i 4,90 € di spedizione.",
     },
     {
       q: "Quanto tempo ci vuole per ricevere il pacco a Napoli?",
@@ -385,7 +385,7 @@ Per iniziare, carica il file STL, OBJ, STEP o 3MF e scegli il materiale. Il prez
     },
     {
       q: "Posso ritirare l'ordine di persona a Napoli?",
-      a: "No, lo studio è a Barcellona. L'unica modalità per Napoli è la spedizione tracciata a 5,90 €. Se ti serve il ritiro in sede, puoi passare dal nostro studio a Barcellona nei giorni lavorativi su appuntamento.",
+      a: "No, lo studio è a Barcellona. L'unica modalità per Napoli è la spedizione tracciata a 4,90 €. Se ti serve il ritiro in sede, puoi passare dal nostro studio a Barcellona nei giorni lavorativi su appuntamento.",
     },
     {
       q: "Qual è l'ordine minimo?",
@@ -437,15 +437,15 @@ Il distretto biomedicale di Mirandola, poco distante da Bologna, è uno dei più
 
 La scena creativa bolognese — tipografi, designer, studi di illustrazione, agenzie di comunicazione — utilizza la stampa 3D per produrre oggetti di comunicazione, premi aziendali, modelli da esposizione e pezzi unici per eventi. La fiera Cersaie e il Salone del Mobile.Milano (frequentato da molti studi emiliani) sono occasioni concrete per presentare prototipi prodotti con questo servizio.
 
-Dal punto di vista logistico, Bologna è ben collegata ai principali corrieri espressi europei. Grazie al mercato unico UE, la spedizione da Barcellona non prevede formalità doganali né oneri aggiuntivi. I tempi di consegna tipici sono di 3–5 giorni lavorativi dall'approvazione dell'ordine, con una tariffa piatta di 5,90 €. Carica il file sul sito per ricevere il preventivo immediato fino a 200 €, oppure contattaci su WhatsApp per un confronto preliminare.`,
+Dal punto di vista logistico, Bologna è ben collegata ai principali corrieri espressi europei. Grazie al mercato unico UE, la spedizione da Barcellona non prevede formalità doganali né oneri aggiuntivi. I tempi di consegna tipici sono di 3–5 giorni lavorativi dall'approvazione dell'ordine, con una tariffa piatta di 4,90 €. Carica il file sul sito per ricevere il preventivo immediato fino a 200 €, oppure contattaci su WhatsApp per un confronto preliminare.`,
 
   deliveryNote:
-    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Bologna. Nessuna dogana UE. Tariffa piatta 5,90 €.",
+    "Spedizione da Barcellona, solitamente 3–5 giorni lavorativi a Bologna. Nessuna dogana UE. Tariffa piatta 4,90 €.",
 
   faqs: [
     {
       q: "Quanto costa stampare un pezzo in 3D a Bologna?",
-      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,80 € (9,90 € di stampa + 5,90 € di spedizione).",
+      a: "Il prezzo parte da 9,90 € a pezzo (ordine minimo). Un pezzo piccolo (≈ 10 g in PLA) consegnato a Bologna costa tipicamente 15,80 € (9,90 € di stampa + 4,90 € di spedizione).",
     },
     {
       q: "Quanto tempo ci vuole per ricevere il pacco a Bologna?",
@@ -503,7 +503,7 @@ export const itGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Ordine minimo e tariffa di spedizione",
-      body: `L'ordine minimo è 9,90 €. Se il calcolo peso + tempo macchina porta a un importo inferiore, il prezzo viene arrotondato al minimo. La spedizione è una tariffa piatta di 5,90 € per qualsiasi destinazione in Italia, indipendentemente dal numero di pezzi o dal peso totale. Non ci sono costi di setup o tariffe aggiuntive.`,
+      body: `L'ordine minimo è 9,90 €. Se il calcolo peso + tempo macchina porta a un importo inferiore, il prezzo viene arrotondato al minimo. La spedizione è una tariffa piatta di 4,90 € per qualsiasi destinazione in Italia, indipendentemente dal numero di pezzi o dal peso totale. Non ci sono costi di setup o tariffe aggiuntive.`,
     },
     {
       heading: "Come ottenere il preventivo",
@@ -560,7 +560,7 @@ export const itGuidePrice: IntlGuideContent = {
     },
     {
       q: "Quanto costa la spedizione in Italia?",
-      a: "Tariffa piatta 5,90 €, indipendentemente dal numero di pezzi, dal peso e dalla destinazione in Italia.",
+      a: "Tariffa piatta 4,90 €, indipendentemente dal numero di pezzi, dal peso e dalla destinazione in Italia.",
     },
   ],
 
@@ -726,13 +726,13 @@ export const ptHub: IntlHubContent = {
   heroSubtitle: "Carrega o ficheiro, orçamento em 1 hora, envio para Portugal em 2–4 dias úteis. A partir de 9,90 €, mesmo para uma peça.",
   ctaLabel: "Carrega o ficheiro e vê o preço",
   noRegistration: "Sem registo · Sem compromisso",
-  trustChips: ["A partir de 9,90 €", "Orçamento em 1 hora", "Envio 5,90 € rastreado", "Sem alfândega na UE"],
+  trustChips: ["A partir de 9,90 €", "Orçamento em 1 hora", "Envio 4,90 € rastreado", "Sem alfândega na UE"],
   orgAlternateNames: ["Dimension3D Portugal", "Dimension 3D Prints Portugal", "Dimension 3D Portugal"],
   promise: `A Dimension3D é um estúdio FDM profissional sediado em Barcelona. Graças ao mercado único europeu, as peças viajam de Espanha para Portugal sem qualquer formalidade aduaneira, com a mesma simplicidade de uma encomenda nacional. Seja para obter peças de substituição impressão 3D para equipamentos industriais no Porto, um protótipo para um estúdio criativo em Lisboa, ou um modelo técnico para uma instituição académica, o processo é idêntico: carregue o ficheiro, receba o orçamento em até uma hora nos dias úteis, aprove e aguarde a entrega.
 
 O nosso parque de máquinas é integralmente composto por impressoras Bambu Lab X2D com câmara fechada e cama aquecida. Esta arquitectura assegura a estabilidade térmica necessária para imprimir correctamente materiais técnicos como PETG, ABS e Nylon, reduzindo ao mínimo os defeitos de warping comuns em máquinas abertas de entrada de gama. O resultado são peças com melhor adesão entre camadas, superfícies mais consistentes e dimensões finais mais próximas do nominal.
 
-O preço impressão 3D é calculado de forma transparente: peso do material mais tempo de máquina, sem custos de configuração e sem surpresas. Para encomendas até 200 € obtém um preço imediato assim que carrega o ficheiro. Acima desse limiar, um técnico revê a geometria e responde em até uma hora útil. A encomenda mínima é de 9,90 €. O envio tem uma tarifa fixa de 5,90 € independentemente do peso ou do destino em Portugal.`,
+O preço impressão 3D é calculado de forma transparente: peso do material mais tempo de máquina, sem custos de configuração e sem surpresas. Para encomendas até 200 € obtém um preço imediato assim que carrega o ficheiro. Acima desse limiar, um técnico revê a geometria e responde em até uma hora útil. A encomenda mínima é de 9,90 €. O envio tem uma tarifa fixa de 4,90 € independentemente do peso ou do destino em Portugal.`,
 
   howItWorks: `**Como funciona o serviço de impressão 3D online**
 
@@ -789,7 +789,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     },
     {
       q: "Posso encomendar várias peças na mesma encomenda?",
-      a: "Sim, pode carregar vários ficheiros na mesma sessão. O sistema calcula o orçamento para cada peça e consolida-as numa única expedição à tarifa fixa de 5,90 €.",
+      a: "Sim, pode carregar vários ficheiros na mesma sessão. O sistema calcula o orçamento para cada peça e consolida-as numa única expedição à tarifa fixa de 4,90 €.",
     },
     {
       q: "Imprimem em cores diferentes?",
@@ -800,7 +800,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
   whatsappMsg:
     "Olá Dimension3D! Gostaria de obter um orçamento para impressão 3D de uma peça. Posso enviar o ficheiro?",
   priceTableCaption:
-    "Preços indicativos impressão 3D FDM — IVA espanhol incluído, envio 5,90 € separado",
+    "Preços indicativos impressão 3D FDM — IVA espanhol incluído, envio 4,90 € separado",
   breadcrumbHub: "Impressão 3D Online",
 
   cityLinks: [
@@ -818,7 +818,7 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     heading: "Em resumo",
     facts: [
       "A partir de 9,90 € por peça; encomenda mínima 9,90 €, sem custo de configuração.",
-      "Envio rastreado para Portugal a tarifa fixa de 5,90 €.",
+      "Envio rastreado para Portugal a tarifa fixa de 4,90 €.",
       "Prazos típicos: 2–4 dias úteis após aprovação.",
       "Formatos aceites: STL, OBJ, STEP, 3MF.",
       "Pagamento com cartão, Apple Pay ou Google Pay.",
@@ -829,13 +829,13 @@ Para materiais especiais (fibra de carbono, TPU, PETG-CF) contacte-nos antes de 
     caption: "Exemplos de custo entregue em Portugal (PLA, ×1 peça, IVA incluído).",
     headers: { part: "Peça", shipping: "Envio", total: "Total" },
     rows: [
-      { label: "Pequena (≈ 10 g)", partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
-      { label: "Média (≈ 50 g)",   partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
-      { label: "Grande (≈ 200 g)", partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+      { label: "Pequena (≈ 10 g)", partEur: "9,90 €",  shippingEur: "4,90 €", totalEur: "14,80 €" },
+      { label: "Média (≈ 50 g)",   partEur: "15,00 €", shippingEur: "4,90 €", totalEur: "19,90 €" },
+      { label: "Grande (≈ 200 g)", partEur: "40,00 €", shippingEur: "4,90 €", totalEur: "44,90 €" },
     ],
   },
   shippingHeading: "Envio e alfândega",
-  shippingText: `A encomenda parte de Barcelona com transportador expresso europeu e chega habitualmente em 2–4 dias úteis a Portugal. O custo é uma tarifa fixa de 5,90 € independentemente do peso.
+  shippingText: `A encomenda parte de Barcelona com transportador expresso europeu e chega habitualmente em 2–4 dias úteis a Portugal. O custo é uma tarifa fixa de 4,90 € independentemente do peso.
 
 Não há procedimentos aduaneiros nem direitos adicionais: Espanha e Portugal fazem parte da União Europeia. O IVA espanhol já está incluído no preço que vê no checkout. Recebe o número de rastreio assim que o transportador recolhe o pacote.`,
 };
@@ -867,10 +867,10 @@ A transferência de tecnologia das universidades lisboetas para o sector privado
 
 A vantagem logística ibérica é relevante: Lisboa está entre as cidades europeias com melhor ligação de transporte à Península Ibérica. A proximidade geográfica com Barcelona — comparativamente a outras capitais europeias — contribui para que os tempos de envio sejam habitualmente de 2–4 dias úteis, mais rápidos do que para muitas outras origens europeias. Não há alfândega nem taxas adicionais: Espanha e Portugal partilham o mercado único da UE.
 
-O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para encomendas até 200 € o orçamento é imediato. Para projectos mais complexos ou encomendas de maior valor, um técnico responde em até uma hora nos dias úteis. A tarifa de envio é fixa em 5,90 € independentemente do número de peças. A encomenda mínima é de 9,90 €, sem custos de configuração.`,
+O processo é simples: carregue o ficheiro STL, OBJ, STEP ou 3MF no site. Para encomendas até 200 € o orçamento é imediato. Para projectos mais complexos ou encomendas de maior valor, um técnico responde em até uma hora nos dias úteis. A tarifa de envio é fixa em 4,90 € independentemente do número de peças. A encomenda mínima é de 9,90 €, sem custos de configuração.`,
 
   deliveryNote:
-    "Envio de Barcelona, habitualmente 2–4 dias úteis para Lisboa. Sem alfândega UE. Tarifa fixa 5,90 €.",
+    "Envio de Barcelona, habitualmente 2–4 dias úteis para Lisboa. Sem alfândega UE. Tarifa fixa 4,90 €.",
 
   faqs: [
     {
@@ -929,12 +929,12 @@ O WOW — World of Wine — no coração de Vila Nova de Gaia, é um exemplo de 
 
 O corredor Porto–Braga–Guimarães concentra uma das maiores densidades europeias de PME industriais em sectores como moldes, ferramentas de corte e componentes de precisão. Muitas destas empresas têm departamentos de R&D que trabalham com prototipagem rápida para validar novos produtos antes de avançar para produção. A combinação de orçamento rápido (imediato até 200 €, orçamento manual em uma hora útil acima desse valor), câmara fechada para materiais técnicos e envio em 2–4 dias úteis cobre bem as necessidades de ciclos curtos de desenvolvimento.
 
-A vantagem logística da proximidade ibérica é relevante para o Porto: Barcelona fica a menos de duas horas de voo, e os corredores de transporte terrestre e logístico entre as duas cidades são bem desenvolvidos. Graças ao mercado único europeu, não há alfândega nem taxas adicionais. A tarifa de envio é fixa em 5,90 € independentemente do número de peças ou do peso. Habitualmente a encomenda chega em 2–4 dias úteis a partir da aprovação.
+A vantagem logística da proximidade ibérica é relevante para o Porto: Barcelona fica a menos de duas horas de voo, e os corredores de transporte terrestre e logístico entre as duas cidades são bem desenvolvidos. Graças ao mercado único europeu, não há alfândega nem taxas adicionais. A tarifa de envio é fixa em 4,90 € independentemente do número de peças ou do peso. Habitualmente a encomenda chega em 2–4 dias úteis a partir da aprovação.
 
 O processo começa pelo carregamento do ficheiro no site. O sistema aceita STL, OBJ, STEP e 3MF. Para encomendas até 200 € o orçamento é imediato; para valores superiores um técnico responde em até uma hora nos dias úteis. Se tiver dúvidas sobre o material mais adequado para a sua aplicação, a equipa está disponível via WhatsApp nos horários laborais espanhóis, que coincidem com os portugueses.`,
 
   deliveryNote:
-    "Envio de Barcelona, habitualmente 2–4 dias úteis para o Porto. Sem alfândega UE. Tarifa fixa 5,90 €.",
+    "Envio de Barcelona, habitualmente 2–4 dias úteis para o Porto. Sem alfândega UE. Tarifa fixa 4,90 €.",
 
   faqs: [
     {
@@ -993,7 +993,7 @@ export const ptGuidePrice: IntlGuideContent = {
     },
     {
       heading: "Encomenda mínima e tarifa de envio",
-      body: `A encomenda mínima é de 9,90 €. Se o cálculo peso + tempo de máquina resultar num valor inferior, o preço é arredondado para o mínimo. O envio tem uma tarifa fixa de 5,90 € para qualquer destino em Portugal, independentemente do número de peças ou do peso total. Não existem custos de configuração ou tarifas adicionais.`,
+      body: `A encomenda mínima é de 9,90 €. Se o cálculo peso + tempo de máquina resultar num valor inferior, o preço é arredondado para o mínimo. O envio tem uma tarifa fixa de 4,90 € para qualquer destino em Portugal, independentemente do número de peças ou do peso total. Não existem custos de configuração ou tarifas adicionais.`,
     },
     {
       heading: "Como obter o orçamento",
@@ -1050,7 +1050,7 @@ export const ptGuidePrice: IntlGuideContent = {
     },
     {
       q: "Quanto custa o envio para Portugal?",
-      a: "Tarifa fixa de 5,90 €, independentemente do número de peças, do peso e do destino em Portugal.",
+      a: "Tarifa fixa de 4,90 €, independentemente do número de peças, do peso e do destino em Portugal.",
     },
   ],
 

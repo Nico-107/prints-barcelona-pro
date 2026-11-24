@@ -196,3 +196,121 @@ price in the modal but `create-instant-checkout` will reject the request
 with `PRICE_MISMATCH`. Non-messy files are unaffected (deltas stay ≤ €0.01).
 
 ### 2. Nothing else for Prompt 2.
+
+---
+
+## Prompt 3
+
+### 1. `create-instant-checkout` — mirror the new shipping config
+
+**Why.** Of 22 visitors who clicked Buy on a quote under €15, only 2 paid.
+The old flat shipping surcharge only appeared at Stripe, so a €9.90 part
+showed as a bigger total by surprise. The client now shows Stripe's exact
+total next to Buy by routing every shipping number through
+`src/config/shipping.ts`. The edge function must apply the same rules or
+the server rejects the client's price.
+
+**New numbers (shipped on the client in `src/config/shipping.ts`):**
+
+```ts
+export const SHIPPING_EUR = 4.90;          // was 5.90
+export const SHIPPING_CENTS = 490;
+export const FREE_SHIPPING_FROM_EUR = 30;  // was 100 (v3) / 99.90 (v4)
+export const FREE_SHIPPING_FROM_CENTS = 3000;
+export const DELIVERED_CAP_CENTS = 3090;   // under-€30 delivered total ceiling
+```
+
+**Shape of the new request body** (fields the frontend sends; everything
+existing stays):
+
+```jsonc
+{
+  "pricingVersion": 3,
+  // ...existing fields...
+  "page_group": "local",             // or "non_local"
+  "shipping_mode": "delivered",      // or "upfront" (only meaningful on local pages)
+  "fulfillment": "shipping",         // or "pickup"
+  "parts_subtotal_cents": 990,
+  "shipping_cents": 500,             // delivered: 500 after charm, upfront: 490
+  "expected_total_cents": 1490       // == parts_subtotal + shipping
+}
+```
+
+**Edge function must:**
+
+1. **Replace `shippingCents` branch (v3 & v4 priceOrder result)** with a
+   call to a shared helper, e.g.
+
+   ```ts
+   // At the top of create-instant-checkout/index.ts
+   const SHIPPING_CENTS = 490;
+   const FREE_SHIPPING_FROM_CENTS = 3000;
+   const DELIVERED_CAP_CENTS = 3090;
+
+   function roundToCharm90(cents: number): number {
+     return Math.max(990, Math.floor((cents - 90) / 100 + 0.5) * 100 + 90);
+   }
+   function deliveredTotalCents(subtotal: number): number {
+     if (subtotal >= FREE_SHIPPING_FROM_CENTS) return subtotal;
+     return Math.min(roundToCharm90(subtotal + SHIPPING_CENTS), DELIVERED_CAP_CENTS);
+   }
+   function deliveredShippingCents(subtotal: number): number {
+     return deliveredTotalCents(subtotal) - subtotal;
+   }
+   function upfrontShippingCents(subtotal: number): number {
+     return subtotal >= FREE_SHIPPING_FROM_CENTS ? 0 : SHIPPING_CENTS;
+   }
+   function serverShippingCents(body: any, subtotalCents: number): number {
+     if (body.fulfillment === 'pickup') return 0;
+     if (body.page_group === 'non_local') return deliveredShippingCents(subtotalCents);
+     return body.shipping_mode === 'delivered'
+       ? deliveredShippingCents(subtotalCents)
+       : upfrontShippingCents(subtotalCents);
+   }
+   ```
+
+2. **Replace** the current `const shippingCents = val.fulfillment === 'shipping' ? EST.shippingCents : 0;`
+   **with** `const shippingCents = serverShippingCents(val, priced.order.totalCents);`.
+   Keep the v4 analogue consistent (drop the hard-coded `< 9990` free
+   threshold — the new `FREE_SHIPPING_FROM_CENTS` is the only one).
+
+3. **Reject mismatched `expected_total_cents`** — if present and
+   `|expected_total - (subtotal + shippingCents)| > 2`, return
+   `PRICE_MISMATCH`.
+
+4. **Stripe line items**: parts as before + one shipping line, labelled
+   based on the final amount:
+   - `shippingCents > 0, mode === 'delivered'` → "Envío (incluido)"
+   - `shippingCents > 0, mode === 'upfront'`  → "Envío"
+   - `shippingCents === 0, fulfillment === 'shipping'` → "Envío gratis 0,00 €"
+   - `fulfillment === 'pickup'` → omit the shipping line entirely.
+
+5. **Raise `MAX_CHARGE_CENTS`** in `checkout-policy.ts` from `20590` to
+   `20000` (max legitimate total is now €200 parts + €0 shipping — free
+   above €30 — which never exceeds €200). Update the matching test in
+   `src/lib/checkoutEdgePolicy.test.ts` as part of the same Lovable PR.
+
+6. **Stripe metadata**: add
+
+   ```
+   page_group:     local | non_local
+   shipping_mode:  delivered | upfront
+   xp_shipping_r1: A | B | (unset on non_local)
+   ```
+
+   alongside the existing `ph_distinct_id` / `xp_variants` metadata.
+
+Until this ships, messy mesh / low-subtotal buyers will see the correct
+total in the modal but hit `PRICE_MISMATCH` at checkout (the server still
+charges €5.90 and uses the old free-shipping ceiling).
+
+### 2. Order confirmation email / admin view
+
+Grep of the repo turned up zero user-visible "5,90 €" in email templates —
+every mention lives in parseable notes ("Shipping: EUR x.xx" strings on
+historical orders, parsed by `src/lib/adminPaymentBreakdown.ts`). No
+change needed to email copy. Historical order totals continue to render
+with their original (old-rate) breakdown; new orders will render with the
+new €4.90 shipping line once the edge function ships.
+
+### 3. Nothing else for Prompt 3.

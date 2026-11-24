@@ -229,7 +229,7 @@ const IntlCityPage = ({ content }: Props) => {
             : `3D printing prices with delivery to ${content.city}`;
           return (
             <>
-              <DeliveryTimeline lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} transitDays={transitDays} shippingPrice="5,90 €" />
+              <DeliveryTimeline lang={content.lang as "es" | "en" | "ca" | "de" | "fr" | "it" | "nl" | "pt"} transitDays={transitDays} shippingPrice="4,90 €" />
               <section className="pt-8 pb-0 bg-background">
                 <div className="container px-4 max-w-4xl mx-auto">
                   <h2 className="font-bold text-foreground text-xl md:text-2xl">{priceHeading}</h2>

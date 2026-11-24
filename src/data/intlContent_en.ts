@@ -25,7 +25,7 @@ export const EN_HUB: IntlHubContent = {
   trustChips: [
     "From €9.90",
     "Quote in 1 working hour",
-    "Shipping 5,90 € tracked",
+    "Shipping 4,90 € tracked",
     "No customs within the EU",
   ],
   orgAlternateNames: ["Dimension 3D Prints", "Dimension3D BCN", "Dimension 3D Barcelona"],
@@ -34,7 +34,7 @@ export const EN_HUB: IntlHubContent = {
 
 Our entire print fleet is based on Bambu Lab X2D printers with enclosed chambers and heated beds. That architecture provides the thermal stability needed to run technical materials such as PETG, ABS and Nylon cleanly, and keeps warping under control on the kind of parts where entry-level open printers struggle. The result is better interlayer adhesion, more consistent surfaces, and dimensions closer to nominal.
 
-Prices are calculated transparently from material weight and print time — no setup fees and no surprises. For orders up to 200 € the price shows immediately once the file is analysed. Above that threshold a technician reviews the geometry and gets back to you within one working hour. Minimum order €9.90. Shipping is a flat 5,90 € regardless of weight or destination within the EU shipping zone.`,
+Prices are calculated transparently from material weight and print time — no setup fees and no surprises. For orders up to 200 € the price shows immediately once the file is analysed. Above that threshold a technician reviews the geometry and gets back to you within one working hour. Minimum order €9.90. Shipping is a flat 4,90 € regardless of weight or destination within the EU shipping zone.`,
 
   howItWorks: `**How the online 3D printing service works**
 
@@ -91,7 +91,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
     },
     {
       q: "Can I order multiple parts in the same order?",
-      a: "Yes — upload multiple files in the same session. The system prices each part and consolidates everything into a single shipment at the flat 5,90 € rate.",
+      a: "Yes — upload multiple files in the same session. The system prices each part and consolidates everything into a single shipment at the flat 4,90 € rate.",
     },
     {
       q: "Do you print in different colours?",
@@ -106,7 +106,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
   whatsappMsg:
     "Hi Dimension3D! I'd like a 3D printing quote. Can I send you the file?",
   priceTableCaption:
-    "Indicative FDM 3D-printing prices — Spanish VAT included, shipping 5,90 € separate",
+    "Indicative FDM 3D-printing prices — Spanish VAT included, shipping 4,90 € separate",
   breadcrumbHub: "3D Printing Service",
   materialLabel: "Material",
 
@@ -129,7 +129,7 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
     heading: "At a glance",
     facts: [
       "From 9,90 € per part; minimum order €9.90, no setup fee.",
-      "Shipping across the EU: flat 5,90 € with tracking.",
+      "Shipping across the EU: flat 4,90 € with tracking.",
       "Typical lead time: 3–5 working days from approval.",
       "Accepted formats: STL, OBJ, STEP, 3MF.",
       "Payment by card, Apple Pay or Google Pay.",
@@ -140,13 +140,13 @@ For specialty materials (carbon-fibre composites, TPU, PETG-CF) contact us befor
     caption: "Example delivered costs within the EU (PLA, ×1 part, VAT included).",
     headers: { part: "Part", shipping: "Shipping", total: "Total" },
     rows: [
-      { label: "Small (≈ 10 g)",  partEur: "9,90 €",  shippingEur: "5,90 €", totalEur: "15,80 €" },
-      { label: "Medium (≈ 50 g)", partEur: "15,00 €", shippingEur: "5,90 €", totalEur: "20,90 €" },
-      { label: "Large (≈ 200 g)", partEur: "40,00 €", shippingEur: "5,90 €", totalEur: "45,90 €" },
+      { label: "Small (≈ 10 g)",  partEur: "9,90 €",  shippingEur: "4,90 €", totalEur: "14,80 €" },
+      { label: "Medium (≈ 50 g)", partEur: "15,00 €", shippingEur: "4,90 €", totalEur: "19,90 €" },
+      { label: "Large (≈ 200 g)", partEur: "40,00 €", shippingEur: "4,90 €", totalEur: "44,90 €" },
     ],
   },
   shippingHeading: "Shipping and customs",
-  shippingText: `Parcels leave Barcelona with a European express courier and typically arrive in 3–5 working days anywhere in the EU shipping zone. The price is a flat 5,90 € regardless of weight.
+  shippingText: `Parcels leave Barcelona with a European express courier and typically arrive in 3–5 working days anywhere in the EU shipping zone. The price is a flat 4,90 € regardless of weight.
 
 There are no customs formalities or import duties within the European single market. Spanish VAT is already included in the price shown at checkout. The tracking number is sent as soon as the courier collects the parcel.`,
 };

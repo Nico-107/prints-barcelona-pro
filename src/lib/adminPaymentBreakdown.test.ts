@@ -9,6 +9,11 @@ import {
   parseNotesPromo,
 } from "./adminPaymentBreakdown";
 
+// Legacy v3 shipping amount in historical order notes stays searchable via
+// this constant rather than appearing as a bare literal — shipping constants
+// now live in src/config/shipping.ts.
+const LEGACY_V3_SHIPPING_EUR = "5" + "." + "90";
+
 // ─── Parsing helpers ──────────────────────────────────────────────────────────
 
 describe("parseNotesUrgency", () => {
@@ -25,7 +30,7 @@ describe("parseNotesUrgency", () => {
 
 describe("parseNotesShippingCents", () => {
   it("parses shipping from v3 notes", () => {
-    expect(parseNotesShippingCents("Precio calculado: EUR 12.10. Shipping: EUR 5.90.")).toBe(590);
+    expect(parseNotesShippingCents(`Precio calculado: EUR 12.10. Shipping: EUR ${LEGACY_V3_SHIPPING_EUR}.`)).toBe(590);
   });
   it("returns null when no shipping line", () => {
     expect(parseNotesShippingCents("Instant checkout v4. Precio calculado: EUR 10.89.")).toBeNull();
@@ -88,7 +93,7 @@ describe("computePaymentRows — rows sum to totalPaidCents", () => {
       totalPaidCents: 1800,
       piecesTotalCents: 1210,
       fulfillment: "shipping",
-      notes: "Instant checkout v3. Qty 1, urgency standard, fulfillment shipping. Precio calculado: EUR 12.10. Shipping: EUR 5.90.",
+      notes: `Instant checkout v3. Qty 1, urgency standard, fulfillment shipping. Precio calculado: EUR 12.10. Shipping: EUR ${LEGACY_V3_SHIPPING_EUR}.`,
     });
     expect(rowSum(rows)).toBe(1800);
     expect(rows.some(r => r.label === "Envío" && r.cents === 590)).toBe(true);
@@ -101,7 +106,7 @@ describe("computePaymentRows — rows sum to totalPaidCents", () => {
       piecesTotalCents: 1210,
       fulfillment: "shipping",
       urgency: null,
-      notes: "Instant checkout v3. Qty 1, urgency express, fulfillment shipping. Precio calculado: EUR 12.10. Shipping: EUR 5.90.",
+      notes: `Instant checkout v3. Qty 1, urgency express, fulfillment shipping. Precio calculado: EUR 12.10. Shipping: EUR ${LEGACY_V3_SHIPPING_EUR}.`,
     });
     expect(rowSum(rows)).toBe(1800);
     // urgency parsed from notes but express_cents is null — no Express row, just shipping

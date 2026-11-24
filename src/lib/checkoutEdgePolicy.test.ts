@@ -64,7 +64,7 @@ describe("deployed checkout policies", () => {
     expect(result.value.priced.order.totalCents).toBe(Math.round(body.exactPrice * 100));
     expect(h.exports.evaluateCheckoutV3({ ...body, exactPrice: 1 }, analyses).error).toBe("PRICE_MISMATCH");
   });
-  it("allows €205.90 but rejects €205.91", () => {
+  it("allows the server MAX_CHARGE_CENTS but rejects €205.91", () => {
     expect(chargeAllowed(20590, "pickup")).toBe(true);
     expect(chargeAllowed(20591, "pickup")).toBe(false);
     expect(chargeAllowed(20590, "shipping")).toBe(true);  // ≥€100 → free shipping, 20590 ≤ 20590
@@ -77,7 +77,7 @@ describe("deployed checkout policies", () => {
     const r = await h.invoke(body);
     expect(r.status).toBe(400);
   });
-  it("charges €5.90 shipping as a separate line item", async () => {
+  it("charges the legacy server shipping line as a separate line item", async () => {
     const h = checkoutHarness();
     await h.invoke(v3Body(h.exports, BOX_MED));
     const lineAmounts = [...h.params()].filter(([k]) => k.endsWith("[unit_amount]")).map(([, v]) => Number(v));

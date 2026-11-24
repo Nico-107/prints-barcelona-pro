@@ -68,6 +68,21 @@ export const REGISTRY: ExperimentDef[] = [
     maxDays: 56,
     enabled: true,
   },
+  {
+    // Prompt 3 — shipping_r1. 50/50 on LOCAL pages only.
+    // A "delivered": price includes shipping under €30, pickup option card.
+    // B "upfront": parts price + explicit "+ 4,90 €" line, pickup option card.
+    // Non-local pages always run "delivered" and don't see this experiment.
+    id: 'shipping_r1',
+    layer: 'checkout_modal',
+    variants: ['A', 'B'],
+    primaryMetric: 'buy_clicked',
+    guardrailMetrics: ['order_paid_server'],
+    startedOn: '2026-11-24',
+    minDays: 14,
+    maxDays: 56,
+    enabled: true,
+  },
 ];
 
 /** HTML attribute name for a given experiment ID. */

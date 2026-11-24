@@ -20,7 +20,7 @@ describe("checkout v3 contract (the SAME code runs in the edge function)", () =>
     expect(lines.every(l => l.name.length <= 120 && l.cents > 0)).toBe(true);
     expect(lines.some(l => l.name === "Preparación del pedido")).toBe(false);
   });
-  it("shipping is EUR 5.90 and sits outside the print total", () => {
+  it("legacy server shipping line sits outside the print total", () => {
     const b = priced(); b.fulfillment = "shipping"; const r = evaluateV3(b, ANALYSES);
     expect(r.ok).toBe(true); expect(r.value!.shippingCents).toBe(590); expect(r.value!.chargeCents).toBe(3142 + 590);
   });

@@ -135,7 +135,7 @@ export const enTranslations: Record<string, string> = {
   "how.step3.title": "We print it",
   "how.step3.desc": "A person reviews your part first. Production in Barcelona.",
   "how.step4.title": "Pick up or receive",
-  "how.step4.desc": "By appointment in Les Corts or shipping for €5.90.",
+  "how.step4.desc": "By appointment in Les Corts or shipping for €4.90.",
 
   // Services
   "services.title": "Our Services",
@@ -812,7 +812,7 @@ export const enTranslations: Record<string, string> = {
   "calc.why.plastic": "Plastic: {grams} g",
   "calc.why.time": "Print time: {hours} h",
   "calc.why.supports": "of which supports: {grams} g",
-  "calc.why.note": "No hidden fees. This is the final price; shipping is a flat €5.90.",
+  "calc.why.note": "No hidden fees. This is the final price; shipping is a flat €4.90.",
   "calc.why.minNote": "This order is small — the €9.90 minimum applies.",
   "calc.validate.contactTitle": "Add an email or phone",
   "calc.validate.contact": "Add an email or a phone number so we can reply.",
@@ -1134,4 +1134,12 @@ export const enTranslations: Record<string, string> = {
   // Prompt 2 — neutral review note shown under the price for repaired /
   // capped files. Reassurance only, no alarm wording.
   "pricing.reviewNote": "Nico will review your file before printing",
+  // Prompt 3 — non-local marketing + variant B upfront line.
+  "shipping.fromDelivered": "From €14.90, shipping included",
+  "shipping.freeFrom": "Free shipping from €30",
+  "shipping.included": "Shipping included",
+  "shipping.free": "Free shipping",
+  "shipping.upfrontNote": "+ €4.90 shipping · free from €30 · or free pickup in Les Corts",
+  "shipping.option.delivery": "Home delivery",
+  "shipping.option.pickup": "Free pickup in Les Corts",
 };

@@ -353,7 +353,7 @@ const IntlHubPage = ({ content }: Props) => {
           const statsItems = [
             { value: "< 1 h", label: content.trustChips[1] },
             { value: INTL_MARKETS.find(m => m.code === content.countryCode)?.typicalDeliveryDays ?? "3–5 d", label: content.trustChips[3] },
-            { value: "5,90 €", label: content.trustChips[2] },
+            { value: "4,90 €", label: content.trustChips[2] },
             { value: "9,90 €", label: content.trustChips[0] },
           ];
           return (

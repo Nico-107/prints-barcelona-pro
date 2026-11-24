@@ -1,6 +1,6 @@
 export const CHECKOUT_V3_READY = import.meta.env.VITE_CHECKOUT_V3 !== "0";
 
-/** Countries supported by instant checkout (flat €5.90 shipping).
+/** Countries supported by instant checkout (flat €4.90 shipping).
  *  Keep in sync with SHIP_COUNTRIES in supabase/functions/create-instant-checkout/index.ts */
 export const SHIP_COUNTRIES = ["ES","PT","FR","DE","IT","NL","BE","LU","AT","IE","PL","DK","SE","FI"] as const;
 export type ShipCountryCode = typeof SHIP_COUNTRIES[number];
@@ -10,8 +10,8 @@ export type ShipCountryCode = typeof SHIP_COUNTRIES[number];
  *  via EST.instantMaxCents = 20000. */
 export const INSTANT_LIMIT_EUR = 200;
 
-/** Legitimate maximum single-charge total shown to Stripe = €200 print + €5,90 ship. */
-export const MAX_INSTANT_CHARGE = 205.90;
+/** Legitimate maximum single-charge total shown to Stripe = €200 print + €4,90 ship. */
+export const MAX_INSTANT_CHARGE = 204.90;
 
 /** Materials that always require human review when urgency is express/urgent. */
 export const HARD_MATERIALS = new Set(['Nylon']);

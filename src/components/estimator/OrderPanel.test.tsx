@@ -519,8 +519,12 @@ describe("Hard rule 7: Buy button present for eligible orders regardless of expe
     expect((btn as HTMLButtonElement)?.disabled).toBe(false);
   });
 
-  it("no active checkout_modal experiments after buy_label_r1 concluded", () => {
+  it("shipping_r1 is the only active checkout_modal experiment and doesn't hide the Buy button", () => {
     const checkoutLayerExps = REGISTRY.filter(exp => exp.enabled && exp.layer === 'checkout_modal');
-    expect(checkoutLayerExps).toHaveLength(0);
+    // Prompt 3 — shipping_r1 only changes shipping-line copy / option cards,
+    // never the Buy button itself. Any future addition must be listed here.
+    const knownNonBlockingIds = ['shipping_r1'];
+    const unknown = checkoutLayerExps.filter(e => !knownNonBlockingIds.includes(e.id));
+    expect(unknown).toHaveLength(0);
   });
 });

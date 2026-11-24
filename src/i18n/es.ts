@@ -135,7 +135,7 @@ export const esTranslations: Record<string, string> = {
   "how.step3.title": "La imprimimos",
   "how.step3.desc": "Una persona revisa tu pieza antes. Producción en Barcelona.",
   "how.step4.title": "Recoge o recibe",
-  "how.step4.desc": "Recogida con cita en Les Corts o envío por 5,90 €.",
+  "how.step4.desc": "Recogida con cita en Les Corts o envío por 4,90 €.",
 
   // Services
   "services.title": "Nuestros servicios",
@@ -810,7 +810,7 @@ export const esTranslations: Record<string, string> = {
   "calc.why.plastic": "Plástico: {grams} g",
   "calc.why.time": "Tiempo de impresión: {hours} h",
   "calc.why.supports": "de los cuales soportes: {grams} g",
-  "calc.why.note": "Sin costes ocultos. Este es el precio final; el envío es una tarifa fija de 5,90 €.",
+  "calc.why.note": "Sin costes ocultos. Este es el precio final; el envío es una tarifa fija de 4,90 €.",
   "calc.why.minNote": "Este pedido es pequeño — se aplica el mínimo de 9,90 €.",
   "calc.validate.contactTitle": "Añade un email o teléfono",
   "calc.validate.contact": "Añade un email o un teléfono para poder responderte.",
@@ -1137,4 +1137,12 @@ export const esTranslations: Record<string, string> = {
   // Prompt 2 — neutral line under the price when the safety net or repair
   // fallback is used. No alarm wording.
   "pricing.reviewNote": "Nico revisará tu archivo antes de imprimir",
+  // Prompt 3 — non-local marketing + variant B upfront line.
+  "shipping.fromDelivered": "Desde 14,90 €, envío incluido",
+  "shipping.freeFrom": "Envío gratis desde 30 €",
+  "shipping.included": "Envío incluido",
+  "shipping.free": "Envío gratis",
+  "shipping.upfrontNote": "+ 4,90 € envío · gratis desde 30 € · o recogida gratis en Les Corts",
+  "shipping.option.delivery": "Envío a domicilio",
+  "shipping.option.pickup": "Recogida gratis en Les Corts",
 };
