@@ -8,6 +8,7 @@ import { LanguageProvider, LanguageNavigationSync } from "@/contexts/LanguageCon
 // LanguageSuggestionBar removed (Conv 1.8): 302 shown, 1 accepted — net
 // friction above the price window. The language switcher stays.
 import { capture, updatePageContext } from "@/lib/analytics";
+import { PiecePurposeCard } from "@/components/PiecePurposeCard";
 import { usePageTracking } from "@/hooks/usePageTracking";
 import Index from "./pages/Index";
 import CookieConsentBanner from "./components/CookieConsentBanner";
@@ -240,6 +241,28 @@ function StripeReturnTracker() {
   return null;
 }
 
+/**
+ * Prompt 1 Part E — the "what is this piece for?" question. Only mounts on
+ * ?checkout=success pages so it never shows on normal browsing. Does not
+ * block the rest of the page: it's a dismissible bottom sheet that writes
+ * a localStorage key keyed to the order number so a refresh won't re-ask.
+ */
+function PiecePurposeMount() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const status = params.get("checkout");
+  if (status !== "success") return null;
+  const orderNumber = params.get("order_id") ?? params.get("session_id");
+  const valueParam = params.get("value_eur") ?? params.get("amount");
+  const value = valueParam ? parseFloat(valueParam) : undefined;
+  return (
+    <PiecePurposeCard
+      orderNumber={orderNumber}
+      valueEur={Number.isFinite(value) ? value : undefined}
+    />
+  );
+}
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -253,6 +276,7 @@ const App = () => (
           <SiteVariantMirror />
           <AiReferralTracker />
           <StripeReturnTracker />
+          <PiecePurposeMount />
           {/* LanguageNavigationSync must never be removed — it re-syncs the language context
               on every client-side navigation so language matches the URL without a full reload. */}
           <LanguageNavigationSync />

@@ -1112,4 +1112,23 @@ export const nlTranslations: Record<string, string> = {
   "header.v2.cta": "Prijs zien",
   "header.menu.open": "Menu openen",
   "header.menu.close": "Menu sluiten",
+  // Prompt 1 Deel D — zes één-tik afhaakredenen + beloning
+  "exit.reason.price_high": "Te duur",
+  "exit.reason.shipping": "De verzending",
+  "exit.reason.comparing": "Ik was alleen aan het vergelijken",
+  "exit.reason.material": "Ik weet niet welk materiaal",
+  "exit.reason.review": "Iemand moet dit nog controleren",
+  "exit.reason.other": "Anders",
+  "exit.reward.title": "Bedankt. Hier is 20 % korting op deze bestelling.",
+  "exit.reward.code": "Code: {code} — 48 u geldig",
+  "exit.reward.copy": "Code kopiëren",
+  "exit.reward.copied": "Code gekopieerd",
+  // Prompt 1 Deel E — bedankpagina "waar is dit onderdeel voor?"
+  "piece.purpose.title": "Waar is dit onderdeel voor?",
+  "piece.purpose.repair": "Reparatie",
+  "piece.purpose.personal_project": "Eigen project",
+  "piece.purpose.business": "Zakelijk",
+  "piece.purpose.gift_or_decor": "Cadeau of decoratie",
+  "piece.purpose.other": "Anders",
+  "piece.purpose.thanks": "Bedankt!",
 };

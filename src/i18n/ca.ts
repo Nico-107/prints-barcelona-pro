@@ -1106,4 +1106,23 @@ export const caTranslations: Record<string, string> = {
   "header.v2.cta": "Veure el meu preu",
   "header.menu.open": "Obrir menú",
   "header.menu.close": "Tancar menú",
+  // Prompt 1 Part D — sis motius d'eixida d'un sol toc + revelació de recompensa
+  "exit.reason.price_high": "És car",
+  "exit.reason.shipping": "L'enviament",
+  "exit.reason.comparing": "Només estava comparant",
+  "exit.reason.material": "No sé quin material triar",
+  "exit.reason.review": "Necessito que algú ho revisi",
+  "exit.reason.other": "Un altre",
+  "exit.reward.title": "Gràcies. Tingues un 20 % per a aquesta comanda.",
+  "exit.reward.code": "Codi: {code} — vàlid 48 h",
+  "exit.reward.copy": "Copiar codi",
+  "exit.reward.copied": "Codi copiat",
+  // Prompt 1 Part E — pregunta "per a què és aquesta peça" a l'agraïment
+  "piece.purpose.title": "Per a què és aquesta peça?",
+  "piece.purpose.repair": "Reparació",
+  "piece.purpose.personal_project": "Projecte propi",
+  "piece.purpose.business": "Empresa",
+  "piece.purpose.gift_or_decor": "Regal o decoració",
+  "piece.purpose.other": "Un altre",
+  "piece.purpose.thanks": "Gràcies!",
 };

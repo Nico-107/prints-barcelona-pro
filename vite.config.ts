@@ -6,6 +6,7 @@ import { ACTIVE_CITY } from "./src/config/cities";
 import { EXPERIMENTS } from "./src/lib/experimentsConfig";
 import { REGISTRY } from "./src/lib/experiments/registry";
 import { buildPrePaintScript, type PrePaintExp } from "./src/lib/experiments/prePaintScript";
+import { SITE_DESIGN } from "./src/lib/useVariant";
 
 // Convert camelCase dataset property name to kebab-case HTML attribute name.
 // e.g. "xpHeroPkg" → "xp-hero-pkg"  (browser adds the "data-" prefix)
@@ -39,7 +40,7 @@ function generatePrePaintScript(): string {
     enabled: exp.enabled,
     endMs: new Date(exp.startedOn + "T00:00:00Z").getTime() + exp.maxDays * 86400_000,
   }));
-  return buildPrePaintScript(exps);
+  return buildPrePaintScript(exps, { siteDesign: SITE_DESIGN });
 }
 
 // https://vitejs.dev/config/

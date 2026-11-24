@@ -41,6 +41,10 @@ export interface CheckoutBody {
   language: string;
   ph_distinct_id: string | null;
   ph_session_id: string | null;
+  /** xp_<id>: variant snapshot at buy-click time. Edge function echoes
+   *  these into Stripe success_url and session metadata so the /?checkout=
+   *  landing stays on the same person + session as the buy click. */
+  xp_variants: Record<string, string>;
   utm_source: string | null;
   utm_medium: string | null;
   utm_content: string | null;
@@ -68,6 +72,7 @@ export interface BuildCheckoutBodyParams {
   language: string;
   phId: string | null;
   phSid: string | null;
+  xpVariants?: Record<string, string>;
   utmSource: string | null;
   utmMedium: string | null;
   utmContent: string | null;
@@ -147,6 +152,7 @@ export function buildCheckoutBody(p: BuildCheckoutBodyParams): CheckoutBody {
     language: p.language,
     ph_distinct_id: p.phId,
     ph_session_id: p.phSid,
+    xp_variants: p.xpVariants ?? {},
     utm_source: p.utmSource,
     utm_medium: p.utmMedium,
     utm_content: p.utmContent,

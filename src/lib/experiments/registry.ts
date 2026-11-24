@@ -35,19 +35,13 @@ export const LAYERS: LayerId[] = [
 
 // Source of truth for all experiments.
 // Items are added here and in the pre-paint script (index.html) together.
+//
+// Concluded tests (shipped winners, removed from registry on 2026-11-24):
+//   header_btn_r2  → B "Precios desde 9,90 €" shipped (Header.tsx).
+//   upload_area_r1 → B (bigger drop zone + WhatsApp link) shipped; C deleted.
+//   buy_label_r1   → A "Comprar · {price}" shipped (OrderPanel.tsx).
+//   site_variant   → V1 shipped via SITE_DESIGN constant (useVariant.ts).
 export const REGISTRY: ExperimentDef[] = [
-  {
-    id: 'header_btn_r2',
-    layer: 'header',
-    variants: ['A', 'B'],
-    langs: ['es', 'en', 'ca'],
-    primaryMetric: 'instant_checkout_initiated',
-    guardrailMetrics: ['whatsapp_click'],
-    startedOn: '2026-10-19',
-    minDays: 21,
-    maxDays: 56,
-    enabled: true,
-  },
   {
     id: 'modal_actions_r1',
     layer: 'checkout_modal',
@@ -62,59 +56,16 @@ export const REGISTRY: ExperimentDef[] = [
     // winner. Variant B (buy-first, text links for review/WhatsApp) shipped permanently.
   },
   {
+    // home_proof_r1 continues — but variant B was dropped on 2026-11-24 after
+    // the first run showed B was the weakest proof block. Keep A vs C 50/50.
     id: 'home_proof_r1',
     layer: 'home_body',
-    variants: ['A', 'B', 'C'],
+    variants: ['A', 'C'],
     pages: ['/', '/ca/', '/3d-printing-service'],
     primaryMetric: 'upload_started',
     startedOn: '2026-10-20',
     minDays: 21,
     maxDays: 56,
-    enabled: true,
-  },
-  {
-    id: 'upload_area_r1',
-    layer: 'upload_area',
-    variants: ['A', 'B', 'C'],
-    primaryMetric: 'upload_started',
-    startedOn: '2026-10-20',
-    minDays: 21,
-    maxDays: 56,
-    enabled: true,
-  },
-  {
-    // Site-wide design variant. Every page inherits A or B deterministically from
-    // the visitor id. Pre-paint sets data-xp-site-variant on <html>; <SiteShell>
-    // and <Header> read it. Kept disabled until Phase 9 verification passes;
-    // ?xp=site_variant:B forces B site-wide for QA.
-    id: 'site_variant',
-    layer: 'site',
-    variants: ['A', 'B'],
-    primaryMetric: 'upload_started',
-    guardrailMetrics: ['whatsapp_click'],
-    startedOn: '2026-11-13',
-    minDays: 21,
-    maxDays: 90,
-    // Section 9 verification passed 2026-11-13 (0 errors across 604 checks,
-    // 0 SEO byte-diff, 0 content violations, split 48–52% with no holdout).
-    // Deterministic 50/50 on the visitor id; bots → A; QA still has
-    // ?xp=site_variant:B to force B site-wide.
-    enabled: true,
-  },
-  // home_v2 removed: merged into site_variant so one switch controls B.
-  {
-    // 5.4: Buy-button wording experiment.
-    // A (control): "Comprar · {price}"  B: "Imprimir mi pieza · {price}"
-    // No decision before 300 price viewers per arm. Primary metric: buy_clicked
-    // per visitor who saw a price. Secondary: order_paid_server.
-    id: 'buy_label_r1',
-    layer: 'checkout_modal',
-    variants: ['A', 'B'],
-    primaryMetric: 'buy_clicked',
-    guardrailMetrics: ['order_paid_server'],
-    startedOn: '2026-11-17',
-    minDays: 14,
-    maxDays: 60,
     enabled: true,
   },
 ];

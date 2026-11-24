@@ -3,6 +3,7 @@ import { capture } from '@/lib/analytics';
 import {
   wasExposureFired, markExposureFired,
   isExperimentActive, isInHoldout, getVariant, isForcedVariant,
+  isInternalVisitor,
 } from './engine';
 import { REGISTRY } from './registry';
 
@@ -22,6 +23,9 @@ export function fireXpExposure(experimentId: string, extra?: ExposureExtraProps)
   const exp = REGISTRY.find(e => e.id === experimentId);
   if (!exp || !isExperimentActive(experimentId)) return;
   if (isInHoldout()) return;
+  // Prompt 1 Part B: internal visitors are excluded from experiments so
+  // their exposures must not fire either (they'd otherwise inflate denom).
+  if (isInternalVisitor() && !isForcedVariant(experimentId)) return;
   const lang = getSiteLanguage();
   if (exp.langs && !exp.langs.includes(lang)) return;
   markExposureFired(experimentId);

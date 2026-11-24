@@ -61,6 +61,17 @@ export function isInHoldout(): boolean {
   return document.documentElement.getAttribute('data-xp-holdout') === 'true';
 }
 
+/**
+ * Internal (owner) visitors stay on control for every experiment and must
+ * never fire exposure events. Pre-paint script enforces the same check with
+ * the same localStorage key so the HTML never gets a data-xp-* attribute
+ * for these visitors in the first place.
+ */
+export function isInternalVisitor(): boolean {
+  if (typeof window === 'undefined') return false;
+  try { return localStorage.getItem('dim3d-internal') === '1'; } catch { return false; }
+}
+
 // ─── Active check ────────────────────────────────────────────────────────────
 
 export function isExperimentActive(id: string): boolean {
@@ -87,6 +98,9 @@ export function getVariant(id: string): string {
   const htmlVal = document.documentElement.getAttribute(expAttr(id));
   if (htmlVal) return htmlVal;
 
+  // Internal visitors get no variant (stay on control, not counted).
+  if (isInternalVisitor()) return 'A';
+
   // Fallback for first load (pre-paint script not yet run or storage cleared).
   const vid = getOrCreateVisitorId();
   if (isHoldout(vid)) return 'A';
@@ -105,6 +119,20 @@ export function getVariant(id: string): string {
 }
 
 // ─── Super-properties ────────────────────────────────────────────────────────
+
+/**
+ * Snapshot of active xp_* variants for the current visitor — used by the
+ * Stripe checkout body so the edge function can echo them back through the
+ * success URL and session metadata.
+ */
+export function snapshotXpVariants(language: string): Record<string, string> {
+  const props = getExperimentSuperProps(language);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(props)) {
+    if (k.startsWith('xp_') && typeof v === 'string' && v !== 'n/a') out[k] = v;
+  }
+  return out;
+}
 
 export function getExperimentSuperProps(language: string): Record<string, unknown> {
   if (typeof window === 'undefined') return {};

@@ -411,6 +411,25 @@ export interface EventMap {
   section_view: SectionViewProps;
   cta_click: CtaClickProps;
   exit_reason: ExitReasonProps;
+  /**
+   * Prompt 1 Part D: single-tap "what stopped you" answer that unlocks
+   * the 20% exit reward. One of the six reason keys defined in
+   * ExitReasonCard / StlEstimator's exit toast.
+   */
+  exit_reason_answered: {
+    reason: 'price' | 'shipping' | 'comparing' | 'material' | 'review' | 'other';
+    price_eur_bucket?: string;
+    device_type: 'mobile' | 'tablet' | 'desktop';
+  };
+  /**
+   * Prompt 1 Part E: single-tap "what is this piece for" answer shown on
+   * the ?checkout=success thank-you page.
+   */
+  piece_purpose_answered: {
+    purpose: 'repair' | 'personal_project' | 'business' | 'gift_or_decor' | 'other';
+    order_number?: string;
+    value_eur?: number;
+  };
   exit_shortcut: ExitShortcutProps;
   order_paid: OrderPaidProps;
   quote_emailed: QuoteEmailedProps;

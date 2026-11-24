@@ -35,13 +35,17 @@ export function hasLeadBeenSubmitted(): boolean {
   try { return !!localStorage.getItem(LEAD_KEY); } catch { return false; }
 }
 
-/** All six chips in GOAL order. */
-const CHIPS: Array<{ key: string; i18nKey: string }> = [
-  { key: "price",    i18nKey: "survey.exit.reason.price"        },
-  { key: "shipping", i18nKey: "survey.exit.reason.shipping"     },
-  { key: "delivery", i18nKey: "survey.exit.reason.delivery"     },
-  { key: "unknown",  i18nKey: "survey.exit.reason.unknown"      },
-  { key: "browsing", i18nKey: "survey.exit.reason.browsing_new" },
+/**
+ * Prompt 1 Part D: the six one-tap reasons. Keys must match the union in
+ * analyticsEvents.ts (exit_reason_answered.reason).
+ */
+type ReasonKey = "price" | "shipping" | "comparing" | "material" | "review" | "other";
+const CHIPS: Array<{ key: Exclude<ReasonKey, "other">; i18nKey: string }> = [
+  { key: "price",     i18nKey: "exit.reason.price_high" },
+  { key: "shipping",  i18nKey: "exit.reason.shipping"   },
+  { key: "comparing", i18nKey: "exit.reason.comparing"  },
+  { key: "material",  i18nKey: "exit.reason.material"   },
+  { key: "review",    i18nKey: "exit.reason.review"     },
 ];
 
 interface ExitReasonCardProps {
@@ -70,8 +74,25 @@ export function ExitReasonCard({ priceBucket, pricingVersion, onReturnToOrder, o
     ? (navigator.language?.split("-")[1]?.toUpperCase() ?? null)
     : null;
 
-  const fireReason = (key: string, text?: string) => {
+  const deviceType: "mobile" | "tablet" | "desktop" =
+    typeof window !== "undefined"
+      ? window.innerWidth < 640
+        ? "mobile"
+        : window.innerWidth < 1024
+        ? "tablet"
+        : "desktop"
+      : "desktop";
+
+  const fireReason = (key: ReasonKey, text?: string) => {
     markExitSurveyShown();
+    capture("exit_reason_answered", {
+      reason: key,
+      price_eur_bucket: priceBucket,
+      device_type: deviceType,
+    });
+    // Keep the legacy exit_reason event for 1 release so the existing
+    // PostHog view keeps counting answers; new dashboards read
+    // exit_reason_answered instead.
     capture("exit_reason", {
       reason: key,
       price_eur_bucket: priceBucket,
@@ -81,7 +102,7 @@ export function ExitReasonCard({ priceBucket, pricingVersion, onReturnToOrder, o
     });
   };
 
-  const handleChip = (key: string) => {
+  const handleChip = (key: Exclude<ReasonKey, "other">) => {
     fireReason(key);
     setPhase(pricingVersion >= 4 ? "code_offer" : "done");
   };
@@ -219,7 +240,7 @@ export function ExitReasonCard({ priceBucket, pricingVersion, onReturnToOrder, o
                 onClick={handleOtherChip}
                 className="text-xs px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-accent/10 hover:border-accent transition-colors"
               >
-                {t("survey.exit.reason.other")}
+                {t("exit.reason.other")}
               </button>
             </div>
           </>

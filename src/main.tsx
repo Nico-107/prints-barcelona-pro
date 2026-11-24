@@ -20,6 +20,41 @@ processInternalFlag();
 // ft_* props on every event via lib/analytics.
 captureFirstTouch();
 
+// Prompt 1 Part C: Stripe return attribution.
+// Stripe sends the customer back with ?ph_did=<distinct_id>&ph_sid=<session_id>.
+// Pick those up before posthog.init and pass them as bootstrap so
+// checkout_returned / instant_checkout_completed / order_paid land on the
+// same person and session as the original buy click.
+function readBootstrapIds(): { distinctID?: string; sessionID?: string } {
+  if (typeof window === "undefined") return {};
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const rawDid = params.get("ph_did");
+    const rawSid = params.get("ph_sid");
+    // Shape check: PostHog distinct IDs are UUID-ish strings up to ~128 chars.
+    // Session IDs are similar. Reject anything containing whitespace or
+    // characters outside the alphabet of base64url/UUID.
+    const looksLikeId = (s: string | null): s is string =>
+      !!s && s.length >= 10 && s.length <= 128 && /^[A-Za-z0-9._-]+$/.test(s);
+    const out: { distinctID?: string; sessionID?: string } = {};
+    if (looksLikeId(rawDid)) out.distinctID = rawDid;
+    if (looksLikeId(rawSid)) out.sessionID = rawSid;
+    if (out.distinctID || out.sessionID) {
+      // Strip the params from the URL so they don't survive a refresh and
+      // don't leak into page_path analytics.
+      params.delete("ph_did");
+      params.delete("ph_sid");
+      const q = params.toString();
+      const clean = window.location.pathname + (q ? "?" + q : "") + window.location.hash;
+      window.history.replaceState(null, "", clean);
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+const bootstrapIds = readBootstrapIds();
+
 const initPostHog = () => {
   if (phKey && phHost) {
     const cookieConsent = localStorage.getItem("cookie-consent");
@@ -36,6 +71,9 @@ const initPostHog = () => {
       persistence: accepted ? "localStorage+cookie" : "memory",
       disable_session_recording: true,
       enable_heatmaps: false,
+      ...(bootstrapIds.distinctID || bootstrapIds.sessionID
+        ? { bootstrap: bootstrapIds }
+        : {}),
       ...(COOKIELESS_ENABLED ? { cookieless_mode: "on_reject" as const } : {}),
       on_request_error: (failure) => {
         console.error("[PostHog] request failed:", failure);

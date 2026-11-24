@@ -1112,4 +1112,23 @@ export const ptTranslations: Record<string, string> = {
   "header.v2.cta": "Ver meu preço",
   "header.menu.open": "Abrir menu",
   "header.menu.close": "Fechar menu",
+  // Prompt 1 Parte D — seis motivos de saída num toque + recompensa
+  "exit.reason.price_high": "Está caro",
+  "exit.reason.shipping": "O envio",
+  "exit.reason.comparing": "Só estava a comparar",
+  "exit.reason.material": "Não sei que material escolher",
+  "exit.reason.review": "Preciso que alguém reveja",
+  "exit.reason.other": "Outro",
+  "exit.reward.title": "Obrigado. Fica com 20 % para esta encomenda.",
+  "exit.reward.code": "Código: {code} — válido 48 h",
+  "exit.reward.copy": "Copiar código",
+  "exit.reward.copied": "Código copiado",
+  // Prompt 1 Parte E — página de agradecimento "para que é esta peça?"
+  "piece.purpose.title": "Para que é esta peça?",
+  "piece.purpose.repair": "Reparação",
+  "piece.purpose.personal_project": "Projeto pessoal",
+  "piece.purpose.business": "Empresa",
+  "piece.purpose.gift_or_decor": "Presente ou decoração",
+  "piece.purpose.other": "Outro",
+  "piece.purpose.thanks": "Obrigado!",
 };

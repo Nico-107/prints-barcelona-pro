@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/lib/pricing";
 import { effectivePartSettings, isPartCustomized } from "@/lib/pricing";
 import type { BundleEstimateV3 } from "@/lib/estimate";
-import { useXpExposure } from "@/lib/experiments";
-import { getVariant } from "@/lib/experiments/engine";
 import { PAYMENT_CAPTURE_MODE } from "@/config/policies";
 import { computeShipDate, formatShipDate, cutoffLine, isBeforeCutoff } from "@/lib/shipDate";
 import { capture } from "@/lib/analytics";
@@ -431,29 +429,24 @@ export function OrderPanel({
   })();
 
   // Buy Now button label — "from {price}" before selection, exact after.
-  // 5.4: buy_label_r1 — B uses "Imprimir mi pieza · {price}".
-  const _buyLabelVariant = getVariant("buy_label_r1");
+  // buy_label_r1 concluded 2026-11-24: variant A "Comprar · {price}" shipped.
   const buyNowLabel = (() => {
     if (isCheckingOut) return null;
     const basePrice = chargedPrint;
-    const isB = _buyLabelVariant === "B";
     if (fulfillment === null) {
-      const key = isB ? "calc.instantBuy.buyNow.from.b" : "calc.instantBuy.buyNow.from";
-      return t(key).replace("{price}", formatEUR(basePrice, lang));
+      return t("calc.instantBuy.buyNow.from").replace("{price}", formatEUR(basePrice, lang));
     }
     const total = instantTotalPrice ?? basePrice;
-    const key = isB ? "calc.instantBuy.buyNow.b" : "calc.instantBuy.buyNow";
-    return t(key).replace("{price}", formatEUR(total, lang));
+    return t("calc.instantBuy.buyNow").replace("{price}", formatEUR(total, lang));
   })();
 
   // Shipping fee formatted
   const shippingFormatted = formatEUR(EST.shippingCents / 100, lang);
 
-  // Experiment: modal_actions_r1 — exposure fires when the actions area is visible
+  // modal_actions_r1 concluded 2026-10-29 and buy_label_r1 concluded
+  // 2026-11-24; no exposures fire here now. Ref kept for the
+  // buy_button_visible intersection below.
   const actionsExposureRef = useRef<HTMLDivElement>(null);
-  useXpExposure(actionsExposureRef, "modal_actions_r1");
-  // 5.4: buy_label_r1 — fires when the Buy button is visible (same ref)
-  useXpExposure(actionsExposureRef, "buy_label_r1");
 
   // buy_button_visible — fired once per popup open when the actions area is ≥50% visible for 500 ms
   const buyVisibleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

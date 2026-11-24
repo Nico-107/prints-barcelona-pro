@@ -519,11 +519,8 @@ describe("Hard rule 7: Buy button present for eligible orders regardless of expe
     expect((btn as HTMLButtonElement)?.disabled).toBe(false);
   });
 
-  it("active checkout_modal experiments only change label text, not Buy button visibility", () => {
+  it("no active checkout_modal experiments after buy_label_r1 concluded", () => {
     const checkoutLayerExps = REGISTRY.filter(exp => exp.enabled && exp.layer === 'checkout_modal');
-    // buy_label_r1 changes button wording only — Buy button must still render in both variants.
-    const knownLabelOnly = ["buy_label_r1"];
-    const unknown = checkoutLayerExps.filter(e => !knownLabelOnly.includes(e.id));
-    expect(unknown).toHaveLength(0);
+    expect(checkoutLayerExps).toHaveLength(0);
   });
 });

@@ -410,39 +410,22 @@ html[data-modal-open="true"] [data-floating-widget="true"] {
   display: none !important;
 }
 
-/* header_btn_r2 */
-html:not([data-xp-header-btn-r2]) [data-xp-slot="header_btn_r2"][data-xp-v="B"],
-html[data-xp-header-btn-r2="A"]  [data-xp-slot="header_btn_r2"][data-xp-v="B"],
-html[data-xp-header-btn-r2="B"]  [data-xp-slot="header_btn_r2"][data-xp-v="A"] { display:none; }
-
-/* modal_actions_r1 — concluded 2026-10-29, variant B shipped permanently (no CSS needed) */
-
-/* home_proof_r1 */
-html:not([data-xp-home-proof-r1]) [data-xp-slot="home_proof_r1"][data-xp-v="B"],
+/* home_proof_r1 — A vs C (B dropped 2026-11-24, variant B markup removed). */
 html:not([data-xp-home-proof-r1]) [data-xp-slot="home_proof_r1"][data-xp-v="C"],
-html[data-xp-home-proof-r1="A"]  [data-xp-slot="home_proof_r1"][data-xp-v="B"],
 html[data-xp-home-proof-r1="A"]  [data-xp-slot="home_proof_r1"][data-xp-v="C"],
-html[data-xp-home-proof-r1="B"]  [data-xp-slot="home_proof_r1"][data-xp-v="A"],
-html[data-xp-home-proof-r1="B"]  [data-xp-slot="home_proof_r1"][data-xp-v="C"],
-html[data-xp-home-proof-r1="C"]  [data-xp-slot="home_proof_r1"][data-xp-v="A"],
-html[data-xp-home-proof-r1="C"]  [data-xp-slot="home_proof_r1"][data-xp-v="B"] { display:none; }
+html[data-xp-home-proof-r1="C"]  [data-xp-slot="home_proof_r1"][data-xp-v="A"] { display:none; }
 
-/* upload_area_r1 */
-html:not([data-xp-upload-area-r1]) [data-xp-slot="upload_area_r1"][data-xp-v="B"],
-html:not([data-xp-upload-area-r1]) [data-xp-slot="upload_area_r1"][data-xp-v="C"],
-html[data-xp-upload-area-r1="A"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"],
-html[data-xp-upload-area-r1="A"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"],
-html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
-html[data-xp-upload-area-r1="B"]  [data-xp-slot="upload_area_r1"][data-xp-v="C"],
-html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="A"],
-html[data-xp-upload-area-r1="C"]  [data-xp-slot="upload_area_r1"][data-xp-v="B"] { display:none; }
-
-/* Site-wide variant — A=V1 (control, white hero), B=V2 (split-image dark hero).
-   Bots and SSR (no attribute) always see V1. No layout jump: decided before first paint.
-   This replaces the old home_v2 switch — one knob now controls B everywhere. */
+/* Site-wide design — A=V1 (shipped), B=V2 (kept for preview via ?xp_home_v2=v2).
+   The retired site_variant test is no longer tagged on events; the attribute
+   itself is still set pre-paint by the SITE_DESIGN constant so CSS keys work. */
 html:not([data-xp-site-variant]) .xp-home-v2-only,
 html[data-xp-site-variant="A"]  .xp-home-v2-only { display:none !important; }
 html[data-xp-site-variant="B"]  .xp-home-v1-only { display:none !important; }
+/* Site-variant header slots: Header.tsx renders both A and B markup so the
+   correct one is visible before React mounts. Pre-paint sets the attribute. */
+html:not([data-xp-site-variant]) [data-xp-slot="site_variant"][data-xp-v="B"],
+html[data-xp-site-variant="A"] [data-xp-slot="site_variant"][data-xp-v="B"],
+html[data-xp-site-variant="B"] [data-xp-slot="site_variant"][data-xp-v="A"] { display: none !important; }
 
 /* ── Hero facts strip — responsive grid ───────────────────────────────────── */
 .ds-hero-facts {

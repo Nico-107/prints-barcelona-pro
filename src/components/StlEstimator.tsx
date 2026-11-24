@@ -9,7 +9,7 @@ import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
 import type { EventMap } from "@/lib/analyticsEvents";
 import { ExitReasonCard, hasExitSurveyBeenShown, markLeadSubmitted, hasLeadBeenSubmitted } from "@/components/ExitReasonCard";
-import { useXpExposure } from "@/lib/experiments";
+import { ExitToastBody } from "@/components/ExitToastBody";
 import { getStoredUTM } from "@/lib/utm";
 import { customerRef } from "@/lib/customerRef";
 import { GOOGLE_RATING, formatRating } from "@/data/rating";
@@ -24,6 +24,7 @@ import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
 import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
+import { snapshotXpVariants } from "@/lib/experiments/engine";
 import { formatEUR } from "@/lib/formatPrice";
 import { isImageFile, isConvertibleModel, fileExt, stlBboxMm } from "@/lib/fileConverters";
 import { CHECKOUT_MAX_BYTES, isBinaryStl } from "@/lib/stlPrepare";
@@ -209,9 +210,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     return () => observer.disconnect();
   }, [adminMode]);
 
-  // Experiment: upload_area_r1 — exposure fires when the drop zone is visible
-  const uploadAreaExposureRef = useRef<HTMLDivElement>(null);
-  useXpExposure(uploadAreaExposureRef, "upload_area_r1");
+  // upload_area_r1 concluded 2026-11-24 — variant B (bigger zone + WhatsApp
+  // link) shipped permanently. A and C deleted; no exposure fires.
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -1248,6 +1248,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         language,
         phId: get_distinct_id() ?? null,
         phSid: get_session_id() ?? null,
+        xpVariants: snapshotXpVariants(language),
         utmSource: storedUtm?.utm_source ?? null,
         utmMedium: storedUtm?.utm_medium ?? null,
         utmContent: storedUtm?.utm_content ?? null,
@@ -2016,111 +2017,41 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           onChange={handleChange}
         />
 
-        {/* Drop zone / add-more */}
+        {/* Drop zone / add-more — upload_area_r1 shipped variant B
+            (bigger zone + file-type list + WhatsApp link). */}
         {parsedFiles.length === 0 ? (
-          <div ref={uploadAreaExposureRef}>
-            {/* Variant A (control): current copy */}
-            <div data-xp-slot="upload_area_r1" data-xp-v="A">
-              <div
-                {...dragHandlers}
-                data-ph-name="upload"
-                onClick={() => inputRef.current?.click()}
-                className="relative rounded-xl p-10 text-center cursor-pointer transition-all select-none"
-                style={isDragging
-                  ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
-                  : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
-                onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
-                onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
-              >
-                <Upload className="w-10 h-10 text-[#2E5BFF] mx-auto mb-3" />
-                <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
-                <p className="text-sm text-muted-foreground mb-3">{t("calc.dropSub")}</p>
-                <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none">
-                  {t("calc.chooseFiles")}
-                </span>
-              </div>
-              <p className="text-center text-sm text-muted-foreground mt-2">
-                {t("calc.dropzone.noFile")}{" "}
-                <Link
-                  to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "es" ? "/disena-tu-pieza-3d" : "/design-your-3d-part"}
-                  className="underline text-foreground hover:text-accent transition-colors"
-                >
-                  {t("calc.dropzone.noFile.cta")}
-                </Link>
-              </p>
+          <div>
+            <div
+              {...dragHandlers}
+              data-ph-name="upload"
+              onClick={() => inputRef.current?.click()}
+              className="relative rounded-xl p-12 text-center cursor-pointer transition-all select-none"
+              style={isDragging
+                ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
+                : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
+              onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
+              onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
+            >
+              <Upload className="w-14 h-14 text-[#2E5BFF] mx-auto mb-3" />
+              <p className="text-lg font-semibold text-foreground mb-1">{t("calc.drop")}</p>
+              <p className="text-sm text-muted-foreground mb-2">{t("calc.dropSub")}</p>
+              <p className="text-xs font-mono text-[#2E5BFF]/80 tracking-wider mb-3">STL · 3MF · OBJ · STEP</p>
+              <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none">
+                {t("calc.chooseFiles")}
+              </span>
             </div>
-
-            {/* Variant B: bigger drop zone with file types + WhatsApp link */}
-            <div data-xp-slot="upload_area_r1" data-xp-v="B">
-              <div
-                {...dragHandlers}
-                data-ph-name="upload"
-                onClick={() => inputRef.current?.click()}
-                className="relative rounded-xl p-12 text-center cursor-pointer transition-all select-none"
-                style={isDragging
-                  ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
-                  : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
-                onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
-                onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
+            <p className="text-center text-sm text-muted-foreground mt-3">
+              {t("xp.uploadArea.b.noFile")}{" "}
+              <a
+                href={`${WHATSAPP_URL}?text=${encodeURIComponent(t("xp.uploadArea.b.whatsappMsg"))}`}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="text-whatsapp hover:underline"
+                onClick={() => capture("whatsapp_from_modal", { source: "upload_area" })}
               >
-                <Upload className="w-14 h-14 text-[#2E5BFF] mx-auto mb-3" />
-                <p className="text-lg font-semibold text-foreground mb-1">{t("calc.drop")}</p>
-                <p className="text-sm text-muted-foreground mb-2">{t("calc.dropSub")}</p>
-                <p className="text-xs font-mono text-[#2E5BFF]/80 tracking-wider mb-3">STL · 3MF · OBJ · STEP</p>
-                <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none">
-                  {t("calc.chooseFiles")}
-                </span>
-              </div>
-              <p className="text-center text-sm text-muted-foreground mt-3">
-                {t("xp.uploadArea.b.noFile")}{" "}
-                <a
-                  href={`${WHATSAPP_URL}?text=${encodeURIComponent(t("xp.uploadArea.b.whatsappMsg"))}`}
-                  target="_blank"
-                  rel="nofollow noopener noreferrer"
-                  className="text-whatsapp hover:underline"
-                  onClick={() => capture("whatsapp_from_modal", { source: "upload_area_b" })}
-                >
-                  {t("xp.uploadArea.b.whatsappLink")}
-                </a>
-              </p>
-            </div>
-
-            {/* Variant C: control drop zone + 3-step mini guide */}
-            <div data-xp-slot="upload_area_r1" data-xp-v="C">
-              <div
-                {...dragHandlers}
-                onClick={() => inputRef.current?.click()}
-                className="relative rounded-xl p-10 text-center cursor-pointer transition-all select-none"
-                style={isDragging
-                  ? { border: '2px solid #2E5BFF', background: '#EEF2FF', transform: 'scale(1.01)' }
-                  : { border: '2px dashed #93A3BC', background: '#F7F9FC' }}
-                onMouseEnter={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#2E5BFF'; (e.currentTarget as HTMLElement).style.borderStyle = 'solid'; (e.currentTarget as HTMLElement).style.background = '#EEF2FF'; } }}
-                onMouseLeave={e => { if (!isDragging) { (e.currentTarget as HTMLElement).style.borderColor = '#93A3BC'; (e.currentTarget as HTMLElement).style.borderStyle = 'dashed'; (e.currentTarget as HTMLElement).style.background = '#F7F9FC'; } }}
-              >
-                <Upload className="w-12 h-12 text-[#2E5BFF] mx-auto mb-3" />
-                <p className="text-base font-semibold text-foreground mb-1">{t("calc.drop")}</p>
-                <p className="text-sm text-muted-foreground mb-3">{t("calc.dropSub")}</p>
-                <span className="inline-block bg-[#2E5BFF] text-white text-sm font-semibold px-5 py-2 rounded-lg pointer-events-none mb-3">
-                  {t("calc.chooseFiles")}
-                </span>
-                <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                  <span>1 {t("xp.uploadArea.c.step1")}</span>
-                  <span>·</span>
-                  <span>2 {t("xp.uploadArea.c.step2")}</span>
-                  <span>·</span>
-                  <span>3 {t("xp.uploadArea.c.step3")}</span>
-                </div>
-              </div>
-              <p className="text-center text-sm text-muted-foreground mt-2">
-                {t("calc.dropzone.noFile")}{" "}
-                <Link
-                  to={language === "ca" ? "/dissenya-la-teva-peca-3d" : language === "es" ? "/disena-tu-pieza-3d" : "/design-your-3d-part"}
-                  className="underline text-foreground hover:text-accent transition-colors"
-                >
-                  {t("calc.dropzone.noFile.cta")}
-                </Link>
-              </p>
-            </div>
+                {t("xp.uploadArea.b.whatsappLink")}
+              </a>
+            </p>
           </div>
         ) : parsedFiles.length < MAX_FILES ? (
           <div
@@ -3003,92 +2934,55 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                         try { await navigator.clipboard.writeText(window.location.href); sonnerToast(t("calc.saveQuote.copied")); }
                         catch { /* clipboard denied on http */ }
                       };
-                      const REASONS = [
-                        t("calc.exitReason.price"),
-                        t("calc.exitReason.unsure"),
-                        t("calc.exitReason.compare"),
-                        t("calc.exitReason.delivery"),
+                      // Prompt 1 Part D — six one-tap reasons. Tapping fires
+                      // exit_reason_answered and swaps the toast to the
+                      // reward reveal (static EXIT20 code, 20% off, 48h).
+                      const REASON_KEYS = [
+                        { key: 'price' as const,     label: t('exit.reason.price_high') },
+                        { key: 'shipping' as const,  label: t('exit.reason.shipping')   },
+                        { key: 'comparing' as const, label: t('exit.reason.comparing')  },
+                        { key: 'material' as const,  label: t('exit.reason.material')   },
+                        { key: 'review' as const,    label: t('exit.reason.review')     },
+                        { key: 'other' as const,     label: t('exit.reason.other')      },
                       ];
+                      const toastPriceBucket = instantTotalPrice != null
+                        ? (instantTotalPrice < 15 ? '<15' : instantTotalPrice < 30 ? '15-30' : instantTotalPrice < 60 ? '30-60' : instantTotalPrice < 100 ? '60-100' : '>100')
+                        : undefined;
+                      const toastDeviceType: 'mobile' | 'tablet' | 'desktop' =
+                        window.innerWidth < 640 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop';
+                      const EXIT_REWARD_CODE = 'EXIT20';
                       sonnerToast.custom((toastId) => (
-                        <div
-                          data-testid="exit-popup"
-                          role="status"
-                          className="rounded-lg border border-border bg-background shadow-lg p-4 min-w-[300px] max-w-sm space-y-3"
-                        >
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="min-w-0">
-                              <p className="font-semibold text-sm">{priceStr} · {ship}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5">{sureLabel}</p>
-                            </div>
-                            <button
-                              type="button"
-                              data-testid="exit-popup-dismiss"
-                              onClick={() => { sonnerToast.dismiss(toastId); }}
-                              aria-label="Close"
-                              className="text-muted-foreground hover:text-foreground text-sm leading-none px-1"
-                            >
-                              ✕
-                            </button>
-                          </div>
-                          <button
-                            type="button"
-                            data-testid="exit-popup-back"
-                            onClick={() => {
-                              capture('exit_intent_recovered');
-                              setMobileModalOpen(true);
-                              sonnerToast.dismiss(toastId);
-                            }}
-                            className="w-full rounded-md bg-cta text-cta-foreground text-sm font-semibold px-3 py-2 shadow-sm hover:bg-cta/90"
-                          >
-                            {backLabel}
-                          </button>
-                          {/* Three one-tap exits */}
-                          <div className="grid grid-cols-3 gap-2 text-[11px]" data-testid="exit-popup-exits">
-                            <a
-                              href={waHref}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={() => { capture('exit_popup_action' as any, { action: 'whatsapp' }); sonnerToast.dismiss(toastId); }}
-                              className="flex items-center justify-center gap-1 rounded-md border border-input px-2 py-1.5 text-foreground hover:bg-muted/50"
-                              data-ph-name="exit-wa"
-                            >
-                              <MessageCircle className="w-3 h-3" /> WhatsApp
-                            </a>
-                            <button
-                              type="button"
-                              onClick={() => { setExitPopupReviewExpanded(true); setExitPopupVariant('quote'); setShowExitIntent(true); capture('exit_popup_action' as any, { action: 'save_quote' }); sonnerToast.dismiss(toastId); }}
-                              className="flex items-center justify-center gap-1 rounded-md border border-input px-2 py-1.5 text-foreground hover:bg-muted/50"
-                              data-ph-name="exit-save-quote"
-                            >
-                              <Send className="w-3 h-3" /> {t("calc.saveQuote.link")}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => { copyLink(); capture('exit_popup_action' as any, { action: 'copy_link' }); }}
-                              className="flex items-center justify-center gap-1 rounded-md border border-input px-2 py-1.5 text-foreground hover:bg-muted/50"
-                              data-ph-name="exit-copy-link"
-                            >
-                              {t("calc.saveQuote.copyLink")}
-                            </button>
-                          </div>
-                          {/* Reason chips */}
-                          <div className="pt-1" data-testid="exit-popup-reasons">
-                            <p className="text-[11px] text-muted-foreground mb-1">{t("calc.exitReason.prompt")}</p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {REASONS.map((label) => (
-                                <button
-                                  key={label}
-                                  type="button"
-                                  onClick={() => { capture('exit_reason' as any, { reason: label, price_eur: instantTotalPrice ?? chargedPrice }); sonnerToast.dismiss(toastId); }}
-                                  className="text-[11px] rounded-full border border-input bg-background px-2.5 py-1 text-foreground hover:bg-muted/50"
-                                >
-                                  {label}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ), { duration: 15_000 });
+                        <ExitToastBody
+                          toastId={toastId}
+                          priceStr={priceStr}
+                          ship={ship}
+                          sureLabel={sureLabel}
+                          backLabel={backLabel}
+                          saveQuoteLabel={t("calc.saveQuote.link")}
+                          copyLinkLabel={t("calc.saveQuote.copyLink")}
+                          reasonPrompt={t("calc.exitReason.prompt")}
+                          rewardTitle={t("exit.reward.title")}
+                          rewardCodeLabel={t("exit.reward.code").replace("{code}", EXIT_REWARD_CODE)}
+                          copyCodeLabel={t("exit.reward.copy")}
+                          copiedCodeLabel={t("exit.reward.copied")}
+                          waHref={waHref}
+                          reasons={REASON_KEYS}
+                          priceBucket={toastPriceBucket}
+                          deviceType={toastDeviceType}
+                          rewardCode={EXIT_REWARD_CODE}
+                          onRecover={() => {
+                            capture('exit_intent_recovered');
+                            setMobileModalOpen(true);
+                          }}
+                          onSaveQuote={() => {
+                            setExitPopupReviewExpanded(true);
+                            setExitPopupVariant('quote');
+                            setShowExitIntent(true);
+                            capture('exit_popup_action' as any, { action: 'save_quote' });
+                          }}
+                          onCopyLink={copyLink}
+                        />
+                      ), { duration: 30_000 });
                     } else {
                       setExitPopupVariant(variant);
                       setShowExitIntent(true);

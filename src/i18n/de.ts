@@ -1107,4 +1107,23 @@ export const deTranslations: Record<string, string> = {
   "header.v2.cta": "Preis sehen",
   "header.menu.open": "Menü öffnen",
   "header.menu.close": "Menü schließen",
+  // Prompt 1 Teil D — sechs Ein-Klick-Austrittsgründe + Belohnung
+  "exit.reason.price_high": "Zu teuer",
+  "exit.reason.shipping": "Der Versand",
+  "exit.reason.comparing": "Nur am Vergleichen",
+  "exit.reason.material": "Weiß nicht, welches Material",
+  "exit.reason.review": "Jemand soll es prüfen",
+  "exit.reason.other": "Sonstiges",
+  "exit.reward.title": "Danke. Hier sind 20 % Rabatt für diese Bestellung.",
+  "exit.reward.code": "Code: {code} — 48 h gültig",
+  "exit.reward.copy": "Code kopieren",
+  "exit.reward.copied": "Code kopiert",
+  // Prompt 1 Teil E — Dankeseite „Wofür ist dieses Teil?"
+  "piece.purpose.title": "Wofür ist dieses Teil?",
+  "piece.purpose.repair": "Reparatur",
+  "piece.purpose.personal_project": "Eigenes Projekt",
+  "piece.purpose.business": "Unternehmen",
+  "piece.purpose.gift_or_decor": "Geschenk oder Deko",
+  "piece.purpose.other": "Sonstiges",
+  "piece.purpose.thanks": "Danke!",
 };

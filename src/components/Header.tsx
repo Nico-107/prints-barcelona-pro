@@ -1,9 +1,8 @@
 import { Menu, X, Star, PackageSearch, ChevronDown } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { capture } from "@/lib/analytics";
-import { useXpExposure, fireXpExposure } from "@/lib/experiments";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,8 +73,6 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
   const landingTopicSlugs = currentLandingPage
     ? SLUGS_BY_TOPIC[currentLandingPage.topic]
     : undefined;
-  const desktopSlotRef = useRef<HTMLButtonElement>(null);
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -113,18 +110,14 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
     };
   }, [siteVariant]);
 
-  // Text depends only on language — same on server and first client render.
-  const xpHeaderText = (key: string): string =>
-    XP_LANGS.includes(language) ? t(key) : t("nav.requestQuote");
+  // header_btn_r2 shipped variant B ("Precios desde 9,90 €") on 2026-11-24.
+  // ES/EN/CA use the shipped copy; other languages fall back to the generic
+  // request-quote label.
+  const headerCtaText = XP_LANGS.includes(language)
+    ? t("xp.header.v4")
+    : t("nav.requestQuote");
 
   const isActivePath = (href: string) => location.pathname === href || location.pathname === href + "/";
-
-  useXpExposure(desktopSlotRef, "header_btn_r2", () => ({ placement: "desktop" }));
-
-  useEffect(() => {
-    if (isMenuOpen) fireXpExposure("header_btn_r2", { placement: "mobile" });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMenuOpen]);
 
   // Lock body scroll + close on Escape while the mobile sheet is open.
   useEffect(() => {
@@ -581,14 +574,12 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
                 </Link>
               </Button>
               <Button
-                ref={desktopSlotRef}
                 variant="cta"
                 size="sm"
                 onClick={() => openCalculatorFilePicker("header")}
                 className="whitespace-nowrap"
               >
-                <span data-xp-slot="header_btn_r2" data-xp-v="A" className="whitespace-nowrap">{xpHeaderText("xp.header.v3")}</span>
-                <span data-xp-slot="header_btn_r2" data-xp-v="B" className="whitespace-nowrap">{xpHeaderText("xp.header.v4")}</span>
+                <span className="whitespace-nowrap">{headerCtaText}</span>
               </Button>
             </div>
 
@@ -630,8 +621,7 @@ const HeaderInner = ({ forcedVariant }: HeaderProps = {}) => {
               className="w-full mb-4 h-12 text-base"
               onClick={() => openCalculatorFilePicker("header_mobile")}
             >
-              <span data-xp-slot="header_btn_r2" data-xp-v="A">{xpHeaderText("xp.header.v3")}</span>
-              <span data-xp-slot="header_btn_r2" data-xp-v="B">{xpHeaderText("xp.header.v4")}</span>
+              <span>{headerCtaText}</span>
             </Button>
 
             {/* For Business */}

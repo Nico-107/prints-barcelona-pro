@@ -10,11 +10,9 @@ vi.mock('@/lib/analytics', () => ({ capture: vi.fn() }));
 import * as analytics from '@/lib/analytics';
 import { fireXpExposure, useXpExposure } from './exposure';
 
-// modal_actions_r1 excluded — concluded 2026-10-29, no longer fires exposures.
+// Only home_proof_r1 remains active (A vs C). Other tests concluded 2026-11-24.
 const EXPERIMENTS = [
-  'header_btn_r2',
   'home_proof_r1',
-  'upload_area_r1',
 ] as const;
 
 let captureIO: IntersectionObserverCallback | null = null;
@@ -73,13 +71,13 @@ describe('fireXpExposure', () => {
   });
 
   it('is idempotent — second call in same session is a no-op', () => {
-    fireXpExposure('header_btn_r2');
-    fireXpExposure('header_btn_r2');
+    fireXpExposure('home_proof_r1');
+    fireXpExposure('home_proof_r1');
     expect(vi.mocked(analytics.capture)).toHaveBeenCalledOnce();
   });
 
   it('passes extra props (placement) to the event', () => {
-    fireXpExposure('header_btn_r2', { placement: 'mobile' });
+    fireXpExposure('home_proof_r1', { placement: 'mobile' });
     const [, rawPropsExtra] = vi.mocked(analytics.capture).mock.calls[0];
     const propsExtra = rawPropsExtra as { placement?: string };
     expect(propsExtra?.placement).toBe('mobile');
@@ -124,7 +122,7 @@ describe('useXpExposure', () => {
     document.body.appendChild(container);
 
     act(() => {
-      createRoot(container).render(<TestComponent experimentId="header_btn_r2" />);
+      createRoot(container).render(<TestComponent experimentId="home_proof_r1" />);
     });
 
     triggerIO(0.6);
@@ -142,7 +140,7 @@ describe('useXpExposure', () => {
 
     act(() => {
       createRoot(container).render(
-        <TestComponent experimentId="header_btn_r2" extraPropsFn={() => ({ placement: 'desktop' })} />,
+        <TestComponent experimentId="home_proof_r1" extraPropsFn={() => ({ placement: 'desktop' })} />,
       );
     });
 

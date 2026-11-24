@@ -18,9 +18,52 @@ type PHInstance = {
 let ph: PHInstance | null = null;
 let eventQueue: { event: string; properties?: Record<string, unknown> }[] = [];
 
-// ---- Internal traffic flag (A3) ----
+// ---- Internal traffic flag (Prompt 1 Part B) ----
+//
+// Rules:
+//   • ?internal=1 sets a persistent flag in localStorage and registers a
+//     PostHog super-property so every later event carries is_internal=true.
+//     ?internal=0 clears both.
+//   • The flag is also set automatically when the current session is clearly
+//     owner-side: /admin or /internal route, a Supabase admin auth token in
+//     storage, localhost / Vercel preview / any Lovable host, the referrer
+//     contains "lovable", or navigator.webdriver is true.
+//   • Experiment assignment reads isInternalForExperiments() and skips
+//     internal visitors so they don't get counted in any variant (pre-paint
+//     also honours the same localStorage flag).
 
 const INTERNAL_FLAG_KEY = "dim3d-internal";
+
+function matchesInternalHost(host: string): boolean {
+  if (host === "localhost" || host === "127.0.0.1") return true;
+  if (host.endsWith(".localhost")) return true;
+  if (host.endsWith(".vercel.app")) return true;
+  if (host.endsWith(".lovable.app")) return true;
+  if (host.endsWith(".lovable.dev")) return true;
+  if (host.includes(".lovableproject.com")) return true;
+  return false;
+}
+
+function referrerMentionsLovable(): boolean {
+  try { return /lovable/i.test(document.referrer || ""); } catch { return false; }
+}
+
+function hasSupabaseAdminSession(): boolean {
+  // Supabase stores auth tokens in localStorage under the key
+  // `sb-<project-ref>-auth-token`. We only care that the user is signed in at
+  // all — the admin role check happens server-side. Owner is the only person
+  // who ever signs in on this site, so a signed-in session is a strong signal.
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith("sb-") && k.endsWith("-auth-token")) {
+        const v = localStorage.getItem(k);
+        if (v && v.length > 10) return true;
+      }
+    }
+  } catch { /* localStorage unavailable */ }
+  return false;
+}
 
 export function processInternalFlag(): void {
   if (typeof window === "undefined") return;
@@ -32,33 +75,41 @@ export function processInternalFlag(): void {
   } catch {
     // localStorage unavailable
   }
+  // Auto-set when the session is obviously owner-side so we don't need to
+  // remember ?internal=1 on every device. Idempotent — writes "1" to the
+  // same key the manual flag uses.
+  if (shouldAutoMarkInternal()) {
+    try { localStorage.setItem(INTERNAL_FLAG_KEY, "1"); } catch { /* ignore */ }
+  }
+}
+
+function shouldAutoMarkInternal(): boolean {
+  if (typeof window === "undefined") return false;
+  const path = window.location.pathname;
+  if (path.startsWith("/admin")) return true;
+  if (path.startsWith("/internal")) return true;
+  if (matchesInternalHost(window.location.hostname)) return true;
+  if (referrerMentionsLovable()) return true;
+  const nav = (window.navigator ?? {}) as Navigator & { webdriver?: boolean };
+  if (nav.webdriver === true) return true;
+  if (hasSupabaseAdminSession()) return true;
+  return false;
 }
 
 function getIsInternal(): boolean {
   if (typeof window === "undefined") return false;
-  // Conv 4.1: is_internal is true on any of:
-  //   - /admin pages
-  //   - the dim3d-internal localStorage flag (set by /internal or ?internal=1)
-  //   - automated browsers (navigator.webdriver)
-  //   - localhost / preview hosts
-  if (window.location.pathname.startsWith("/admin")) return true;
-  if (window.location.pathname.startsWith("/internal")) return true;
   try {
     if (localStorage.getItem(INTERNAL_FLAG_KEY) === "1") return true;
   } catch { /* localStorage unavailable */ }
-  const nav = (window.navigator ?? {}) as Navigator & { webdriver?: boolean };
-  if (nav.webdriver === true) return true;
-  const host = window.location.hostname;
-  if (
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host.endsWith(".localhost") ||
-    host.endsWith(".preview.lovable.app") ||
-    host.includes(".lovableproject.com")
-  ) {
-    return true;
-  }
-  return false;
+  return shouldAutoMarkInternal();
+}
+
+/**
+ * Exposed for the experiment assignment code: internal visitors stay on
+ * control (no variant tag) so they can't skew any arm's metrics.
+ */
+export function isInternalForExperiments(): boolean {
+  return getIsInternal();
 }
 
 // ---- Page context (A2) — set by App.tsx on every pathname change ----
@@ -130,8 +181,9 @@ const NO_GTAG = new Set<string>([
 // ---- Internal dispatch (works with any string event name) ----
 
 function _dispatch(event: string, properties?: Record<string, unknown>): void {
-  // Skip all events for internal/admin sessions — owner testing must not inflate metrics.
-  if (getIsInternal()) return;
+  // Internal (owner-side) sessions still fire events so we can see them in
+  // debug views, but every event carries is_internal=true (set in
+  // buildContextProps) so PostHog filters strip them from reports.
 
   // Caller-supplied values win; context fills in the blanks.
   const enriched: Record<string, unknown> = {
@@ -169,6 +221,12 @@ export function capture<E extends EventName>(
 
 export function registerPostHog(instance: PHInstance): void {
   ph = instance;
+  // Prompt 1 Part B: set is_internal as a PostHog super-property so it lands
+  // on every event — including PostHog-internal ones ($pageview, autocapture,
+  // $exception) that never flow through our _dispatch.
+  if (getIsInternal()) {
+    try { instance.register({ is_internal: true }); } catch { /* ignore */ }
+  }
   if (eventQueue.length > 0) {
     eventQueue.forEach(({ event, properties }) => {
       ph!.capture(event, properties);

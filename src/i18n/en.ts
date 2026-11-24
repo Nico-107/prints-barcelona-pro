@@ -1112,4 +1112,23 @@ export const enTranslations: Record<string, string> = {
   "header.v2.cta": "See my price",
   "header.menu.open": "Open menu",
   "header.menu.close": "Close menu",
+  // Prompt 1 Part D — six one-tap exit reasons + reward reveal
+  "exit.reason.price_high": "Too expensive",
+  "exit.reason.shipping": "Shipping",
+  "exit.reason.comparing": "Just comparing",
+  "exit.reason.material": "Not sure which material",
+  "exit.reason.review": "Need someone to review it",
+  "exit.reason.other": "Other",
+  "exit.reward.title": "Thanks. Take 20% off this order.",
+  "exit.reward.code": "Code: {code} — valid 48 h",
+  "exit.reward.copy": "Copy code",
+  "exit.reward.copied": "Code copied",
+  // Prompt 1 Part E — thank-you "what is this piece for" question
+  "piece.purpose.title": "What is this piece for?",
+  "piece.purpose.repair": "Repair",
+  "piece.purpose.personal_project": "Personal project",
+  "piece.purpose.business": "Business",
+  "piece.purpose.gift_or_decor": "Gift or decoration",
+  "piece.purpose.other": "Other",
+  "piece.purpose.thanks": "Thanks!",
 };
