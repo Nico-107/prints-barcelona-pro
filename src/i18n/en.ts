@@ -1131,4 +1131,7 @@ export const enTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Gift or decoration",
   "piece.purpose.other": "Other",
   "piece.purpose.thanks": "Thanks!",
+  // Prompt 2 — neutral review note shown under the price for repaired /
+  // capped files. Reassurance only, no alarm wording.
+  "pricing.reviewNote": "Nico will review your file before printing",
 };

@@ -1131,4 +1131,6 @@ export const ptTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Presente ou decoração",
   "piece.purpose.other": "Outro",
   "piece.purpose.thanks": "Obrigado!",
+  // Prompt 2 — linha neutra sob o preço para ficheiros reparados / limitados.
+  "pricing.reviewNote": "O Nico vai rever o teu ficheiro antes de imprimir",
 };

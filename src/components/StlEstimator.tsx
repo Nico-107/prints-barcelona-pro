@@ -17,10 +17,16 @@ import type { ParsedFile, PartSettings, PartDefaults, MaterialOption } from "@/l
 import { effectivePartSettings } from "@/lib/pricing";
 import type { Scope } from "./estimator/PartScopeBar";
 import { computeBundleV3 } from "@/lib/estimate";
+// Prompt 2 — `computeBundleWithCap` adds the volume-only safety cap on top
+// of `computeBundleV3` for the user-visible price. We still import
+// `computeBundleV3` for the "worst orientation" delta computation and for
+// pre-prep paths that don't need the cap.
 import type { BundleEstimateV3 } from "@/lib/estimate";
 import { usePricingProbe, freeShippingThresholdCents } from "@/lib/usePricingVersion";
 import type { AppliedPromo } from "@/components/estimator/PromoLine";
-import { EST, analyzeTriangles, stlToTriangles } from "@/lib/estimator/core";
+import { EST, stlToTriangles } from "@/lib/estimator/core";
+import { analyseMeshViaWorker } from "@/lib/callMeshAnalysisWorker";
+import { computeBundleWithCap, aggregateMeshStats } from "@/lib/pricingWithCap";
 import type { QualityKey } from "@/lib/estimator/core";
 import { CHECKOUT_V3_READY, getInstantBuyStatus } from "@/lib/instantBuy";
 import { buildCheckoutBody } from "@/lib/checkoutBody";
@@ -403,7 +409,12 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const defaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality, supports, orientation };
   const validFiles = parsedFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
   const costByFileId: Record<string, number> = {};
-  const bundle: BundleEstimateV3 | null = computeBundleV3(parsedFiles, defaults, urgency, { v4: pricingVersion === 4 });
+  // Prompt 2 — safety cap + fallback marker flow through `computeBundleWithCap`.
+  const anyMessy = parsedFiles.some(f => f.meshQuality && (!f.meshQuality.watertight || f.meshQuality.shells > 1));
+  const bundleWithCap = computeBundleWithCap(parsedFiles, defaults, urgency, { v4: pricingVersion === 4, partsAreMessy: anyMessy });
+  const bundle: BundleEstimateV3 | null = bundleWithCap;
+  const priceCapped = bundleWithCap?.priceCapped ?? false;
+  const usedFallback = bundleWithCap?.usedFallback ?? false;
   if (bundle) {
     const isMinimumHit = bundle.orderResult.minAdjCents > 0;
     if (isMinimumHit && validFiles.length === 1) {
@@ -639,7 +650,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           continue;
         }
 
-        const analysis = analyzeTriangles(stlToTriangles(checkoutBuf));
+        // Prompt 2 — mesh analysis + repair runs in a Web Worker so the
+        // UI never freezes while manifold-3d processes a 185k-tri mess.
+        const triForAnalysis = stlToTriangles(checkoutBuf);
+        const prep = await analyseMeshViaWorker(triForAnalysis);
+        const analysis = prep.analysis;
         const volumeMm3 = analysis.volumeMm3;
         if (analysis.triangles === 0 || volumeMm3 === 0) {
           capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -647,10 +662,22 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           results.push({ id, name: f.name, sizeBytes: f.size, volumeMm3: 0, qty: 1, parseError: t("calc.error.parse") });
         } else {
           capture("file_parsed", { status: "ok", size_kb: Math.round(f.size / 1024), ext });
-          // Upload the checkout copy (prepared binary STL); sizeBytes reflects its size
           const checkoutFile = new File([checkoutBuf], f.name.replace(/\.[^.]+$/, ".stl"), { type: "model/stl" });
           const bboxMm = stlBboxMm(checkoutBuf);
-          results.push({ id, name: f.name, sizeBytes: checkoutBuf.byteLength, volumeMm3, qty: 1, file: checkoutFile, analysis, bboxMm });
+          results.push({
+            id, name: f.name, sizeBytes: checkoutBuf.byteLength, volumeMm3, qty: 1,
+            file: checkoutFile, analysis, bboxMm,
+            meshQuality: {
+              tris: prep.quality.triangles,
+              shells: prep.quality.shells,
+              watertight: prep.quality.watertight,
+              openEdges: prep.quality.openEdges,
+              totalSurfaceCm2: prep.quality.totalSurfaceCm2,
+            },
+            meshRepaired: prep.repaired,
+            meshUsedFallback: prep.usedFallback,
+            meshRepairMs: Math.round(prep.elapsedMs),
+          });
         }
       } catch {
         capture("file_upload_error", { reason: "parse_error", file_type: ext });
@@ -667,7 +694,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     if (!adminMode) {
       const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
-      const nextBundle = computeBundleV3(nextFiles, nextDefaults, urgency, { v4: pricingVersion === 4 });
+      const nextAnyMessy = nextFiles.some(f => f.meshQuality && (!f.meshQuality.watertight || f.meshQuality.shells > 1));
+      const nextBundle = computeBundleWithCap(nextFiles, nextDefaults, urgency, { v4: pricingVersion === 4, partsAreMessy: nextAnyMessy });
       if (nextBundle) {
         const priceMid = (nextBundle.low + nextBundle.high) / 2;
         const priceBucket = priceMid < 15 ? "<15" : priceMid < 30 ? "15-30" : priceMid < 60 ? "30-60" : priceMid < 100 ? "60-100" : ">100";
@@ -682,12 +710,17 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           forceQuoteOnly,
           showManualReview: false,
         });
+        // Prompt 2 — aggregate mesh stats across priced parts for monitoring.
+        const pricedFiles = nextFiles.filter(f => !f.parseError && !f.imageFile && !f.linkFile);
+        const meshStats = aggregateMeshStats(pricedFiles);
         capture("estimate_shown", {
           price_eur_bucket: priceBucket as "<15" | "15-30" | "30-60" | "60-100" | ">100",
           time_to_price_ms: Date.now() - uploadStartMs,
           file_count: nextFiles.filter(f => !f.parseError).length,
           instant_eligible: nextStatus.eligible,
           ineligible_reasons: nextStatus.reasons.join(","),
+          ...meshStats,
+          price_capped: nextBundle.priceCapped,
         });
         // Prompt 26 §3 — terminal stage of the upload pipeline.
         {
@@ -1163,7 +1196,14 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
   const handleInstantBuy = async () => {
     const priceMidForBucket = bundle ? (bundle.low + bundle.high) / 2 : 0;
     const bucket = priceMidForBucket < 15 ? "<15" : priceMidForBucket < 30 ? "15-30" : priceMidForBucket < 60 ? "30-60" : priceMidForBucket < 100 ? "60-100" : ">100";
-    capture('buy_clicked', { price_eur_bucket: bucket });
+    // Prompt 2 — attach the same mesh diagnostics so we can correlate
+    // buys against repair/cap state server-side.
+    const buyMeshStats = aggregateMeshStats(validFiles);
+    capture('buy_clicked', {
+      price_eur_bucket: bucket,
+      ...buyMeshStats,
+      price_capped: priceCapped,
+    });
     if (fulfillment === null) {
       capture('buy_blocked', { reason: 'no_fulfillment' });
       setFulfillmentAttempted(true);
@@ -2411,6 +2451,11 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           validFiles,
           bundle,
           defaults,
+          // Prompt 2 — show the neutral review note under the Buy button
+          // whenever manifold-3d repaired the mesh, the volume-only
+          // fallback fired, or the safety cap trimmed the price. We do NOT
+          // swap the Buy button for a quote CTA — Nico just reviews after.
+          showReviewNote: priceCapped || usedFallback,
           selectedFileIndex,
           expandedPartId,
           onSelectPart: setSelectedFileIndex,

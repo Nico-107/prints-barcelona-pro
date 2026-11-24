@@ -189,6 +189,15 @@ interface EstimateShownProps {
   file_count?: number;
   instant_eligible?: boolean;
   ineligible_reasons?: string;
+  // Prompt 2 — mesh diagnostics so we can monitor repair/cap in production.
+  mesh_tris?: number;
+  mesh_shells?: number;
+  mesh_watertight?: boolean;
+  mesh_area_cm2?: number;
+  mesh_volume_cm3?: number;
+  mesh_repaired?: boolean;
+  price_capped?: boolean;
+  estimate_ms?: number;
 }
 
 interface ConfigChangedProps {
@@ -206,6 +215,16 @@ interface ContactEnteredProps {
 
 interface BuyClickedProps {
   price_eur_bucket?: string;
+  // Prompt 2 — same mesh diagnostics attached at buy time so we can tie
+  // outcomes (orders paid, refund requests) back to the mesh health.
+  mesh_tris?: number;
+  mesh_shells?: number;
+  mesh_watertight?: boolean;
+  mesh_area_cm2?: number;
+  mesh_volume_cm3?: number;
+  mesh_repaired?: boolean;
+  price_capped?: boolean;
+  estimate_ms?: number;
 }
 
 interface ReviewClickedProps {

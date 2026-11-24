@@ -1125,4 +1125,6 @@ export const caTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Regal o decoració",
   "piece.purpose.other": "Un altre",
   "piece.purpose.thanks": "Gràcies!",
+  // Prompt 2 — nota neutral sota el preu per a fitxers reparats / limitats.
+  "pricing.reviewNote": "En Nico revisarà el teu fitxer abans d'imprimir",
 };

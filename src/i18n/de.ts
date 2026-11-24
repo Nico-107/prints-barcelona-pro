@@ -1126,4 +1126,6 @@ export const deTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Geschenk oder Deko",
   "piece.purpose.other": "Sonstiges",
   "piece.purpose.thanks": "Danke!",
+  // Prompt 2 — neutrale Zeile unter dem Preis für reparierte / begrenzte Dateien.
+  "pricing.reviewNote": "Nico prüft deine Datei vor dem Druck",
 };

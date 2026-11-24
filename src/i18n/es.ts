@@ -1134,4 +1134,7 @@ export const esTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Regalo o decoración",
   "piece.purpose.other": "Otro",
   "piece.purpose.thanks": "¡Gracias!",
+  // Prompt 2 — neutral line under the price when the safety net or repair
+  // fallback is used. No alarm wording.
+  "pricing.reviewNote": "Nico revisará tu archivo antes de imprimir",
 };

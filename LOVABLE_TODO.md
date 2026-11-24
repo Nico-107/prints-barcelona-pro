@@ -122,3 +122,77 @@ Domains → `dimension3dprints.com` → "Redirect to" → select
 
 No other edge functions change in Prompt 1. Prompts 2–5 may add more
 sections below.
+
+---
+
+## Prompt 2
+
+### 1. `create-instant-checkout` — server must mirror the mesh-repair + cap
+
+**Why.** The frontend now repairs messy STLs (overlapping shells, duplicate
+internal surfaces) with `manifold-3d` and applies a volume-only safety cap
+(1.6× the bounding-box estimate) before showing a price. The server still
+runs the raw `analyzeTriangles` → `priceOrder` pipeline, so for a messy
+file the server price can be €90 while the client price is €11 — and the
+checkout returns `PRICE_MISMATCH` because the 2-cent tolerance is blown.
+
+**Shipped on the client** (`src/lib/prepareMeshForPricing.ts`,
+`src/lib/meshRepair.ts`, `src/lib/meshQuality.ts`,
+`src/lib/meshSafetyCap.ts`, `src/lib/pricingWithCap.ts`,
+`src/workers/meshAnalysisWorker.ts`):
+
+- Count shells + detect open edges (watertight?).
+- If not clean, split into watertight shells, build a Manifold per shell,
+  `Manifold.union(all)`, read back the triangles, re-run
+  `analyzeTriangles` on the repaired envelope.
+- 8-second repair budget. On timeout / failure fall back to a VOLUME-ONLY
+  analysis (synthesised bounding-box mesh with the real signed volume).
+- Safety cap: compute the volume-only order price; if the primary order
+  price exceeds **1.6× that**, substitute the volume-only price.
+
+**Edge function must ship the same logic, keyed on the same thresholds.**
+Pseudocode (Deno — adapt to the function's style):
+
+```ts
+// After stlToTriangles(buf) in supabase/functions/create-instant-checkout/index.ts
+const raw = analyzeTriangles(tri);
+const q = analyzeMeshQuality(tri); // port of src/lib/meshQuality.ts (pure JS)
+
+let analysis = raw;
+let usedFallback = false;
+if (!(q.watertight && q.shells === 1)) {
+  // Deno can host the manifold-3d WASM — see examples/node.
+  const repaired = await repairMeshWithBudget(tri, q, 8_000);
+  if (repaired) {
+    analysis = analyzeTriangles(repaired.repaired);
+  } else {
+    analysis = volumeOnlyAnalysis(raw.boundsMm, raw.volumeMm3);
+    usedFallback = true;
+  }
+}
+
+// Safety cap: always compute the volume-only price and cap the primary.
+const primary = priceOrder(buildInputs(analysis), urgency, flags);
+const volOnly = priceOrder(buildInputs(volumeOnlyAnalysis(raw.boundsMm, raw.volumeMm3)), urgency, flags);
+const cap = Math.round(volOnly.totalCents * 1.6);
+if (primary.totalCents > cap) {
+  // Use the volume-only price instead.
+  return volOnly;
+}
+return primary;
+```
+
+Port the TWO files below verbatim into the edge function (they have no
+external deps beyond the shared estimator block):
+
+- `src/lib/meshQuality.ts`      → `analyzeMeshQuality` + `splitWatertightShells`
+- `src/lib/meshSafetyCap.ts`    → `volumeOnlyAnalysis`
+
+And add `import ManifoldModule from "npm:manifold-3d"` for the repair step
+(the module runs in Deno — `mod.setup()` works identically there).
+
+Until the edge function ships this, messy-file buyers will see the correct
+price in the modal but `create-instant-checkout` will reject the request
+with `PRICE_MISMATCH`. Non-messy files are unaffected (deltas stay ≤ €0.01).
+
+### 2. Nothing else for Prompt 2.

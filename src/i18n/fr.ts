@@ -1131,4 +1131,6 @@ export const frTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Cadeau ou déco",
   "piece.purpose.other": "Autre",
   "piece.purpose.thanks": "Merci !",
+  // Prompt 2 — note neutre sous le prix pour les fichiers réparés / plafonnés.
+  "pricing.reviewNote": "Nico vérifiera ton fichier avant l'impression",
 };

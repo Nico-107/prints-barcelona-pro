@@ -1131,4 +1131,6 @@ export const nlTranslations: Record<string, string> = {
   "piece.purpose.gift_or_decor": "Cadeau of decoratie",
   "piece.purpose.other": "Anders",
   "piece.purpose.thanks": "Bedankt!",
+  // Prompt 2 — neutrale regel onder de prijs voor gerepareerde / afgetopte bestanden.
+  "pricing.reviewNote": "Nico controleert je bestand voor het printen",
 };

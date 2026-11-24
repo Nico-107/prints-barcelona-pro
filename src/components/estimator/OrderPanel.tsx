@@ -277,6 +277,12 @@ interface OrderPanelProps {
   appliedPromo?: AppliedPromo | null;
   onApplyPromo?: (promo: AppliedPromo) => void;
   onRemovePromo?: () => void;
+  /**
+   * Prompt 2 — set true when any part is messy (not watertight / shells > 1)
+   * or the safety cap was triggered. Shows the neutral "Nico revisará tu
+   * archivo antes de imprimir" line directly under the Buy button.
+   */
+  showReviewNote?: boolean;
   /** Promo discount in cents (v4, pre-computed). */
   promoDiscountCents?: number;
   /** Save-quote callback (R10). Returns once the quote_requests insert settles. */
@@ -358,6 +364,7 @@ export function OrderPanel({
   saveQuoteConfig,
   onLowerPrice,
   canLowerPrice = false,
+  showReviewNote = false,
 }: OrderPanelProps) {
   const lang = language as Language;
   const costByFileId: Record<string, number> = {};
@@ -691,6 +698,11 @@ export function OrderPanel({
                         : <><CreditCard className="w-4 h-4" />{buyNowLabel}</>
                     }
                   </Button>
+                  {showReviewNote && (
+                    <p data-testid="pricing-review-note" className="text-xs text-muted-foreground text-center mt-1">
+                      {t("pricing.reviewNote")}
+                    </p>
+                  )}
                   {checkoutTimedOut && (
                     <p data-testid="buy-timeout-msg" role="alert" className="text-xs text-center text-destructive">{t("calc.checkout.error.uploadTimeout")}</p>
                   )}

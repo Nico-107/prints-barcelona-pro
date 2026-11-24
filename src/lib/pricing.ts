@@ -32,6 +32,22 @@ export interface ParsedFileForPricing {
   hasHeavyOverhangs?: boolean;
   settings?: PartSettings;
   analysis?: MeshAnalysis;
+  /**
+   * Prompt 2 — mesh quality + repair stats captured by
+   * `prepareMeshForPricing`. Used (a) to show the neutral review note when
+   * the mesh needed repair / hit the safety fallback and (b) to attach
+   * mesh_* props to estimate_shown / buy_clicked.
+   */
+  meshQuality?: {
+    tris: number;
+    shells: number;
+    watertight: boolean;
+    openEdges: number;
+    totalSurfaceCm2: number;
+  };
+  meshRepaired?: boolean;
+  meshUsedFallback?: boolean;
+  meshRepairMs?: number;
 }
 
 export interface ParsedFile extends ParsedFileForPricing {
