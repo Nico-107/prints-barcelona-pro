@@ -1,0 +1,13 @@
+{
+  "report": "reports/playwright-full.json",
+  "suite": "full",
+  "fingerprint": "467ddb25ad24ff1665241bb424aa97fd08a74035cc8187444405b27508b17e45",
+  "reportSha256": "0dd1fbcdb50b6dfafd11a8c9c28004b531a7c16d696bd419adbcf833dd220e56",
+  "partial": false,
+  "changedDuringRun": false,
+  "exitCode": 1,
+  "command": "npx playwright test --reporter=list,json",
+  "startedAt": "2026-11-25T02:46:29.657Z",
+  "finishedAt": "2026-11-25T02:46:30.961Z",
+  "node": "v24.16.0"
+}

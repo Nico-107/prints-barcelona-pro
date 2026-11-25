@@ -7,6 +7,10 @@
  */
 import { test, expect } from "./_fixtures";
 import path from "path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const CUBE_STL = path.resolve(__dirname, "../tests/fixtures/cube-20mm.stl");
 

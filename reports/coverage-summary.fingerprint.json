@@ -7,7 +7,7 @@
   "changedDuringRun": false,
   "exitCode": 0,
   "command": "npx vitest run --reporter=default --reporter=json --outputFile=reports/vitest.json --coverage.enabled=true --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reportsDirectory=node_modules/.cache/checkpoint/coverage --coverage.include=supabase/functions/_shared/**",
-  "startedAt": "2026-11-25T02:39:42.469Z",
-  "finishedAt": "2026-11-25T02:39:51.877Z",
+  "startedAt": "2026-11-25T02:46:03.547Z",
+  "finishedAt": "2026-11-25T02:46:13.028Z",
   "node": "v24.16.0"
 }
