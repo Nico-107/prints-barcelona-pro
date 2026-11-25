@@ -1,5 +1,9 @@
 project_id = "ssdbkzswqpbgpeirackr"
 
+# D7 — public (no-JWT) functions. Admin functions check the admin role inside and keep
+# verify_jwt = true (default). Stripe webhook authenticates the request via Stripe-Signature
+# header; the public contract is intentional.
+
 [functions.send-print-request]
 verify_jwt = false
 
@@ -10,4 +14,28 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.approve-review]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.pricing-config]
+verify_jwt = false
+
+[functions.order-files-zip]
+verify_jwt = false
+
+[functions.packlink-status-hook]
+verify_jwt = false
+
+[functions.create-instant-checkout]
+verify_jwt = false
+
+[functions.create-stripe-payment-link]
+verify_jwt = false
+
+[functions.send-catalog-request]
+verify_jwt = false
+
+[functions.send-maker-application]
 verify_jwt = false
