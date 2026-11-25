@@ -1,0 +1,1 @@
+Checkpoint run active (25 Nov 2026). While this file exists, scripts/checkpoint/stop-hook.mjs keeps Claude Code working until scripts/checkpoint/verify.mjs --final passes. Delete this file to release the hook.

@@ -1,0 +1,1632 @@
+{
+  "version": 1,
+  "created": "2026-11-25",
+  "note": "Do not edit or delete the checks of existing items (CHECKLIST.lock.json pins them). You may add new items. Set status to done only after the checks pass; add evidence lines (commit SHA, command, raw result).",
+  "items": [
+    {
+      "id": "H0",
+      "title": "Legacy oracle: deployed server logic (commit 0aebcd6) saved as test fixture; .gitignore + reports/ set up",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "src/__checkpoint__/legacy/deployedServer.ts",
+          "pattern": "shippingChargeCents",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "src/__checkpoint__/legacy/deployedServer.ts",
+          "pattern": "evaluateV4",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": ".gitignore",
+          "pattern": "test-fixtures/checkpoint/generated",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": ".gitignore",
+          "pattern": "test-fixtures/checkpoint/private",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "H1",
+      "title": "Legacy shipping parity: every UI number equals what the deployed server charges",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/compat-legacy-server.test.ts"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/hotfix.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "H2",
+      "title": "Oversize gate: no Buy, honest oversize state with actions",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/hotfix-oversize.test.ts"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/hotfix.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "H3",
+      "title": "Never price from a tiny surviving shell (repair floor)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/hotfix-repair-floor.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "H4",
+      "title": "No PRICE_MISMATCH possible against the deployed server (server-parity guard)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/hotfix-server-parity.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "title": "No dead ends: friendly error panel, review fallback, Buy disabled after failure, rich checkout_failed",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/hotfix.spec.ts"
+        },
+        {
+          "type": "present",
+          "glob": [
+            "src/**"
+          ],
+          "pattern": "legacy_server_total_cents",
+          "flags": ""
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "src/i18n/es.ts"
+          ],
+          "pattern": "Actualiza la página e inténtalo de nuevo",
+          "flags": ""
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "src/i18n/it.ts"
+          ],
+          "pattern": "Aggiorna la pagina e riprova",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "H6",
+      "title": "Pickup corrections: page groups, Sevilla pickup, no street addresses in the price window",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/page-groups.test.ts"
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "src/components/estimator/**",
+            "src/components/StlEstimator.tsx"
+          ],
+          "pattern": "Rambla del Brasil|Parsi",
+          "flags": ""
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/hotfix.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "H7",
+      "title": "Honest labels: printable badge only when true, no ~0 g, urgent = next day",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/hotfix-labels.test.ts"
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "src/i18n/*.ts"
+          ],
+          "pattern": "\"calc\\.urgency\\.urgent\\.time\":\\s*\"(Mismo día|Same day|Mateix dia|Am selben Tag|Le jour même|Lo stesso giorno|Dezelfde dag|No mesmo dia)\"",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "H8",
+      "title": "Admin quick fixes: customer data, total paid, sign-on-click downloads",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin-hotfix.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "H9",
+      "title": "Hotfix pushed to main and verified live (Buy == Stripe, labels)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LIVE_HOTFIX.md",
+          "pattern": "RESULT: PASS",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "cmd",
+          "run": "git fetch -q origin main && git log origin/main --format=%s | grep -q \"^CP H9\"",
+          "final": true
+        }
+      ]
+    },
+    {
+      "id": "D1",
+      "title": "lovable-sync merged into the checkpoint branch",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/DECISIONS.md",
+          "pattern": "lovable-sync",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "cmd",
+          "run": "git fetch -q origin && if git rev-parse -q --verify refs/remotes/origin/lovable-sync >/dev/null; then git merge-base --is-ancestor refs/remotes/origin/lovable-sync HEAD; else grep -q lovable-sync docs/checkpoint/DECISIONS.md; fi",
+          "final": true
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "title": "STATE_BEFORE.md written with probes",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/STATE_BEFORE.md",
+          "pattern": "order-files-zip",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/STATE_BEFORE.md",
+          "pattern": "lovable-sync",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "title": "Versioning + GET ?health=1 on every function",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/health.test.ts"
+        },
+        {
+          "type": "contains",
+          "path": "supabase/functions/_shared/version.ts",
+          "pattern": "PRICING_VERSION\\s*=\\s*5",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "file",
+          "path": "scripts/checkpoint/bump-version.mjs",
+          "minBytes": 50
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "title": "pricing-config endpoint + capability-based frontend (legacy vs v5)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/pricing-config/index.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/capabilities.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "D5",
+      "title": "Admin Estado del sistema page + schema status RPC + red banner",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "present",
+          "glob": [
+            "supabase/migrations/**"
+          ],
+          "pattern": "checkpoint_schema_status",
+          "flags": ""
+        },
+        {
+          "type": "present",
+          "glob": [
+            "src/**"
+          ],
+          "pattern": "admin/estado",
+          "flags": ""
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "D6",
+      "title": "Idempotent migrations + combined SQL file with verification query",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "supabase/checkpoint_all_migrations.sql",
+          "pattern": "IF NOT EXISTS",
+          "min": 5,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/checkpoint_all_migrations.sql",
+          "pattern": "email_log",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/checkpoint_all_migrations.sql",
+          "pattern": "webhook_events",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/checkpoint_all_migrations.sql",
+          "pattern": "checkout_failures",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/checkpoint_all_migrations.sql",
+          "pattern": "is_test",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/checkpoint_all_migrations.sql",
+          "pattern": "pickup_location",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "D7",
+      "title": "config.toml JWT settings explicit",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "supabase/config.toml",
+          "pattern": "\\[functions\\.stripe-webhook\\]\\s*\\n\\s*verify_jwt\\s*=\\s*false",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/config.toml",
+          "pattern": "\\[functions\\.pricing-config\\]\\s*\\n\\s*verify_jwt\\s*=\\s*false",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/config.toml",
+          "pattern": "\\[functions\\.order-files-zip\\]\\s*\\n\\s*verify_jwt\\s*=\\s*false",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/config.toml",
+          "pattern": "\\[functions\\.packlink-status-hook\\]\\s*\\n\\s*verify_jwt\\s*=\\s*false",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "P1",
+      "title": "Single pricing source shared by client, admin and server",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/pricing/engine.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/single-source.test.ts"
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "supabase/functions/create-instant-checkout/index.ts"
+          ],
+          "pattern": "ESTIMATOR-START",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "title": "Geometry pipeline (formats, weld, shells, classification)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/pricing/geometry.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/geometry.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "P3",
+      "title": "Robust analysis replaces manifold repair; fixture expectations met",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/pricing/robust.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/pricing.fixtures.test.ts"
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "package.json"
+          ],
+          "pattern": "\"manifold-3d\"",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "P4",
+      "title": "Floors, continuous cap, monotonicity properties",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/pricing.invariants.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "P5",
+      "title": "Plate fit with rotation about Z",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/pricing/plateFit.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/plate-fit.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "P6",
+      "title": "Scale to fit / custom scale end to end",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/scale.test.ts"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/matrix.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "P7",
+      "title": "Units detection and fix buttons",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/pricing/units.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/units.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "P8",
+      "title": "Very small parts note",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/small-parts.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "P9",
+      "title": "Large files: 500 MB pricing, gzip, chunked upload, reassembly, cleanup",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/large-file.test.ts"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/large-files.spec.ts"
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "src/i18n/es.ts"
+          ],
+          "pattern": "El archivo supera los 50 MB",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "P10",
+      "title": "Formats: STEP/IGES via occt, 3MF multi-object, unsupported formats guidance, one format list",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/formats.test.ts"
+        },
+        {
+          "type": "present",
+          "glob": [
+            "package.json"
+          ],
+          "pattern": "occt-import-js",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "P11",
+      "title": "File health panel states",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/file-health.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "P12",
+      "title": "Performance budgets recorded",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/QA_MATRIX.md",
+          "pattern": "time-to-price",
+          "min": 1,
+          "flags": "i"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/performance.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Pure server checkout logic in _shared/checkout",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/checkout/evaluate.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/checkout-evaluate.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Quote contract + PRICE_UPDATED (client == server to the cent)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/server-quote-parity.test.ts"
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/price-updated.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "Heavy files: verified client summary path",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/summary-verify.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "Shipping v5 server rules, line items, metadata (≥40 cases)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/shipping-matrix.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "Server oversize + scale with rotation-aware fit",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/server-oversize.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S6",
+      "title": "Rate limit that cannot trap a buyer",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/rate-limit.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S7",
+      "title": "Prompt 1 server parts (ph ids, www redirect)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "present",
+          "glob": [
+            "supabase/functions/**"
+          ],
+          "pattern": "ph_did",
+          "flags": ""
+        },
+        {
+          "type": "present",
+          "glob": [
+            "supabase/functions/create-stripe-payment-link/**"
+          ],
+          "pattern": "https://www\\.dimension3dprints\\.com/track",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "S8",
+      "title": "Test orders flagged and hidden",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/test-orders.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "S9",
+      "title": "Regression: promo, recovery, quote links, pickup",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/regression-checkout.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "title": "Page groups single source + PAGE_GROUPS.md for every sitemap route",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/page-groups.test.ts"
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/PAGE_GROUPS.md",
+          "pattern": "/impresion-3d-sevilla",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/PAGE_GROUPS.md",
+          "pattern": "/3d-printing-delivery-paris",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "title": "Pickup locations without addresses, 8 languages",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "absent",
+          "glob": [
+            "src/components/estimator/**",
+            "src/components/StlEstimator.tsx"
+          ],
+          "pattern": "Rambla del Brasil|Parsi",
+          "flags": ""
+        },
+        {
+          "type": "present",
+          "glob": [
+            "src/i18n/es.ts"
+          ],
+          "pattern": "Recogida gratis en Sevilla",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "title": "Fulfillment UI v5: equal cards with totals; same number everywhere",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/fulfillment-ui.test.tsx"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/matrix.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "title": "Sevilla routing to Daniel + badge + instructions",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/sevilla-routing.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "title": "Experiment hygiene + correct site_language/page_type",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/analytics-props.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "F6",
+      "title": "Lead times from one source everywhere",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/lead-times.test.ts"
+        },
+        {
+          "type": "absent",
+          "glob": [
+            "src/i18n/es.ts"
+          ],
+          "pattern": "Tu pieza lista en 24–48 h",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "F7",
+      "title": "Price claims per page group (SSR v5 + legacy swap)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/price-claims.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "U1",
+      "title": "Desktop layout: no dead space, no internal scroll in Simple at 1280x800/1440x900",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/modal-layout.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U2",
+      "title": "Simple mode = material, colour, note",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/modal-layout.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U3",
+      "title": "Advanced mode compact, no orientation/supports/contact/second fulfillment",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/modal-layout.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U4",
+      "title": "Footer: fulfillment, ship date, Buy most prominent, trust row",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/modal-layout.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U5",
+      "title": "Mobile: Buy visible without scrolling, sheet, collapsed viewer",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/modal-layout.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U6",
+      "title": "Special states designed and translated",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/states.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U7",
+      "title": "Copy and translations (values printed)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/PROGRESS.md",
+          "pattern": "U7",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "cmd",
+          "run": "node scripts/check-i18n-new-keys.mjs",
+          "final": true
+        }
+      ]
+    },
+    {
+      "id": "U8",
+      "title": "Accessibility basics (axe: no serious/critical)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "present",
+          "glob": [
+            "package.json"
+          ],
+          "pattern": "@axe-core/playwright",
+          "flags": ""
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/a11y.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "U9",
+      "title": "Dead code removed (no orientation/supports UI)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "absent",
+          "glob": [
+            "src/components/**"
+          ],
+          "pattern": "calc\\.(orient|supports)\\.",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "O1",
+      "title": "Webhook stores everything + webhook_events",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/webhook-store.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "O2",
+      "title": "Owner order email guaranteed (direct, both inboxes, retries, email_log)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/owner-email.test.ts"
+        },
+        {
+          "type": "contains",
+          "path": "supabase/functions/_shared/recipients.ts",
+          "pattern": "011107miko@gmail\\.com",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/functions/_shared/recipients.ts",
+          "pattern": "dimension3dprintsbcn@gmail\\.com",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "supabase/functions/_shared/recipients.ts",
+          "pattern": "3d\\.kayda@gmail\\.com",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "O3",
+      "title": "Customer emails (confirmation + statuses) logged",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/customer-emails.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "O4",
+      "title": "One admin shell with tabs; old UIs replaced",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "O5",
+      "title": "Order list with search, filters, urgency, unpaid sessions",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "O6",
+      "title": "Order detail with all data, actions, files, email log",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "O7",
+      "title": "admin-stripe-sync backfill function",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/admin-stripe-sync/index.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/stripe-sync.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "O8",
+      "title": "Envíos tab: parcel suggestion, copy, Packlink CSV, Zapier push, mark shipped",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/packlink-csv.test.ts"
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "O9",
+      "title": "packlink-status-hook + Zapier setup guide",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/packlink-status-hook/index.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/packlink-hook.test.ts"
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/ZAPIER_PACKLINK_SETUP.md",
+          "pattern": "Create Shipment Draft",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/ZAPIER_PACKLINK_SETUP.md",
+          "pattern": "Shipment Status Updated",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "O10",
+      "title": "Revisiones tab",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "O11",
+      "title": "Clientes potenciales tab (blocked sales on top)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "O12",
+      "title": "Lost-sale capture + owner alert once per session/code",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/lost-sale.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "O13",
+      "title": "Daily digest 21:00",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/daily-digest/index.ts",
+          "minBytes": 50
+        },
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/digest.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "O14",
+      "title": "Customer tracking page + /track lookup, localized",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/tracking.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "E1",
+      "title": "One email design system + previews/screenshots",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "dir_count",
+          "path": "docs/checkpoint/screens",
+          "ext": ".png",
+          "min": 4,
+          "prefix": "email-"
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "title": "Calculator email redesign with exact site totals",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/emails.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "E5",
+      "title": "Recipients in one file",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "supabase/functions/_shared/recipients.ts",
+          "minBytes": 50
+        }
+      ]
+    },
+    {
+      "id": "E6",
+      "title": "Email log + resend button",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "A1",
+      "title": "Analytics events for every new state and failure",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/analytics-events.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "A3",
+      "title": "Exceptions carry message and stack",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/exceptions.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "A4",
+      "title": "HogQL checkpoint queries doc",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/analytics/checkpoint-queries.md",
+          "pattern": "SELECT",
+          "min": 5,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "T1",
+      "title": "~300 pedidos, 25 reseñas, no 250+ anywhere, GOOGLE_PROFILE_URL null",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "absent",
+          "glob": [
+            "src/**"
+          ],
+          "pattern": "250\\+",
+          "flags": ""
+        },
+        {
+          "type": "present",
+          "glob": [
+            "src/**"
+          ],
+          "pattern": "GOOGLE_PROFILE_URL",
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Quiet trust row with real thumbnails",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/modal-layout.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "Mobile hero + WhatsApp links + event",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "present",
+          "glob": [
+            "src/**"
+          ],
+          "pattern": "mobile_whatsapp_click",
+          "flags": ""
+        },
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/mobile-hero.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "T5",
+      "title": "Price claims consistent (shares F7 test)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest",
+          "file": "src/__checkpoint__/price-claims.test.ts"
+        }
+      ]
+    },
+    {
+      "id": "Q1",
+      "title": "All unit tests green + coverage ≥85% on _shared pricing/checkout",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "vitest_all"
+        },
+        {
+          "type": "coverage",
+          "path": "reports/coverage-summary.json",
+          "prefix": "supabase/functions/_shared/pricing",
+          "min": 85
+        },
+        {
+          "type": "coverage",
+          "path": "reports/coverage-summary.json",
+          "prefix": "supabase/functions/_shared/checkout",
+          "min": 85
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "title": "Fixture library + generator + README",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "test-fixtures/checkpoint/README.md",
+          "minBytes": 50
+        },
+        {
+          "type": "file",
+          "path": "scripts/checkpoint/gen-fixtures.mjs",
+          "minBytes": 50
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "title": "Big e2e matrix (≥20 pages × ≥6 files, materials, A/B, V1/V2, legacy/v5) with 100% success",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/matrix.spec.ts"
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/QA_MATRIX.md",
+          "pattern": "SUCCESS RATE \\(supported cases\\): 100%",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "title": "Admin e2e",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/admin.spec.ts"
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "title": "Site crawl with zero errors",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright",
+          "file": "e2e/checkpoint/crawl.spec.ts"
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/CRAWL_REPORT.md",
+          "pattern": "ERRORS: 0",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "title": "≥40 screenshots",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "dir_count",
+          "path": "docs/checkpoint/screens",
+          "ext": ".png",
+          "min": 40,
+          "prefix": ""
+        }
+      ]
+    },
+    {
+      "id": "Q7",
+      "title": "Live smoke after merge",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LIVE_SMOKE.md",
+          "pattern": "RESULT: PASS",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "Q8",
+      "title": "Regression: full existing suites green",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "playwright_report_ok",
+          "path": "reports/playwright-full.json"
+        },
+        {
+          "type": "vitest_all"
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "title": "Security backlog written (no security overhaul)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "docs/checkpoint/SECURITY_BACKLOG.md",
+          "minBytes": 200
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "title": "Lovable deploy doc (branch, SQL, all functions, secrets, health)",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LOVABLE_DEPLOY.md",
+          "pattern": "lovable-sync",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LOVABLE_DEPLOY.md",
+          "pattern": "checkpoint_all_migrations\\.sql",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LOVABLE_DEPLOY.md",
+          "pattern": "health=1",
+          "min": 1,
+          "flags": ""
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LOVABLE_DEPLOY.md",
+          "pattern": "PACKLINK_HOOK_SECRET",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "title": "npm run verify:deploy",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "file",
+          "path": "scripts/checkpoint/verify-deploy.mjs",
+          "minBytes": 50
+        },
+        {
+          "type": "contains",
+          "path": "package.json",
+          "pattern": "\"verify:deploy\"",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    },
+    {
+      "id": "R5",
+      "title": "FINAL_REPORT.md with a row per item + traceability",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "final_report"
+        }
+      ]
+    },
+    {
+      "id": "R6",
+      "title": "Branch merged into main, pushed, build green, tree clean",
+      "status": "todo",
+      "evidence": [],
+      "checks": [
+        {
+          "type": "cmd",
+          "run": "git fetch -q origin && git merge-base --is-ancestor refs/remotes/origin/checkpoint/2026-11-25 refs/remotes/origin/main",
+          "final": true
+        },
+        {
+          "type": "cmd",
+          "run": "npm run build",
+          "final": true
+        },
+        {
+          "type": "cmd",
+          "run": "test -z \"$(git status --porcelain)\"",
+          "final": true
+        },
+        {
+          "type": "contains",
+          "path": "docs/checkpoint/LIVE_SMOKE.md",
+          "pattern": "RESULT: PASS",
+          "min": 1,
+          "flags": ""
+        }
+      ]
+    }
+  ]
+}

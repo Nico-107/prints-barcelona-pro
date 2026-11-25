@@ -1,0 +1,18 @@
+Finish the Dimension3D checkpoint: every item in docs/checkpoint/CHECKLIST.json done and proven, exactly as docs/checkpoint/MASTER_PROMPT.md specifies.
+
+HOW TO WORK
+1. First read docs/checkpoint/AUDIT_2026-11-25.md and docs/checkpoint/MASTER_PROMPT.md completely, every section, then docs/checkpoint/PROGRESS.md if it exists (again after any compaction or restart). Resume at the first item whose status is not "done".
+2. Do the items in CHECKLIST.json order (H, D, P, S, F, U, O, E, A, T, Q, R) following MASTER_PROMPT §0 and decisions D-1 to D-16: Phase H on main and live within the first hours, everything else on branch checkpoint/2026-11-25, merged in R6.
+3. Never ask Nico anything and never stop for confirmation: he is not watching. Never skip an item. If something blocks you, log it in docs/checkpoint/BLOCKERS.md, build everything up to the point where only Nico's click remains, and keep going.
+4. Never delete or relax existing tests, CHECKLIST checks, CHECKLIST.lock.json or the kickoff scripts in scripts/checkpoint/. Test reports count only when produced by node scripts/checkpoint/run-tests.mjs.
+5. After each item: run its checks, set its status to "done" with evidence (commit SHA, command, raw output tail), update PROGRESS.md, commit "CP <ID>: ...". Push after every phase.
+6. The repo is public: no customer files or personal data in commits, screenshots or reports. No security overhaul (SECURITY_BACKLOG.md only). Printrack stays out.
+
+DONE MEANS all of the following appear as raw terminal output in this conversation, run after the last commit (summaries or claims do not count):
+A. `test ! -e docs/checkpoint/ACTIVE && echo ACTIVE-REMOVED` prints ACTIVE-REMOVED.
+B. `git fetch -q origin && git status --porcelain && git branch --show-current && git rev-parse HEAD origin/main` prints no status lines, then main, then the same SHA twice.
+C. `node scripts/checkpoint/verify.mjs --final; echo EXIT=$?` prints "CHECKPOINT VERIFIED: N/N items, 0 failed, 0 pending" with N of at least 92, and EXIT=0.
+D. `git diff --stat $(git log --diff-filter=A --format=%h -- docs/checkpoint/CHECKLIST.lock.json | tail -1) HEAD -- docs/checkpoint/CHECKLIST.lock.json scripts/checkpoint/verify.mjs scripts/checkpoint/fingerprint.mjs scripts/checkpoint/run-tests.mjs scripts/checkpoint/stop-hook.mjs` prints nothing. If it prints anything, the full diff is shown as well, and it only fixes crashes or adds checks, never relaxes one.
+E. A final message that summarises docs/checkpoint/FINAL_REPORT.md: items done, QA success rate per page type, test orders to delete, and Nico's to-do list in order.
+
+FOR THE EVALUATOR: judge only from raw command output in the transcript. Missing, partial or older-than-the-last-commit proof means "not yet met". This goal is always achievable: failing tests, network or Vercel delays, rate limits, usage limits and logged blockers mean "not yet met", never "impossible".

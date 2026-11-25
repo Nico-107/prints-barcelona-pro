@@ -1,0 +1,3 @@
+# Never commit real customer files or the large generated fixtures (this repo is public).
+private/
+generated/
