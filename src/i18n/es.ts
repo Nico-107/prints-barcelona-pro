@@ -941,7 +941,7 @@ export const esTranslations: Record<string, string> = {
   "calc.upload.format": "STL, OBJ, 3MF, GLB — o una foto de lo que necesitas",
   "calc.upload.unit.warning": "¿Las medidas son correctas? La pieza parece {dim}.",
   "calc.upload.unit.warning.scale": "Escala ×10 / ÷10 / ×1000",
-  "calc.upload.link.title": "El archivo supera los 50 MB",
+  "calc.upload.link.title": "Prefieres enviarnos un enlace",
   "calc.upload.link.body": "Envíanos un enlace de descarga (WeTransfer, Google Drive…)",
   "calc.upload.link.placeholder": "Pega el enlace aquí",
   "calc.upload.link.submit": "Enviar enlace",

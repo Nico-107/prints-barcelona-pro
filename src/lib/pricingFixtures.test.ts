@@ -160,7 +160,11 @@ describe('Prompt 2 — pricing fixture test', () => {
 
     // --- Fixtures from test-fixtures/ ---
     const fixtures: Array<{ file: string; min: number; max: number }> = [
-      { file: 'overpriced_stamp_22693_shells.stl', min: 10.0, max: 12.0 },
+      // Phase P: robust.ts replaces manifold-3d. For overpriced stamps the robust
+      // conservative union lands at the minimum (9,90 €) — safe for the customer; the
+      // old manifold path landed at 10,90–11,95. The *honest* behaviour remains: a messy
+      // file never overprices to 90 €+ as the pre-Prompt-2 raw path did. See DECISIONS.md.
+      { file: 'overpriced_stamp_22693_shells.stl', min: 9.9, max: 12.0 },
       { file: 'control_stamp_clean.stl',           min: 10.0, max: 12.0 },
       { file: 'ai_staircase_cutter_365k_tris.stl', min: 10.0, max: 12.9 },
       { file: 'control_cutter_clean.stl',          min: 10.0, max: 11.0 },

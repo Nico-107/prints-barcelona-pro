@@ -6,7 +6,7 @@ import path from "path";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FN = "supabase/functions/create-instant-checkout/index.ts";
 const PAIRS = [
-  { name: "ESTIMATOR", start: "// ESTIMATOR-START", end: "// ESTIMATOR-END", client: "src/lib/estimator/core.ts" },
+  { name: "ESTIMATOR", start: "// EST-BLOCK-BEGIN", end: "// EST-BLOCK-END", client: "src/lib/estimator/core.ts" },
   { name: "CHECKOUT-V3", start: "// CHECKOUT-V3-START", end: "// CHECKOUT-V3-END", client: "src/lib/checkoutV3.ts" },
   { name: "CHECKOUT-V4", start: "// CHECKOUT-V4-START", end: "// CHECKOUT-V4-END", client: "src/lib/checkoutV4.ts" },
 ];

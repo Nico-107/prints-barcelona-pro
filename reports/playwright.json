@@ -138,12 +138,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 794,
+                  "duration": 691,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:21.962Z",
+                  "startTime": "2026-11-25T02:21:53.087Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -180,12 +180,12 @@
                   "workerIndex": 1,
                   "parallelIndex": 1,
                   "status": "passed",
-                  "duration": 772,
+                  "duration": 689,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:21.945Z",
+                  "startTime": "2026-11-25T02:21:53.084Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -214,12 +214,12 @@
                   "workerIndex": 2,
                   "parallelIndex": 2,
                   "status": "passed",
-                  "duration": 772,
+                  "duration": 693,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:21.983Z",
+                  "startTime": "2026-11-25T02:21:53.092Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -263,12 +263,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 808,
+                      "duration": 737,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:21.993Z",
+                      "startTime": "2026-11-25T02:21:53.087Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -297,12 +297,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 627,
+                      "duration": 479,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:23.510Z",
+                      "startTime": "2026-11-25T02:21:54.172Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -328,15 +328,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 621,
+                      "duration": 485,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:23.520Z",
+                      "startTime": "2026-11-25T02:21:54.178Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -370,15 +370,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 642,
+                      "duration": 485,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:23.524Z",
+                      "startTime": "2026-11-25T02:21:54.175Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -407,12 +407,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 601,
+                      "duration": 460,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:23.534Z",
+                      "startTime": "2026-11-25T02:21:54.209Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -438,15 +438,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 483,
+                      "duration": 479,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:24.161Z",
+                      "startTime": "2026-11-25T02:21:54.672Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -480,15 +480,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 485,
+                      "duration": 490,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:24.165Z",
+                      "startTime": "2026-11-25T02:21:54.674Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -514,15 +514,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 476,
+                      "duration": 458,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:24.169Z",
+                      "startTime": "2026-11-25T02:21:54.678Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -548,15 +548,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 478,
+                      "duration": 477,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:24.180Z",
+                      "startTime": "2026-11-25T02:21:54.684Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -590,15 +590,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 217,
+                      "duration": 564,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T02:03:24.662Z",
+                      "startTime": "2026-11-25T02:21:55.156Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -612,6 +612,82 @@
               "column": 3
             }
           ]
+        }
+      ]
+    },
+    {
+      "title": "checkpoint/large-files.spec.ts",
+      "file": "checkpoint/large-files.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "home ES does not contain the '50 MB → send a link' dead-end copy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 530,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.171Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a8929768266994719dde-b675718f02f714eba85f",
+          "file": "checkpoint/large-files.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "file formats list on home mentions STL and 3MF",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 538,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.177Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a8929768266994719dde-454278e961c8d1a2fb18",
+          "file": "checkpoint/large-files.spec.ts",
+          "line": 13,
+          "column": 1
         }
       ]
     },
@@ -652,7 +728,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.175Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -706,7 +782,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.175Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -760,7 +836,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.176Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -814,7 +890,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.176Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -868,7 +944,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.176Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -922,7 +998,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.176Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -976,7 +1052,7 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T02:03:24.663Z",
+                  "startTime": "2026-11-25T02:21:55.176Z",
                   "annotations": [
                     {
                       "type": "skip",
@@ -1000,13 +1076,335 @@
           "column": 1
         }
       ]
+    },
+    {
+      "title": "checkpoint/matrix.spec.ts",
+      "file": "checkpoint/matrix.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "/ renders without the known hotfix regressions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 530,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.179Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-585c352779eb9efbc6be",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 22,
+          "column": 3
+        },
+        {
+          "title": "/madrid renders without the known hotfix regressions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 467,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.725Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-ef2d1c6c19c759a8f983",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 22,
+          "column": 3
+        },
+        {
+          "title": "/it/stampa-3d-online renders without the known hotfix regressions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 448,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.733Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-451b9959b199d631b32e",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 22,
+          "column": 3
+        },
+        {
+          "title": "/impresion-3d-sevilla renders without the known hotfix regressions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 450,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.731Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-f1f710323c60d6ec0130",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 22,
+          "column": 3
+        },
+        {
+          "title": "/3d-printing-delivery-paris renders without the known hotfix regressions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 464,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:55.741Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-61e680eff0acc90acaa7",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 22,
+          "column": 3
+        },
+        {
+          "title": "/3d-printing-barcelona renders without the known hotfix regressions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 447,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:56.196Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-627f8be5cb935befbe83",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 22,
+          "column": 3
+        },
+        {
+          "title": "homepage hero mentions the main formats (STL, 3MF)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "passed",
+                  "duration": 446,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:56.209Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6e09390fcfd930e1c7cc-2ae368267d1ba10d27cc",
+          "file": "checkpoint/matrix.spec.ts",
+          "line": 34,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "checkpoint/performance.spec.ts",
+      "file": "checkpoint/performance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "homepage renders without long main-thread tasks on load",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 2452,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:56.213Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "18df846aecc598fb501f-6c3a3f465f1d6a3a4494",
+          "file": "checkpoint/performance.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "large files landing — placeholder (matrix drives the real measurements)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "passed",
+                  "duration": 447,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T02:21:56.222Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "18df846aecc598fb501f-2f6b55f85b362ab1f5cf",
+          "file": "checkpoint/performance.spec.ts",
+          "line": 29,
+          "column": 1
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-25T02:03:21.298Z",
-    "duration": 3635.9900000000002,
-    "expected": 13,
+    "startTime": "2026-11-25T02:21:52.471Z",
+    "duration": 6258.16,
+    "expected": 24,
     "skipped": 7,
     "unexpected": 0,
     "flaky": 0

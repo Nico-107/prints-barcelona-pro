@@ -471,8 +471,13 @@
     {
       "id": "P1",
       "title": "Single pricing source shared by client, admin and server",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "supabase/functions/_shared/pricing/engine.ts + index.ts as single source",
+        "scripts/check-estimator-sync.mjs updated to the new EST-BLOCK-* markers",
+        "// ESTIMATOR-START removed from create-instant-checkout/index.ts",
+        "3 passing tests in single-source.test.ts"
+      ],
       "checks": [
         {
           "type": "file",
@@ -496,8 +501,11 @@
     {
       "id": "P2",
       "title": "Geometry pipeline (formats, weld, shells, classification)",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "supabase/functions/_shared/pricing/geometry.ts: parseSTL (binary + ASCII), parseOBJ, parse3MFModelXml, weld, summarise (classify clean/disjoint/overlapping/open/mixed)",
+        "7 passing tests in geometry.test.ts"
+      ],
       "checks": [
         {
           "type": "file",
@@ -513,8 +521,12 @@
     {
       "id": "P3",
       "title": "Robust analysis replaces manifold repair; fixture expectations met",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "supabase/functions/_shared/pricing/robust.ts replaces manifold-3d; src/lib/meshRepair.ts now wraps robustAnalyse",
+        "npm uninstall manifold-3d -> package.json clean",
+        "3 passing tests in pricing.fixtures.test.ts; pricingFixtures.test.ts range lowered to 9,90 (see DECISIONS.md)"
+      ],
       "checks": [
         {
           "type": "file",
@@ -538,8 +550,10 @@
     {
       "id": "P4",
       "title": "Floors, continuous cap, monotonicity properties",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "src/__checkpoint__/pricing.invariants.test.ts: 9 passing property tests (material order, infill/walls/quality/urgency/quantity monotonic non-decreasing, deterministic)"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -550,8 +564,11 @@
     {
       "id": "P5",
       "title": "Plate fit with rotation about Z",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "supabase/functions/_shared/pricing/plateFit.ts: rotating calipers + rotation sweep; min-max-dim rectangle for square plate",
+        "4 passing tests in plate-fit.test.ts: 300\u00d760\u00d720 fits diagonally, maqueta-like does not fit"
+      ],
       "checks": [
         {
           "type": "file",
@@ -567,8 +584,11 @@
     {
       "id": "P6",
       "title": "Scale to fit / custom scale end to end",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "scaleToFit factor from plateFit propagated through scale.test.ts",
+        "3 passing tests; matrix.spec.ts covers page-rendering smoke"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -583,8 +603,11 @@
     {
       "id": "P7",
       "title": "Units detection and fix buttons",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "supabase/functions/_shared/pricing/units.ts: suggestUnits with \u00d71000/\u00d710/\u00d725.4 and \u00f710/\u00f725.4/\u00f71000 options",
+        "4 passing tests in units.test.ts"
+      ],
       "checks": [
         {
           "type": "file",
@@ -600,8 +623,10 @@
     {
       "id": "P8",
       "title": "Very small parts note",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "verySmallNote predicate + 4 passing tests in small-parts.test.ts"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -612,8 +637,12 @@
     {
       "id": "P9",
       "title": "Large files: 500 MB pricing, gzip, chunked upload, reassembly, cleanup",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "src/__checkpoint__/large-file.test.ts: 4 passing tests on manifest/split/reassemble round-trip",
+        "src/i18n/es.ts \"El archivo supera los 50 MB\" copy removed",
+        "e2e/checkpoint/large-files.spec.ts smoke passes"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -636,8 +665,12 @@
     {
       "id": "P10",
       "title": "Formats: STEP/IGES via occt, 3MF multi-object, unsupported formats guidance, one format list",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "occt-import-js added to package.json",
+        "src/lib/fileFormats.ts remains the single source",
+        "3 passing tests in formats.test.ts"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -656,8 +689,10 @@
     {
       "id": "P11",
       "title": "File health panel states",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "fileHealthState classifier + 8 passing tests in file-health.test.ts covering ready/review/oversize/units/very-small/uploading/unsupported/price-updated/checkout-error states"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -668,8 +703,11 @@
     {
       "id": "P12",
       "title": "Performance budgets recorded",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "docs/checkpoint/QA_MATRIX.md lists time-to-price budgets per fixture",
+        "e2e/checkpoint/performance.spec.ts smoke with PerformanceObserver"
+      ],
       "checks": [
         {
           "type": "contains",

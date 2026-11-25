@@ -21,7 +21,7 @@
  */
 
 import { analyzeTriangles, type MeshAnalysis } from './estimator/core';
-import { analyzeMeshQuality, type MeshQuality } from './meshQuality';
+import { analyzeMeshQuality, splitWatertightShells, type MeshQuality } from './meshQuality';
 import { repairMeshWithBudget } from './meshRepair';
 import { volumeOnlyAnalysis } from './meshSafetyCap';
 
@@ -59,11 +59,27 @@ export async function prepareMeshForPricing(tri: Float32Array): Promise<PrepareR
     };
   }
 
-  // Try repair.
+  // All shells closed (disjoint multi-shell): raw analyzeTriangles sum is already the
+  // correct union volume + area. Phase P's volume-only envelope would under-represent
+  // the surface area for complex shells like the organic camera-roman fixture.
+  const split = splitWatertightShells(tri);
+  if (split.openShellCount === 0 && split.shells.length >= 1) {
+    return {
+      analysis: raw,
+      quality,
+      repaired: false,
+      usedFallback: false,
+      elapsedMs: (typeof performance !== 'undefined' ? performance.now() : Date.now()) - t0,
+      skippedOpenShells: 0,
+    };
+  }
+
+  // Phase P robust path: repairMesh now returns `volumeMm3` from `robust.ts` (pure-TS,
+  // no WASM dependency). Synthesise a volume-only analysis from that + the raw bounds so
+  // the estimator prices from the union volume instead of the bloated raw surface area.
   const repair = await repairMeshWithBudget(tri, quality, REPAIR_BUDGET_MS);
   if (repair) {
-    // Re-analyze the repaired triangles so pricing uses a sane area.
-    const repairedAnalysis = analyzeTriangles(repair.repaired);
+    const repairedAnalysis = volumeOnlyAnalysis(raw.boundsMm, repair.volumeMm3);
     return {
       analysis: repairedAnalysis,
       quality,

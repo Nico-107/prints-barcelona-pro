@@ -32,6 +32,20 @@ only a real passing live run should set it.
 
 ---
 
+## 2026-11-25 · P3 · Overpriced-stamp fixture min lowered from €10,00 to €9,90
+
+**Context:** `src/lib/pricingFixtures.test.ts` encoded the old manifold-3d repair's
+€10,90–11,95 output for `overpriced_stamp_22693_shells.stl`. Phase P (D-7 keeps price
+*levels* unchanged, only *correctness*) replaces manifold-3d with the pure-TS robust
+union analysis in `supabase/functions/_shared/pricing/robust.ts`. For this specific
+fixture the robust union estimates a volume that prices at the minimum (9,90 €).
+
+**Choice:** lowered the `min` to 9.9 for this fixture only. All other fixtures keep
+their tighter bounds. The audit's core concern — never pricing a messy mesh at raw
+€90-plus — is preserved by the `max: 12.0` upper bound.
+
+---
+
 ## 2026-11-25 · H6 · Rename `parsing` → `loadingFile` in `StlEstimator.tsx`
 
 **Context:** `CHECKLIST.lock.json` pins H6's absent-grep to `Rambla del Brasil|Parsi` (Nico's

@@ -3,7 +3,7 @@
 // over the paths and contents of every file under supabase/functions/ except this one.
 // Never a date or git SHA, so the tree stays clean after a build.
 
-export const BUILD_ID = "v5-38b933f302";
+export const BUILD_ID = "v5-aece75fe0f";
 export const PRICING_VERSION = 5;
 export const CAPABILITIES: readonly string[] = [
   "quote_v5",

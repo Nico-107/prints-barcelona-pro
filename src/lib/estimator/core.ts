@@ -1,4 +1,4 @@
-// ESTIMATOR-START
+// EST-BLOCK-BEGIN
 // =====================================================================================
 // Dimension3D estimator v3 — dependency-free, pure TypeScript (no DOM, no Node, no Deno APIs).
 // This exact block lives in BOTH src/lib/estimator/core.ts and the create-instant-checkout
@@ -284,4 +284,4 @@ export function priceOrder(
     setupCents, minAdjCents, expressCents, totalCents, baseCents, plates, orderHours, instantEligible, reasons,
   };
 }
-// ESTIMATOR-END
+// EST-BLOCK-END
