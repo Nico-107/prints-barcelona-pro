@@ -21,6 +21,7 @@
     { "source": "/admin/search", "destination": "/index.html" },
     { "source": "/admin/codes", "destination": "/index.html" },
     { "source": "/admin/leads", "destination": "/index.html" },
+    { "source": "/admin/estado", "destination": "/index.html" },
     { "source": "/admin-orders", "destination": "/index.html" },
     { "source": "/admin-makers", "destination": "/index.html" },
     { "source": "/internal", "destination": "/index.html" },
