@@ -1,4 +1,6 @@
 - [x] Update checkout ceiling, automatic methods, shipping and previews without changing print pricing.
 - [x] Handle delayed payment success safely in the webhook.
 - [x] Test and deploy the two changed functions; keep immediate charging.
-- [ ] Deploy and manually verify reminder scheduler authentication while preserving service-role access.
+- [x] Deploy and manually verify reminder scheduler authentication while preserving service-role access.
+- [x] Apply the four authorized promotional-code, saved-quote and recovery migrations; seed DIMENSION11 separately.
+- [x] Deploy all nineteen unchanged functions, configure hourly/daily reminders, and verify live probe and promo validation.
