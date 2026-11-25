@@ -138,12 +138,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 764,
+                  "duration": 756,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-11-25T01:53:13.230Z",
+                  "startTime": "2026-11-25T01:55:23.792Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -187,12 +187,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 740,
+                      "duration": 782,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:13.236Z",
+                      "startTime": "2026-11-25T01:55:23.791Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -221,12 +221,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 777,
+                      "duration": 817,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:13.217Z",
+                      "startTime": "2026-11-25T01:55:23.808Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -255,12 +255,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 750,
+                      "duration": 814,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:13.226Z",
+                      "startTime": "2026-11-25T01:55:23.794Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -297,12 +297,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 614,
+                      "duration": 560,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.021Z",
+                      "startTime": "2026-11-25T01:55:25.463Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -331,12 +331,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 596,
+                      "duration": 511,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.017Z",
+                      "startTime": "2026-11-25T01:55:25.491Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -365,12 +365,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 604,
+                      "duration": 521,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.015Z",
+                      "startTime": "2026-11-25T01:55:25.491Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -407,12 +407,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 614,
+                      "duration": 528,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.017Z",
+                      "startTime": "2026-11-25T01:55:25.494Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -441,12 +441,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 379,
+                      "duration": 349,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.635Z",
+                      "startTime": "2026-11-25T01:55:26.030Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -475,12 +475,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 387,
+                      "duration": 361,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.638Z",
+                      "startTime": "2026-11-25T01:55:26.031Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -514,15 +514,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 385,
+                      "duration": 361,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-25T01:53:16.653Z",
+                      "startTime": "2026-11-25T01:55:26.043Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -538,14 +538,400 @@
           ]
         }
       ]
+    },
+    {
+      "title": "checkpoint/live-hotfix.spec.ts",
+      "file": "checkpoint/live-hotfix.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "/: page renders without street-address leak",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.043Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-ed9b9ea57a7f467ea17a",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "/madrid: page renders without street-address leak",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.044Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-ba7609907cd3cb99fe6d",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "/it/stampa-3d-online: page renders without street-address leak",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.044Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-cfa1bee5778bc40d24b7",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "/impresion-3d-sevilla: page renders without street-address leak",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.044Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-515ba8d42e2e9f474c53",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "/3d-printing-delivery-paris: page renders without street-address leak",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.045Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-0febfa53a6620eb1be45",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 11,
+          "column": 3
+        },
+        {
+          "title": "Sevilla page shows Sevilla pickup, not Barcelona",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.045Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-1a040a0170594db52902",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "Paris delivery page shows no pickup option",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "live only",
+                  "location": {
+                    "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                    "line": 5,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T01:55:26.045Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "live only",
+                      "location": {
+                        "file": "e2e/checkpoint/live-hotfix.spec.ts",
+                        "line": 5,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f50e256a4de7206b0f25-b00959dc56f44ce8b08e",
+          "file": "checkpoint/live-hotfix.spec.ts",
+          "line": 26,
+          "column": 1
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-25T01:53:12.588Z",
-    "duration": 4495.191,
+    "startTime": "2026-11-25T01:55:23.130Z",
+    "duration": 3373.4230000000002,
     "expected": 11,
-    "skipped": 0,
+    "skipped": 7,
     "unexpected": 0,
     "flaky": 0
   }

@@ -1,13 +1,13 @@
 {
   "report": "reports/vitest.json",
   "suite": "unit",
-  "fingerprint": "99b6ad06b3d4fbdafafbf77fe4cd29139b943216a8f6a0432dbe38aaeab8ab8c",
-  "reportSha256": "8f96724c8b05768d61df782a43fc2aa8280ce63abcb6a1e72e28bc47d5144380",
+  "fingerprint": "4af2dacf1c70d0e23737fac994281743f1cd16903a85ba782a03aaaa4d8a1af7",
+  "reportSha256": "884072bddf8e36deca3953e9949c76cb3371587c471359a2d44a4e3e2c52db0c",
   "partial": false,
   "changedDuringRun": false,
   "exitCode": 0,
   "command": "npx vitest run --reporter=default --reporter=json --outputFile=reports/vitest.json --coverage.enabled=true --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reportsDirectory=node_modules/.cache/checkpoint/coverage --coverage.include=supabase/functions/_shared/**",
-  "startedAt": "2026-11-25T01:51:55.585Z",
-  "finishedAt": "2026-11-25T01:52:08.225Z",
+  "startedAt": "2026-11-25T01:55:06.893Z",
+  "finishedAt": "2026-11-25T01:55:19.729Z",
   "node": "v24.16.0"
 }
