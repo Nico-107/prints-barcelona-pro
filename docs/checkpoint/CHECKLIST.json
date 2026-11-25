@@ -79,8 +79,12 @@
     {
       "id": "H3",
       "title": "Never price from a tiny surviving shell (repair floor)",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "commit 30d1a7f",
+        "src/__checkpoint__/legacy/repairFloor.ts implements the 5 % discarded-volume and 90 % bbox-shrink rules",
+        "node scripts/checkpoint/run-tests.mjs unit -> reports/vitest.json includes 4 passing tests on hotfix-repair-floor.test.ts"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -91,8 +95,12 @@
     {
       "id": "H4",
       "title": "No PRICE_MISMATCH possible against the deployed server (server-parity guard)",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "commit 30d1a7f",
+        "src/__checkpoint__/legacy/serverParity.ts implements the 3-way decision (match ±2 cents / adjust up to 1.3× / review)",
+        "node scripts/checkpoint/run-tests.mjs unit -> reports/vitest.json includes 7 passing tests on hotfix-server-parity.test.ts"
+      ],
       "checks": [
         {
           "type": "vitest",
@@ -164,8 +172,12 @@
     {
       "id": "H7",
       "title": "Honest labels: printable badge only when true, no ~0 g, urgent = next day",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "commit 30d1a7f",
+        "all 8 i18n files updated: urgent.time -> next-day phrasing (es=Al día siguiente, en=Next day, ca=Al dia següent, de=Nächster Tag, fr=Lendemain, it=Il giorno dopo, nl=Volgende dag, pt=Dia seguinte)",
+        "node scripts/checkpoint/run-tests.mjs unit -> reports/vitest.json includes 3 passing tests on hotfix-labels.test.ts"
+      ],
       "checks": [
         {
           "type": "vitest",

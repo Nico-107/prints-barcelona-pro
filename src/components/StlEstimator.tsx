@@ -230,8 +230,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
   const [parsedFiles, setParsedFiles] = useState<ParsedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
-  const [parsing, setParsing] = useState(false);
-  const [parsingHasLargeFile, setParsingHasLargeFile] = useState(false);
+  const [loadingFile, setLoadingFile] = useState(false);
+  const [loadingHasLargeFile, setLoadingHasLargeFile] = useState(false);
   const [prepareProgress, setPrepareProgress] = useState<{ name: string; pct: number; stage: string } | null>(null);
   const gzippedOriginalsRef = useRef<Array<{ id: string; gzName: string; buf: ArrayBuffer }>>([]);
   const [error, setError] = useState<string | null>(null);
@@ -538,8 +538,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setCheckoutTimedOut(false);
     if (checkoutTimeoutRef.current) { clearTimeout(checkoutTimeoutRef.current); checkoutTimeoutRef.current = null; }
 
-    setParsingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
-    setParsing(true);
+    setLoadingHasLargeFile(toProcess.some(f => f.size > 80 * 1024 * 1024));
+    setLoadingFile(true);
     const results: ParsedFile[] = [];
 
     for (const f of toProcess) {
@@ -726,8 +726,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
 
     const nextFiles = [...parsedFiles, ...results];
     setParsedFiles(nextFiles);
-    setParsing(false);
-    setParsingHasLargeFile(false);
+    setLoadingFile(false);
+    setLoadingHasLargeFile(false);
 
     if (!adminMode) {
       const nextDefaults: PartDefaults = { material: materialKey, color: colorPref, infill: infillPct, wallLoops, multicolour, quality: "standard", supports: true, orientation: "auto" };
@@ -983,7 +983,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
     setHasSubmitted(false);
     setParsedFiles([]);
     setError(null);
-    setParsing(false);
+    setLoadingFile(false);
     setContactEmail("");
     setContactPhone("");
     setContactName("");
@@ -2186,8 +2186,8 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           </div>
         )}
 
-        {/* Parsing / preparation spinner */}
-        {(parsing || prepareProgress) && (
+        {/* Loading / preparation spinner */}
+        {(loadingFile || prepareProgress) && (
           <div className="mt-6 flex flex-col items-center gap-1.5 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -2198,7 +2198,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
                   ).replace("{pct}", String(prepareProgress.pct))
                 : t("calc.analysing")}
             </div>
-            {!prepareProgress && parsingHasLargeFile && (
+            {!prepareProgress && loadingHasLargeFile && (
               <p className="text-xs text-amber-600 dark:text-amber-400 text-center">
                 {t("calc.notice.largeFile")}
               </p>
@@ -2207,7 +2207,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
 
         {/* Result */}
-        {bundle && !parsing && (
+        {bundle && !loadingFile && (
           <div className="mt-6">
             <div className="rounded-2xl bg-accent/8 border border-accent/25 p-5">
               <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">
@@ -2306,7 +2306,7 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         )}
 
         {/* Admin full-calculator view — same slots as customer (viewer + config + debug) */}
-        {adminMode && bundle && !parsing && (() => {
+        {adminMode && bundle && !loadingFile && (() => {
           const stepperFile = viewableFiles[selectedFileIndex] ?? viewableFiles[0];
           const eff = stepperFile ? effectivePartSettings(stepperFile, defaults) : null;
           const isMulti = eff?.multicolour ?? false;
