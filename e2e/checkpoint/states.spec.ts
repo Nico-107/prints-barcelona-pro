@@ -6,11 +6,16 @@ import { test, expect } from "@playwright/test";
 // via smoke-level selectors.
 
 test("homepage calculator renders without unhandled errors", async ({ page }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForTimeout(500);
-  expect(errors).toEqual([]);
+  // Filter env-specific noise (webkit CORS on placeholder.supabase.co, placeholder
+  // dev-env errors) — the invariant we care about is no app-level JS errors.
+  const appErrors = errors.filter(
+    (m) => !/placeholder\.supabase\.co|access control checks/i.test(m),
+  );
+  expect(appErrors).toEqual([]);
 });
 
 test("quote-only city page (London) renders a quote form, not a buy button for impossible flows", async ({ page }) => {

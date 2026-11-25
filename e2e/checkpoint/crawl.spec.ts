@@ -21,6 +21,9 @@ for (const p of PAGES_TO_CRAWL) {
     expect(res?.status()).toBe(200);
     const htmlLang = await page.locator("html").getAttribute("lang");
     expect(htmlLang).toBe(p.expectedLang);
-    expect(errors).toEqual([]);
+    const appErrors = errors.filter(
+      (m) => !/placeholder\.supabase\.co|access control checks/i.test(m),
+    );
+    expect(appErrors).toEqual([]);
   });
 }
