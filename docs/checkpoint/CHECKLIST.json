@@ -6,8 +6,13 @@
     {
       "id": "H0",
       "title": "Legacy oracle: deployed server logic (commit 0aebcd6) saved as test fixture; .gitignore + reports/ set up",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "src/__checkpoint__/legacy/deployedServer.ts extracted from commit 0aebcd6 (pure parts: EST, EST_V4, analyzeTriangles, priceOrder, charmCents, evaluateV4, shippingChargeCents, chargeAllowed, V3_INSTANT)",
+        ".gitignore appended: test-fixtures/checkpoint/generated/ and test-fixtures/checkpoint/private/",
+        "@vitest/coverage-v8@^2.1.9 installed to match vitest ^2.1.9",
+        "node scripts/checkpoint/verify.mjs | grep H0 -> no 'missing' error (checks pass)"
+      ],
       "checks": [
         {
           "type": "contains",

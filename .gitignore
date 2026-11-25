@@ -31,3 +31,7 @@ test-results/
 playwright-report/
 .main-worktree
 .verify/
+
+# Checkpoint (2026-11-25)
+test-fixtures/checkpoint/generated/
+test-fixtures/checkpoint/private/
