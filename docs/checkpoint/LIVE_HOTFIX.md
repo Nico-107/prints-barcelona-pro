@@ -52,7 +52,33 @@ real passing run.
 | `/impresion-3d-sevilla` | Pickup label says Sevilla | "Recogida gratis en Sevilla" | pending | pending |
 | `/3d-printing-delivery-paris` | No pickup shown | no "Recogida" / "Rambla" | pending | pending |
 
-RESULT: pending — Vercel has not rebuilt from `main` yet.
+RESULT: PASS
+
+Live run (2026-11-25, bundle `index-C3J1kszV.js` + next deploy, after fixes `21ab228` and `0fb57d1`):
+
+```
+Running 7 tests using 4 workers
+
+[1/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:11:3 › /it/stampa-3d-online: page renders without street-address leak
+[2/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:11:3 › /impresion-3d-sevilla: page renders without street-address leak
+[3/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:11:3 › /: page renders without street-address leak
+[4/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:11:3 › /madrid: page renders without street-address leak
+[5/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:11:3 › /3d-printing-delivery-paris: page renders without street-address leak
+[6/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:26:1 › Paris delivery page shows no pickup option
+[7/7] [chromium] › e2e/checkpoint/live-hotfix.spec.ts:20:1 › Sevilla page shows Sevilla pickup, not Barcelona
+  7 passed (30.0s)
+```
+
+Two fixes landed as part of this run:
+
+- `21ab228` — removed visible "Av. Parsi 21" from Sevilla landing page intro, hero subtitle
+  and the shared `CityDeliveryPage` pickup heading. Schema.org `streetAddress` and the
+  Google Maps iframe URL are intentionally kept (per MASTER_PROMPT §C3, §F2 allow addresses
+  in structured data and confirmation emails — only the price window / pickup label is
+  forbidden to show the street).
+- `0fb57d1` — replaced "Mismo día" with "Al día siguiente" in the CityDeliveryPage shipping
+  table and the `/impresion-3d-cerca-de-mi` Madrid landing table (both were rendering on
+  `/madrid` and `/impresion-3d-sevilla` via the shared component).
 
 ## Pre-deploy probe (verified from this environment at 2026-11-25T04:15Z)
 

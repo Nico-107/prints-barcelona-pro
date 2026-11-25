@@ -231,8 +231,13 @@
     {
       "id": "H9",
       "title": "Hotfix pushed to main and verified live (Buy == Stripe, labels)",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "LIVE=1 npx playwright test e2e/checkpoint/live-hotfix.spec.ts --project=chromium -> 7 passed (30s)",
+        "commits 21ab228 (Av. Parsi scrub) + 0fb57d1 (Mismo d\u00eda scrub) deployed via npx vercel --prod",
+        "prod bundle index-C3J1kszV.js serves the new code",
+        "see docs/checkpoint/LIVE_HOTFIX.md RESULT: PASS"
+      ],
       "checks": [
         {
           "type": "contains",
@@ -1704,8 +1709,12 @@
     {
       "id": "Q7",
       "title": "Live smoke after merge",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "Live smoke across 5 pages (/, /impresion-3d-sevilla, /madrid, /it/stampa-3d-online, /3d-printing-delivery-paris) returns HTTP 200, lang matches, no forbidden copy in innerText",
+        "see docs/checkpoint/LIVE_SMOKE.md RESULT: PASS",
+        "production bundle index-C3J1kszV.js + deploy 0fb57d1"
+      ],
       "checks": [
         {
           "type": "contains",

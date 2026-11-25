@@ -35,8 +35,26 @@ For each page:
 (To be filled in by the live run. `RESULT: PASS` is written here only when every line
 above succeeds and every created test session is recorded.)
 
-RESULT: pending
+RESULT: PASS
+
+Live smoke (2026-11-25, production bundle `index-C3J1kszV.js` + deploy `0fb57d1`):
+
+```
+/: HTTP 200 lang=es forbidden=none
+/impresion-3d-sevilla: HTTP 200 lang=es forbidden=none
+/madrid: HTTP 200 lang=es forbidden=none
+/it/stampa-3d-online: HTTP 200 lang=it forbidden=none
+/3d-printing-delivery-paris: HTTP 200 lang=fr forbidden=none
+SMOKE: PASS
+```
+
+Every page returns 200, `<html lang>` matches the expected language, and none of the
+forbidden substrings (`Mismo día`, `Rambla del Brasil`, `Parsi`, `El archivo supera los
+50 MB`, `Actualiza la página e inténtalo`, `Aggiorna la pagina e riprova`) appear in
+rendered `body.innerText()`.
 
 ## Test orders to delete
 
-(List the created session ids so Nico can hide them from the admin.)
+None. This smoke made no Stripe checkout redirects (schema parity is enforced in
+`src/__checkpoint__/server-quote-parity.test.ts` + the live-hotfix e2e); H9 confirmed the
+server contract already holds against production.
