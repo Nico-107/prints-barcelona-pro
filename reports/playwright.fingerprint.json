@@ -2,12 +2,12 @@
   "report": "reports/playwright.json",
   "suite": "e2e",
   "fingerprint": "d07bc6ba1458ab276d61028a091a412fa1a6bc2e378c4c41e665354eeb903a11",
-  "reportSha256": "f306aa7c8a320d122c84827ffe5ee7822e914eb44a20589961ad573d7b74cec0",
+  "reportSha256": "b6783cd71a104e2d997839e528c018042d593be0e998f14be0129659e7fc001b",
   "partial": true,
   "changedDuringRun": false,
   "exitCode": 0,
   "command": "npx playwright test e2e/checkpoint/ --reporter=list,json --project=chromium",
-  "startedAt": "2026-11-25T03:12:31.982Z",
-  "finishedAt": "2026-11-25T03:12:41.082Z",
+  "startedAt": "2026-11-25T03:26:13.264Z",
+  "finishedAt": "2026-11-25T03:26:22.572Z",
   "node": "v24.16.0"
 }
