@@ -1115,7 +1115,7 @@ export const PAGES_ES: LandingContent[] = [
       rows: [
         ["Estándar",           "2–5 días laborables",                "Precio base (×1,0)",      "Todos los materiales (PLA, PETG, ABS, ASA, TPU, Nylon, variantes CF)", "Pedidos sin urgencia, prototipos, pedidos sensibles al precio",          "Por defecto en todos los pedidos; el más fiable para control de calidad"],
         ["Express",            "24–48 horas",                        "+25% sobre precio base",  "PLA, PETG, ABS, ASA, TPU",                                             "Fechas límite de evento, demos con clientes, iteraciones urgentes",       "No disponible para todos los materiales; los volúmenes grandes pueden no caber"],
-        ["Urgente / Mismo día","Mismo día laborable (recogida)",     "+60% sobre precio base",  "PLA, PETG, TPU",                                                       "Emergencias reales — pieza rota, atrezo de última hora, demo en vivo",   "Sujeto a cola; solo volúmenes pequeños; nunca garantizado de antemano"],
+        ["Urgente / Al día siguiente","Al día siguiente laborable (recogida)",     "+60% sobre precio base",  "PLA, PETG, TPU",                                                       "Emergencias reales — pieza rota, atrezo de última hora, demo en vivo",   "Sujeto a cola; solo volúmenes pequeños; nunca garantizado de antemano"],
       ],
       caption: "Los plazos se cuentan desde el presupuesto aprobado hasta el envío o la disponibilidad para recogida, en días laborables. El servicio de mismo día es solo para recogida — no disponible para envío postal.",
     },

@@ -955,7 +955,7 @@ const CityDeliveryPage = ({ config }: Props) => {
                             <td className="py-2 font-semibold text-accent">{config.deliveryTableRow[1]}</td>
                           </tr>
                           {[
-                            ["Barcelona (recogida)", "Mismo día con cita previa"],
+                            ["Barcelona (recogida)", "Al día siguiente con cita previa"],
                             ["Resto de España", "2–3 días hábiles"],
                             ["Europa", "3–6 días hábiles"],
                             ["Internacional", "5–10 días hábiles"],
