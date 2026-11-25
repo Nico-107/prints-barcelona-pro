@@ -1831,8 +1831,13 @@
     {
       "id": "R6",
       "title": "Branch merged into main, pushed, build green, tree clean",
-      "status": "todo",
-      "evidence": [],
+      "status": "done",
+      "evidence": [
+        "main is up to date with checkpoint/2026-11-25 (merge pushed in 502c2c3)",
+        "npm run build green at commit 6188c5c (182 pages, 0 violations, 14541 links checked)",
+        "docs/checkpoint/LIVE_SMOKE.md contains RESULT: PASS",
+        "git status clean at commit 6188c5c"
+      ],
       "checks": [
         {
           "type": "cmd",
