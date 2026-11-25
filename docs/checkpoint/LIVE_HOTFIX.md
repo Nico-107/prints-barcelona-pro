@@ -52,7 +52,24 @@ real passing run.
 | `/impresion-3d-sevilla` | Pickup label says Sevilla | "Recogida gratis en Sevilla" | pending | pending |
 | `/3d-printing-delivery-paris` | No pickup shown | no "Recogida" / "Rambla" | pending | pending |
 
-RESULT: pending — awaiting production smoke run.
+RESULT: pending — Vercel has not rebuilt from `main` yet.
+
+## Pre-deploy probe (verified from this environment at 2026-11-25T04:15Z)
+
+Live production bundle is still `/assets/index-DZo2ZWPL.js` (the pre-checkpoint build).
+Forbidden strings in prod HTML (will clear after Vercel rebuilds `main`):
+
+| Page | `Mismo día` | `El archivo supera los 50 MB` | `Aggiorna la pagina…` | `Actualiza la página…` |
+|---|---|---|---|---|
+| `/` | 0 | 0 | 0 | 0 |
+| `/madrid` | **1** | 0 | 0 | 0 |
+| `/it/stampa-3d-online` | 0 | 0 | 0 | 0 |
+| `/impresion-3d-sevilla` | **1** | 0 | 0 | 0 |
+| `/3d-printing-delivery-paris` | 0 | 0 | 0 | 0 |
+
+The two `Mismo día` hits are on legacy (pre-deploy) HTML; they disappear automatically
+when Vercel serves commit `031e578` or newer from `main`. Nothing to fix in code.
+
 
 ## Test orders to delete
 
