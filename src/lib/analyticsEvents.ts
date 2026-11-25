@@ -547,6 +547,16 @@ export interface EventMap {
     mesh_shells?: number;
   };
   checkout_failed_send_order: { code: string };
+  // T3 — mobile WhatsApp secondary CTA
+  mobile_whatsapp_click: { location: "hero" | "modal" | "bubble" };
+  // A1 — Phase P / S states
+  price_updated_shown: { from_cents: number; to_cents: number; code?: string };
+  price_updated_accepted: { total_cents: number };
+  oversize_shown: { bbox_mm: [number, number, number]; scale_to_fit: number };
+  scale_applied: { factor: number; trigger: "oversize" | "units" | "custom" };
+  units_applied: { factor: number };
+  large_file_upload: { mb: number; parts: number; ms: number };
+  unsupported_format: { ext: string };
   instant_limit_file_too_large: {
     file_mb: number;
     total_file_mb?: number;

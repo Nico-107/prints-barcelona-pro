@@ -402,7 +402,7 @@ export const caTranslations: Record<string, string> = {
   "calc.actions.reviewPrimary": "Demanar revisió gratis",
   "calc.actions.reviewPrimaryHint": "Et confirmo preu i termini en menys d'1 h laborable",
   "calc.trust.promise": "Pagament segur amb Stripe · Rebut per email · T'escrivim en 1 h",
-  "calc.trust.single": "4,8/5 en ressenyes · 250+ comandes · Pagament segur amb Stripe",
+  "calc.trust.single": "4,8/5 en ressenyes · ~300 comandes · Pagament segur amb Stripe",
   "calc.trust.methods": "Targeta · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Pagament segur amb",
   "calc.contact.submitting": "Pujant i enviant...",
@@ -1102,7 +1102,7 @@ export const caTranslations: Record<string, string> = {
   "header.v2.como": "Com imprimim",
   "header.v2.empresas": "Empreses",
   "header.v2.sin": "Sense arxiu",
-  "header.v2.rating": "4,8 · 250+ comandes",
+  "header.v2.rating": "4,8 · ~300 comandes",
   "header.v2.cta": "Veure el meu preu",
   "header.menu.open": "Obrir menú",
   "header.menu.close": "Tancar menú",
@@ -1135,4 +1135,7 @@ export const caTranslations: Record<string, string> = {
   "shipping.upfrontNote": "+ 4,90 € enviament · gratis des de 30 € · o recollida gratis a Les Corts",
   "shipping.option.delivery": "Enviament a domicili",
   "shipping.option.pickup": "Recollida gratis a Les Corts",
+  "shipping.option.pickup.sevilla": "Recollida gratis a Sevilla (amb cita)",
+  "shipping.option.pickup.bcn": "Recollida gratis a Barcelona (Les Corts), amb cita",
+
 };

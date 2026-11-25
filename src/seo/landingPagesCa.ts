@@ -151,7 +151,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "service",
     metaTitle: "Preu Impressió 3D Barcelona",
-    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 9,90 €, des d'1 peça. 250+ comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
+    metaDescription: "Quant costa la impressió 3D a Barcelona? Des de 9,90 €, des d'1 peça. ~300 comandes. Taula de tarifes per material i mida. Pressupost en 1 h.",
     h1: "Preu d'Impressió 3D a Barcelona",
     intro: "Una de les primeres preguntes de qualsevol client és: quant costarà la meva impressió 3D? En aquesta pàgina expliquem exactament què determina el preu d'una impressió 3D a Barcelona, amb exemples realistes, perquè puguis planificar el teu projecte sense sorpreses.",
     sections: [
@@ -435,7 +435,7 @@ export const PAGES_CA: LandingContent[] = [
     lang: "ca",
     category: "use-case",
     metaTitle: "Impressió 3D per a Empreses a Barcelona",
-    metaDescription: "Impressió 3D per a empreses i enginyers a Barcelona. 250+ comandes, des de 9,90 €, factura amb IVA. Envia el teu STL/STEP — pressupost en 1 hora.",
+    metaDescription: "Impressió 3D per a empreses i enginyers a Barcelona. ~300 comandes, des de 9,90 €, factura amb IVA. Envia el teu STL/STEP — pressupost en 1 hora.",
     h1: "Impressió 3D per a Empreses a Barcelona — Factura, NDA i Prototip Gratuït",
     intro: "Dimension3D treballa amb equips d'enginyeria, departaments de R+D, tallers i petits fabricants a Barcelona que necessiten peces 3D funcionals sense els temps i la burocràcia d'un proveïdor industrial. Envia el teu arxiu — STL, STEP o IGES — i rep pressupost professional en menys d'una hora. Sense compte, sense concurs, sense volum mínim.",
     sections: [

@@ -435,7 +435,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "use-case",
     metaTitle: "Impresión 3D para Empresas en Barcelona",
-    metaDescription: "Impresión 3D para empresas e ingenieros en Barcelona. 250+ pedidos, desde 9,90 €, sin tarifa de configuración. Factura con IVA. Presupuesto en 1 hora.",
+    metaDescription: "Impresión 3D para empresas e ingenieros en Barcelona. ~300 pedidos, desde 9,90 €, sin tarifa de configuración. Factura con IVA. Presupuesto en 1 hora.",
     h1: "Impresión 3D para Empresas en Barcelona — Factura, NDA y Desde 9,90 €",
     intro: "Dimension3D trabaja con equipos de ingeniería, departamentos de I+D, talleres y pequeños fabricantes en Barcelona que necesitan piezas 3D funcionales sin los tiempos y la burocracia de un proveedor industrial. Envía tu archivo — STL, STEP o IGES — y recibe presupuesto profesional en menos de una hora. Sin cuenta, sin concurso, sin volumen mínimo.",
     sections: [
@@ -1491,7 +1491,7 @@ export const PAGES_ES: LandingContent[] = [
       },
       {
         heading: "¿Para qué se usa la impresión 3D?",
-        body: "Las aplicaciones más frecuentes en nuestros 250+ pedidos:\n\n• **Recambios y piezas descatalogadas** — ruedas de lavavajillas, clips de coche, tiradores, guías, fijaciones.\n• **Prototipos** — validar forma, ajuste y función antes de producción en serie.\n• **Personalización** — logos, placas con nombre, keychains, decoración de hogar.\n• **Piezas funcionales** — soportes, adaptadores, herramientas, utillajes.\n• **Modelos y maquetas** — arquitectura, juegos de mesa, figuras.\n• **Tiradas cortas** — pequeños lotes de piezas para startups, talleres y clínicas."
+        body: "Las aplicaciones más frecuentes en nuestros ~300 pedidos:\n\n• **Recambios y piezas descatalogadas** — ruedas de lavavajillas, clips de coche, tiradores, guías, fijaciones.\n• **Prototipos** — validar forma, ajuste y función antes de producción en serie.\n• **Personalización** — logos, placas con nombre, keychains, decoración de hogar.\n• **Piezas funcionales** — soportes, adaptadores, herramientas, utillajes.\n• **Modelos y maquetas** — arquitectura, juegos de mesa, figuras.\n• **Tiradas cortas** — pequeños lotes de piezas para startups, talleres y clínicas."
       },
       {
         heading: "¿Cómo pedir una impresión 3D?",
@@ -1592,7 +1592,7 @@ export const PAGES_ES: LandingContent[] = [
     lang: "es",
     category: "service",
     metaTitle: "Sobre Nosotros — Dimension3D Barcelona | Impresión 3D FDM",
-    metaDescription: "Dimension3D es un estudio de impresión 3D FDM en Barcelona fundado por Nico (Mikołaj Szczełkun). 250+ pedidos, Bambu Lab X2D, servicio online a toda España.",
+    metaDescription: "Dimension3D es un estudio de impresión 3D FDM en Barcelona fundado por Nico (Mikołaj Szczełkun). ~300 pedidos, Bambu Lab X2D, servicio online a toda España.",
     h1: "Sobre Dimension3D: el estudio detrás de cada pieza",
     intro: "Dimension3D es un estudio de impresión 3D FDM fundado en Barcelona por Nico (Mikołaj Szczełkun). Fabricamos piezas a medida, prototipos y recambios para particulares y empresas de toda España. Desdel estudio en Les Corts hemos completado más de 250 pedidos, y seguimos haciendo lo mismo que al principio: revisar cada encargo manualmente, responder en menos de 1 hora y entregar piezas que funcionan.",
     sections: [
@@ -1605,7 +1605,7 @@ export const PAGES_ES: LandingContent[] = [
         body: "El estudio principal está en la Rambla de Brasil, 53, barrio de Les Corts, Barcelona. Trabajamos con una flota de impresoras FDM centradas en la Bambu Lab X2D con sistema AMS (Automatic Material System), que permite impresión multicolor de hasta 4 filamentos en la misma pieza.\n\nUsamos exclusivamente tecnología FDM — no fabricamos en resina ni en SLS. FDM es la tecnología más versátil para piezas funcionales, recambios y producción a corto plazo con materiales técnicos como PETG, ABS/ASA, TPU y Nylon. Para aplicaciones que requieren mayor detalle superficial o materiales especiales que FDM no cubre, lo comunicamos abiertamente y remitimos a quien puede ayudar mejor."
       },
       {
-        heading: "250+ pedidos y lo que hemos aprendido",
+        heading: "~300 pedidos y lo que hemos aprendido",
         body: "Desde el primer pedido hasta hoy, hemos imprimido más de 250 encargos para particulares, startups, talleres, clínicas, diseñadores y estudiantes. Algunos patrones que vemos constantemente:\n\n• La mayoría de los clientes no tienen archivo 3D — trabajan con fotos, piezas rotas y medidas.\n• El material correcto importa más que la calidad de impresión — una pieza bien orientada en PETG supera a la misma pieza mal configurada en Nylon.\n• El soporte directo marca la diferencia — los clientes que reciben respuesta en minutos tienen mucho menos estrés que los que esperan días.\n\nEsto ha moldeado cómo trabajamos: revisión humana de cada archivo, respuesta por WhatsApp en horario laboral, y honestidad cuando un encargo no es el mejor caso de uso para FDM."
       },
       {

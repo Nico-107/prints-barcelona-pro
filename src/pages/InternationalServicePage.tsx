@@ -95,7 +95,7 @@ const InternationalServicePage = () => {
       <title>Online 3D Printing Service in Spain &amp; EU — From €9.90</title>
       <meta
         name="description"
-        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain &amp; EU. 250+ orders, from €9.90, no setup fee."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain &amp; EU. ~300 orders, from €9.90, no setup fee."
       />
       <link rel="canonical" href={PAGE_URL} />
       <link rel="alternate" hrefLang="es" href={`${SITE_URL}/impresion-3d-online`} />
@@ -110,7 +110,7 @@ const InternationalServicePage = () => {
       <meta property="og:title" content="Online 3D Printing Service in Spain & EU — From €9.90" />
       <meta
         property="og:description"
-        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from €9.90, no setup fee."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. ~300 orders, from €9.90, no setup fee."
       />
       <meta property="og:url" content={PAGE_URL} />
       <meta property="og:type" content="website" />
@@ -119,7 +119,7 @@ const InternationalServicePage = () => {
       <meta name="twitter:title" content="Online 3D Printing Service in Spain & EU — From €9.90" />
       <meta
         name="twitter:description"
-        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. 250+ orders, from €9.90, no setup fee."
+        content="Upload your STL and get a quote in 1 hour. FDM 3D printing from Barcelona, shipped across Spain & EU. ~300 orders, from €9.90, no setup fee."
       />
       <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
       <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>

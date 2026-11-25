@@ -225,12 +225,12 @@ const LandingPage = ({ page: pageProp }: Props) => {
   const { short: heroSubtitle, rest: heroLeadRest } = splitHeroIntro(page.intro);
 
   // Phase 3.5: true facts only, pulled from configured sources.
-  // 250+ orders is the one owner-confirmed count; keep. The other chips cite
+  // ~300 orders is the one owner-confirmed count; keep. The other chips cite
   // concrete facts: location (Les Corts), rating from data/rating.ts, and
   // the minimum order (from the engine configuration).
   const trustBadges = [
     { icon: MapPin, label: t(`Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`, `Les Corts, ${pageCity.cityName}`), iconClass: isMadrid ? "text-orange-300" : "text-accent" },
-    { icon: Zap, label: t("250+ orders", "250+ pedidos", "250+ Bestellungen", "250+ comandes"), iconClass: "text-accent" },
+    { icon: Zap, label: t("~300 orders", "~300 pedidos", "~300 Bestellungen", "~300 comandes"), iconClass: "text-accent" },
     { icon: Award, label: t("4.8/5 · customer reviews", "4,8/5 · reseñas de clientes", "4,8/5 · Kundenbewertungen", "4,8/5 · ressenyes de clients"), iconClass: "text-accent" },
     { icon: Settings2, label: t("From 1 piece · 9,90 € min.", "Desde 1 pieza · pedido mínimo 9,90 €", "Ab 1 Stück · 9,90 € min.", "Des de 1 peça · comanda mínima 9,90 €"), iconClass: "text-accent" },
   ];

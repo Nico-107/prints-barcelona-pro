@@ -374,7 +374,7 @@ export const nlTranslations: Record<string, string> = {
   "calc.actions.reviewPrimary": "Gratis controle aanvragen",
   "calc.actions.reviewPrimaryHint": "Ik bevestig prijs en levertijd binnen 1 werkuur",
   "calc.trust.promise": "Veilige betaling via Stripe · Bevestiging per email · Reactie binnen 1 u",
-  "calc.trust.single": "4,8/5 reviews · 250+ bestellingen · Veilige betaling met Stripe",
+  "calc.trust.single": "4,8/5 reviews · ~300 bestellingen · Veilige betaling met Stripe",
   "calc.trust.methods": "Kaart · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Veilige betaling met",
   "calc.contact.submitting": "Uploaden & verzenden...",
@@ -1108,7 +1108,7 @@ export const nlTranslations: Record<string, string> = {
   "header.v2.como": "Hoe wij printen",
   "header.v2.empresas": "Bedrijven",
   "header.v2.sin": "Geen bestand",
-  "header.v2.rating": "4,8 · 250+ bestellingen",
+  "header.v2.rating": "4,8 · ~300 bestellingen",
   "header.v2.cta": "Prijs zien",
   "header.menu.open": "Menu openen",
   "header.menu.close": "Menu sluiten",
@@ -1141,4 +1141,7 @@ export const nlTranslations: Record<string, string> = {
   "shipping.upfrontNote": "+ € 4,90 verzending · gratis vanaf € 30 · of gratis afhalen in Les Corts",
   "shipping.option.delivery": "Thuisbezorging",
   "shipping.option.pickup": "Gratis afhalen in Les Corts",
+  "shipping.option.pickup.sevilla": "Gratis afhalen in Sevilla (op afspraak)",
+  "shipping.option.pickup.bcn": "Gratis afhalen in Barcelona (Les Corts), op afspraak",
+
 };

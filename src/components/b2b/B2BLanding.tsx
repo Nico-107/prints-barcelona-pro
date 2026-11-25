@@ -266,7 +266,7 @@ const CONTENT: Record<B2BLang, B2BCopy> = {
     metaTitle: "3D Printing for Business in Barcelona — Quote in 1 h",
     metaDesc: "3D printing for companies in Barcelona: functional parts, prototypes, replacement parts and short runs. From €9.90, no setup fee. Quote in 1 hour.",
     h1: "3D Printing for Business in Barcelona",
-    heroPromise: "250+ orders completed. Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
+    heroPromise: "~300 orders completed. Production-grade parts quoted in 1 hour, delivered in 2–5 days.",
     heroSub: "No setup fee. €9.90 minimum order. Invoice for companies. NDA available. Support in ES · CA · EN · DE · PL.",
     ctaPrimary: "Send my project",
     ctaWhatsApp: "Message on WhatsApp",

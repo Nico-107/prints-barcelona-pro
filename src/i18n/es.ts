@@ -402,7 +402,7 @@ export const esTranslations: Record<string, string> = {
   "calc.actions.reviewPrimary": "Pedir revisión gratis",
   "calc.actions.reviewPrimaryHint": "Te confirmo precio y plazo en menos de 1 h laborable",
   "calc.trust.promise": "Pago seguro con Stripe · Recibo por email · Te escribimos en 1 h",
-  "calc.trust.single": "4,8/5 en reseñas · 250+ pedidos · Pago seguro con Stripe",
+  "calc.trust.single": "4,8/5 en reseñas · ~300 pedidos · Pago seguro con Stripe",
   "calc.trust.methods": "Tarjeta · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Pago seguro con",
   "calc.contact.submitting": "Subiendo y enviando...",
@@ -984,7 +984,7 @@ export const esTranslations: Record<string, string> = {
 
   // Homepage V1 redesign
   "home.h1": "Impresión 3D de calidad en Barcelona.",
-  "home.hero.p": "Sube un archivo o una foto y ve tu precio al instante. Tu pieza lista en 24–48 h, para recoger en Les Corts o con envío a toda España.",
+  "home.hero.p": "Sube un archivo o una foto y ve tu precio al instante. Lista en 1–3 días laborables · urgente: al día siguiente, para recoger en Les Corts o con envío a toda España.",
   "home.hero.reassurance": "Sin registro · STL, OBJ, 3MF o una foto · Archivos confidenciales",
   "home.hero.nofile": "¿No tienes archivo? Lo diseñamos desde una foto →",
   "home.hero.whatsapp": "Escribirnos por WhatsApp",
@@ -1065,7 +1065,7 @@ export const esTranslations: Record<string, string> = {
   "home.why.col4.desc": "Bambu Lab X2D. ±0,2 mm. Hasta 5 colores en la misma pieza.",
   // Express slim dark band
   "home.express.eyebrow": "IMPRESIÓN EXPRESS",
-  "home.express.heading": "Tu pieza lista en 24–48 h.",
+  "home.express.heading": "Lista en 1–3 días laborables · urgente: al día siguiente.",
   "home.express.facts": "24–48 h · Mismo acabado · Recargo según tier",
   "home.express.link": "Cómo funciona el servicio express →",
   "home.v2.path.heading": "¿Por dónde empezamos?",
@@ -1111,7 +1111,7 @@ export const esTranslations: Record<string, string> = {
   "header.v2.como": "Cómo imprimimos",
   "header.v2.empresas": "Empresas",
   "header.v2.sin": "Sin archivo",
-  "header.v2.rating": "4,8 · 250+ pedidos",
+  "header.v2.rating": "4,8 · ~300 pedidos",
   "header.v2.cta": "Ver mi precio",
   "header.menu.open": "Abrir menú",
   "header.menu.close": "Cerrar menú",
@@ -1145,4 +1145,6 @@ export const esTranslations: Record<string, string> = {
   "shipping.upfrontNote": "+ 4,90 € envío · gratis desde 30 € · o recogida gratis en Les Corts",
   "shipping.option.delivery": "Envío a domicilio",
   "shipping.option.pickup": "Recogida gratis en Les Corts",
+  "shipping.option.pickup.sevilla": "Recogida gratis en Sevilla (con cita)",
+  "shipping.option.pickup.bcn": "Recogida gratis en Barcelona (Les Corts), con cita",
 };

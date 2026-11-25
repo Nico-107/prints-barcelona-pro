@@ -212,7 +212,7 @@ export const FOUNDER = {
 
 // --------------- STATS -----------------
 export const STATS = {
-  totalOrders: "250+" as string | null,
+  totalOrders: "~300" as string | null,
   totalOrdersPeriod: {
     es: "en los últimos 2 años",
     en: "in the last 2 years",

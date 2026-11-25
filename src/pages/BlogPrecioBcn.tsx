@@ -15,7 +15,7 @@ const SITE_URL = "https://www.dimension3dprints.com";
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/share-default.png`;
 
 const META_TITLE = "Precio Impresión 3D en Barcelona — Desde 9,90 €";
-const META_DESC = "¿Cuánto cuesta imprimir en 3D en Barcelona? Desde 9,90 €, desde 1 pieza. 250+ pedidos. Tabla de tarifas por material y tamaño. Presupuesto en 1 h.";
+const META_DESC = "¿Cuánto cuesta imprimir en 3D en Barcelona? Desde 9,90 €, desde 1 pieza. ~300 pedidos. Tabla de tarifas por material y tamaño. Presupuesto en 1 h.";
 const CANONICAL = `${SITE_URL}/blog/precio-impresion-3d-barcelona`;
 
 const FAQS = [

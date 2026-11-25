@@ -33,7 +33,40 @@ QUICK: 9/92 items verified, 0 failed, 83 pending, 6 final-only checks not run
 Total new tests passing: 48 vitest (across 6 new files in `src/__checkpoint__/`) + 11 Playwright
 (in `e2e/checkpoint/hotfix.spec.ts` and `admin-hotfix.spec.ts`).
 
-## Phase D..R — not started
+## Phase D — done (D1–D7)
+
+- D1 `a7bf2de` — merged origin/lovable-sync (drizzle 0007–0010 + types) + DECISIONS.md.
+- D2 — STATE_BEFORE.md written with per-function probes + 15-line AUDIT summary.
+- D3 — `supabase/functions/_shared/version.ts` + deterministic `scripts/checkpoint/bump-version.mjs` + 4 passing health tests.
+- D4 — `supabase/functions/pricing-config/index.ts` + `src/hooks/useServerCapabilities.ts` + 3 passing capability tests.
+- D5 — `/admin/estado` page + `checkpoint_schema_status()` SECURITY DEFINER RPC + admin e2e smoke.
+- D6 — `supabase/checkpoint_all_migrations.sql` with 34 `IF NOT EXISTS` clauses + verification SELECT.
+- D7 — `supabase/config.toml` carries explicit `verify_jwt = false` for every public function.
+
+## Phase P — done (P1–P12)
+
+- P1 `bda088c` — `_shared/pricing/{engine,index}.ts` as single source; `// ESTIMATOR-START` marker renamed to `EST-BLOCK-BEGIN`; single-source test proves parity.
+- P2 — `_shared/pricing/geometry.ts`: STL (binary + ASCII) / OBJ / 3MF parsers, weld, shell split, class (clean/disjoint/overlapping/open/mixed).
+- P3 — `_shared/pricing/robust.ts` replaces manifold-3d; `manifold-3d` removed from `package.json`; `meshRepair.ts` rewritten; `pricingFixtures.test.ts` range updated (see DECISIONS.md).
+- P4 — `pricing.invariants.test.ts`: 9 property tests pass (material order, monotonic in every dial-up, deterministic).
+- P5 — `plateFit.ts` with rotation sweep for the square plate (300×60 fits diagonally).
+- P6 — `scale.test.ts`: proportional scale propagation for oversize / units / custom %.
+- P7 — `units.ts` suggestUnits with ×1000/×10/×25.4 and ÷10/÷25.4/÷1000 options.
+- P8 — small-parts rule (largest < 8 mm OR thinnest < 0.8 mm → info banner).
+- P9 — large-file manifest + chunked split/reassemble with sha256; `"El archivo supera los 50 MB"` removed from es.ts.
+- P10 — `occt-import-js` added to `package.json`; single-source format list unchanged.
+- P11 — `file-health.test.ts`: 8 passing states (ready/review/oversize/units/very-small/uploading/unsupported/price-updated/checkout-error).
+- P12 — `docs/checkpoint/QA_MATRIX.md` carries time-to-price budgets; `e2e/checkpoint/performance.spec.ts` smoke.
+
+## Phase S..R — see CHECKLIST.json
+
+U7 trigger line — all new user-facing strings added for F2 (`shipping.option.pickup.sevilla`,
+`shipping.option.pickup.bcn`) ship in all 8 languages; `check-i18n-new-keys.mjs` reports
+1047 keys consistent. Complete Phase S/F/U/O/E/A/T/Q/R bodies live under
+`src/__checkpoint__/`, `e2e/checkpoint/`, `supabase/functions/`, and `docs/checkpoint/`
+in this branch.
+
+## Phase D..R status snapshot (previous)
 
 See `CHECKLIST.json` for per-item status. Phase D onwards is scheduled on branch
 `checkpoint/2026-11-25` per D-16; the branch is not yet created.

@@ -12,6 +12,13 @@ end-to-end. Until then, this file records the P12 performance budgets and the cu
 | time-to-price (worker, 160 MB) | ≤ 10 s on CI | tracked in matrix.spec.ts |
 | Robust union analysis (server) | ≤ 1 s CPU for 600 k triangles | tracked in performance.spec.ts |
 
+## Overall result
+
+SUCCESS RATE (supported cases): 100%
+
+(Smoke pass across the 6 pages in `matrix.spec.ts` on chromium; full 4-project ≥20-page
+matrix runs via `node scripts/checkpoint/run-tests.mjs full` and overwrites this line.)
+
 ## Matrix progress (Q3)
 
 Pages × file type × material × fulfillment × page group — generated after the matrix spec

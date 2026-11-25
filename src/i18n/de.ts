@@ -374,7 +374,7 @@ export const deTranslations: Record<string, string> = {
   "calc.actions.reviewPrimary": "Kostenlose Prüfung anfordern",
   "calc.actions.reviewPrimaryHint": "Preis und Liefertermin bestätige ich innerhalb von 1 Std. werktags",
   "calc.trust.promise": "Sichere Zahlung mit Stripe · Bestätigung per E-Mail · Antwort in 1 Std.",
-  "calc.trust.single": "4,8/5 Bewertungen · 250+ Bestellungen · Sichere Zahlung mit Stripe",
+  "calc.trust.single": "4,8/5 Bewertungen · ~300 Bestellungen · Sichere Zahlung mit Stripe",
   "calc.trust.methods": "Karte · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Sichere Zahlung mit",
   "calc.contact.submitting": "Wird hochgeladen & gesendet…",
@@ -1103,7 +1103,7 @@ export const deTranslations: Record<string, string> = {
   "header.v2.como": "Wie wir drucken",
   "header.v2.empresas": "Unternehmen",
   "header.v2.sin": "Ohne Datei",
-  "header.v2.rating": "4,8 · 250+ Bestellungen",
+  "header.v2.rating": "4,8 · ~300 Bestellungen",
   "header.v2.cta": "Preis sehen",
   "header.menu.open": "Menü öffnen",
   "header.menu.close": "Menü schließen",
@@ -1136,4 +1136,7 @@ export const deTranslations: Record<string, string> = {
   "shipping.upfrontNote": "+ 4,90 € Versand · gratis ab 30 € · oder kostenlose Abholung in Les Corts",
   "shipping.option.delivery": "Versand",
   "shipping.option.pickup": "Kostenlose Abholung in Les Corts",
+  "shipping.option.pickup.sevilla": "Kostenlose Abholung in Sevilla (nach Vereinbarung)",
+  "shipping.option.pickup.bcn": "Kostenlose Abholung in Barcelona (Les Corts), nach Vereinbarung",
+
 };

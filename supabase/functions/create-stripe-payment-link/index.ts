@@ -80,7 +80,7 @@ serve(async (req: Request) => {
         "line_items[0][quantity]": "1",
         "metadata[order_number]": String(orderNumber),
         "after_completion[type]": "redirect",
-        "after_completion[redirect][url]": "https://dimension3dprints.com/track",
+        "after_completion[redirect][url]": "https://www.dimension3dprints.com/track",
       }),
     });
 

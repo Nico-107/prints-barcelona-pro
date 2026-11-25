@@ -374,7 +374,7 @@ export const itTranslations: Record<string, string> = {
   "calc.actions.reviewPrimary": "Richiedi una revisione gratuita",
   "calc.actions.reviewPrimaryHint": "Ti confermo prezzo e tempi entro 1 h lavorativa",
   "calc.trust.promise": "Pagamento sicuro con Stripe · Ricevuta via email · Ti rispondiamo in 1 h",
-  "calc.trust.single": "4,8/5 recensioni · 250+ ordini · Pagamento sicuro con Stripe",
+  "calc.trust.single": "4,8/5 recensioni · ~300 ordini · Pagamento sicuro con Stripe",
   "calc.trust.methods": "Carta · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Pagamento sicuro con",
   "calc.contact.submitting": "Caricamento e invio…",
@@ -1108,7 +1108,7 @@ export const itTranslations: Record<string, string> = {
   "header.v2.como": "Come stampiamo",
   "header.v2.empresas": "Aziende",
   "header.v2.sin": "Senza file",
-  "header.v2.rating": "4,8 · 250+ ordini",
+  "header.v2.rating": "4,8 · ~300 ordini",
   "header.v2.cta": "Vedi il mio prezzo",
   "header.menu.open": "Apri il menu",
   "header.menu.close": "Chiudi il menu",
@@ -1141,4 +1141,7 @@ export const itTranslations: Record<string, string> = {
   "shipping.upfrontNote": "+ 4,90 € spedizione · gratis da 30 € · o ritiro gratuito a Les Corts",
   "shipping.option.delivery": "Spedizione a domicilio",
   "shipping.option.pickup": "Ritiro gratuito a Les Corts",
+  "shipping.option.pickup.sevilla": "Ritiro gratuito a Siviglia (su appuntamento)",
+  "shipping.option.pickup.bcn": "Ritiro gratuito a Barcellona (Les Corts), su appuntamento",
+
 };

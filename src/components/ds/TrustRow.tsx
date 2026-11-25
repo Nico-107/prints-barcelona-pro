@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 export interface TrustRowItem {
   icon?: ReactNode;
   label: string;
-  /** Short qualifier, e.g. "250+" alongside "pedidos". */
+  /** Short qualifier, e.g. "~300" alongside "pedidos". */
   value?: string;
 }
 

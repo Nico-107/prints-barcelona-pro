@@ -601,7 +601,7 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "use-case",
     metaTitle: "3D Printing for Business in Barcelona",
-    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. 250+ orders, from €9.90, VAT invoicing. Send your STL/STEP — quote in 1 hour.",
+    metaDescription: "Professional 3D printing for companies and engineers in Barcelona. ~300 orders, from €9.90, VAT invoicing. Send your STL/STEP — quote in 1 hour.",
     h1: "3D Printing for Business in Barcelona",
     intro: "Dimension3D works with engineering teams, R&D departments, workshops and small manufacturers in Barcelona who need functional 3D printed parts without the overhead of an industrial supplier. Send your file — STL, STEP or IGES — and get a professional quote within the hour. €9.90 minimum order, no setup fee.",
     sections: [
@@ -1451,7 +1451,7 @@ export const PAGES_EN: LandingContent[] = [
     lang: "en",
     category: "service",
     metaTitle: "About Dimension3D — 3D Printing Studio in Barcelona",
-    metaDescription: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). 250+ orders, Bambu Lab X2D, shipping to Spain and EU.",
+    metaDescription: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). ~300 orders, Bambu Lab X2D, shipping to Spain and EU.",
     h1: "About Dimension3D: the studio behind every print",
     intro: "Dimension3D is an FDM 3D printing studio in Barcelona founded by Nico (Mikołaj Szczełkun). We make custom parts, prototypes and replacement parts for individuals and businesses across Spain and Europe. From the studio in Les Corts we have completed over 250 orders — and we still work the same way we did on day one: manual review of every file, response within 1 hour, and parts that actually work.",
     sections: [
@@ -1464,7 +1464,7 @@ export const PAGES_EN: LandingContent[] = [
         body: "The studio is at Rambla de Brasil, 53, in the Les Corts neighbourhood of Barcelona. I work with a fleet of FDM printers centred on the Bambu Lab X2D with AMS (Automatic Material System), which enables multicolour printing with up to 4 filaments in a single part.\n\nI work exclusively with FDM — I do not print in resin or SLS. FDM is the most versatile technology for functional parts, replacement parts and short-run production in technical materials like PETG, ABS/ASA, TPU and Nylon. When FDM is not the right fit for a job, I say so clearly."
       },
       {
-        heading: "250+ orders and what we have learned",
+        heading: "~300 orders and what we have learned",
         body: "Since the first order, we have printed over 250 jobs for individuals, startups, workshops, clinics, designers and students. A few recurring patterns:\n\n• Most customers do not have a 3D file — they come with photos, broken parts and rough measurements.\n• The right material matters more than print quality — a well-orientated PETG part outperforms a poorly configured Nylon part.\n• Direct support makes a difference — customers who get a reply in minutes are far less stressed than those who wait days.\n\nThis has shaped how we work: human review of every file, WhatsApp response during business hours, and honesty when a job is not the best use case for FDM."
       },
       {

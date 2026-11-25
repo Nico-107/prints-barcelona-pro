@@ -402,7 +402,7 @@ export const enTranslations: Record<string, string> = {
   "calc.actions.reviewPrimary": "Request a free review",
   "calc.actions.reviewPrimaryHint": "I confirm price and lead time in under 1 h on business days",
   "calc.trust.promise": "Secure payment with Stripe · Email receipt · We reply in 1 h",
-  "calc.trust.single": "4.8/5 in reviews · 250+ orders · Secure payment with Stripe",
+  "calc.trust.single": "4.8/5 in reviews · ~300 orders · Secure payment with Stripe",
   "calc.trust.methods": "Card · Apple Pay · Google Pay · iDEAL · Klarna",
   "calc.trust.secureWith": "Secure payment with",
   "calc.contact.submitting": "Uploading & sending...",
@@ -1108,7 +1108,7 @@ export const enTranslations: Record<string, string> = {
   "header.v2.como": "How we print",
   "header.v2.empresas": "Business",
   "header.v2.sin": "No file",
-  "header.v2.rating": "4.8 · 250+ orders",
+  "header.v2.rating": "4.8 · ~300 orders",
   "header.v2.cta": "See my price",
   "header.menu.open": "Open menu",
   "header.menu.close": "Close menu",
@@ -1142,4 +1142,7 @@ export const enTranslations: Record<string, string> = {
   "shipping.upfrontNote": "+ €4.90 shipping · free from €30 · or free pickup in Les Corts",
   "shipping.option.delivery": "Home delivery",
   "shipping.option.pickup": "Free pickup in Les Corts",
+  "shipping.option.pickup.sevilla": "Free pickup in Sevilla (by appointment)",
+  "shipping.option.pickup.bcn": "Free pickup in Barcelona (Les Corts), by appointment",
+
 };

@@ -159,14 +159,14 @@ const WHAT_WE_PRINT: Record<string, { href: string; title: string; description: 
 
 // Ordered star counts label
 const ORDERS_LABEL: Record<string, string> = {
-  es: "250+ PEDIDOS ENTREGADOS",
-  en: "250+ ORDERS DELIVERED",
-  ca: "250+ COMANDES LLIURADES",
-  de: "250+ BESTELLUNGEN GELIEFERT",
-  fr: "250+ COMMANDES LIVRÉES",
-  it: "250+ ORDINI CONSEGNATI",
-  nl: "250+ BESTELLINGEN GELEVERD",
-  pt: "250+ ENCOMENDAS ENTREGUES",
+  es: "~300 PEDIDOS ENTREGADOS",
+  en: "~300 ORDERS DELIVERED",
+  ca: "~300 COMANDES LLIURADES",
+  de: "~300 BESTELLUNGEN GELIEFERT",
+  fr: "~300 COMMANDES LIVRÉES",
+  it: "~300 ORDINI CONSEGNATI",
+  nl: "~300 BESTELLINGEN GELEVERD",
+  pt: "~300 ENCOMENDAS ENTREGUES",
 };
 
 function V2ReviewsSection({ language, t }: { language: string; t: (k: string) => string }) {
@@ -590,7 +590,7 @@ const Index = () => {
               quoteAuthor: REVIEWS[0].name.split(" ").map((p, i, a) => i === a.length - 1 ? p[0] + "." : p).join(" "),
               facts: [
                 { value: "24–48 h", label: t("home.mobile.stat.delivery") },
-                { value: "250+", label: t("home.mobile.stat.orders") },
+                { value: "~300", label: t("home.mobile.stat.orders") },
                 { value: "<1 h", label: t("home.mobile.stat.response") },
               ],
             }}
