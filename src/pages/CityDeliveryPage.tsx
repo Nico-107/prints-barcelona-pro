@@ -357,8 +357,8 @@ const CityDeliveryPage = ({ config }: Props) => {
                     </p>
                     <h2 className="text-lg md:text-xl font-bold text-foreground mb-2">
                       {isES
-                        ? `Recoge en ${config.localPickup.address}, ${config.localPickup.addressLocality}`
-                        : `Pick up at ${config.localPickup.address}, ${config.localPickup.addressLocality}`}
+                        ? `Recoge en ${config.localPickup.addressLocality} (con cita)`
+                        : `Pick up in ${config.localPickup.addressLocality} (by appointment)`}
                     </h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {config.localPickup.schedulingNote}
