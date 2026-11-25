@@ -420,7 +420,7 @@ export const enTranslations: Record<string, string> = {
   "calc.urgency.express.label": "Express",
   "calc.urgency.express.time": "24–48h",
   "calc.urgency.urgent.label": "Urgent",
-  "calc.urgency.urgent.time": "Same day",
+  "calc.urgency.urgent.time": "Next day",
 
   // Contact block reassurance
   "calc.contact.reassure": "Send your files and we'll confirm the exact price — usually within 1 hour",

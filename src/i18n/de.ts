@@ -392,7 +392,7 @@ export const deTranslations: Record<string, string> = {
   "calc.urgency.express.label": "Express",
   "calc.urgency.express.time": "24–48 Std.",
   "calc.urgency.urgent.label": "Dringend",
-  "calc.urgency.urgent.time": "Gleicher Tag",
+  "calc.urgency.urgent.time": "Nächster Tag",
 
   // Contact block reassurance
   "calc.contact.reassure": "Laden Sie Ihre Dateien hoch – wir bestätigen den genauen Preis, normalerweise innerhalb von 1 Stunde",

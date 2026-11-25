@@ -536,6 +536,15 @@ export interface EventMap {
     device?: string;
     file_count?: number;
     part_slug?: string;
+    // H5: so we can audit Buy == Stripe in PostHog. Server totals come from the deployed
+    // oracle (src/__checkpoint__/legacy/deployedServer.ts) or the v5 pricing-config response.
+    client_total_cents?: number;
+    legacy_server_total_cents?: number;
+    page_group?: "local" | "non_local";
+    fulfillment?: "pickup" | "shipping";
+    max_file_mb?: number;
+    mesh_watertight?: boolean;
+    mesh_shells?: number;
   };
   checkout_failed_send_order: { code: string };
   instant_limit_file_too_large: {

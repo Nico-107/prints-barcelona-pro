@@ -392,7 +392,7 @@ export const itTranslations: Record<string, string> = {
   "calc.urgency.express.label": "Express",
   "calc.urgency.express.time": "24–48h",
   "calc.urgency.urgent.label": "Urgente",
-  "calc.urgency.urgent.time": "Stesso giorno",
+  "calc.urgency.urgent.time": "Il giorno dopo",
 
   // Contact block reassurance
   "calc.contact.reassure": "Invia i tuoi file e confermiamo il prezzo esatto — di solito entro 1 ora",
@@ -732,7 +732,7 @@ export const itTranslations: Record<string, string> = {
   "calc.checkout.cancelled.title": "Pagamento annullato",
   "calc.checkout.cancelled.body": "Nessun importo è stato addebitato. Carica di nuovo i tuoi file per riprovare o richiedi una revisione.",
   "calc.checkout.error.fileNotFound": "Stiamo ancora caricando il file. Riprova tra qualche secondo.",
-  "calc.checkout.error.priceMismatch": "Il prezzo è cambiato. Aggiorna la pagina e riprova.",
+  "calc.checkout.error.priceMismatch": "Prezzo adeguato al tuo file. Premi Compra per continuare al prezzo aggiornato.",
   "calc.checkout.error.default": "Non siamo riusciti ad aprire la pagina di pagamento. Inviaci l'ordine e ti invieremo un link di pagamento entro 1 h.",
   "calc.checkout.error.sendOrder": "Invia il mio ordine e ricevi un link di pagamento",
   "calc.checkout.error.fileTooLarge": "Questo file è troppo grande per l'acquisto immediato — lo esaminiamo gratuitamente e ti inviamo un preventivo entro 1 h.",

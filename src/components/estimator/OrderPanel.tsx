@@ -929,8 +929,8 @@ export function OrderPanel({
       {renderForm && !adminMode && (
         <>
           {/* Fulfillment — pickup button hidden on international (ship-only) pages
-              so the "Rambla del Brasil, 53, 08028 Barcelona" address never
-              renders in a non-Spain DOM. */}
+              so the pickup address copy never renders in a non-Spain DOM. The
+              actual pickup address is sent only in the confirmation email. */}
           <div className="space-y-2">
             {!shippingOnly && (
             <button

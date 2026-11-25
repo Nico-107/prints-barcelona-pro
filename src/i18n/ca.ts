@@ -420,7 +420,7 @@ export const caTranslations: Record<string, string> = {
   "calc.urgency.express.label": "Express",
   "calc.urgency.express.time": "24–48h",
   "calc.urgency.urgent.label": "Urgent",
-  "calc.urgency.urgent.time": "Mateix dia",
+  "calc.urgency.urgent.time": "Al dia següent",
 
   // Contact block reassurance
   "calc.contact.reassure": "Envia els teus arxius i confirmem el preu exacte — normalment en menys d'1 hora",
