@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture, identifyUser, get_distinct_id, get_session_id } from "@/lib/analytics";
+import { notifyQuote } from "@/lib/notifyQuote";
 import type { EventMap } from "@/lib/analyticsEvents";
 import { ExitReasonCard, hasExitSurveyBeenShown, markLeadSubmitted, hasLeadBeenSubmitted } from "@/components/ExitReasonCard";
 import { ExitToastBody } from "@/components/ExitToastBody";
@@ -1069,6 +1070,16 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         },
       });
       if (invokeErr) throw invokeErr;
+      notifyQuote({
+        kind: "design",
+        contactEmail: contactEmail.trim() || null,
+        contactPhone: contactPhone.trim() || null,
+        description: desc,
+        fileNames: [imageFile.name],
+        sourcePath: window.location.pathname,
+        pageLanguage: language,
+        sourceCity: refCity ?? null,
+      });
       capture("image_design_request_submitted", { lang: language });
       setImageSubmitted(prev => ({ ...prev, [fileId]: true }));
     } catch (e) {
@@ -1112,6 +1123,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
           utm: null,
           fulfillment: null,
         },
+      });
+      notifyQuote({
+        kind: "quote",
+        contactEmail: contactEmail.trim() || null,
+        contactPhone: contactPhone.trim() || null,
+        material: materialKey,
+        totalUnits: 1,
+        priceExact: 0,
+        pieces: [],
+        fileNames: [fileName],
+        notes: `LARGE FILE LINK: ${link.trim()}`,
+        sourcePath: window.location.pathname,
+        pageLanguage: language,
+        sourceCity: refCity ?? null,
       });
       capture("link_file_submitted", { lang: language });
       setLinkSubmitted(prev => ({ ...prev, [fileId]: true }));
@@ -1857,6 +1882,20 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         console.error("send-quote-request failed:", emailErr);
         capture("submit_error", { stage: "quote", table: "send_quote_request", code: emailErr?.message ?? "email_failed" });
       }
+      notifyQuote({
+        kind: "quote",
+        contactEmail: emailBody.contactEmail ?? null,
+        contactPhone: emailBody.contactPhone ?? null,
+        material: emailBody.material ?? null,
+        totalUnits: emailBody.totalUnits ?? null,
+        priceExact: typeof emailBody.priceExact === "number" ? emailBody.priceExact : null,
+        pieces: Array.isArray(emailBody.pieces) ? emailBody.pieces : [],
+        fileNames: emailBody.fileNames ?? [],
+        sourcePath: emailBody.sourcePath ?? null,
+        pageLanguage: emailBody.pageLanguage ?? null,
+        sourceCity: emailBody.sourceCity ?? null,
+        quoteId: (emailBody as any).quote_id ?? null,
+      });
 
       // Request stored — show success with reference
       setQuoteRef(quote_id.slice(0, 8).toUpperCase());
@@ -1984,6 +2023,19 @@ export function StlEstimator({ adminMode = false, highlighted = false, refCity, 
         },
       });
       if (sendErr) throw sendErr;
+      notifyQuote({
+        kind: "quote",
+        contactEmail: contactEmail.trim() || null,
+        contactPhone: contactPhone.trim() || null,
+        material: exitSummary.material,
+        totalUnits: bundle?.totalUnits ?? 1,
+        priceExact: bundle?.total ?? 0,
+        pieces: exitPieces,
+        fileNames: uploadedNames,
+        sourcePath: window.location.pathname,
+        pageLanguage: language,
+        sourceCity: refCity ?? null,
+      });
       exitIntentCloseReasonRef.current = "recovered";
       capture("exit_intent_recovered");
       setExitIntentSubmitting(false);

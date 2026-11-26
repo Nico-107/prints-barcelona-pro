@@ -55,6 +55,9 @@ import {
   computePaymentRows,
   parseNotesUrgency,
 } from "@/lib/adminPaymentBreakdown";
+import ClientesStripe from "./admin/ClientesStripe";
+import StripeInfoBlock from "./admin/StripeInfoBlock";
+import { useStripeSessions } from "@/hooks/useStripeSessions";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -162,7 +165,7 @@ interface QuoteRequest {
   fulfillment?: string | null;
 }
 
-type Tab = "orders" | "quotes" | "makers" | "calculator" | "estimates" | "links";
+type Tab = "orders" | "quotes" | "makers" | "calculator" | "estimates" | "links" | "stripe";
 
 const emptyDraft = {
   product_title: "",
@@ -405,6 +408,7 @@ const NAV_ITEMS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "makers",     label: "Maker Applications", icon: <Users className="w-4 h-4" /> },
   { id: "calculator", label: "Calculator",        icon: <Calculator className="w-4 h-4" /> },
   { id: "estimates",  label: "Price Log",         icon: <BarChart3 className="w-4 h-4" /> },
+  { id: "stripe",     label: "Clientes Stripe",   icon: <Users className="w-4 h-4" /> },
   { id: "links",      label: "Quick Links",       icon: <Link2 className="w-4 h-4" /> },
 ];
 
@@ -426,13 +430,16 @@ const Admin = () => {
   const targetQuoteId = searchParams.get("quote") ?? null;
 
   const hashTab = location.hash.replace("#", "") as Tab;
-  const validTabs: Tab[] = ["orders", "quotes", "makers", "calculator", "estimates", "links"];
+  const validTabs: Tab[] = ["orders", "quotes", "makers", "calculator", "estimates", "links", "stripe"];
   const [activeTab, setActiveTab] = useState<Tab>(
     // If a quote target is in the URL, open the quotes tab.
     targetQuoteId ? "quotes"
     : validTabs.includes(hashTab) ? hashTab
     : "orders"
   );
+
+  // ── Stripe cross-reference (loaded once when admin + session) ───────────────
+  const stripeIndex = useStripeSessions(isAdmin && !!session);
 
   // ── Orders state ─────────────────────────────────────────────────────────────
   const [orders, setOrders] = useState<Order[]>([]);
@@ -1189,6 +1196,7 @@ const Admin = () => {
                           )}
                           <OrderPiecesTable order={o} onSave={saveActualPiece} />
                           <PaymentBreakdown order={o} />
+                          <StripeInfoBlock session={stripeIndex.byOrderId.get(o.id)} />
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <button
@@ -1718,6 +1726,11 @@ const Admin = () => {
               </div>
             )}
           </>
+        )}
+
+        {/* ── Clientes Stripe tab ────────────────────────────────────────────── */}
+        {activeTab === "stripe" && (
+          <ClientesStripe matchedOrderIds={new Set(orders.map((o) => o.id))} />
         )}
 
         {/* ── Quick Links tab ────────────────────────────────────────────────── */}

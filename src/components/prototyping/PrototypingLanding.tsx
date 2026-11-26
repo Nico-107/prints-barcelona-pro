@@ -8,6 +8,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LaunchOfferBanner from "@/components/LaunchOfferBanner";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { capture } from "@/lib/analytics";
+import { notifyQuote } from "@/lib/notifyQuote";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
@@ -707,6 +708,15 @@ function BriefForm({ c, lang }: { c: typeof C["es"]; lang: Lang }) {
       ]);
 
       if (fnErr) throw fnErr;
+      notifyQuote({
+        kind: "design",
+        contactEmail: email.trim() || null,
+        contactPhone: phone.trim() || null,
+        description: `[BRIEF B2B — ${turnaround.toUpperCase()}]\nEmpresa: ${company}\nContacto: ${contact}\n\n${description}`,
+        fileNames: uploadedNames,
+        sourcePath: typeof window !== "undefined" ? window.location.pathname : null,
+        pageLanguage: lang,
+      });
       setIsSubmitted(true);
     } catch (err: any) {
       const code = (err?.message ?? "unknown").slice(0, 40);

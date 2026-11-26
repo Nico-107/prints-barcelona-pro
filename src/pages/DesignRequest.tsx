@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
+import { notifyQuote } from "@/lib/notifyQuote";
 import { AUTHOR_REF, PUBLISHER_REF } from "@/seo/entities";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
@@ -161,6 +162,18 @@ const DesignRequest = () => {
       ]);
 
       if (fnErr) throw fnErr;
+
+      notifyQuote({
+        kind: "design",
+        contactEmail: contactEmail.trim() || null,
+        contactPhone: contactPhone.trim() || null,
+        description,
+        dimensions: dimensions.trim() || null,
+        quantity: quantity.trim() || null,
+        fileNames: uploadedNames,
+        sourcePath: typeof window !== "undefined" ? window.location.pathname : null,
+        pageLanguage: language,
+      });
 
       setIsSubmitted(true);
     } catch (err: any) {

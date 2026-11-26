@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 import { capture } from "@/lib/analytics";
+import { notifyQuote } from "@/lib/notifyQuote";
 
 const WHATSAPP_URL = whatsappUrl(ACTIVE_CITY);
 const MAX_FILES = 10;
@@ -104,6 +105,14 @@ const FileUpload = () => {
         throw new Error(fnData.error);
       }
 
+      notifyQuote({
+        kind: "print",
+        contactEmail: email || null,
+        notes: message || null,
+        fileNames: files.map((f) => f.name),
+        sourcePath: typeof window !== "undefined" ? window.location.pathname : null,
+        website: honeypot,
+      });
       setIsSubmitted(true);
       capture('print request submitted', {
         file_count: files.length,

@@ -1,6 +1,6 @@
 {
   "redirects": [
-    { "source": "/:path*", "has": [{ "type": "host", "value": "dimension3dprints.com" }], "destination": "https://www.dimension3dprints.com/:path*", "permanent": true },
+    { "source": "/((?!api/).*)", "has": [{ "type": "host", "value": "dimension3dprints.com" }], "destination": "https://www.dimension3dprints.com/$1", "permanent": true },
     { "source": "/impresion-3d-barcelona", "destination": "/", "permanent": true },
     { "source": "/ca/impressio-3d-barcelona", "destination": "/ca/", "permanent": true },
     { "source": "/impresion-3d-madrid", "destination": "/madrid", "permanent": true },

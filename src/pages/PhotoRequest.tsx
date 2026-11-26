@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { supabase, supabaseAnon } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { capture } from "@/lib/analytics";
+import { notifyQuote } from "@/lib/notifyQuote";
 import { ACTIVE_CITY, whatsappUrl } from "@/config/cities";
 
 const MAX_BYTES = 10 * 1024 * 1024;
@@ -199,6 +200,17 @@ const PhotoRequest = () => {
         ),
       ]);
       if (fnErr) throw fnErr;
+      notifyQuote({
+        kind: "design",
+        contactEmail: contactEmail.trim() || null,
+        contactPhone: contactPhone.trim() || null,
+        description,
+        dimensions: sizeHint.trim() || null,
+        quantity: quantity.trim() || null,
+        fileNames: uploadedNames,
+        sourcePath: typeof window !== "undefined" ? window.location.pathname : null,
+        pageLanguage: language,
+      });
       // fix-polish §5.1 — fire ONLY on success.
       capture("photo_request_submitted" as any, { language, photoCount: uploadedPaths.length });
       setIsSubmitted(true);
